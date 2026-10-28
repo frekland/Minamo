@@ -10,7 +10,7 @@ Independent **synthetic-only** Cloudflare Worker and remote MCP staging applicat
 - Two sample Notes persist in a dedicated D1 database. All queries are owner-scoped by a **server-owned constant**, never a request header or user-supplied owner key.
 - The store also implements isolated create/update/CAS primitives for synthetic automated tests. **There is no anonymous or general-purpose write endpoint or mutating MCP tool.** A staging-only, authenticated and CSRF-protected `/__acceptance` page can create or delete exactly one synthetic fixture note belonging to the signed-in account.
 
-This is an independent synthetic-only authentication milestone. It is not connected to the private Sites application and does not authorize a real learner account, data migration, production release, or public OpenAI plugin submission. Auth0 login remains disabled until the client secret is configured for staging. Do not put real Minamo content into this database.
+This is an independent synthetic-only authentication milestone. It is not connected to the private Sites application and does not authorize a real learner account, data migration, production release, or public OpenAI plugin submission. Auth0 login is enabled only on the configured synthetic staging Worker; no production identity integration is enabled. Do not put real Minamo content into this database.
 
 ## Auth0 configuration and local setup
 
@@ -60,3 +60,28 @@ This fixture control verifies browser owner scoping; it does **not** itself mint
 After creating A and B fixtures, visit `/auth/acceptance/mcp` once as each disposable identity. This uses the existing confidential Auth0 staging client and a distinct PKCE state to request `openid notes:read` with the exact staging `/mcp` audience. The callback validates the ID token and genuine API access token, then makes live MCP initialize/tool/read calls. It displays a bounded JSON pass/fail/not-tested receipt without storing or returning any bearer token. Normal `/auth/login` continues to request `openid` only.
 
 If Auth0 denies the API audience or scope, check whether the staging client is authorised for `notes:read`. Do not weaken the Worker validator or assume a successful browser-only login establishes MCP OAuth. A hosted internal probe is useful evidence but does **not** replace a separate compatible external MCP client connection before final publication acceptance.
+
+## Hosted acceptance evidence — 28 October 2026
+
+The independent staging Worker is deployed at `https://minamo-v2-staging.jlscott-uk.workers.dev` using version `ab294111-b578-4b62-84f1-b95fede2e9a8` at 100% staging traffic. The prior version `89fcf44e-4654-4641-acb3-bb0e4696485b` remains available for rollback. The Auth0 client secret and D1 bindings were inherited unchanged.
+
+The `global_fetch_strictly_public` compatibility flag is set **only for staging**. It routes the Worker acceptance callback's fetch to the public `/mcp` endpoint through Cloudflare's normal front door, avoiding same-zone Worker fetch restrictions. The harness does not emit or persist the OAuth bearer token.
+
+| Test | Hosted result |
+| --- | --- |
+| Disposable account A and B sign-in | Pass (secure browser login) |
+| Independently owned A/B synthetic fixtures | Pass (different deterministic owner-key IDs) |
+| Web account list and `/api/my-notes` isolation | Pass (each account shows only its own fixture) |
+| Genuine Auth0 MCP access token validation, account A and B | Pass (scoped JWT verified with tenant keys) |
+| Public `/mcp` JSON-RPC initialize and tools/list, A and B | Pass |
+| Read own fixture through authenticated MCP, A and B | Pass |
+| Read other fixture by exact ID through MCP, A → B and B → A | Pass (both respond `record_unavailable`) |
+| Local/provider logout and session-protected API after logout | Pass (signed-out state, anonymous API returns 401) |
+| Account A's note persists after B switch and back | Pass |
+| Missing, malformed, wrong-scheme MCP authorization | Pass (live HTTP 401) |
+| Anonymous fixture creation and account reads | Pass (live HTTP 401) |
+| Issuer, audience, expiry, signature and missing scope rejection | Passed synthetic signed-JWT unit tests; not separately exercised with rejected genuine hosted JWTs |
+| Separate third-party MCP client OAuth discovery/connection | **Pending**; callback is a server-side MCP client probe, not a third-party consumer |
+| Refresh token rotation/long-running session expiration | **Pending**; logout and expired local session checks passed, but token expiry was not awaited in the hosted browser |
+
+The test fixtures remain exclusively in the dedicated synthetic staging D1 for follow-up checks. No actual learning content, raw passwords, bearer tokens, or client secrets were recorded in repository artifacts. Keep staging acceptance and any public submission separate from a production migration or owner sign-off.
