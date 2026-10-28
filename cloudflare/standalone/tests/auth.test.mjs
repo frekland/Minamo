@@ -123,6 +123,7 @@ test("web login uses state, nonce, PKCE and consumes the callback transaction on
   const originalFetch = globalThis.fetch;
   let authorize;
   globalThis.fetch = async (input, init) => {
+    assert.equal(init?.redirect, "manual");
     const url = String(input);
     if (url.endsWith("/.well-known/openid-configuration")) {
       return Response.json({
@@ -184,7 +185,8 @@ test("MCP bearer validation checks signature, issuer, audience, expiry and scope
   const jwk = { ...publicKey.export({ format: "jwk" }), kid: "test-key", use: "sig", alg: "RS256" };
   const originalFetch = globalThis.fetch;
   context.after(() => { globalThis.fetch = originalFetch; });
-  globalThis.fetch = async (input) => {
+  globalThis.fetch = async (input, init) => {
+    assert.equal(init?.redirect, "manual");
     const url = String(input);
     if (url.endsWith("/.well-known/openid-configuration")) {
       return Response.json({
