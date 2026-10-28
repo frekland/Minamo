@@ -180,10 +180,6 @@ export default {
         const csrf = await logoutCsrfToken(authEnv, request);
         if (!csrf) return json({ error: "unauthenticated" }, 401);
         if (request.method === "POST") {
-          const origin = request.headers.get("Origin");
-          if (origin && origin !== new URL(request.url).origin) {
-            return json({ error: "origin_denied" }, 403);
-          }
           let form: FormData;
           try { form = await request.formData(); }
           catch { return json({ error: "invalid_form" }, 400); }
