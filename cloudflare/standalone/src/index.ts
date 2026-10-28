@@ -153,6 +153,7 @@ export default {
       }
       if (path === "/auth/login") return await startLogin(authEnv, request);
       if (path === "/auth/acceptance/mcp") return await startLogin(authEnv, request);
+      if (path === "/auth/acceptance/refresh") return await startLogin(authEnv, request);
       if (path === "/auth/callback") return await finishLogin(authEnv, request);
       if (path === "/auth/logout") return await logoutLocally(authEnv, request);
       if (path === "/auth/logout/provider") return await endSession(authEnv, request);
@@ -207,7 +208,7 @@ export default {
           "<form method=\"post\" action=\"/__acceptance\"><input type=\"hidden\" name=\"csrf_token\" value=\"" + escapeHtml(csrf) + "\">" +
           "<button name=\"action\" value=\"create\">Create my fixture</button> " +
           "<button name=\"action\" value=\"delete\">Delete my fixture</button></form>" +
-          "<p><a href=\"/auth/acceptance/mcp\">Check genuine MCP token and owner scope</a></p>" +
+          "<p><a href=\"/auth/acceptance/mcp\">Check genuine MCP token and owner scope</a></p><p><a href=\"/auth/acceptance/refresh\">Check refresh-token grant and independent client</a></p>" +
           "<p><a href=\"/account\">Back to account</a></p></main></html>";
         return new Response(request.method === "HEAD" ? null : html, {
           headers: { ...securityHeaders, "Content-Type": "text/html; charset=utf-8",
