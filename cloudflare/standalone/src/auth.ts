@@ -386,7 +386,7 @@ export async function endSession(env: Env, request: Request): Promise<Response> 
   if (request.method !== "POST") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
   let submittedCsrf: FormDataEntryValue | null = null;
   try { submittedCsrf = (await request.formData()).get("csrf_token"); } catch { /* reject malformed form data below */ }
-  const match = typeof submittedCsrf === "string" ? /^([a-f0-9]{64})\\.([A-Za-z0-9_-]{43})$/.exec(submittedCsrf) : null;
+  const match = typeof submittedCsrf === "string" ? /^([a-f0-9]{64})\.([A-Za-z0-9_-]{43})$/.exec(submittedCsrf) : null;
   const sessionHash = match?.[1];
   const csrfValid = Boolean(sessionHash && match?.[2] === await signLogoutTicket(config.clientSecret, sessionHash));
   if (!sameOrigin(request, env) && !csrfValid) {
