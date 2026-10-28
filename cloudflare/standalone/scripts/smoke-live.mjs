@@ -57,7 +57,7 @@ async function main() {
   assert.equal(protectedMcp.status, 401);
   assert.match(protectedMcp.headers.get("www-authenticate") ?? "", /scope="notes:read"/);
 
-  const login = await get("/auth/login");
+  const login = await fetch(`${base}/auth/login`, { signal: AbortSignal.timeout(timeoutMs), redirect: "manual" });
   assert.equal(login.status, 302);
   const authorize = new URL(login.headers.get("location"));
   assert.equal(authorize.hostname, new URL(metadata.authorization_servers[0]).hostname);
