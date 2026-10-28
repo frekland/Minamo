@@ -201,13 +201,14 @@ test("MCP bearer validation checks signature, issuer, audience, expiry and scope
   const now = Math.floor(Date.now() / 1000);
   const base = { iss: issuer, sub: "auth0|synthetic-user-a", aud: audience, exp: now + 300, iat: now, scope: "notes:read" };
   const requestFor = (claims) => new Request("https://minamo-v2-staging.jlscott-uk.workers.dev/mcp", {
-    headers: { Authorization: `Bearer ${tokenFor(privateKey, claims)}` },
+    headers: { Authorization: `Bearer ${tokenFor(privateKey, claims)}`, "X-User-Id": "auth0|synthetic-user-b" },
   });
 
   const principal = await verifyMcpBearer(env, requestFor(base));
   assert.equal(principal.issuer, issuer);
   assert.equal(principal.subject, base.sub);
   assert.equal(principal.ownerKey, await ownerKeyForPrincipal(issuer, base.sub));
+  assert.notEqual(principal.ownerKey, await ownerKeyForPrincipal(issuer, "auth0|synthetic-user-b"));
   const principalB = await verifyMcpBearer(env, requestFor({ ...base, sub: "auth0|synthetic-user-b" }));
   assert.notEqual(principal.ownerKey, principalB.ownerKey);
 
@@ -229,4 +230,7 @@ test("MCP bearer validation checks signature, issuer, audience, expiry and scope
     (error) => error instanceof AuthError && error.code === "invalid_token");
   await assert.rejects(verifyMcpBearer(env, new Request("https://minamo-v2-staging.jlscott-uk.workers.dev/mcp")),
     (error) => error instanceof AuthError && error.code === "missing_bearer_token");
+  await assert.rejects(verifyMcpBearer(env, new Request("https://minamo-v2-staging.jlscott-uk.workers.dev/mcp", {
+    headers: { "X-User-Id": "auth0|synthetic-user-a" },
+  })), (error) => error instanceof AuthError && error.code === "missing_bearer_token");
 });
