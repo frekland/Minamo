@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "minamo-v2-staging",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "vars": { "MINAMO_RUNTIME_MODE": "synthetic-only" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "minamo-v2-cf-staging",
+      "database_id": "839bc4bd-f36d-4fd4-a856-4c26cb70f940",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 }
+  }
+}
