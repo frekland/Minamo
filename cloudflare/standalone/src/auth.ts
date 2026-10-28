@@ -293,7 +293,9 @@ export async function startLogin(env: Env, request: Request): Promise<Response> 
   authorize.searchParams.set("client_id", config.clientId);
   authorize.searchParams.set("redirect_uri", config.callback);
   authorize.searchParams.set("scope", "openid");
-  authorize.searchParams.set("audience", config.audience);
+  // This browser flow establishes a web session from the ID token only. The MCP
+  // resource audience belongs on MCP access-token requests, not this OIDC flow;
+  // requesting it here unnecessarily requires an API grant.
   authorize.searchParams.set("state", state);
   authorize.searchParams.set("nonce", nonce);
   authorize.searchParams.set("code_challenge", challenge);
@@ -307,7 +309,16 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
   const url = new URL(request.url);
   const state = url.searchParams.get("state");
   const code = url.searchParams.get("code");
+  const providerError = url.searchParams.get("error");
   const loginCookie = parseCookies(request).get(LOGIN_COOKIE);
+  if (providerError) {
+    if (!state || !loginCookie || state !== loginCookie) throw new AuthError(401, "invalid_login_transaction");
+    const transaction = await env.DB.prepare(
+      "DELETE FROM auth_transactions WHERE state_hash = ? AND expires_at > ? RETURNING state_hash",
+    ).bind(await hashHex(state), Math.floor(Date.now() / 1000)).first<{ state_hash: string }>();
+    if (!transaction) throw new AuthError(401, "invalid_login_transaction");
+    throw new AuthError(401, providerError === "access_denied" ? "login_denied" : "identity_provider_error");
+  }
   if (!state || !code || code.length > 4096 || !loginCookie || state !== loginCookie) throw new AuthError(401, "invalid_login_transaction");
   const transaction = await env.DB.prepare(
     "DELETE FROM auth_transactions WHERE state_hash = ? AND expires_at > ? RETURNING nonce, verifier",
