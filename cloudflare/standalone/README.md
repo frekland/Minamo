@@ -8,7 +8,7 @@ Independent **synthetic-only** Cloudflare Worker and remote MCP staging applicat
 - Auth0 authorization-code login with PKCE, nonce and state validation, hashed server-side D1 sessions, secure cookies, same-origin logout and issuer/audience/scope/JWKS validation for MCP bearer tokens.
 - A public read-only preview at `/`, JSON at `/api/samples`, and database health at `/health`.
 - Two sample Notes persist in a dedicated D1 database. All queries are owner-scoped by a **server-owned constant**, never a request header or user-supplied owner key.
-- The store also implements isolated create/update/CAS primitives for synthetic automated tests. **There is no public write endpoint or mutating MCP tool.**
+- The store also implements isolated create/update/CAS primitives for synthetic automated tests. **There is no anonymous or general-purpose write endpoint or mutating MCP tool.** A staging-only, authenticated and CSRF-protected `/__acceptance` page can create or delete exactly one synthetic fixture note belonging to the signed-in account.
 
 This is an independent synthetic-only authentication milestone. It is not connected to the private Sites application and does not authorize a real learner account, data migration, production release, or public OpenAI plugin submission. Auth0 login remains disabled until the client secret is configured for staging. Do not put real Minamo content into this database.
 
@@ -45,3 +45,12 @@ For a disposable local D1 and Worker, run `npm run dev`. To apply the schema to 
 
 This implementation belongs in the public `frekland/Minamo` source repository under `cloudflare/standalone/`. It does not connect to, modify or publish the separately hosted private application.
 
+
+## Hosted two-account fixture checks
+
+1. In isolated browser profiles, sign in as disposable account A and B at `/account`.
+2. For each account, follow **Synthetic test fixture** to `/__acceptance` and choose **Create my fixture**. The route accepts no owner or note IDs, enforces the existing verified session and CSRF token, and writes only to `MINAMO_RUNTIME_MODE=synthetic-only` D1.
+3. Copy the two displayed fixture IDs into a private test checklist. Confirm each account sees only its own note at `/account` and `/api/my-notes` and cannot obtain the other account's note through the protected MCP `read_my_note` tool once genuine tokens are available.
+4. Visit `/__acceptance` as each identity and choose **Delete my fixture**. No real learner records are involved.
+
+This fixture control verifies browser owner scoping; it does **not** itself mint or expose an MCP OAuth access token, prove a genuine MCP client connection, or replace the pending token tests. Keep the draft acceptance gates open until those are exercised.

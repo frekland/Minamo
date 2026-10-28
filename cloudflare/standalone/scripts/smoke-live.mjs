@@ -62,10 +62,18 @@ async function main() {
   const authorize = new URL(login.headers.get("location"));
   assert.equal(authorize.hostname, new URL(metadata.authorization_servers[0]).hostname);
   assert.equal(authorize.searchParams.get("redirect_uri"), `${base}/auth/callback`);
-  assert.equal(authorize.searchParams.get("audience"), metadata.resource);
+  assert.equal(authorize.searchParams.has("audience"), false); // Browser ID-token login deliberately omits MCP audience.
   assert.equal(authorize.searchParams.get("code_challenge_method"), "S256");
   assert.equal(Boolean(authorize.searchParams.get("state")), true);
   assert.equal(Boolean(authorize.searchParams.get("nonce")), true);
+
+  const fixturePage = await get("/__acceptance");
+  assert.equal(fixturePage.status, 401, "Anonymous fixture controls must be denied");
+  const fixtureWrite = await fetch(`${base}/__acceptance`, {
+    method: "POST", headers: { "content-type": "application/x-www-form-urlencoded", Origin: base },
+    body: "action=create", signal: AbortSignal.timeout(timeoutMs), redirect: "error",
+  });
+  assert.equal(fixtureWrite.status, 401, "Anonymous fixture writes must be denied");
 
   const samples = await (await get("/api/samples?owner_key=fixture-a")).json();
   assert.equal(samples.length, 2);
