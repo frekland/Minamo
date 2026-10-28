@@ -167,7 +167,7 @@ export default {
         return await createMcpHandler(() => createServer(env, principal.ownerKey))(request, env, ctx);
       }
       if (path === "/mcp/demo") {
-        return await createMcpHandler(() => createServer(env))(request, env, ctx);
+        return await createMcpHandler(() => createServer(env), { route: "/mcp/demo" })(request, env, ctx);
       }
       if (request.method !== "GET" && request.method !== "HEAD") {
         return json({ error: "method_not_allowed" }, 405);
