@@ -196,7 +196,7 @@ export default {
         const notes = principal ? await listNotes(env.DB, principal.ownerKey, 50) : [];
         const csrfToken = principal ? await logoutCsrfToken(authEnv, request) : null;
         return new Response(request.method === "HEAD" ? null : accountPage(notes, Boolean(principal), csrfToken ?? undefined), {
-          headers: { ...securityHeaders, "Content-Type": "text/html; charset=utf-8", "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'" },
+          headers: { ...securityHeaders, "Content-Type": "text/html; charset=utf-8", "Content-Security-Policy": `default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'self' ${new URL("https://" + authEnv.AUTH0_DOMAIN!).origin}` },
         });
       }
       if (path === "/" || path.startsWith("/samples/")) {
