@@ -3,7 +3,7 @@ import { createHash, createSign, generateKeyPairSync } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
-import { AuthError, authConfigured, finishLogin, logoutLocally, ownerKeyForPrincipal, sessionPrincipal, startLogin, verifyMcpBearer } from "../src/auth.ts";
+import { AuthError, endSession, logoutCsrfToken, authConfigured, finishLogin, logoutLocally, ownerKeyForPrincipal, sessionPrincipal, startLogin, verifyMcpBearer } from "../src/auth.ts";
 import { createNote, listNotes, readNote } from "../src/store.ts";
 
 const issuer = "https://minamo-test.eu.auth0.com/";
@@ -235,4 +235,32 @@ test("MCP bearer validation checks signature, issuer, audience, expiry and scope
   await assert.rejects(verifyMcpBearer(env, new Request("https://minamo-v2-staging.jlscott-uk.workers.dev/mcp", {
     headers: { "X-User-Id": "auth0|synthetic-user-a" },
   })), (error) => error instanceof AuthError && error.code === "missing_bearer_token");
+});
+
+test("provider logout validates tickets, revokes sessions and remains idempotent", async (context) => {
+  const db = database();
+  context.after(() => db.close());
+  const authEnv = { ...env, DB: db };
+  const token = sessionToken();
+  const cookie = `__Host-minamo-session=${token}`;
+  const url = "https://minamo-v2-staging.jlscott-uk.workers.dev/auth/logout/provider";
+  const csrf = await logoutCsrfToken(authEnv, new Request(url, { headers: { Cookie: cookie } }));
+  await db.prepare("INSERT INTO web_sessions (session_hash, issuer, subject, expires_at) VALUES (?, ?, ?, ?)")
+    .bind(tokenHash(token), issuer, "auth0|synthetic-user-a", Math.floor(Date.now() / 1000) + 300).run();
+  const post = (ticket, headers = {}) => new Request(url, {
+    method: "POST", headers, body: new URLSearchParams({ csrf_token: ticket }),
+  });
+  assert.equal((await endSession(authEnv, post("forged", { Origin: "https://evil.example" }))).status, 403);
+  assert.equal((await endSession(authEnv, post(csrf, { Cookie: `__Host-minamo-session=${sessionToken()}` }))).status, 403);
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const response = await endSession(authEnv, post(csrf));
+    assert.equal(response.status, 303);
+    const target = new URL(response.headers.get("Location"));
+    assert.equal(target.origin, new URL(issuer).origin);
+    assert.equal(target.pathname, "/v2/logout");
+    assert.equal(target.searchParams.get("client_id"), env.AUTH0_CLIENT_ID);
+    assert.equal(target.searchParams.get("returnTo"), env.AUTH0_LOGOUT_RETURN_URL);
+    assert.match(response.headers.get("Set-Cookie"), /Max-Age=0/);
+    assert.equal(await db.prepare("SELECT 1 AS found FROM web_sessions WHERE session_hash = ?").bind(tokenHash(token)).first(), null);
+  }
 });
