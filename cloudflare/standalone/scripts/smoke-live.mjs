@@ -8,7 +8,7 @@ async function get(path) {
 }
 
 async function mcp(method, params = {}) {
-  const response = await fetch(`${base}/mcp`, {
+  const response = await fetch(`${base}/mcp/demo`, {
     method: "POST",
     headers: { "content-type": "application/json", accept: "application/json, text/event-stream" },
     body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
@@ -74,3 +74,4 @@ main().catch((error) => {
   console.error("Live staging smoke failed:", error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
+
