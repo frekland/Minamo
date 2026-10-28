@@ -147,27 +147,15 @@ function expiredCookie(name: string): string {
   return cookie(name, "", 0);
 }
 
-async function signLogoutTicket(secret: string, sessionHash: string): Promise<string> {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`minamo-logout:${sessionHash}`));
-  return encodeBase64Url(new Uint8Array(mac));
-}
-
-export async function logoutCsrfToken(env: Env, request: Request): Promise<string | null> {
-  const token = parseCookies(request).get(SESSION_COOKIE);
-  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) return null;
-  const sessionHash = await hashHex(token);
-  return `${sessionHash}.${await signLogoutTicket(env.AUTH0_CLIENT_SECRET!, sessionHash)}`;
-}
-
 function sameOrigin(request: Request, env: Env): boolean {
   try {
     const expected = new URL(env.AUTH0_CALLBACK_URL ?? "").origin;
     if (new URL(request.url).origin !== expected) return false;
-    // Trust the browser-generated Fetch Metadata signal when available. A
-    // same-origin form may carry a proxy-rewritten Origin value.
-    if (request.headers.get("Sec-Fetch-Site") === "same-origin") return true;
-    return request.headers.get("Origin") === expected;
+    const origin = request.headers.get("Origin");
+    if (origin !== null) return origin === expected;
+    // Some same-origin browser form submissions omit Origin. Fetch Metadata
+    // provides a browser-generated CSRF signal for that case.
+    return request.headers.get("Sec-Fetch-Site") === "same-origin";
   } catch { return false; }
 }
 
@@ -268,6 +256,19 @@ export async function sessionPrincipal(env: Env, request: Request): Promise<Prin
   return { issuer: session.issuer, subject: session.subject, ownerKey: await ownerKeyForPrincipal(session.issuer, session.subject) };
 }
 
+async function signLogoutTicket(secret: string, sessionHash: string): Promise<string> {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`minamo-logout:${sessionHash}`));
+  return encodeBase64Url(new Uint8Array(mac));
+}
+
+export async function logoutCsrfToken(env: Env, request: Request): Promise<string | null> {
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) return null;
+  const sessionHash = await hashHex(token);
+  return `${sessionHash}.${await signLogoutTicket(env.AUTH0_CLIENT_SECRET!, sessionHash)}`;
+}
+
 export function mcpUnauthorized(env: Env, request: Request, code = "missing_bearer_token"): Response {
   const metadata = `${new URL(request.url).origin}/.well-known/oauth-protected-resource/mcp`;
   const challengeError = code === "missing_bearer_token" ? "" : `, error="${code === "insufficient_scope" ? "insufficient_scope" : "invalid_token"}"`;
@@ -309,9 +310,9 @@ export async function startLogin(env: Env, request: Request): Promise<Response> 
   authorize.searchParams.set("client_id", config.clientId);
   authorize.searchParams.set("redirect_uri", config.callback);
   authorize.searchParams.set("scope", "openid");
-  // This browser flow establishes a web session from the ID token only. The MCP
-  // resource audience belongs on MCP access-token requests, not this OIDC flow;
-  // requesting it here unnecessarily requires an API grant.
+  // This is only a browser sign-in used to establish a web session. The MCP
+  // resource audience belongs on MCP access-token requests, not this OIDC
+  // ID-token flow; requesting it here unnecessarily requires an API grant.
   authorize.searchParams.set("state", state);
   authorize.searchParams.set("nonce", nonce);
   authorize.searchParams.set("code_challenge", challenge);
@@ -397,7 +398,10 @@ export async function endSession(env: Env, request: Request): Promise<Response> 
   if (token && await hashHex(token) !== sessionHash) return Response.json({ error: "csrf_denied" }, { status: 403, headers: securityHeaders });
   const session = await env.DB.prepare("SELECT issuer, expires_at FROM web_sessions WHERE session_hash = ?")
     .bind(sessionHash).first<{ issuer: string; expires_at: number }>();
-  if (!session || session.expires_at <= Math.floor(Date.now() / 1000) || session.issuer !== `${config.domain.origin}/`) {
+  // A valid signed ticket proves this logout form was issued for a session.
+  // Treat a missing or expired row as an already-completed local logout, then
+  // continue to Auth0 so its SSO cookie is cleared too.
+  if (session && session.issuer !== `${config.domain.origin}/`) {
     return Response.json({ error: "unauthenticated" }, { status: 401, headers: securityHeaders });
   }
   await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(sessionHash).run();
