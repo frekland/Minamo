@@ -11,11 +11,20 @@ This checklist tracks the **private preparation**, not permission to publish.
 - [x] Add README, architecture, development history, onboarding, security and contribution guidance.
 - [x] Select MIT for Minamo-original code/docs; preserve third-party licences and separate the branded identity artwork.
 - [x] Have the maintainer confirm rights to redistribute the brand images (28 October 2026).
-- [ ] Check the complete staged tree for credentials, personal data and production identifiers again.
-- [ ] Run clean-install typecheck/build/test and record any failures and changes.
-- [ ] Test local setup from a clean checkout; confirm advertised commands and synthetic preview.
+- [x] Complete the source and personal-data audit; no live credentials, production database identifiers or live learner records were identified in the audited source. The maintainer accepts the personal email present in the original three-commit metadata.
+- [x] Run clean install, typecheck, build and tests from the exact release branch archive.
+- [x] Run the local development preview from a clean checkout; HTTP 200.
 - [ ] Independently assess security assumptions before claiming general-purpose hosting.
-- [ ] Confirm GitHub repository settings, Discussions, branch protection and vulnerability reporting as desired.
+- [ ] Verify GitHub community settings, branch protection and availability of private vulnerability reporting.
 - [ ] Obtain the maintainer's **explicit approval** before switching visibility to public.
 
-The live private Site is not affected by completing this checklist.
+## Verification record (28 October 2026)
+
+- Node.js 24 and pnpm 11.25.0.
+- `pnpm install --frozen-lockfile`, `pnpm run typecheck` and `pnpm run build`: pass.
+- `pnpm test`: 1,442 passed, 0 failed, 4 skipped.
+- Local development preview: HTTP 200.
+- Production Wrangler localhost startup was blocked by the execution environment's `uv_interface_addresses` error. This is an environmental limitation, not a demonstrated application failure.
+- GitHub Actions run 40722443418 failed before executing steps; its cause was not confirmed. Do not treat it as an application test failure.
+
+The live private Site is not affected by completing this checklist. Source publication does not make this build ready for independent hosting: authentication and MCP publication currently depend on ChatGPT Sites identity and hosting capabilities. A provider-neutral authentication layer is separate future work.
