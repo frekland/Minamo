@@ -147,10 +147,17 @@ function expiredCookie(name: string): string {
   return cookie(name, "", 0);
 }
 
-export async function logoutCsrfToken(request: Request): Promise<string | null> {
+async function signLogoutTicket(secret: string, sessionHash: string): Promise<string> {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`minamo-logout:${sessionHash}`));
+  return encodeBase64Url(new Uint8Array(mac));
+}
+
+export async function logoutCsrfToken(env: Env, request: Request): Promise<string | null> {
   const token = parseCookies(request).get(SESSION_COOKIE);
   if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) return null;
-  return hashHex(`logout:${token}`);
+  const sessionHash = await hashHex(token);
+  return `${sessionHash}.${await signLogoutTicket(env.AUTH0_CLIENT_SECRET!, sessionHash)}`;
 }
 
 function sameOrigin(request: Request, env: Env): boolean {
@@ -377,19 +384,23 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
 export async function endSession(env: Env, request: Request): Promise<Response> {
   const config = requireConfiguration(env);
   if (request.method !== "POST") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
-  const token = parseCookies(request).get(SESSION_COOKIE);
-  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) {
-    return Response.json({ error: "unauthenticated" }, { status: 401, headers: securityHeaders });
-  }
   let submittedCsrf: FormDataEntryValue | null = null;
   try { submittedCsrf = (await request.formData()).get("csrf_token"); } catch { /* reject malformed form data below */ }
-  const expectedCsrf = await hashHex(`logout:${token}`);
-  const csrfValid = typeof submittedCsrf === "string" && submittedCsrf === expectedCsrf;
+  const match = typeof submittedCsrf === "string" ? /^([a-f0-9]{64})\\.([A-Za-z0-9_-]{43})$/.exec(submittedCsrf) : null;
+  const sessionHash = match?.[1];
+  const csrfValid = Boolean(sessionHash && match?.[2] === await signLogoutTicket(config.clientSecret, sessionHash));
   if (!sameOrigin(request, env) && !csrfValid) {
     return Response.json({ error: "origin_denied" }, { status: 403, headers: securityHeaders });
   }
   if (!csrfValid) return Response.json({ error: "csrf_denied" }, { status: 403, headers: securityHeaders });
-  await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(await hashHex(token)).run();
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (token && await hashHex(token) !== sessionHash) return Response.json({ error: "csrf_denied" }, { status: 403, headers: securityHeaders });
+  const session = await env.DB.prepare("SELECT issuer, expires_at FROM web_sessions WHERE session_hash = ?")
+    .bind(sessionHash).first<{ issuer: string; expires_at: number }>();
+  if (!session || session.expires_at <= Math.floor(Date.now() / 1000) || session.issuer !== `${config.domain.origin}/`) {
+    return Response.json({ error: "unauthenticated" }, { status: 401, headers: securityHeaders });
+  }
+  await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(sessionHash).run();
   const logout = new URL("/v2/logout", config.domain);
   logout.searchParams.set("client_id", config.clientId);
   logout.searchParams.set("returnTo", config.logoutReturn);
