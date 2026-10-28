@@ -148,10 +148,14 @@ function expiredCookie(name: string): string {
 }
 
 function sameOrigin(request: Request, env: Env): boolean {
-  const origin = request.headers.get("Origin");
   try {
     const expected = new URL(env.AUTH0_CALLBACK_URL ?? "").origin;
-    return origin !== null && origin === expected && new URL(request.url).origin === expected;
+    if (new URL(request.url).origin !== expected) return false;
+    const origin = request.headers.get("Origin");
+    if (origin !== null) return origin === expected;
+    // Some same-origin browser form submissions omit Origin. Fetch Metadata
+    // provides a browser-generated CSRF signal for that case.
+    return request.headers.get("Sec-Fetch-Site") === "same-origin";
   } catch { return false; }
 }
 
