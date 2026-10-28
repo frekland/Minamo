@@ -39,6 +39,34 @@ async function main() {
   assert.equal(state.data, "synthetic-only");
   assert.equal(state.storage, "d1");
 
+  const session = await get("/auth/session");
+  assert.equal(session.status, 200);
+  assert.equal((await session.json()).authenticated, false);
+
+  const metadataResponse = await get("/.well-known/oauth-protected-resource/mcp");
+  assert.equal(metadataResponse.status, 200);
+  const metadata = await metadataResponse.json();
+  assert.equal(metadata.resource, `${base}/mcp`);
+  assert.equal(metadata.scopes_supported.includes("notes:read"), true);
+
+  const protectedMcp = await fetch(`${base}/mcp`, {
+    method: "POST", headers: { "content-type": "application/json", accept: "application/json, text/event-stream" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "initialize", params: {} }),
+    signal: AbortSignal.timeout(timeoutMs), redirect: "error",
+  });
+  assert.equal(protectedMcp.status, 401);
+  assert.match(protectedMcp.headers.get("www-authenticate") ?? "", /scope="notes:read"/);
+
+  const login = await get("/auth/login");
+  assert.equal(login.status, 302);
+  const authorize = new URL(login.headers.get("location"));
+  assert.equal(authorize.hostname, new URL(metadata.authorization_servers[0]).hostname);
+  assert.equal(authorize.searchParams.get("redirect_uri"), `${base}/auth/callback`);
+  assert.equal(authorize.searchParams.get("audience"), metadata.resource);
+  assert.equal(authorize.searchParams.get("code_challenge_method"), "S256");
+  assert.equal(Boolean(authorize.searchParams.get("state")), true);
+  assert.equal(Boolean(authorize.searchParams.get("nonce")), true);
+
   const samples = await (await get("/api/samples?owner_key=fixture-a")).json();
   assert.equal(samples.length, 2);
   assert.equal(samples.every((note) => note.id.startsWith("sample-note-")), true);
@@ -67,7 +95,7 @@ async function main() {
   const denied = await mcp("tools/call", { name: "read_sample_note", arguments: { id: "fixture-note-001" } });
   assert.equal(denied.result.isError, true);
 
-  console.log(JSON.stringify({ endpoint: base, result: "pass", tests: ["homepage", "health", "D1 samples", "owner-query denial", "public-write denial", "MCP initialize", "MCP tools", "MCP read", "invalid-id denial"] }, null, 2));
+  console.log(JSON.stringify({ endpoint: base, result: "pass", tests: ["homepage", "health", "anonymous session", "resource metadata", "unauthenticated MCP challenge", "Auth0 PKCE redirect", "D1 samples", "owner-query denial", "public-write denial", "MCP initialize", "MCP tools", "MCP read", "invalid-id denial"] }, null, 2));
 }
 
 main().catch((error) => {
