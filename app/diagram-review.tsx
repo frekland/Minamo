@@ -1,0 +1,13 @@
+"use client";
+import {useState} from 'react';
+import Workspace from './workspace';
+import {NETCAT_STREAM_DIAGRAM} from '../lib/diagram-examples';
+import {diagramCanonicalText,type AuthoredDiagram} from '../lib/diagrams';
+import type {WorkspaceRecord} from '../lib/contracts';
+export default function DiagramReview({embedded=false}:{embedded?:boolean}){
+ const [width,setWidth]=useState('390');
+ if(!embedded)return <main style={{padding:16}}><h1>TEST ONLY · diagram acceptance</h1><label>Viewport width <select value={width} onChange={e=>setWidth(e.target.value)}>{['320','390','768','1280'].map(w=><option key={w}>{w}</option>)}</select></label><iframe title="Diagram workspace" src="/preview-diagrams/workspace" style={{display:'block',width:Number(width),height:900,border:'1px solid #777',marginTop:16}}/></main>;
+ const diagrams:AuthoredDiagram[]=[{format:'flow-v1',nodes:['stdin','process','socket','peer','stdout'].map(id=>({id,label:id})),edges:[{from:'stdin',to:'process'},{from:'process',to:'socket'},{from:'socket',to:'peer'},{from:'peer',to:'stdout'}]},NETCAT_STREAM_DIAGRAM,{format:'flow-v1',nodes:[{id:'start',label:'Inspect complete input'},{id:'yes',label:'Continue with a valid value'},{id:'no',label:'Explain the invalid value'}],edges:[{from:'start',to:'yes',label:'Accept'},{from:'start',to:'no',label:'Reject'}],presentation:{version:1,mode:'explore'}},{format:'state-v1',initial:'editing',nodes:[{id:'editing',label:'Editing a deliberately long state name'},{id:'validating',label:'Validating'},{id:'done',label:'Complete'}],edges:[{from:'editing',to:'validating',label:'Request validation'},{from:'validating',to:'done',label:'Accepted'},{from:'done',to:'editing',label:'Edit again'},{from:'editing',to:'editing',label:'Another edit'}]},{format:'grid-v1',title:'A small coordinate grid',rowLabels:['r0','r1'],columnLabels:['c0','c1'],cells:[['1','2'],['3','4']]}];
+ const article={id:'TEST-ONLY-diagram-review',family:'article',title:'TEST ONLY · educational diagrams',body:'',links:[],synthetic:true,rev:1,rendition:'TEST-ONLY-diagrams-r1',createdAt:'2026-10-27T00:00:00Z',updatedAt:'2026-10-27T00:00:00Z',actor:'gpt',trashedAt:null,sections:diagrams.map((diagram,i)=>({id:'section'+i,title:['Compact five-node flow','Netcat: guided model','Explore a decision','Cycles and long state labels','Coordinate grid'][i],parts:[{id:'diagram'+i,kind:'diagram',text:diagramCanonicalText(diagram),diagram}]}))} as WorkspaceRecord;
+ return <Workspace authenticated initialRecords={[article]} initialArticle={article} initialActivity={[]} initialView="library" initialId={article.id} initialFamily="article" draftScope="TEST-ONLY-diagram-review" routeBase="/preview-diagrams/workspace"/>;
+}

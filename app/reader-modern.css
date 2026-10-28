@@ -1,0 +1,96 @@
+/* Shared geometry: chrome owns its own space; ordinary prose is never a selected card. */
+.wp-workspace .v2-header{height:auto;min-height:70px;padding:10px 22px;gap:16px;flex-wrap:nowrap}
+.wp-workspace .v2-header .learning-space-selector-header{padding:0;border:0;background:none;gap:8px;flex-shrink:1;flex-wrap:nowrap;min-width:0}
+.wp-workspace .learning-space-selector-header label{min-width:0;max-width:175px;margin:0}
+.wp-workspace .learning-space-selector-header label>span{font-size:10px;line-height:1.2;letter-spacing:.04em}
+.wp-workspace .learning-space-selector-header select{margin:0;min-height:34px;max-width:100%;width:100%;padding:4px 20px 4px 8px;font-size:13px}
+.wp-workspace .v2-search{margin-left:0;min-width:140px;max-width:none}
+.wp-workspace .v2-header-actions{gap:7px;flex-shrink:0}
+.wp-workspace .v2-main,.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-main{padding:18px clamp(18px,2.3vw,36px) 60px}
+.wp-workspace .rn-reader,.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader{max-width:1260px;width:100%;margin-inline:auto}
+.wp-workspace .rn-reading-layout,.wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-reading-layout{display:block}
+.wp-workspace .rn-reading-header,.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reading-header{max-width:100%;margin:0 0 18px}
+.wp-workspace .rn-reader h1{max-width:28ch;margin-top:8px;margin-bottom:18px}
+.wp-workspace .rn-reader-intro{max-width:var(--wp-reading-measure);margin-bottom:16px}
+.wp-workspace .rn-reading-content,.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reading-content{max-width:none;margin:0}
+.wp-workspace .rn-part>p,.wp-workspace .rn-section>h2,.wp-workspace .rn-source,.wp-workspace .rn-stale{max-width:var(--wp-reading-measure);margin-inline:0}
+.wp-workspace .rn-part>p{margin-inline:0!important}
+.wp-workspace .rn-part-code,.wp-workspace .rn-part-table,.wp-workspace .rn-part-diagram{width:100%}
+.wp-workspace .rn-part-utilities:empty{display:none}
+.wp-workspace .rn-part{margin:16px 0 22px}
+.wp-workspace .rn-section{scroll-margin-top:20px;margin:26px 0}
+.wp-workspace .rn-section+.rn-section{margin-top:28px;padding-top:22px}
+.wp-workspace .le-reading-nav,.wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav{position:static;inset:auto;z-index:auto;clear:both;width:100%;margin:0 0 16px;padding:7px 0;min-height:44px;background:none}
+.wp-workspace .le-reading-nav label{min-width:0}
+.wp-workspace .le-reading-nav select{max-width:100%}
+.wp-workspace .v2-main:has(.le-reading-nav) .rn-contents,.wp-workspace[data-layout=focus][data-focus-treatment=book] .v2-main:has(.le-reading-nav) .rn-contents{display:none}
+.wp-workspace .rn-contents{position:static;inset:auto;max-width:none;max-height:240px;overflow:auto;margin:16px 0 22px;padding:12px 0;display:flex;flex-direction:column;border-left:0;border-block:1px solid var(--mn-border)}
+.wp-workspace .le-stage-nav,.wp-workspace .v2-journey-return{position:static;inset:auto}
+.wp-workspace .v2-concept-actions{justify-content:flex-start;gap:14px}
+.wp-workspace .le-reference-result-actions{justify-content:flex-start;gap:14px}
+@media(min-width:1500px){.wp-workspace{--wp-reading-measure:78ch}.wp-workspace .v2-sidebar{width:224px}}
+@media(max-width:1150px){.wp-workspace .v2-header{gap:10px;padding-inline:16px}.wp-workspace .v2-brand-image{max-width:130px}.wp-workspace .ml-switcher button{padding:7px}.wp-workspace .v2-header .learning-space-selector-header{max-width:280px}.wp-workspace .v2-search kbd{display:none}}
+@media(max-width:1000px) and (min-width:701px){.wp-workspace .v2-header{flex-wrap:wrap}.wp-workspace .v2-header .learning-space-selector-header{order:4;max-width:none}.wp-workspace .v2-search{flex:1;min-width:200px}.wp-workspace .v2-header-actions{margin-left:auto}.wp-workspace .learning-space-selector-header label{max-width:220px}.wp-workspace .learning-space-selector-header label>span{display:inline}.wp-workspace .learning-space-selector-header label{display:flex;align-items:center;gap:8px}.wp-workspace .learning-space-selector-header select{width:auto}}
+@media(max-width:700px){.wp-workspace .v2-header{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px 6px;min-height:0;padding:10px 14px}.wp-workspace .v2-brand{margin-left:3px}.wp-workspace .v2-brand-image{max-width:115px}.wp-workspace .v2-header-actions{gap:2px;margin:0}.wp-workspace .v2-header-actions .v2-icon{min-width:32px;padding:3px}.wp-workspace .ml-switcher button{min-height:34px;padding:5px 6px}.wp-workspace .v2-header .learning-space-selector-header{grid-column:1/-1;grid-row:2;max-width:none;width:100%;gap:10px}.wp-workspace .learning-space-selector-header label{max-width:none;flex:1}.wp-workspace .learning-space-selector-header label>span{font-size:10px}.wp-workspace .v2-search{grid-column:1/-1;grid-row:3;width:100%;margin:0;min-width:0;min-height:40px;padding:6px 10px}.wp-workspace .v2-main,.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-main{padding:16px 18px 58px}.wp-workspace .rn-reader h1{font-size:32px}.wp-workspace .rn-section{scroll-margin-top:16px}.wp-workspace .rn-reading-header{margin-bottom:12px}.wp-workspace .le-reading-nav label{font-size:12px}.wp-workspace .le-reading-nav select{min-height:40px}}
+/* Reference actions belong beneath their explanation, not at the far viewport edge. */
+.wp-workspace .le-library-result{display:block;padding:18px 0}
+.wp-workspace .le-library-result-copy{max-width:100ch}
+.wp-workspace .le-library-result-actions{justify-content:flex-start;gap:14px;margin-top:10px}
+.wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-contents{position:static;inset:auto}
+/* Preserve the chosen prose measure while letting code, tables and diagrams use the reader. */
+.wp-workspace[data-layout=focus][data-focus-treatment] .rn-reader{max-width:1260px}
+.wp-workspace[data-layout=focus][data-focus-treatment] .rn-reading-header{max-width:100%;margin-inline:0}
+.wp-workspace[data-layout=focus][data-focus-treatment] .rn-reading-content{max-width:none;margin-inline:0}
+/* Shared reading starts at its title. Orientation controls form a compact,
+   wrapping toolbar instead of a stack of independent pre-reading panels. */
+.wp-workspace .ml-reading-orientation-body{display:flex;flex-wrap:wrap;align-items:center;gap:3px 16px;margin-bottom:10px;min-width:0}
+.wp-workspace .ml-reading-orientation-body>.v2-breadcrumb{flex:1 1 200px;margin:0;min-height:32px;gap:5px 8px}
+.wp-workspace .ml-reading-orientation-body>.wp-context-actions{margin:0;gap:6px 14px;min-height:36px}
+.wp-workspace .ml-reading-orientation-body>.v2-concept-return,.wp-workspace .ml-reading-orientation-body>.v2-library-return{display:inline-flex;margin:0;min-height:30px;align-items:center}
+.wp-workspace .ml-reading-orientation-body>.v2-context-links{flex:0 1 auto;max-width:100%;margin:0!important}
+.wp-workspace .ml-reading-orientation-body>.v2-context-links>summary{max-width:60ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:30px;padding-block:3px}
+.wp-workspace .ml-reading-orientation-body>.v2-context-links[open]{flex-basis:100%}
+.wp-workspace .rn-heading-row{display:flex;align-items:flex-start;gap:18px;min-width:0}
+.wp-workspace .rn-heading-row>:is(h1,h2){flex:1;min-width:0;margin:0 0 16px}
+.wp-workspace .rn-heading-row>.rn-reader-bookmark,.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-heading-row>.rn-reader-bookmark{float:none;flex:0 0 auto;margin:4px 0 0;max-width:160px;flex-wrap:wrap}
+/* The slot is outside the heading container: sticky navigation can follow the
+   whole reading rather than stopping at the introductory paragraph. */
+.wp-workspace .rn-reader>.le-reading-nav,.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader>.le-reading-nav{position:sticky;top:0;z-index:8;background:var(--mn-canvas);margin:0 0 14px;padding-block:6px;border-bottom:1px solid var(--mn-border)}
+.wp-workspace .rn-reader:has(>.le-reading-nav) .rn-section{scroll-margin-top:76px}
+@media(max-width:600px){.wp-workspace .ml-reading-orientation-body{gap:3px 12px;margin-bottom:8px}.wp-workspace .ml-reading-orientation-body>.v2-breadcrumb{flex-basis:100%;min-height:28px}.wp-workspace .ml-reading-orientation-body>.wp-context-actions{gap:4px 12px}.wp-workspace .rn-heading-row{display:block}.wp-workspace .rn-heading-row>:is(h1,h2){margin-top:0;margin-bottom:10px}.wp-workspace .rn-heading-row>.rn-reader-bookmark,.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-heading-row>.rn-reader-bookmark{max-width:100%;justify-content:flex-start;margin:0 0 8px}.wp-workspace .rn-reader>.le-reading-nav{padding-block:4px}}
+
+/* A quieter shared title scale; body text and reading preferences stay readable. */
+.wp-workspace.v2-app :is(.rn-reader h1,.v2-detail-heading h1,.v2-page-heading h1,.v2-home-top h1,.le-library-heading h1,.le-overview h1,.le-stage-heading h1,.le-inquiry-heading h1){font-size:clamp(28px,3vw,42px);line-height:1.2;letter-spacing:-.025em}
+.wp-workspace.v2-app .le-investigation .rn-reading-header h1{font-size:clamp(28px,3vw,36px)}
+.wp-workspace.v2-app h1.le-inquiry-question{font-size:clamp(27px,2.8vw,35px)!important}
+@media(max-width:600px){.wp-workspace.v2-app :is(.rn-reader h1,.v2-detail-heading h1,.v2-page-heading h1,.v2-home-top h1,.le-library-heading h1,.le-overview h1,.le-stage-heading h1,.le-inquiry-heading h1){font-size:28px}}
+
+/* Prose and rich parts share one usable column; the desktop rail owns its space. */
+.wp-workspace.v2-app[data-layout] .rn-reader{max-width:none}
+.wp-workspace.v2-app[data-layout] .rn-part>p,
+.wp-workspace.v2-app[data-layout] .rn-section>h2,
+.wp-workspace.v2-app[data-layout] .rn-reader-intro,
+.wp-workspace.v2-app[data-layout] .rn-source,
+.wp-workspace.v2-app[data-layout] .rn-stale{max-width:100%}
+.wp-workspace.v2-app[data-reading-width=narrow] .rn-part>p,
+.wp-workspace.v2-app[data-reading-width=narrow] .rn-reader-intro{max-width:58ch}
+.wp-workspace.v2-app[data-layout] .rn-reading-layout{display:block;min-width:0}
+.wp-workspace.v2-app[data-layout] .rn-reading-content{grid-column:auto;min-width:0}
+.le-section-links{display:none}
+.wp-workspace.v2-app[data-layout] .rn-reading-layout>.le-reading-nav{position:sticky;top:0;z-index:8;clear:none;background:var(--mn-canvas);margin:0 0 14px;padding:6px 0;border-bottom:1px solid var(--mn-border)}
+@container reading (min-width:900px){
+ .wp-workspace.v2-app[data-layout] .rn-reading-layout:has(>.le-reading-nav){display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:28px;align-items:start}
+ .wp-workspace.v2-app[data-layout] .rn-reading-layout:has(>.le-reading-nav)>.rn-reading-content{grid-column:1;grid-row:1}
+ .wp-workspace.v2-app[data-layout] .rn-reading-layout>.le-reading-nav{display:flex;flex-direction:column;align-items:stretch;grid-column:2;grid-row:1;align-self:start;position:sticky;top:16px;width:100%;max-height:calc(100dvh - 160px);overflow-y:auto;overscroll-behavior:contain;gap:12px;margin:26px 0 0;padding:0 0 0 14px;border:0;border-left:1px solid var(--mn-border);background:none;z-index:2}
+ .wp-workspace.v2-app[data-layout] .le-reading-nav>label{display:none}
+ .wp-workspace.v2-app[data-layout] .le-section-links{display:flex;flex-direction:column;gap:3px}
+ .le-section-links>span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mn-text-muted);margin-bottom:8px}
+ .le-section-links>a{display:block;padding:6px 8px;border-radius:4px;font-size:12px;line-height:1.5;color:var(--mn-text-muted);text-decoration:none;overflow-wrap:anywhere}
+ .le-section-links>a:hover{background:var(--mn-surface-secondary);color:var(--mn-text-body)}
+ .le-section-links>a[aria-current=location]{background:var(--mn-selected);color:var(--mn-interactive)}
+ .wp-workspace.v2-app[data-layout] .le-reading-nav>button{align-self:flex-start;font-size:12px;padding:6px 8px}
+ .wp-workspace.v2-app[data-layout] .rn-section{scroll-margin-top:20px}
+}
+
+/* Lists and Journey stages start beside navigation rather than in a centred island. */
+.wp-workspace.v2-app[data-layout] :is(.le-overview,.le-journey,.le-investigation,.learning-home,.rn-reader,.pwo){margin-inline:0}

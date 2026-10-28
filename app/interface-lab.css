@@ -1,0 +1,17 @@
+.if-lab{min-height:100dvh;background:var(--mn-bg,#16191d);color:var(--mn-text,#e4e9ed)}
+.if-lab-controls{padding:10px 18px;border-bottom:1px solid var(--mn-border,#3b454d);font:13px/1.5 system-ui,sans-serif;background:var(--mn-surface,#1e2429)}
+.if-lab-controls summary{cursor:pointer;font-weight:650;min-height:28px;display:list-item;list-style-position:inside}
+.if-lab-fields{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-top:8px}
+.if-lab-fields label{display:grid;gap:4px;min-width:0;max-width:100%}
+.if-lab-fields select,.if-lab-fields button,.if-lab-loading button{max-width:100%;min-height:40px;color:inherit;background:var(--mn-bg,#16191d);border:1px solid var(--mn-border,#47515a);border-radius:6px;padding:7px 10px;font:inherit}
+.if-lab-fields :focus-visible,.if-lab-controls summary:focus-visible{outline:2px solid var(--mn-accent,#7db7cf);outline-offset:3px}
+.if-lab-controls p{max-width:1100px;margin:8px 0 0;color:var(--mn-muted,#b1bbc2)}
+.if-lab-frame{margin-inline:auto;min-width:0;min-height:calc(100dvh - 90px);outline:1px dashed var(--mn-border,#3b454d)}
+.if-lab-loading{padding:32px;max-width:800px}
+@media(max-width:430px){.if-lab-controls{padding:8px}.if-lab-fields{gap:8px}.if-lab-fields label{width:100%}.if-lab-fields select{width:100%}}
+@media(prefers-reduced-motion:reduce){.if-lab *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+.if-lab-frame{max-width:100%;overflow:auto;min-height:0}.if-lab-frame iframe{display:block;width:100%;min-width:0;border:0;background:var(--mn-bg,#16191d)}
+
+.if-lab-stage{max-width:100%;overflow:auto}.if-lab-stage .if-lab-frame{max-width:none}
+.if-lab-publication{padding:12px 18px;border-bottom:1px solid var(--mn-border,#3b454d);font:13px/1.5 system-ui,sans-serif;background:var(--mn-surface,#1e2429)}
+.if-lab-publication summary{cursor:pointer;min-height:30px;font-weight:650}.if-lab-publication>label{display:grid;gap:6px}.if-lab-publication textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--mn-border,#47515a);border-radius:6px;background:var(--mn-bg,#16191d);color:inherit;font:13px/1.5 ui-monospace,monospace;resize:vertical}.if-lab-publication textarea:focus-visible{outline:2px solid var(--mn-accent,#7db7cf);outline-offset:2px}.if-lab-publication pre{max-height:300px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}.if-lab-publication a{color:var(--mn-accent,#7db7cf)}

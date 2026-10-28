@@ -1,0 +1,5 @@
+# Local-only preview credentials; the supplied Sites preview plugin simulates a test user.
+MINAMO_OWNER_ID=local_seedy
+MINAMO_SITE_HOSTS=localhost,127.0.0.1
+MINAMO_BETA_ENABLED=0
+# Do not commit a real owner ID, authentication token or production secret.

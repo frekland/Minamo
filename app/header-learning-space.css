@@ -1,0 +1,10 @@
+.ux-space-icons{display:flex;align-items:center;flex:0 0 auto;margin:0}
+.ux-space-icons .ux-space-icon{display:inline-flex;align-items:center;justify-content:center;width:44px;min-width:44px;height:44px;padding:10px;border-radius:6px;color:var(--mn-text-muted);background:transparent}
+.ux-space-icons .ux-space-icon:hover{color:var(--mn-text-body);background:var(--mn-surface-secondary)}
+.ux-space-icons .ux-space-icon:focus-visible{outline:2px solid var(--mn-focus);outline-offset:2px}
+@media(forced-colors:active){.ux-space-icons .ux-space-icon{color:ButtonText}}
+
+.ux-space-icons{gap:4px;min-width:0}.ux-space-icons select{min-height:44px;max-width:220px;min-width:0;background:var(--mn-canvas);color:var(--mn-text);border:1px solid var(--mn-border-control);border-radius:8px;padding:6px;font:13px system-ui}.ux-space-icons select:focus-visible{outline:2px solid var(--mn-focus);outline-offset:2px}@media(max-width:700px){.ux-space-icons .ux-space-icon{display:none}.ux-space-icons select{max-width:150px}}@media(max-width:359px){.ux-space-icons select{max-width:100px;font-size:12px}.v2-header .v2-header-actions{gap:2px}}
+/* Shared icon rules use !important; narrow scope selection owns this redundant toggle. */
+@media(max-width:700px){.v2-header .ux-space-icons .ux-space-icon{display:none!important}}
+@media(max-width:359px){.v2-header .v2-header-mark{width:44px;min-width:44px;max-width:44px;padding-inline:10px}.v2-header .v2-header-mark img{display:none}.v2-header .ux-space-icons select{max-width:100px}}

@@ -1,0 +1,25 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import React,{act,Suspense} from 'react';
+import {create} from 'react-test-renderer';
+const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
+const built=await wr('esbuild').build({stdin:{contents:"export{retryableFeature}from'./app/retryable-feature';",resolveDir:process.cwd()},bundle:true,platform:'node',format:'cjs',write:false,external:['react']});
+const mod={exports:{}};new Function('require','module','exports',built.outputFiles[0].text)(require,mod,mod.exports);
+const ready=({name})=>React.createElement('strong',null,name+' ready');
+globalThis.IS_REACT_ACT_ENVIRONMENT=true;
+test('client initial suspension retains lazy identity and an explicit failed-load retry creates one new loader',async()=>{
+ let resolve,loads=0,renderer;const pending=new Promise(done=>resolve=done);
+ const Feature=mod.exports.retryableFeature(()=>{loads++;return loads>4?Promise.reject(Error('Unstable initial lazy identity')):pending},'Your work');
+ await act(async()=>{renderer=create(React.createElement(Suspense,{fallback:'Loading your work'},React.createElement(Feature,{name:'Organiser'})))});
+ assert.equal(renderer.toJSON(),'Loading your work');assert.equal(loads,1);
+ await act(async()=>{resolve({default:ready});await pending});
+ assert.deepEqual(renderer.toJSON(),{type:'strong',props:{},children:['Organiser ready']});assert.equal(loads,1);
+ await act(async()=>renderer.unmount());
+ let retries=0;const Retry=mod.exports.retryableFeature(()=>++retries===1?Promise.reject(Error('Synthetic chunk failure')):Promise.resolve({default:ready}),'Your work');
+ await act(async()=>{renderer=create(React.createElement(Suspense,{fallback:'Loading'},React.createElement(Retry,{name:'Retried organiser'})))});
+ assert.equal(renderer.root.findByType('button').children.join(''),'Retry your work');
+ await act(async()=>renderer.root.findByType('button').props.onClick());
+ assert.deepEqual(renderer.toJSON(),{type:'strong',props:{},children:['Retried organiser ready']});assert.equal(retries,2);
+ await act(async()=>renderer.unmount());
+});

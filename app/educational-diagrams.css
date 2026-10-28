@@ -1,0 +1,43 @@
+.edu-diagram{margin:16px 0;min-width:0;max-width:100%;font:14px/1.5 system-ui;color:var(--mn-text)}
+.edu-svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.edu-reading-canvas{max-width:100%;padding:8px 0;overflow-y:visible;overscroll-behavior-x:contain}
+.edu-node rect{fill:var(--mn-surface-raised,#292d31);stroke:var(--mn-border-strong,#79858c);stroke-width:1.3}
+.edu-node text{fill:var(--mn-text,#e2e7e9);font:14px system-ui;pointer-events:none}
+.edu-edge>path{stroke:var(--mn-interactive,#82b0cb);stroke-width:1.6;fill:none}
+.edu-edge rect{fill:var(--mn-surface,#232629)}
+.edu-edge text{fill:var(--mn-text-muted,#c1cbd1);font:13px system-ui;pointer-events:none}
+.edu-node[data-active=true] rect{fill:#224652;stroke:#a4d9e7;stroke-width:2.5}
+.edu-edge[data-active=true]>path{stroke:#b2e2ef;stroke-width:3}
+.edu-edge .edu-edge-hit{stroke:transparent;stroke-width:18;cursor:pointer}
+.edu-node[role=button],.edu-edge[role=button]{cursor:pointer}
+.edu-node:focus-visible rect,.edu-edge:focus-visible>path{stroke:#f0cf80;stroke-width:3;outline:none}
+.edu-node:focus,.edu-edge:focus{outline:none}
+.edu-diagram [data-hidden=true]{display:none}
+.edu-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:pre-wrap;border:0}
+.edu-step{border-top:1px solid var(--mn-border);padding-top:12px;margin-top:10px}
+.edu-step p,.edu-inspector p{margin:6px 0 10px;font:14px/1.55 system-ui}
+.edu-step-controls,.edu-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.edu-diagram button{font:13px/1.2 system-ui;min-height:40px;padding:8px 12px;color:var(--mn-text);background:var(--mn-surface-raised,#30363a);border:1px solid var(--mn-border);border-radius:6px;cursor:pointer}
+.edu-diagram button:disabled{opacity:.4;cursor:default}
+.edu-diagram button:focus-visible{outline:2px solid #eacb80;outline-offset:3px}
+.edu-step-controls span{font:12px system-ui;color:var(--mn-text-muted)}
+.edu-step-controls button:last-child{margin-left:auto}
+.edu-inspector{margin-top:12px;padding:10px 0;border-top:1px solid var(--mn-border)}
+.edu-inspector a{display:inline-block;margin:8px 12px 8px 0}
+.edu-inspector>button{display:block;margin-top:8px}
+.edu-flow-viewport{height:420px;min-height:260px;border:1px solid var(--mn-border);border-radius:7px;position:relative}
+.edu-flow-viewport .react-flow{--xy-node-color:var(--mn-text);--xy-controls-button-background-color-default:#30363a;--xy-controls-button-color-default:#e0e8eb;--xy-background-color-default:var(--mn-surface,#232629)}
+.edu-flow-viewport .react-flow__node{font-size:14px}
+.edu-flow-viewport .react-flow__node-default .edu-svg{max-width:none}
+.rn-diagram-dialog.rn-diagram-dialog{width:min(1200px,calc(100vw - 24px));max-width:none;max-height:94dvh;padding:18px;overflow:auto}
+.rn-diagram-dialog.rn-diagram-dialog>.edu-diagram{display:block}
+.rn-diagram-dialog.rn-diagram-dialog .edu-flow-viewport{height:62dvh}
+.rn-diagram-dialog.rn-diagram-dialog>div:first-child{position:sticky;top:-18px;z-index:2;background:var(--mn-surface);padding:10px 0}
+.rn-diagram-dialog.rn-diagram-dialog h2{font-size:22px;margin:0}
+@media(max-width:520px){.rn-diagram-dialog.rn-diagram-dialog{width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;padding:12px;border:0;box-sizing:border-box}.rn-diagram-dialog.rn-diagram-dialog>div:first-child{top:-12px;gap:12px}.rn-diagram-dialog.rn-diagram-dialog h2{font-size:20px}.edu-flow-viewport{height:380px}.edu-step-controls{gap:6px}.edu-step-controls button{padding:8px 10px}.edu-step p{font-size:14px}.rn-diagram-dialog.rn-diagram-dialog .edu-flow-viewport{height:58dvh}}
+@media(prefers-reduced-motion:reduce){.edu-diagram *{animation:none!important;transition:none!important}}
+
+.edu-edge .edu-label-leader{stroke-width:1;stroke-dasharray:2 3;opacity:.5;pointer-events:none}
+.edu-diagram .react-flow__controls button{width:40px;height:40px;min-width:40px;min-height:40px;padding:10px;border-radius:0;display:flex;align-items:center;justify-content:center}
+.edu-diagram .react-flow__controls button svg{display:block;width:18px;height:18px;max-width:18px;max-height:18px;fill:currentColor}
+.edu-flow-viewport .react-flow__handle{display:none}

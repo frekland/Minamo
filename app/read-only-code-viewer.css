@@ -1,0 +1,11 @@
+.rc-viewer{min-width:0;max-width:100%;border:1px solid var(--mn-border);border-radius:7px;overflow:hidden;background:var(--mn-code-bg)}
+.rc-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 14px;border-bottom:1px solid var(--mn-border);font:12px/1.5 system-ui;color:var(--mn-text-muted);user-select:none}
+.rc-toolbar button{min-height:32px}.rc-toolbar button[aria-pressed=true]{color:var(--mn-interactive)!important}
+.rc-toolbar>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.rc-toolbar details{position:relative}.rc-toolbar summary{cursor:pointer}.rc-toolbar details p{position:absolute;right:0;top:100%;z-index:2;width:min(290px,65vw);padding:12px;border:1px solid var(--mn-border);border-radius:6px;background:var(--mn-code-bg);color:var(--mn-text)}
+.rn-logical-marks{margin:.5rem 0 1rem;font:13px/1.5 system-ui;color:var(--mn-text-muted)}.rn-logical-marks summary{cursor:pointer}.rn-logical-marks ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px}.rn-logical-marks button{text-align:left;white-space:normal;max-width:100%}
+.rn-reader .rc-source{margin:0;border:0;border-radius:0;padding:12px 16px 12px 4.5em;font:13px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4;max-width:100%;overflow:auto}
+.rc-line{position:relative;display:block;min-height:1.8em;white-space:pre}
+.rc-line::before{content:attr(data-line);position:absolute;right:calc(100% + 1.25em);width:2.5em;text-align:right;color:var(--mn-text-muted);user-select:none;pointer-events:none}
+.rc-source.rc-wrap,.rc-source.rc-wrap code,.rc-wrap .rc-line{white-space:pre-wrap;overflow-wrap:anywhere}
+.rc-viewer .tok-keyword,.rc-viewer .tok-modifier{color:#ccadf5}.rc-viewer .tok-string,.rc-viewer .tok-string2{color:#a7d9ad}.rc-viewer .tok-number,.rc-viewer .tok-bool,.rc-viewer .tok-null{color:#f1c28d}.rc-viewer .tok-comment{color:#a5b2ba;font-style:italic}.rc-viewer .tok-function,.rc-viewer .tok-typeName,.rc-viewer .tok-className{color:#8dd8ef}.rc-viewer .tok-operator,.rc-viewer .tok-punctuation{color:#c9d6df}.rc-viewer .tok-propertyName{color:#d8c69c}
+@media(forced-colors:active){.rc-viewer [class*=tok-]{color:CanvasText}.rc-line::before{color:GrayText}}

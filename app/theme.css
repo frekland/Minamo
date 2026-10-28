@@ -1,0 +1,62 @@
+/* Canonical application theme; source reference: docs/core-learning-experience/THEME-IMPLEMENTATION.md. */
+:root {
+  color-scheme: dark;
+  --mn-canvas: #1B1B1B;
+  --mn-surface: #252525;
+  --mn-surface-secondary: #2D2D2D;
+  --mn-border: #3A3A3A;
+  --mn-border-control: #888888;
+  --mn-text: #F5F5F5;
+  --mn-text-body: #E2E2E2;
+  --mn-text-muted: #B1B1B1;
+  --mn-interactive: #8CAED1;
+  --mn-interactive-hover: #A3C1DF;
+  --mn-interactive-pressed: #7E9EBF;
+  --mn-accent: #7DB9C4;
+  --mn-accent-hover: #9ACBD3;
+  --mn-on-accent: #1B1B1B;
+  --mn-focus: #8CAED1;
+  --mn-selected: #2A3A4A;
+  --mn-annotation: #273D42;
+  --mn-code-bg: #202020;
+  --mn-code-inline-bg: #2D2D2D;
+  --mn-code-text: #E2E2E2;
+  --mn-code-comment: #B1B1B1;
+  --mn-code-keyword: #8CAED1;
+  --mn-code-string: #B7C7B0;
+  --mn-code-number: #C6B496;
+  --mn-status-success: #9FB9A6;
+  --mn-status-warning: #C2AD81;
+  --mn-status-danger: #D0A1A1;
+  --mn-overlay-backdrop: rgb(0 0 0 / 58%);
+  --mn-shadow: 0 12px 36px rgb(0 0 0 / 24%);
+  --mn-radius-control: 6px;
+  --mn-radius-panel: 10px;
+  --mn-duration-fast: 120ms;
+  --mn-duration-normal: 180ms;
+
+  /* Aliases for token names observed in the reviewed implementation.
+   * Keep one owner, not two divergent root palettes.
+   * --accent historically drives action controls, so it maps to BLUE, not cyan.
+   */
+  --bg: var(--mn-canvas);
+  --panel: var(--mn-surface);
+  --line: var(--mn-border);
+  --ink: var(--mn-text);
+  --muted: var(--mn-text-muted);
+  --accent: var(--mn-interactive);
+  --v2-bg: var(--mn-canvas);
+  --v2-panel: var(--mn-surface);
+  --v2-panel-light: var(--mn-surface-secondary);
+  --v2-ink: var(--mn-text);
+  --v2-muted: var(--mn-text-muted);
+  --v2-faint: var(--mn-text-muted);
+  --v2-line: var(--mn-border);
+  --v2-accent: var(--mn-interactive);
+}
+
+
+:root { --v2-serif: Georgia, 'Times New Roman', serif; --mn-status-danger-bg: #342828; }
+@media (prefers-reduced-motion: reduce) { :root { --mn-duration-fast: 0ms; --mn-duration-normal: 0ms; } }
+
+.v2-brand-image{width:145px;height:42px;object-fit:contain;object-position:left center}@media(max-width:600px){.v2-brand-image{width:105px;height:36px}}

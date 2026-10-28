@@ -1,0 +1,87 @@
+/* Shared header geometry overrides the older layout-specific header rows. */
+.wp-workspace.v2-app[data-layout] header.v2-header{display:flex;align-items:center;flex-wrap:nowrap;flex:0 0 56px;height:56px;min-height:56px;gap:8px;padding:6px 18px}
+.wp-workspace.v2-app[data-layout] .v2-header-actions{display:flex;align-items:center;justify-content:flex-end;flex:0 0 auto;width:auto;min-width:0;gap:2px;margin-left:auto;order:0}
+.wp-workspace.v2-app[data-layout] .v2-header :is(.v2-icon,.ux-view-cycle,.ux-space-icon){display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;min-width:44px!important;height:44px;min-height:44px;padding:10px!important;gap:0;border:0;border-radius:6px;background:transparent;color:var(--mn-text-muted);box-shadow:none;order:0}
+.wp-workspace.v2-app[data-layout] .v2-header :is(.v2-icon,.ux-view-cycle,.ux-space-icon):hover{color:var(--mn-text-body);background:var(--mn-surface-secondary)}
+.wp-workspace.v2-app[data-layout] .v2-header svg{display:block;width:20px;height:20px;stroke-width:1.75}
+.wp-workspace.v2-app[data-layout] .v2-header .ux-view-cycle{flex-basis:80px;width:80px;min-width:80px!important;padding:6px!important;gap:5px;font-size:12px}
+.wp-workspace.v2-app[data-layout] .v2-header .ux-view-cycle>span{position:static;width:auto;min-width:0;overflow:visible;clip-path:none;white-space:nowrap}
+.wp-workspace.v2-app[data-layout=classic] .v2-header>.v2-mobile-menu{display:none}
+.wp-workspace.v2-app[data-layout] .v2-sidebar{padding-top:18px}
+.wp-workspace .v2-navigation-brand{display:flex;align-items:center;gap:8px;min-width:0;margin:0 0 24px}
+.wp-workspace .v2-navigation-brand>.v2-brand{display:flex;flex:1;min-width:0;margin:0}
+.wp-workspace .v2-navigation-brand .v2-brand-image{display:block;width:100%;max-width:180px;height:36px;object-fit:contain;object-position:left center}
+.wp-workspace .v2-navigation-brand>.v2-icon{flex:0 0 36px;min-width:36px}
+/* The full wordmark remains visible when the desktop sidebar is compact. */
+@media(min-width:701px){.wp-workspace.v2-app[data-sidebar=compact] .v2-navigation-brand{margin-inline:-7px}.wp-workspace.v2-app[data-sidebar=compact] .v2-navigation-brand .v2-brand-image{height:24px}}
+@media(max-width:900px){.wp-workspace.v2-app[data-layout=classic] .v2-header>.v2-mobile-menu{display:inline-flex}}
+@media(max-width:700px){
+ .wp-workspace.v2-app[data-layout] header.v2-header{padding:6px 8px;gap:0}
+ .wp-workspace.v2-app[data-layout] .v2-header-actions{gap:0;margin-left:auto}
+ .wp-workspace.v2-app[data-layout] .v2-header>.v2-mobile-menu{flex-basis:44px;width:44px}
+ .wp-workspace.v2-app[data-layout] .v2-navigation-brand .v2-brand{display:flex}
+ /* The main scrollport begins below the header. No Journey-return offset is needed. */
+ .wp-workspace.v2-app[data-layout] .v2-main .rn-reader>.le-reading-nav{position:sticky;inset-block-start:0;top:0;z-index:20;margin-top:0;background:var(--mn-canvas)}
+}
+@media(max-width:359px){.wp-workspace.v2-app[data-layout] .v2-header :is(.v2-icon,.ux-view-cycle,.ux-space-icon){flex-basis:40px;width:40px;min-width:40px!important;padding:8px!important}}
+
+@media(max-width:359px){.wp-workspace.v2-app[data-layout] .v2-header .ux-view-cycle{flex-basis:80px;width:80px;min-width:80px!important;padding:6px!important}}
+
+/* The wave and menu share one keyboard and touch target. */
+.wp-workspace.v2-app[data-layout] .v2-header-mark{display:inline-flex;align-items:center;justify-content:flex-start;flex:0 0 80px;width:80px;height:44px;gap:8px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--mn-text-muted);cursor:pointer;order:0}
+.wp-workspace .v2-header-mark img{display:block;width:32px;height:32px;object-fit:contain}
+.wp-workspace .v2-header-mark:hover{background:var(--mn-surface-secondary);color:var(--mn-text-body)}
+@media(min-width:901px){.wp-workspace.v2-app[data-layout=classic] .v2-header-mark{flex-basis:36px;width:36px}.wp-workspace.v2-app[data-layout=classic] .v2-header-mark .v2-navigation-menu-glyph{display:none}}
+@media(max-width:700px){.wp-workspace.v2-app[data-layout] .v2-header-mark{flex-basis:76px;width:76px}}
+@media(max-width:359px){
+ .wp-workspace.v2-app[data-layout] .v2-header-mark{flex-basis:60px;width:60px}
+ .wp-workspace .v2-header-mark img{width:28px;height:28px}
+ .wp-workspace.v2-app[data-layout] .v2-header .ux-view-cycle{flex-basis:72px;width:72px;min-width:72px!important;font-size:11px;gap:3px}
+}
+
+/* Keep the drawer and backdrop mounted through both halves of the transition. */
+.wp-workspace.v2-app:is([data-layout=focus],[data-layout=task]) .v2-sidebar{display:flex;position:absolute;z-index:35;inset:0 auto 0 0;width:260px;max-width:85%;max-height:100%;padding-bottom:20px;background:var(--mn-surface);box-shadow:15px 0 35px #0007;overflow:auto;transform:translateX(-100%);visibility:hidden;pointer-events:none;transition:transform .18s ease,visibility 0s linear .18s}
+.wp-workspace.v2-app:is([data-layout=focus],[data-layout=task]) .v2-sidebar.is-open{transform:translateX(0);visibility:visible;pointer-events:auto;transition-delay:0s}
+.wp-workspace.v2-app[data-layout] .v2-nav-scrim{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility 0s linear .18s}
+.wp-workspace.v2-app[data-layout] .v2-nav-scrim.is-open{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
+@media(max-width:700px){
+ .wp-workspace.v2-app[data-layout=classic] .v2-sidebar{display:flex;position:absolute;top:0;bottom:0;max-height:100%;transform:translateX(-100%);visibility:hidden;pointer-events:none;transition:transform .18s ease,visibility 0s linear .18s}
+ .wp-workspace.v2-app[data-layout=classic] .v2-sidebar.is-open{transform:translateX(0);visibility:visible;pointer-events:auto;transition-delay:0s}
+}
+@media(prefers-reduced-motion:reduce){.wp-workspace.v2-app[data-layout] :is(.v2-sidebar,.v2-nav-scrim){transition:none!important}}
+.wp-workspace.v2-app[data-motion=reduce] :is(.v2-sidebar,.v2-nav-scrim){transition:none!important}
+
+/* Desktop navigation is anchored to the viewport, independent of reading width. */
+.wp-workspace.v2-app[data-layout] .v2-shell{max-width:none;margin-inline:0}
+.v2-desktop-brand,.v2-nav-edge{display:none}
+@media(min-width:701px){
+ .wp-workspace.v2-app[data-layout] .v2-navigation-brand{margin:0 0 22px}
+ .wp-workspace.v2-app[data-layout] .v2-navigation-brand>.v2-brand,
+ .wp-workspace.v2-app[data-layout] .v2-navigation-mobile-close{display:none}
+ .wp-workspace.v2-app[data-layout] .v2-desktop-brand{display:block;width:100%;padding:0;border:0;background:transparent;cursor:pointer;border-radius:6px}
+ .wp-workspace .v2-desktop-brand img{display:block;width:100%;max-width:132px;height:auto;margin-inline:auto}
+ .wp-workspace.v2-app[data-layout=classic] .v2-shell{--desktop-navigation-width:208px;padding-left:var(--desktop-navigation-width);transition:none}
+ .wp-workspace.v2-app[data-layout=classic][data-navigation-open=false] .v2-shell{--desktop-navigation-width:0px}
+ .wp-workspace.v2-app[data-layout=classic][data-notes-open=true][data-notes-dock=left] .v2-shell{padding-left:calc(var(--desktop-navigation-width) + var(--wp-notes-size) + 32px)}
+ .wp-workspace.v2-app[data-layout][data-navigation-open] .v2-sidebar{display:flex;position:absolute;z-index:35;inset:0 auto 0 0;width:208px;max-width:85%;height:100%;max-height:100%;padding:16px 16px 20px;transform:translateX(-100%);visibility:hidden;pointer-events:none;will-change:transform;transition:transform .24s cubic-bezier(.2,.7,.25,1),visibility 0s linear .24s;background:var(--mn-surface)}
+ .wp-workspace.v2-app[data-layout][data-navigation-open=true] .v2-sidebar{transform:translateX(0);visibility:visible;pointer-events:auto;transition-delay:0s}
+ .wp-workspace.v2-app[data-layout=classic] .v2-sidebar{box-shadow:none}
+ .wp-workspace.v2-app[data-layout] .v2-nav-edge{display:flex;position:absolute;z-index:36;top:120px;left:208px;align-items:center;justify-content:center;width:28px;height:44px;padding:4px;border:1px solid var(--mn-border);border-left:0;border-radius:0 7px 7px 0;background:var(--mn-surface);color:var(--mn-text-muted);cursor:pointer;transition:left .24s cubic-bezier(.2,.7,.25,1)}
+ .wp-workspace.v2-app[data-layout][data-navigation-open=false] .v2-nav-edge{left:0}
+ .wp-workspace .v2-nav-edge:hover{color:var(--mn-text-body);background:var(--mn-surface-secondary)}
+ .wp-workspace.v2-app[data-layout] .v2-sidebar nav a{justify-content:flex-start}
+ .wp-workspace.v2-app[data-layout] .v2-sidebar nav a span,
+ .wp-workspace.v2-app[data-layout] .v2-sidebar nav a small,
+ .wp-workspace.v2-app[data-layout] .v2-sidebar>.v2-eyebrow,
+ .wp-workspace.v2-app[data-layout] .v2-sidebar-bottom{display:revert}
+}
+@media(prefers-reduced-motion:reduce){.wp-workspace.v2-app[data-layout] :is(.v2-shell,.v2-nav-edge){transition:none!important}}
+.wp-workspace.v2-app[data-motion=reduce] :is(.v2-shell,.v2-nav-edge){transition:none!important}
+
+/* Catalogue navigation has its own subject breadcrumb and a wider browsing measure. */
+.wp-workspace .v2-library-main{padding-inline:clamp(20px,3vw,48px)}
+.wp-workspace .v2-library-main>.ml-reading-orientation-body{max-width:1160px;margin-inline:auto}
+.le-library-management{display:flex;justify-content:flex-end;margin-bottom:8px;min-height:44px}
+.le-library-management>.v2-text-button{min-height:44px;padding:8px 10px;border-radius:10px}
+.le-library-management>.v2-text-button:hover{background:var(--mn-surface-secondary)}
+.wp-workspace .v2-library-main .le-library-management{flex:1 0 100%;width:100%;justify-content:flex-end}

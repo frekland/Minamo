@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 128 128">
+<defs>
+ <linearGradient id="under" x1="0" y1="0.3" x2="1" y2="0.9" gradientUnits="objectBoundingBox">
+   <stop offset="0" stop-color="#051A6B"/><stop offset=".53" stop-color="#0633A8"/><stop offset="1" stop-color="#0288B0"/>
+ </linearGradient>
+ <linearGradient id="main" x1="0" y1=".8" x2="1" y2=".15" gradientUnits="objectBoundingBox">
+   <stop offset="0" stop-color="#092080"/><stop offset=".32" stop-color="#075BD2"/><stop offset=".66" stop-color="#078CE8"/><stop offset="1" stop-color="#0BD5DC"/>
+ </linearGradient>
+ <linearGradient id="shine" x1="0" y1="0" x2="1" y2=".4" gradientUnits="objectBoundingBox">
+   <stop offset="0" stop-color="#106DE3"/><stop offset=".5" stop-color="#13B7ED"/><stop offset="1" stop-color="#27E8E6"/>
+ </linearGradient>
+</defs>
+<rect width="128" height="128" rx="28" fill="#222222"/>
+<g transform="translate(3 6) scale(.86)"><path d="M 15 94 C 29 77 41 39 55 39 C 70 39 79 84 91 82 C 101 81 106 62 114 61 C 121 61 125 72 129 83" stroke="url(#under)" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(0 4)"/>
+<path d="M 15 91 C 29 74 41 36 55 36 C 70 36 79 81 91 79 C 101 78 106 59 114 58 C 121 58 125 69 129 80" stroke="url(#main)" stroke-width="21" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M 17 83 C 33 61 43 34 55 34 C 69 34 80 73 92 71 C 101 71 106 55 114 55 C 121 55 124 65 126 70" stroke="url(#shine)" stroke-opacity=".95" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</g></svg>

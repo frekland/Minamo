@@ -1,0 +1,40 @@
+/* One workspace surface; editors stay under their persistent owners. */
+.wp-workspace.v2-app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:47px}
+.wp-workspace .v2-header{flex-shrink:0}.wp-workspace .v2-shell{flex:1;min-height:0;max-height:100%;width:100%;overflow:hidden;position:relative}
+.wp-workspace .v2-sidebar{max-height:100%;overflow:auto;min-height:0}
+.wp-workspace .v2-main{min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-gutter:stable;padding-inline:clamp(22px,3.5vw,60px)}
+.wp-context-actions{display:flex;gap:8px 20px;flex-wrap:wrap;align-items:center;margin:0 0 20px;color:var(--mn-text-muted)}
+.wp-context-actions .gpt-handoff>button,.wp-context-actions>.v2-text-button{font-size:13px;min-height:36px}
+.wp-reference{flex:0 0 360px;width:360px;min-width:0;overflow:auto;overscroll-behavior:contain;border-left:1px solid var(--mn-border);padding:20px 22px;background:var(--mn-code-bg);line-height:1.75}
+.wp-reference>header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--mn-border);padding-bottom:12px;margin-bottom:18px}.wp-reference h2{font:600 15px/1.4 system-ui;margin:0}.wp-reference h3{font:400 27px/1.3 var(--v2-serif);margin:10px 0 20px;overflow-wrap:anywhere}
+.wp-reference-body p{white-space:pre-wrap;font-size:var(--wp-reading-size,17px);margin:14px 0;overflow-wrap:anywhere}.wp-reference pre{max-width:100%;overflow:auto;padding:14px;border:1px solid var(--mn-border);background:var(--mn-canvas);font:13px/1.75 ui-monospace,monospace;white-space:pre}.wp-reference code{font:inherit}.wp-preview-callout{border-left:3px solid var(--mn-accent);padding-left:14px}.wp-reference-actions{display:flex;flex-direction:column;align-items:start;gap:12px;margin-top:20px}.wp-preview-notice{font:13px/1.65 system-ui;color:var(--mn-text-muted);border-top:1px solid var(--mn-border);padding-top:16px}.wp-summary-origin{display:block;color:var(--mn-text-muted);font:12px system-ui;margin-top:5px}
+.wp-settings label{display:block;margin-block:16px}.wp-settings select{display:block;width:100%;margin-top:6px;padding:8px;background:var(--mn-canvas);color:var(--mn-text);border:1px solid var(--mn-border-control)}.wp-settings p{color:var(--mn-text-muted);font-size:14px}
+.wp-workspace{--wp-reading-size:17px;--wp-reading-measure:740px}.wp-workspace[data-reading-size=larger]{--wp-reading-size:19px}.wp-workspace[data-reading-size=largest]{--wp-reading-size:22px}.wp-workspace[data-reading-width=narrow]{--wp-reading-measure:58ch}
+.wp-workspace .rn-reading-header,.wp-workspace .rn-reading-content{max-width:var(--wp-reading-measure)}.wp-workspace .rn-part>p,.wp-workspace .rn-reader-intro,.wp-workspace .rn-callout p:not(.rn-callout-label){font-size:var(--wp-reading-size);line-height:1.8}
+/* Reading comfort outranks Reader's later narrow-screen defaults. Target
+   canonical prose only: labels, source controls and code keep their own scale. */
+.wp-workspace[data-reading-size] .rn-part>p,
+.wp-workspace[data-reading-size] .rn-reader-intro,
+.wp-workspace[data-reading-size] .rn-reader-intro p,
+.wp-workspace[data-reading-size] .rn-reader-intro li,
+.wp-workspace[data-reading-size] .rn-reader-intro blockquote,
+.wp-workspace[data-reading-size] .rn-callout>p[data-reading-part],
+.wp-workspace[data-reading-size] .rn-reference-explanation,
+.wp-workspace[data-reading-size] .rn-excerpt blockquote{font-size:var(--wp-reading-size)}
+.wp-workspace[data-reading-spacing=compact] .rn-part{margin-block:12px}.wp-workspace[data-reading-spacing=compact] .rn-part>p{line-height:1.65}
+.wp-workspace[data-motion=reduce] *{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+.wp-workspace[data-reference-compact=true] .v2-main{display:none}.wp-workspace[data-reference-compact=true] .wp-reference{flex:1;width:auto;border-left:0}
+@media(min-width:701px){
+ .wp-workspace[data-sidebar=compact] .v2-sidebar{width:74px;padding-inline:12px}.wp-workspace[data-sidebar=compact] .v2-sidebar nav a{justify-content:center}.wp-workspace[data-sidebar=compact] .v2-sidebar nav a span,.wp-workspace[data-sidebar=compact] .v2-sidebar nav a small,.wp-workspace[data-sidebar=compact] .v2-sidebar>.v2-eyebrow,.wp-workspace[data-sidebar=compact] .v2-library-shortcuts,.wp-workspace[data-sidebar=compact] .v2-sidebar-bottom{display:none}
+ .wp-workspace[data-notes-open=true][data-notes-dock=bottom] .v2-shell{margin-bottom:calc(var(--wp-notes-size) + 17px)}
+ .wp-workspace[data-notes-open=true][data-notes-dock=top] .v2-shell{padding-top:calc(var(--wp-notes-size) + 22px)}
+ .wp-workspace[data-notes-open=true][data-notes-dock=left] .v2-shell{padding-left:calc(var(--wp-notes-size) + 32px)}
+ .wp-workspace[data-notes-open=true][data-notes-dock=right] .v2-shell{padding-right:calc(var(--wp-notes-size) + 32px)}
+}
+@media(max-width:700px){.wp-workspace.v2-app{padding-bottom:57px}.wp-workspace .v2-shell{display:flex}.wp-workspace .v2-main{padding-inline:20px}.wp-workspace[data-reference=true] .v2-main{display:none}.wp-workspace .wp-reference{width:100%;flex:1;border-left:0;padding:18px 20px}.wp-reference button{min-height:44px}.wp-context-actions{gap:8px 14px}.wp-workspace .v2-header-actions{gap:0}.wp-workspace .v2-header-actions .v2-icon{min-width:38px}}
+/* Save feedback belongs outside the editor scrollport, including keyboard-height changes. */
+.nw-workspace .rn-notes-header>output{max-width:100%;font-size:12px;white-space:normal;overflow-wrap:anywhere}.nw-workspace .rn-notes-header{align-items:center}
+
+.synthetic-ui-banner + .wp-workspace.v2-app{height:calc(100dvh - 36px)}
+
+.wp-reference>header{position:sticky;top:0;z-index:2;background:var(--mn-code-bg)}

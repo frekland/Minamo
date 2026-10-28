@@ -1,0 +1,33 @@
+{
+  "purpose": "Publish the owner-requested PR61-20261026-COMP synthetic Computing Investigation.",
+  "operationId": "PR61-20261026-COMP-receive-v1",
+  "expectedGeneration": "legacy@0",
+  "synthetic": true,
+  "existing": [
+    {
+      "family": "article",
+      "id": "ms-a5c07502e7d21f26023953f00d8804fb546b4607",
+      "rev": 2,
+      "purpose": "reuse"
+    }
+  ],
+  "manuscript": {
+    "version": 1,
+    "brief": "Prepare a short synthetic Computing Investigation about predicting what a blocked TCP receive means. Prefix identity/title PR61-20261026-COMP. Use a dedicated introductory Question: paragraph with a narrower question than the title, concise teaching first, one precise code example plus honest illustrative output/evidence distinction, and an ordinary pinned GitHub artefact reference if possible. Do not publish/mutate yet: return manuscript and tool preview result plus required publication arguments to root for controlled publishing.",
+    "documents": [
+      {
+        "key": "PR61-20261026-COMP",
+        "role": "investigation",
+        "title": "PR61-20261026-COMP — What does a blocked TCP receive mean?",
+        "learningScope": {
+          "version": 1,
+          "spaces": [
+            "computing"
+          ],
+          "provenance": "authored"
+        },
+        "markdown": "# PR61-20261026-COMP — What does a blocked TCP receive mean?\n\nQuestion: On an already connected TCP socket, does a waiting `recv(8)` mean that eight bytes must arrive, or that the peer has stopped?\n\nTCP carries an ordered byte stream. With ordinary flags, `recv(8)` asks for **up to** eight bytes; it does not define an eight-byte message. If no bytes are available and no end-of-stream or error has arrived, a receive can wait. That wait alone cannot distinguish a quiet peer, a peer waiting for your request, or a network problem. A timeout limits your wait; it does not establish which cause occurred.\n\n## Predict three different outcomes\n\nThis self-contained Python 3 example makes a TCP connection on your machine's loopback interface. Save it as `receive_probe.py` and run `python3 receive_probe.py`. The operating system chooses an available port. The accepted socket is the server side; the client reads from its own side.\n\n```python\nimport socket\n\nwith socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:\n    listener.bind((\"127.0.0.1\", 0))\n    listener.listen(1)\n    with socket.create_connection(listener.getsockname()) as client:\n        server, _ = listener.accept()\n        with server:\n            client.settimeout(0.2)\n            try:\n                print(\"quiet:\", repr(client.recv(8)))\n            except TimeoutError:\n                print(\"quiet: timed out\")\n\n            server.sendall(b\"x\")\n            print(\"one byte:\", repr(client.recv(8)))\n\n            server.shutdown(socket.SHUT_WR)\n            print(\"after send-side shutdown:\", repr(client.recv(8)))\n```\n\nBefore running, predict each line. The illustrative output is `quiet: timed out`, then `one byte: b'x'`, then `after send-side shutdown: b''`. This is a prediction from the program, not captured execution or evidence of a learner attempt. Unexpected operating-system errors should be retained with the actual traceback.\n\nThe first receive uses timeout mode so the demonstration ends predictably; without a timeout it could keep waiting. No server bytes were sent before that call. The second call can return one byte even though its upper limit is eight. The final empty result indicates orderly end-of-stream on this TCP receive direction after queued bytes have been consumed. It is different from a timeout and from a connection-reset exception.\n\n## Investigate the uncertainty\n\nChange only `client.settimeout(0.2)` to `client.settimeout(None)`. Predict where this particular program will stop progressing: the server send is later in the same thread, so it cannot be reached while the receive waits. Stop your own foreground program with Ctrl+C. This is a control-flow deadlock in the example; an arbitrary quiet connection needs more evidence before receiving that diagnosis.\n\nFor an unfamiliar program, first identify which side should send next and whether it actually reached its send call. Keep actual output separate from your prediction. What observation would distinguish “the peer is deliberately waiting for my request” from “the peer tried to send but these bytes have not reached my socket”?\n\nUse [Processes, TCP sockets and connection evidence](minamo:article:ms-a5c07502e7d21f26023953f00d8804fb546b4607) to distinguish process, listener and connection observations. The [Python socket documentation](https://docs.python.org/3/library/socket.html#socket.socket.recv) specifies receive results; its [timeout notes](https://docs.python.org/3/library/socket.html#notes-on-socket-timeouts) distinguish blocking, nonblocking and timeout modes. These are link-only further reading.\n"
+      }
+    ]
+  }
+}

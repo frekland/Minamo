@@ -1,0 +1,65 @@
+/* Native selection, personal marks and private writing remain separate visual states. */
+.ri-overlay{z-index:95;box-sizing:border-box;padding:12px;background:var(--mn-surface);color:var(--mn-text);border:1px solid var(--mn-border-control);border-radius:8px;box-shadow:var(--mn-shadow);overflow:auto;overscroll-behavior:contain;font:14px/1.6 system-ui;white-space:normal;overflow-wrap:anywhere}
+.ri-overlay *{box-sizing:border-box}
+.ri-overlay button,.ri-record-bookmark,.ri-mark-trigger,.ri-resume{font:14px/1.5 system-ui;min-height:36px;padding:7px 12px;cursor:pointer;border:1px solid var(--mn-border-control);border-radius:5px;color:var(--mn-text);background:var(--mn-surface-secondary)}
+.ri-overlay button:hover,.ri-record-bookmark:hover,.ri-mark-trigger:hover{border-color:var(--mn-interactive);background:var(--mn-selected)}
+.ri-overlay button:disabled{cursor:not-allowed;opacity:.6}
+.ri-overlay :focus-visible,.ri-record-bookmark:focus-visible,.ri-mark-trigger:focus-visible,.ri-resume:focus-visible{outline:2px solid var(--mn-focus);outline-offset:3px}
+.ri-toolbar{padding:5px;overflow:visible}
+.ri-two-actions{display:flex;gap:5px}
+.ri-two-actions>button{flex:1;border:0;background:transparent;min-height:40px}
+.ri-two-actions>button[aria-pressed=true]{background:var(--mn-selected);box-shadow:inset 0 -2px var(--mn-interactive)}
+.ri-preview-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.ri-preview-heading>button{border:0;background:none;padding-inline:4px}
+.ri-editor blockquote{font:12px/1.6 system-ui;color:var(--mn-text-muted);border-inline-start:2px solid var(--mn-accent);padding-inline-start:10px;margin:10px 0 14px;white-space:pre-wrap;max-height:85px;overflow:auto}
+.ri-overlay label{display:block;font-size:14px}
+.ri-overlay textarea{display:block;width:100%;font:16px/1.65 system-ui;resize:vertical;min-height:110px;max-height:35dvh;background:var(--mn-canvas);color:var(--mn-text);border:1px solid var(--mn-border-control);border-radius:5px;padding:10px;margin-top:6px}
+.ri-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ri-actions>button:first-child{background:var(--mn-interactive);color:var(--mn-on-accent);border-color:transparent}
+.ri-personal-prose{font:16px/1.75 system-ui;white-space:pre-wrap;margin:12px 0;color:var(--mn-text-body)}
+.ri-overlap-chooser{display:grid;gap:7px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--mn-border)}
+.ri-overlap-chooser button{text-align:start}
+.ri-overlap-chooser button[aria-pressed=true]{border-inline-start:3px solid var(--mn-accent);background:var(--mn-annotation)}
+.ri-record-bookmark{display:inline-flex;align-items:center;gap:7px;background:transparent;border:0;color:var(--mn-text-muted);padding:3px 6px}
+.ri-record-bookmark[aria-pressed=true]{color:var(--mn-interactive)}
+.ri-record-bookmark>span:first-child{font-size:20px}
+.ri-mark-trigger{display:inline-flex;gap:7px;align-items:center;margin-top:5px;border:0;background:transparent;padding:3px 6px;color:var(--mn-accent);font-size:12px}
+.ri-resume{margin-block:12px}
+.rn-reader mark[data-anchor-records]{cursor:pointer}
+.rn-reader .rn-annotation-mark{background:var(--mn-annotation);text-decoration:none;border:0}
+.rn-reader .rn-flag-mark{background:transparent;text-decoration:none;border:0}
+.rn-reader mark[data-anchor-records]:hover{outline:1px solid var(--mn-accent);outline-offset:2px}
+.ri-overlay p[role=status]{font-size:12px;color:var(--mn-text-muted)}
+@media(pointer:coarse){.ri-overlay button,.ri-record-bookmark,.ri-mark-trigger{min-height:44px;min-width:44px}.ri-toolbar{padding:5px}.ri-two-actions{gap:4px}}
+@media(max-width:600px){.ri-overlay{padding:10px}.ri-toolbar{padding:4px}.ri-record-bookmark{font-size:12px}.ri-editor .ri-actions{position:sticky;bottom:-10px;background:var(--mn-surface);padding-block:9px;margin-bottom:-9px}}
+@media(forced-colors:active){.ri-overlay,.ri-overlay button,.ri-overlay textarea{border-color:ButtonText}.ri-overlay :focus-visible{outline-color:Highlight}.rn-reader mark[data-anchor-records]{text-decoration-color:LinkText}}
+
+.rn-reader .rn-flag-mark{background:color-mix(in srgb,var(--mn-interactive) 8%,transparent)}.ri-mark-trigger{min-width:36px;min-height:36px;margin-top:2px}.rn-reader mark[data-anchor-records]:hover{background:var(--mn-selected)}
+@media(forced-colors:active){.rn-reader mark[data-anchor-records]{background:Mark;color:MarkText}.ri-mark-trigger{border:1px solid ButtonText}}
+
+/* Exact saved ranges are the controls: no paragraph-end badges or counters. */
+.rn-reader mark[data-anchor-records]{border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.rn-reader .rn-flag-mark{background:color-mix(in srgb,var(--mn-interactive) 7%,transparent);text-decoration-line:underline;text-decoration-style:dotted;text-decoration-color:var(--mn-interactive);text-decoration-thickness:1.5px;text-underline-offset:4px;}
+.rn-reader .rn-annotation-mark{background:var(--mn-annotation);}
+.rn-reader .rn-annotation-mark.rn-flag-mark{background:var(--mn-annotation);}
+.rn-reader mark[data-anchor-records]:focus-visible{outline:2px solid var(--mn-focus);outline-offset:3px;}
+.rn-reader-bookmark{display:flex;justify-content:flex-end;margin-bottom:6px;}
+.rn-selection-access{font:12px/1.6 system-ui;color:var(--mn-text-muted);margin:28px 0 18px;max-width:360px;}
+@media(forced-colors:active){.rn-reader .rn-flag-mark{text-decoration-color:LinkText}.rn-reader mark[data-anchor-records]:focus-visible{outline-color:Highlight}}
+
+/* Exact ranges remain native selectable text; only their tint and accent change. */
+.rn-reader mark[data-anchor-records]{color:inherit;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:background-color .14s ease,outline-color .14s ease;}
+.rn-reader .rn-annotation-mark{background:color-mix(in srgb,var(--mn-annotation) 84%,transparent);box-shadow:inset 0 -1px 0 color-mix(in srgb,var(--mn-interactive) 22%,transparent);}
+.rn-reader .rn-flag-mark{background:transparent;text-decoration-line:underline;text-decoration-style:dotted;text-decoration-color:var(--mn-interactive);text-decoration-thickness:1.5px;text-underline-offset:.22em;}
+.rn-reader .rn-annotation-mark.rn-flag-mark{background:color-mix(in srgb,var(--mn-annotation) 84%,transparent);}
+.rn-reader mark[data-anchor-records]:hover{outline:1px solid color-mix(in srgb,var(--mn-interactive) 58%,transparent);outline-offset:2px;background:var(--mn-selected);}
+.rn-reader mark[data-reading-confirmed]{animation:ri-mark-confirm .7s cubic-bezier(.16,1,.3,1);}
+@keyframes ri-mark-confirm{0%,100%{outline-color:transparent;outline-offset:1px}35%{outline:2px solid var(--mn-interactive);outline-offset:3px;background:var(--mn-selected)}}
+.ri-overlay button{min-height:44px;border-radius:9px;}
+.ri-two-actions{gap:4px;}
+.ri-two-actions>button{min-width:44px;min-height:44px;}
+.ri-overlap-chooser{gap:6px;max-height:210px;overflow-y:auto;overscroll-behavior:contain;}
+.ri-overlap-chooser button{line-height:1.5;overflow-wrap:anywhere;}
+@media(prefers-reduced-motion:reduce){.rn-reader mark[data-anchor-records]{transition:none}.rn-reader mark[data-reading-confirmed]{animation:none}}
+.v2-app[data-motion=reduce] .rn-reader mark[data-anchor-records]{transition:none;animation:none}
+@media(forced-colors:active){.rn-reader mark[data-anchor-records]{background:Mark;color:MarkText;box-shadow:none}.rn-reader .rn-flag-mark{text-decoration-color:LinkText}.rn-reader mark[data-reading-confirmed]{animation:none;outline:1px solid Highlight}}

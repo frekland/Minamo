@@ -1,0 +1,50 @@
+'use client';
+import {useEffect,useId,useRef,useState,type ReactNode} from 'react';
+import type {ReadingDisplayAdapter} from './reader';
+import {admitSemanticContent,type SemanticContent} from '../lib/semantic-content';
+import {LanguageReadingDetails} from './language-reading-details';
+import {advanceRecall,languagePracticeTsv,languageSegments,type RecallState} from '../lib/foundry/language';
+import {languageDomRange,languageDomSelection} from '../lib/foundry/language-dom';
+import LanguageWordCard from './language-word-card';
+import './language-reader.css';
+import type {MathRendition} from '../lib/foundry/math-render';
+
+/** Small native host. The heavy math renderer loads only on explicit request. */
+function SemanticReading({semantic,common,renderRange,ownerScope}:{semantic:SemanticContent;ownerScope?:string;common:{'data-reading-part':string;'data-section-id':string};renderRange:(start:number,end:number)=>ReactNode}){
+ const passageId=useId(),source=useRef<HTMLParagraphElement>(null),wordTrigger=useRef<HTMLButtonElement|null>(null);
+ const [help,setHelp]=useState(false),[word,setWord]=useState<number|null>(null),[individual,setIndividual]=useState<Set<number>>(()=>new Set()),[phrase,setPhrase]=useState<number|null>(null),[recall,setRecall]=useState<RecallState>({phase:'idle',index:0}),[notice,setNotice]=useState('');
+ const language=semantic.kind==='ruby'?semantic.language:null;
+ useEffect(()=>{setWord(null);setPhrase(null);setIndividual(new Set());setRecall({phase:'idle',index:0});setNotice('');},[language?.text,common['data-reading-part'],common['data-section-id']]);
+ function selectExpression(index:number){if(!language||!source.current)return;try{const span=language.spans[index],range=languageDomRange(source.current,language,span.start,span.end),selection=window.getSelection();selection?.removeAllRanges();selection?.addRange(range);setNotice('Exact source expression selected. Use the adjacent Flag or Annotate action.');}catch{setNotice('The exact expression could not be selected. Select the source text directly.');}}
+ function exportWords(){if(!language)return;const blob=new Blob([languagePracticeTsv(language)],{type:'text/tab-separated-values;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='minamo-language-phrases.tsv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+ function closeWord(){setWord(null);wordTrigger.current?.focus({preventScroll:true});}
+
+ const [revealed,setRevealed]=useState(true),[typeset,setTypeset]=useState(false),[math,setMath]=useState<MathRendition|null>(null),[mathError,setMathError]=useState(false),[mathRetry,setMathRetry]=useState(0);
+ useEffect(()=>{let current=true;setMath(null);setMathError(false);if(typeset&&semantic.kind==='math')import('../lib/foundry/math-render').then(m=>m.renderMath(semantic.expression)).then(result=>{if(current)setMath(result);}).catch(()=>{if(current)setMathError(true)});return()=>{current=false;};},[semantic,typeset,mathRetry]);
+ if(semantic.kind==='ruby'){
+  const content=semantic.language,activePhrase=phrase===null?null:content.phrases?.[phrase],selected=word===null?undefined:content.spans[word];
+  return <div className="minamo-semantic-ruby">
+   <div className="lr-reading-controls" data-language-decoration="true">
+    {!!content.spans.length&&<><button type="button" aria-controls={passageId} aria-pressed={revealed} onClick={()=>{setRevealed(!revealed);setIndividual(new Set());}}>{revealed?'Hide':'Show'} all pronunciations</button><button type="button" aria-expanded={help} onClick={()=>{setHelp(!help);if(help)setWord(null);}}>{help?'Close':'Open'} word help</button></>}
+   </div>
+   <p ref={source} id={passageId} lang={content.language} dir={content.direction} className="lr-source" style={{fontSize:/^(ja|zh)(-|$)/.test(content.language)?'1.2em':undefined,lineHeight:content.spans.length?2.6:1.8,whiteSpace:'pre-wrap',overflowWrap:'anywhere',unicodeBidi:'isolate'}} onCopy={event=>{try{const selection=window.getSelection();if(!selection?.rangeCount)return;const capture=languageDomSelection(event.currentTarget,content,selection.getRangeAt(0));event.clipboardData.setData('text/plain',capture.quote);event.preventDefault();}catch{/* Cross-passage copy stays under the canonical Reader. */}}}>{languageSegments(content).map(segment=>{
+    const cuts=Array.from(new Set([segment.start,segment.end,...(activePhrase?[activePhrase.start,activePhrase.end].filter(at=>at>segment.start&&at<segment.end):[])])).sort((a,b)=>a-b);
+    const base=cuts.slice(0,-1).map((start,index)=>{const end=cuts[index+1],active=!!activePhrase&&start>=activePhrase.start&&end<=activePhrase.end;return <span key={start} {...common} data-canonical-start={start} data-canonical-end={end} className={active?'lr-phrase-highlight':undefined}>{renderRange(start,end)}</span>;});
+    const show=!!segment.annotation&&(revealed||individual.has(segment.annotation.start));
+    return segment.annotation?<ruby key={segment.start}>{base}<rp aria-hidden="true">(</rp><rt data-language-decoration="true" lang={content.language.startsWith('zh')?'zh-Latn-pinyin':content.language} title={segment.annotation.origin==='machine-proposed'?`Provisional machine proposal: ${segment.annotation.source}`:undefined} aria-hidden={!show} style={{visibility:show?'visible':'hidden',userSelect:'none',fontSize:'.62em',...(segment.annotation.origin==='machine-proposed'?{textDecoration:'underline dotted'}:{})}}>{segment.annotation.reading}</rt><rp aria-hidden="true">)</rp></ruby>:<span key={segment.start}>{base}</span>;
+   })}</p>
+   {help&&<div className="lr-word-tools" data-language-decoration="true"><p>Choose an authored word or compound. Source text stays normally selectable.</p><div className="lr-word-choices">{content.spans.map((span,index)=><button key={span.start} type="button" lang={content.language} aria-pressed={word===index} onClick={event=>{wordTrigger.current=event.currentTarget;setWord(word===index?null:index);setIndividual(old=>new Set([...old,span.start]));}}>{span.base}</button>)}</div></div>}
+   {selected&&<LanguageWordCard content={content} span={selected} ownerScope={ownerScope} onClose={closeWord} onSelect={()=>selectExpression(word!)}/>}
+   {!!content.phrases?.length&&<details className="lr-phrase-help" data-language-decoration="true"><summary>Explore phrase meanings and translation</summary><div className="lr-word-choices">{content.phrases.map((entry,index)=><button type="button" key={index} lang={content.language} aria-pressed={phrase===index} onClick={()=>setPhrase(phrase===index?null:index)}>{entry.base}</button>)}</div>{activePhrase&&<div className="lr-phrase-card"><p>{activePhrase.explanation}</p>{activePhrase.targetStart!==undefined&&activePhrase.targetEnd!==undefined&&content.translation&&<p lang={content.translation.language} dir={content.translation.direction}>{content.translation.text.slice(0,activePhrase.targetStart)}<mark>{content.translation.text.slice(activePhrase.targetStart,activePhrase.targetEnd)}</mark>{content.translation.text.slice(activePhrase.targetEnd)}</p>}{activePhrase.source&&<small>{activePhrase.source}</small>}<small>Source and translation ranges are independently authored. Alignment does not imply word-for-word equivalence.</small></div>}</details>}
+   <LanguageReadingDetails content={content}/>
+   {!!content.spans.length&&<details className="lr-recall" data-language-decoration="true"><summary>Practise these pronunciations</summary><p>Optional recall in this page. Revealing a pronunciation records no achievement or review event.</p>{recall.phase==='idle'?<button type="button" onClick={()=>setRecall(advanceRecall(recall,'begin',content.spans.length))}>Start pronunciation recall</button>:<div><p lang={content.language}><strong>{content.spans[recall.index].base}</strong>{recall.phase==='revealed'&&<> · {content.spans[recall.index].reading}{content.spans[recall.index].gloss&&' · '+content.spans[recall.index].gloss}</>}</p><button type="button" onClick={()=>setRecall(advanceRecall(recall,recall.phase==='prompt'?'reveal':'next',content.spans.length))}>{recall.phase==='prompt'?'Reveal contextual pronunciation':recall.index+1===content.spans.length?'Finish':'Next expression'}</button><button type="button" onClick={()=>setRecall(advanceRecall(recall,'stop',content.spans.length))}>Stop recall</button></div>}<button type="button" onClick={exportWords}>Export authored pronunciations as TSV</button></details>}
+   {notice&&<p data-language-decoration="true" role="status">{notice}</p>}
+  </div>;
+ }
+ return <figure style={{margin:'1rem 0',minWidth:0}}><div data-foundry-decoration="true">{typeset&&math?.status==='rendered'?<div style={{overflowX:'auto',maxWidth:'100%'}} dangerouslySetInnerHTML={{__html:math.html}}/>:null}{mathError&&<p role="status">Typesetting could not load. The exact source remains below. <button type="button" onClick={()=>setMathRetry(value=>value+1)}>Retry typesetting</button></p>}{math?.status==='fallback'&&<p role="status">Typesetting unavailable. The exact source remains below.</p>}<button type="button" aria-expanded={typeset} onClick={()=>setTypeset(!typeset)}>{typeset?'Hide typesetting':'Typeset formula'}</button><figcaption>{semantic.expression.description??'Authored formula; display does not evaluate or prove it.'}</figcaption></div><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}><code {...common} data-canonical-start={0} data-canonical-end={semantic.expression.source.length}>{renderRange(0,semantic.expression.source.length)}</code></pre></figure>;
+}
+/** Activate only from an owner-enabled Activity Studio workspace. Historic text is never parsed. */
+export const semanticReadingAdapter:ReadingDisplayAdapter=({part,common,renderRange,ownerScope})=>{
+ if(!part.semantic||part.unavailable)return undefined;
+ try{const semantic=admitSemanticContent(part.semantic,part.text);return <SemanticReading semantic={semantic} common={common} renderRange={renderRange} ownerScope={ownerScope}/>;}catch{return undefined;}
+};

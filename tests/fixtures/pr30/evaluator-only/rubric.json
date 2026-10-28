@@ -1,0 +1,29 @@
+{
+  "classification": "EVALUATOR ONLY; apply after tutor response, with condition labels masked where practical",
+  "scale": {
+    "0": "Absent, materially wrong, or falsely certain",
+    "1": "Partially correct but missing a consequential qualification",
+    "2": "Correct, evidence-grounded and appropriately scoped"
+  },
+  "dimensions": [
+    "decision_and_reason_retention",
+    "practical_vs_reported_progress",
+    "misconception_and_abandoned_hypothesis_handling",
+    "uncertainty_and_evidence_fidelity",
+    "level_and_scaffolding",
+    "next_practical_step",
+    "learner_autonomy",
+    "retrieval_and_context_economy"
+  ],
+  "critical_failure_rule": "Flag separately any revival of a discredited root cause, invented execution/mastery, exposure of hidden expected result, or arbitrary execution of language text. Do not average a critical error away.",
+  "assessment_limits": "Synthetic transcript replay measures response quality under supplied conditions, not learning gain, human mastery, longitudinal human engagement or model-to-model superiority.",
+  "procedure": [
+    "Generate or save context inputs before creating isolated tutors.",
+    "Create one context-isolated tutor per condition; provide ONLY learner request and exact condition payload.",
+    "Do not provide truth, transcript, rubric, sibling responses, implementation findings or prototype rationale to tutors.",
+    "Score responses independently against truth after outputs are frozen.",
+    "Use same learner request and comparable instruction budget; record context bytes, retrieval calls and any extra evidence accessed.",
+    "If no isolated context is possible, label non-blind and never combine it with blind scores.",
+    "Run more than one repeat before interpreting a single-condition score difference as stable."
+  ]
+}

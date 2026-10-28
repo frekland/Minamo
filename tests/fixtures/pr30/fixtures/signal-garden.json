@@ -1,0 +1,80 @@
+{
+  "key": "signal-garden",
+  "title": "TEST ONLY \u2014 Signal Garden",
+  "profile": "Premature implementer; writes working SQL quickly but trusts attractive graphs.",
+  "goal": "Interpret a simulated environmental sensor pipeline with provenance and uncertainty.",
+  "sessions": [
+    {
+      "id": "s01",
+      "title": "A clean average hides bad units",
+      "synthetic": true,
+      "learner_prediction": "A script with no exception gives a valid temperature mean.",
+      "learner_attempt": "Average mixed sensor values using Python.",
+      "supplied_artifact": null,
+      "observation": "One source emits Fahrenheit while the other emits Celsius.",
+      "correction": "Correct execution does not establish comparable measurements.",
+      "decision": {
+        "choice": "Normalise declared units and retain raw values",
+        "reason": "A provenance-preserving transform can be inspected and corrected.",
+        "status": "provisional"
+      },
+      "unresolved": "Undeclared units must be rejected or investigated, not guessed.",
+      "next_action": "Compute the converted example and compare with the raw mean.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s02",
+      "title": "Missing intervals become zeros",
+      "synthetic": true,
+      "learner_prediction": "The plant must have briefly frozen.",
+      "learner_attempt": "Fill missing readings with zero before plotting.",
+      "supplied_artifact": null,
+      "observation": "The source has no reading at that time; zero was introduced by the pipeline.",
+      "correction": "An inserted zero is not an observed environmental measurement.",
+      "decision": {
+        "choice": "Represent gaps explicitly",
+        "reason": "A gap should remain distinguishable from a measured zero.",
+        "status": "provisional"
+      },
+      "unresolved": "Interpolation is a modelling choice requiring a reason.",
+      "next_action": "Plot or tabulate a null gap and an actual zero side by side.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s03",
+      "title": "Offsets defeat text sorting",
+      "synthetic": true,
+      "learner_prediction": "ISO strings always sort chronologically.",
+      "learner_attempt": "Insert ISO timestamp strings into SQL and ORDER BY the raw text.",
+      "supplied_artifact": null,
+      "observation": "Mixed offsets produce an order different from absolute UTC time.",
+      "correction": "Normalise comparable aware instants while preserving the original timestamp.",
+      "decision": {
+        "choice": "Store UTC plus source timestamp and sensor ID",
+        "reason": "The model should support both analysis and audit.",
+        "status": "provisional"
+      },
+      "unresolved": "Naive local timestamps remain unresolved.",
+      "next_action": "Use the shared time-normalisation helper and test a mixed-offset pair.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s04",
+      "title": "The misleading aggregate",
+      "synthetic": true,
+      "learner_prediction": "The pooled mean describes the whole garden equally.",
+      "learner_attempt": "Compare a pooled mean with sensor-specific readings while one sensor reports ten times as often.",
+      "supplied_artifact": null,
+      "observation": "The high-frequency sensor dominates the pooled mean.",
+      "correction": "An observation-weighted mean differs from a sensor-weighted comparison.",
+      "decision": {
+        "choice": "Report coverage and aggregation choice",
+        "reason": "A useful dashboard explains what population its statistic represents.",
+        "status": "provisional"
+      },
+      "unresolved": "A suspected stuck sensor is not automatically faulty; inspect independent evidence first.",
+      "next_action": "Calculate both means, inspect counts and choose an aggregation matching the question.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    }
+  ]
+}

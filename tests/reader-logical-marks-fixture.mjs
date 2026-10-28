@@ -1,0 +1,8 @@
+// Synthetic only. No persistence or learner records. Also used by hydrated acceptance harnesses.
+export const logicalMarkCode='const greeting = "😄e\u0301";\r\n\tconsole.log(greeting);\n// adjacent marks\r\n';
+export function readerLogicalMarkFixture(){
+ const article={id:'TEST-ONLY-pr61-logical-marks',family:'article',title:'TEST ONLY logical saved marks',body:'Keyboard marks remain stable while syntax loads.',links:[],rev:1,rendition:'TEST-ONLY-pr61-rendition',actor:'system',synthetic:true,sections:[{id:'source',title:'Canonical source',parts:[{id:'code',kind:'code',language:'javascript',text:logicalMarkCode},{id:'link',kind:'paragraph',text:'Read the source reference.',inline:[{kind:'link',start:9,end:25,url:'https://example.com/reference'}]}]}]};
+ const mark=(id,family,partId,start,end)=>({...article,id,family,title:'TEST ONLY '+id,body:family==='annotation'?'Synthetic independent annotation.':'',sections:undefined,anchor:{recordFamily:'article',articleId:article.id,rendition:article.rendition,sectionId:'source',partId,start,end,quote:article.sections[0].parts.find(part=>part.id===partId).text.slice(start,end)}});
+ const records=[article,mark('TEST-ONLY-mark-a','annotation','code',0,logicalMarkCode.indexOf('//')),mark('TEST-ONLY-mark-b','flag','code',logicalMarkCode.indexOf('😄'),logicalMarkCode.indexOf('greeting);')+8),mark('TEST-ONLY-mark-c','flag','code',logicalMarkCode.indexOf('//'),logicalMarkCode.indexOf('//')+2),mark('TEST-ONLY-mark-d','annotation','code',logicalMarkCode.indexOf('//')+2,logicalMarkCode.length),mark('TEST-ONLY-linked-mark','annotation','link',0,25)];
+ return {article,records};
+}

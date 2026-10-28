@@ -1,0 +1,30 @@
+[
+  {
+    "filename": "japanese-konnichiwa.wav",
+    "transcript": "こんにちは",
+    "language": "ja",
+    "author": "Nesnad",
+    "source": "https://commons.wikimedia.org/wiki/File:Wikibooksqsjapanese1-snd005.ogg",
+    "license": "CC-BY-SA-3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "changes": "Converted original Ogg Vorbis to mono 16-bit PCM WAV at 16000 Hz; no speech edits.",
+    "sha256": "322757bd773146d8d899960df527a5a45ba66c5dd50057ffb7ce6aaaf53eba81",
+    "bytes": 29030,
+    "durationSeconds": 0.90475,
+    "alignment": "One complete phrase spans the full file. No finer word timing or native-speaker certification claimed."
+  },
+  {
+    "filename": "mandarin-nihao.wav",
+    "transcript": "你好",
+    "language": "zh-Hans",
+    "author": "Sjors Provoost",
+    "source": "https://commons.wikimedia.org/wiki/File:Zh_n%C7%90_h%C7%8Eo.ogg",
+    "license": "CC-BY-SA-3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "changes": "Converted original Ogg Vorbis to mono 16-bit PCM WAV at 16000 Hz; no speech edits.",
+    "sha256": "506380acaef046ffb3b92fa82c847cab39eba62607cdb4e9b2fd31281e56a1e8",
+    "bytes": 33888,
+    "durationSeconds": 1.0565625,
+    "alignment": "One complete phrase spans the full file. No finer word timing or native-speaker certification claimed."
+  }
+]

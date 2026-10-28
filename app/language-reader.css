@@ -1,0 +1,13 @@
+.lr-reading-controls,.lr-word-choices,.lr-card-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-block:10px}
+.lr-reading-controls button,.lr-word-choices button,.lr-word-card button,.lr-recall button{font:inherit;font-size:13px;line-height:1.5;padding:7px 10px;min-height:36px;border:1px solid var(--mn-border-control);border-radius:6px;background:var(--mn-surface);color:var(--mn-text)}
+.lr-word-choices button[aria-pressed=true]{background:var(--mn-selected);border-color:var(--mn-interactive)}
+.lr-word-tools>p,.lr-provenance,.lr-word-card small,.lr-recall>p{font-size:13px;line-height:1.65;color:var(--mn-text-muted)}
+.lr-word-card{border-left:3px solid var(--mn-interactive);background:var(--mn-surface);padding:16px 18px;margin-block:14px;max-width:78ch;overflow-wrap:anywhere}
+.lr-word-card>header{display:flex;gap:16px;align-items:center;justify-content:space-between}
+.lr-word-card>header>strong{font-size:22px}.lr-word-card p{margin-block:10px;white-space:pre-wrap;line-height:1.75}
+.lr-word-card h3{font:600 16px/1.4 system-ui}.lr-word-card ol{padding-left:22px}.lr-word-card li{margin-block:16px}.lr-word-card a{color:var(--mn-interactive);text-decoration:underline;text-underline-offset:.2em}
+.lr-word-card mark,.lr-phrase-card mark,.lr-source .lr-phrase-highlight{background:var(--mn-selected);color:inherit;text-decoration:underline dotted var(--mn-interactive);text-underline-offset:.2em}
+.lr-phrase-help,.lr-recall{margin-block:14px;max-width:78ch;border-top:1px solid var(--mn-border);padding-top:10px}.lr-phrase-help summary,.lr-recall summary{cursor:pointer;min-height:36px;padding-block:6px;font-size:14px;color:var(--mn-interactive)}
+.lr-phrase-card{font-size:15px;line-height:1.75;white-space:pre-wrap}.lr-phrase-card small{display:block;color:var(--mn-text-muted);font-size:12px;white-space:normal}.lr-recall button{margin:4px 8px 4px 0}
+.lr-source{max-width:var(--wp-reading-measure,78ch)}
+@media(max-width:600px){.lr-word-card{padding:13px 14px}.lr-word-card>header{align-items:start}.lr-word-card button,.lr-word-choices button{min-height:44px}.lr-card-actions{align-items:stretch;flex-direction:column}.lr-card-actions button{text-align:left}}

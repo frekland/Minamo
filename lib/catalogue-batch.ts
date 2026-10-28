@@ -1,0 +1,15 @@
+import type {WorkspaceRecord} from './contracts';
+import type {PreparedCatalogue} from './catalogue';
+/** Bounded compound publication: one set-based statement per authority, not per entry/article. */
+export function catalogueBatchStatements(env:Cloudflare.Env,owner:string,proposals:{record:WorkspaceRecord;catalogue?:PreparedCatalogue}[],operationId:string,winningSQL:string,winningArgs:unknown[],sourceManuscriptId?:string){
+ const changed=proposals.filter(p=>p.catalogue?.changed);if(!changed.length)return [];
+ const at=new Date().toISOString(),rows=changed.map(({record,catalogue})=>({id:record.id,expectedRev:catalogue!.expectedRev,rev:catalogue!.rev,edition:JSON.stringify(catalogue!.edition)})),json=JSON.stringify(rows),db=env.DB!;
+ const terms=changed.flatMap(({record,catalogue})=>catalogue!.edition.references.flatMap(ref=>[ref.term,...ref.aliases].map((term,i)=>({articleId:record.id,entryId:ref.id,ordinal:i,term,fold:ref.caseSensitive?null:term.replace(/[A-Z]/g,c=>c.toLowerCase()),kind:ref.kind,rendition:ref.target.rendition,sectionId:ref.target.sectionId,partId:ref.target.partId??null,rev:catalogue!.rev}))));
+ return [
+ db.prepare(`SELECT json(CASE WHEN NOT (${winningSQL}) OR NOT EXISTS(SELECT 1 FROM json_each(?) p WHERE coalesce((SELECT catalogue_rev FROM v2_catalogue_heads h WHERE h.owner=? AND h.article_id=json_extract(p.value,'$.id')),0)<>json_extract(p.value,'$.expectedRev')) THEN 'true' ELSE 'catalogue conflict' END)`).bind(...winningArgs,json,owner),
+ db.prepare(`INSERT INTO v2_catalogue_heads(owner,article_id,catalogue_rev,edition_json,source_manuscript_id,last_operation,updated_at) SELECT ?,json_extract(value,'$.id'),json_extract(value,'$.rev'),json_extract(value,'$.edition'),?,?,? FROM json_each(?) WHERE ${winningSQL} ON CONFLICT(owner,article_id) DO UPDATE SET catalogue_rev=excluded.catalogue_rev,edition_json=excluded.edition_json,source_manuscript_id=excluded.source_manuscript_id,last_operation=excluded.last_operation,updated_at=excluded.updated_at`).bind(owner,sourceManuscriptId??null,operationId,at,json,...winningArgs),
+ db.prepare(`INSERT INTO v2_catalogue_revisions(owner,article_id,catalogue_rev,edition_json,source_manuscript_id,created_at) SELECT ?,json_extract(value,'$.id'),json_extract(value,'$.rev'),json_extract(value,'$.edition'),?,? FROM json_each(?) WHERE ${winningSQL}`).bind(owner,sourceManuscriptId??null,at,json,...winningArgs),
+ db.prepare(`DELETE FROM v2_catalogue_terms WHERE owner=? AND article_id IN(SELECT json_extract(value,'$.id') FROM json_each(?)) AND ${winningSQL}`).bind(owner,json,...winningArgs),
+ db.prepare(`INSERT INTO v2_catalogue_terms(owner,article_id,entry_id,alias_ordinal,term_exact,term_fold_ascii,kind,target_rendition,section_id,part_id,catalogue_rev) SELECT ?,json_extract(value,'$.articleId'),json_extract(value,'$.entryId'),json_extract(value,'$.ordinal'),json_extract(value,'$.term'),json_extract(value,'$.fold'),json_extract(value,'$.kind'),json_extract(value,'$.rendition'),json_extract(value,'$.sectionId'),json_extract(value,'$.partId'),json_extract(value,'$.rev') FROM json_each(?) WHERE ${winningSQL}`).bind(owner,JSON.stringify(terms),...winningArgs)
+ ];
+}

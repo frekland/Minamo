@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lantern steps — local learning starter</title>
+<style>body{font:18px system-ui;background:#182127;color:#e6edf0;max-width:34rem;margin:2rem auto;padding:1rem}button{font:inherit;padding:.6rem;margin:.2rem}#board{font:32px monospace;white-space:pre;background:#10171c;padding:1rem}#status{min-height:3rem}</style>
+<h1>Lantern steps</h1><p>Reach the star. Walls block movement. Use arrow keys or the buttons.</p>
+<pre id="board" aria-label="Game board"></pre><p id="status" role="status"></p>
+<div aria-label="Movement"><button data-move="0,-1">Up</button><button data-move="-1,0">Left</button><button data-move="1,0">Right</button><button data-move="0,1">Down</button><button id="reset">Reset</button></div>
+<script type="module">
+const map = ["#####", "#..*#", "#.#.#", "#...#", "#####"];
+let player = {x: 1, y: 3};
+function move(state, dx, dy) {
+  const next = {x: state.x + dx, y: state.y + dy};
+  return map[next.y]?.[next.x] && map[next.y][next.x] !== "#" ? next : state;
+}
+function render() {
+  document.querySelector("#board").textContent = map.map((row, y) =>
+    [...row].map((tile, x) => x === player.x && y === player.y ? "@" : tile).join("")
+  ).join("\n");
+  document.querySelector("#status").textContent = map[player.y][player.x] === "*"
+    ? "You reached the star! Reset to try another route." : `Position: ${player.x}, ${player.y}`;
+}
+function step(dx, dy) { player = move(player, dx, dy); render(); }
+for (const button of document.querySelectorAll("[data-move]")) {
+  button.addEventListener("click", () => step(...button.dataset.move.split(",").map(Number)));
+}
+document.addEventListener("keydown", event => {
+  const direction = {ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0]}[event.key];
+  if (direction) { event.preventDefault(); step(...direction); }
+});
+document.querySelector("#reset").addEventListener("click", () => { player = {x:1,y:3}; render(); });
+render();
+</script></html>

@@ -1,0 +1,80 @@
+{
+  "key": "zombie-rpg",
+  "title": "TEST ONLY \u2014 Zombie Cat Apocalypse RPG",
+  "profile": "Complete beginner; asks for small runnable changes and resists complete solutions.",
+  "goal": "Help a kitten escape zombie cats with sentient AI mice while learning Python gradually.",
+  "sessions": [
+    {
+      "id": "s01",
+      "title": "A choice is a string",
+      "synthetic": true,
+      "learner_prediction": "Any non-empty choice means the player chose hide.",
+      "learner_attempt": "Read input and branch on 'hide'.",
+      "supplied_artifact": null,
+      "observation": "The condition if choice: also accepts 'run'.",
+      "correction": "Truthiness is not equality.",
+      "decision": {
+        "choice": "Use explicit equality for the first branch",
+        "reason": "The learner can predict two inputs before introducing additional structure.",
+        "status": "provisional"
+      },
+      "unresolved": "All learner attempts remain simulated.",
+      "next_action": "Predict hide and run paths, then run both.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s02",
+      "title": "The mouse gives back nothing",
+      "synthetic": true,
+      "learner_prediction": "If I see 3 printed then the function returned 3.",
+      "learner_attempt": "Write a function that prints a damage value and assign its call to health.",
+      "supplied_artifact": null,
+      "observation": "The printed value is 3, but the assigned result is None.",
+      "correction": "A display effect differs from a return value.",
+      "decision": {
+        "choice": "Separate computing damage from narrating it",
+        "reason": "This creates a reusable function without introducing classes.",
+        "status": "provisional"
+      },
+      "unresolved": "Do not supply a complete combat engine.",
+      "next_action": "Add one explicit return and inspect the caller value.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s03",
+      "title": "An inventory disappears",
+      "synthetic": true,
+      "learner_prediction": "Each call gets a new list because it is a new game.",
+      "learner_attempt": "Call start_game twice with a mutable default inventory.",
+      "supplied_artifact": null,
+      "observation": "A ration picked up in the first call appears in the second.",
+      "correction": "A default list is created once at function definition; create fresh state per game.",
+      "decision": {
+        "choice": "Use an explicit state dictionary returned by a factory",
+        "reason": "Two independent states make the aliasing test concrete.",
+        "status": "provisional"
+      },
+      "unresolved": "Classes are optional and deferred, not forbidden forever.",
+      "next_action": "Create two games, mutate one inventory and inspect both.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s04",
+      "title": "Save data is not trusted code",
+      "synthetic": true,
+      "learner_prediction": "Any parsed JSON is a valid game save.",
+      "learner_attempt": "Save JSON state, reload it, then try a file missing health.",
+      "supplied_artifact": null,
+      "observation": "JSON syntax accepts the file but required fields are absent.",
+      "correction": "Syntax validity does not prove game-state validity.",
+      "decision": {
+        "choice": "Validate a minimal versioned save contract",
+        "reason": "The learner can inspect missing keys before learning a class hierarchy.",
+        "status": "provisional"
+      },
+      "unresolved": "No class refactor or complete game has been implemented.",
+      "next_action": "Write a failing missing-health check, then repair loading without resetting a valid inventory.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+import {spawnSync} from 'node:child_process';
+const args=process.argv.slice(2),full=args.includes('--full'),browser=args.includes('--browser');
+const commands=[[process.execPath,['--test','tests/interface-lab.test.mjs','tests/interface-foundry-contract.test.mjs','tests/interface-foundry-contract-domain.test.mjs','tests/interface-design-system.test.mjs','tests/interface-workbench.test.mjs','tests/challenge-interface-unicode.test.mjs','tests/activity-ui.test.mjs']]];
+if(full)commands.push([process.execPath,['node_modules/typescript/bin/tsc','--noEmit']],[process.execPath,['scripts/build-app.mjs']],[process.execPath,['--test','tests/activity-security-compiled.test.mjs','tests/interface-lab-production.test.mjs']]);
+if(browser){const at=args.indexOf('--url');if(at<0||!args[at+1]){console.error('Browser verification needs --url with the exact running supported sites-preview URL.');process.exit(2);}commands.push([process.execPath,['scripts/interface-browser.mjs','--url',args[at+1],...(args.includes('--capture')?['--capture']:[])]]);}
+for(const [command,parameters] of commands){console.log('\nInterface verification:',[command,...parameters].join(' '));const result=spawnSync(command,parameters,{stdio:'inherit'});if(result.status!==0)process.exit(result.status??1);}
+console.log('\nInterface verification passed for the commands above. Browser, hosted and physical-device checks are unverified unless explicitly included and recorded.');

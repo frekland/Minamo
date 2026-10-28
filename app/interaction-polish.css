@@ -1,0 +1,372 @@
+/* Shared interaction surfaces. Controls stay in their toolbar; only transient surfaces elevate. */
+:root {
+  --ip-radius-control: 10px;
+  --ip-radius-surface: 16px;
+  --ip-ease: cubic-bezier(.16, 1, .3, 1);
+  --ip-surface: color-mix(in srgb, var(--mn-surface) 88%, transparent);
+  --ip-edge: color-mix(in srgb, var(--mn-border) 84%, transparent);
+  --ip-highlight: color-mix(in srgb, var(--mn-text-body) 7%, transparent);
+  --ip-shadow: 0 1px 2px #0000000d, 0 5px 12px #00000012, 0 18px 40px #0000001c, inset 0 1px 0 var(--ip-highlight);
+  --ip-hover: color-mix(in srgb, var(--mn-text-body) 7%, transparent);
+  --ip-active: color-mix(in srgb, var(--mn-interactive) 13%, transparent);
+  --ip-scrim: var(--mn-overlay-backdrop);
+}
+
+/* One target size for header actions, window controls and editing toolbars. */
+.v2-app .v2-header-actions,
+.v2-app .ux-space-icons {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 3px;
+}
+.v2-app :is(.v2-icon, .v2-header-mark),
+dialog .v2-icon,
+:is(.rn-window-actions, .nw-recent-actions, .nw-recent-rename, .nw-tab) > button:not([role=tab]),
+:is(.nw-format-tools [role=toolbar], .nw-format-intro) > button,
+.nw-recent-panel > header > button,
+.rn-window-actions > details > summary,
+.nw-new-menu > summary {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  width: 44px;
+  height: 44px;
+  padding: 10px !important;
+  flex: 0 0 44px;
+  border: 0;
+  border-radius: var(--ip-radius-control) !important;
+  background: transparent !important;
+  box-shadow: none;
+  color: var(--mn-text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .16s ease, color .16s ease;
+}
+.v2-app :is(.v2-icon, .v2-header-mark) > svg,
+dialog .v2-icon > svg,
+:is(.rn-window-actions, .nw-recent-actions, .nw-recent-rename, .nw-tab) > button:not([role=tab]) > svg,
+:is(.nw-format-tools [role=toolbar], .nw-format-intro) > button > svg,
+.nw-recent-panel > header > button > svg,
+.rn-window-actions > details > summary > svg,
+.nw-new-menu > summary > svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.v2-app :is(.v2-icon, .v2-header-mark):hover:not(:disabled),
+dialog .v2-icon:hover:not(:disabled),
+:is(.rn-window-actions, .nw-recent-actions, .nw-recent-rename, .nw-tab) > button:not([role=tab]):hover:not(:disabled),
+:is(.nw-format-tools [role=toolbar], .nw-format-intro) > button:hover:not(:disabled),
+.nw-recent-panel > header > button:hover:not(:disabled),
+.rn-window-actions > details > summary:hover,
+.nw-new-menu > summary:hover {
+  background: var(--ip-hover) !important;
+  color: var(--mn-text-body) !important;
+  text-decoration: none;
+}
+.v2-app :is(.v2-icon, .v2-header-mark):active:not(:disabled),
+dialog .v2-icon:active:not(:disabled),
+:is(.rn-window-actions, .nw-recent-actions, .nw-recent-rename, .nw-tab) > button:not([role=tab]):active:not(:disabled),
+:is(.nw-format-tools [role=toolbar], .nw-format-intro) > button:active:not(:disabled),
+.rn-window-actions > details[open] > summary,
+.nw-new-menu[open] > summary,
+.nw-format-tools [role=toolbar] > button[aria-pressed=true] {
+  background: var(--ip-active) !important;
+  color: var(--mn-interactive) !important;
+}
+.v2-app :is(.v2-icon, .v2-header-mark):focus-visible,
+dialog .v2-icon:focus-visible,
+:is(.rn-window-actions, .nw-recent-actions, .nw-recent-rename, .nw-tab) > button:focus-visible,
+:is(.nw-format-tools [role=toolbar], .nw-format-intro) > button:focus-visible,
+.rn-window-actions > details > summary:focus-visible,
+.nw-new-menu > summary:focus-visible {
+  outline: 2px solid var(--mn-focus);
+  outline-offset: 2px;
+}
+.v2-app :is(.v2-icon, .v2-header-mark):disabled,
+dialog .v2-icon:disabled,
+:is(.nw-format-tools [role=toolbar], .nw-format-intro) > button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+/* Long toolbar rows wrap; enlarged targets never push writing past the viewport. */
+.nw-format-tools,
+.nw-format-tools [role=toolbar] {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  gap: 2px;
+}
+.nw-format-tools [role=toolbar] { flex: 1 1 auto; }
+.nw-format-tools .nw-more-tools { margin-left: auto; }
+.nw-format-tools .nw-terminal-entry-glyph { font-size: 20px; line-height: 1; }
+.nw-format-intro > button:first-of-type { width: auto; flex-basis: auto; }
+.nw-tab { flex-shrink: 0; }
+.nw-bar-tabs { min-width: 0; overflow-x: auto; }
+
+/* Backdrop-filter is local to overlay panels, never applied to the reading canvas. */
+/* Restore native modal centering after the application reset clears UA margins. */
+dialog { margin: auto; }
+
+dialog,
+:is(.nw-recent-panel, .nw-create-menu, .nw-note-menu, .nw-more-menu, .ri-overlay) {
+  --ip-origin: center top;
+  --ip-offset-y: -12px;
+  background: var(--ip-surface) !important;
+  color: var(--mn-text-body);
+  border: 1px solid var(--ip-edge) !important;
+  border-radius: var(--ip-radius-surface) !important;
+  box-shadow: var(--ip-shadow) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  transform-origin: var(--ip-origin);
+}
+dialog[data-overlay-origin=top-right],
+dialog:is(.wp-settings, .v2-help-dialog, .ux-search-dialog),
+.nw-note-menu,
+.nw-more-menu { --ip-origin: right top; }
+dialog[data-overlay-origin=top-left] { --ip-origin: left top; }
+.nw-recent-panel { --ip-origin: right bottom; --ip-offset-y: 12px; }
+.nw-create-menu { --ip-origin: left bottom; --ip-offset-y: 12px; }
+.ri-overlay { --ip-offset-y: -6px; }
+dialog[open],
+:is(.nw-recent-panel, .nw-create-menu, .nw-note-menu, .nw-more-menu, .ri-overlay) {
+  animation: ip-surface-in .3s var(--ip-ease) both, ip-opacity-in .2s ease-out both;
+}
+dialog[open] > :is(p, label, textarea, pre, .v2-help-content, .beta-content, .project-dialog-body, .project-cover-content, .ux-search-dialog-field, .ux-search-dialog-results),
+.nw-recent-panel > :is(.nw-recent-search, .nw-recent-list),
+.nw-create-menu > button,
+.nw-note-menu > *,
+.nw-more-menu > * {
+  animation: ip-content-in .22s var(--ip-ease) .045s both;
+}
+dialog::backdrop {
+  background: var(--ip-scrim) !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  animation: ip-opacity-in .2s ease-out both;
+}
+/* Persistent writing is kept solid and stationary, with the same soft elevation. */
+.rn-notes {
+  box-shadow: var(--ip-shadow) !important;
+  border-color: var(--ip-edge);
+}
+:is(.nw-create-menu, .nw-note-menu, .nw-more-menu) button,
+.nw-recent-open-note {
+  min-height: 44px;
+  border-radius: 9px;
+}
+:is(.nw-create-menu, .nw-note-menu, .nw-more-menu) button:hover:not(:disabled),
+.nw-recent-open-note:hover:not(:disabled) { background: var(--ip-hover); }
+.nw-recent-panel { overflow: hidden; }
+.nw-recent-panel .nw-recent-list { overflow-y: auto; overscroll-behavior: contain; }
+.nw-more-menu { max-width: min(400px, calc(100vw - 32px)); }
+
+@keyframes ip-surface-in {
+  from { transform: translateY(var(--ip-offset-y)) scale(.85); }
+  to { transform: translateY(0) scale(1); }
+}
+@keyframes ip-opacity-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ip-content-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Full-height phone sheets retain their established geometry and safe edges. */
+@media (max-width: 600px) {
+  dialog:is(.project-dialog, .ux-search-dialog) { border-radius: 0 !important; }
+  .v2-app .v2-header-actions { gap: 0; }
+  .nw-format-tools [role=toolbar] { flex-basis: 100%; }
+  .nw-format-tools .nw-more-tools { margin-left: 0; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  dialog,
+  :is(.nw-recent-panel, .nw-create-menu, .nw-note-menu, .nw-more-menu, .ri-overlay) {
+    background: var(--mn-surface) !important;
+  }
+}
+/* Both the OS preference and Minamo's saved setting apply to portalled overlays. */
+@media (prefers-reduced-motion: reduce) {
+  dialog,
+  dialog::backdrop,
+  dialog > :is(p, label, textarea, pre, .v2-help-content, .beta-content, .project-dialog-body, .project-cover-content, .ux-search-dialog-field, .ux-search-dialog-results),
+  :is(.nw-recent-panel, .nw-create-menu, .nw-note-menu, .nw-more-menu, .ri-overlay),
+  .nw-recent-panel > :is(.nw-recent-search, .nw-recent-list),
+  .nw-create-menu > button,
+  .nw-note-menu > *,
+  .nw-more-menu > * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+body:has(.v2-app[data-motion=reduce]) :is(dialog, dialog > p, dialog > label, dialog > textarea, dialog > pre, dialog > .v2-help-content, dialog > .beta-content, dialog > .project-dialog-body, dialog > .project-cover-content, dialog > .ux-search-dialog-field, dialog > .ux-search-dialog-results, .nw-recent-panel, .nw-recent-panel > .nw-recent-search, .nw-recent-panel > .nw-recent-list, .nw-create-menu, .nw-create-menu > button, .nw-note-menu, .nw-note-menu > *, .nw-more-menu, .nw-more-menu > *, .ri-overlay) {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+body:has(.v2-app[data-motion=reduce]) dialog::backdrop { animation: none !important; }
+@media (forced-colors: active) {
+  dialog,
+  :is(.nw-recent-panel, .nw-create-menu, .nw-note-menu, .nw-more-menu, .ri-overlay) {
+    background: Canvas !important;
+    color: CanvasText;
+    border-color: ButtonText !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Labelled toolbar actions share the target height without becoming square icons. */
+.rn-subtle,
+.wp-context-actions :is(button, a),
+.ri-two-actions > button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px !important;
+  padding-inline: 8px !important;
+  border-radius: var(--ip-radius-control) !important;
+}
+.rn-subtle:hover:not(:disabled),
+.wp-context-actions :is(button, a):hover:not(:disabled) {
+  background: var(--ip-hover) !important;
+  text-decoration: none;
+}
+/* Complex anchored Notes menus dim the workspace without moving its persistent editor. */
+.nw-recent { isolation: isolate; }
+.mn-popover-scrim.nw-recent-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--ip-scrim);
+  box-shadow: none;
+  cursor: default;
+  animation: ip-opacity-in .2s ease-out both;
+}
+.nw-recent > .nw-recent-panel,
+.nw-recent > .nw-recent-trigger { position: relative; z-index: 1; }
+.nw-recent > .nw-recent-panel { position: absolute; }
+@media (prefers-reduced-motion: reduce) {
+  .mn-popover-scrim,
+  .v2-app :is(.v2-icon, .v2-header-mark),
+  .rn-subtle,
+  .nw-format-tools button { animation: none !important; transition: none !important; }
+}
+body:has(.v2-app[data-motion=reduce]) :is(.mn-popover-scrim, .v2-icon, .v2-header-mark, .rn-subtle, .nw-format-tools button) { animation: none !important; transition: none !important; }
+
+/* Other shared toolbars retain labelled actions at their natural width. */
+.v2-app [role=toolbar] > button,
+dialog [role=toolbar] > button {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ip-radius-control);
+}
+.ri-two-actions > button > svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* A compact fluid hierarchy keeps titles useful on phones without outsizing the reading. */
+.v2-app .v2-main :is(.v2-page-heading, .v2-detail-heading, .le-overview, .le-stage-heading, .le-inquiry-heading) > h1,
+.rn-reader .rn-reading-header .rn-heading-row > :is(h1, h2),
+.rn-reader h1.le-canonical-stage-heading {
+  font-size: clamp(25px, 22px + 1vw, 32px);
+  line-height: 1.24;
+  letter-spacing: -.018em;
+  margin-block: 8px 12px;
+  text-wrap: pretty;
+}
+.rn-reader .rn-section > h2,
+dialog :is(.v2-dialog-header, .project-dialog-header) h2 {
+  font-size: clamp(19px, 17px + .65vw, 23px);
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  margin-block: 0 10px;
+}
+:is(.project-resource-origin, .project-map-key, .project-links-status, .la-hint, .le-hint) {
+  line-height: 1.5;
+  margin-block: 6px 10px;
+}
+:is(.le-step-number, .project-map-outline a > span, .la-item-label small, .v2-record-meta, .mn-action-toast, time, output) {
+  font-variant-numeric: tabular-nums;
+}
+/* Keep controls crisp while leaving all reading and editor text selectable. */
+:where(button, summary, [role=button]):not([contenteditable=true]) {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+:where(button, summary, [role=button]):not(:disabled):not([aria-disabled=true]) { cursor: pointer; }
+.v2-app :is(.v2-icon, .v2-header-mark) > svg,
+.rn-window-actions > button > svg,
+.nw-format-tools [role=toolbar] > button > svg {
+  transition: scale .14s var(--ip-ease);
+}
+.v2-app :is(.v2-icon, .v2-header-mark):active:not(:disabled) > svg,
+.rn-window-actions > button:active:not(:disabled) > svg,
+.nw-format-tools [role=toolbar] > button:active:not(:disabled) > svg {
+  scale: .94;
+}
+.nw-format-tools [role=toolbar] > button { border: 0 !important; }
+.mn-action-toast {
+  border-color: var(--ip-edge);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px #0000000d, 0 4px 10px #00000012, inset 0 1px 0 var(--ip-highlight);
+}
+/* Lock only background scrollers. Dialog bodies and text inputs retain native scrolling/selection. */
+html:has(dialog[open]),
+body:has(dialog[open]),
+body:has(.nw-recent-panel[aria-modal=true]) { overflow: hidden; overscroll-behavior: none; }
+body:has(dialog[open]) .v2-main,
+body:has(dialog[open]) .rn-note-body,
+body:has(.nw-recent-panel[aria-modal=true]) :is(.v2-main, .rn-note-body) { overflow: hidden; }
+dialog { overscroll-behavior: contain; }
+dialog:is(.v2-dialog, .nw-terminal-dialog, .rn-image-dialog, .rn-diagram-dialog),
+:is(.project-dialog-body, .project-cover-content, .ux-search-dialog-results, .nw-recent-list) {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+/* Progressive enhancement for existing single-wrapper disclosures; native hidden/focus semantics remain authoritative. */
+@supports selector(details::details-content) {
+  details:is(.nw-format-settings, .v2-composer-links):has(> summary + div:last-child)::details-content {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows .24s var(--ip-ease);
+  }
+  details:is(.nw-format-settings, .v2-composer-links) > div { min-height: 0; }
+  @starting-style {
+    details[open]:is(.nw-format-settings, .v2-composer-links):has(> summary + div:last-child)::details-content { grid-template-rows: 0fr; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2-app :is(.v2-icon, .v2-header-mark) > svg,
+  .rn-window-actions > button > svg,
+  .nw-format-tools [role=toolbar] > button > svg { transition: none !important; scale: 1 !important; }
+  details:is(.nw-format-settings, .v2-composer-links)::details-content { transition: none !important; }
+}
+body:has(.v2-app[data-motion=reduce]) :is(.v2-icon, .v2-header-mark) > svg,
+body:has(.v2-app[data-motion=reduce]) .rn-window-actions > button > svg,
+body:has(.v2-app[data-motion=reduce]) .nw-format-tools [role=toolbar] > button > svg { transition: none !important; scale: 1 !important; }
+body:has(.v2-app[data-motion=reduce]) details:is(.nw-format-settings, .v2-composer-links)::details-content { transition: none !important; }
+
+.nw-more-tools > summary { min-height: 44px; border-radius: var(--ip-radius-control); }

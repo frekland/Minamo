@@ -1,0 +1,23 @@
+import {validateCharacterInteraction} from '../practice-character';
+import {validateListeningInteraction} from '../practice-audio';
+import {validatePracticeAttempt} from '../practice';
+import {validateScratchSubmission} from '../challenge-exchange/scratch';
+import {replayScenario} from '../practice-scenario';
+import {validatePracticalViewSource} from '../interface-practical';
+import {foundryRegistry} from '../foundry/specimens';
+import {admitProjectPackage} from '../challenge-exchange/package';
+import {canonicalReadingParts,type WorkspaceRecord} from '../contracts';
+import {ActivityShapeError,type ActivityCartridge,type ActivityAttempt} from './schema';
+export async function admitActivityContent(activity:ActivityCartridge):Promise<void>{
+ const registry=foundryRegistry();
+ for(const [i,slot] of (activity.presentation?.slots??[]).entries())if(slot.viewId){const block=activity.blocks.find(b=>b.id===slot.blockId);if(block?.kind==='foundry')try{validatePracticalViewSource(slot.viewId,block.artefact.canonical.source);}catch(error){throw new ActivityShapeError('activity.presentation.slots.'+i+'.viewId',error instanceof Error?error.message:'The selected view requires its exact supported source format.');}}
+ for(const [i,b] of activity.blocks.entries())try{
+  if(b.kind==='source-browser')await admitProjectPackage(b.bundle);
+  if(b.kind==='foundry')await registry.admit(b.artefact,{canRead:()=>false,verifyRun:()=>false});
+ }catch(e){throw new ActivityShapeError('activity.blocks.'+i+(b.kind==='source-browser'&&e&&typeof e==='object'&&'field'in e?'.bundle.'+String(e.field):b.kind==='foundry'?'.artefact':''),e instanceof Error?e.message:'Unsupported content.');}
+}
+export function activityReadingRefs(activity:ActivityCartridge){return activity.blocks.flatMap(b=>b.kind==='reading'?[b.ref]:b.kind==='practice'&&b.exercise.source?[b.exercise.source]:b.kind==='listening'?[b.transcript.ref]:((b.kind==='character'||b.kind==='scenario')&&b.source)?[b.source]:[]);}
+export function eligibleActivityRef(record:WorkspaceRecord|null,ref:{rendition:string;sectionId?:string;partId?:string}){if(!record||record.rendition!==ref.rendition||record.trashedAt)return false;if(record.family==='source'&&record.source?.excerpt?.unavailable)return false;return !ref.sectionId||canonicalReadingParts(record).some(p=>p.sectionId===ref.sectionId&&(!ref.partId||p.part.id===ref.partId)&&!p.part.unavailable);}
+export function validateAttemptTarget(attempt:ActivityAttempt,target:WorkspaceRecord|null,previous?:ActivityAttempt){if(!target?.activity||target.family!=='experiment'||target.id!==attempt.activity.id||target.rendition!==attempt.activity.rendition)throw new ActivityShapeError('attempt.activity','The exact retained Activity edition is unavailable.');if(previous?.practice&&!attempt.practice)throw new ActivityShapeError('attempt.practice','Retain saved practice evidence and history; withdraw corrections explicitly.');if(previous?.submission&&!attempt.submission)throw new ActivityShapeError('attempt.submission','Retain submitted files on this Attempt; create a new Attempt for another submission.');if(attempt.practice)try{validatePracticeAttempt(attempt.practice,target.activity.blocks.flatMap(b=>b.kind==='practice'?[b.exercise]:[]),previous?.practice);for(const interaction of attempt.practice.interactions){if(interaction.edition!==target.rendition)throw Error('Interaction edition must match the exact retained Activity.');const block=target.activity.blocks.find(b=>b.id===interaction.blockId);if(!block||block.kind!==interaction.kind)throw Error('Interaction must target the exact block kind.');if(block.kind==='scenario')replayScenario(block.scenario,interaction.events);if(block.kind==='character')validateCharacterInteraction(block,interaction.events);if(block.kind==='listening')validateListeningInteraction(block,interaction.events);}}catch(e){throw new ActivityShapeError('attempt.practice',e instanceof Error?e.message:'Invalid practice response.');}const hints=new Set(target.activity.blocks.flatMap(b=>b.kind==='hint-ladder'?b.hints.map(h=>h.id):[]));if(attempt.hintsRevealed.some(id=>!hints.has(id)))throw new ActivityShapeError('attempt.hintsRevealed','A hint does not belong to the retained Activity.');}
+
+export async function validateAttemptSubmission(attempt:ActivityAttempt,target:WorkspaceRecord|null){if(attempt.submission){if(!target?.activity)throw new ActivityShapeError('attempt.submission','Exact starter unavailable.');try{await validateScratchSubmission(attempt.submission,target.activity);}catch(e){throw new ActivityShapeError('attempt.submission',e instanceof Error?e.message:'Invalid exact submission.');}}}

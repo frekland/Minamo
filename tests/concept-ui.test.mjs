@@ -1,0 +1,15 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
+const {build}=wr('esbuild');
+const compiled=await build({entryPoints:['app/concepts.tsx'],bundle:true,format:'esm',platform:'node',write:false,loader:{'.css':'empty'}});
+const {localConceptMatches,conceptDestination,validateConceptDraft}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
+const concept={id:'c1',term:'-A',aliases:['--after-context'],definition:'Print following lines.',sectionId:'s',partId:'p',environment:'GNU grep',caseSensitive:true};
+const article={id:'a',family:'article',title:'Context lines',body:'',rev:3,rendition:'edition3',trashedAt:null,sections:[{id:'s',title:'Flags',parts:[{id:'p',kind:'code',text:'grep -A 2 pattern file'}]}],concepts:[concept]};
+test('command flags and exact aliases do not collapse case or punctuation',()=>{assert.equal(localConceptMatches([article],'-A').length,1);assert.equal(localConceptMatches([article],'-a').length,0);assert.equal(localConceptMatches([article],'A').length,0);assert.equal(localConceptMatches([article],'--after-context')[0].match,'alias')});
+test('ambiguity remains multiple Article choices with environment context',()=>{const other={...article,id:'b',concepts:[{...concept,environment:'Different command'}]};const matches=localConceptMatches([article,other],'-A');assert.equal(matches.length,2);assert.notEqual(matches[0].article.id,matches[1].article.id);assert.notEqual(matches[0].concept.environment,matches[1].concept.environment)});
+test('explicit insensitive names use ASCII folding without normalizing Unicode',()=>{const entry={...article,concepts:[{...concept,term:'Café',aliases:[],caseSensitive:false}]};assert.equal(localConceptMatches([entry],'café').length,1);assert.equal(localConceptMatches([entry],'CAFÉ').length,0);assert.equal(localConceptMatches([entry],'Cafe\u0301').length,0)});
+test('opening preview points to the exact Article family, edition, section and part',()=>{const match=localConceptMatches([article],'-A')[0];assert.deepEqual(conceptDestination(match),{view:'library',id:'a',target:{recordFamily:'article',rendition:'edition3',sectionId:'s',partId:'p'}})});
+test('only available Articles supply concepts, not similarly named Notes or Trash',()=>{assert.equal(localConceptMatches([{...article,family:'note'},{...article,trashedAt:'now'}],'-A').length,0)});
+test('deliberately removed destination is rejected while stable concept IDs remain unchanged',()=>{assert.equal(validateConceptDraft([concept],article.sections),undefined);assert.match(validateConceptDraft([concept],[]),/no longer available/);assert.match(validateConceptDraft([concept,concept],article.sections),/stable identity/);assert.equal(concept.id,'c1')});

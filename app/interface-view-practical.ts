@@ -1,0 +1,41 @@
+import type {InterfaceViewModule} from '../lib/interface-extension';
+import {viewElement as el,viewAppend as append} from '../lib/interface-extension';
+import {readUnifiedDiff,contrastRatio,parseHexColour} from '../lib/foundry/novel';
+import {moveMaze,lifeStep} from '../lib/foundry/visual';
+import {parseGraphSource,parseMazeSource,parseSudokuSource,parseContrastSource,parseLifeSource,validatePracticalViewSource} from '../lib/interface-practical';
+
+/** Trusted finite views. All state dies on dispose; all source enters textContent. */
+export function practicalView(viewId:string,title:string):InterfaceViewModule{return {mount(host,payload,artefact){
+ const source=artefact.canonical.source;
+ if(!payload||typeof payload!=='object'||!('text'in payload)||payload.text!==source)throw Error('Practical view must retain the exact admitted text.');
+ validatePracticalViewSource(viewId,source);
+ const root=el('section'),heading=el('h4',title),notice=el('p','Derived locally from the exact authored source. Controls are session-only; no Attempt, checkpoint or learner achievement is saved.'),stage=el('div'),controls=el('div'),status=el('p'),fallback=el('details'),summary=el('summary','Exact authored source'),original=el('pre',source);
+ root.setAttribute('aria-label',title);controls.className='if-view-controls';status.setAttribute('role','status');stage.style.maxWidth='100%';stage.style.overflowX='auto';stage.tabIndex=0;stage.setAttribute('role','region');stage.setAttribute('aria-label',title+' content');original.style.whiteSpace='pre-wrap';original.style.overflowWrap='anywhere';original.tabIndex=0;append(fallback,summary,original);
+ append(root,heading,notice);
+ const listeners:Array<{node:HTMLElement;type:string;handler:EventListener}>=[];let disposed=false;
+ function button(label:string,action:()=>void){const node=el('button',label);node.type='button';const handler=()=>{if(!disposed)action();};node.addEventListener('click',handler);listeners.push({node,type:'click',handler});append(controls,node);return node;}
+ function table(headers:string[],rows:string[][],caption:string){const node=el('table'),head=el('thead'),tr=el('tr'),body=el('tbody');append(node,el('caption',caption));for(const name of headers){const th=el('th',name);th.scope='col';append(tr,th);}append(head,tr);for(const row of rows){const line=el('tr');for(const value of row){const cell=el('td',value);cell.style.whiteSpace='pre-wrap';append(line,cell);}append(body,line);}append(node,head,body);return node;}
+ if(viewId==='source.diff-v1'){
+  const diff=readUnifiedDiff(source);let index=0;const previous=button('Previous hunk',()=>{index--;render();}),next=button('Next hunk',()=>{index++;render();}),reset=button('First hunk',()=>{index=0;render();});
+  function render(){const hunk=diff.hunks[index];stage.replaceChildren(table(['Change','Old line','New line','Exact text'],hunk.lines.map(line=>[line.kind,String(line.oldLine??'—'),String(line.newLine??'—'),line.text]),hunk.header));status.textContent=`Hunk ${index+1} of ${diff.hunks.length}. ${diff.oldPath} → ${diff.newPath}. Display only; no patch is applied.`;previous.disabled=reset.disabled=index===0;next.disabled=index===diff.hunks.length-1;}render();
+ }else if(viewId==='algorithm.graph-v1'){
+  const graph=parseGraphSource(source);let index=0;const previous=button('Previous step',()=>{index--;render();}),next=button('Next step',()=>{index++;render();}),reset=button('First step',()=>{index=0;render();});
+  const connections=el('details'),label=el('summary','Supplied graph connections');append(connections,label,table(['From','To','Weight'],graph.graph.edges.map(edge=>[edge.from,edge.to,String(edge.weight)]),'Exact supplied weighted edges'));append(root,connections);
+  function render(){const step=graph.steps[index];stage.replaceChildren(table(['Node','State','Distance','Parent'],graph.graph.nodes.map(node=>[node,node===step.current?'current':step.visited.includes(node)?'settled':step.frontier.includes(node)?'frontier':'unvisited',String(step.distance[node]??'unreachable / not discovered'),step.parent[node]??'—']),'Deterministic '+graph.algorithm+' state'));status.textContent=`Step ${index+1} of ${graph.steps.length}. ${step.event}. Supplied weights; no network requests.`;previous.disabled=reset.disabled=index===0;next.disabled=index===graph.steps.length-1;}render();
+ }else if(viewId==='game.maze-v1'){
+  let state=parseMazeSource(source);for(const direction of ['up','down','left','right'] as const)button('Move '+direction,()=>{state=moveMaze(state,direction);render();});button('Reset route',()=>{state=parseMazeSource(source);render();});
+  function render(){stage.replaceChildren(table(Array.from({length:state.rows[0].length},(_,x)=>String(x+1)),state.rows.map((row,y)=>[...row].map((cell,x)=>x===state.x&&y===state.y?'You':cell==='#'?'Wall':cell==='G'?'Goal':cell==='S'?'Start':'Open')),'Route grid. Coordinates start at row 1, column 1.'));status.textContent=`Row ${state.y+1}, column ${state.x+1}; ${state.moves} moves. ${state.won?'Goal reached in this local exploration.':'Choose an adjacent open cell.'}`;}render();
+ }else if(viewId==='game.sudoku-v1'){
+  const trace=parseSudokuSource(source);let index=0;const previous=button('Previous step',()=>{index--;render();}),next=button('Next step',()=>{index++;render();}),reset=button('First step',()=>{index=0;render();});
+  function render(){const step=trace.steps[index];stage.replaceChildren(table(Array.from({length:9},(_,i)=>'Column '+(i+1)),Array.from({length:9},(_,row)=>step.board.slice(row*9,row*9+9).map(value=>value?String(value):'·')),'Sudoku supplied digits and deterministic solver state'));status.textContent=`Step ${index+1} of ${trace.steps.length}. ${step.event}: ${step.reason}`;previous.disabled=reset.disabled=index===0;next.disabled=index===trace.steps.length-1;}render();
+ }else if(viewId==='systems.life-v1'){
+  let grid:number[][]=parseLifeSource(source),generation=0;const next=button('Next generation',()=>{grid=lifeStep(grid);generation++;render();});button('Reset simulation',()=>{grid=parseLifeSource(source);generation=0;render();});
+  function render(){stage.replaceChildren(table(Array.from({length:grid[0].length},(_,i)=>'Column '+(i+1)),grid.map(row=>row.map(cell=>cell?'Alive':'·')),'Finite Conway Life state. Cells outside this grid are dead.'));status.textContent=`Generation ${generation} of at most 256. ${grid.flat().filter(Boolean).length} live cells. Explicit local model step; no timer, external observation or progress write.`;next.disabled=generation>=256;}render();
+ }else if(viewId==='math.contrast-v1'){
+  const input=parseContrastSource(source);let foreground=input.foreground,background=input.background;
+  for(const key of ['foreground','background'] as const){const label=el('label',key==='foreground'?'Text colour ':'Background colour '),control=el('input');control.type='color';control.value=input[key];control.setAttribute('aria-label',key==='foreground'?'Text colour':'Background colour');const handler=()=>{if(disposed)return;if(key==='foreground')foreground=control.value;else background=control.value;render();};control.addEventListener('input',handler);listeners.push({node:control,type:'input',handler});append(label,control);append(controls,label);}button('Reset colours',()=>{foreground=input.foreground;background=input.background;for(const {node} of listeners)if(node.tagName==='INPUT')(node as HTMLInputElement).value=node.getAttribute('aria-label')==='Text colour'?foreground:background;render();});
+  function render(){const ratio=contrastRatio(parseHexColour(foreground),parseHexColour(background));const sample=el('p','Sample: Aa 日本語 中文 Ελληνικά');sample.style.color=foreground;sample.style.backgroundColor=background;sample.style.padding='1rem';stage.replaceChildren(sample);status.textContent=`Relative luminance contrast ${ratio.toFixed(2)}:1. ${foreground} on ${background}. This measure alone does not certify accessibility.`;}render();
+ }else throw Error('Unknown trusted practical view.');
+ append(root,controls,status,stage,fallback);host.replaceChildren(root);
+ return()=>{disposed=true;for(const {node,type,handler} of listeners)node.removeEventListener(type,handler);root.replaceChildren();host.replaceChildren();};
+}};}
