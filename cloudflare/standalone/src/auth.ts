@@ -147,6 +147,12 @@ function expiredCookie(name: string): string {
   return cookie(name, "", 0);
 }
 
+export async function logoutCsrfToken(request: Request): Promise<string | null> {
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) return null;
+  return hashHex(`logout:${token}`);
+}
+
 function sameOrigin(request: Request, env: Env): boolean {
   try {
     const expected = new URL(env.AUTH0_CALLBACK_URL ?? "").origin;
@@ -371,11 +377,19 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
 export async function endSession(env: Env, request: Request): Promise<Response> {
   const config = requireConfiguration(env);
   if (request.method !== "POST") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
-  if (!sameOrigin(request, env)) return Response.json({ error: "origin_denied" }, { status: 403, headers: securityHeaders });
   const token = parseCookies(request).get(SESSION_COOKIE);
-  if (token && /^[A-Za-z0-9_-]{32,64}$/.test(token)) {
-    await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(await hashHex(token)).run();
+  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) {
+    return Response.json({ error: "unauthenticated" }, { status: 401, headers: securityHeaders });
   }
+  let submittedCsrf: FormDataEntryValue | null = null;
+  try { submittedCsrf = (await request.formData()).get("csrf_token"); } catch { /* reject malformed form data below */ }
+  const expectedCsrf = await hashHex(`logout:${token}`);
+  const csrfValid = typeof submittedCsrf === "string" && submittedCsrf === expectedCsrf;
+  if (!sameOrigin(request, env) && !csrfValid) {
+    return Response.json({ error: "origin_denied" }, { status: 403, headers: securityHeaders });
+  }
+  if (!csrfValid) return Response.json({ error: "csrf_denied" }, { status: 403, headers: securityHeaders });
+  await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(await hashHex(token)).run();
   const logout = new URL("/v2/logout", config.domain);
   logout.searchParams.set("client_id", config.clientId);
   logout.searchParams.set("returnTo", config.logoutReturn);
