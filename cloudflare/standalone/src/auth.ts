@@ -12,6 +12,7 @@ declare global {
     AUTH0_MCP_AUDIENCE?: string;
     AUTH0_CALLBACK_URL?: string;
     AUTH0_LOGOUT_RETURN_URL?: string;
+    MCP_ACCEPTANCE_CLIENT?: { fetch(request: Request): Promise<Response> };
   }
 }
 
@@ -296,8 +297,10 @@ export async function startLogin(env: Env, request: Request): Promise<Response> 
   const config = requireConfiguration(env);
   if (request.method !== "GET") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
   const metadata = await discovery(env);
-  const mcpAcceptance = new URL(request.url).pathname === "/auth/acceptance/mcp";
-  const state = (mcpAcceptance ? "m_" : "w_") + randomToken();
+  const acceptancePath = new URL(request.url).pathname;
+  const mcpAcceptance = acceptancePath === "/auth/acceptance/mcp";
+  const refreshAcceptance = acceptancePath === "/auth/acceptance/refresh";
+  const state = (refreshAcceptance ? "r_" : mcpAcceptance ? "m_" : "w_") + randomToken();
   const nonce = randomToken();
   const verifier = randomToken(48);
   const challenge = encodeBase64Url(await sha256(verifier));
@@ -310,9 +313,10 @@ export async function startLogin(env: Env, request: Request): Promise<Response> 
   authorize.searchParams.set("response_type", "code");
   authorize.searchParams.set("client_id", config.clientId);
   authorize.searchParams.set("redirect_uri", config.callback);
-  authorize.searchParams.set("scope", mcpAcceptance ? "openid notes:read" : "openid");
-  // Only the explicit acceptance route requests a genuine MCP access token.
-  if (mcpAcceptance) authorize.searchParams.set("audience", config.audience);
+  authorize.searchParams.set("scope", refreshAcceptance ? "openid notes:read offline_access" :
+    mcpAcceptance ? "openid notes:read" : "openid");
+  // Only the explicit acceptance routes request an MCP access token.
+  if (mcpAcceptance || refreshAcceptance) authorize.searchParams.set("audience", config.audience);
   authorize.searchParams.set("state", state);
   authorize.searchParams.set("nonce", nonce);
   authorize.searchParams.set("code_challenge", challenge);
@@ -361,7 +365,7 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
     });
   } catch { throw new AuthError(503, "identity_provider_unavailable"); }
   if (!tokenResponse.ok) throw new AuthError(401, "login_exchange_failed");
-  const tokens = await tokenResponse.json() as { id_token?: unknown; access_token?: unknown };
+  const tokens = await tokenResponse.json() as { id_token?: unknown; access_token?: unknown; refresh_token?: unknown };
   if (typeof tokens.id_token !== "string") throw new AuthError(401, "login_exchange_failed");
   const { claims } = await readVerifiedJwt(env, tokens.id_token);
   if (claims.iss !== metadata.issuer || !audienceIncludes(claims.aud, config.clientId) || claims.nonce !== transaction.nonce ||
@@ -370,7 +374,7 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
   }
 
   let mcpEvidence: Record<string, string> | null = null;
-  if (state.startsWith("m_")) {
+  if (state.startsWith("m_") || state.startsWith("r_")) {
     if (typeof tokens.access_token !== "string") throw new AuthError(401, "missing_mcp_access_token");
     const verified = await verifyMcpBearer(env, new Request(config.audience, {
       headers: { Authorization: "Bearer " + tokens.access_token },
@@ -427,6 +431,67 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
       foreign_fixture_denial: !foreign ? "not_tested" : foreignResult?.status === 200 &&
         foreignResult.body.includes("record_unavailable") ? "pass" : "failed",
     };
+    // Delegate this same genuine bearer to a separately deployed, non-public
+    // Worker which performs its own independent MCP HTTP client calls.
+    // No token is returned, logged or persisted by either Worker.
+    if (env.MCP_ACCEPTANCE_CLIENT) {
+      try {
+        const external = await env.MCP_ACCEPTANCE_CLIENT.fetch(new Request("https://acceptance-client.internal/run", {
+          method: "POST", headers: { Authorization: "Bearer " + tokens.access_token },
+        }));
+        const evidence = await external.json() as Record<string, unknown>;
+        mcpEvidence.independent_client_worker = external.ok && evidence.separate_worker_client === true ? "verified" : "failed";
+        for (const key of [
+          "external_http_mcp_initialize", "external_http_tool_discovery", "external_http_scoped_list",
+          "external_http_sample_read", "external_http_missing_token_denial",
+          "external_http_modified_signature_denial",
+        ]) {
+          mcpEvidence[key] = evidence[key] === "pass" ? "pass" : "failed";
+        }
+      } catch { mcpEvidence.independent_client_worker = "failed"; }
+    } else {
+      mcpEvidence.independent_client_worker = "not_configured";
+    }
+    if (state.startsWith("r_")) {
+      mcpEvidence.refresh_token_issued = typeof tokens.refresh_token === "string" ? "pass" : "not_issued";
+      mcpEvidence.refresh_exchange = "not_tested";
+      mcpEvidence.refreshed_mcp_token = "not_tested";
+      mcpEvidence.refreshed_independent_client = "not_tested";
+      if (typeof tokens.refresh_token === "string") {
+        try {
+          const refreshResponse = await fetch(metadata.token_endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+            redirect: "manual", signal: AbortSignal.timeout(10_000),
+            body: new URLSearchParams({
+              grant_type: "refresh_token", client_id: config.clientId,
+              client_secret: config.clientSecret, refresh_token: tokens.refresh_token,
+            }),
+          });
+          if (refreshResponse.ok) {
+            const refreshed = await refreshResponse.json() as { access_token?: unknown; refresh_token?: unknown };
+            mcpEvidence.refresh_exchange = "pass";
+            if (typeof refreshed.access_token === "string") {
+              const renewedPrincipal = await verifyMcpBearer(env, new Request(config.audience, {
+                headers: { Authorization: "Bearer " + refreshed.access_token },
+              }));
+              if (renewedPrincipal.issuer === verified.issuer && renewedPrincipal.subject === verified.subject) {
+                mcpEvidence.refreshed_mcp_token = "verified";
+                if (env.MCP_ACCEPTANCE_CLIENT) {
+                  const external = await env.MCP_ACCEPTANCE_CLIENT.fetch(new Request("https://acceptance-client.internal/run", {
+                    method: "POST", headers: { Authorization: "Bearer " + refreshed.access_token },
+                  }));
+                  const evidence = await external.json() as Record<string, unknown>;
+                  mcpEvidence.refreshed_independent_client = external.ok &&
+                    evidence.external_http_mcp_initialize === "pass" && evidence.external_http_scoped_list === "pass" ?
+                    "pass" : "failed";
+                }
+              } else { mcpEvidence.refreshed_mcp_token = "identity_mismatch"; }
+            }
+          } else { mcpEvidence.refresh_exchange = "failed"; }
+        } catch { mcpEvidence.refresh_exchange = "failed"; }
+      }
+    }
   }
 
   const oldToken = parseCookies(request).get(SESSION_COOKIE);
