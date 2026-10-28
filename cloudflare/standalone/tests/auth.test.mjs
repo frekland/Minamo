@@ -287,5 +287,13 @@ test("hosted MCP acceptance login requests the scoped resource without changing 
   assert.equal(authorize.searchParams.get("audience"), audience);
   assert.deepEqual(authorize.searchParams.get("scope").split(" "), ["openid", "notes:read"]);
   assert.ok(authorize.searchParams.get("state").startsWith("m_"));
+  const refreshRequest = new Request("https://minamo-v2-staging.jlscott-uk.workers.dev/auth/acceptance/refresh");
+  const refreshStart = await startLogin({ ...env, DB: db }, refreshRequest);
+  assert.equal(refreshStart.status, 302);
+  const refreshAuthorize = new URL(refreshStart.headers.get("Location"));
+  assert.equal(refreshAuthorize.searchParams.get("audience"), audience);
+  assert.deepEqual(refreshAuthorize.searchParams.get("scope").split(" "),
+    ["openid", "notes:read", "offline_access"]);
+  assert.ok(refreshAuthorize.searchParams.get("state").startsWith("r_"));
   assert.equal(authorize.searchParams.get("code_challenge_method"), "S256");
 });
