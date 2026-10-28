@@ -5,6 +5,7 @@
   "compatibility_date": "2026-10-28",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
+  "services": [{ "binding": "MCP_ACCEPTANCE_CLIENT", "service": "minamo-mcp-acceptance-client" }],
   "vars": { "MINAMO_RUNTIME_MODE": "synthetic-only" },
   "d1_databases": [
     {
