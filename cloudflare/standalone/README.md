@@ -10,17 +10,17 @@ Independent **synthetic-only** Cloudflare Worker and remote MCP staging applicat
 - Two sample Notes persist in a dedicated D1 database. All queries are owner-scoped by a **server-owned constant**, never a request header or user-supplied owner key.
 - The store also implements isolated create/update/CAS primitives for synthetic automated tests. **There is no public write endpoint or mutating MCP tool.**
 
-This is an independent synthetic-only authentication milestone. It is not connected to the private Sites application and does not authorize a real learner account, data migration, production release, or public OpenAI plugin submission. Auth0 remains disabled until the placeholder configuration is replaced. Do not put real Minamo content into this database.
+This is an independent synthetic-only authentication milestone. It is not connected to the private Sites application and does not authorize a real learner account, data migration, production release, or public OpenAI plugin submission. Auth0 login remains disabled until the client secret is configured for staging. Do not put real Minamo content into this database.
 
-## Auth0 placeholders and local setup
+## Auth0 configuration and local setup
 
-Create an Auth0 **Regular Web Application** and a custom API for a dedicated test tenant. The OAuth API audience must equal `AUTH0_MCP_AUDIENCE`; enable RS256 signing and grant the `notes:read` scope. Use the callback and logout URLs shown in `auth.env.example`. The configured Auth0 domain must be the tenant's HTTPS issuer host, without a scheme or path.
+A dedicated Auth0 **Regular Web Application** and custom API are configured for staging. The API audience is `https://minamo-v2-staging.jlscott-uk.workers.dev/mcp`, with RS256 signing and the `notes:read` scope. The staging domain and public client ID are in `auth.env.example`. The callback and logout URLs in that file must also be listed in the Auth0 application's Allowed Callback URLs and Allowed Logout URLs. The configured Auth0 domain must be the tenant's HTTPS issuer host, without a scheme or path.
 
-Copy `cloudflare/standalone/auth.env.example` to the ignored `cloudflare/standalone/.dev.vars` for local development and replace the public values. Use an HTTPS local callback if exercising the provider flow locally; plain localhost will fail closed. Keep the client secret out of the example file and Git. For a later hosted staging test, configure `AUTH0_CLIENT_SECRET` through Cloudflare secret management. The Worker returns `auth_not_configured` until all required values are valid. Never use learner or production identities in this staging environment.
+Copy `cloudflare/standalone/auth.env.example` to the ignored `cloudflare/standalone/.dev.vars` for local development. Use an HTTPS local callback if exercising the provider flow locally; plain localhost will fail closed. Keep the client secret out of the example file and Git. For a hosted staging test, configure `AUTH0_CLIENT_SECRET` through Cloudflare secret management. The Worker returns `auth_not_configured` until all required values are valid. Never use learner or production identities in this staging environment.
 
 For synthetic local identities, create two disposable users in the test tenant. Add only synthetic records under their server-derived issuer-plus-subject owner keys; never accept owner keys from a browser or MCP tool. The code hashes `(issuer, sub)` before using it as the D1 owner key, so the web session and MCP access token for one identity resolve to the same tenant without using email.
 
-The implementation does not deploy itself or set any Cloudflare secret. Web sessions expire after eight hours and local logout deletes the D1 session; MCP access tokens are not stored by Minamo and remain valid until their issuer expires them. Keep the API token lifetime short and grant only `notes:read`. Before a hosted test, configure the exact callback/logout URLs and secret in Cloudflare, apply the new staging migration, then review and explicitly approve the staging deployment.
+The implementation does not deploy itself or set any Cloudflare secret. Web sessions expire after eight hours and local logout deletes the D1 session; MCP access tokens are not stored by Minamo and remain valid until their issuer expires them. Keep the API token lifetime short and grant only `notes:read`. Before a hosted test, configure the secret in Cloudflare, apply the new staging migration, then review and explicitly approve the staging deployment.
 
 ## Local checks
 
@@ -38,7 +38,7 @@ For a disposable local D1 and Worker, run `npm run dev`. To apply the schema to 
 
 ## Next security gates
 
-1. Configure the placeholders using a dedicated Auth0 test tenant and verify the exact redirect/resource settings.
+1. Configure `AUTH0_CLIENT_SECRET` in Cloudflare secret management; do not add it to Git or send it in chat.
 2. Test web login/logout and authenticated MCP with two genuinely independent test identities. Verify cross-principal list/read denial and session expiry/revocation.
 3. Reconcile the full Minamo V2 data/domain contract and export/recovery strategy. Do not copy live records or change the Sites audience until rehearsed and approved.
 4. Add R2 only after file/attachment operations are ready and an independent bucket is provisioned.
