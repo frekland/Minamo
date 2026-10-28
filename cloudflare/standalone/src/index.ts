@@ -4,7 +4,7 @@ import { z } from "zod";
 import { listNotes, readNote, PUBLIC_DEMO_OWNER, type Note } from "./store";
 import {
   AuthError, authConfigured, endSession, finishLogin, logoutLocally, mcpUnauthorized,
-  protectedResourceMetadata, securityHeaders, sessionPrincipal, sessionResponse,
+  protectedResourceMetadata, securityHeaders, sessionPrincipal, sessionResponse, logoutCsrfToken,
   startLogin, verifyMcpBearer,
 } from "./auth";
 
@@ -122,10 +122,10 @@ function page(notes: Note[], selected?: Note): string {
     <p class="foot">The authenticated remote MCP endpoint is <code>/mcp</code>; fictional sample tools remain available at <code>/mcp/demo</code>. Login is enabled only after the dedicated Auth0 staging placeholders are configured. The existing private Minamo remains untouched.</p></main></body></html>`;
 }
 
-function accountPage(notes: Note[], authenticated: boolean): string {
+function accountPage(notes: Note[], authenticated: boolean, csrfToken?: string): string {
   const cards = notes.map((note) => `<li><strong>${escapeHtml(note.title)}</strong><p>${escapeHtml(note.body)}</p></li>`).join("");
   const content = authenticated
-    ? `<p class="status">Signed in · synthetic staging identity</p><ul>${cards || "<li>No notes in this test account yet.</li>"}</ul><form method="post" action="/auth/logout/provider"><button type="submit">Sign out</button></form>`
+    ? `<p class="status">Signed in · synthetic staging identity</p><ul>${cards || "<li>No notes in this test account yet.</li>"}</ul><form method="post" action="/auth/logout/provider"><input type="hidden" name="csrf_token" value="${escapeHtml(csrfToken ?? "")}"><button type="submit">Sign out</button></form>`
     : `<p>This protected area is for synthetic staging identities. Sign in with the configured Auth0 test application to view notes owned by that account.</p><a class="button" href="/auth/login">Sign in</a>`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Minamo · Test account</title><style>
     :root{font-family:ui-sans-serif,system-ui,sans-serif;color:#15314b;background:#f3f7fb}*{box-sizing:border-box}body{margin:0}.shell{max-width:760px;margin:0 auto;padding:clamp(24px,7vw,70px) 20px}a{color:#1764a8}h1{font-size:clamp(30px,5vw,44px);letter-spacing:-.04em}.status{display:inline-block;color:#176a43;background:#e0f4e9;border:1px solid #b6e4c8;border-radius:20px;padding:8px 12px}li{list-style:none;background:#fff;border:1px solid #d6e2ed;border-radius:14px;padding:18px;margin:12px 0}li p{white-space:pre-wrap;line-height:1.6}.button,button{display:inline-block;border:0;border-radius:8px;background:#1764a8;color:#fff;padding:11px 16px;font:inherit;text-decoration:none;cursor:pointer}.foot{margin-top:40px;color:#657f95;font-size:13px}
@@ -194,7 +194,8 @@ export default {
           });
         }
         const notes = principal ? await listNotes(env.DB, principal.ownerKey, 50) : [];
-        return new Response(request.method === "HEAD" ? null : accountPage(notes, Boolean(principal)), {
+        const csrfToken = principal ? await logoutCsrfToken(request) : null;
+        return new Response(request.method === "HEAD" ? null : accountPage(notes, Boolean(principal), csrfToken ?? undefined), {
           headers: { ...securityHeaders, "Content-Type": "text/html; charset=utf-8", "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'" },
         });
       }
