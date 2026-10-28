@@ -1,6 +1,6 @@
-# Public-release checklist
+# Public-source release checklist
 
-This checklist records the public-source preparation and the remaining maintainer work. The repository was made public on 28 October 2026. PR #2 is still open and draft; it has not been merged.
+The repository is public. PR #2, “Prepare Minamo's MIT-licensed community release,” was merged to `main` on 28 October 2026.
 
 - [x] Start a fresh repository without private source history.
 - [x] Copy application source, relevant synthetic fixtures and development tooling.
@@ -14,12 +14,13 @@ This checklist records the public-source preparation and the remaining maintaine
 - [x] Complete the source and personal-data audit; no live credentials, production database identifiers or live learner records were identified in the audited source. The maintainer accepts the personal email present in the original three-commit metadata.
 - [x] Run clean install, typecheck, build and tests from the exact release branch archive.
 - [x] Run the local development preview from a clean checkout; HTTP 200.
-- [x] Receive the maintainer's approval to make the repository public; visibility is now public.
+- [x] Obtain the maintainer's approval to make the repository public; visibility is public.
+- [x] Merge PR #2 with the MIT licence, notices, CI configuration and release documentation onto `main`.
+- [x] Configure GitHub community settings (maintainer-confirmed, 28 October 2026).
 
-## Next maintainer steps
+## Remaining maintainer work
 
-- [ ] Review and decide GitHub community settings, branch protection and whether private vulnerability reporting is enabled.
-- [ ] Review and merge PR #2 when ready. Its MIT licence, notices and corrected README are on the PR branch; they are **not yet on `main`**. The current `main` README still says the licence is to be selected, and `main` has no `LICENSE` file. Until PR #2 is merged, do not describe the default branch as MIT-licensed.
+- [ ] Review branch protection and confirm the private vulnerability-reporting route.
 - [ ] Independently assess security assumptions before claiming general-purpose self-hosting.
 
 ## Verification record (28 October 2026)
@@ -28,8 +29,8 @@ This checklist records the public-source preparation and the remaining maintaine
 - Exact release-branch archive: `pnpm install --frozen-lockfile`, `pnpm run typecheck` and `pnpm run build` passed; `pnpm test`: 1,442 passed, 0 failed, 4 skipped.
 - GitHub Actions run 40722443418, attempt 2, passed typecheck and build and reported 1,443 tests passed, 0 failed, 3 skipped. Its merge checkout was `bf3c0ba`, testing release source commit `3758c6d` against `main` at `917929d`.
 - The first Actions attempt failed before a runner started. The maintainer confirmed billing caused the block; after it was resolved, the rerun completed successfully.
-- The Actions run uses read-only repository contents permission.
+- The Actions workflow has read-only repository contents permission.
 - Local development preview: HTTP 200.
 - Production Wrangler localhost startup was blocked by the execution environment's `uv_interface_addresses` error. This is an environmental limitation, not a demonstrated application failure.
 
-The Actions run passed on the release source before later documentation-only checklist updates on the PR branch. The current application code is unchanged by those documentation updates. The live private Site is not affected by this checklist. Source publication does not make this build ready for independent hosting: authentication and MCP publication currently depend on ChatGPT Sites identity and hosting capabilities. A provider-neutral authentication layer is separate future work.
+The GitHub Actions success was for the release application source before later documentation-only checklist updates. Those later changes did not alter application code. The live private Site is not affected by the release. The source is not yet ready for independent hosting as a general-purpose service: authentication and MCP publication currently depend on ChatGPT Sites identity and hosting capabilities. A provider-neutral authentication layer is separate future work.
