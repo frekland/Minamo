@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "minamo-mcp-acceptance-client",
+  "main": "src/acceptance-client.mjs",
+  "compatibility_date": "2026-10-28",
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "workers_dev": false,
+  "observability": { "enabled": false }
+}
