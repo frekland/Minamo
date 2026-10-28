@@ -162,7 +162,7 @@ test("web login uses state, nonce, PKCE and consumes the callback transaction on
   authorize = new URL(login.headers.get("location"));
   assert.equal(authorize.searchParams.get("response_type"), "code");
   assert.equal(authorize.searchParams.get("client_id"), env.AUTH0_CLIENT_ID);
-  assert.equal(authorize.searchParams.get("audience"), env.AUTH0_MCP_AUDIENCE);
+  assert.equal(authorize.searchParams.has("audience"), false);
   const loginCookie = login.headers.get("set-cookie").split(";")[0];
   const callbackUrl = `${env.AUTH0_CALLBACK_URL}?code=one-time-code&state=${encodeURIComponent(authorize.searchParams.get("state"))}`;
   await assert.rejects(finishLogin(authEnv, new Request(callbackUrl, { headers: { Cookie: "__Host-minamo-login=wrong-state" } })),
