@@ -158,7 +158,7 @@ function sameOrigin(request: Request, env: Env): boolean {
 async function discovery(env: Env): Promise<Discovery> {
   const config = requireConfiguration(env);
   let response: Response;
-  try { response = await fetch(new URL(".well-known/openid-configuration", config.domain), { signal: AbortSignal.timeout(10_000), redirect: "error" }); }
+  try { response = await fetch(new URL(".well-known/openid-configuration", config.domain), { signal: AbortSignal.timeout(10_000), redirect: "manual" }); }
   catch { throw new AuthError(503, "identity_provider_unavailable"); }
   if (!response.ok) throw new AuthError(503, "identity_provider_unavailable");
   const document = await response.json() as Discovery;
@@ -195,7 +195,7 @@ async function readVerifiedJwt(env: Env, token: string): Promise<{ claims: JwtCl
 
   const metadata = await discovery(env);
   let jwksResponse: Response;
-  try { jwksResponse = await fetch(metadata.jwks_uri, { signal: AbortSignal.timeout(10_000), redirect: "error" }); }
+  try { jwksResponse = await fetch(metadata.jwks_uri, { signal: AbortSignal.timeout(10_000), redirect: "manual" }); }
   catch { throw new AuthError(503, "identity_provider_unavailable"); }
   if (!jwksResponse.ok) throw new AuthError(503, "identity_provider_unavailable");
   const jwks = await jwksResponse.json() as { keys?: JsonWebKey[] };
@@ -321,7 +321,7 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
       signal: AbortSignal.timeout(10_000),
-      redirect: "error",
+      redirect: "manual",
       body: new URLSearchParams({
         grant_type: "authorization_code",
         client_id: config.clientId,
