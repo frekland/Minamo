@@ -9,8 +9,8 @@ This checklist tracks the **private preparation**, not permission to publish.
 - [x] Replace externally sourced Noun Project UI icons with original simple vectors.
 - [x] Preserve available third-party code, character-data and audio attribution.
 - [x] Add README, architecture, development history, onboarding, security and contribution guidance.
-- [ ] Decide and add an appropriate project source licence; confirm treatment of third-party files.
-- [ ] Have the maintainer confirm rights to redistribute the brand images.
+- [x] Select MIT for Minamo-original code/docs; preserve third-party licences and separate the branded identity artwork.
+- [x] Have the maintainer confirm rights to redistribute the brand images (28 October 2026).
 - [ ] Check the complete staged tree for credentials, personal data and production identifiers again.
 - [ ] Run clean-install typecheck/build/test and record any failures and changes.
 - [ ] Test local setup from a clean checkout; confirm advertised commands and synthetic preview.

@@ -25,6 +25,12 @@ Please do not submit production data, personal learner records, private Site ide
 
 Minamo should stay comfortable for everyday learners. Prefer clear interfaces, meaningful relationships, genuine evidence and continuity over feature counts, automatic AI prose or complicated configuration. Real specialist tools should remain specialist tools; Minamo connects and examines the learning around them.
 
+## Contribution licensing
+
+Minamo's original code is [MIT-licensed](LICENSE), so contributions to the core application should be suitable for inclusion under MIT. By submitting a pull request, you confirm that you have the right to contribute the material under those terms and that you have disclosed any third-party material and its separate licence. You retain copyright to your own contributions; the project does not require copyright assignment.
+
+The **Minamo name and logo artwork are not generally licensed for rebranding other projects**. See [Notices](NOTICE.md). For imported artwork, character datasets, audio or vendored code, preserve the upstream authors' terms and attribution in [Third-party notices](docs/THIRD-PARTY.md).
+
 ## Review expectations
 
 This is a non-commercial, volunteer-maintained project. The maintainer will review when time permits and may decline features that create ongoing maintenance work or make Minamo harder to use. Courteous disagreement and evidence-based critique are welcome.

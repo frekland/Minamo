@@ -2,6 +2,12 @@
 
 Minamo depends on many upstream open-source packages, listed with versions in `package.json` and `pnpm-lock.yaml`. Their individual licences continue to apply. The project does not grant a blanket licence to third-party artwork, audio or text merely by containing a file.
 
+## Main project licence and brand scope
+
+Unless a file carries separate terms, original Minamo code and project documentation are licensed under [MIT](../LICENSE). This does not relicense third-party source, character data, media or other artwork.
+
+The owner has confirmed that the Minamo logos may be published with this repository. The **Minamo name and branded identity artwork are excluded from the general MIT software grant**; see the [brand notice](../NOTICE.md). The clean repository's Computing and Languages learning-space icons are original simple vectors and can be used under MIT.
+
 ## Included source and assets
 
 - `scripts/vite/sites-vite-plugin.ts`: vendored integration derived from the OpenAI Sites Vite plugin; see its adjacent MIT licence file.
@@ -14,4 +20,4 @@ Minamo depends on many upstream open-source packages, listed with versions in `p
 
 Check authorship, redistribution terms, attribution, modification restrictions and whether a licence applies to code, data or a standalone asset. External reference links are not permissions to reproduce the referenced text. Use synthetic data for tests; never import private Notes, transcripts or learner records as fixtures.
 
-The maintainer should review the two branded Minamo logo images before publication and confirm that they may be redistributed under the intended project terms.
+The maintainer confirmed on 28 October 2026 that the branded Minamo images may be included in this public-source preparation. Other supplied assets still require a rights review before inclusion.

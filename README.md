@@ -62,4 +62,4 @@ Minamo is a personal project being opened to constructive discussion, experiment
 
 Read [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Development history](docs/DEVELOPMENT-HISTORY.md) and [Third-party notices](docs/THIRD-PARTY.md).
 
-**Licence:** to be selected and added before public release. This private preparation snapshot does not yet grant a redistribution licence.
+**Licence:** The original Minamo application code and documentation are released under the [MIT License](LICENSE). Minamo's name and branded identity assets are separately protected; third-party files retain their own licences. See [Notices](NOTICE.md) and [Third-party notices](docs/THIRD-PARTY.md).
