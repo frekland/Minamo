@@ -54,3 +54,9 @@ This implementation belongs in the public `frekland/Minamo` source repository un
 4. Visit `/__acceptance` as each identity and choose **Delete my fixture**. No real learner records are involved.
 
 This fixture control verifies browser owner scoping; it does **not** itself mint or expose an MCP OAuth access token, prove a genuine MCP client connection, or replace the pending token tests. Keep the draft acceptance gates open until those are exercised.
+
+## Genuine hosted MCP token probe
+
+After creating A and B fixtures, visit `/auth/acceptance/mcp` once as each disposable identity. This uses the existing confidential Auth0 staging client and a distinct PKCE state to request `openid notes:read` with the exact staging `/mcp` audience. The callback validates the ID token and genuine API access token, then makes live MCP initialize/tool/read calls. It displays a bounded JSON pass/fail/not-tested receipt without storing or returning any bearer token. Normal `/auth/login` continues to request `openid` only.
+
+If Auth0 denies the API audience or scope, check whether the staging client is authorised for `notes:read`. Do not weaken the Worker validator or assume a successful browser-only login establishes MCP OAuth. A hosted internal probe is useful evidence but does **not** replace a separate compatible external MCP client connection before final publication acceptance.

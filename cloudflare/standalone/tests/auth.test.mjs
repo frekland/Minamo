@@ -264,3 +264,28 @@ test("provider logout validates tickets, revokes sessions and remains idempotent
     assert.equal(await db.prepare("SELECT 1 AS found FROM web_sessions WHERE session_hash = ?").bind(tokenHash(token)).first(), null);
   }
 });
+
+test("hosted MCP acceptance login requests the scoped resource without changing ordinary login", async (context) => {
+  const db = database();
+  context.after(() => db.close());
+  const originalFetch = globalThis.fetch;
+  context.after(() => { globalThis.fetch = originalFetch; });
+  globalThis.fetch = async (input, init) => {
+    assert.equal(init?.redirect, "manual");
+    assert.equal(String(input), issuer + ".well-known/openid-configuration");
+    return Response.json({
+      issuer,
+      authorization_endpoint: issuer + "authorize",
+      token_endpoint: issuer + "oauth/token",
+      jwks_uri: issuer + ".well-known/jwks.json",
+    });
+  };
+  const request = new Request("https://minamo-v2-staging.jlscott-uk.workers.dev/auth/acceptance/mcp");
+  const response = await startLogin({ ...env, DB: db }, request);
+  assert.equal(response.status, 302);
+  const authorize = new URL(response.headers.get("Location"));
+  assert.equal(authorize.searchParams.get("audience"), audience);
+  assert.deepEqual(authorize.searchParams.get("scope").split(" "), ["openid", "notes:read"]);
+  assert.ok(authorize.searchParams.get("state").startsWith("m_"));
+  assert.equal(authorize.searchParams.get("code_challenge_method"), "S256");
+});

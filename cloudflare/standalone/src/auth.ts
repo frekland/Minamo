@@ -296,7 +296,8 @@ export async function startLogin(env: Env, request: Request): Promise<Response> 
   const config = requireConfiguration(env);
   if (request.method !== "GET") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
   const metadata = await discovery(env);
-  const state = randomToken();
+  const mcpAcceptance = new URL(request.url).pathname === "/auth/acceptance/mcp";
+  const state = (mcpAcceptance ? "m_" : "w_") + randomToken();
   const nonce = randomToken();
   const verifier = randomToken(48);
   const challenge = encodeBase64Url(await sha256(verifier));
@@ -309,10 +310,9 @@ export async function startLogin(env: Env, request: Request): Promise<Response> 
   authorize.searchParams.set("response_type", "code");
   authorize.searchParams.set("client_id", config.clientId);
   authorize.searchParams.set("redirect_uri", config.callback);
-  authorize.searchParams.set("scope", "openid");
-  // This is only a browser sign-in used to establish a web session. The MCP
-  // resource audience belongs on MCP access-token requests, not this OIDC
-  // ID-token flow; requesting it here unnecessarily requires an API grant.
+  authorize.searchParams.set("scope", mcpAcceptance ? "openid notes:read" : "openid");
+  // Only the explicit acceptance route requests a genuine MCP access token.
+  if (mcpAcceptance) authorize.searchParams.set("audience", config.audience);
   authorize.searchParams.set("state", state);
   authorize.searchParams.set("nonce", nonce);
   authorize.searchParams.set("code_challenge", challenge);
@@ -361,12 +361,72 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
     });
   } catch { throw new AuthError(503, "identity_provider_unavailable"); }
   if (!tokenResponse.ok) throw new AuthError(401, "login_exchange_failed");
-  const tokens = await tokenResponse.json() as { id_token?: unknown };
+  const tokens = await tokenResponse.json() as { id_token?: unknown; access_token?: unknown };
   if (typeof tokens.id_token !== "string") throw new AuthError(401, "login_exchange_failed");
   const { claims } = await readVerifiedJwt(env, tokens.id_token);
   if (claims.iss !== metadata.issuer || !audienceIncludes(claims.aud, config.clientId) || claims.nonce !== transaction.nonce ||
       (Array.isArray(claims.aud) && claims.aud.length > 1 && claims.azp !== config.clientId)) {
     throw new AuthError(401, "invalid_id_token");
+  }
+
+  let mcpEvidence: Record<string, string> | null = null;
+  if (state.startsWith("m_")) {
+    if (typeof tokens.access_token !== "string") throw new AuthError(401, "missing_mcp_access_token");
+    const verified = await verifyMcpBearer(env, new Request(config.audience, {
+      headers: { Authorization: "Bearer " + tokens.access_token },
+    }));
+    if (verified.issuer !== claims.iss || verified.subject !== claims.sub) {
+      throw new AuthError(401, "mcp_identity_mismatch");
+    }
+    // Exercise the *hosted* MCP HTTP boundary without persisting or returning
+    // the token. Any unavailable operation remains unpassed.
+    const probe = async (method: string, params: unknown, session?: string) => {
+      const headers = new Headers({
+        Authorization: "Bearer " + tokens.access_token,
+        "Content-Type": "application/json",
+        Accept: "application/json, text/event-stream",
+      });
+      if (session) headers.set("Mcp-Session-Id", session);
+      try {
+        const response = await fetch(config.audience, {
+          method: "POST", headers,
+          body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+          signal: AbortSignal.timeout(10_000),
+          redirect: "manual",
+        });
+        return { status: response.status, body: (await response.text()).slice(0, 100_000),
+          session: response.headers.get("mcp-session-id") ?? undefined };
+      } catch {
+        return { status: 0, body: "", session: undefined };
+      }
+    };
+    const init = await probe("initialize", {
+      protocolVersion: "2025-06-18", capabilities: {},
+      clientInfo: { name: "minamo-hosted-acceptance", version: "1.0.0" },
+    });
+    const initPass = init.status === 200 && init.body.includes("Minamo Cloudflare Staging");
+    const tools = initPass ? await probe("tools/list", {}, init.session) : null;
+    const toolsPass = Boolean(tools?.status === 200 && tools.body.includes("list_my_notes"));
+    const own = await env.DB.prepare(
+      "SELECT id FROM notes WHERE owner_key = ? AND id LIKE 'acceptance-%' LIMIT 1",
+    ).bind(verified.ownerKey).first<{ id: string }>();
+    const foreign = await env.DB.prepare(
+      "SELECT id FROM notes WHERE owner_key <> ? AND id LIKE 'acceptance-%' LIMIT 1",
+    ).bind(verified.ownerKey).first<{ id: string }>();
+    const read = async (id: string) => probe("tools/call", {
+      name: "read_my_note", arguments: { id },
+    }, init.session);
+    const ownResult = toolsPass && own ? await read(own.id) : null;
+    const foreignResult = toolsPass && foreign ? await read(foreign.id) : null;
+    mcpEvidence = {
+      auth0_mcp_access_token: "verified",
+      hosted_mcp_initialize: initPass ? "pass" : "failed",
+      hosted_mcp_tool_discovery: toolsPass ? "pass" : "failed",
+      own_fixture_read: !own ? "not_tested" : ownResult?.status === 200 &&
+        ownResult.body.includes(own.id) ? "pass" : "failed",
+      foreign_fixture_denial: !foreign ? "not_tested" : foreignResult?.status === 200 &&
+        foreignResult.body.includes("record_unavailable") ? "pass" : "failed",
+    };
   }
 
   const oldToken = parseCookies(request).get(SESSION_COOKIE);
@@ -378,6 +438,7 @@ export async function finishLogin(env: Env, request: Request): Promise<Response>
   const headers = new Headers(securityHeaders);
   headers.append("Set-Cookie", cookie(SESSION_COOKIE, sessionToken, SESSION_TTL_SECONDS));
   headers.append("Set-Cookie", expiredCookie(LOGIN_COOKIE));
+  if (mcpEvidence) return Response.json({ synthetic_staging_only: true, ...mcpEvidence }, { headers });
   headers.set("Location", "/account");
   return new Response(null, { status: 303, headers });
 }

@@ -67,6 +67,15 @@ async function main() {
   assert.equal(Boolean(authorize.searchParams.get("state")), true);
   assert.equal(Boolean(authorize.searchParams.get("nonce")), true);
 
+  const mcpLogin = await fetch(base + "/auth/acceptance/mcp", {
+    signal: AbortSignal.timeout(timeoutMs), redirect: "manual",
+  });
+  assert.equal(mcpLogin.status, 302);
+  const mcpAuthorize = new URL(mcpLogin.headers.get("location"));
+  assert.equal(mcpAuthorize.searchParams.get("audience"), metadata.resource);
+  assert.deepEqual(mcpAuthorize.searchParams.get("scope").split(" "), ["openid", "notes:read"]);
+  assert.equal(mcpAuthorize.searchParams.get("code_challenge_method"), "S256");
+
   const fixturePage = await get("/__acceptance");
   assert.equal(fixturePage.status, 401, "Anonymous fixture controls must be denied");
   const fixtureWrite = await fetch(`${base}/__acceptance`, {
