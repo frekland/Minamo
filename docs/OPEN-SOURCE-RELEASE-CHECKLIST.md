@@ -25,10 +25,11 @@ This checklist records the public-source preparation and the remaining maintaine
 ## Verification record (28 October 2026)
 
 - Node.js 24 and pnpm 11.25.0.
-- `pnpm install --frozen-lockfile`, `pnpm run typecheck` and `pnpm run build`: pass.
-- `pnpm test`: 1,442 passed, 0 failed, 4 skipped.
+- Exact release-branch archive: `pnpm install --frozen-lockfile`, `pnpm run typecheck` and `pnpm run build` passed; `pnpm test`: 1,442 passed, 0 failed, 4 skipped.
+- GitHub Actions run 40722443418, attempt 2, passed typecheck and build and reported 1,443 tests passed, 0 failed, 3 skipped. Its merge checkout was `bf3c0ba`, testing release source commit `3758c6d` against `main` at `917929d`.
+- The first Actions attempt failed before a runner started. The maintainer confirmed billing caused the block; after it was resolved, the rerun completed successfully.
+- The Actions run uses read-only repository contents permission.
 - Local development preview: HTTP 200.
 - Production Wrangler localhost startup was blocked by the execution environment's `uv_interface_addresses` error. This is an environmental limitation, not a demonstrated application failure.
-- GitHub Actions run 40722443418 failed before executing steps; its cause was not confirmed. The PR branch has no successful status checks recorded. This is not evidence of an application test failure.
 
-The live private Site is not affected by this checklist. Source publication does not make this build ready for independent hosting: authentication and MCP publication currently depend on ChatGPT Sites identity and hosting capabilities. A provider-neutral authentication layer is separate future work.
+The Actions run passed on the release source before later documentation-only checklist updates on the PR branch. The current application code is unchanged by those documentation updates. The live private Site is not affected by this checklist. Source publication does not make this build ready for independent hosting: authentication and MCP publication currently depend on ChatGPT Sites identity and hosting capabilities. A provider-neutral authentication layer is separate future work.
