@@ -9,7 +9,7 @@
     "build": "wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "types": "wrangler types",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "wrangler types && tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
     "smoke:live": "node scripts/smoke-live.mjs"
   },
