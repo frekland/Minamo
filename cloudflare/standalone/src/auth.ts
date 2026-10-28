@@ -151,11 +151,10 @@ function sameOrigin(request: Request, env: Env): boolean {
   try {
     const expected = new URL(env.AUTH0_CALLBACK_URL ?? "").origin;
     if (new URL(request.url).origin !== expected) return false;
-    const origin = request.headers.get("Origin");
-    if (origin !== null) return origin === expected;
-    // Some same-origin browser form submissions omit Origin. Fetch Metadata
-    // provides a browser-generated CSRF signal for that case.
-    return request.headers.get("Sec-Fetch-Site") === "same-origin";
+    // Trust the browser-generated Fetch Metadata signal when available. A
+    // same-origin form may carry a proxy-rewritten Origin value.
+    if (request.headers.get("Sec-Fetch-Site") === "same-origin") return true;
+    return request.headers.get("Origin") === expected;
   } catch { return false; }
 }
 
