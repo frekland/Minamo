@@ -3,7 +3,7 @@
   "name": "minamo-v2-staging",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-28",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
   "vars": { "MINAMO_RUNTIME_MODE": "synthetic-only" },
   "d1_databases": [
