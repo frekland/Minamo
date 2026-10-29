@@ -101,6 +101,10 @@ test('canonical MCP replay, exact receipts, stale revisions, reset and unrelated
       'Previous Project is in Trash, not duplicated as an active Project');
     const oldNote=await c.context('note',e.data.snapshot.notes[0].id);
     assert.equal(oldNote.status,404);
+    const withdrawn=await fixture.db.prepare('SELECT withdrawn,revision FROM v2_learning_developments WHERE owner=? AND id=?')
+      .bind(owner,'TEST-ONLY-m2m-r2-save-e').first();
+    assert.deepEqual(withdrawn,{withdrawn:1,revision:2},
+      'Former fixture checkpoint is withdrawn through canonical revision, with history preserved');
     const fresh=await manage(c,{purpose:'TEST ONLY',action:'inspect',expectedGeneration:'legacy@0'});
     assert.deepEqual(fresh.data.snapshot,reset.data.snapshot);
     assert.equal(fresh.data.active.revision,4);

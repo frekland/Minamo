@@ -106,6 +106,27 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
   const before=await active();
   if(before.results.length>100||before.results.some(record=>!permitted.has(record.family+':'+record.id)))
     error(409,'fixture_cleanup_boundary','Unknown records exist under the old fixture prefix; cleanup requires review.');
+  // Withdraw only exact synthetic fixture checkpoints through the ordinary
+  // revisioned learning-development contract, before their Project is trashed.
+  // The immutable earlier editions are intentionally retained for recovery.
+  for(const stableId of manifest.stableIds.checkpoints){
+    const leaf=stableId.replace('TEST-ONLY-m2m-',''),checkpointId=old+'-'+leaf;
+    const row=await db(env).prepare('SELECT revision,event_json,withdrawn FROM v2_learning_developments WHERE owner=? AND id=?')
+      .bind(owner,checkpointId).first<{revision:number;event_json:string;withdrawn:number}>();
+    if(!row||row.withdrawn)continue;
+    const event=JSON.parse(row.event_json);
+    if(event.synthetic!==true||event.primaryTarget?.kind!=='journey-stage'||event.primaryTarget.journeyId!==old+'-project')
+      error(409,'fixture_checkpoint_mismatch','A checkpoint no longer belongs to the exact synthetic Project.');
+    const project=await c.context('journey',old+'-project');
+    if(project.status!==200||project.data.record.synthetic!==true)error(409,'fixture_cleanup_blocked','Cannot verify the synthetic Project before checkpoint withdrawal.');
+    const revised=await c.request('/api/learning-developments/revise',{
+      purpose:'TEST ONLY deterministic fixture retirement',intent:'explicit-user-checkpoint',
+      expectedGeneration:c.generation,operationId:old+'-cleanup-'+leaf,id:checkpointId,
+      expectedRev:row.revision,target:event.primaryTarget,expectedTargetRev:project.data.record.rev,withdraw:true
+    });
+    if(revised.status!==200||revised.data.status!=='committed')
+      error(409,'fixture_cleanup_blocked','Synthetic checkpoint withdrawal failed; retry the same operation ID.');
+  }
   // The flag is a separate canonical record; unflag it before retiring its
   // exact synthetic Article. No other bookmark target is ever selected.
   const reference=await c.context('article',old+'-reference');
@@ -134,8 +155,8 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
     if(result.status!==200||result.data.status!=='committed')error(409,'fixture_cleanup_blocked','Synthetic cleanup stopped; retry the same scenario operation.');
   }
   if((await active()).results.length)error(409,'fixture_cleanup_incomplete','Some fixture records remain active; inspect before retrying.');
-  // Learning-development receipts and retained revisions remain recoverable.
-  // Their old Project is now trashed, so they are not the active fixture.
+  // Retained revisions remain recoverable, while old checkpoint heads are
+  // withdrawn and old Project/Notes/Article are no longer active.
 }
 async function snapshot(c:ReturnType<typeof client>,epoch:number,phase:string){
   const id=scenarioForPrefix(prefix(epoch)).id;
