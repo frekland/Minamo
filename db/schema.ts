@@ -7,6 +7,15 @@ export const betaMembers=sqliteTable('v2_beta_members',{
 export const betaFeedback=sqliteTable('v2_beta_feedback',{
  id:text('id').primaryKey(),principal:text('principal').notNull(),kind:text('kind').notNull(),body:text('body').notNull(),route:text('route'),state:text('state').notNull().default('new'),createdAt:text('created_at').notNull(),
 });
+// Bounded internal test-run journal. Unlike canonical records, this is not
+// learner content and is disabled by default at the authenticated MCP layer.
+export const scenarioControl=sqliteTable('v2_scenario_control',{
+ owner:text('owner').notNull(),scenario:text('scenario').notNull(),
+ epoch:integer('epoch').notNull().default(0),phase:text('phase'),
+ revision:integer('revision').notNull().default(0),
+ generation:text('generation').notNull(),pendingJson:text('pending_json'),
+ receiptJson:text('receipt_json'),updatedAt:text('updated_at').notNull(),
+},t=>[primaryKey({columns:[t.owner,t.scenario]})]);
 export const investigations = sqliteTable("investigations", {
  owner: text("owner").notNull(), id: text("id").notNull(), title: text("title").notNull(),
 }, t => [primaryKey({ columns: [t.owner, t.id] })]);

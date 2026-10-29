@@ -22,3 +22,11 @@ test('documentation-only changes select no tests; deleted files are excluded',()
 test('changing the selector tests its own behaviour',()=>{
   assert.deepEqual(selectFocusedTests(['scripts/ci-focused-tests.mjs'],present),['tests/ci-focused-tests.test.mjs']);
 });
+test('scenario controller and its D1 migration select the synthetic MCP tests',()=>{
+  assert.deepEqual(selectFocusedTests(['lib/scenario-control.ts','drizzle/0013_wide_robbie_robertson.sql']),[
+    'tests/scenario-controller.test.mjs'
+  ]);
+  assert.deepEqual(selectFocusedTests(['tests/project-scenarios/mood-to-music/seed.mjs'],present),[
+    'tests/mood-to-music-scenario.test.mjs','tests/scenario-controller.test.mjs'
+  ]);
+});

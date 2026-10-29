@@ -15,7 +15,26 @@
     "article": "TEST-ONLY-m2m-reference",
     "questions": ["TEST-ONLY-m2m-question-match", "TEST-ONLY-m2m-question-provider", "TEST-ONLY-m2m-question-race"],
     "notes": ["TEST-ONLY-m2m-note-research", "TEST-ONLY-m2m-note-v1", "TEST-ONLY-m2m-note-v2", "TEST-ONLY-m2m-note-race", "TEST-ONLY-m2m-note-guard", "TEST-ONLY-m2m-note-pivot", "TEST-ONLY-m2m-note-unknown"],
+    "annotations": ["TEST-ONLY-m2m-annotation-order"],
+    "unrelatedQuestions": ["TEST-ONLY-m2m-unrelated-garden"],
     "checkpoints": ["TEST-ONLY-m2m-save-b", "TEST-ONLY-m2m-save-c", "TEST-ONLY-m2m-save-d", "TEST-ONLY-m2m-save-e"]
+  },
+  "cleanup": {
+    "passageFlag": {
+      "articleLeaf": "reference",
+      "sectionId": "async",
+      "partId": "p",
+      "start": 0,
+      "end": 16,
+      "quote": "Completion order"
+    }
+  },
+  "operationsByPhase": {
+    "A": ["create-project", "create-reference", "create-question-match", "create-question-provider", "create-question-race", "update-project-A"],
+    "B": ["create-note-research", "update-question-provider-B", "save-b"],
+    "C": ["create-note-v1", "create-note-v2", "save-c"],
+    "D": ["create-note-race", "create-note-guard", "update-question-race-D", "create-annotation-order", "flag-async", "save-d"],
+    "E": ["update-project-E", "create-note-pivot", "update-question-match-E", "update-note-research-E", "create-note-unknown", "save-e", "create-unrelated-garden"]
   },
   "states": [
     {"id":"A","date":"2026-10-01","theme":"Initial intent and hypotheses","question":"What is planned, and what is only an assumption?","expect":"Project, three Questions, Library reference; no practical Note or verified provider access."},

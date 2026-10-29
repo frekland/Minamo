@@ -1,9 +1,12 @@
 /** Versioned chronological seed through the real V2 HTTP/domain command contracts.
  * Every action is a fictional synthetic scenario, never evidence of an owner's work.
  */
-import assert from 'node:assert/strict';
 import manifest from './manifest.json' with {type:'json'};
 const id=key=>'TEST-ONLY-m2m-'+key;
+const assert={
+  equal:(actual,expected,message)=>{if(actual!==expected)throw Error(message??`Expected ${JSON.stringify(expected)}, received ${JSON.stringify(actual)}`)},
+  ok:(value,message)=>{if(!value)throw Error(message??'Expected a truthy value')}
+};
 const scope={version:1,spaces:['computing'],provenance:'authored'};
 const plan={
   title:'TEST ONLY Mood-to-Music · evolving React investigation',
@@ -33,18 +36,27 @@ const article={
   ]
 };
 const ok=async promise=>{const r=await promise;assert.equal(r.status,200,JSON.stringify(r.data));return r.data;};
+/** Reuse the same fixture in a bounded run-specific synthetic namespace. */
+export function scenarioForPrefix(prefix='TEST-ONLY-m2m'){
+if(!/^TEST-ONLY-m2m(?:-r[1-9][0-9]{0,5})?$/.test(prefix))throw Error('Unrecognised synthetic scenario namespace');
+const id=key=>prefix+'-'+key;
 async function create(c,family,leaf,data){
-  const record=(await ok(c.command({operationId:id('create-'+leaf),action:'create',family,id:id(leaf),data:{...data,synthetic:true}}))).record;
+  const operationId=id('create-'+leaf);
+  if(await c.operation?.(operationId))return (await ok(c.context(family,id(leaf)))).record;
+  const record=(await ok(c.command({operationId,action:'create',family,id:id(leaf),data:{...data,synthetic:true}}))).record;
   assert.equal(record.id,id(leaf));return record;
 }
 async function update(c,family,leaf,data){
+  const operationId=id('update-'+leaf+'-'+c.scenarioPhase);
+  if(await c.operation?.(operationId))return (await ok(c.context(family,id(leaf)))).record;
   const old=(await ok(c.context(family,id(leaf)))).record;
-  return (await ok(c.command({operationId:id('update-'+leaf+'-r'+old.rev),action:'update',family,id:old.id,expectedRev:old.rev,data}))).record;
+  return (await ok(c.command({operationId,action:'update',family,id:old.id,expectedRev:old.rev,data}))).record;
 }
 async function note(c,leaf,title,body,links){
   return create(c,'note',leaf,{title,body,links,learningScope:scope});
 }
 async function checkpoint(c,leaf,stage,development,noteRefs=[]){
+  if(await c.operation?.(id(leaf)))return;
   const project=(await ok(c.context('journey',id('project')))).record;
   return ok(c.request('/api/learning-developments',{
     intent:'explicit-user-checkpoint',operationId:id(leaf),expectedGeneration:c.generation,
@@ -62,7 +74,8 @@ const sourcePointer=version=>{
   return `\nSOURCE EVIDENCE: ${artifact.path}\nPINNED SHA-256: ${artifact.sha256}\nProvenance: synthetic runnable source; execution claims require separate test receipts.`;
 };
 
-export async function applyState(c,state){
+async function applyState(c,state){
+  c.scenarioPhase=state;
   if(state==='A'){
     const project=await create(c,'journey','project',plan);
     const reference=await create(c,'article','reference',article);
@@ -94,15 +107,17 @@ export async function applyState(c,state){
   } else if(state==='E'){
     // The opening four-stage plan is *actually revised*, rather than simply
     // describing a pivot in a Note while retaining a predetermined outline.
-    const former=(await ok(c.context('journey',id('project')))).record;
-    assert.equal(former.learningShape.stages.length,4);
-    const oldReturn=former.learningShape.stages.find(step=>step.id==='return');
-    assert.ok(oldReturn);
-    await update(c,'journey','project',{
-      body:'Revised Project direction: retain mock UI and debugging evidence, abandon objective mood scoring, and explore personal labels. Provider integration remains conditional on verified access.',
-      sections:[...former.sections,{id:'personal-labels',title:'New direction: personally meaningful labels',parts:[{id:'p',kind:'paragraph',text:'The original plan did not include this work. Compare local listener labels without suggesting an objective emotional score.'}]}],
-      learningShape:{...former.learningShape,stages:[...former.learningShape.stages.filter(step=>step.id!=='return'),{id:'personal-labels',sectionId:'personal-labels',title:'Develop personal labels',intent:'Explore an emergent, user-chosen direction while keeping the earlier Project history.'},oldReturn]}
-    });
+    if(!(await c.operation?.(id('update-project-E')))){
+      const former=(await ok(c.context('journey',id('project')))).record;
+      assert.equal(former.learningShape.stages.length,4);
+      const oldReturn=former.learningShape.stages.find(step=>step.id==='return');
+      assert.ok(oldReturn);
+      await update(c,'journey','project',{
+        body:'Revised Project direction: retain mock UI and debugging evidence, abandon objective mood scoring, and explore personal labels. Provider integration remains conditional on verified access.',
+        sections:[...former.sections,{id:'personal-labels',title:'New direction: personally meaningful labels',parts:[{id:'p',kind:'paragraph',text:'The original plan did not include this work. Compare local listener labels without suggesting an objective emotional score.'}]}],
+        learningShape:{...former.learningShape,stages:[...former.learningShape.stages.filter(step=>step.id!=='return'),{id:'personal-labels',sectionId:'personal-labels',title:'Develop personal labels',intent:'Explore an emergent, user-chosen direction while keeping the earlier Project history.'},oldReturn]}
+      });
+    }
     const match=(await ok(c.context('investigation',id('question-match')))).record;
     const pivot=await note(c,'note-pivot','TEST ONLY v5 — personally labelled favourites','SCRIPTED GPT: Is automatic emotional scoring still the point?\nSCRIPTED LEARNER: Prefer personal labels and honest suggestions.\nSCRIPTED GPT: Keep earlier API and race research; mark objective scoring abandoned, not erased.\nSOURCE v5.jsx adds immutable labels in tab memory; no persistence, Spotify save or audio scoring.'+sourcePointer('v5'),[noteLink(match),projectLink((await ok(c.context('journey',id('project')))).record,'personal-labels')]);
     await update(c,'investigation','question-match',{learningShape:{...match.learningShape,question:'How can personal, reversible mood labels help without claiming an objective emotional score?'}});
@@ -112,4 +127,8 @@ export async function applyState(c,state){
     await create(c,'investigation','unrelated-garden',{title:'TEST ONLY garden journal',body:'UNRELATED_PRIVATE_GARDEN_SENTINEL; same owner but separate investigation',learningShape:{version:2,kind:'investigation',question:'Which seedlings need water?'}});
   } else throw Error('Unknown state '+state);
 }
+return {applyState,id};
+}
+const applyState=(c,state)=>scenarioForPrefix().applyState(c,state);
 export {manifest,id,ok};
+export {applyState};
