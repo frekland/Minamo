@@ -19,6 +19,13 @@ This does **not** make a GitHub commit an automatic ChatGPT Sites release, nor d
 4. Prepare a narrow, separately authorised GPT Sites source transfer/release. Existing owner-private Site and library/backups remain unchanged until reviewed promotion. Use the native Sites workflow and confirm the deployed revision.
 5. After release, use ordinary ChatGPT with Minamo MCP and Cloud Browser for most live verification; use GPT Work for the necessary native Sites delivery step, not recurring test execution.
 
+## CI feedback cadence
+
+- **Draft pull requests:** typecheck plus directly changed tests and a small, explicitly mapped set of affected feature tests. See `scripts/ci-focused-tests.mjs`; it is deliberately conservative and **not a guarantee of regression coverage**. When a test is not automatically selected, run the relevant test command manually during development.
+- **Ready-for-review pull requests:** full typecheck/build/test suite plus relevant browser/example checks. Each subsequent push to a non-draft PR reruns the full gate.
+- **`main` pushes and manual dispatch:** full regression. Converting a draft to ready-for-review triggers the full suite. Keep PRs as drafts during rapid iteration, then mark ready only after the targeted work is complete.
+- Public CI is source evidence. Hosted GPT Sites functionality still requires a separately reviewed deployment and live MCP/browser acceptance.
+
 ## Test and release boundaries
 
 - The Mood-to-Music fixture is **fictional, synthetic, credential-free** and may be published. The owner's actual private Project data, ChatGPT conversations, Library and media are **not** exported by that fixture.
