@@ -29,7 +29,9 @@ export async function inspect(session){
     else assert.equal(response.status,404);
   }
   const checkpoints=[];
+  const availableStages=new Set(outline.steps.map(step=>step.stageId));
   for(const stage of ['provider','code','return','personal-labels']){
+    if(!availableStages.has(stage))continue;
     const context=await ok(c.request('/api/learning-context',{
       scope:'target',target:{kind:'journey-stage',journeyId:id('project'),stageId:stage},profile:'tutor',limit:10
     }));

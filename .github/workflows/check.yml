@@ -27,3 +27,7 @@ jobs:
       - run: pnpm run typecheck
       - run: pnpm run build
       - run: pnpm test
+      - run: node --test examples/mood-to-music/tests/revisions.test.mjs
+      - run: pnpm exec vite build --config examples/mood-to-music/vite.config.mjs
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: node --test examples/mood-to-music/tests/browser.test.mjs
