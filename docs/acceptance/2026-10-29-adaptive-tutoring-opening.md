@@ -75,7 +75,7 @@ The live ChatGPT presentation used an interactive question component rather than
 - Screenshot showed a **ChatGPT mobile response**, not the Minamo website or Minamo's own Project interface. Header: **Challenge 1 · Predict → Test → Explain**. Question: **Will React remember your choices?**
 - An interactive choice panel contained four radio-style options and a separate free-text reasoning field labelled **Why do you think that?**, with placeholder text encouraging uncertainty.
 - A **Discuss my prediction** submission button was visible below the reasoning field, appearing disabled while the reasoning field was empty. This state has not been interaction-tested.
-- The **first answer was selected by default** when ChatGPT rendered the widget; the owner explicitly confirmed **they did not touch it**. This is a **confirmed preselection bias** in the ChatGPT interactive question UI, not an observed Minamo website defect. It may steer the learner toward an answer before forming an independent prediction; future acceptance should prefer a neutral/unselected initial state or a free-text prediction.
+- The **first radio option was selected by default** when ChatGPT rendered the widget; the owner explicitly confirmed **they did not touch it**. This is a factual description of the ChatGPT presentation only. **The owner does not regard it as a suggestion, defect or relevant Minamo continuity finding**; no teaching-quality conclusion should be inferred from it.
 - The panel was legible and sensibly ordered on the observed mobile screen. This is a qualitative observation only, not a viewport/accessibility audit.
 
 ## Comparison with known synthetic fixture
@@ -87,19 +87,25 @@ The live ChatGPT presentation used an interactive question component rather than
 | Recover the current Project decision | Objective scoring → personal labels | PASS |
 | Use saved continuation cue | Exact phase-E checkpoint ID; label persistence unresolved | PASS |
 | Avoid misleading test claims | Explicitly says source pointer is not independent execution proof | PASS |
-| Provide one manageable, relevant activity | Refresh/tab-close prediction around label persistence | PASS |
-| Preserve learner agency and spoiler safety | Multiple-choice prediction plus reasoning before code inspection | PASS for first turn |
+| Context-selected next activity | Label persistence follows from exact phase-E checkpoint; plausible contextual influence, but this task might also be generic React tutoring | PARTIAL — needs control/contrast |
+| Generic tutoring format / interactive UI | Multiple-choice prediction and reasoning field rendered by ChatGPT | OUT OF SCOPE for Minamo acceptance |
 | Avoid changing Minamo | Assistant says read-only; no mutation reported | Reported, not independently re-inspected here |
 | Actually follow prediction→test→explain | Owner has not submitted answer or feedback | NOT TESTED |
 | Verify source and execution evidence | Promised inspection later; not done in response | NOT TESTED; relates to [#11](https://github.com/frekland/Minamo/issues/11) |
 
 ### Nuances and next checks
 
-- The confirmed default-selected first radio option is a UX/pedagogical defect in the generated **ChatGPT** exercise surface, not evidence of a Minamo MCP or Project UI bug. Track it as a caveat in adaptive-tutoring acceptance; avoid attributing its root cause to Minamo without more evidence.
+- **Scope correction from the owner:** Do not score the generated ChatGPT radio widget, default choice or generic tutoring quality as a Minamo acceptance outcome. The sole product question here is whether **retrieved Minamo context materially and specifically determines GPT's teaching choices**—what prior work it recalls, which misconception or unfinished question it targets, how it avoids redundant instruction, and why the selected next exercise follows from this learner's recorded history.
 - The phrase **“We've explored”** is conversationally natural but can imply the owner personally completed synthetic fixture achievements. The final explicit distinction is good; future tutors should consistently attribute simulated records to the TEST ONLY fixture.
 - The challenge does **not** reveal the implementation result. The answer **“It depends how the application stores it”** is appropriately available as a conceptual option; whether the model can guide a concrete source-backed prediction remains to be assessed after submission.
 - The interactive UI is created/presented by **ChatGPT**, so it does not establish any Minamo web UI design quality. It does show that Minamo MCP continuity data can inform a more engaging ChatGPT tutoring response.
 - No evidence yet that the model will inspect exact `v5.jsx`, request a real local test, recognise the user's actual observation, adapt its hints or save a deliberately authorised checkpoint. Do not award closed-loop tutoring PASS early.
+
+## Acceptance objective clarified by owner
+
+This is **not a benchmark of GPT's general tutoring talent or the ChatGPT widget renderer**. It tests the *marginal value of Minamo's stored learner-specific context*. A generic React tutor could independently invent a persistence question. To establish stronger evidence of personalisation, compare multiple controlled histories (or the same neutral prompt with/without Minamo retrieval): e.g., one learner with a saved race-condition misconception and another with a recorded label-persistence uncertainty. The response should differ **because the retrieved context differs**, with exact reference to the record driving the choice. Avoid feeding the desired next topic in the prompt. An explanation of which Minamo record informed the selected exercise is useful evidence; an unsupported assertion of \"personalisation\" is not.
+
+**Current result:** Correct contextual retrieval and a plausible context-driven activity demonstrated. **Causal, learner-specific teaching adaptation not yet demonstrated**. Do not infer it from question styling or generic teaching skill.
 
 ## Next action
 
