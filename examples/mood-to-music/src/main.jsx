@@ -1,0 +1,12 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import V1 from './versions/v1.jsx';
+import V2 from './versions/v2.jsx';
+import V3 from './versions/v3.jsx';
+import V4 from './versions/v4.jsx';
+import V5 from './versions/v5.jsx';
+import './style.css';
+const revisions={v1:V1,v2:V2,v3:V3,v4:V4,v5:V5};
+const selected=new URLSearchParams(location.search).get('revision')??'v5';
+const Component=revisions[selected]??V5;
+createRoot(document.getElementById('root')).render(<Component/>);
