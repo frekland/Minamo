@@ -1,6 +1,6 @@
 # Minamo SITES Project continuity — stage-1 acceptance and next experiments
 
-**Checkpoint:** 29 October 2026. **Status:** owner-private Sites V75 live; initial scenario controller verified; first independent cold-chat reconstruction **PASS WITH QUALIFICATIONS**; second adaptive-tutor test **not yet run / do not prejudge**.
+**Checkpoint:** 29 October 2026. **Status:** owner-private Sites V75 live; initial scenario controller verified; first independent cold-chat reconstruction **PASS WITH QUALIFICATIONS**; second independent tutor **opening observed** (relevant phase-E continuation; no completed dialogue or write-back).
 
 ## Canonical references
 
@@ -36,6 +36,16 @@
 > I'd like to resume my Minamo Mood-to-Music test Project. Please use Minamo to understand where I left off. I don't want a long progress report. Be my computing tutor. Help me resume from the most useful next activity, taking account of what I've already explored, my unresolved questions and any evidence I haven't verified. Start with a brief explanation of where we are, then give me one manageable challenge. Don't reveal the solution immediately. Ask me to predict what will happen before we investigate. Don't change any Minamo records without asking me.
 
 Evaluate whether GPT independently discovers the correct synthetic Project, discriminates scripted work from owner achievements, avoids reteaching completed material, uses the phase-E personal-label problem, asks a meaningful prediction question, gives one appropriate task and knows when to ask rather than claim an observation. Preserve the answer and tool limitations **as a separate dated Markdown fixture result**. Only then set Stage 2 implementation priority and scope.
+
+## Owner correction and fresh-chat continuation — 29 October 2026
+
+The second independent read-only tutor opening returned: GPT found synthetic phase E and the exact `TEST-ONLY-m2m-r2-save-e` checkpoint and suggested a label-persistence prediction. The [owner-supplied opening acceptance](2026-10-29-adaptive-tutoring-opening.md) is preserved. The generated ChatGPT interactive widget/default radio selection is **not** a Minamo finding; ordinary GPT tutoring performance is **not** the product benchmark. No conversational write-back was attempted.
+
+**Scope and existing contract (from [private #112](https://github.com/frekland/minamo-v2/issues/112) and [#108](https://github.com/frekland/minamo-v2/issues/108)):** Users create Notes, GPT reads them; the user explicitly says **"checkpoint"/"update Minamo"** to authorise GPT to organise and synchronise conversation developments with existing Minamo Project, Questions, relationships, learning-development and checkpoint functionality. GPT does not assess/mastery-grade the learner, auto-create user Notes, or need a newly invented Learning Session taxonomy. Preserve factual provenance and revisions with natural confirmations.
+
+**Why the fixture exists:** Expose Minamo's shortcomings in causal Project history, connected work, saved conversational continuity, source/evidence retrieval, and **what the live Site can meaningfully present**—not benchmark GPT's generic teaching. Do not choose a replacement Project UI/schema in advance. The original path is: (1) initial fixture/controller already verified; (2) enrich the *same* fixture ([#12](https://github.com/frekland/Minamo/issues/12)); (3) iterate the first integrated Project interaction against it; (4) test/strengthen **existing** explicit MCP write-back and fresh-chat resumption against that experience. A small early synthetic write-back diagnostic is reasonable, but does **not** reverse or replace the agreed sequencing.
+
+**Candidate bounded return test, for discussion before execution:** run a controlled fictional conversation about phase E with a changed decision, evidence, correction and open Question; explicitly request **"update Minamo"**; inspect real existing MCP operations, receipts, exact domain revisions/relations, retry behaviour, owner Notes remaining untouched, subsequent independent GPT retrieval and the current browser Project view. Record actual failures/tool-call burden. Only then consider minimal contract changes. **No live fixture modification is authorised by this planning note.** Keep PRs #6/#8 open/draft and the existing Sites V75 release unchanged.
 
 ## Explicit boundaries
 
