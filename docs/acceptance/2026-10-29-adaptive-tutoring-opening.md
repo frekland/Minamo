@@ -75,7 +75,7 @@ The live ChatGPT presentation used an interactive question component rather than
 - Screenshot showed a **ChatGPT mobile response**, not the Minamo website or Minamo's own Project interface. Header: **Challenge 1 · Predict → Test → Explain**. Question: **Will React remember your choices?**
 - An interactive choice panel contained four radio-style options and a separate free-text reasoning field labelled **Why do you think that?**, with placeholder text encouraging uncertainty.
 - A **Discuss my prediction** submission button was visible below the reasoning field, appearing disabled while the reasoning field was empty. This state has not been interaction-tested.
-- The **first answer appeared selected in the screenshot**. It is unknown whether the owner selected it or ChatGPT preselected it. **Do not file a UI defect without confirming this**; default preselection, if present, could bias a prediction exercise.
+- The **first answer was selected by default** when ChatGPT rendered the widget; the owner explicitly confirmed **they did not touch it**. This is a **confirmed preselection bias** in the ChatGPT interactive question UI, not an observed Minamo website defect. It may steer the learner toward an answer before forming an independent prediction; future acceptance should prefer a neutral/unselected initial state or a free-text prediction.
 - The panel was legible and sensibly ordered on the observed mobile screen. This is a qualitative observation only, not a viewport/accessibility audit.
 
 ## Comparison with known synthetic fixture
@@ -95,6 +95,7 @@ The live ChatGPT presentation used an interactive question component rather than
 
 ### Nuances and next checks
 
+- The confirmed default-selected first radio option is a UX/pedagogical defect in the generated **ChatGPT** exercise surface, not evidence of a Minamo MCP or Project UI bug. Track it as a caveat in adaptive-tutoring acceptance; avoid attributing its root cause to Minamo without more evidence.
 - The phrase **“We've explored”** is conversationally natural but can imply the owner personally completed synthetic fixture achievements. The final explicit distinction is good; future tutors should consistently attribute simulated records to the TEST ONLY fixture.
 - The challenge does **not** reveal the implementation result. The answer **“It depends how the application stores it”** is appropriately available as a conceptual option; whether the model can guide a concrete source-backed prediction remains to be assessed after submission.
 - The interactive UI is created/presented by **ChatGPT**, so it does not establish any Minamo web UI design quality. It does show that Minamo MCP continuity data can inform a more engaging ChatGPT tutoring response.
