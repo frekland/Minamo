@@ -13,6 +13,7 @@ type ScenarioEnv=Cloudflare.Env&{
   MINAMO_SITE_HOSTS?:string;
   MINAMO_SCENARIO_CONTROL_ENABLED?:string;
   MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED?:string;
+  MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER?:string;
   MINAMO_SCENARIO_SOURCE_SHA?:string;
 };
 type Action='list'|'inspect'|'load'|'advance'|'reset';
@@ -97,6 +98,24 @@ const recordLeaves:[string,string][]=[
   ...manifest.stableIds.questions.map(id=>['investigation',id.replace('TEST-ONLY-m2m-','')] as [string,string]),
   ['article','reference'],['journey','project']
 ];
+/** A run must never adopt a genuine record, even when someone has reused a
+ * fixture-shaped ID. Check before cleanup so a collision cannot cause a
+ * partial transition of an unrelated run. Retries admit only known synthetic
+ * records from the current manifest.
+ */
+async function assertSyntheticRunBoundary(env:ScenarioEnv,owner:string,epoch:number){
+  const run=prefix(epoch);
+  const allowed=new Set(recordLeaves.map(([family,leaf])=>family+':'+run+'-'+leaf));
+  const rows=await db(env).prepare('SELECT family,id,data FROM v2_records WHERE owner=? AND id LIKE ? LIMIT 101')
+    .bind(owner,run+'-%').all<{family:string;id:string;data:string}>();
+  if(rows.results.length>100)error(409,'fixture_identity_collision','Too many records under the reserved fixture identity.');
+  for(const record of rows.results){
+    let data:unknown;
+    try{data=JSON.parse(record.data)}catch{error(409,'fixture_identity_collision','Fixture identity contains unreadable record data.');}
+    if(!allowed.has(record.family+':'+record.id)||!data||typeof data!=='object'||(data as {synthetic?:boolean}).synthetic!==true)
+      error(409,'fixture_identity_collision','A reserved fixture identity contains an unknown or non-synthetic record.');
+  }
+}
 async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,epoch:number){
   if(epoch===0)return;
   const old=prefix(epoch);
@@ -219,7 +238,7 @@ export function visibleScenarioTool(env:ScenarioEnv,request:Request){
 }
 export const scenarioTool={
   name:'manage_minamo_test_scenario',
-  description:'Owner-only TEST ONLY scenario control for repeatable private Sites acceptance. Select published fixture states, inspect exact receipts and Project evidence; no arbitrary data reset. Mutations require explicit test intent, current generation/revision and verified Library recovery configuration. Do not use during ordinary learning.',
+  description:'Owner-only TEST ONLY scenario control for repeatable private Sites acceptance. Select published fixture states, inspect exact receipts and Project evidence; no arbitrary data reset. Mutations require explicit test intent, current generation/revision and an operator-approved recovery or synthetic-only waiver. Do not use during ordinary learning.',
   inputSchema:{type:'object',properties:{
     purpose:{type:'string',minLength:1,maxLength:500},
     action:{enum:['list','load','advance','inspect','reset']},
@@ -235,7 +254,8 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
   const row=await rowFor(env,owner);
   if(row.generation!==ctx.generation)error(409,'scenario_generation_conflict','Scenario control belongs to a different workspace generation; review recovery before proceeding.');
   const base={scenarioId,fixtureVersion,generation:ctx.generation,sourceCommit:env.MINAMO_SCENARIO_SOURCE_SHA??null,
-    libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1'};
+    libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1',
+    syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1'};
   if(input.action==='list')return {...base,states:manifest.states,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:!!row.pending_json};
   if(input.action==='inspect'){
     if(parsePending(row))return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:JSON.parse(row.pending_json!),retryRequired:true};
@@ -243,8 +263,8 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
       receipt:row.receipt_json?JSON.parse(row.receipt_json):null,
       snapshot:row.phase?await snapshot(client(env,request,owner,row.epoch),row.epoch,row.phase):null};
   }
-  if(env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED!=='1')
-    error(409,'library_recovery_not_verified','Verify a recoverable owner Library export before enabling hosted fixture mutation.');
+  if(!base.libraryRecoveryVerified&&!base.syntheticOnlyWaiver)
+    error(409,'scenario_mutation_not_authorized','Enable verified Library recovery or the explicit owner-approved synthetic-only waiver before mutating fixtures.');
   const payload=JSON.stringify({action:input.action,scenarioId,phase:input.phase??null,expectedGeneration:input.expectedGeneration,expectedRevision:input.expectedRevision});
   const oldReceipt=row.receipt_json?JSON.parse(row.receipt_json):null;
   if(!row.pending_json&&oldReceipt?.operationId===input.operationId){
@@ -273,6 +293,7 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
   }
   const c=client(env,request,owner,pending.epoch);
   try{
+    await assertSyntheticRunBoundary(env,owner,pending.epoch);
     if(pending.action!=='advance'){
       await cleanup(c,env,owner,pending.previousEpoch);
       const upto=states.indexOf(pending.phase);

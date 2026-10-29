@@ -5,7 +5,8 @@ const worker="import {domainHandler} from './lib/domain-handler.ts';export defau
 const owner='TEST-ONLY-scenario-owner';
 const other='TEST-ONLY-scenario-invited-account';
 const scenarioId='mood-to-music';
-const settings={MINAMO_OWNER_ID:owner,MINAMO_SITE_HOSTS:'storage.test',MINAMO_SCENARIO_CONTROL_ENABLED:'1',MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED:'1'};
+// Issue #10: the owner waived a fresh backup for narrowly bounded synthetic-only replay.
+const settings={MINAMO_OWNER_ID:owner,MINAMO_SITE_HOSTS:'storage.test',MINAMO_SCENARIO_CONTROL_ENABLED:'1',MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER:'1'};
 const args=(action,revision,extra={})=>({purpose:'Owner-authorised TEST ONLY Project scenario acceptance',action,scenarioId,
   expectedGeneration:'legacy@0',expectedRevision:revision,operationId:'test-'+action+'-'+revision,...extra});
 async function rpc(c,name,input={}){
@@ -29,8 +30,8 @@ test('disabled by default: not advertised, no owner or non-owner call permitted'
     assert.equal(unavailable.data.code,'scenario_control_disabled');
   }finally{await fixture.dispose();}
 });
-test('owner gate, recovery preflight and exact scenario identifiers',async()=>{
-  const fixture=await privateStorageFixture(worker,{bindings:{...settings,MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED:'0'}});
+test('owner gate, explicit mutation authorization and exact scenario identifiers',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:{...settings,MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER:'0',MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED:'0'}});
   try{
     const ownerClient=fixture.client(owner),invited=fixture.client(other);
     const ownerList=await listTools(ownerClient),invitedList=await listTools(invited);
@@ -41,12 +42,31 @@ test('owner gate, recovery preflight and exact scenario identifiers',async()=>{
     const listed=await manage(ownerClient,{purpose:'TEST ONLY',action:'list'});
     assert.equal(listed.data.states.length,5);
     assert.equal(listed.data.libraryRecoveryVerified,false);
+    assert.equal(listed.data.syntheticOnlyWaiver,false);
     const locked=await manage(ownerClient,args('load',0,{phase:'A'}));
-    assert.equal(locked.data.code,'library_recovery_not_verified');
+    assert.equal(locked.data.code,'scenario_mutation_not_authorized');
     const invalid=await manage(ownerClient,args('load',0,{scenarioId:'not-in-catalogue',phase:'A'}));
     assert.equal(invalid.data.code,'unknown_scenario');
     const malformed=await manage(ownerClient,args('load',0,{phase:'__prototype__'}));
     assert.equal(malformed.data.code,'unknown_scenario_phase');
+  }finally{await fixture.dispose();}
+});
+test('synthetic-only waiver refuses a genuine record under a reserved fixture ID before any replay',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner);
+    const collision=await c.command({operationId:'genuine-before-scenario',action:'create',family:'note',
+      id:'TEST-ONLY-m2m-r1-note-research',data:{title:'Genuine record with reused ID',body:'Must survive intact',synthetic:false}});
+    assert.equal(collision.status,200);
+    const listed=await manage(c,{purpose:'TEST ONLY',action:'list'});
+    assert.equal(listed.data.syntheticOnlyWaiver,true);
+    const denied=await manage(c,args('load',0,{phase:'A'}));
+    assert.equal(denied.error,true);
+    assert.equal(denied.data.code,'fixture_identity_collision');
+    const surviving=await c.context('note','TEST-ONLY-m2m-r1-note-research');
+    assert.equal(surviving.status,200);
+    assert.equal(surviving.data.record.body,'Must survive intact');
+    assert.equal((await c.context('journey','TEST-ONLY-m2m-r1-project')).status,404);
   }finally{await fixture.dispose();}
 });
 test('canonical MCP replay, exact receipts, stale revisions, reset and unrelated Library preservation',async()=>{

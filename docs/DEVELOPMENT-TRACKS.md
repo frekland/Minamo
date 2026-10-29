@@ -29,7 +29,7 @@ This does **not** make a GitHub commit an automatic ChatGPT Sites release, nor d
 ## Test and release boundaries
 
 - The Mood-to-Music fixture is **fictional, synthetic, credential-free** and may be published. The owner's actual private Project data, ChatGPT conversations, Library and media are **not** exported by that fixture.
-- A future owner-only scenario controller must be authentication-gated and disabled by default in general/public installations, accept only approved scenarios/phases and avoid unrestricted database resets or arbitrary code execution. For the private owner's experiments, valued Library content must have verified recovery before consequential reset/replacement.
+- The owner-only scenario controller is authentication-gated and disabled by default in general/public installations. It accepts only approved scenarios/phases and avoids unrestricted database resets or arbitrary code execution. The owner has declared all user-created learning data disposable for development; [issue #10](https://github.com/frekland/Minamo/issues/10) waives a fresh current backup prerequisite for bounded synthetic-only scenario operations. Retain exact fixture identities, collision checks, owner scoping and privacy. No recovery/export success is implied, and an unrelated-data reset is outside this controller's API.
 - Keep the site-specific and independently hosted environments distinct. Public CI success is evidence about source, not evidence of hosted Sites identity, D1 persistence or MCP behaviour.
 - The original private engineering repository retains useful historical decisions; it is no longer a second default place to independently implement identical shareable features.
 
