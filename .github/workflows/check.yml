@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft]
   workflow_dispatch:
 
 permissions:
@@ -19,11 +20,42 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: pnpm/setup@v3
         with:
           version: 11.25.0
           runtime: node@24
           cache: true
-      - run: pnpm run typecheck
-      - run: pnpm run build
-      - run: pnpm test
+      - name: Typecheck (all source changes)
+        run: pnpm run typecheck
+      - name: Focused tests (draft PR iteration)
+        if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node scripts/ci-focused-tests.mjs
+      - name: Full application build (review-ready / main / manual)
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        run: pnpm run build
+      - name: Full regression (review-ready / main / manual)
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        run: pnpm test
+      - name: Mood-to-Music revision tests and Vite build
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        run: |
+          if [ -f examples/mood-to-music/tests/revisions.test.mjs ]; then
+            node --test examples/mood-to-music/tests/revisions.test.mjs
+            pnpm exec vite build --config examples/mood-to-music/vite.config.mjs
+          fi
+      - name: Install Chromium for fixture browser checks
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        run: |
+          if [ -f examples/mood-to-music/tests/browser.test.mjs ]; then
+            pnpm exec playwright install --with-deps chromium
+          fi
+      - name: Mood-to-Music browser acceptance
+        if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+        run: |
+          if [ -f examples/mood-to-music/tests/browser.test.mjs ]; then
+            node --test examples/mood-to-music/tests/browser.test.mjs
+          fi
