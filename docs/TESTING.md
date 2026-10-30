@@ -2,6 +2,12 @@
 
 The repository includes Node test suites, isolated D1/R2/Worker exercises, browser-spec fixtures and development helpers.
 
+## Current longitudinal acceptance and next architecture experiments (30 October 2026)
+
+Mood-to-Music V3 **S01–S06** finished with a bounded independent conversational-continuity PASS, not full UI/runtime or learner-comprehension certification. The TEST-ONLY fixture and transcript remain preserved. See [the consolidated closeout, finding routes and learner-context architecture roadmap](acceptance/2026-10-30-m2m-v3-closeout-and-learner-context-roadmap.md).
+
+Next research and test development: (1) synthetic server-observed MCP calls/errors/timing and canonical pre/post state diffs; (2) evidence-backed diagnosis of Project/learning-context projections and MCP efficiency on the same fixture; (3) a focused Minamo improvement and comparative replay. Additional scenario subjects and optional visual-agent acceptance are later steps. The fictional React app's imperfect storage/consent behaviour is learner-progress evidence, not an automatic product repair task. Preserve all historical reports.
+
 ## Basic checks
 
 ~~~bash
