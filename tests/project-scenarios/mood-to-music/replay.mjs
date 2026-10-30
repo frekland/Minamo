@@ -23,7 +23,7 @@ export async function inspect(session){
   const project=await ok(c.context('journey',id('project')));
   const outline=await ok(c.request('/api/project-context?'+new URLSearchParams({projectId:id('project'),mode:'outline',learningSpace:'computing'})));
   const notes=[];
-  for(const leaf of ['note-research','note-v1','note-v2','note-race','note-guard','note-pivot','note-unknown']){
+  for(const leaf of ['note-research','note-v1','note-v2','note-race','note-guard','note-pivot','note-unknown','note-return','note-terminal']){
     const response=await c.context('note',id(leaf));
     if(response.status===200)notes.push({id:response.data.record.id,rev:response.data.record.rev});
     else assert.equal(response.status,404);
@@ -39,13 +39,16 @@ export async function inspect(session){
     for(const item of context.priorCheckpoints??[])checkpoints.push(item.id);
   }
   assert.equal(outline.project.id,project.record.id);
+  const requested=await c.context('article',id('requested-label-storage'));
+  assert.ok([200,404].includes(requested.status));
   return {
     state:session.completed.at(-1),authoredScenarioDate:manifest.states.find(item=>item.id===session.completed.at(-1))?.date,project:{id:project.record.id,rev:project.record.rev},
     questionIds:[...new Set([...outline.projectQuestions,...outline.steps.flatMap(step=>step.questions)].map(q=>q.id))].sort(),
-    steps:outline.steps.map(step=>step.stageId),notes,checkpointIds:[...new Set(checkpoints)].sort()
+    steps:outline.steps.map(step=>step.stageId),notes,checkpointIds:[...new Set(checkpoints)].sort(),
+    requestedArticle:requested.status===200?{id:requested.data.record.id,rev:requested.data.record.rev}:null
   };
 }
-export async function replay(state='E'){
+export async function replay(state='F'){
   assert.ok(states.includes(state),'Unknown scenario state');
   const session=await seed();
   try{
@@ -60,11 +63,11 @@ export async function reset(session,state='A'){
   return replay(state);
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
-  const requested=process.argv[2]??'E';
+  const requested=process.argv[2]??'F';
   if(requested==='reset'){
-    const original=await replay('E');
+    const original=await replay('F');
     const before=original.snapshot;
-    const restarted=await reset(original.session,'E');
+    const restarted=await reset(original.session,'F');
     try{
       assert.deepEqual(restarted.snapshot,before);
       console.log(JSON.stringify({fixture:'synthetic-only',operation:'dispose + deterministic replay',resetVerified:true,snapshot:restarted.snapshot},null,2));

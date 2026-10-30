@@ -40,7 +40,7 @@ test('owner gate, explicit mutation authorization and exact scenario identifiers
     const denied=await manage(invited,{purpose:'TEST ONLY',action:'list'});
     assert.equal(denied.data.code,'scenario_owner_required');
     const listed=await manage(ownerClient,{purpose:'TEST ONLY',action:'list'});
-    assert.equal(listed.data.states.length,5);
+    assert.equal(listed.data.states.length,6);
     assert.equal(listed.data.libraryRecoveryVerified,false);
     assert.equal(listed.data.syntheticOnlyWaiver,false);
     const locked=await manage(ownerClient,args('load',0,{phase:'A'}));
@@ -170,5 +170,136 @@ test('cleanup fails closed on a newly introduced fixture-prefixed record not in 
     assert.equal((await c.context('note','TEST-ONLY-m2m-r1-unregistered')).status,200);
     const pending=await manage(c,{purpose:'TEST ONLY',action:'inspect',expectedGeneration:'legacy@0'});
     assert.equal(pending.data.retryRequired,true);
+  }finally{await fixture.dispose();}
+});
+
+test('requested Library output is absent at F, survives readback and is removed by safe reset',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner),listed=await manage(c,{purpose:'TEST ONLY inspect versioned Library request',action:'list'});
+    assert.equal(listed.data.fixtureVersion,'mood-to-music/2');
+    const initial=await manage(c,args('load',0,{phase:'F'}));
+    assert.equal(initial.error,false,JSON.stringify(initial));
+    assert.equal(initial.data.snapshot.notes.length,9);
+    assert.equal(initial.data.snapshot.questions.length,4);
+    assert.equal(initial.data.snapshot.requestedArticle,null,'No canned answer may be seeded');
+    const run='TEST-ONLY-m2m-r'+initial.data.epoch,output=run+'-requested-label-storage';
+    const created=await c.command({operationId:run+'-lib-smoke-create',action:'create',family:'article',id:output,
+      data:{title:'TEST ONLY mechanics-only Library output',body:'Test transport, not teaching quality.',synthetic:true,
+        learningScope:{version:1,spaces:['computing'],provenance:'authored'},
+        sections:[{id:'demo',title:'Smoke test',parts:[{id:'p',kind:'paragraph',text:'Mock result is not a pedagogical exemplar.'}]}],
+        links:[{family:'journey',id:run+'-project',relation:'related'}]}});
+    assert.equal(created.status,200,JSON.stringify(created.data));
+    const article=created.data.record;
+    const anchor={articleId:output,recordFamily:'article',rendition:article.rendition,sectionId:'demo',partId:'p',start:0,end:4,quote:'Mock'};
+    const flagged=await c.command({operationId:run+'-lib-smoke-flag',action:'setFlag',target:{kind:'passage',anchor},active:true,expectedTargetRev:0});
+    assert.equal(flagged.status,200,JSON.stringify(flagged.data));
+    const annotated=await c.command({operationId:run+'-lib-smoke-annotation',action:'create',family:'annotation',
+      id:run+'-annotation-library',data:{title:'TEST ONLY passage feedback',body:'Needs an example.',anchor,synthetic:true}});
+    assert.equal(annotated.status,200,JSON.stringify(annotated.data));
+    const project=(await c.context('journey',run+'-project')).data.record;
+    const checkpoint=await c.request('/api/learning-developments',{
+      intent:'explicit-user-checkpoint',operationId:run+'-save-c01',expectedGeneration:'legacy@0',
+      target:{kind:'journey-stage',journeyId:project.id,stageId:'personal-labels'},expectedTargetRev:project.rev,
+      development:{summary:'TEST ONLY optional checkpoint cleanup probe; no actual dialogue assessed.'}
+    });
+    assert.equal(checkpoint.status,200,JSON.stringify(checkpoint.data));
+    const after=await manage(c,{purpose:'TEST ONLY inspect generated output',action:'inspect',expectedGeneration:'legacy@0'});
+    assert.equal(after.data.snapshot.requestedArticle.rev,1);
+    assert.equal(after.data.snapshot.requestedAnnotation.rev,1);
+    assert.ok(after.data.snapshot.checkpointIds.includes(run+'-save-c01'));
+    const reset=await manage(c,args('reset',1));
+    assert.equal(reset.error,false,JSON.stringify(reset));
+    assert.equal(reset.data.snapshot.requestedArticle,null);
+    assert.equal((await c.context('article',output)).status,404);
+    assert.equal((await c.context('annotation',run+'-annotation-library')).status,404);
+    assert.equal((await c.context('flag',flagged.data.bookmark.flagRef.id)).status,404);
+    const old=await fixture.db.prepare('SELECT withdrawn FROM v2_learning_developments WHERE owner=? AND id=?').bind(owner,run+'-save-c01').first();
+    assert.equal(old?.withdrawn,1);
+    const reloaded=await manage(c,args('load',2,{phase:'F'}));
+    assert.equal(reloaded.error,false,JSON.stringify(reloaded));
+    assert.equal(reloaded.data.snapshot.requestedArticle,null);
+  }finally{await fixture.dispose();}
+  // A completely empty D1, including a missing controller row, is sufficient.
+  const empty=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=empty.client(owner);
+    const blank=await manage(c,{purpose:'TEST ONLY inspect after clearing user data',action:'inspect',expectedGeneration:'legacy@0'});
+    assert.equal(blank.data.active.phase,null);
+    const restored=await manage(c,args('load',0,{phase:'F'}));
+    assert.equal(restored.error,false,JSON.stringify(restored));
+    assert.equal(restored.data.snapshot.requestedArticle,null);
+    assert.equal(restored.data.snapshot.notes.length,9);
+  }finally{await empty.dispose();}
+});
+test('unregistered conversational checkpoint blocks reset before deleting records',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner),loaded=await manage(c,args('load',0,{phase:'F'}));
+    assert.equal(loaded.error,false,JSON.stringify(loaded));
+    const project=(await c.context('journey','TEST-ONLY-m2m-r1-project')).data.record;
+    const unexpected=await c.request('/api/learning-developments',{
+      intent:'explicit-user-checkpoint',operationId:'unexpected-conversation-save',expectedGeneration:'legacy@0',
+      target:{kind:'journey-stage',journeyId:project.id,stageId:'personal-labels'},expectedTargetRev:project.rev,
+      development:{summary:'TEST ONLY unregistered checkpoint must not be abandoned.'}
+    });
+    assert.equal(unexpected.status,200,JSON.stringify(unexpected.data));
+    const denied=await manage(c,args('reset',1));
+    assert.equal(denied.error,true);
+    assert.equal(denied.data.code,'fixture_checkpoint_mismatch');
+    assert.equal((await c.context('journey',project.id)).status,200);
+    const row=await fixture.db.prepare('SELECT withdrawn FROM v2_learning_developments WHERE owner=? AND id=?')
+      .bind(owner,'unexpected-conversation-save').first();
+    assert.equal(row?.withdrawn,0);
+  }finally{await fixture.dispose();}
+});
+test('real substantial manuscript publishing yields a derived ms-* Article and clean reset',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner),loaded=await manage(c,args('load',0,{phase:'F'}));
+    assert.equal(loaded.error,false,JSON.stringify(loaded));
+    const run='TEST-ONLY-m2m-r'+loaded.data.epoch;
+    const result=await rpc(c,'publish_minamo_manuscript',{
+      purpose:'TEST ONLY explicit substantial Library publication lifecycle',
+      operationId:run+'-lib01-manuscript',expectedGeneration:'legacy@0',synthetic:true,
+      manuscript:{version:1,brief:'TEST ONLY User asked for a reference; content quality not evaluated in mechanics test.',
+        documents:[{key:'storage',role:'article',title:'TEST ONLY manuscript transport probe',
+          markdown:'## Local state\n\nA mock transport test, not an educational answer.\n\n## Persistence\n\nAnother section for readback.'}]}
+    });
+    assert.notEqual(result.isError,true,JSON.stringify(result));
+    const receipt=result.structuredContent;
+    assert.equal(receipt.kind,'manuscript-v1');
+    assert.equal(receipt.recordRefs.length,1);
+    const articleId=receipt.recordRefs[0].id;
+    assert.match(articleId,/^ms-[0-9a-f]{40}$/);
+    const published=await c.context('article',articleId);
+    assert.equal(published.status,200);
+    assert.equal(published.data.record.synthetic,true);
+    const after=await manage(c,{purpose:'TEST ONLY inspect manuscript output',action:'inspect',expectedGeneration:'legacy@0'});
+    assert.equal(after.data.snapshot.requestedArticle.id,articleId);
+    const flag=await c.command({operationId:run+'-manuscript-flag',action:'setFlag',
+      target:{kind:'record',family:'article',id:articleId},active:true,expectedTargetRev:0});
+    assert.equal(flag.status,200,JSON.stringify(flag.data));
+    const reset=await manage(c,args('reset',1));
+    assert.equal(reset.error,false,JSON.stringify(reset));
+    assert.equal((await c.context('article',articleId)).status,404);
+    assert.equal((await c.context('flag',flag.data.bookmark.flagRef.id)).status,404);
+    assert.equal(reset.data.snapshot.requestedArticle,null);
+  }finally{await fixture.dispose();}
+});
+test('Article revision does not strand a Flag on an old retained passage rendition',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner),loaded=await manage(c,args('load',0,{phase:'F'}));
+    assert.equal(loaded.error,false,JSON.stringify(loaded));
+    const oldFlag=loaded.data.snapshot.bookmark.flagRef.id;
+    const id='TEST-ONLY-m2m-r1-reference',original=(await c.context('article',id)).data.record;
+    const revised=await c.command({operationId:'TEST-ONLY-m2m-r1-reference-revision',action:'update',family:'article',id,
+      expectedRev:original.rev,data:{body:original.body+'\nTEST ONLY later revision.'}});
+    assert.equal(revised.status,200,JSON.stringify(revised.data));
+    assert.notEqual(revised.data.record.rendition,original.rendition);
+    const reset=await manage(c,args('reset',1));
+    assert.equal(reset.error,false,JSON.stringify(reset));
+    assert.equal((await c.context('flag',oldFlag)).status,404);
   }finally{await fixture.dispose();}
 });

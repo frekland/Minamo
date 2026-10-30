@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "key": "mood-to-music",
   "scope": "SITES local disposable Miniflare / D1 / R2",
   "fixtureOwner": "TEST-ONLY-m2m-principal",
@@ -13,11 +13,40 @@
   "stableIds": {
     "project": "TEST-ONLY-m2m-project",
     "article": "TEST-ONLY-m2m-reference",
-    "questions": ["TEST-ONLY-m2m-question-match", "TEST-ONLY-m2m-question-provider", "TEST-ONLY-m2m-question-race"],
-    "notes": ["TEST-ONLY-m2m-note-research", "TEST-ONLY-m2m-note-v1", "TEST-ONLY-m2m-note-v2", "TEST-ONLY-m2m-note-race", "TEST-ONLY-m2m-note-guard", "TEST-ONLY-m2m-note-pivot", "TEST-ONLY-m2m-note-unknown"],
-    "annotations": ["TEST-ONLY-m2m-annotation-order"],
-    "unrelatedQuestions": ["TEST-ONLY-m2m-unrelated-garden"],
-    "checkpoints": ["TEST-ONLY-m2m-save-b", "TEST-ONLY-m2m-save-c", "TEST-ONLY-m2m-save-d", "TEST-ONLY-m2m-save-e"]
+    "questions": [
+      "TEST-ONLY-m2m-question-match",
+      "TEST-ONLY-m2m-question-provider",
+      "TEST-ONLY-m2m-question-race",
+      "TEST-ONLY-m2m-question-storage"
+    ],
+    "notes": [
+      "TEST-ONLY-m2m-note-research",
+      "TEST-ONLY-m2m-note-v1",
+      "TEST-ONLY-m2m-note-v2",
+      "TEST-ONLY-m2m-note-race",
+      "TEST-ONLY-m2m-note-guard",
+      "TEST-ONLY-m2m-note-pivot",
+      "TEST-ONLY-m2m-note-unknown",
+      "TEST-ONLY-m2m-note-return",
+      "TEST-ONLY-m2m-note-terminal"
+    ],
+    "annotations": [
+      "TEST-ONLY-m2m-annotation-order",
+      "TEST-ONLY-m2m-annotation-library"
+    ],
+    "unrelatedQuestions": [
+      "TEST-ONLY-m2m-unrelated-garden"
+    ],
+    "checkpoints": [
+      "TEST-ONLY-m2m-save-b",
+      "TEST-ONLY-m2m-save-c",
+      "TEST-ONLY-m2m-save-d",
+      "TEST-ONLY-m2m-save-e",
+      "TEST-ONLY-m2m-save-c01"
+    ],
+    "requestedArticles": [
+      "TEST-ONLY-m2m-requested-label-storage"
+    ]
   },
   "cleanup": {
     "passageFlag": {
@@ -30,31 +59,151 @@
     }
   },
   "operationsByPhase": {
-    "A": ["create-project", "create-reference", "create-question-match", "create-question-provider", "create-question-race", "update-project-A"],
-    "B": ["create-note-research", "update-question-provider-B", "save-b"],
-    "C": ["create-note-v1", "create-note-v2", "save-c"],
-    "D": ["create-note-race", "create-note-guard", "update-question-race-D", "create-annotation-order", "flag-async", "save-d"],
-    "E": ["update-project-E", "create-note-pivot", "update-question-match-E", "update-note-research-E", "create-note-unknown", "save-e", "create-unrelated-garden"]
+    "A": [
+      "create-project",
+      "create-reference",
+      "create-question-match",
+      "create-question-provider",
+      "create-question-race",
+      "update-project-A"
+    ],
+    "B": [
+      "create-note-research",
+      "update-question-provider-B",
+      "save-b"
+    ],
+    "C": [
+      "create-note-v1",
+      "create-note-v2",
+      "save-c"
+    ],
+    "D": [
+      "create-note-race",
+      "create-note-guard",
+      "update-question-race-D",
+      "create-annotation-order",
+      "flag-async",
+      "save-d"
+    ],
+    "E": [
+      "update-project-E",
+      "create-note-pivot",
+      "update-question-match-E",
+      "update-note-research-E",
+      "create-note-unknown",
+      "save-e",
+      "create-unrelated-garden"
+    ],
+    "F": [
+      "create-question-storage",
+      "create-note-return",
+      "create-note-terminal",
+      "update-project-F"
+    ]
   },
   "states": [
-    {"id":"A","date":"2026-10-01","theme":"Initial intent and hypotheses","question":"What is planned, and what is only an assumption?","expect":"Project, three Questions, Library reference; no practical Note or verified provider access."},
-    {"id":"B","date":"2026-10-06","theme":"Provider feasibility changes decision","question":"Why is Spotify not wired in yet?","expect":"Research Note, revised provider Question and provisional offline fallback decision."},
-    {"id":"C","date":"2026-10-12","theme":"First genuine React iterations","question":"How did the cards and controls change?","expect":"v1 and v2 source references, linked implementation Notes, checkpoint."},
-    {"id":"D","date":"2026-10-18","theme":"Reproducible race and correction","question":"What was broken, how was it shown, and which version fixed it?","expect":"v3 and v4 Notes, issue Question revision, linked annotation/Flag, race decision."},
-    {"id":"E","date":"2026-10-26","theme":"Changed objective and interrupted return","question":"What is current, what was abandoned, and what remains unverified?","expect":"The Project genuinely revises its four-stage shape to add a personal-label stage; v5 personal labels, superseded objective retained, conflicting and missing evidence, unrelated record excluded."}
+    {
+      "id": "A",
+      "date": "2026-10-01",
+      "theme": "Initial intent and hypotheses",
+      "question": "What is planned, and what is only an assumption?",
+      "expect": "Project, three Questions, Library reference; no practical Note or verified provider access."
+    },
+    {
+      "id": "B",
+      "date": "2026-10-06",
+      "theme": "Provider feasibility changes decision",
+      "question": "Why is Spotify not wired in yet?",
+      "expect": "Research Note, revised provider Question and provisional offline fallback decision."
+    },
+    {
+      "id": "C",
+      "date": "2026-10-12",
+      "theme": "First genuine React iterations",
+      "question": "How did the cards and controls change?",
+      "expect": "v1 and v2 source references, linked implementation Notes, checkpoint."
+    },
+    {
+      "id": "D",
+      "date": "2026-10-18",
+      "theme": "Reproducible race and correction",
+      "question": "What was broken, how was it shown, and which version fixed it?",
+      "expect": "v3 and v4 Notes, issue Question revision, linked annotation/Flag, race decision."
+    },
+    {
+      "id": "E",
+      "date": "2026-10-26",
+      "theme": "Changed objective and interrupted return",
+      "question": "What is current, what was abandoned, and what remains unverified?",
+      "expect": "The Project genuinely revises its four-stage shape to add a personal-label stage; v5 personal labels, superseded objective retained, conflicting and missing evidence, unrelated record excluded."
+    },
+    {
+      "id": "F",
+      "date": "2026-10-28",
+      "theme": "Unfinished return, raw evidence and Library authoring request",
+      "question": "What did the User actually observe, what is merely inferred, and what reference should be requested?",
+      "expect": "User-authored incomplete persistence inference, open Question, supplied terminal capture and a request brief; no generated Library article, C01 correction or checkpoint is pre-seeded."
+    }
   ],
   "artifacts": [
-    {"version":"v1","path":"examples/mood-to-music/src/versions/v1.jsx","sha256":"e1d3e737881c97b5a209b575b6151c005e90c3c8636a578c5d93810a6e75a46b","change":"Static fictional cards","provenance":"synthetic source"},
-    {"version":"v2","path":"examples/mood-to-music/src/versions/v2.jsx","sha256":"f22bdb4dc04309b2a993bc90f572a8b8bee60089999841141662edcb629506a1","change":"Keyboard-operable selection","provenance":"synthetic source"},
-    {"version":"v3","path":"examples/mood-to-music/src/versions/v3.jsx","sha256":"86a39e21d3a9321496067f5ed6817ea5d3f90a4e6d732f795c136c751d7daef2","change":"Introduces stale asynchronous result defect","provenance":"synthetic source"},
-    {"version":"v4","path":"examples/mood-to-music/src/versions/v4.jsx","sha256":"e7832dbfcdc6f6c4c1d8dc1e54d3d55b55d086cee04f4eb372c6125ddafe4e22","change":"Adds request identity guard","provenance":"synthetic source"},
-    {"version":"v5","path":"examples/mood-to-music/src/versions/v5.jsx","sha256":"72522e55f03e67ee7c44cd127351d3afb315e6a05173d2688d104aad1de996be","change":"Pivots to immutable personal-label editing","provenance":"synthetic source"}
+    {
+      "version": "v1",
+      "path": "examples/mood-to-music/src/versions/v1.jsx",
+      "sha256": "e1d3e737881c97b5a209b575b6151c005e90c3c8636a578c5d93810a6e75a46b",
+      "change": "Static fictional cards",
+      "provenance": "synthetic source"
+    },
+    {
+      "version": "v2",
+      "path": "examples/mood-to-music/src/versions/v2.jsx",
+      "sha256": "f22bdb4dc04309b2a993bc90f572a8b8bee60089999841141662edcb629506a1",
+      "change": "Keyboard-operable selection",
+      "provenance": "synthetic source"
+    },
+    {
+      "version": "v3",
+      "path": "examples/mood-to-music/src/versions/v3.jsx",
+      "sha256": "86a39e21d3a9321496067f5ed6817ea5d3f90a4e6d732f795c136c751d7daef2",
+      "change": "Introduces stale asynchronous result defect",
+      "provenance": "synthetic source"
+    },
+    {
+      "version": "v4",
+      "path": "examples/mood-to-music/src/versions/v4.jsx",
+      "sha256": "e7832dbfcdc6f6c4c1d8dc1e54d3d55b55d086cee04f4eb372c6125ddafe4e22",
+      "change": "Adds request identity guard",
+      "provenance": "synthetic source"
+    },
+    {
+      "version": "v5",
+      "path": "examples/mood-to-music/src/versions/v5.jsx",
+      "sha256": "72522e55f03e67ee7c44cd127351d3afb315e6a05173d2688d104aad1de996be",
+      "change": "Pivots to immutable personal-label editing",
+      "provenance": "synthetic source"
+    }
   ],
   "supportFiles": {
-    "examples/mood-to-music/src/catalog.mjs":"4e0a3d7a841f0c5c3f449545dce235efe6ef0af093d58c60f22c3d1787ee4b28",
-    "examples/mood-to-music/src/request-controller.mjs":"3d7e49870e2ea52bcd0b417a15adf8f3e06364031e4e7556ff030f9b5fea27da",
-    "examples/mood-to-music/src/shared.jsx":"7a3d8ee308bed1927307a180db4711182e76412e9dbf10c41ac35e81f475bec3",
-    "examples/mood-to-music/src/main.jsx":"498884e10d066f9eb884ab86ea009b54bfedb3c25a5509e53b39d2b328e8522b"
+    "examples/mood-to-music/src/catalog.mjs": "4e0a3d7a841f0c5c3f449545dce235efe6ef0af093d58c60f22c3d1787ee4b28",
+    "examples/mood-to-music/src/request-controller.mjs": "3d7e49870e2ea52bcd0b417a15adf8f3e06364031e4e7556ff030f9b5fea27da",
+    "examples/mood-to-music/src/shared.jsx": "7a3d8ee308bed1927307a180db4711182e76412e9dbf10c41ac35e81f475bec3",
+    "examples/mood-to-music/src/main.jsx": "498884e10d066f9eb884ab86ea009b54bfedb3c25a5509e53b39d2b328e8522b"
   },
-  "remainingProjectModels": "OPEN — no second or third subject is approved"
+  "remainingProjectModels": "Selected for later separate tests: authorised retired HTB Cap and Automatic Plant-Screamer. Neither is implemented in this fixture.",
+  "reservedOutputs": {
+    "libraryArticle": "TEST-ONLY-m2m-requested-label-storage",
+    "annotation": "TEST-ONLY-m2m-annotation-library",
+    "conversationalCheckpoint": "TEST-ONLY-m2m-save-c01",
+    "manuscriptOperationLeaf": "lib01-manuscript",
+    "manuscriptDocumentKey": "storage",
+    "noteAuthority": "GPT must not create or rewrite User-authored Notes; optional outputs require an explicit simulated User request, not the seeded Note itself.",
+    "requirements": "The article is absent at phase F; a test conversation must request it, inspect editorial policy and existing references, save/read back the actual output, and record quality and UI observations rather than comparing against canned teaching text."
+  },
+  "evaluation": {
+    "taskCases": "tests/project-scenarios/mood-to-music/task-cases.json",
+    "protocol": "tests/project-scenarios/mood-to-music/EVALUATION.md",
+    "canonicalStart": "F",
+    "generatedLibraryAnswerSeeded": false,
+    "cleanup": "Exact known outputs only, including manuscript receipt-derived ID; safe fail-closed behavior on unknown records",
+    "repeatability": "Fresh TEST ONLY D1 after clearing test-user data replays the same starting snapshot; end-to-end generation and UI require separate observation"
+  }
 }

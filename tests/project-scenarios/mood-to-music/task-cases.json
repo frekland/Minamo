@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "fixture": "mood-to-music/2",
+  "startPhase": "F",
+  "scope": "Synthetic local Miniflare/owner-only scenario. Scripts model the simulated User's request; they are not a supplied correct Library article or an assessment of the User.",
+  "globalRules": [
+    "Start each independent evaluation from a fresh phase F replay. No requested Library article, annotation, C01 checkpoint, or improved evidence is pre-seeded.",
+    "Use current connected Minamo MCP discovery and real operation receipts. Read actual Project, Questions, Notes and existing Library before deciding how to respond.",
+    "GPT may organise relevant records only on an explicit simulated User request. It does not grade or rewrite the User's Notes, imply unverified user execution, or pre-empt the C01 correction.",
+    "Observe both generated content and its real Minamo presentation, navigation, retrieval, anchors, editing and later cleanup. Separate GPT behavior, API behavior and UI behavior.",
+    "Only synthetic fixture owner records may be changed. Never replay, reset, clear, publish or alter the real owner's Site/data."
+  ],
+  "cases": [
+    {
+      "id": "LIB-01",
+      "kind": "conversational-request",
+      "phase": "F",
+      "dependsOn": [],
+      "simulatedUserPrompt": "I'd like something useful in my Minamo Library about React state and whether my mood labels persist. Please look at where I am in Mood-to-Music and what I already have before adding anything. Make a good Library reference I can return to: explain state versus browser storage, how to check whether values survive a re-render, a route change and a refresh, and how a beginner can distinguish a hypothesis from an actual test. Keep it connected to my Project. Please don't change my Notes or decide what I've proved.",
+      "actionsToObserve": [
+        "Discover actual tools/policy; retrieve Project/Question/Note and existing relevant Library; identify the still-untested refresh claim.",
+        "Prepare substantive reference material appropriate for a learner, with compact worked examples and specific test prompts; use the established Library authoring flow, not a pre-seeded answer.",
+        "Write only after simulated explicit request; prefer a stable synthetic Article ID and a real canonical create/update/readback receipt; use approved manuscript publication when applicable.",
+        "Open/read output from API and in Minamo UI; inspect Library category, search, page layout, code formatting, links and Project context; collect outcomes."
+      ],
+      "expectedOutput": {
+        "required": "A genuinely authored and stored Library article, not canned fixture text",
+        "permittedIds": [
+          "TEST-ONLY-m2m-r<epoch>-requested-label-storage",
+          "ms-<derived hash from published operation>"
+        ],
+        "absentBeforeRequest": true
+      },
+      "assess": [
+        "project relevance and correctness",
+        "clear state/re-render/navigation/refresh distinction",
+        "practical verification steps without revealing result",
+        "existing Library consistency and duplication",
+        "cross-link usability",
+        "readback and rendered presentation",
+        "citation/provenance and unsupported claims"
+      ],
+      "prohibited": [
+        "Treat the fictional User's supplied build snippet as independently verified",
+        "assert labels definitely persist or disappear after refresh",
+        "overwrite User-authored Notes",
+        "replace the case with a canned answer"
+      ]
+    },
+    {
+      "id": "LIB-02",
+      "kind": "interactive-followup",
+      "phase": "F",
+      "dependsOn": [
+        "LIB-01"
+      ],
+      "simulatedUserPrompt": "Now show me where that Library reference is and how I'd use it alongside the Project Question. I want to flag or annotate the passage about refreshing the page, and I'd like one part made clearer if it isn't helpful. Please show me the change, not just say it happened.",
+      "actionsToObserve": [
+        "Navigate from Project and Library search to the generated Article",
+        "Inspect exact passage anchor and rendition and create a synthetic Flag/annotation only on explicit request",
+        "If editing supported, make one targeted revision and compare before/after/readback",
+        "Verify Flag/annotation and navigation in Minamo UI, including possible stale anchors",
+        "Reset the run and confirm the exact generated Article, annotation, Flag and revisions do not remain"
+      ],
+      "assess": [
+        "content discoverability",
+        "exact context rather than generic links",
+        "anchor accuracy after revisions",
+        "revision provenance and operation idempotency",
+        "UI status, error and latency feedback",
+        "cleanup of old-revision Flags"
+      ],
+      "prohibited": [
+        "Create Flag against a guessed passage anchor",
+        "Leave a generated Library record after reset"
+      ]
+    },
+    {
+      "id": "EVID-01",
+      "kind": "evidence-interpretation",
+      "phase": "F",
+      "dependsOn": [],
+      "simulatedUserPrompt": "I pasted a short build output and a GitHub link into my Note. Does that prove my React labels work and will be there after refresh? Can you check what the link actually tells us? Please keep my Note as I wrote it.",
+      "actionsToObserve": [
+        "Read exact supplied terminal and pinned source link; mark both as User-reported evidence",
+        "Where source available, inspect immutable pinned public source at exact SHA",
+        "Distinguish source existence, reported build output, runtime behavior, persistence and account storage",
+        "Offer a small manual test with a prediction first, without declaring result",
+        "Do not create a verified checkpoint or amend the User Note"
+      ],
+      "assess": [
+        "evidence calibration",
+        "source-vs-runtime distinction",
+        "teaching clarity without assessment or false certainty"
+      ]
+    },
+    {
+      "id": "C01",
+      "kind": "later-conversational-return",
+      "phase": "F",
+      "dependsOn": [
+        "LIB-01"
+      ],
+      "simulatedUserPrompt": "I tried it: my custom labels were still there when I switched moods, but after refreshing the page they disappeared. I want to keep the labels temporary for now. Please update the relevant Project Question and organise a checkpoint of that decision so I can resume later. Leave my Note alone.",
+      "actionsToObserve": [
+        "Confirm scope and explicit permission to change the relevant Question and record a checkpoint",
+        "Distinguish newly reported observation from independently reproduced app test",
+        "Update revisioned open storage Question, link relevant Library article and preserve prior reasoning",
+        "Write the checkpoint only through explicit User checkpoint API; do not edit Note",
+        "Read back Project and checkpoint and verify user-facing resumed view in Minamo UI",
+        "Return to the same phase F baseline by disposing the fixture; ensure optional C01 checkpoint is withdrawn when controller-resetting a run"
+      ],
+      "assess": [
+        "correct scope and language of observation",
+        "Question revision not duplicate Question",
+        "checkpoint as organisation not grading",
+        "continuity presentation",
+        "safe repeatability"
+      ],
+      "prohibited": [
+        "Pre-seed C01 response or checkpoint",
+        "Claim independently confirmed a refresh result",
+        "Rate or score User understanding"
+      ]
+    }
+  ],
+  "observationFields": [
+    "runId",
+    "manifestHash",
+    "startPhase",
+    "promptExact",
+    "modelAndTools",
+    "toolDiscovery",
+    "operationIdsAndReceipts",
+    "storedRecordIdsAndRevs",
+    "UIPath",
+    "observedContent",
+    "whatWorked",
+    "whatFailed",
+    "uncertainOrUnavailable",
+    "rubricScores",
+    "cleanupAndFreshReplay"
+  ]
+}

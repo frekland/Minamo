@@ -96,6 +96,7 @@ const recordLeaves:[string,string][]=[
   ...manifest.stableIds.unrelatedQuestions.map(id=>['investigation',id.replace('TEST-ONLY-m2m-','')] as [string,string]),
   ...manifest.stableIds.notes.map(id=>['note',id.replace('TEST-ONLY-m2m-','')] as [string,string]),
   ...manifest.stableIds.questions.map(id=>['investigation',id.replace('TEST-ONLY-m2m-','')] as [string,string]),
+  ...manifest.stableIds.requestedArticles.map(id=>['article',id.replace('TEST-ONLY-m2m-','')] as [string,string]),
   ['article','reference'],['journey','project']
 ];
 /** A run must never adopt a genuine record, even when someone has reused a
@@ -114,7 +115,53 @@ async function assertSyntheticRunBoundary(env:ScenarioEnv,owner:string,epoch:num
     try{data=JSON.parse(record.data)}catch{error(409,'fixture_identity_collision','Fixture identity contains unreadable record data.');}
     if(!allowed.has(record.family+':'+record.id)||!data||typeof data!=='object'||(data as {synthetic?:boolean}).synthetic!==true)
       error(409,'fixture_identity_collision','A reserved fixture identity contains an unknown or non-synthetic record.');
+    if(record.id===run+'-annotation-library'&&
+      (record.family!=='annotation'||(data as any).anchor?.articleId!==run+'-requested-label-storage'))
+      error(409,'fixture_identity_collision','The optional Library annotation must belong to the exact synthetic output Article.');
   }
+  await assertCheckpointBoundary(env,owner,run);
+}
+async function assertCheckpointBoundary(env:ScenarioEnv,owner:string,run:string){
+  const allowed=new Set(manifest.stableIds.checkpoints.map(stableId=>run+'-'+stableId.replace('TEST-ONLY-m2m-','')));
+  // Inspect checkpoint heads attached to exact synthetic Projects or Questions,
+  // even if a GPT used an operation ID outside the TEST-ONLY namespace.
+  const rows=await db(env).prepare(`SELECT id,event_json FROM v2_learning_developments WHERE owner=? AND withdrawn=0 AND
+    (json_extract(event_json,'$.primaryTarget.journeyId')=? OR
+     json_extract(event_json,'$.primaryTarget.investigationId') LIKE ?) LIMIT 101`)
+    .bind(owner,run+'-project',run+'-question-%').all<{id:string;event_json:string}>();
+  if(rows.results.length>100)error(409,'fixture_checkpoint_mismatch','Too many checkpoint heads linked to this synthetic Project.');
+  for(const item of rows.results){
+    let event:any;
+    try{event=JSON.parse(item.event_json)}catch{error(409,'fixture_checkpoint_mismatch','A synthetic Project checkpoint is unreadable.');}
+    if(!allowed.has(item.id)||event.synthetic!==true||!(event.primaryTarget?.journeyId===run+'-project'||
+      event.primaryTarget?.investigationId?.startsWith(run+'-question-')))
+      error(409,'fixture_checkpoint_mismatch','A synthetic Project has an unregistered checkpoint; inspect before reset.');
+  }
+}
+/** The ordinary GPT publisher derives an ms-* ID. Admit only its exact
+ * canonical receipt for one synthetic Article under a registered operation.
+ */
+async function manuscriptOutputForRun(env:ScenarioEnv,owner:string,run:string):Promise<string|null>{
+  const operationId=run+'-'+manifest.reservedOutputs.manuscriptOperationLeaf;
+  const row=await db(env).prepare('SELECT status,response FROM v2_operations WHERE owner=? AND id=?')
+    .bind(owner,operationId).first<{status:number;response:string}>();
+  if(!row)return null;
+  if(row.status!==200)error(409,'fixture_manuscript_mismatch','The registered Library manuscript operation did not commit.');
+  let receipt:any;
+  try{receipt=JSON.parse(row.response)}catch{error(409,'fixture_manuscript_mismatch','The Library manuscript receipt is unreadable.');}
+  const refs=receipt.recordRefs;
+  if(receipt.kind!=='manuscript-v1'||!Array.isArray(refs)||refs.length!==1||
+    refs[0].key!==manifest.reservedOutputs.manuscriptDocumentKey||refs[0].family!=='article'||
+    !(refs[0].id===run+'-reference'||/^ms-[0-9a-f]{40}$/.test(refs[0].id)))
+    error(409,'fixture_manuscript_mismatch','The Library manuscript published an unregistered output shape.');
+  const id=refs[0].id;
+  const record=await db(env).prepare("SELECT data FROM v2_records WHERE owner=? AND family='article' AND id=?")
+    .bind(owner,id).first<{data:string}>();
+  let data:any;
+  try{data=record&&JSON.parse(record.data)}catch{error(409,'fixture_manuscript_mismatch','The generated Article is unreadable.');}
+  if(!data||data.synthetic!==true||data.id!==id)
+    error(409,'fixture_manuscript_mismatch','The generated Article is not verified as this synthetic publication.');
+  return id;
 }
 async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,epoch:number){
   if(epoch===0)return;
@@ -125,6 +172,8 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
   const before=await active();
   if(before.results.length>100||before.results.some(record=>!permitted.has(record.family+':'+record.id)))
     error(409,'fixture_cleanup_boundary','Unknown records exist under the old fixture prefix; cleanup requires review.');
+  await assertSyntheticRunBoundary(env,owner,epoch);
+  const manuscriptOutput=await manuscriptOutputForRun(env,owner,old);
   // Withdraw only exact synthetic fixture checkpoints through the ordinary
   // revisioned learning-development contract, before their Project is trashed.
   // The immutable earlier editions are intentionally retained for recovery.
@@ -146,26 +195,39 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
     if(revised.status!==200||revised.data.status!=='committed')
       error(409,'fixture_cleanup_blocked','Synthetic checkpoint withdrawal failed; retry the same operation ID.');
   }
-  // The flag is a separate canonical record; unflag it before retiring its
-  // exact synthetic Article. No other bookmark target is ever selected.
-  const reference=await c.context('article',old+'-reference');
-  if(reference.status===200){
-    if(reference.data.record.synthetic!==true)error(409,'fixture_identity_collision','Fixture Article has non-synthetic content. Stop.');
-    const {articleLeaf,...anchorShape}=manifest.cleanup.passageFlag;
-    const target={kind:'passage',anchor:{...anchorShape,
-      articleId:old+'-'+articleLeaf,recordFamily:'article',
-      rendition:reference.data.record.rendition}};
-    const bookmark=await c.request('/api/bookmarks',{target});
-    if(bookmark.status!==200)error(409,'fixture_cleanup_blocked','Cannot inspect synthetic bookmark.');
-    if(bookmark.data.active&&bookmark.data.flagRef){
-      const flag=await c.context('flag',bookmark.data.flagRef.id);
-      if(flag.status!==200||flag.data.record.anchor?.articleId!==old+'-reference')
-        error(409,'fixture_flag_mismatch','Bookmark no longer refers to the synthetic Article.');
-      const receipt=await c.command({operationId:old+'-cleanup-flag',action:'trash',family:'flag',
-        id:bookmark.data.flagRef.id,expectedRev:flag.data.record.rev});
-      if(receipt.status!==200)error(409,'fixture_cleanup_blocked','Synthetic Flag cleanup failed.');
-    }
-  }else if(reference.status!==404)error(409,'fixture_cleanup_blocked','Cannot inspect old synthetic reference.');
+  // Inspect only Flags on the two manifest-known output routes and the
+  // original synthetic reference, including historical passage renditions.
+  const outputIds=[old+'-reference',old+'-requested-label-storage',...(manuscriptOutput?[manuscriptOutput]:[])];
+  const flags=[] as {id:string;data:string;outputId:string}[];
+  for(const outputId of new Set(outputIds)){
+    const found=await db(env).prepare(`SELECT id,data FROM v2_records WHERE owner=? AND family='flag' AND trashed_at IS NULL
+      AND (json_extract(data,'$.flagTarget.anchor.articleId')=? OR
+           (json_extract(data,'$.flagTarget.kind')='record' AND json_extract(data,'$.flagTarget.family')='article' AND json_extract(data,'$.flagTarget.id')=?))
+      ORDER BY id LIMIT 21`).bind(owner,outputId,outputId).all<{id:string;data:string}>();
+    if(found.results.length>20)error(409,'fixture_cleanup_boundary','Too many active Flags on a synthetic Article.');
+    flags.push(...found.results.map(row=>({...row,outputId})));
+  }
+  for(const row of flags){
+    const record=JSON.parse(row.data);
+    const target=record.flagTarget;
+    if(record.synthetic!==true||!target||!(target.kind==='passage'&&target.anchor?.articleId===row.outputId&&
+      (target.anchor.recordFamily===undefined||target.anchor.recordFamily==='article')||
+      target.kind==='record'&&target.family==='article'&&target.id===row.outputId))
+      error(409,'fixture_flag_mismatch','A Flag is not proved to belong to a registered synthetic Article.');
+    const found=await c.context('flag',row.id);
+    if(found.status!==200||found.data.record.rev!==record.rev)error(409,'fixture_flag_mismatch','Synthetic Flag changed during cleanup.');
+    const receipt=await c.command({operationId:old+'-cleanup-'+row.id,action:'trash',family:'flag',id:row.id,expectedRev:record.rev});
+    if(receipt.status!==200)error(409,'fixture_cleanup_blocked','Generated-Article Flag cleanup failed.');
+  }
+  if(manuscriptOutput&&manuscriptOutput!==old+'-reference'){
+    const article=await c.context('article',manuscriptOutput);
+    if(article.status===200){
+      if(article.data.record.synthetic!==true)error(409,'fixture_manuscript_mismatch','The manuscript Article changed authority.');
+      const result=await c.command({operationId:old+'-cleanup-manuscript',action:'trash',family:'article',
+        id:manuscriptOutput,expectedRev:article.data.record.rev});
+      if(result.status!==200)error(409,'fixture_cleanup_blocked','Registered manuscript Article cleanup failed.');
+    }else if(article.status!==404)error(409,'fixture_cleanup_blocked','Cannot inspect the generated Article.');
+  }
   for(const [family,leaf] of recordLeaves){
     const id=old+'-'+leaf,found=await c.context(family,id);
     if(found.status===404)continue;
@@ -177,7 +239,7 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
   // Retained revisions remain recoverable, while old checkpoint heads are
   // withdrawn and old Project/Notes/Article are no longer active.
 }
-async function snapshot(c:ReturnType<typeof client>,epoch:number,phase:string){
+async function snapshot(c:ReturnType<typeof client>,env:ScenarioEnv,epoch:number,phase:string){
   const id=scenarioForPrefix(prefix(epoch)).id;
   const project=await c.context('journey',id('project'));
   if(project.status!==200)error(409,'scenario_readback_failed','Active Project is not readable.');
@@ -188,6 +250,7 @@ async function snapshot(c:ReturnType<typeof client>,epoch:number,phase:string){
   const questions=[];
   for(const key of manifest.stableIds.questions){
     const found=await c.context('investigation',id(key.replace('TEST-ONLY-m2m-','')));
+    if(key.endsWith('-question-storage')&&found.status===404&&phase!=='F')continue;
     if(found.status!==200)error(409,'scenario_readback_failed','A published Question is unavailable.');
     questions.push({id:found.data.record.id,rev:found.data.record.rev});
   }
@@ -207,6 +270,11 @@ async function snapshot(c:ReturnType<typeof client>,epoch:number,phase:string){
   const questionIds=[...new Set([...outline.data.projectQuestions,...outline.data.steps.flatMap((s:any)=>s.questions)].map((q:any)=>q.id))].sort();
   const annotation=await c.context('annotation',id('annotation-order'));
   if(annotation.status!==200&&annotation.status!==404)error(409,'scenario_readback_failed','Annotation readback failed.');
+  const manuscriptOutput=await manuscriptOutputForRun(env,c.owner,prefix(epoch));
+  const requested=await c.context('article',manuscriptOutput??id('requested-label-storage'));
+  if(requested.status!==200&&requested.status!==404)error(409,'scenario_readback_failed','Generated Library Article readback failed.');
+  const generatedAnnotation=await c.context('annotation',id('annotation-library'));
+  if(generatedAnnotation.status!==200&&generatedAnnotation.status!==404)error(409,'scenario_readback_failed','Optional Library annotation readback failed.');
   const {articleLeaf,...anchorShape}=manifest.cleanup.passageFlag;
   const bookmark=await c.request('/api/bookmarks',{target:{kind:'passage',anchor:{...anchorShape,
     articleId:id(articleLeaf),recordFamily:'article',rendition:reference.data.record.rendition}}});
@@ -227,6 +295,8 @@ async function snapshot(c:ReturnType<typeof client>,epoch:number,phase:string){
     questionIds,questions,reference:{id:reference.data.record.id,rev:reference.data.record.rev,
       rendition:reference.data.record.rendition},
     annotation:annotation.status===200?{id:annotation.data.record.id,rev:annotation.data.record.rev}:null,
+    requestedArticle:requested.status===200?{id:requested.data.record.id,rev:requested.data.record.rev,rendition:requested.data.record.rendition}:null,
+    requestedAnnotation:generatedAnnotation.status===200?{id:generatedAnnotation.data.record.id,rev:generatedAnnotation.data.record.rev}:null,
     bookmark:bookmark.data,operationReceipts,
     steps:outline.data.steps.map((s:any)=>s.stageId),notes,checkpointIds:[...new Set(checkpointIds)].sort()};
 }
@@ -255,13 +325,14 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
   if(row.generation!==ctx.generation)error(409,'scenario_generation_conflict','Scenario control belongs to a different workspace generation; review recovery before proceeding.');
   const base={scenarioId,fixtureVersion,generation:ctx.generation,sourceCommit:env.MINAMO_SCENARIO_SOURCE_SHA??null,
     libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1',
-    syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1'};
+    syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1',
+    reservedOutputs:{...manifest.reservedOutputs,manuscriptOperationPattern:'TEST-ONLY-m2m-rN-'+manifest.reservedOutputs.manuscriptOperationLeaf}};
   if(input.action==='list')return {...base,states:manifest.states,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:!!row.pending_json};
   if(input.action==='inspect'){
     if(parsePending(row))return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:JSON.parse(row.pending_json!),retryRequired:true};
     return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},
       receipt:row.receipt_json?JSON.parse(row.receipt_json):null,
-      snapshot:row.phase?await snapshot(client(env,request,owner,row.epoch),row.epoch,row.phase):null};
+      snapshot:row.phase?await snapshot(client(env,request,owner,row.epoch),env,row.epoch,row.phase):null};
   }
   if(!base.libraryRecoveryVerified&&!base.syntheticOnlyWaiver)
     error(409,'scenario_mutation_not_authorized','Enable verified Library recovery or the explicit owner-approved synthetic-only waiver before mutating fixtures.');
@@ -299,7 +370,7 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
       const upto=states.indexOf(pending.phase);
       for(let i=0;i<=upto;i++)await scenarioForPrefix(prefix(pending.epoch)).applyState(c,states[i]);
     }else await scenarioForPrefix(prefix(pending.epoch)).applyState(c,pending.phase);
-    const checked=await snapshot(c,pending.epoch,pending.phase);
+    const checked=await snapshot(c,env,pending.epoch,pending.phase);
     const receipt={status:'committed',operationId:pending.operationId,payload,phase:pending.phase,
       controllerRevision:(input.expectedRevision??0)+1,epoch:pending.epoch,snapshot:checked,
       retainedHistoricalRevisions:true,cleanedOnlySyntheticRecords:true};

@@ -20,7 +20,7 @@ test('longitudinal Mood-to-Music seeds, advances and reads actual isolated domai
     const snapshots=[];
     for(const state of names)snapshots.push(await advance(s,state));
     assert.deepEqual(snapshots.map(x=>x.state),names);
-    assert.deepEqual(snapshots.map(item=>item.steps.length),[4,4,4,4,5]);
+    assert.deepEqual(snapshots.map(item=>item.steps.length),[4,4,4,4,5,5]);
     assert.deepEqual(snapshots[4].steps,['intent','provider','code','personal-labels','return']);
     assert.equal(snapshots[0].project.rev,2);
     assert.equal(snapshots[4].project.rev,3,'An actual revision of the Project occurs at the pivot');
@@ -30,9 +30,19 @@ test('longitudinal Mood-to-Music seeds, advances and reads actual isolated domai
     assert.equal(snapshots[2].notes.length,3);
     assert.equal(snapshots[3].notes.length,5);
     assert.equal(snapshots[4].notes.length,7);
+    assert.equal(snapshots[5].notes.length,9);
     assert.equal(snapshots[4].questionIds.length,3,'Unrelated sibling does not leak into Project');
-    assert.deepEqual(snapshots.map(x=>x.checkpointIds.length),[0,1,2,3,4]);
-    assert.deepEqual(snapshots[4].checkpointIds,manifest.stableIds.checkpoints.slice().sort());
+    assert.equal(snapshots[5].questionIds.length,4);
+    assert.deepEqual(snapshots.map(x=>x.checkpointIds.length),[0,1,2,3,4,4]);
+    assert.deepEqual(snapshots[4].checkpointIds,manifest.stableIds.checkpoints.slice(0,4).sort());
+    assert.equal(snapshots[5].project.rev,4);
+    assert.equal(snapshots[5].requestedArticle,null,'The generated Library article must not be seeded');
+    const returnNote=await s.client.context('note',id('note-return'));
+    assert.match(returnNote.data.record.body,/have NOT refreshed/);
+    assert.match(returnNote.data.record.body,/not permission for GPT/);
+    const terminal=await s.client.request('/mcp',{jsonrpc:'2.0',id:2,method:'tools/call',params:{name:'read_minamo_record',arguments:{purpose:'TEST ONLY inspect supplied terminal evidence',family:'note',id:id('note-terminal'),terminalId:'build-snippet'}}});
+    assert.equal(terminal.status,200);
+    assert.match(JSON.stringify(terminal.data),/No timestamp, complete log/);
     const currentProject=await s.client.context('journey',id('project'));
     assert.match(currentProject.data.record.body,/Revised Project direction/);
     assert.equal(currentProject.data.record.learningShape.stages.length,5);
@@ -81,8 +91,9 @@ test('fresh independent reconstruction and reset retain stable identities withou
     try{
       assert.equal(resetRun.snapshot.notes.length,0);
       assert.equal((await resetRun.session.client.context('note',id('note-race'))).status,404);
-      for(const state of ['B','C','D','E'])await advance(resetRun.session,state);
+      for(const state of ['B','C','D','E','F'])await advance(resetRun.session,state);
       assert.equal((await resetRun.session.client.context('note',id('note-race'))).status,200);
+      assert.equal((await resetRun.session.client.context('article',id('requested-label-storage'))).status,404);
     }finally{await resetRun.session.fixture.dispose();}
   }catch(error){await a.session.fixture.dispose().catch(()=>{});throw error;}
 });

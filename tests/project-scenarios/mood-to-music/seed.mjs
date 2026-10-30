@@ -125,6 +125,29 @@ async function applyState(c,state){
     const unknown=await note(c,'note-unknown','TEST ONLY unverified playlist capability','SCRIPTED CLAIM: perhaps saving a playlist could work. No credential, executed request, log, documentation receipt or implementation accompanies this claim.',[noteLink((await ok(c.context('investigation',id('question-provider')))).record)]);
     await checkpoint(c,'save-e','personal-labels',{summary:'Synthetic change of direction: prefer local personally labelled favourites; old objective-scoring proposal is abandoned.',facts:[{role:'interpretation',text:'Personal mood labels are subjective and may evolve with the listener.',basis:'illustrative'},{role:'open-question',text:'Could an appropriately authorised provider adapter support save/playback?',basis:'provisional'}],decisions:[{choice:'Do not build an objective emotional scoring feature.',reason:'The subjective feedback use case is more honest, and API feasibility is unverified.',basis:'illustrative',status:'established'}],nextAction:'Decide whether labels should persist locally, and verify external capabilities with dated source evidence.'},[pivot,unknown]);
     await create(c,'investigation','unrelated-garden',{title:'TEST ONLY garden journal',body:'UNRELATED_PRIVATE_GARDEN_SENTINEL; same owner but separate investigation',learningShape:{version:2,kind:'investigation',question:'Which seedlings need water?'}});
+  } else if(state==='F'){
+    // Version 2 continuation: the accepted A–E chronology remains unchanged.
+    // Crucially, there is NO generated Library answer or conversational
+    // correction in this starting state. Those are requested during tests.
+    const project=(await ok(c.context('journey',id('project')))).record;
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=await create(c,'investigation','question-storage',question(
+      'TEST ONLY Do personal labels survive refresh?',
+      'I saw labels survive switching moods, but I have not checked a page refresh. Does this imply storage? What would changing that mean for a shared device?',
+      [projectLink(project,'personal-labels'),articleLink(reference,'personal')]));
+    await note(c,'note-return','TEST ONLY return after an interruption — fictional User Note',
+      'FICTIONAL USER NOTE (written before a new GPT conversation): Back to this after a few days. I switched calm → energetic → calm and my labels were still there. I think that means they persist, but I have NOT refreshed the page. I might be mixing up React state and browser storage. I want to keep the demo simple for now. The current Library explanation looks a bit thin; at some point I would like to request a proper worked reference about labels, refresh and privacy. This Note is context, not permission for GPT to publish anything.',
+      [noteLink(storage),projectLink(project,'personal-labels'),articleLink(reference,'personal')]);
+    await create(c,'note','note-terminal',{
+      title:'TEST ONLY supplied terminal capture — build claim is not verified',
+      learningScope:scope,links:[noteLink(storage),projectLink(project,'code')],
+      noteContent:[
+        {kind:'markdown',text:'FICTIONAL USER: I copied this from my last attempt, but I did not save the full logs or a source commit. Prediction: the app should build. This supplied text alone does not prove an independent execution.'},
+        {kind:'terminal',id:'build-snippet',label:'Partial local output (fictional)',environment:'Fictional laptop / local Vite app',command:'pnpm exec vite build --config examples/mood-to-music/vite.config.mjs',output:'TEST ONLY / SUPPLIED EXCERPT\n✓ built in 0.6s\nExit status reported by User: 0\nNo timestamp, complete log or independently verified commit recorded.'},
+        {kind:'markdown',text:'Observation (reported): the partial output looked successful. A possible source file is https://github.com/frekland/Minamo/blob/395e44505d8686153ec0a44b4cb224e7e405d513/examples/mood-to-music/src/versions/v5.jsx — that immutable public file can be checked independently, but I did not record whether my alleged build used that checkout. Uncertainty: which exact code produced the output and whether refresh removes my labels.'}
+      ]
+    });
+    await update(c,'journey','project',{links:[...project.links,{family:'investigation',id:storage.id,sourceContext:{stageId:'personal-labels'}}]});
   } else throw Error('Unknown state '+state);
 }
 return {applyState,id};
