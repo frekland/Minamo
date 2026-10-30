@@ -124,3 +124,51 @@ test('epoch, phase, sealing, concurrent append conflict, scope and reset/replay 
     assert.equal((await read(c,{action:'read',runId:'M2M-V3-R002'})).events.length,0);
   }finally{await fixture.dispose();}
 });
+
+test('a blocked H-to-I advance can record S04 failure diagnostics without admitting fixture turns or learning writes',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings});
+  try{
+    const c=fixture.client(OWNER);await loaded(c);await start(c);
+    for(const [index,phase] of ['G','H'].entries()){
+      const stepped=await scenario(c,{action:'advance',expectedGeneration:'legacy@0',expectedRevision:index+1,
+        operationId:'test-pending-'+phase});
+      assert.equal(stepped.error,false,JSON.stringify(stepped));
+    }
+    const question=(await c.context('investigation','TEST-ONLY-m2m-r1-question-storage')).data.record;
+    const unexpected=await c.request('/api/learning-developments',{
+      intent:'explicit-user-checkpoint',operationId:'unexpected-S04-checkpoint',expectedGeneration:'legacy@0',
+      target:{kind:'investigation',investigationId:question.id},expectedTargetRev:question.rev,
+      development:{summary:'TEST HARNESS ONLY unexpected checkpoint must block controller.'}
+    });
+    assert.equal(unexpected.status,200);
+    const blocked=await scenario(c,{action:'advance',expectedGeneration:'legacy@0',expectedRevision:3,
+      operationId:'test-blocked-H-I'});
+    assert.equal(blocked.code,'fixture_checkpoint_mismatch');
+    assert.equal((await read(c,{action:'turn',sessionId:'S04'})).code,'test_turn_unavailable');
+    assert.equal((await append(c,segment(1,'fixture.user-turn',{sessionId:'S04'}))).code,'test_scenario_pending');
+    assert.equal((await append(c,segment(1,'model.transcript',{sessionId:'S04',segmentType:'assistant-response',
+      markdown:'TEST HARNESS ONLY not a real response.'}))).code,'test_scenario_pending');
+    assert.equal((await append(c,segment(1,'model.transcript',{sessionId:'S03',segmentType:'tool-attempt',
+      markdown:'TEST HARNESS ONLY wrong session.'}))).code,'test_scenario_pending');
+    assert.equal((await append(c,segment(1,'model.transcript',{sessionId:'S05',segmentType:'session-note',
+      markdown:'TEST HARNESS ONLY future session.'}))).code,'test_scenario_pending');
+    assert.equal((await append(c,{action:'seal',expectedRevision:0})).code,'test_scenario_pending');
+    const diagnostic=segment(1,'model.transcript',{sessionId:'S04',segmentType:'tool-attempt',
+      markdown:'TEST HARNESS ONLY: controller returned fixture_checkpoint_mismatch, no phase-I user turn.'});
+    const saved=await append(c,diagnostic);
+    assert.equal(saved.error,false,JSON.stringify(saved));
+    assert.equal(saved.event.phase,'I');
+    assert.equal(saved.event.provenance,'model-submitted');
+    assert.equal((await append(c,diagnostic)).replayed,true);
+    const summary=await append(c,segment(2,'model.transcript',{sessionId:'S04',
+      segmentType:'session-note',markdown:'TEST HARNESS ONLY: recovery remains pending; no tutor reply.'}));
+    assert.equal(summary.error,false,JSON.stringify(summary));
+    const ledger=await read(c,{action:'read',runId:'M2M-V3-R001'});
+    assert.deepEqual(ledger.events.map(e=>e.sequence),[1,2]);
+    assert.equal(ledger.coverage.hostTranscriptAttested,false);
+    const inspect=await scenario(c,{action:'inspect',expectedGeneration:'legacy@0'});
+    assert.equal(inspect.active.phase,'H');assert.equal(inspect.active.revision,3);
+    assert.equal(inspect.pending.operationId,'test-blocked-H-I');
+    assert.equal((await c.context('investigation',question.id)).status,200);
+  }finally{await fixture.dispose();}
+});

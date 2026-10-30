@@ -26,6 +26,8 @@ Both tools appear only for the configured Sites owner when `MINAMO_SCENARIO_CONT
 
 Every append is immutable, stored in D1 separately from learning tables, and returns a committed event and run revision. The **same operation ID, entry ID and identical contents** may be retried after an uncertain acknowledgement; changed contents are rejected. Concurrent CAS/unique-index races fail without appending a second event. The source commit/generation/epoch is pinned, with 16 KiB UTF-8 per entry, 512 events and 4 MiB Markdown per run. The tool deliberately accepts no arbitrary record family or general-purpose user transcript.
 
+**S04 pending-controller recovery:** a failed, claimed H→I advance can leave the controller at H with a pending operation. During such an *advance-only, same-epoch* pending state, the existing open run may append only `model.transcript` `tool-attempt` or `session-note` diagnostics for the exact pending phase-I session, using the ordinary next-sequence CAS and immutable idempotency checks. It cannot append a fictional User turn, an assistant response, start/seal a run, write learning records, or claim that the phase has committed. Each diagnostic is explicitly `model-submitted`, not host-attested telemetry. The original S04 failed attempt was recorded externally in evidence PR #23; a later diagnostic may link that report but must not pretend to be a backdated server trace.
+
 ### `read_minamo_test_transcript`
 
 - `list`: discover run identities, source/fixture pins, epoch, retained/retired status and revision.

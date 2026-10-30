@@ -253,6 +253,37 @@ test('unregistered conversational checkpoint blocks reset before deleting record
     assert.equal(row?.withdrawn,0);
   }finally{await fixture.dispose();}
 });
+test('S03 legacy C01 Question checkpoint survives H-to-I and is canonically retired on later reset',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner);
+    assert.equal((await manage(c,args('load',0,{phase:'A'}))).error,false);
+    assert.equal((await manage(c,args('reset',1))).error,false);
+    const h=await manage(c,args('load',2,{phase:'H'}));
+    assert.equal(h.error,false,JSON.stringify(h));
+    assert.equal(h.data.epoch,3);
+    assert.equal(h.data.reservedOutputs.conversationalCheckpoint,'TEST-ONLY-m2m-r3-save-c01');
+    assert.equal(h.data.reservedOutputs.historicalC01Alias,'TEST-ONLY-m2m-save-c01');
+    const question=(await c.context('investigation','TEST-ONLY-m2m-r3-question-storage')).data.record;
+    const legacy=await c.request('/api/learning-developments',{
+      intent:'explicit-user-checkpoint',operationId:'TEST-ONLY-m2m-save-c01',expectedGeneration:'legacy@0',
+      target:{kind:'investigation',investigationId:question.id},expectedTargetRev:question.rev,
+      development:{summary:'TEST ONLY S03 legacy Question checkpoint, no demonstrated learning assessment.'}
+    });
+    assert.equal(legacy.status,200,JSON.stringify(legacy.data));
+    const i=await manage(c,args('advance',3,{operationId:'TEST-ONLY-m2m-r3-s04-i-advance-20261030-01'}));
+    assert.equal(i.error,false,JSON.stringify(i));
+    assert.equal(i.data.phase,'I');
+    assert.ok(i.data.snapshot.checkpointIds.includes('TEST-ONLY-m2m-save-c01'));
+    const replay=await manage(c,args('advance',3,{operationId:'TEST-ONLY-m2m-r3-s04-i-advance-20261030-01'}));
+    assert.equal(replay.data.replayed,true);
+    const reset=await manage(c,args('reset',4));
+    assert.equal(reset.error,false,JSON.stringify(reset));
+    const head=await fixture.db.prepare('SELECT withdrawn,revision FROM v2_learning_developments WHERE owner=? AND id=?')
+      .bind(owner,'TEST-ONLY-m2m-save-c01').first();
+    assert.deepEqual(head,{withdrawn:1,revision:2});
+  }finally{await fixture.dispose();}
+});
 test('real substantial manuscript publishing yields a derived ms-* Article and clean reset',async()=>{
   const fixture=await privateStorageFixture(worker,{bindings:settings});
   try{
