@@ -39,6 +39,8 @@ This repository is a **clean-source preparation**, assembled from the working pr
 
 The code uses React, TypeScript, Vinext and Cloudflare Workers with D1/R2 persistence. Authentication and MCP publication currently depend on **ChatGPT Sites-specific capabilities**. It is not yet a documented, one-click general-purpose self-hosted application.
 
+**For a fresh development chat:** begin with [Product context and prior-art lessons](docs/PRODUCT-CONTEXT-AND-PRIOR-ART.md) and the [V3 longitudinal closeout and next learner-context experiments](docs/acceptance/2026-10-30-m2m-v3-closeout-and-learner-context-roadmap.md). These explain why the synthetic tests exist, the current architecture hypothesis, the next issue sequence and what remains deliberately deferred.
+
 Start with [Getting started](docs/GETTING-STARTED.md), [Architecture](docs/ARCHITECTURE.md) and [Deployment boundaries](docs/DEPLOYMENT.md).
 
 ## Development
