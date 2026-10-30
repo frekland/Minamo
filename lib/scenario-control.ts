@@ -24,6 +24,26 @@ const scenarioId=manifest.key;
 const states=manifest.states.map(s=>s.id);
 const fixtureVersion=`${manifest.key}/${manifest.schemaVersion}`;
 const prefix=(epoch:number)=>`TEST-ONLY-m2m-r${epoch}`;
+// S03 of the first live V3 transcript used the literal reserved-output ID
+// advertised by the manifest, before the run prefix requirement was clear.
+// This is an exact historical alias, not permission for unscoped checkpoints.
+const legacyC01={run:prefix(3),id:'TEST-ONLY-m2m-save-c01',
+  targetId:'TEST-ONLY-m2m-r3-question-storage'};
+const checkpointIdsForRun=(run:string)=>[
+  ...manifest.stableIds.checkpoints.map(id=>run+'-'+id.replace('TEST-ONLY-m2m-','')),
+  ...(run===legacyC01.run?[legacyC01.id]:[])
+];
+const questionIdsForRun=(run:string)=>new Set(manifest.stableIds.questions.map(id=>
+  run+'-'+id.replace('TEST-ONLY-m2m-','')));
+const reservedOutputsForEpoch=(epoch:number)=>({...manifest.reservedOutputs,
+  // The manifest lists stable ID leaves, not writable global identities.
+  conversationalCheckpoint:prefix(epoch)+'-save-c01',
+  additionalCheckpointIds:manifest.reservedOutputs.additionalCheckpointIds.map(id=>
+    prefix(epoch)+'-'+id.replace('TEST-ONLY-m2m-','')),
+  checkpointOperationPattern:'TEST-ONLY-m2m-rN-save-c0N',
+  ...(epoch===3?{historicalC01Alias:legacyC01.id}:{}),
+  manuscriptOperationPattern:'TEST-ONLY-m2m-rN-'+manifest.reservedOutputs.manuscriptOperationLeaf
+});
 const error=(status:number,code:string,message:string):never=>{throw new DomainError(status,code,message)};
 const db=(env:ScenarioEnv)=>{if(!env.DB)error(503,'storage_unavailable','Scenario storage is unavailable.');return env.DB!};
 const validOperation=(value:unknown)=>typeof value==='string'&&/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/.test(value);
@@ -131,7 +151,7 @@ async function assertSyntheticRunBoundary(env:ScenarioEnv,owner:string,epoch:num
   await assertCheckpointBoundary(env,owner,run);
 }
 async function assertCheckpointBoundary(env:ScenarioEnv,owner:string,run:string){
-  const allowed=new Set(manifest.stableIds.checkpoints.map(stableId=>run+'-'+stableId.replace('TEST-ONLY-m2m-','')));
+  const allowed=new Set(checkpointIdsForRun(run));
   // Inspect checkpoint heads attached to exact synthetic Projects or Questions,
   // even if a GPT used an operation ID outside the TEST-ONLY namespace.
   const rows=await db(env).prepare(`SELECT id,event_json FROM v2_learning_developments WHERE owner=? AND withdrawn=0 AND
@@ -142,8 +162,11 @@ async function assertCheckpointBoundary(env:ScenarioEnv,owner:string,run:string)
   for(const item of rows.results){
     let event:any;
     try{event=JSON.parse(item.event_json)}catch{error(409,'fixture_checkpoint_mismatch','A synthetic Project checkpoint is unreadable.');}
+    const legacy=item.id===legacyC01.id;
     if(!allowed.has(item.id)||event.synthetic!==true||!(event.primaryTarget?.journeyId===run+'-project'||
-      event.primaryTarget?.investigationId?.startsWith(run+'-question-')))
+      event.primaryTarget?.investigationId?.startsWith(run+'-question-'))||
+      (legacy&&(run!==legacyC01.run||event.primaryTarget?.kind!=='investigation'||
+        event.primaryTarget.investigationId!==legacyC01.targetId)))
       error(409,'fixture_checkpoint_mismatch','A synthetic Project has an unregistered checkpoint; inspect before reset.');
   }
 }
@@ -189,20 +212,25 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
   // Withdraw only exact synthetic fixture checkpoints through the ordinary
   // revisioned learning-development contract, before their Project is trashed.
   // The immutable earlier editions are intentionally retained for recovery.
-  for(const stableId of manifest.stableIds.checkpoints){
-    const leaf=stableId.replace('TEST-ONLY-m2m-',''),checkpointId=old+'-'+leaf;
+  for(const checkpointId of checkpointIdsForRun(old)){
+    const leaf=checkpointId.startsWith(old+'-')?checkpointId.slice(old.length+1):'legacy-save-c01';
     const row=await db(env).prepare('SELECT revision,event_json,withdrawn FROM v2_learning_developments WHERE owner=? AND id=?')
       .bind(owner,checkpointId).first<{revision:number;event_json:string;withdrawn:number}>();
     if(!row||row.withdrawn)continue;
     const event=JSON.parse(row.event_json);
-    if(event.synthetic!==true||event.primaryTarget?.kind!=='journey-stage'||event.primaryTarget.journeyId!==old+'-project')
+    const target=event.primaryTarget;
+    const isStage=target?.kind==='journey-stage'&&target.journeyId===old+'-project';
+    const isQuestion=target?.kind==='investigation'&&questionIdsForRun(old).has(target.investigationId);
+    const isLegacy=checkpointId===legacyC01.id;
+    if(event.synthetic!==true||!(isStage||isQuestion)||
+      (isLegacy&&(old!==legacyC01.run||!isQuestion||target.investigationId!==legacyC01.targetId)))
       error(409,'fixture_checkpoint_mismatch','A checkpoint no longer belongs to the exact synthetic Project.');
-    const project=await c.context('journey',old+'-project');
-    if(project.status!==200||project.data.record.synthetic!==true)error(409,'fixture_cleanup_blocked','Cannot verify the synthetic Project before checkpoint withdrawal.');
+    const current=await c.context(isStage?'journey':'investigation',isStage?old+'-project':target.investigationId);
+    if(current.status!==200||current.data.record.synthetic!==true)error(409,'fixture_cleanup_blocked','Cannot verify the synthetic checkpoint target before withdrawal.');
     const revised=await c.request('/api/learning-developments/revise',{
       purpose:'TEST ONLY deterministic fixture retirement',intent:'explicit-user-checkpoint',
       expectedGeneration:c.generation,operationId:old+'-cleanup-'+leaf,id:checkpointId,
-      expectedRev:row.revision,target:event.primaryTarget,expectedTargetRev:project.data.record.rev,withdraw:true
+      expectedRev:row.revision,target,expectedTargetRev:current.data.record.rev,withdraw:true
     });
     if(revised.status!==200||revised.data.status!=='committed')
       error(409,'fixture_cleanup_blocked','Synthetic checkpoint withdrawal failed; retry the same operation ID.');
@@ -276,6 +304,15 @@ async function snapshot(c:ReturnType<typeof client>,env:ScenarioEnv,epoch:number
   for(const stage of outline.data.steps.map((s:any)=>s.stageId)){
     const response=await c.request('/api/learning-context',{scope:'target',target:{kind:'journey-stage',journeyId:id('project'),stageId:stage},profile:'tutor',limit:10});
     if(response.status!==200)error(409,'scenario_readback_failed','Checkpoint context readback failed.');
+    if(response.data.resume)checkpointIds.push(response.data.resume.source.id);
+    for(const item of response.data.priorCheckpoints??[])checkpointIds.push(item.id);
+  }
+  // A conversational checkpoint may be attached to a Question rather than a
+  // Project Stage. Keep it visible in controller readback and recovery checks.
+  for(const question of questions){
+    const response=await c.request('/api/learning-context',{scope:'target',
+      target:{kind:'investigation',investigationId:question.id},profile:'tutor',limit:10});
+    if(response.status!==200)error(409,'scenario_readback_failed','Question checkpoint context readback failed.');
     if(response.data.resume)checkpointIds.push(response.data.resume.source.id);
     for(const item of response.data.priorCheckpoints??[])checkpointIds.push(item.id);
   }
@@ -368,7 +405,7 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
   const base={scenarioId,fixtureVersion,generation:ctx.generation,sourceCommit:env.MINAMO_SCENARIO_SOURCE_SHA??null,
     libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1',
     syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1',
-    reservedOutputs:{...manifest.reservedOutputs,manuscriptOperationPattern:'TEST-ONLY-m2m-rN-'+manifest.reservedOutputs.manuscriptOperationLeaf}};
+    reservedOutputs:reservedOutputsForEpoch(Math.max(1,row.epoch))};
   if(input.action==='list')return {...base,states:manifest.states,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:!!row.pending_json};
   if(input.action==='inspect'){
     if(parsePending(row))return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:JSON.parse(row.pending_json!),retryRequired:true};
@@ -420,7 +457,7 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
       .bind(pending.epoch,pending.phase,JSON.stringify(receipt),new Date().toISOString(),owner,scenarioId,
         input.expectedRevision,JSON.stringify(pending),ctx.generation).run();
     if(commit.meta.changes!==1)error(409,'scenario_commit_conflict','Fixture operations may have committed, but controller acknowledgement did not. Inspect and retry the same operation ID.');
-    return {...base,...receipt,replayed:false};
+    return {...base,...receipt,reservedOutputs:reservedOutputsForEpoch(pending.epoch),replayed:false};
   }catch(e){
     // A multi-record canonical replay is not atomic. Preserve pending intent
     // and individual domain receipts; do NOT falsely claim a clean rollback.

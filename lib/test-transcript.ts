@@ -70,12 +70,11 @@ async function getRun(env:Env,owner:string,runId:string){
 async function active(env:Env,owner:string){
   const state=await scenarioState(env as any,owner),generation=generationContext(env)!.generation;
   if(state.generation!==generation)fail('test_generation_conflict','Workspace generation mismatch.');
-  if(state.pending_json)fail('test_scenario_pending','Complete the pending fixture transition first.');
   if(!state.phase)fail('test_scenario_not_loaded','Load a published TEST ONLY fixture first.');
   return {state,generation};
 }
 export const appendTranscriptTool={name:'append_minamo_test_transcript',
-  description:'Owner-only TEST ONLY: start one run per fixture epoch, append one immutable incremental Markdown segment (actual intended GPT response or reported tool outcome), or seal. Model reports are not server-observed facts; never log private learning data or credentials.',
+  description:'Owner-only TEST ONLY: start one run per fixture epoch, append one immutable incremental Markdown segment (actual intended GPT response or reported tool outcome), or seal. Only tool-attempt/session-note diagnostics for the exact pending advance session may be appended during controller recovery; they are model-reported, not host-attested. Never log private learning data or credentials.',
   inputSchema:{type:'object',properties:{
     purpose:{type:'string',minLength:1,maxLength:500},action:{enum:['start','append','seal']},
     scenarioId:{enum:[scenarioId]},runId:{type:'string',pattern:'^[A-Za-z0-9][A-Za-z0-9_.:-]{0,79}$'},
@@ -105,6 +104,8 @@ export async function writeTestTranscript(env:Env,owner:string,request:Request,i
     fail('invalid_test_run','Provide a known scenario, run ID and positive synthetic epoch.',400);
   const {state,generation}=await active(env,owner);
   if(state.epoch!==input.epoch)fail('test_epoch_conflict','This fixture epoch is no longer active. Old runs are read-only.');
+  if(state.pending_json&&input.action!=='append')
+    fail('test_scenario_pending','Complete the pending fixture transition first.');
   if(input.action==='start'){
     if(!validId(input.operationId)||input.fixtureVersion!==fixtureVersion||
       (input.personaVariant!==undefined&&!validId(input.personaVariant,80))||
@@ -156,6 +157,14 @@ export async function writeTestTranscript(env:Env,owner:string,request:Request,i
     input.siteVersion!==undefined||input.modelLabel!==undefined)
     fail('invalid_test_entry','Run metadata is pinned at start, not changed by append.',400);
   const session=sessions.find(s=>s.id===input.sessionId)!;
+  const pending=state.pending_json?JSON.parse(state.pending_json) as {
+    action:string;epoch:number;phase:string;previousPhase:string|null}:null;
+  const pendingDiagnostic=!!pending&&pending.action==='advance'&&
+    pending.epoch===state.epoch&&pending.previousPhase===state.phase&&
+    session.phase===pending.phase&&input.eventKind==='model.transcript'&&
+    (input.segmentType==='tool-attempt'||input.segmentType==='session-note');
+  if(pending&&!pendingDiagnostic)
+    fail('test_scenario_pending','Only a diagnostic segment for the exact pending advance session may be appended.');
   let markdown:string,provenance:string,segmentType:string|null;
   if(input.eventKind==='fixture.user-turn'){
     if(input.markdown!==undefined||input.segmentType!==undefined||input.links!==undefined)
@@ -182,7 +191,8 @@ export async function writeTestTranscript(env:Env,owner:string,request:Request,i
     return {run:runView(run,state.epoch),event:eventView(existing),replayed:true};
   }
   if(run.status!=='open')fail('test_run_sealed','Sealed runs cannot accept more entries.');
-  if(session.phase!==state.phase)fail('test_phase_conflict','Session and active scenario phase differ.');
+  if(session.phase!==state.phase&&!pendingDiagnostic)
+    fail('test_phase_conflict','Session and active scenario phase differ.');
   if(input.eventKind==='fixture.user-turn'){
     const prior=await db(env).prepare(`SELECT sequence FROM v2_test_transcript_events WHERE owner=? AND scenario=?
       AND run_id=? AND session_id=? AND event_kind='fixture.user-turn' LIMIT 1`)

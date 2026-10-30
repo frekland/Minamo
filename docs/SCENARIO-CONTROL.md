@@ -18,6 +18,14 @@ The existing authenticated `/mcp` server offers one optional tool, `manage_minam
 
 The seed reuses the existing canonical record, learning-development, relation, revision, Flag, and operation-receipt contracts, not direct learner-table inserts. An interrupted transition resumes through individual persisted receipts. `inspect` performs fresh domain readbacks and reports actual runtime data separately from the authored synthetic scenario dates.
 
+### S04 checkpoint compatibility (30 October 2026)
+
+The first live V3 S03 conversation saved its explicitly authorised, synthetic Question checkpoint under the literal manifest key `TEST-ONLY-m2m-save-c01`, rather than the epoch-scoped `TEST-ONLY-m2m-r3-save-c01`. This is **one exact historical alias**: it is accepted only for epoch 3, only when it remains synthetic and targets `TEST-ONLY-m2m-r3-question-storage`. The fail-closed validator still rejects unknown checkpoint identities and targets. `reservedOutputs` returned by the controller now resolves checkpoint IDs for the current epoch; future GPT-created checkpoints must use those epoch-scoped IDs. Do not reuse the legacy C01 ID in another epoch.
+
+Checkpoint readback and controlled retirement cover Question-scoped developments as well as Project-stage developments, using the exact current synthetic target revision for canonical withdrawal. They never delete historical development editions. An existing pending transition is resumed **only with its original operation ID and exact inputs** after the corrected implementation is deployed; do not reset or create a second test epoch merely to clear it.
+
+The `MINAMO_SCENARIO_SOURCE_SHA` setting identifies the **pinned scenario corpus baseline** for an in-flight transcript. A controller-only correction does not rewrite the fictional corpus or retroactively rebase the prior transcript. Keep that baseline pin unchanged for recovery; record the corrective deployment's actual Sites version and Git/source commit separately. Changing this setting while an existing run remains open would trigger its intentional transcript `test_source_conflict` guard.
+
 ## Deployment and safeguards
 
 Required server bindings, set through the **reviewed native Sites release workflow**, never committed with personal values:
