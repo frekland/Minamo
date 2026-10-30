@@ -73,6 +73,24 @@ const sourcePointer=version=>{
   assert.ok(artifact,'Unknown source revision '+version);
   return `\nSOURCE EVIDENCE: ${artifact.path}\nPINNED SHA-256: ${artifact.sha256}\nProvenance: synthetic runnable source; execution claims require separate test receipts.`;
 };
+const anchored=(reference,sectionId,quote)=>{
+  const part=reference.sections.find(section=>section.id===sectionId)?.parts.find(part=>part.id==='p');
+  const start=part?.text?.indexOf(quote)??-1;
+  assert.ok(start>=0,`The canonical ${sectionId} passage no longer contains ${quote}`);
+  return {articleId:reference.id,recordFamily:'article',rendition:reference.rendition,
+    sectionId,partId:'p',start,end:start+quote.length,quote};
+};
+async function quickReminder(c,reference,leaf,sectionId,quote,body){
+  assert.ok(body.length<=100,'A User annotation is a short passage reminder, not a Note');
+  return create(c,'annotation',leaf,{title:'TEST ONLY quick User reminder',body,
+    anchor:anchored(reference,sectionId,quote),learningScope:scope});
+}
+async function flagPassage(c,reference,leaf,sectionId,quote){
+  const operationId=id('flag-'+leaf);
+  if(await c.operation?.(operationId))return;
+  return ok(c.command({operationId,action:'setFlag',target:{kind:'passage',anchor:anchored(reference,sectionId,quote)},
+    active:true,expectedTargetRev:0}));
+}
 
 async function applyState(c,state){
   c.scenarioPhase=state;
@@ -125,6 +143,102 @@ async function applyState(c,state){
     const unknown=await note(c,'note-unknown','TEST ONLY unverified playlist capability','SCRIPTED CLAIM: perhaps saving a playlist could work. No credential, executed request, log, documentation receipt or implementation accompanies this claim.',[noteLink((await ok(c.context('investigation',id('question-provider')))).record)]);
     await checkpoint(c,'save-e','personal-labels',{summary:'Synthetic change of direction: prefer local personally labelled favourites; old objective-scoring proposal is abandoned.',facts:[{role:'interpretation',text:'Personal mood labels are subjective and may evolve with the listener.',basis:'illustrative'},{role:'open-question',text:'Could an appropriately authorised provider adapter support save/playback?',basis:'provisional'}],decisions:[{choice:'Do not build an objective emotional scoring feature.',reason:'The subjective feedback use case is more honest, and API feasibility is unverified.',basis:'illustrative',status:'established'}],nextAction:'Decide whether labels should persist locally, and verify external capabilities with dated source evidence.'},[pivot,unknown]);
     await create(c,'investigation','unrelated-garden',{title:'TEST ONLY garden journal',body:'UNRELATED_PRIVATE_GARDEN_SENTINEL; same owner but separate investigation',learningShape:{version:2,kind:'investigation',question:'Which seedlings need water?'}});
+  } else if(state==='F'){
+    // Version 2 continuation: the accepted A–E chronology remains unchanged.
+    // Crucially, there is NO generated Library answer or conversational
+    // correction in this starting state. Those are requested during tests.
+    const project=(await ok(c.context('journey',id('project')))).record;
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=await create(c,'investigation','question-storage',question(
+      'TEST ONLY Do personal labels survive refresh?',
+      'I saw labels survive switching moods, but I have not checked a page refresh. Does this imply storage? What would changing that mean for a shared device?',
+      [projectLink(project,'personal-labels'),articleLink(reference,'personal')]));
+    await note(c,'note-return','TEST ONLY return after an interruption — fictional User Note',
+      'FICTIONAL USER NOTE (written before a new GPT conversation): Back to this after a few days. I switched calm → energetic → calm and my labels were still there. I think that means they persist, but I have NOT refreshed the page. I might be mixing up React state and browser storage. I want to keep the demo simple for now. The current Library explanation looks a bit thin; at some point I would like to request a proper worked reference about labels, refresh and privacy. This Note is context, not permission for GPT to publish anything.',
+      [noteLink(storage),projectLink(project,'personal-labels'),articleLink(reference,'personal')]);
+    await create(c,'note','note-terminal',{
+      title:'TEST ONLY supplied terminal capture — build claim is not verified',
+      learningScope:scope,links:[noteLink(storage),projectLink(project,'code')],
+      noteContent:[
+        {kind:'markdown',text:'FICTIONAL USER: I copied this from my last attempt, but I did not save the full logs or a source commit. Prediction: the app should build. This supplied text alone does not prove an independent execution.'},
+        {kind:'terminal',id:'build-snippet',label:'Partial local output (fictional)',environment:'Fictional laptop / local Vite app',command:'pnpm exec vite build --config examples/mood-to-music/vite.config.mjs',output:'TEST ONLY / SUPPLIED EXCERPT\n✓ built in 0.6s\nExit status reported by User: 0\nNo timestamp, complete log or independently verified commit recorded.'},
+        {kind:'markdown',text:'Observation (reported): the partial output looked successful. A possible source file is https://github.com/frekland/Minamo/blob/395e44505d8686153ec0a44b4cb224e7e405d513/examples/mood-to-music/src/versions/v5.jsx — that immutable public file can be checked independently, but I did not record whether my alleged build used that checkout. Uncertainty: which exact code produced the output and whether refresh removes my labels.'}
+      ]
+    });
+    await update(c,'journey','project',{links:[...project.links,{family:'investigation',id:storage.id,sourceContext:{stageId:'personal-labels'}}]});
+  } else if(state==='G'){
+    // Only fictional User actions are injected between GPT conversations;
+    // no GPT-authored Library output, checkpoint or Question response is faked.
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=(await ok(c.context('investigation',id('question-storage')))).record;
+    await note(c,'note-reading','TEST ONLY User thinking aloud after reading',
+      'FICTIONAL USER NOTE: I read the old reference and may have a new Library explanation from GPT, but I still need to try the refresh experiment. I marked two passages for later because I cannot yet tell where the labels are held. Prediction: mood switching should not clear them, but a reload might. This is my question, not a verified result.',
+      [noteLink(storage),articleLink(reference,'personal')]);
+    await note(c,'note-plan','TEST ONLY User scratch plan for a small experiment',
+      'FICTIONAL USER NOTE: Plan to add a label, switch calm → energetic → calm, then refresh. I want to inspect localStorage in the browser developer tools as well, without assuming it is used. I may ask GPT about the difference between render, remount and refresh later.',
+      [noteLink(storage)]);
+    await quickReminder(c,reference,'annotation-g-personal','personal','A personal label','Does this live only in React state?');
+    await quickReminder(c,reference,'annotation-g-rights','rights','Source access','Check this before using the API.');
+    await flagPassage(c,reference,'g-personal','personal','Listeners differ');
+  } else if(state==='H'){
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=(await ok(c.context('investigation',id('question-storage')))).record;
+    await create(c,'note','note-refresh-test',{
+      title:'TEST ONLY User-reported refresh experiment — v5',learningScope:scope,
+      links:[noteLink(storage),articleLink(reference,'personal')],
+      noteContent:[
+        {kind:'markdown',text:'FICTIONAL USER: My prediction was that labels might survive a reload. I typed a label in the v5 page, changed moods and returned; it stayed visible. Then I refreshed and it disappeared. These are my reported observations, not a browser test that Minamo or GPT independently ran. I now suspect component state rather than browser storage.'},
+        {kind:'terminal',id:'refresh-supplied',label:'User typed observation, not an execution log',environment:'Fictional browser / local page',command:'manual: switch moods, then refresh',output:'Reported: label visible after mood switch\nReported: label gone after refresh\nNo captured browser trace or test-run receipt.'}
+      ]
+    });
+    await note(c,'note-v6','TEST ONLY User source experiment — automatic local persistence',
+      'FICTIONAL USER NOTE: I tried adding localStorage to the mock React version so my labels survive reload. The runnable v6 source exists in the public fixture, but this Note does not claim I committed it to a particular Git SHA or proved it worked. I need to check whether storage can be disabled and what might happen on a shared computer.'+sourcePointer('v6'),
+      [noteLink(storage),projectLink((await ok(c.context('journey',id('project')))).record,'code')]);
+    await quickReminder(c,reference,'annotation-h-personal','personal','objective audio feature','Not the same as persistence.');
+    await quickReminder(c,reference,'annotation-h-async','async','request identity','Does refresh restart this too?');
+    await flagPassage(c,reference,'h-rights','rights','An offline mock');
+  } else if(state==='I'){
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=(await ok(c.context('investigation',id('question-storage')))).record;
+    await note(c,'note-shared-device','TEST ONLY User reconsideration — shared browser',
+      'FICTIONAL USER NOTE: I wanted labels to stick, then realised I sometimes use a shared family laptop. Automatically keeping personal preferences on that browser might surprise someone. I now prefer the default to be temporary, with a deliberate choice if I ever save locally. This is a design preference, not proof that storage is unsafe in every context.',
+      [noteLink(storage),articleLink(reference,'rights')]);
+    await note(c,'note-check','TEST ONLY User questions after interrupted testing',
+      'FICTIONAL USER NOTE: Which revision am I actually running? I can see a v6 file but my last copied terminal output had no commit or timestamp. Small snippet to inspect later: `localStorage.getItem("TEST-ONLY-m2m-personal-labels-v1")`. I want GPT to distinguish code visible in the repository, browser results I reported, and actual tests that were executed. Also, I still need to check an old Flag about response order; that may be a separate problem.',
+      [noteLink(storage),articleLink(reference,'async')]);
+    await quickReminder(c,reference,'annotation-i-rights','rights','account and time','Would this matter on our shared laptop?');
+    await flagPassage(c,reference,'i-async','async','intent order');
+  } else if(state==='J'){
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=(await ok(c.context('investigation',id('question-storage')))).record;
+    await note(c,'note-v7','TEST ONLY User source revision — opt-in persistence',
+      'FICTIONAL USER NOTE: I changed the mock app again. v7 uses temporary labels unless the user selects Remember labels on this browser; turning it off clears saved labels. I wrote this because of the shared-device concern, not because GPT assessed my understanding. There is runnable source and a separate engineering test, but this paragraph alone is not a historical Git commit or an independent execution receipt.'+sourcePointer('v7'),
+      [noteLink(storage),projectLink((await ok(c.context('journey',id('project')))).record,'code')]);
+    await create(c,'note','note-retest',{
+      title:'TEST ONLY User retest log — reported, incomplete',learningScope:scope,
+      links:[noteLink(storage),articleLink(reference,'personal')],
+      noteContent:[
+        {kind:'markdown',text:'FICTIONAL USER: I think the new opt-in control works, though I only copied the short output below. My next manual check is to disable remembering and reload, then compare with the actual source/tests. I do not want GPT to rewrite this Note.'},
+        {kind:'terminal',id:'v7-test-supplied',label:'Partial supplied test output',environment:'Fictional local JavaScript workspace',command:'node --test examples/mood-to-music/tests/revisions.test.mjs',output:'Reported: tests passed\nNo complete log, exact checkout or timestamp supplied.'}
+      ]
+    });
+    await quickReminder(c,reference,'annotation-j-personal','personal','Listeners differ','Default should be private.');
+    await quickReminder(c,reference,'annotation-j-async','async','Completion order','Different issue; revisit later.');
+    await flagPassage(c,reference,'j-personal','personal','A personal label');
+  } else if(state==='K'){
+    const reference=(await ok(c.context('article',id('reference')))).record;
+    const storage=(await ok(c.context('investigation',id('question-storage')))).record;
+    await note(c,'note-return-later','TEST ONLY User return after ten days',
+      'FICTIONAL USER NOTE: Back after ten days. I remember trying two different ways to keep labels, but I have forgotten which version is current and whether I finished the privacy check. The Library material was useful, though I left several little Flags and reminders. I would like GPT to help me resume from what is actually recorded, one manageable challenge at a time.',
+      [noteLink(storage),articleLink(reference,'personal')]);
+    await note(c,'note-next','TEST ONLY User loose ends before another fresh chat',
+      'FICTIONAL USER NOTE: The provider question is still open. Maybe playlist saving becomes possible later, but I have no valid OAuth/test receipt. More immediately, I should check what happens after disabling Remember labels and refreshing, and maybe clean up the flags that no longer matter.',
+      [noteLink((await ok(c.context('investigation',id('question-provider')))).record),noteLink(storage)]);
+    // A genuine second User-authored edition; an earlier linked checkpoint,
+    // if present, must retain its original source revision.
+    await update(c,'note','note-plan',{body:'FICTIONAL USER REVISED NOTE: My original plan to test refresh is complete only as a reported v5 observation. The newer v7 opt-in/disable behaviour still needs careful retesting. Keep the old wording available as an earlier edition.'});
+    await quickReminder(c,reference,'annotation-k-rights','rights','An offline mock','Recheck provider docs some day.');
+    await flagPassage(c,reference,'k-rights','rights','Source access');
   } else throw Error('Unknown state '+state);
 }
 return {applyState,id};

@@ -2,6 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {TRACKS,selectTracks,addPersonalLabel} from '../src/catalog.mjs';
 import {createRequestController} from '../src/request-controller.mjs';
+import {STORAGE_KEY,CONSENT_KEY,applySavedLabels,readSavedLabels,saveLabels,clearSavedLabels,readConsent,setConsent} from '../src/label-storage.mjs';
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 test('v1→v2 selectable fictional catalogue and immutable v5 personal feedback',()=>{
   assert.equal(TRACKS.length,4);
@@ -34,4 +35,22 @@ test('v4 handles empty/error states and ignores stale rejection',async()=>{
   await c.select('energetic',Promise.resolve(selectTracks('energetic')));
   late.reject(Error('old failure'));await first;
   assert.equal(c.state.status,'ready');assert.equal(c.state.mood,'energetic');
+});
+test('v6 saves local labels while v7 requires a separate browser consent',()=>{
+  const content=new Map();
+  const storage={getItem:key=>content.get(key)??null,setItem:(key,value)=>content.set(key,value),removeItem:key=>content.delete(key)};
+  const labelled=addPersonalLabel(TRACKS,'c01','my own calm');
+  assert.equal(readConsent(storage),false);
+  assert.equal(saveLabels(storage,labelled),true);
+  assert.deepEqual(applySavedLabels(TRACKS,readSavedLabels(storage))[0].personalLabels,['my own calm']);
+  assert.equal(content.has(STORAGE_KEY),true);
+  assert.equal(readConsent(storage),false,'Earlier automatic persistence cannot imply consent');
+  setConsent(storage,true);
+  assert.equal(readConsent(storage),true);
+  setConsent(storage,false);
+  clearSavedLabels(storage);
+  assert.equal(content.has(STORAGE_KEY),false);
+  assert.equal(content.has(CONSENT_KEY),false);
+  storage.setItem(STORAGE_KEY,'{"c01":[12],"e01":["okay"]}');
+  assert.deepEqual(readSavedLabels(storage),{e01:['okay']},'Invalid saved labels are filtered without losing valid entries');
 });
