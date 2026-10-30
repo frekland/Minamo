@@ -2,6 +2,8 @@
 
 **Updated 30 October 2026.** This is a public, deliberately sanitised orientation for a new contributor or a fresh ChatGPT conversation. It is a *product decision and investigation guide*, not a claim that all linked features are shipped or that the acceptance tests establish learning outcomes.
 
+**Read this alongside the [recovered learner-experience redesign strategy](LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md).** It restores the detailed owner feedback, historical experience decisions, prior-art comparison gates and post-#17 product-design path. The broader UX problem is **not solved** by giving GPT a better checkpoint summary, and no new Project hierarchy or visual UI has yet been chosen.
+
 ## The problem Minamo is trying to solve
 
 A learner can build a Project over weeks: change goals, try things in a specialist tool, make mistakes, revise an explanation, leave a Note, question an Article, ask GPT for help and return in a fresh conversation. Minamo should make that evolving investigation **coherent, trustworthy, easy to inspect and natural to continue**.
