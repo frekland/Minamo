@@ -16,6 +16,26 @@ export const scenarioControl=sqliteTable('v2_scenario_control',{
  generation:text('generation').notNull(),pendingJson:text('pending_json'),
  receiptJson:text('receipt_json'),updatedAt:text('updated_at').notNull(),
 },t=>[primaryKey({columns:[t.owner,t.scenario]})]);
+// Owner-only TEST ONLY instrumentation, deliberately outside learner records.
+// Run identity is pinned to a fixture epoch; entries are immutable once written.
+export const testTranscriptRuns=sqliteTable('v2_test_transcript_runs',{
+ owner:text('owner').notNull(),scenario:text('scenario').notNull(),runId:text('run_id').notNull(),
+ generation:text('generation').notNull(),epoch:integer('epoch').notNull(),
+ fixtureVersion:text('fixture_version').notNull(),personaVariant:text('persona_variant'),
+ sourceCommit:text('source_commit'),siteVersion:text('site_version'),modelLabel:text('model_label'),
+ startOperationId:text('start_operation_id').notNull(),revision:integer('revision').notNull().default(0),
+ bytes:integer('bytes').notNull().default(0),status:text('status').notNull().default('open'),
+ createdAt:text('created_at').notNull(),updatedAt:text('updated_at').notNull(),
+},t=>[primaryKey({columns:[t.owner,t.scenario,t.runId]}),unique('v2_test_transcript_epoch_unique').on(t.owner,t.scenario,t.generation,t.epoch)]);
+export const testTranscriptEvents=sqliteTable('v2_test_transcript_events',{
+ owner:text('owner').notNull(),scenario:text('scenario').notNull(),runId:text('run_id').notNull(),
+ sequence:integer('sequence').notNull(),entryId:text('entry_id').notNull(),operationId:text('operation_id').notNull(),
+ sessionId:text('session_id').notNull(),phase:text('phase').notNull(),
+ eventKind:text('event_kind').notNull(),segmentType:text('segment_type'),provenance:text('provenance').notNull(),
+ markdown:text('markdown').notNull(),linksJson:text('links_json').notNull(),createdAt:text('created_at').notNull(),
+},t=>[primaryKey({columns:[t.owner,t.scenario,t.runId,t.sequence]}),
+ unique('v2_test_transcript_entry_unique').on(t.owner,t.scenario,t.runId,t.entryId),
+ unique('v2_test_transcript_operation_unique').on(t.owner,t.scenario,t.runId,t.operationId)]);
 export const investigations = sqliteTable("investigations", {
  owner: text("owner").notNull(), id: text("id").notNull(), title: text("title").notNull(),
 }, t => [primaryKey({ columns: [t.owner, t.id] })]);

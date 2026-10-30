@@ -28,7 +28,7 @@ const error=(status:number,code:string,message:string):never=>{throw new DomainE
 const db=(env:ScenarioEnv)=>{if(!env.DB)error(503,'storage_unavailable','Scenario storage is unavailable.');return env.DB!};
 const validOperation=(value:unknown)=>typeof value==='string'&&/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/.test(value);
 const parsePending=(row:Row):Pending|null=>row.pending_json?JSON.parse(row.pending_json) as Pending:null;
-function ownerGate(env:ScenarioEnv,request:Request){
+export function requireScenarioOwner(env:ScenarioEnv,request:Request){
   if(env.MINAMO_SCENARIO_CONTROL_ENABLED!=='1')error(404,'scenario_control_disabled','Scenario control is not enabled.');
   const identity=request.headers.get('oai-authenticated-user-id');
   if(!env.MINAMO_OWNER_ID||!identity||identity!==env.MINAMO_OWNER_ID||!request.headers.get('oai-authenticated-user-email'))
@@ -54,7 +54,7 @@ function validate(input:ScenarioInput){
   }else if(input.phase!==undefined||input.operationId!==undefined||input.expectedRevision!==undefined)
     error(400,'invalid_scenario_read','Read operations do not accept mutation fields.');
 }
-async function rowFor(env:ScenarioEnv,owner:string):Promise<Row>{
+export async function scenarioState(env:ScenarioEnv,owner:string):Promise<Row>{
   const now=new Date().toISOString();
   await db(env).prepare('INSERT OR IGNORE INTO v2_scenario_control(owner,scenario,epoch,phase,revision,generation,updated_at) VALUES(?,?,0,NULL,0,?,?)')
     .bind(owner,scenarioId,generationContext(env)!.generation,now).run();
@@ -360,10 +360,10 @@ export const scenarioTool={
   },required:['purpose','action'],additionalProperties:false}
 };
 export async function manageScenario(env:ScenarioEnv,owner:string,request:Request,input:ScenarioInput){
-  const ctx=ownerGate(env,request);
+  const ctx=requireScenarioOwner(env,request);
   validate(input);
   if(input.action!=='list')requireGeneration(ctx,input.expectedGeneration);
-  const row=await rowFor(env,owner);
+  const row=await scenarioState(env,owner);
   if(row.generation!==ctx.generation)error(409,'scenario_generation_conflict','Scenario control belongs to a different workspace generation; review recovery before proceeding.');
   const base={scenarioId,fixtureVersion,generation:ctx.generation,sourceCommit:env.MINAMO_SCENARIO_SOURCE_SHA??null,
     libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1',
