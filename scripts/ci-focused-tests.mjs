@@ -10,7 +10,8 @@ import {fileURLToPath} from 'node:url';
 
 const mapped={
   'lib/domain.ts':['tests/domain-http.test.mjs','tests/domain-rich-integration.test.mjs'],
-  'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/mcp-learning-quality.test.mjs'],
+  'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/mcp-learning-quality.test.mjs','tests/scenario-controller.test.mjs'],
+  'lib/scenario-control.ts':['tests/scenario-controller.test.mjs'],
   'lib/project-context.ts':['tests/project-context.test.mjs','tests/unified-projects-acceptance.test.mjs'],
   'lib/learning-work.ts':['tests/learning-work.test.mjs','tests/journey-resume.test.mjs']
 };
@@ -24,6 +25,11 @@ export function selectFocusedTests(changed,exists=existsSync){
       add('tests/mood-to-music-scenario.test.mjs');
       add('examples/mood-to-music/tests/revisions.test.mjs');
     }
+    if(path.startsWith('tests/project-scenarios/mood-to-music/')){
+      add('tests/mood-to-music-scenario.test.mjs');
+      add('tests/scenario-controller.test.mjs');
+    }
+    if(path==='db/schema.ts'||path.startsWith('drizzle/0013_'))add('tests/scenario-controller.test.mjs');
     if(path==='scripts/ci-focused-tests.mjs')add('tests/ci-focused-tests.test.mjs');
     if(path.startsWith('app/')&&/project|journey/i.test(path)){
       add('tests/project-ui.test.mjs');
@@ -54,7 +60,10 @@ if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
     console.log('No directly mapped tests; typecheck still runs. Full suite is required when the PR leaves draft.');
   }else{
     console.log(selected.join('\n'));
-    const result=spawnSync(process.execPath,['--test','--test-concurrency=2',...selected],{stdio:'inherit'});
+    // Disposable Miniflare/Workerd fixtures can retain idle process handles
+    // after all tests and awaited disposals finish. Preserve real test exit
+    // status while avoiding an artificial CI timeout on draft feedback.
+    const result=spawnSync(process.execPath,['--test','--test-force-exit','--test-concurrency=2',...selected],{stdio:'inherit'});
     if(result.error){console.error(result.error);process.exit(1);}
     process.exit(result.status??1);
   }
