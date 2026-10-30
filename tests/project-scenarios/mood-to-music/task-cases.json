@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "fixture": "mood-to-music/2",
+  "fixture": "mood-to-music/3",
   "startPhase": "F",
   "scope": "Synthetic local Miniflare/owner-only scenario. Scripts model the simulated User's request; they are not a supplied correct Library article or an assessment of the User.",
   "globalRules": [
-    "Start each independent evaluation from a fresh phase F replay. No requested Library article, annotation, C01 checkpoint, or improved evidence is pre-seeded.",
+    "Start each independent full-run evaluation from a fresh phase F replay. Retain the same synthetic dataset and GPT outputs across phases G–K; reset only between complete six-session runs. No requested Library article, annotation, C01 checkpoint, or improved evidence is pre-seeded.",
     "Use current connected Minamo MCP discovery and real operation receipts. Read actual Project, Questions, Notes and existing Library before deciding how to respond.",
     "GPT may organise relevant records only on an explicit simulated User request. It does not grade or rewrite the User's Notes, imply unverified user execution, or pre-empt the C01 correction.",
     "Observe both generated content and its real Minamo presentation, navigation, retrieval, anchors, editing and later cleanup. Separate GPT behavior, API behavior and UI behavior.",
@@ -50,7 +50,7 @@
     {
       "id": "LIB-02",
       "kind": "interactive-followup",
-      "phase": "F",
+      "phase": "G",
       "dependsOn": [
         "LIB-01"
       ],
@@ -60,7 +60,7 @@
         "Inspect exact passage anchor and rendition and create a synthetic Flag/annotation only on explicit request",
         "If editing supported, make one targeted revision and compare before/after/readback",
         "Verify Flag/annotation and navigation in Minamo UI, including possible stale anchors",
-        "Reset the run and confirm the exact generated Article, annotation, Flag and revisions do not remain"
+        "Retain the generated Article, annotation, Flag and revisions throughout S03–S06; after the complete run, reset and confirm they do not remain"
       ],
       "assess": [
         "content discoverability",
@@ -76,9 +76,24 @@
       ]
     },
     {
+      "id": "LIB-04",
+      "kind": "optional-privacy-followup",
+      "phase": "I",
+      "dependsOn": ["LIB-01"],
+      "simulatedUserPrompt": "My original storage article helped, but I'm worried about personal labels being left behind on a shared laptop. Please inspect the existing Library and only if it adds something useful, create or revise a practical reference about opting in and clearing local labels. Keep it connected to the Project and don't duplicate existing material or change my Notes.",
+      "actionsToObserve": [
+        "Read the first generated article and relevant user Notes, Flag cues, current question and v6/v7 source where available",
+        "Decide whether a focused revision, separate article or no publication avoids duplication; explain rationale",
+        "If publishing, use exact TEST-ONLY synthetic identity or the authorised lib04-manuscript operation and store/read back canonical receipt",
+        "Inspect search, links, rendering and the older article/annotation after any revision"
+      ],
+      "assess": ["Editorial judgement without mandatory output", "Privacy accuracy", "Cross-article relevance and stale-anchor handling", "Readback, presentation and safe reset"],
+      "prohibited": ["Publish redundant content just to reach an artifact quota", "Misread a short annotation as permission to modify the learner's writing"]
+    },
+    {
       "id": "EVID-01",
       "kind": "evidence-interpretation",
-      "phase": "F",
+      "phase": "H",
       "dependsOn": [],
       "simulatedUserPrompt": "I pasted a short build output and a GitHub link into my Note. Does that prove my React labels work and will be there after refresh? Can you check what the link actually tells us? Please keep my Note as I wrote it.",
       "actionsToObserve": [
@@ -97,7 +112,7 @@
     {
       "id": "C01",
       "kind": "later-conversational-return",
-      "phase": "F",
+      "phase": "H",
       "dependsOn": [
         "LIB-01"
       ],
@@ -108,7 +123,7 @@
         "Update revisioned open storage Question, link relevant Library article and preserve prior reasoning",
         "Write the checkpoint only through explicit User checkpoint API; do not edit Note",
         "Read back Project and checkpoint and verify user-facing resumed view in Minamo UI",
-        "Return to the same phase F baseline by disposing the fixture; ensure optional C01 checkpoint is withdrawn when controller-resetting a run"
+        "Preserve the C01 checkpoint for later fresh chats; only after S06 reset the run and verify that the optional checkpoint is withdrawn"
       ],
       "assess": [
         "correct scope and language of observation",

@@ -107,6 +107,11 @@ const recordLeaves:[string,string][]=[
 async function assertSyntheticRunBoundary(env:ScenarioEnv,owner:string,epoch:number){
   const run=prefix(epoch);
   const allowed=new Set(recordLeaves.map(([family,leaf])=>family+':'+run+'-'+leaf));
+  const published=await manuscriptOutputsForRun(env,owner,run);
+  const possibleLibraryTargets=new Set([
+    ...manifest.stableIds.requestedArticles.map(id=>run+'-'+id.replace('TEST-ONLY-m2m-','')),
+    ...published.map(item=>item.id)
+  ]);
   const rows=await db(env).prepare('SELECT family,id,data FROM v2_records WHERE owner=? AND id LIKE ? LIMIT 101')
     .bind(owner,run+'-%').all<{family:string;id:string;data:string}>();
   if(rows.results.length>100)error(409,'fixture_identity_collision','Too many records under the reserved fixture identity.');
@@ -115,9 +120,13 @@ async function assertSyntheticRunBoundary(env:ScenarioEnv,owner:string,epoch:num
     try{data=JSON.parse(record.data)}catch{error(409,'fixture_identity_collision','Fixture identity contains unreadable record data.');}
     if(!allowed.has(record.family+':'+record.id)||!data||typeof data!=='object'||(data as {synthetic?:boolean}).synthetic!==true)
       error(409,'fixture_identity_collision','A reserved fixture identity contains an unknown or non-synthetic record.');
-    if(record.id===run+'-annotation-library'&&
-      (record.family!=='annotation'||(data as any).anchor?.articleId!==run+'-requested-label-storage'))
-      error(409,'fixture_identity_collision','The optional Library annotation must belong to the exact synthetic output Article.');
+    if(record.id.startsWith(run+'-annotation-')){
+      const isOutputAnnotation=[run+'-annotation-library',run+'-annotation-privacy-library'].includes(record.id);
+      const expectedArticle=isOutputAnnotation?possibleLibraryTargets:new Set([run+'-reference']);
+      if(record.family!=='annotation'||!expectedArticle.has((data as any).anchor?.articleId)||
+         (data as any).anchor?.recordFamily!=='article')
+        error(409,'fixture_identity_collision','An annotation must anchor to its exact registered synthetic Article.');
+    }
   }
   await assertCheckpointBoundary(env,owner,run);
 }
@@ -138,30 +147,33 @@ async function assertCheckpointBoundary(env:ScenarioEnv,owner:string,run:string)
       error(409,'fixture_checkpoint_mismatch','A synthetic Project has an unregistered checkpoint; inspect before reset.');
   }
 }
-/** The ordinary GPT publisher derives an ms-* ID. Admit only its exact
- * canonical receipt for one synthetic Article under a registered operation.
+/** The ordinary GPT publisher derives ms-* IDs. Each optional slot must
+ * have its own exact canonical receipt; no prefix-wide manuscript deletion.
  */
-async function manuscriptOutputForRun(env:ScenarioEnv,owner:string,run:string):Promise<string|null>{
-  const operationId=run+'-'+manifest.reservedOutputs.manuscriptOperationLeaf;
-  const row=await db(env).prepare('SELECT status,response FROM v2_operations WHERE owner=? AND id=?')
-    .bind(owner,operationId).first<{status:number;response:string}>();
-  if(!row)return null;
-  if(row.status!==200)error(409,'fixture_manuscript_mismatch','The registered Library manuscript operation did not commit.');
-  let receipt:any;
-  try{receipt=JSON.parse(row.response)}catch{error(409,'fixture_manuscript_mismatch','The Library manuscript receipt is unreadable.');}
-  const refs=receipt.recordRefs;
-  if(receipt.kind!=='manuscript-v1'||!Array.isArray(refs)||refs.length!==1||
-    refs[0].key!==manifest.reservedOutputs.manuscriptDocumentKey||refs[0].family!=='article'||
-    !(refs[0].id===run+'-reference'||/^ms-[0-9a-f]{40}$/.test(refs[0].id)))
-    error(409,'fixture_manuscript_mismatch','The Library manuscript published an unregistered output shape.');
-  const id=refs[0].id;
-  const record=await db(env).prepare("SELECT data FROM v2_records WHERE owner=? AND family='article' AND id=?")
-    .bind(owner,id).first<{data:string}>();
-  let data:any;
-  try{data=record&&JSON.parse(record.data)}catch{error(409,'fixture_manuscript_mismatch','The generated Article is unreadable.');}
-  if(!data||data.synthetic!==true||data.id!==id)
-    error(409,'fixture_manuscript_mismatch','The generated Article is not verified as this synthetic publication.');
-  return id;
+async function manuscriptOutputsForRun(env:ScenarioEnv,owner:string,run:string):Promise<{id:string;operationLeaf:string}[]>{
+  const outputs=[] as {id:string;operationLeaf:string}[];
+  for(const slot of manifest.reservedOutputs.manuscriptSlots){
+    const row=await db(env).prepare('SELECT status,response FROM v2_operations WHERE owner=? AND id=?')
+      .bind(owner,run+'-'+slot.operationLeaf).first<{status:number;response:string}>();
+    if(!row)continue;
+    if(row.status!==200)error(409,'fixture_manuscript_mismatch','A registered Library manuscript operation did not commit.');
+    let receipt:any;
+    try{receipt=JSON.parse(row.response)}catch{error(409,'fixture_manuscript_mismatch','A Library manuscript receipt is unreadable.');}
+    const refs=receipt.recordRefs;
+    if(receipt.kind!=='manuscript-v1'||!Array.isArray(refs)||refs.length!==1||
+      refs[0].key!==slot.documentKey||refs[0].family!=='article'||
+      !(refs[0].id===run+'-reference'||/^ms-[0-9a-f]{40}$/.test(refs[0].id)))
+      error(409,'fixture_manuscript_mismatch','A Library manuscript published an unregistered output shape.');
+    const id=refs[0].id;
+    const record=await db(env).prepare("SELECT data FROM v2_records WHERE owner=? AND family='article' AND id=?")
+      .bind(owner,id).first<{data:string}>();
+    let data:any;
+    try{data=record&&JSON.parse(record.data)}catch{error(409,'fixture_manuscript_mismatch','A generated Article is unreadable.');}
+    if(!data||data.synthetic!==true||data.id!==id)
+      error(409,'fixture_manuscript_mismatch','A generated Article is not verified as the synthetic publication.');
+    outputs.push({id,operationLeaf:slot.operationLeaf});
+  }
+  return outputs;
 }
 async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,epoch:number){
   if(epoch===0)return;
@@ -173,7 +185,7 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
   if(before.results.length>100||before.results.some(record=>!permitted.has(record.family+':'+record.id)))
     error(409,'fixture_cleanup_boundary','Unknown records exist under the old fixture prefix; cleanup requires review.');
   await assertSyntheticRunBoundary(env,owner,epoch);
-  const manuscriptOutput=await manuscriptOutputForRun(env,owner,old);
+  const manuscriptOutputs=await manuscriptOutputsForRun(env,owner,old);
   // Withdraw only exact synthetic fixture checkpoints through the ordinary
   // revisioned learning-development contract, before their Project is trashed.
   // The immutable earlier editions are intentionally retained for recovery.
@@ -195,9 +207,9 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
     if(revised.status!==200||revised.data.status!=='committed')
       error(409,'fixture_cleanup_blocked','Synthetic checkpoint withdrawal failed; retry the same operation ID.');
   }
-  // Inspect only Flags on the two manifest-known output routes and the
-  // original synthetic reference, including historical passage renditions.
-  const outputIds=[old+'-reference',old+'-requested-label-storage',...(manuscriptOutput?[manuscriptOutput]:[])];
+  // Inspect only Flags on registered Articles, including older renditions.
+  const outputIds=[old+'-reference',...manifest.stableIds.requestedArticles.map(id=>old+'-'+id.replace('TEST-ONLY-m2m-','')),
+    ...manuscriptOutputs.map(item=>item.id)];
   const flags=[] as {id:string;data:string;outputId:string}[];
   for(const outputId of new Set(outputIds)){
     const found=await db(env).prepare(`SELECT id,data FROM v2_records WHERE owner=? AND family='flag' AND trashed_at IS NULL
@@ -219,12 +231,12 @@ async function cleanup(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
     const receipt=await c.command({operationId:old+'-cleanup-'+row.id,action:'trash',family:'flag',id:row.id,expectedRev:record.rev});
     if(receipt.status!==200)error(409,'fixture_cleanup_blocked','Generated-Article Flag cleanup failed.');
   }
-  if(manuscriptOutput&&manuscriptOutput!==old+'-reference'){
-    const article=await c.context('article',manuscriptOutput);
+  for(const item of manuscriptOutputs.filter(item=>item.id!==old+'-reference')){
+    const article=await c.context('article',item.id);
     if(article.status===200){
       if(article.data.record.synthetic!==true)error(409,'fixture_manuscript_mismatch','The manuscript Article changed authority.');
-      const result=await c.command({operationId:old+'-cleanup-manuscript',action:'trash',family:'article',
-        id:manuscriptOutput,expectedRev:article.data.record.rev});
+      const result=await c.command({operationId:old+'-cleanup-'+item.operationLeaf,action:'trash',family:'article',
+        id:item.id,expectedRev:article.data.record.rev});
       if(result.status!==200)error(409,'fixture_cleanup_blocked','Registered manuscript Article cleanup failed.');
     }else if(article.status!==404)error(409,'fixture_cleanup_blocked','Cannot inspect the generated Article.');
   }
@@ -250,7 +262,7 @@ async function snapshot(c:ReturnType<typeof client>,env:ScenarioEnv,epoch:number
   const questions=[];
   for(const key of manifest.stableIds.questions){
     const found=await c.context('investigation',id(key.replace('TEST-ONLY-m2m-','')));
-    if(key.endsWith('-question-storage')&&found.status===404&&phase!=='F')continue;
+    if(key.endsWith('-question-storage')&&found.status===404&&states.indexOf(phase)<states.indexOf('F'))continue;
     if(found.status!==200)error(409,'scenario_readback_failed','A published Question is unavailable.');
     questions.push({id:found.data.record.id,rev:found.data.record.rev});
   }
@@ -270,11 +282,37 @@ async function snapshot(c:ReturnType<typeof client>,env:ScenarioEnv,epoch:number
   const questionIds=[...new Set([...outline.data.projectQuestions,...outline.data.steps.flatMap((s:any)=>s.questions)].map((q:any)=>q.id))].sort();
   const annotation=await c.context('annotation',id('annotation-order'));
   if(annotation.status!==200&&annotation.status!==404)error(409,'scenario_readback_failed','Annotation readback failed.');
-  const manuscriptOutput=await manuscriptOutputForRun(env,c.owner,prefix(epoch));
-  const requested=await c.context('article',manuscriptOutput??id('requested-label-storage'));
-  if(requested.status!==200&&requested.status!==404)error(409,'scenario_readback_failed','Generated Library Article readback failed.');
-  const generatedAnnotation=await c.context('annotation',id('annotation-library'));
-  if(generatedAnnotation.status!==200&&generatedAnnotation.status!==404)error(409,'scenario_readback_failed','Optional Library annotation readback failed.');
+  const annotations=[] as {id:string;rev:number;body:string}[];
+  for(const stableId of manifest.stableIds.annotations){
+    const response=await c.context('annotation',id(stableId.replace('TEST-ONLY-m2m-','')));
+    if(response.status===200)annotations.push({id:response.data.record.id,rev:response.data.record.rev,body:response.data.record.body});
+    else if(response.status!==404)error(409,'scenario_readback_failed','Annotation readback failed.');
+  }
+  const manuscriptOutputs=await manuscriptOutputsForRun(env,c.owner,prefix(epoch));
+  const publishedIds=[...new Set([...manifest.stableIds.requestedArticles.map(key=>id(key.replace('TEST-ONLY-m2m-',''))),
+    ...manuscriptOutputs.map(item=>item.id)])];
+  const requestedArticles=[] as {id:string;rev:number;rendition:string}[];
+  for(const publishedId of publishedIds){
+    const response=await c.context('article',publishedId);
+    if(response.status===200)requestedArticles.push({id:response.data.record.id,rev:response.data.record.rev,
+      rendition:response.data.record.rendition});
+    else if(response.status!==404)error(409,'scenario_readback_failed','Generated Library Article readback failed.');
+  }
+  const requestedAnnotations=[] as {id:string;rev:number}[];
+  for(const key of ['annotation-library','annotation-privacy-library']){
+    const response=await c.context('annotation',id(key));
+    if(response.status===200)requestedAnnotations.push({id:response.data.record.id,rev:response.data.record.rev});
+    else if(response.status!==404)error(409,'scenario_readback_failed','Optional Library annotation readback failed.');
+  }
+  const flagRefs=[] as string[];
+  for(const articleId of new Set([id('reference'),...publishedIds])){
+    const flags=await db(env).prepare(`SELECT id FROM v2_records WHERE owner=? AND family='flag' AND trashed_at IS NULL
+      AND (json_extract(data,'$.flagTarget.anchor.articleId')=? OR
+           (json_extract(data,'$.flagTarget.kind')='record' AND json_extract(data,'$.flagTarget.family')='article' AND json_extract(data,'$.flagTarget.id')=?))
+      LIMIT 101`).bind(c.owner,articleId,articleId).all<{id:string}>();
+    if(flags.results.length>100)error(409,'scenario_readback_failed','Too many Flags on one synthetic Article.');
+    flagRefs.push(...flags.results.map(item=>item.id));
+  }
   const {articleLeaf,...anchorShape}=manifest.cleanup.passageFlag;
   const bookmark=await c.request('/api/bookmarks',{target:{kind:'passage',anchor:{...anchorShape,
     articleId:id(articleLeaf),recordFamily:'article',rendition:reference.data.record.rendition}}});
@@ -295,8 +333,12 @@ async function snapshot(c:ReturnType<typeof client>,env:ScenarioEnv,epoch:number
     questionIds,questions,reference:{id:reference.data.record.id,rev:reference.data.record.rev,
       rendition:reference.data.record.rendition},
     annotation:annotation.status===200?{id:annotation.data.record.id,rev:annotation.data.record.rev}:null,
-    requestedArticle:requested.status===200?{id:requested.data.record.id,rev:requested.data.record.rev,rendition:requested.data.record.rendition}:null,
-    requestedAnnotation:generatedAnnotation.status===200?{id:generatedAnnotation.data.record.id,rev:generatedAnnotation.data.record.rev}:null,
+    annotations,flagRefs:[...new Set(flagRefs)].sort(),
+    requestedArticle:requestedArticles.find(item=>item.id===manuscriptOutputs.find(out=>out.operationLeaf===manifest.reservedOutputs.manuscriptOperationLeaf)?.id)??
+      requestedArticles.find(item=>item.id===id('requested-label-storage'))??null,
+    requestedArticles,
+    requestedAnnotation:requestedAnnotations.find(item=>item.id===id('annotation-library'))??null,
+    requestedAnnotations,
     bookmark:bookmark.data,operationReceipts,
     steps:outline.data.steps.map((s:any)=>s.stageId),notes,checkpointIds:[...new Set(checkpointIds)].sort()};
 }

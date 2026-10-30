@@ -13,7 +13,9 @@ node tests/project-scenarios/mood-to-music/replay.mjs A
 node tests/project-scenarios/mood-to-music/replay.mjs D
 node tests/project-scenarios/mood-to-music/replay.mjs E
 node tests/project-scenarios/mood-to-music/replay.mjs F
+node tests/project-scenarios/mood-to-music/replay.mjs K
 node tests/project-scenarios/mood-to-music/replay.mjs reset
+node tests/project-scenarios/mood-to-music/replay.mjs reset-long
 node --test tests/mood-to-music-scenario.test.mjs
 node --test examples/mood-to-music/tests/revisions.test.mjs
 node --test examples/mood-to-music/tests/browser.test.mjs
@@ -21,9 +23,9 @@ pnpm exec vite build --config examples/mood-to-music/vite.config.mjs
 pnpm exec vite --config examples/mood-to-music/vite.config.mjs
 ```
 
-The browser serves a synthetic runnable example (by default v5); use `?revision=v1` through `?revision=v5`. The five independently pinned source modules are analogous to source states, **not assertions of five historical owner Git commits**. Version v3 intentionally contains an async race, v4 guards it, and v5 changes product direction. The controller test drives adversarial completion/rejection order without delays or Spotify.
+The browser serves a synthetic runnable example (by default v5); use `?revision=v1` through `?revision=v7`. All seven source modules have pinned content digests: they are **not assertions of seven historical User Git commits**. Version v3 intentionally contains an async race, v4 guards it, v5 changes product direction, v6 experiments with automatic `localStorage` persistence and v7 makes remembering labels opt-in. The controller test drives adversarial completion/rejection order without delays or Spotify; the browser tests separately run v5/v6/v7 refresh and consent behaviour.
 
-The runner **creates a new disposable Miniflare D1/R2 instance** for each reproduction, runs ordinary HTTP commands as a synthetic principal, and disposes it. `advance` applies one chronological state. `reset` disposes the old instance and reconstructs state A (or another selected state). The `reset` CLI rebuilds F twice and compares normalised readbacks. The inspectable manifest and seed operation source are the versioned logical export/import/replay recipe; this is *not* an owner D1 backup, a binary D1 export or a substitute for protected recovery. No destructive production reset or migration is involved.
+The runner **creates a new disposable Miniflare D1/R2 instance** for each reproduction, runs ordinary HTTP commands as a synthetic principal, and disposes it. `advance` applies one chronological state. `reset` disposes the old instance and reconstructs state A (or another selected state). The `reset` CLI rebuilds F twice and compares normalised readbacks; `reset-long` rebuilds the full User-only K chronology. The inspectable manifest and seed operation source are the versioned logical export/import/replay recipe; this is *not* an owner D1 backup, a binary D1 export or a substitute for protected recovery. No destructive production reset or migration is involved.
 
 ## Causal paths and test boundaries
 
@@ -35,6 +37,11 @@ The runner **creates a new disposable Miniflare D1/R2 instance** for each reprod
 | D | v3 faulty and v4 corrected code Notes, annotation/Flag on exact Article passage, race Question rev 2 | What failed, what is the evidence and which version corrected it? |
 | E | Project body and stage structure revised (new personal-label stage with original stage identities retained), v5 pivot Note, earlier source pinned, research Note rev 2 while checkpoint preserves rev 1, unverified capability Note and unrelated garden record | Which direction is current, what was abandoned, what remains uncertain? |
 | F | User-authored incomplete persistence observation; Question and supplied terminal capture; no seeded generated Library answer | What should GPT request and write, and what evidence is missing before deciding persistence? |
+| G | Two more User Notes, two *brief* annotations and a Flag; GPT Library output is carried forward if created | What should a marked passage mean to a returning conversation? |
+| H | Reported refresh result and runnable v6 `localStorage` code; terminal fragment still supplied | Does existing source prove the test ran? What should the user explicitly ask GPT to organise? |
+| I | Shared-device privacy concern, more short annotations/Flags and interrupted follow-up Notes | Which decisions are new, and which claims remain uncertain? |
+| J | Actual runnable v7 opt-in/clear implementation; updated thinking and reported retest | How does the code and decision change without erasing old evidence? |
+| K | Ten-day return, two further User Notes and second edition of an older Note | Can a truly fresh GPT reconstruct cumulative work, keep marginalia contextual and give one useful next challenge? |
 
 Each state is a distinct replay of the **same Project identity**. Scenario dates are authored fictional timeline labels, not falsified persistence timestamps. Minamo's real runtime assigns record timestamps. Scripted GPT/learner dialogue is labelled as such and cannot be construed as the owner's transcript. Test-run results belong only in the PR evidence.
 
@@ -57,3 +64,14 @@ See [task-cases.json](./task-cases.json) for simulated User requests and [EVALUA
 The manifest reserves optional deterministic IDs for direct Article writes. The canonical manuscript path instead yields a derived `ms-*` Article: an **exact recorded publication operation receipt** is required to identify it safely. Controller reset preflights registered records, source-linked checkpoints, anchors and generated output; exact-scope cleanup is fail-closed. It does not broadly purge Library content or account data. A fresh empty synthetic test-user dataset can replay phase F with identical input. The returned Library prose is variable by design; evaluate actual writing, receipts, context, search, rendering, navigation and cleanup rather than compare to a fixed passage.
 
 This is local controller/test-corpus engineering. A private hosted deployment, a genuine cold-chat agent evaluation and visual Site acceptance are **subsequent gates**, not outcomes implied by these tests.
+
+## V3 longitudinal extension — six sessions, one evolving dataset
+
+V3 preserves A–F exactly and adds G–K **fictional User actions only**, with actual runnable v6/v7 React source. See [session-cases.json](./session-cases.json) for six consecutive conversation prompts, four required fresh contexts, User actions between chats, specific readback/UI evidence and safe end-of-run reset. The same dataset evolves through the six sessions; we **do not** reset it between GPT conversations. A new clean run begins again at phase F after disposing a local test-user database or exact-scope controller cleanup.
+
+- Notes are **User-authored**, sometimes long-form reasoning, source pointers or typed terminal fragments. A later scripted User edition of a Note does not authorise GPT to edit it. Source files and hash pins are independently inspectable, while fictional build claims remain supplied/unverified. GitHub execution integration remains [issue #11](https://github.com/frekland/Minamo/issues/11), outside this PR.
+- Flags are quick bookmarks; annotations are a few words or a sentence, not substantive essays or implied instructions. Some are left open. GPT should retrieve exact passage context, never turn them automatically into Questions, tasks, checkpoints or a mastery score. The one older D annotation deliberately remains unchanged as accepted v1 history.
+- GPT-authored Library outputs are **not** seeded in G–K. There are two optional explicit Article slots (direct ID or receipt-derived `ms-*`), two optional output annotations, and four optional conversational checkpoints. They are observable results *if and only if* a test conversation actually performs them. Editorial revisions may retain old passage anchors and must be inspected in Minamo.
+- The controller admits only these registered synthetic IDs/operation receipts, inspects all Flags on their exact Articles across older renditions, withdraws authorised checkpoints, and fails closed on foreign/unknown records. This is not a general-purpose deletion tool. Additional real Site-generated user data needs separate deliberate registration or complete disposal of a genuinely isolated TEST-ONLY database.
+
+**Acceptance boundaries:** Passing a seeded G–K local replay proves the fixture's stored User history is reproducible; it does not prove the User operated Minamo UI, GPT continued across chats, or a GitHub/local test was independently verified. Each is separately recorded by the acceptance operator following [EVALUATION.md](./EVALUATION.md).

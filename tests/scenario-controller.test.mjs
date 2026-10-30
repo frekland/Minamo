@@ -40,7 +40,7 @@ test('owner gate, explicit mutation authorization and exact scenario identifiers
     const denied=await manage(invited,{purpose:'TEST ONLY',action:'list'});
     assert.equal(denied.data.code,'scenario_owner_required');
     const listed=await manage(ownerClient,{purpose:'TEST ONLY',action:'list'});
-    assert.equal(listed.data.states.length,6);
+    assert.equal(listed.data.states.length,11);
     assert.equal(listed.data.libraryRecoveryVerified,false);
     assert.equal(listed.data.syntheticOnlyWaiver,false);
     const locked=await manage(ownerClient,args('load',0,{phase:'A'}));
@@ -177,7 +177,7 @@ test('requested Library output is absent at F, survives readback and is removed 
   const fixture=await privateStorageFixture(worker,{bindings:settings});
   try{
     const c=fixture.client(owner),listed=await manage(c,{purpose:'TEST ONLY inspect versioned Library request',action:'list'});
-    assert.equal(listed.data.fixtureVersion,'mood-to-music/2');
+    assert.equal(listed.data.fixtureVersion,'mood-to-music/3');
     const initial=await manage(c,args('load',0,{phase:'F'}));
     assert.equal(initial.error,false,JSON.stringify(initial));
     assert.equal(initial.data.snapshot.notes.length,9);
@@ -301,5 +301,78 @@ test('Article revision does not strand a Flag on an old retained passage renditi
     const reset=await manage(c,args('reset',1));
     assert.equal(reset.error,false,JSON.stringify(reset));
     assert.equal((await c.context('flag',oldFlag)).status,404);
+  }finally{await fixture.dispose();}
+});
+
+test('one six-session run retains requested outputs across User actions and resets exact accumulated state',async()=>{
+  const fixture=await privateStorageFixture(worker,{bindings:settings});
+  try{
+    const c=fixture.client(owner),loaded=await manage(c,args('load',0,{phase:'F'}));
+    assert.equal(loaded.error,false,JSON.stringify(loaded));
+    const run='TEST-ONLY-m2m-r'+loaded.data.epoch,articleId=run+'-requested-label-storage';
+    const project=(await c.context('journey',run+'-project')).data.record;
+    const article=await c.command({operationId:run+'-lib01-direct-create',action:'create',family:'article',id:articleId,
+      data:{synthetic:true,title:'TEST ONLY prompted Library result',body:'Stub for output lifecycle testing, not a benchmark answer.',
+        learningScope:{version:1,spaces:['computing'],provenance:'authored'},
+        sections:[{id:'refresh',title:'Refresh',parts:[{id:'p',kind:'paragraph',text:'Browser storage differs from React state.'}]}],
+        links:[{family:'journey',id:project.id,relation:'related'}]}});
+    assert.equal(article.status,200,JSON.stringify(article.data));
+    const published=await rpc(c,'publish_minamo_manuscript',{
+      purpose:'TEST ONLY optional second Library publication during conversation',
+      operationId:run+'-lib04-manuscript',expectedGeneration:'legacy@0',synthetic:true,
+      manuscript:{version:1,brief:'TEST ONLY supplied request; actual learning value assessed later.',
+        documents:[{key:'privacy',role:'article',title:'TEST ONLY second requested reference',
+          markdown:'## Shared browser\n\nA mock output for lifecycle testing.\n\n## Choice\n\nOpt-in is explicit.'}]}
+    });
+    assert.notEqual(published.isError,true,JSON.stringify(published));
+    const secondId=published.structuredContent.recordRefs[0].id;
+    assert.match(secondId,/^ms-[0-9a-f]{40}$/);
+    const second=(await c.context('article',secondId)).data.record;
+    const part=second.sections.flatMap(section=>section.parts.map(part=>({...part,sectionId:section.id})))
+      .find(part=>typeof part.text==='string'&&part.text.length>=6);
+    assert.ok(part);
+    const anchor={articleId:secondId,recordFamily:'article',rendition:second.rendition,
+      sectionId:part.sectionId,partId:part.id,start:0,end:6,quote:part.text.slice(0,6)};
+    const annotation=await c.command({operationId:run+'-lib04-quick-annotation',action:'create',family:'annotation',
+      id:run+'-annotation-privacy-library',data:{title:'TEST ONLY quick reminder',body:'Shared device?',anchor,synthetic:true}});
+    assert.equal(annotation.status,200,JSON.stringify(annotation.data));
+    const flag=await c.command({operationId:run+'-lib04-flag',action:'setFlag',
+      target:{kind:'record',family:'article',id:secondId},active:true,expectedTargetRev:0});
+    assert.equal(flag.status,200,JSON.stringify(flag.data));
+    const cp=await c.request('/api/learning-developments',{
+      intent:'explicit-user-checkpoint',operationId:run+'-save-c02',expectedGeneration:'legacy@0',
+      target:{kind:'journey-stage',journeyId:project.id,stageId:'personal-labels'},expectedTargetRev:project.rev,
+      development:{summary:'TEST ONLY user-authorised optional return checkpoint.'}
+    });
+    assert.equal(cp.status,200,JSON.stringify(cp.data));
+
+    let latest;
+    for(const [index,phase] of ['G','H','I','J','K'].entries()){
+      latest=await manage(c,args('advance',index+1));
+      assert.equal(latest.error,false,`Advance ${phase}: ${JSON.stringify(latest)}`);
+      assert.equal(latest.data.phase,phase);
+      assert.equal(latest.data.snapshot.requestedArticles.length,2,'Generated material persists between fresh GPT chats');
+    }
+    assert.equal(latest.data.snapshot.notes.length,19);
+    assert.equal(latest.data.snapshot.annotations.length,10,'Historical, short User and one requested-output annotation');
+    assert.ok(latest.data.snapshot.flagRefs.length>=6);
+    assert.ok(latest.data.snapshot.checkpointIds.includes(run+'-save-c02'));
+    assert.equal((await c.context('note',run+'-note-plan')).data.record.rev,2);
+
+    const reset=await manage(c,args('reset',6));
+    assert.equal(reset.error,false,JSON.stringify(reset));
+    assert.equal(reset.data.phase,'A');
+    assert.equal((await c.context('article',articleId)).status,404);
+    assert.equal((await c.context('article',secondId)).status,404);
+    assert.equal((await c.context('annotation',run+'-annotation-privacy-library')).status,404);
+    assert.equal((await c.context('flag',flag.data.bookmark.flagRef.id)).status,404);
+    assert.equal((await c.context('note',run+'-note-return-later')).status,404);
+    const withdrawn=await fixture.db.prepare('SELECT withdrawn FROM v2_learning_developments WHERE owner=? AND id=?')
+      .bind(owner,run+'-save-c02').first();
+    assert.equal(withdrawn?.withdrawn,1);
+    const loadedAgain=await manage(c,args('load',7,{phase:'K'}));
+    assert.equal(loadedAgain.error,false,JSON.stringify(loadedAgain));
+    assert.equal(loadedAgain.data.snapshot.notes.length,19);
+    assert.equal(loadedAgain.data.snapshot.requestedArticles.length,0,'Empty-store replay never seeds GPT output');
   }finally{await fixture.dispose();}
 });

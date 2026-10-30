@@ -26,6 +26,6 @@ export function AsyncMoodCards({guarded=false,onResults}){
   return <><MoodButtons selected={state.mood} onSelect={select}/><p role="status">{state.status==='idle'?'Choose a mood':state.status==='loading'?'Finding mock tracks…':state.status==='ready'?'Showing '+state.mood+' suggestions':state.status==='empty'?'No tracks found':'Mock lookup failed'}</p><TrackCards tracks={state.tracks}/></>;
 }
 export function VersionShell({version,change,children}){
-  return <main><p className="eyebrow">TEST ONLY · synthetic engineering fixture</p><h1>Mood-to-Music</h1><p>{change}</p><nav aria-label="Source revision">{['v1','v2','v3','v4','v5'].map(item=><a key={item} href={'?revision='+item} aria-current={version===item?'page':undefined}>{item}</a>)}</nav>{children}<footer>No Spotify access, real listening inference or owner activity is claimed.</footer></main>;
+  return <main><p className="eyebrow">TEST ONLY · synthetic engineering fixture</p><h1>Mood-to-Music</h1><p>{change}</p><nav aria-label="Source revision">{['v1','v2','v3','v4','v5','v6','v7'].map(item=><a key={item} href={'?revision='+item} aria-current={version===item?'page':undefined}>{item}</a>)}</nav>{children}<footer>No Spotify access, real listening inference or owner activity is claimed.</footer></main>;
 }
 export {TRACKS};

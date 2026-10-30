@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "key": "mood-to-music",
   "scope": "SITES local disposable Miniflare / D1 / R2",
   "fixtureOwner": "TEST-ONLY-m2m-principal",
@@ -28,11 +28,30 @@
       "TEST-ONLY-m2m-note-pivot",
       "TEST-ONLY-m2m-note-unknown",
       "TEST-ONLY-m2m-note-return",
-      "TEST-ONLY-m2m-note-terminal"
+      "TEST-ONLY-m2m-note-terminal",
+      "TEST-ONLY-m2m-note-reading",
+      "TEST-ONLY-m2m-note-plan",
+      "TEST-ONLY-m2m-note-refresh-test",
+      "TEST-ONLY-m2m-note-v6",
+      "TEST-ONLY-m2m-note-shared-device",
+      "TEST-ONLY-m2m-note-check",
+      "TEST-ONLY-m2m-note-v7",
+      "TEST-ONLY-m2m-note-retest",
+      "TEST-ONLY-m2m-note-return-later",
+      "TEST-ONLY-m2m-note-next"
     ],
     "annotations": [
       "TEST-ONLY-m2m-annotation-order",
-      "TEST-ONLY-m2m-annotation-library"
+      "TEST-ONLY-m2m-annotation-library",
+      "TEST-ONLY-m2m-annotation-privacy-library",
+      "TEST-ONLY-m2m-annotation-g-personal",
+      "TEST-ONLY-m2m-annotation-g-rights",
+      "TEST-ONLY-m2m-annotation-h-personal",
+      "TEST-ONLY-m2m-annotation-h-async",
+      "TEST-ONLY-m2m-annotation-i-rights",
+      "TEST-ONLY-m2m-annotation-j-personal",
+      "TEST-ONLY-m2m-annotation-j-async",
+      "TEST-ONLY-m2m-annotation-k-rights"
     ],
     "unrelatedQuestions": [
       "TEST-ONLY-m2m-unrelated-garden"
@@ -42,10 +61,14 @@
       "TEST-ONLY-m2m-save-c",
       "TEST-ONLY-m2m-save-d",
       "TEST-ONLY-m2m-save-e",
-      "TEST-ONLY-m2m-save-c01"
+      "TEST-ONLY-m2m-save-c01",
+      "TEST-ONLY-m2m-save-c02",
+      "TEST-ONLY-m2m-save-c03",
+      "TEST-ONLY-m2m-save-c04"
     ],
     "requestedArticles": [
-      "TEST-ONLY-m2m-requested-label-storage"
+      "TEST-ONLY-m2m-requested-label-storage",
+      "TEST-ONLY-m2m-requested-privacy-review"
     ]
   },
   "cleanup": {
@@ -99,6 +122,25 @@
       "create-note-return",
       "create-note-terminal",
       "update-project-F"
+    ],
+    "G": [
+      "create-note-reading", "create-note-plan", "create-annotation-g-personal",
+      "create-annotation-g-rights", "flag-g-personal"
+    ],
+    "H": [
+      "create-note-refresh-test", "create-note-v6", "create-annotation-h-personal",
+      "create-annotation-h-async", "flag-h-rights"
+    ],
+    "I": [
+      "create-note-shared-device", "create-note-check", "create-annotation-i-rights", "flag-i-async"
+    ],
+    "J": [
+      "create-note-v7", "create-note-retest", "create-annotation-j-personal",
+      "create-annotation-j-async", "flag-j-personal"
+    ],
+    "K": [
+      "create-note-return-later", "create-note-next", "update-note-plan-K",
+      "create-annotation-k-rights", "flag-k-rights"
     ]
   },
   "states": [
@@ -143,6 +185,41 @@
       "theme": "Unfinished return, raw evidence and Library authoring request",
       "question": "What did the User actually observe, what is merely inferred, and what reference should be requested?",
       "expect": "User-authored incomplete persistence inference, open Question, supplied terminal capture and a request brief; no generated Library article, C01 correction or checkpoint is pre-seeded."
+    },
+    {
+      "id": "G",
+      "date": "2026-11-01",
+      "theme": "Learner returns to the Library and flags questions",
+      "question": "What do the short Flags and annotations mean, and what did the User actually write?",
+      "expect": "Two new User Notes, two one-sentence annotations and a passage Flag. GPT-produced Library material is optional, never a scripted fixture answer."
+    },
+    {
+      "id": "H",
+      "date": "2026-11-04",
+      "theme": "Reported refresh experiment and first persistence prototype",
+      "question": "Which code version exists, what was reported and what was independently executed?",
+      "expect": "User Notes mention an observed refresh result and real runnable v6 source; terminal output is explicitly supplied, not verified. Existing GPT output, if any, remains accessible."
+    },
+    {
+      "id": "I",
+      "date": "2026-11-09",
+      "theme": "Interruption, shared-device concern and conflicting evidence",
+      "question": "What is still uncertain despite a seemingly successful persistence test?",
+      "expect": "Additional short annotations/Flags and longer User Notes question privacy, source and the meaning of test evidence."
+    },
+    {
+      "id": "J",
+      "date": "2026-11-13",
+      "theme": "Second React revision chooses explicit storage consent",
+      "question": "How has source v7 changed the decision, and which earlier comments remain relevant?",
+      "expect": "Runnable v7 opt-in/clear source, supplied terminal evidence, new User reflections and another return to previously flagged passages."
+    },
+    {
+      "id": "K",
+      "date": "2026-11-23",
+      "theme": "Cold-context return after a longer gap",
+      "question": "Can a new GPT reconstruct the accumulated history and identify one useful next step?",
+      "expect": "Nineteen synthetic User Notes, short passage annotations, multiple Flags, available code versions and optional GPT-authored Library/Question/checkpoint outputs without an imposed answer."
     }
   ],
   "artifacts": [
@@ -180,13 +257,28 @@
       "sha256": "72522e55f03e67ee7c44cd127351d3afb315e6a05173d2688d104aad1de996be",
       "change": "Pivots to immutable personal-label editing",
       "provenance": "synthetic source"
+    },
+    {
+      "version": "v6",
+      "path": "examples/mood-to-music/src/versions/v6.jsx",
+      "sha256": "8c6b0e5e9efe9b6ae930f128035d9a60e822846d562bcd504a8391d4eeced545",
+      "change": "Experiments with automatic browser-local label persistence",
+      "provenance": "synthetic runnable source; no implied historical Git commit or test receipt"
+    },
+    {
+      "version": "v7",
+      "path": "examples/mood-to-music/src/versions/v7.jsx",
+      "sha256": "87e45c3b8ee6ac9216177f0bd97705b09976a138701f42b66626d035a8aaffa3",
+      "change": "Defaults to temporary labels and explicit opt-in browser storage",
+      "provenance": "synthetic runnable source; no implied historical Git commit or test receipt"
     }
   ],
   "supportFiles": {
     "examples/mood-to-music/src/catalog.mjs": "4e0a3d7a841f0c5c3f449545dce235efe6ef0af093d58c60f22c3d1787ee4b28",
     "examples/mood-to-music/src/request-controller.mjs": "3d7e49870e2ea52bcd0b417a15adf8f3e06364031e4e7556ff030f9b5fea27da",
-    "examples/mood-to-music/src/shared.jsx": "7a3d8ee308bed1927307a180db4711182e76412e9dbf10c41ac35e81f475bec3",
-    "examples/mood-to-music/src/main.jsx": "498884e10d066f9eb884ab86ea009b54bfedb3c25a5509e53b39d2b328e8522b"
+    "examples/mood-to-music/src/label-storage.mjs": "1247df640a18441f03cc7ea8cd033f847f0ee88c4c3ca7c4c9de560211e8114b",
+    "examples/mood-to-music/src/shared.jsx": "552019245a74b1e0c68fd8d79f7755c49e51f9a5fcd00bdb0cf536f114223e63",
+    "examples/mood-to-music/src/main.jsx": "99a1e2540b6f18aa27c414d98c90bd1205ccd9bbe47d30de4321f975680cf005"
   },
   "remainingProjectModels": "Selected for later separate tests: authorised retired HTB Cap and Automatic Plant-Screamer. Neither is implemented in this fixture.",
   "reservedOutputs": {
@@ -195,15 +287,23 @@
     "conversationalCheckpoint": "TEST-ONLY-m2m-save-c01",
     "manuscriptOperationLeaf": "lib01-manuscript",
     "manuscriptDocumentKey": "storage",
+    "manuscriptSlots": [
+      {"operationLeaf":"lib01-manuscript","documentKey":"storage"},
+      {"operationLeaf":"lib04-manuscript","documentKey":"privacy"}
+    ],
+    "additionalLibraryArticle": "TEST-ONLY-m2m-requested-privacy-review",
+    "additionalAnnotation": "TEST-ONLY-m2m-annotation-privacy-library",
+    "additionalCheckpointIds": ["TEST-ONLY-m2m-save-c02","TEST-ONLY-m2m-save-c03","TEST-ONLY-m2m-save-c04"],
     "noteAuthority": "GPT must not create or rewrite User-authored Notes; optional outputs require an explicit simulated User request, not the seeded Note itself.",
     "requirements": "The article is absent at phase F; a test conversation must request it, inspect editorial policy and existing references, save/read back the actual output, and record quality and UI observations rather than comparing against canned teaching text."
   },
   "evaluation": {
     "taskCases": "tests/project-scenarios/mood-to-music/task-cases.json",
+    "sessionCases": "tests/project-scenarios/mood-to-music/session-cases.json",
     "protocol": "tests/project-scenarios/mood-to-music/EVALUATION.md",
     "canonicalStart": "F",
     "generatedLibraryAnswerSeeded": false,
     "cleanup": "Exact known outputs only, including manuscript receipt-derived ID; safe fail-closed behavior on unknown records",
-    "repeatability": "Fresh TEST ONLY D1 after clearing test-user data replays the same starting snapshot; end-to-end generation and UI require separate observation"
+    "repeatability": "Fresh TEST ONLY D1 after clearing test-user data replays the same starting snapshot, while optional conversational outputs persist across session advances; end-to-end generation and UI require separate observation"
   }
 }
