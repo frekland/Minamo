@@ -2,6 +2,8 @@
 
 **Decision record: 30 October 2026.** This is an orientation and backlog reconciliation, **not** a new acceptance test, production fix, scenario transition, transcript seal or Sites release. Historical reports and issue comments remain intact.
 
+**Product-design continuation:** The longer-term goal is a coherent, active learner-visible Project environment, not only a better GPT read. The [recovered experience strategy, prior-art study gates and UX implementation method](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) are the companion handoff after the #14/#17 test foundation; visual-agent acceptance remains deferred until an integrated candidate has value to compare.
+
 ## 1. What the six-session run established
 
 The TEST-ONLY Mood-to-Music V3 S01/F–S06/K sequence completed, including separate independent cold-context reviews. The final review is **PASS within the bounded synthetic conversational-continuity scope**. It supports recovery of changing Project direction, canonical history, author-owned Notes, explicitly authorised updates, historical C01, annotations/Flags, source-vs-execution uncertainty and a useful next activity. It does **not** attest learner comprehension, exact full host ChatGPT traces, the real browser, provider integration or Site usability.
