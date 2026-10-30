@@ -35,6 +35,8 @@ The product objective remains: open a Project, understand **where the work stand
 
 Do not merge these into one “missing transcript” defect. A model-submitted append-only transcript is an effective first layer, but it is not passive MCP instrumentation. An immutable source hash is not a test-execution receipt.
 
+For the recovered product-philosophy, prior-art comparisons, and owner-observed UX problem statement, start with [Product context and prior-art lessons](../PRODUCT-CONTEXT-AND-PRIOR-ART.md). The architectural diagnosis below is motivated by those unresolved user-facing problems; visual/UI testing is deliberately deferred until there is a meaningful model improvement to compare.
+
 ## 4. The next actual product experiment: learner-context architecture diagnosis
 
 The existing [resume projection](../../lib/learning-perspective-view.ts) explicitly returns the latest eligible checkpoint, **not a semantic synthesis** of an evolving Project. The [Project projection contracts](../../lib/project-contracts.ts) expose ordered Steps, linked Questions and a continuation pointer. This supports faithful individual reads but is a plausible explanation for disconnected, overly stage-led presentation; the cause and remedy still require targeted diagnosis.
