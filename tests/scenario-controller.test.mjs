@@ -43,6 +43,10 @@ test('owner gate, explicit mutation authorization and exact scenario identifiers
     assert.equal(listed.data.states.length,11);
     assert.equal(listed.data.libraryRecoveryVerified,false);
     assert.equal(listed.data.syntheticOnlyWaiver,false);
+    const deniedComparison=await manage(invited,{purpose:'TEST ONLY',action:'compare-continuation',expectedGeneration:'legacy@0'});
+    assert.equal(deniedComparison.data.code,'scenario_owner_required');
+    const unloadedComparison=await manage(ownerClient,{purpose:'TEST ONLY',action:'compare-continuation',expectedGeneration:'legacy@0'});
+    assert.equal(unloadedComparison.data.code,'scenario_not_loaded');
     const locked=await manage(ownerClient,args('load',0,{phase:'A'}));
     assert.equal(locked.data.code,'scenario_mutation_not_authorized');
     const invalid=await manage(ownerClient,args('load',0,{scenarioId:'not-in-catalogue',phase:'A'}));
@@ -389,6 +393,45 @@ test('one six-session run retains requested outputs across User actions and rese
     assert.ok(latest.data.snapshot.flagRefs.length>=6);
     assert.ok(latest.data.snapshot.checkpointIds.includes(run+'-save-c02'));
     assert.equal((await c.context('note',run+'-note-plan')).data.record.rev,2);
+    const compareInput={purpose:'TEST ONLY compare exact synthetic continuation against ordinary projection',
+      action:'compare-continuation',scenarioId,expectedGeneration:'legacy@0'};
+    const comparison=await manage(c,compareInput);
+    assert.equal(comparison.error,false,JSON.stringify(comparison));
+    const result=comparison.data.continuationComparison;
+    assert.equal(result.phase,'K');
+    assert.equal(result.semantics,'same-resolver-different-admission');
+    assert.equal(result.ordinary.continuation.basis,'start','the ordinary synthetic fence is preserved');
+    assert.equal(result.registeredFixture.continuation.basis,'recent-note',
+      'registered K User Notes recover a meaningful current continuation');
+    assert.ok(result.registeredFixture.continuation.note.id.startsWith(run+'-note-'));
+    assert.equal(result.basisDiffers,true);
+    assert.equal(result.registeredFixture.complete,true);
+    const ordinary=await c.request('/api/project-context?'+new URLSearchParams({
+      projectId:run+'-project',mode:'outline',learningSpace:'computing'}));
+    assert.equal(ordinary.status,200);
+    assert.deepEqual(result.ordinary.continuation,ordinary.data.continuation,
+      'the comparison ordinary branch is identical to the production Project route');
+    const home=await c.request('/api/learning-context',{scope:'home'});
+    assert.equal(home.status,200);
+    assert.ok(!JSON.stringify(home.data).includes(run+'-project'),
+      'synthetic Project remains excluded from ordinary Home');
+    const blocked=await manage(fixture.client(other),compareInput);
+    assert.equal(blocked.data.code,'scenario_owner_required');
+
+    // A synthetic Note outside the manifest must not outrank registered K work,
+    // even when attached to this Project and assigned a very recent timestamp.
+    const outsiderId='TEST-ONLY-external-continuation-note';
+    const outsider=await c.command({operationId:'TEST-ONLY-external-continuation-create',
+      action:'create',family:'note',id:outsiderId,
+      data:{title:'TEST ONLY outsider sentinel',body:'This is not registered fixture evidence.',
+        synthetic:true,links:[{family:'journey',id:run+'-project'}]}});
+    assert.equal(outsider.status,200,JSON.stringify(outsider.data));
+    await fixture.db.prepare("UPDATE v2_records SET data=json_set(data,'$.updatedAt','2099-12-01T00:00:00.000Z') WHERE owner=? AND family='note' AND id=?")
+      .bind(c.owner,outsiderId).run();
+    const unchanged=await manage(c,compareInput);
+    assert.equal(unchanged.error,false,JSON.stringify(unchanged));
+    assert.deepEqual(unchanged.data.continuationComparison.registeredFixture,
+      result.registeredFixture,'unregistered synthetic Note cannot influence comparison');
 
     const reset=await manage(c,args('reset',6));
     assert.equal(reset.error,false,JSON.stringify(reset));
@@ -405,5 +448,10 @@ test('one six-session run retains requested outputs across User actions and rese
     assert.equal(loadedAgain.error,false,JSON.stringify(loadedAgain));
     assert.equal(loadedAgain.data.snapshot.notes.length,19);
     assert.equal(loadedAgain.data.snapshot.requestedArticles.length,0,'Empty-store replay never seeds GPT output');
+    const freshComparison=await manage(c,compareInput);
+    assert.equal(freshComparison.error,false,JSON.stringify(freshComparison));
+    assert.equal(freshComparison.data.continuationComparison.ordinary.continuation.basis,'start');
+    assert.equal(freshComparison.data.continuationComparison.registeredFixture.continuation.basis,
+      'recent-note','the registered K replay is faithful without optional GPT outputs');
   }finally{await fixture.dispose();}
 });
