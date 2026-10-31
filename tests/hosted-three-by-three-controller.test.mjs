@@ -181,6 +181,21 @@ test('all nine registered hosted variants load and read back F without cross-per
       assert.equal(paused.status,'paused');
       const wrong=await scenario(c,p,{action:'inspect',expectedGeneration:'legacy@0'});
       assert.equal(wrong.snapshot.provenance.runPrefix,loaded.runPrefix);
+      // One representative persona per subject exercises the hosted late
+      // chronology as well as F. The other six already have local F/H/K
+      // source-replay tests; no repeated Flag mutation is needed here.
+      if(i%3===0){
+        for(const [offset,phase] of ['G','H','I','J','K'].entries()){
+          const advanced=await scenario(c,p,{action:'advance',expectedGeneration:'legacy@0',
+            expectedRevision:offset+1,operationId:'TEST-ONLY-v88-advance-'+i+'-'+phase});
+          assert.equal(advanced.error,false,JSON.stringify({p,phase,advanced}));
+          assert.equal(advanced.phase,phase);
+          assert.equal(advanced.runPrefix,loaded.runPrefix);
+        }
+        const comparison=await scenario(c,p,{action:'compare-continuation',expectedGeneration:'legacy@0'});
+        assert.equal(comparison.error,false,JSON.stringify({p,comparison}));
+        assert.equal(comparison.continuationComparison.ordinary.continuation?.basis,'start');
+      }
     }
     assert.equal(allPrefixes.size,9);
     assert.equal((await scenario(c,['mood-to-music',null],{action:'list'})).active.phase,null);
