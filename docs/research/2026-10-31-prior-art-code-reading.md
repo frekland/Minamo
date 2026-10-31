@@ -58,7 +58,9 @@ One possible interaction anatomy is **current meaning / active inquiry / inspect
 
 ## Proposed focused experiment (research/design only)
 
-Use the same versioned, changed-direction Project history (initially the existing synthetic Mood-to-Music corpus) to test **two distinct integrated Project interaction hypotheses**:
+**31 October 2026 owner sequencing correction:** This research does **not** call for constructing three new Project histories. Reuse and extend the existing Minamo synthetic scenario/controller, MCP transcript/observed-call/state-diff and replay framework. The [approved scenario/persona matrix in #12](https://github.com/frekland/Minamo/issues/12) covers **Mood-to-Music, retired HTB Cap and Automatic Plant-Screamer**, each with **three isolated fictional learner variants** (nine combinations, not nine cloned curricula). Mood-to-Music's canonical history is already built/tested within its bounded scope; its variant overlays and the other two subjects are planned, not implemented/accepted. **Complete and verify that 3×3 corpus first**, after the needed #14/#17 testing foundation, and **then** use it to design and compare Project experience prototypes under [#51](https://github.com/frekland/Minamo/issues/51).
+
+With those reproducible subject/persona states available, test **two distinct integrated Project interaction hypotheses**:
 
 - **A — focused investigation:** immediate current problem/uncertainty, contextual source exploration, writing and a reliable return path.
 - **B — decision-and-evidence return:** current interpretation, consequential change/reason, historical/source inspection, active continuation.
@@ -69,7 +71,7 @@ For each, test realistic tasks: orient after interruption; recover one revised d
 
 Record successes and failures separately for **canonical data**, **server/MCP projection**, **visible interaction**, and **model interpretation**. Compare wrong claims, missing source links, navigation/backtracking, unnecessary user chores and actual measured operations/time only when observable. Begin with a narrow viewport; later compare at desktop size. Do not use subjective model ratings as evidence of genuine learner satisfaction.
 
-**Sequence / ownership:** Current testing-fidelity/observability and source-linked continuity work remains with [#17](https://github.com/frekland/Minamo/issues/17) and [#14](https://github.com/frekland/Minamo/issues/14). The visual acceptance runner is [#18](https://github.com/frekland/Minamo/issues/18), deferred until a promising candidate exists. This research is an input to the separate Project-experience design issue; it does not commission a new UI, data migration, external paid competitor trials or a production release.
+**Sequence / ownership:** First the necessary testing-fidelity/observability and source-linked continuity under [#17](https://github.com/frekland/Minamo/issues/17) and [#14](https://github.com/frekland/Minamo/issues/14); next complete and verify the existing [#12](https://github.com/frekland/Minamo/issues/12) 3×3 fixture/variant matrix; **then** design and compare prototypes under [#51](https://github.com/frekland/Minamo/issues/51). Optional visual/browser acceptance [#18](https://github.com/frekland/Minamo/issues/18) remains a later evaluation layer. This source research authorises no fixture changes, UI implementation, data migration, paid competitor trials or production release.
 
 ## Limits and still-open prior-art work
 
