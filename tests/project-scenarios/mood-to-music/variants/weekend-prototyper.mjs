@@ -1,8 +1,8 @@
 /** TEST ONLY: fictional weekend-prototyper F–K events on the unchanged V3 A–E
  * foundation. Uses canonical domain commands in disposable local D1/R2 only.
  */
-import {manifest,scenarioForPrefix} from '../seed.mjs';
-import {seed} from '../replay.mjs';
+import {manifest} from '../seed.mjs';
+import {replayOverlay} from './replay-overlay.mjs';
 
 export const weekendVariant=Object.freeze({
   scenarioId:'mood-to-music',baseFixtureVersion:'mood-to-music/3',
@@ -96,33 +96,8 @@ export async function applyWeekendPhase(c,phase,prefix=weekendPrefix()){
 
 /** Replay the shared A–E foundation, then the actual variant-specific F–K events. */
 export async function replayWeekend(target='K',{epoch=1,owner='TEST-ONLY-m2m-weekend-principal'}={}){
-  if(!manifest.states.some(s=>s.id===target))throw Error('Unknown weekend replay state');
-  if(!owner.startsWith('TEST-ONLY-'))throw Error('Only synthetic principals are accepted');
-  const prefix=weekendPrefix(epoch),base=scenarioForPrefix(prefix);
-  const session=await seed({owner}),states=[];
-  try{
-    for(const phase of manifest.states.map(s=>s.id)){
-      if(weekendVariant.phases.includes(phase))await applyWeekendPhase(session.client,phase,prefix);
-      else await base.applyState(session.client,phase);
-      states.push(phase);
-      if(phase===target)break;
-    }
-    const id=leaf=>`${prefix}-${leaf}`;
-    const project=(await ok(session.client.context('journey',id('project')))).record;
-    const notes=[];
-    for(const leaf of ['note-weekend-log','note-weekend-privacy','note-weekend-v7']){
-      const r=await session.client.context('note',id(leaf));
-      if(r.status===200)notes.push({id:r.data.record.id,rev:r.data.record.rev});
-      else if(r.status!==404)throw Error('Unexpected note status '+r.status);
-    }
-    const question=await session.client.context('investigation',id('question-storage'));
-    const annotation=await session.client.context('annotation',id('annotation-weekend-refresh'));
-    const generated=await session.client.context('article',id('requested-label-storage'));
-    if(![200,404].includes(question.status)||![200,404].includes(annotation.status)||generated.status!==404)
-      throw Error('Variant readback / no-generated-answer boundary failed');
-    return {session,prefix,states,snapshot:{phase:target,project:{id:project.id,rev:project.rev},notes,
-      question:question.status===200?{id:question.data.record.id,rev:question.data.record.rev}:null,
-      annotation:annotation.status===200?{id:annotation.data.record.id,rev:annotation.data.record.rev}:null,
-      generatedArticleSeeded:false}};
-  }catch(error){await session.fixture.dispose();throw error;}
+  return replayOverlay(target,{epoch,owner,prefixForEpoch:weekendPrefix,
+    phases:weekendVariant.phases,applyPhase:applyWeekendPhase,
+    inspectLeaves:{notes:['note-weekend-log','note-weekend-privacy','note-weekend-v7'],
+      question:'question-storage',annotation:'annotation-weekend-refresh'}});
 }
