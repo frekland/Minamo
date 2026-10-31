@@ -99,3 +99,16 @@ node --test --test-force-exit --test-concurrency=1 tests/mood-to-music-docs-vari
 ```
 
 The first two local fictional histories are still **not** an accepted complete 3×3 corpus: Mood-to-Music's privacy-led reviser, both other Project foundations with three variants each, cross-subject selector/receipt contracts, hosted GPT/MCP evidence and genuine learner-experience evaluation remain separate gates.
+
+
+## Third persona overlay: privacy-led interface reviser (31 October 2026)
+
+The opt-in [privacy-reviser module](variants/privacy-reviser.mjs) keeps the original V3 A–E foundation untouched and replaces later events with a fictional User who mistakes mood switching for persistence, reports an unverified refresh result, questions automatic v6 localStorage on a shared browser, and prefers a v7 opt-in/clear design. Historical Note editions retain the wrong inference. The last physical/browser consent-and-clear retest is deliberately unresolved.
+
+`TEST-ONLY-m2m-privacy-v1-rN` is permitted only in disposable local replay. No real owner Note is rewritten, no external provider call is made, no GPT answer is seeded and the live scenario controller does not offer this variant.
+
+```sh
+node --test --test-force-exit --test-concurrency=1 tests/mood-to-music-privacy-variant.test.mjs
+```
+
+Local tests cover exact Article rendition anchors, Note and Question revisions, stale-CAS rejection, cross-owner denial, same-owner coexistence and F/H/K reconstruction. They cannot attest a ChatGPT-host conversation, actual browser storage behaviour or a Site UI experience.
