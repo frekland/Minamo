@@ -33,7 +33,8 @@ const view=(run:ObservationRun)=>({schemaVersion:1,contract:'test-observation/1'
   fixtureVersion,generation:run.generation,epoch:run.epoch,sourceCommit:run.source_commit,sessionId:run.session_id,
   status:run.status,revision:run.revision,createdAt:run.created_at,updatedAt:run.updated_at,
   provenance:'server-observed only for qualifying, scoped MCP calls; not host-complete',
-  retention:'No ordinary learner content, tool inputs, outputs or authenticated identifiers are stored in observations.'});
+  retention:'Private D1 rows retain an owner-scoping key; public observation events exclude owner identity, tool inputs/outputs, prompt bodies and ordinary learner content.',
+  coverage:{hostComplete:false,bestEffort:true,scope:'Registered current-epoch synthetic selectors and explicit synthetic discovery only.'}});
 const snapshotView=(row:Snapshot)=>({checkpointId:row.checkpoint_id,moment:row.moment,
   sessionId:row.session_id,phase:row.phase,controllerRevision:row.controller_revision,
   namespaceVersion:row.namespace_version,observedAt:row.observed_at,
@@ -41,7 +42,7 @@ const snapshotView=(row:Snapshot)=>({checkpointId:row.checkpoint_id,moment:row.m
   limitation:'Revision changes are observed between two instants; causality and external execution are not attested.'});
 
 export const observationTool={name:'manage_minamo_test_observation',
-  description:'Owner-only TEST ONLY synthetic instrumentation, disabled until explicitly started for a registered transcript run. start/arm/pause/stop control server-observed bounded MCP call/error/timing metadata; capture saves immutable canonical record/revision metadata before or after a named experiment; diff compares snapshots. No inputs, output bodies, ordinary Notes, personal telemetry or complete ChatGPT messages are collected. Only synthetic-targeted calls qualify. Read-only calls/snapshots/diff can be inspected later. This is separate from model-submitted transcripts.',
+  description:'Owner-only TEST ONLY synthetic instrumentation, disabled until explicitly started for a registered transcript run. The session ID must match the current settled fixture phase even if an older S01-labelled transcript run spans later sessions. start/arm/pause/stop control bounded server-received MCP call/error/timing metadata; capture saves immutable canonical record/revision metadata before or after a named experiment; diff compares snapshots. No tool inputs/output bodies, ordinary Notes, personal telemetry or complete ChatGPT messages are collected in observation events. Private D1 uses an owner-scoping key for isolation. Only current-epoch synthetic selectors and explicit synthetic discovery qualify; opaque Flag IDs require canonical verification. This is not complete ChatGPT-host tracing and is separate from model-submitted transcripts.',
   inputSchema:{type:'object',properties:{
     purpose:{type:'string',minLength:1,maxLength:500},action:{enum:['start','arm','pause','stop','capture','list','calls','snapshots','diff']},
     scenarioId:{enum:[scenarioId]},runId:{type:'string',maxLength:80},sessionId:{enum:sessions.map(s=>s.id)},
@@ -273,34 +274,63 @@ const discoveryTools=new Set([
   'get_minamo_learning_context','get_minamo_workspace','query_minamo_records',
   'query_minamo_library','get_minamo_relationship_candidates','get_minamo_learning_graph'
 ]);
-const selectorKeys=['id','operationId','journeyId','investigationId','articleId','projectId','developmentId'];
+// Operation IDs alone cannot establish that a write targets the fictional
+// fixture. An ordinary record mutation may use a TEST-ONLY-looking idempotency
+// key; observing it would silently expand the privacy boundary.
+const selectorKeys=['id','journeyId','investigationId','articleId','projectId','developmentId'];
 function selectedObjects(args:any){return [args,args?.target,args?.command,args?.command?.target,
-  args?.learningTarget,args?.command?.data?.flagTarget]}
+  args?.target?.anchor,args?.command?.target?.anchor,args?.learningTarget,args?.command?.data?.flagTarget]}
 function selectedByPrefix(args:any,marker:string){
   return selectedObjects(args).some(object=>object&&typeof object==='object'&&
     selectorKeys.some(key=>typeof object[key]==='string'&&object[key].startsWith(marker)));
+}
+function syntheticOperationRead(name:unknown,args:any,marker:string){
+  return name==='read_minamo_operation'&&typeof args?.operationId==='string'&&
+    args.operationId.startsWith(marker);
 }
 function qualifies(name:unknown,args:any,epoch:number){
   if(typeof name!=='string'||!args||typeof args!=='object'||
     ['manage_minamo_test_observation','append_minamo_test_transcript','read_minamo_test_transcript',
       'manage_minamo_test_scenario'].includes(name))return false;
-  return args.includeSynthetic===true&&discoveryTools.has(name)||selectedByPrefix(args,prefix(epoch));
+  const marker=prefix(epoch);
+  return (args.includeSynthetic===true&&discoveryTools.has(name))||
+    selectedByPrefix(args,marker)||syntheticOperationRead(name,args,marker);
+}
+async function eligibleSyntheticFlagRead(env:Env,owner:string,name:unknown,args:any,marker:string){
+  // Flag IDs are opaque hashes, so the prefix alone cannot identify their
+  // synthetic target. Resolve an exact canonical Flag record privately.
+  if(name!=='read_minamo_record'||args?.family!=='flag'||
+    typeof args.id!=='string'||!/^flag-[a-f0-9]{64}$/.test(args.id))return false;
+  const row=await db(env).prepare(`SELECT json_extract(data,'$.synthetic') AS synthetic,
+    json_extract(data,'$.flagTarget') AS target
+    FROM v2_records WHERE owner=? AND family='flag' AND id=?`)
+    .bind(owner,args.id).first<{synthetic:number|null;target:string|null}>();
+  if(row?.synthetic!==1||typeof row.target!=='string')return false;
+  try{return selectedByPrefix({target:JSON.parse(row.target)},marker);}
+  catch{return false;}
 }
 export async function beginObservedCall(env:Env,owner:string,request:Request,name:unknown,args:unknown){
   if(!visibleScenarioTool(env as any,request)||!env.DB)return null;
-  // Ordinary owner MCP reads incur no extra D1 round-trip when a synthetic
-  // selector is absent, even if scenario-control capability is enabled.
+  // Ordinary owner MCP reads incur no observer D1 round-trip without a
+  // synthetic selector, except opaque Flag IDs which need a private
+  // eligibility check only after finding a matching armed observer.
+  const requestArgs=args as any,anyEpochMarker='TEST-ONLY-m2m-r';
+  const candidateFlag=name==='read_minamo_record'&&requestArgs?.family==='flag'&&
+    typeof requestArgs?.id==='string'&&/^flag-[a-f0-9]{64}$/.test(requestArgs.id);
   if(typeof name!=='string'||!args||typeof args!=='object'||
-    !(args as any).includeSynthetic&&!selectedByPrefix(args,'TEST-ONLY-m2m-r'))return null;
+    !requestArgs.includeSynthetic&&!selectedByPrefix(args,anyEpochMarker)&&
+    !syntheticOperationRead(name,args,anyEpochMarker)&&!candidateFlag)return null;
   try{
   const state=await db(env).prepare('SELECT epoch,phase,pending_json FROM v2_scenario_control WHERE owner=? AND scenario=?')
     .bind(owner,scenarioId).first<{epoch:number;phase:string|null;pending_json:string|null}>();
-  if(!state||!state.phase||state.pending_json||!qualifies(name,args,state.epoch))return null;
+  if(!state||!state.phase||state.pending_json)return null;
   const run=await db(env).prepare(`SELECT run_id,session_id FROM v2_test_observation_runs
     WHERE owner=? AND scenario=? AND generation=? AND epoch=? AND source_commit IS ? AND status='armed' LIMIT 1`)
     .bind(owner,scenarioId,generationContext(env)!.generation,state.epoch,env.MINAMO_SCENARIO_SOURCE_SHA??null)
     .first<{run_id:string;session_id:string}>();
   if(!run||sessions.find(s=>s.id===run.session_id)?.phase!==state.phase)return null;
+  if(!qualifies(name,args,state.epoch)&&
+    !(await eligibleSyntheticFlagRead(env,owner,name,args,prefix(state.epoch))))return null;
   return {runId:run.run_id,sessionId:run.session_id,phase:state.phase,epoch:state.epoch,
     name:name as string,receivedAt:now(),started:performance.now()};
   }catch{return null;}
