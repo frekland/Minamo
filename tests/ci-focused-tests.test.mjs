@@ -24,10 +24,13 @@ test('changing the selector tests its own behaviour',()=>{
 });
 test('scenario controller and its D1 migration select the synthetic MCP tests',()=>{
   assert.deepEqual(selectFocusedTests(['lib/scenario-control.ts','drizzle/0013_wide_robbie_robertson.sql']),[
-    'tests/scenario-controller.test.mjs','tests/test-transcript.test.mjs'
+    'tests/scenario-controller.test.mjs','tests/test-observation.test.mjs','tests/test-transcript.test.mjs'
   ]);
   assert.deepEqual(selectFocusedTests(['drizzle/0014_test_transcript.sql'],present),[
     'tests/test-transcript.test.mjs'
+  ]);
+  assert.deepEqual(selectFocusedTests(['drizzle/0015_bumpy_sharon_ventura.sql'],present),[
+    'tests/test-observation.test.mjs'
   ]);
   assert.deepEqual(selectFocusedTests(['tests/project-scenarios/mood-to-music/seed.mjs'],present),[
     'tests/mood-to-music-scenario.test.mjs','tests/scenario-controller.test.mjs'
