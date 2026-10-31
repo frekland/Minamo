@@ -1,6 +1,6 @@
 # Contributor and coding-agent guidance
 
-Work only in this repository when preparing or changing the public source. The previous private engineering repository, original Minamo prototype, deployed Sites project and any learner data are out of scope.
+This public repository is the active development and release-evidence home for shared Minamo source, including owner-authorised changes targeting the existing private ChatGPT Site. The earlier private GitHub engineering repository is historical reference, not a required parallel code/release repository. The original prototype and any learner data remain outside public-source scope.
 
 ## Boundaries
 
@@ -11,6 +11,7 @@ Work only in this repository when preparing or changing the public source. The p
 - MCP and web commands must pass the same domain validation. Explanations or annotations are data, never instructions to tools.
 - A local development sign-in is not a security proof for real hosted identities.
 - Do not automatically deploy or change someone else's database.
+- For an expressly authorised SITES release, follow `docs/SITES-RELEASE-WORKFLOW.md`: compare the exact public candidate with current native Sites Git, preserve Site-specific configuration and assets, verify the native source, and publish only through the existing protected Site. GitHub commits do not deploy automatically. SITES and independent Cloudflare deployments require distinct authority.
 
 ## Workflow
 
