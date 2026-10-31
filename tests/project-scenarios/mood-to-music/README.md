@@ -87,3 +87,15 @@ node --test tests/mood-to-music-weekend-variant.test.mjs
 ```
 
 The test uses actual compiled Worker/domain commands and disposable Miniflare D1/R2. It checks deterministic phase snapshots, canonical Note editions and CAS conflict, exact source anchors, absence of pre-generated GPT outputs, and same-owner/cross-owner isolation. Scripted dates, manually reported browser results and pinned React source are explicitly **not** evidence of independent execution or an accepted UX. This is one early corpus unit under #12, not acceptance of the full 3×3 matrix or a proposal for the Workbench information architecture.
+
+## Second persona overlay: provider-documentation sceptic (31 October 2026)
+
+The opt-in [documentation-sceptic module](variants/documentation-sceptic.mjs) reuses the same V3 A–E source and the now-shared [disposable overlay replay](variants/replay-overlay.mjs), replacing F–K with a distinct evidence and permission investigation. The fictional learner corrects an early assumption that a public endpoint description establishes usable access, keeps a dated-documentation and entitlement question open, rejects copying access tokens into Notes and reaffirms the offline design with a revisioned Project decision. There is **no** provider request, OAuth token, external-document snapshot, generated GPT answer or independent browser result.
+
+`TEST-ONLY-m2m-docs-v1-rN` is accepted only by the opt-in local seed helper. The same-owner overlap tests run this variant alongside the weekend history and check each retains its own revisions and Questions. Neither overlay is selectable in the hosted scenario controller, transcript or observer. The additional namespace is not authorisation to mutate a real Site or advance/reset the existing V3 epoch.
+
+```sh
+node --test --test-force-exit --test-concurrency=1 tests/mood-to-music-docs-variant.test.mjs tests/mood-to-music-weekend-variant.test.mjs
+```
+
+The first two local fictional histories are still **not** an accepted complete 3×3 corpus: Mood-to-Music's privacy-led reviser, both other Project foundations with three variants each, cross-subject selector/receipt contracts, hosted GPT/MCP evidence and genuine learner-experience evaluation remain separate gates.
