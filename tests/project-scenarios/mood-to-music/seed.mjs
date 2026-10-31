@@ -38,7 +38,9 @@ const article={
 const ok=async promise=>{const r=await promise;assert.equal(r.status,200,JSON.stringify(r.data));return r.data;};
 /** Reuse the same fixture in a bounded run-specific synthetic namespace. */
 export function scenarioForPrefix(prefix='TEST-ONLY-m2m'){
-if(!/^TEST-ONLY-m2m(?:-r[1-9][0-9]{0,5})?$/.test(prefix))throw Error('Unrecognised synthetic scenario namespace');
+// The opt-in weekend namespace is local-replay-only. The hosted controller
+// still constructs only TEST-ONLY-m2m-rN and never accepts a persona selector.
+if(!/^TEST-ONLY-m2m(?:-r[1-9][0-9]{0,5}|-weekend-v1-r[1-9][0-9]{0,5})?$/.test(prefix))throw Error('Unrecognised synthetic scenario namespace');
 const id=key=>prefix+'-'+key;
 async function create(c,family,leaf,data){
   const operationId=id('create-'+leaf);
