@@ -4,7 +4,7 @@
  * the full regression gate when the PR is ready for review.
  */
 import {execFileSync,spawnSync} from 'node:child_process';
-import {existsSync} from 'node:fs';
+import {existsSync,readdirSync} from 'node:fs';
 import {basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
@@ -18,18 +18,25 @@ const mapped={
   'lib/learning-work.ts':['tests/learning-work.test.mjs','tests/journey-resume.test.mjs']
 };
 
-export function selectFocusedTests(changed,exists=existsSync){
+export function selectFocusedTests(changed,exists=existsSync,listTests=()=>readdirSync('tests')){
   const selected=new Set();
   const add=path=>{if(exists(path))selected.add(path);};
+  let rootTests;
   for(const path of changed){
     if(/^tests\/[^/]+\.test\.mjs$/.test(path))add(path);
     if(path.startsWith('examples/mood-to-music/')){
       add('tests/mood-to-music-scenario.test.mjs');
       add('examples/mood-to-music/tests/revisions.test.mjs');
     }
-    if(path.startsWith('tests/project-scenarios/mood-to-music/')){
-      add('tests/mood-to-music-scenario.test.mjs');
-      add('tests/scenario-controller.test.mjs');
+    const scenario=path.match(/^tests\/project-scenarios\/([^/]+)\//)?.[1];
+    if(scenario){
+      // A subject's replay/seed change exercises all its personas, even when
+      // the PR changes only an existing fixture file and no root test file.
+      rootTests??=listTests();
+      const subjectTests=rootTests.filter(file=>file.startsWith(scenario+'-')&&file.endsWith('.test.mjs')&&exists('tests/'+file));
+      if(subjectTests.length===0)throw Error('Missing required subject replay tests for '+scenario);
+      for(const file of subjectTests)add('tests/'+file);
+      if(scenario==='mood-to-music')add('tests/scenario-controller.test.mjs');
     }
     if(path==='db/schema.ts'||path.startsWith('drizzle/0013_')){
       add('tests/scenario-controller.test.mjs');add('tests/test-transcript.test.mjs');add('tests/test-observation.test.mjs');add('tests/test-observation-adversarial.test.mjs');
