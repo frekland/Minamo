@@ -33,7 +33,7 @@ function operator(client,prefix){
     const [kind,leaf,sectionId]=token.split(':');
     const family={question:'investigation',article:'article',project:'journey',note:'note'}[kind];
     if(!family||!leaf)throw Error('Invalid fictional link '+token);
-    const record=await read(family,leaf);
+    const record=await read(family,kind==='question'?'question-'+leaf:leaf);
     if(kind==='project')return {family,id:record.id,rendition:record.rendition,sectionId:sectionId||'investigate'};
     if(kind==='article')return {family,id:record.id,rendition:record.rendition,
       sectionId:sectionId||'evidence',partId:'p',relation:'supports'};
