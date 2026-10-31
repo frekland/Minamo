@@ -10,6 +10,7 @@ The existing authenticated `/mcp` server offers one optional tool, `manage_minam
 | --- | --- | --- |
 | `list` | `purpose` | Published scenario/phase catalogue, fixture version, active revision, generation and recovery-gate status |
 | `inspect` | `purpose,expectedGeneration` | Exact active Project/Step/Question/Note/checkpoint IDs and revisions, last receipt, pending transition if interrupted |
+| `compare-continuation` | `purpose,expectedGeneration` | Read-only ordinary vs registered-fixture continuation using the same resolver and bounded canonical source IDs; no phase transition |
 | `load` | `purpose,scenarioId,phase,operationId,expectedGeneration,expectedRevision` | Fresh bounded synthetic run rebuilt through the published phase |
 | `advance` | Same as load, without `phase` | Next phase in the versioned manifest |
 | `reset` | Same as advance | Retire only the current synthetic run's known records, then rebuild the first published phase |
@@ -17,6 +18,23 @@ The existing authenticated `/mcp` server offers one optional tool, `manage_minam
 `phase` and `scenarioId` must match the checked-in manifest; neither remote code nor user-supplied commands are accepted. Reads and writes are tied to the current authenticated owner and Sites workspace generation. A mutation first claims the expected controller revision; one different concurrent operation receives a conflict. Retry a failed/interrupted mutation with **exactly the same operation ID and inputs**. The tool reports a pending transition instead of claiming an atomic rollback of a multi-record replay.
 
 The seed reuses the existing canonical record, learning-development, relation, revision, Flag, and operation-receipt contracts, not direct learner-table inserts. An interrupted transition resumes through individual persisted receipts. `inspect` performs fresh domain readbacks and reports actual runtime data separately from the authored synthetic scenario dates.
+
+### Owner-only synthetic continuation fidelity comparison (31 October 2026)
+
+The ordinary Project continuation and Home projections deliberately exclude synthetic Notes and Developments. This means a synthetic K Project's normal outline can truthfully return `basis:start` while canonical synthetic Notes and checkpoints exist. That is a **test-instrument mismatch**, not evidence that genuine learner Projects restart.
+
+`manage_minamo_test_scenario({action:"compare-continuation",purpose:"TEST ONLY continuation fidelity",expectedGeneration:"<generation from list>"})` is a read-only comparison path for the **already loaded** registered scenario. It requires the same trusted owner identity, configured private Sites host, enabled controller and current generation as other controller actions. There is no arbitrary Project ID, phase selector, checkpoint ID, test principal, or synthetic override in the MCP input. It refuses a pending transition or unregistered synthetic identities.
+
+The action:
+
+1. Verifies the active fixture identity/manifest boundary, checkpoint heads, Project and generation; records the active phase, epoch, revision and exact Project revision.
+2. Runs the **same `resolveProjectContinuation()` algorithm twice**: ordinary production admission (synthetic excluded) and a controller-supplied admission limited to the manifest's exact synthetic checkpoint and User Note IDs, including the documented epoch-3 C01 legacy alias. Ownership, target membership, exact links, evidence eligibility, bounded chronology and destination selection remain in force.
+3. Returns each continuation with its `basis` and coverage, plus whether the bases differ. A mixed genuine continuation, unregistered selected target, concurrently changed namespace or controller revision fails closed. It neither modifies canonical records nor inserts a Learning Development.
+4. Leaves all normal Project/GPT/Home routes unchanged, including their synthetic exclusions. This is **not** a new public test mode, a synthetic Home feed, a temporal synthesis, or a server-observed MCP trace.
+
+For verification, compare the returned `ordinary` value with the ordinary `/api/project-context` outline and confirm synthetic records remain absent from `scope:home`. Re-run against the already seeded K state with and without optional GPT outputs; this must not reset or advance the live epoch-3 fixture or append the open transcript. Run the disposable local fixture regression tests before proposing a Sites release. Source PR merging alone does not deploy this action.
+
+**Visual acceptance is a separate, necessary follow-up—not a reason to hide the fixture from the owner.** Before issue #18's real UI journey tests, provide an owner-only way to reveal the registered synthetic Project in the **normal Projects, Notes, Library, Flags, annotations and navigation screens**, preserving those screens' actual behaviour and source links. Distinguish it visibly as TEST ONLY, isolate it from invited-account and routine learner views, and allow deliberate entry/exit without resetting the fixture. Whether it defaults to visible for the owner or uses an explicit test-data toggle is an owner UX choice to settle in that focused implementation. A special read-only MCP comparison cannot substitute for browser interaction evidence, and globally removing the production synthetic fences would not demonstrate a safe user experience.
 
 ### S04 checkpoint compatibility (30 October 2026)
 
