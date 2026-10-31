@@ -10,6 +10,12 @@ import type {IndependentQuestions,ProjectContinuation,ProjectCoverage,ProjectIde
 
 type Input=LearningScopeQuery&{mode?:string;projectId?:string;questionId?:string;cursor?:string;limit?:number};
 type Cache=Map<string,Promise<WorkspaceRecord|null>>;
+/** Internal, owner-gated scenario comparison only. The caller verifies the
+ * active registered run and its synthetic identities before passing these IDs.
+ * Ordinary Project/Home/GPT reads never supply this policy. */
+export type RegisteredFixtureContinuation={
+ projectId:string;checkpointIds:readonly string[];noteIds:readonly string[];
+};
 function fail(status:number,code:string,message:string):never{throw new DomainError(status,code,message);}
 const validId=(value:unknown):value is string=>typeof value==='string'&&value.length<=160&&/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.test(value);
 const version=async(env:Cloudflare.Env,owner:string)=>Number((await env.DB!.prepare('SELECT version FROM v2_namespace_versions WHERE owner=?').bind(owner).first<{version:number}>())?.version??0);
@@ -63,11 +69,22 @@ async function uniqueQuestionStep(env:Cloudflare.Env,owner:string,question:Works
  return contexts.size===1?[...contexts.values()][0]:undefined;
 }
 /** Same deterministic destination is reusable by UI and GPT; no checkpoint is written. */
-export async function resolveProjectContinuation(env:Cloudflare.Env,owner:string,project:WorkspaceRecord,scope:LearningScopeQuery={},cache:Cache=new Map()):Promise<{continuation?:ProjectContinuation;complete:boolean}>{
+export async function resolveProjectContinuation(env:Cloudflare.Env,owner:string,project:WorkspaceRecord,scope:LearningScopeQuery={},cache:Cache=new Map(),fixture?:RegisteredFixtureContinuation):Promise<{continuation?:ProjectContinuation;complete:boolean}>{
+ if(fixture&&(project.synthetic!==true||project.id!==fixture.projectId))
+  fail(403,'fixture_continuation_scope','Synthetic continuation must target the registered synthetic Project.');
  scope=parseLearningScopeQuery(scope);const steps=stepsFor(project),scopeSql=learningScopeSql('r',scope);
  const qRefs=JSON.stringify(project.links.filter(l=>l.family==='investigation').map(l=>l.id));
+ // The selection algorithm is identical in both modes: only the SQL admission
+ // fence changes. Exact allowlists prevent unrelated synthetic or owner data
+ // from influencing the owner-only comparison.
+ const checkpointFence=fixture
+  ?"AND json_extract(d.event_json,'$.synthetic')=1 AND d.id IN (SELECT value FROM json_each(?))"
+  :"AND coalesce(json_extract(d.event_json,'$.synthetic'),0)=0";
+ const noteFence=fixture
+  ?"AND json_extract(r.data,'$.synthetic')=1 AND r.id IN (SELECT value FROM json_each(?))"
+  :"AND coalesce(json_extract(r.data,'$.synthetic'),0)=0";
  const membership=`((r.family='journey' AND r.id=?) OR (r.family='investigation' AND (EXISTS(SELECT 1 FROM json_each(?) wanted WHERE wanted.value=r.id) OR EXISTS(SELECT 1 FROM json_each(r.data,'$.links') parent WHERE json_extract(parent.value,'$.family')='journey' AND json_extract(parent.value,'$.id')=?))))`;
- const rows=await env.DB!.prepare(`SELECT d.event_json FROM v2_learning_developments d JOIN v2_records r ON r.owner=d.owner AND r.family=CASE json_extract(d.event_json,'$.primaryTarget.kind') WHEN 'investigation' THEN 'investigation' ELSE 'journey' END AND r.id=coalesce(json_extract(d.event_json,'$.primaryTarget.investigationId'),json_extract(d.event_json,'$.primaryTarget.journeyId')) WHERE d.owner=? AND r.trashed_at IS NULL AND (${scopeSql.sql}) AND ${membership} AND d.withdrawn=0 AND coalesce(json_extract(d.event_json,'$.synthetic'),0)=0 AND NOT EXISTS(SELECT 1 FROM v2_learning_developments replacement WHERE replacement.owner=d.owner AND replacement.withdrawn=0 AND json_extract(replacement.event_json,'$.supersedesId')=d.id) ORDER BY d.updated_at DESC,d.id DESC LIMIT 41`).bind(owner,...scopeSql.args,project.id,qRefs,project.id).all<{event_json:string}>();
+ const rows=await env.DB!.prepare(`SELECT d.event_json FROM v2_learning_developments d JOIN v2_records r ON r.owner=d.owner AND r.family=CASE json_extract(d.event_json,'$.primaryTarget.kind') WHEN 'investigation' THEN 'investigation' ELSE 'journey' END AND r.id=coalesce(json_extract(d.event_json,'$.primaryTarget.investigationId'),json_extract(d.event_json,'$.primaryTarget.journeyId')) WHERE d.owner=? AND r.trashed_at IS NULL AND (${scopeSql.sql}) AND ${membership} AND d.withdrawn=0 ${checkpointFence} AND NOT EXISTS(SELECT 1 FROM v2_learning_developments replacement WHERE replacement.owner=d.owner AND replacement.withdrawn=0 AND json_extract(replacement.event_json,'$.supersedesId')=d.id) ORDER BY d.updated_at DESC,d.id DESC LIMIT 41`).bind(owner,...scopeSql.args,project.id,qRefs,project.id,...(fixture?[JSON.stringify(fixture.checkpointIds)]:[])).all<{event_json:string}>();
  let checkpoint:ProjectContinuation|undefined,rejectedCheckpoint=false;
  for(const row of rows.results.slice(0,40)){
   const event=JSON.parse(row.event_json) as LearningDevelopment,target=event.primaryTarget,family=target.kind==='journey-stage'?'journey':'investigation',id=target.kind==='journey-stage'?target.journeyId:target.investigationId,record=await cached(env,owner,family,id,cache);
@@ -78,7 +95,7 @@ export async function resolveProjectContinuation(env:Cloudflare.Env,owner:string
   const at=event.revisedAt??event.createdAt,returnStep=target.kind==='investigation'?await uniqueQuestionStep(env,owner,record,project,steps,scope,cache):step;checkpoint={destination:withReturn(learningDestination(target),project,returnStep?.stageId),title:step?.title??record.title,basis:'checkpoint',label:rejectedCheckpoint?'Earlier saved checkpoint':'Latest saved checkpoint',at,target,checkpoint:{id:event.id,at,destination:withReturn(learningDestination(target),project,returnStep?.stageId),title:step?.title??record.title}};break;
  }
  // Only actual writing linked to an exact eligible target can outrank a checkpoint.
- const noteRows=await env.DB!.prepare(`SELECT r.id FROM v2_records r WHERE r.owner=? AND r.family='note' AND r.trashed_at IS NULL AND json_extract(r.data,'$.actor')='user' AND coalesce(json_extract(r.data,'$.synthetic'),0)=0 AND length(trim(coalesce(json_extract(r.data,'$.body'),'')))>0 AND EXISTS(SELECT 1 FROM json_each(r.data,'$.links') link WHERE (json_extract(link.value,'$.family')='journey' AND json_extract(link.value,'$.id')=?) OR (json_extract(link.value,'$.family')='investigation' AND EXISTS(SELECT 1 FROM v2_records question WHERE question.owner=r.owner AND question.family='investigation' AND question.id=json_extract(link.value,'$.id') AND question.trashed_at IS NULL AND (EXISTS(SELECT 1 FROM json_each(?) wanted WHERE wanted.value=question.id) OR EXISTS(SELECT 1 FROM json_each(question.data,'$.links') parent WHERE json_extract(parent.value,'$.family')='journey' AND json_extract(parent.value,'$.id')=?))))) ORDER BY json_extract(r.data,'$.updatedAt') DESC,r.id DESC LIMIT 41`).bind(owner,project.id,qRefs,project.id).all<{id:string}>();
+ const noteRows=await env.DB!.prepare(`SELECT r.id FROM v2_records r WHERE r.owner=? AND r.family='note' AND r.trashed_at IS NULL AND json_extract(r.data,'$.actor')='user' ${noteFence} AND length(trim(coalesce(json_extract(r.data,'$.body'),'')))>0 AND EXISTS(SELECT 1 FROM json_each(r.data,'$.links') link WHERE (json_extract(link.value,'$.family')='journey' AND json_extract(link.value,'$.id')=?) OR (json_extract(link.value,'$.family')='investigation' AND EXISTS(SELECT 1 FROM v2_records question WHERE question.owner=r.owner AND question.family='investigation' AND question.id=json_extract(link.value,'$.id') AND question.trashed_at IS NULL AND (EXISTS(SELECT 1 FROM json_each(?) wanted WHERE wanted.value=question.id) OR EXISTS(SELECT 1 FROM json_each(question.data,'$.links') parent WHERE json_extract(parent.value,'$.family')='journey' AND json_extract(parent.value,'$.id')=?))))) ORDER BY json_extract(r.data,'$.updatedAt') DESC,r.id DESC LIMIT 41`).bind(owner,...(fixture?[JSON.stringify(fixture.noteIds)]:[]),project.id,qRefs,project.id).all<{id:string}>();
  let recentNote:ProjectContinuation|undefined,noteChronologyComplete=false;
  for(const row of noteRows.results.slice(0,40)){
   const note=await cached(env,owner,'note',row.id,cache);if(note&&checkpoint?.at&&note.updatedAt<=checkpoint.at){noteChronologyComplete=true;break;}if(!note||note.actor!=='user'||!matchesLearningScope(note,scope)||!note.body.trim()||unavailable(note)||checkpoint?.at&&note.updatedAt<=checkpoint.at)continue;
