@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, primaryKey, unique } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, primaryKey, unique, index } from "drizzle-orm/sqlite-core";
 // Admission and intentionally submitted feedback are separate from tenant
 // learning generations; recovery never silently restores revoked membership.
 export const betaMembers=sqliteTable('v2_beta_members',{
@@ -36,6 +36,30 @@ export const testTranscriptEvents=sqliteTable('v2_test_transcript_events',{
 },t=>[primaryKey({columns:[t.owner,t.scenario,t.runId,t.sequence]}),
  unique('v2_test_transcript_entry_unique').on(t.owner,t.scenario,t.runId,t.entryId),
  unique('v2_test_transcript_operation_unique').on(t.owner,t.scenario,t.runId,t.operationId)]);
+// Optional server-received synthetic MCP metadata. Separated from the
+// model-submitted transcript, and never included in learner record/recovery UI.
+export const testObservationRuns=sqliteTable('v2_test_observation_runs',{
+ owner:text('owner').notNull(),scenario:text('scenario').notNull(),runId:text('run_id').notNull(),
+ generation:text('generation').notNull(),epoch:integer('epoch').notNull(),sourceCommit:text('source_commit'),
+ status:text('status').notNull(),sessionId:text('session_id'),revision:integer('revision').notNull().default(0),
+ startOperation:text('start_operation').notNull(),lastOperation:text('last_operation').notNull(),
+ lastPayload:text('last_payload').notNull(),createdAt:text('created_at').notNull(),updatedAt:text('updated_at').notNull(),
+},t=>[primaryKey({columns:[t.owner,t.scenario,t.runId]})]);
+export const testObservedCalls=sqliteTable('v2_test_observed_calls',{
+ owner:text('owner').notNull(),scenario:text('scenario').notNull(),runId:text('run_id').notNull(),
+ callId:text('call_id').notNull(),sessionId:text('session_id').notNull(),phase:text('phase').notNull(),
+ toolName:text('tool_name').notNull(),outcome:text('outcome').notNull(),errorCode:text('error_code'),
+ elapsedMs:integer('elapsed_ms').notNull(),receivedAt:text('received_at').notNull(),
+},t=>[primaryKey({columns:[t.owner,t.scenario,t.runId,t.callId]}),
+ index('v2_test_observed_calls_order').on(t.owner,t.scenario,t.runId,t.receivedAt,t.callId)]);
+export const testStateSnapshots=sqliteTable('v2_test_state_snapshots',{
+ owner:text('owner').notNull(),scenario:text('scenario').notNull(),runId:text('run_id').notNull(),
+ checkpointId:text('checkpoint_id').notNull(),moment:text('moment').notNull(),sessionId:text('session_id').notNull(),
+ phase:text('phase').notNull(),controllerRevision:integer('controller_revision').notNull(),
+ namespaceVersion:integer('namespace_version').notNull(),stateJson:text('state_json').notNull(),
+ observedAt:text('observed_at').notNull(),
+},t=>[primaryKey({columns:[t.owner,t.scenario,t.runId,t.checkpointId,t.moment]}),
+ index('v2_test_state_snapshots_order').on(t.owner,t.scenario,t.runId,t.observedAt)]);
 export const investigations = sqliteTable("investigations", {
  owner: text("owner").notNull(), id: text("id").notNull(), title: text("title").notNull(),
 }, t => [primaryKey({ columns: [t.owner, t.id] })]);
