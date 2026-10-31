@@ -1,7 +1,7 @@
 import {env} from "cloudflare:workers";
 import {getChatGPTUser} from "./chatgpt-auth";
 import {headers} from 'next/headers';
-import {readWorkspace,readContext,readRecord} from "../lib/domain";
+import {readWorkspace,readContext} from "../lib/domain";
 import {resolveGeneration,withGeneration} from "../lib/generations";
 import {requireScenarioOwner,scenarioState} from '../lib/scenario-control';
 import {FAMILIES} from "../lib/contracts";
@@ -28,7 +28,7 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
    const state=await scenarioState(scopedEnv as Parameters<typeof scenarioState>[0],owner);
    if(state.phase&&!state.pending_json&&Number.isSafeInteger(state.epoch)&&state.epoch>0){
     const projectId=`TEST-ONLY-m2m-r${state.epoch}-project`;
-    const record=await readRecord(scopedEnv,owner,'journey',projectId);
+    const record=(await readContext(scopedEnv,owner,'journey',projectId)).record;
     if(record?.synthetic===true&&record.id===projectId)
      ownerTestScenario={projectId,title:record.title,phase:state.phase,epoch:state.epoch};
    }
