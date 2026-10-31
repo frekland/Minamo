@@ -88,7 +88,7 @@ export async function applyPrivacyPhase(c,phase,prefix=privacyPrefix()){
     });
   }else if(phase==='J'){
     const project=await read('journey','project'),q=await read('investigation','question-consent');
-    await update('journey','project',{
+    const updatedProject=await update('journey','project',{
       body:'Current synthetic scope: personally meaningful labels remain temporary by default. An explicit Remember action and clear behaviour may be offered; preserve earlier v5/v6 reasoning and unresolved observed-runtime checks. No provider or privacy certification is asserted.'
     });
     await update('investigation','question-consent',{learningShape:{...q.learningShape,
@@ -96,7 +96,7 @@ export async function applyPrivacyPhase(c,phase,prefix=privacyPrefix()){
     await create('note','note-opt-in-design',{
       title:'TEST ONLY Opt-in is the proposed interface revision',learningScope,
       body:'FICTIONAL USER, 13 November: I changed the design to keep labels temporary until Remember is chosen. v7 source contains opt-in/clear code, but I have not yet supplied a complete browser retest or independently verified execution receipt. A small local smoke check is the next step.\n'+sourcePin('v7'),
-      links:[questionLink(q),projectLink(project),{family:'note',id:id('note-shared-browser'),relation:'related'}]
+      links:[questionLink(q),projectLink(updatedProject),{family:'note',id:id('note-shared-browser'),relation:'related'}]
     });
   }else if(phase==='K'){
     await update('note','note-privacy-assumption',{
