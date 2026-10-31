@@ -251,14 +251,16 @@ async function recordPage(env:Cloudflare.Env,where:string,args:unknown[],limit:n
  if(truncated&&!records.length)fail(503,'record_read_budget','A stored record exceeds the bounded page budget; no continuation was advanced.');
  const last=records.at(-1);return {records,truncated,nextCursor:truncated&&last?encodeCursor({updatedAt:last.updatedAt,family:last.family,id:last.id},scope):null,byteLimit:2000000};
 }
-export async function readWorkspace(env:Cloudflare.Env,owner:string,options:LearningScopeQuery & {includeTrash?:boolean;cursor?:string;limit?:number}={}):Promise<WorkspaceSnapshot>{
- if(!object(options))fail(400,'invalid_query','Workspace options must be an object.');allowedKeys(options,['includeTrash','cursor','limit','learningSpace','language']);const learningQuery=parseLearningScopeQuery(options);
+export async function readWorkspace(env:Cloudflare.Env,owner:string,options:LearningScopeQuery & {includeTrash?:boolean;includeSynthetic?:boolean;cursor?:string;limit?:number}={}):Promise<WorkspaceSnapshot>{
+ if(!object(options))fail(400,'invalid_query','Workspace options must be an object.');allowedKeys(options,['includeTrash','includeSynthetic','cursor','limit','learningSpace','language']);const learningQuery=parseLearningScopeQuery(options);
  if(options.includeTrash!==undefined&&typeof options.includeTrash!=='boolean')fail(400,'invalid_query','Trash selection must be a boolean.');
+ if(options.includeSynthetic!==undefined&&typeof options.includeSynthetic!=='boolean')fail(400,'invalid_query','Synthetic selection must be a boolean.');
  const limit=options.limit??300;if(!Number.isSafeInteger(limit)||limit<1||limit>300)fail(400,'invalid_limit','Choose a workspace page size from 1 to 300.');
  const version=Number((await db(env).prepare('SELECT version FROM v2_learning_scope_epochs WHERE owner=?').bind(owner).first<{version:number}>())?.version??0);
- const scope=await pageScope(owner,'workspace',{version,includeTrash:!!options.includeTrash,limit,...learningQuery,generation:generationContext(env)?.generation??'legacy@0'});const key=decodeCursor(options.cursor,scope);const args:unknown[]=[owner];
- let where='owner=?';if(!options.includeTrash)where+=' AND trashed_at IS NULL';const learningFilter=learningScopeSql('v2_records',learningQuery);where+=' AND '+learningFilter.sql;args.push(...learningFilter.args);where+=keysetClause(key,args);
- const [page,activity]=await Promise.all([recordPage(env,where,args,limit,scope),key?Promise.resolve({results:[] as ActivityItem[]}):db(env).prepare(`SELECT a.id,a.family,a.record_id as recordId,a.verb,a.actor,a.synthetic,a.at FROM v2_activity a WHERE a.owner=? AND EXISTS(SELECT 1 FROM v2_records WHERE v2_records.owner=a.owner AND v2_records.family=a.family AND v2_records.id=a.record_id AND v2_records.trashed_at IS NULL AND ${learningFilter.sql}) ORDER BY a.at DESC,a.id DESC LIMIT 80`).bind(owner,...learningFilter.args).all<ActivityItem>()]);
+ const scope=await pageScope(owner,'workspace',{version,includeTrash:!!options.includeTrash,includeSynthetic:options.includeSynthetic!==false,limit,...learningQuery,generation:generationContext(env)?.generation??'legacy@0'});const key=decodeCursor(options.cursor,scope);const args:unknown[]=[owner];
+ let where='owner=?';if(!options.includeTrash)where+=' AND trashed_at IS NULL';if(options.includeSynthetic===false)where+=" AND coalesce(json_extract(data,'$.synthetic'),0)=0";const learningFilter=learningScopeSql('v2_records',learningQuery);where+=' AND '+learningFilter.sql;args.push(...learningFilter.args);where+=keysetClause(key,args);
+ const activitySyntheticFence=options.includeSynthetic===false?" AND coalesce(json_extract(v2_records.data,'$.synthetic'),0)=0":'';
+ const [page,activity]=await Promise.all([recordPage(env,where,args,limit,scope),key?Promise.resolve({results:[] as ActivityItem[]}):db(env).prepare(`SELECT a.id,a.family,a.record_id as recordId,a.verb,a.actor,a.synthetic,a.at FROM v2_activity a WHERE a.owner=?${options.includeSynthetic===false?' AND a.synthetic=0':''} AND EXISTS(SELECT 1 FROM v2_records WHERE v2_records.owner=a.owner AND v2_records.family=a.family AND v2_records.id=a.record_id AND v2_records.trashed_at IS NULL${activitySyntheticFence} AND ${learningFilter.sql}) ORDER BY a.at DESC,a.id DESC LIMIT 80`).bind(owner,...learningFilter.args).all<ActivityItem>()]);
  await assertGenerationCurrent(env);const endScopeVersion=Number((await db(env).prepare('SELECT version FROM v2_learning_scope_epochs WHERE owner=?').bind(owner).first<{version:number}>())?.version??0);if(endScopeVersion!==version)fail(409,'workspace_scope_changed','Learning-space classifications changed during this read. Restart the page; no mixed-scope snapshot is presented.');
  return {...page,activity:activity.results.map(a=>({...a,synthetic:!!a.synthetic})),recordLimit:limit};
 }
@@ -496,20 +498,20 @@ export function conceptEntries(record:WorkspaceRecord|null):ConceptDestination[]
   return {concept,destination,deepLink:'/?'+params.toString()};
  });
 }
-async function queryConcepts(env:Cloudflare.Env,owner:string,needle:string,enabled:boolean,learningQuery:LearningScopeQuery={}){
+async function queryConcepts(env:Cloudflare.Env,owner:string,needle:string,enabled:boolean,learningQuery:LearningScopeQuery={},includeSynthetic=true){
  const empty={conceptMatches:[] as ConceptMatch[],conceptMatchesTruncated:false,conceptMatchesOmitted:null as number|null,conceptMatchLimit:20,conceptMatchesPage:'first-page exact matches; query_minamo_library references provides continuation'};
  if(!enabled||!needle)return empty;
  // The reference and whole-Library projections are independent: overlap their
  // database waits while keeping separate eligibility checks and exact ordering.
  const [page,libraryPage]=await Promise.all([
-  queryLibrary(env,owner,{...learningQuery,facet:'references',query:needle,limit:20},record=>projectLibraryRecord(env,owner,record)),
-  queryLibrary(env,owner,{...learningQuery,facet:'search',query:needle,limit:12},record=>projectLibraryRecord(env,owner,record)),
+  queryLibrary(env,owner,{...learningQuery,includeSynthetic,facet:'references',query:needle,limit:20},record=>projectLibraryRecord(env,owner,record)),
+  queryLibrary(env,owner,{...learningQuery,includeSynthetic,facet:'search',query:needle,limit:12},record=>projectLibraryRecord(env,owner,record)),
  ]);
  const matches:ConceptMatch[]=page.items.filter(item=>!!item.reference).flatMap(item=>{const ref=item.reference!,concept=catalogueConcept(ref),matched=referenceNameMatch(ref,needle);if(!matched)return [];return [{concept,destination:{family:'article' as const,id:item.id,rendition:ref.target.rendition,sectionId:ref.target.sectionId,...(ref.target.partId?{partId:ref.target.partId}:{})},deepLink:item.href,article:{family:'article' as const,id:item.id,title:item.title,rev:item.rev,rendition:ref.target.rendition},...matched}];});
  return {...empty,libraryMatches:libraryPage.items,libraryMatchesTruncated:libraryPage.truncated,libraryMatchesCursor:libraryPage.nextCursor,conceptMatches:matches,conceptMatchesTruncated:page.truncated,conceptMatchesCursor:page.nextCursor,conceptMatchesOmitted:page.truncated?null:0};
 }
 export type PersonalQueryRef=Pick<RecordLink,'family'|'id'>;
-export type RecordQuery=LearningScopeQuery & {query?:string;family?:Family;limit?:number;includeTrash?:boolean;cursor?:string;personal?:boolean;context?:PersonalQueryRef;topic?:PersonalQueryRef;quote?:string;unlinked?:boolean};
+export type RecordQuery=LearningScopeQuery & {query?:string;family?:Family;limit?:number;includeTrash?:boolean;includeSynthetic?:boolean;cursor?:string;personal?:boolean;context?:PersonalQueryRef;topic?:PersonalQueryRef;quote?:string;unlinked?:boolean};
 const PERSONAL_QUERY_FAMILIES:Family[]=['note','annotation','flag','run'];
 /** Only identity metadata is prefiltered in SQL. Quotation/text matching happens
  * after the same current-rights projection as an exact read. */
@@ -530,10 +532,10 @@ async function eligibleRecordQuery(env:Cloudflare.Env,owner:string,input:RecordQ
  const context=reference(input.context,'context'),topic=reference(input.topic,'topic');if(topic&&topic.family!=='area')fail(400,'invalid_query_topic','A personal topic is an existing Knowledge area.');
  if(input.personal&&input.family&&!PERSONAL_QUERY_FAMILIES.includes(input.family))fail(400,'invalid_personal_family','Personal discovery covers Notes, Annotations, Flags and Runs.');
  const version=Number((await db(env).prepare('SELECT version FROM v2_namespace_versions WHERE owner=?').bind(owner).first<{version:number}>())?.version??0);
- const filters={...learningQuery,query:needle,family:input.family??null,...(families?{families:[...families].sort()}:{}),includeTrash:!!input.includeTrash,limit,personal:!!input.personal,context:context??null,topic:topic??null,quote:input.quote?.trim()??'',unlinked:!!input.unlinked};
+ const filters={...learningQuery,query:needle,family:input.family??null,...(families?{families:[...families].sort()}:{}),includeTrash:!!input.includeTrash,includeSynthetic:input.includeSynthetic!==false,limit,personal:!!input.personal,context:context??null,topic:topic??null,quote:input.quote?.trim()??'',unlinked:!!input.unlinked};
  const queryScope=await pageScope(generationContext(env)?.rootOwner??owner,'query',filters);
  const scope=await pageScope(owner,'query',{...filters,generation:generationContext(env)?.generation??'legacy@0',version});
- const key=decodeCursor(input.cursor,scope,version,generationContext(env)?.generation??'legacy@0',queryScope);const args:unknown[]=[owner];let where='owner=?';if(!input.includeTrash)where+=' AND trashed_at IS NULL';if(input.family){where+=' AND family=?';args.push(input.family)}else if(input.personal)where+=" AND family IN ('note','annotation','flag','run')";if(families){where+=' AND family IN ('+families.map(()=>'?').join(',')+')';args.push(...families);}
+ const key=decodeCursor(input.cursor,scope,version,generationContext(env)?.generation??'legacy@0',queryScope);const args:unknown[]=[owner];let where='owner=?';if(!input.includeTrash)where+=' AND trashed_at IS NULL';if(input.includeSynthetic===false)where+=" AND coalesce(json_extract(data,'$.synthetic'),0)=0";if(input.family){where+=' AND family=?';args.push(input.family)}else if(input.personal)where+=" AND family IN ('note','annotation','flag','run')";if(families){where+=' AND family IN ('+families.map(()=>'?').join(',')+')';args.push(...families);}
  const learningFilter=learningScopeSql('v2_records',learningQuery);where+=' AND '+learningFilter.sql;args.push(...learningFilter.args);
  // An unavailable requested context never selects records by a dangling raw ID.
  const queryContexts:{family:Family;id:string;title:string}[]=[];
@@ -576,9 +578,10 @@ async function eligibleRecordQuery(env:Cloudflare.Env,owner:string,input:RecordQ
 }
 function validateRecordQuery(input:RecordQuery){
  if(!object(input))fail(400,'invalid_query','A query object is required.');
- allowedKeys(input,['query','family','limit','includeTrash','cursor','personal','context','topic','quote','unlinked','learningSpace','language']);parseLearningScopeQuery(input);
+ allowedKeys(input,['query','family','limit','includeTrash','includeSynthetic','cursor','personal','context','topic','quote','unlinked','learningSpace','language']);parseLearningScopeQuery(input);
  if(input.limit!==undefined&&(!Number.isSafeInteger(input.limit)||input.limit<1||input.limit>60))fail(400,'invalid_limit','Choose a read limit from 1 to 60.');
  if(input.includeTrash!==undefined&&typeof input.includeTrash!=='boolean')fail(400,'invalid_query','Trash selection must be a boolean.');
+ if(input.includeSynthetic!==undefined&&typeof input.includeSynthetic!=='boolean')fail(400,'invalid_query','Synthetic selection must be a boolean.');
  if(input.family!==undefined&&!family(input.family))fail(400,'invalid_family','Unknown record family.');if(input.query!==undefined&&!text(input.query,200))fail(400,'invalid_query','Search is limited to 200 characters.');
  if(input.personal!==undefined&&typeof input.personal!=='boolean'||input.unlinked!==undefined&&typeof input.unlinked!=='boolean')fail(400,'invalid_query','Personal and unlinked selectors must be booleans.');if(input.quote!==undefined&&!text(input.quote,200))fail(400,'invalid_query','Marked-passage search is limited to 200 characters.');
 }
@@ -589,9 +592,9 @@ export async function queryRecordPage(env:Cloudflare.Env,owner:string,input:Reco
 }
 export async function queryRecords(env:Cloudflare.Env,owner:string,input:RecordQuery={}){
  validateRecordQuery(input);
- const limit=input.limit??24;const needle=normaliseSearchQuery(input.query??'');if(input.personal||input.context!==undefined||input.topic!==undefined||input.quote!==undefined||input.unlinked)return eligibleRecordQuery(env,owner,input,limit,needle);if(input.learningSpace!==undefined||input.language!==undefined){const [page,concepts]=await Promise.all([eligibleRecordQuery(env,owner,input,limit,needle),queryConcepts(env,owner,needle,!input.cursor&&(!input.family||input.family==='article'),parseLearningScopeQuery(input))]);return {...page,...concepts};}if(needle){const [page,concepts]=await Promise.all([eligibleRecordQuery(env,owner,input,limit,needle),queryConcepts(env,owner,needle,!input.cursor&&(!input.family||input.family==='article'))]);return {...page,...concepts};}const scope=await pageScope(owner,'query',{query:needle,family:input.family??null,includeTrash:!!input.includeTrash,limit});const key=decodeCursor(input.cursor,scope);let where='owner=?';const args:unknown[]=[owner];
- if(!input.includeTrash)where+=' AND trashed_at IS NULL';if(input.family){where+=' AND family=?';args.push(input.family)}
- where+=keysetClause(key,args);const [page,concepts]=await Promise.all([recordPage(env,where,args,limit,scope),queryConcepts(env,owner,needle,!key&&(!input.family||input.family==='article'))]);return {...page,...concepts,limit};
+ const limit=input.limit??24;const needle=normaliseSearchQuery(input.query??'');if(input.personal||input.context!==undefined||input.topic!==undefined||input.quote!==undefined||input.unlinked)return eligibleRecordQuery(env,owner,input,limit,needle);if(input.learningSpace!==undefined||input.language!==undefined){const [page,concepts]=await Promise.all([eligibleRecordQuery(env,owner,input,limit,needle),queryConcepts(env,owner,needle,!input.cursor&&(!input.family||input.family==='article'),parseLearningScopeQuery(input),input.includeSynthetic!==false)]);return {...page,...concepts};}if(needle){const [page,concepts]=await Promise.all([eligibleRecordQuery(env,owner,input,limit,needle),queryConcepts(env,owner,needle,!input.cursor&&(!input.family||input.family==='article'),{},input.includeSynthetic!==false)]);return {...page,...concepts};}const scope=await pageScope(owner,'query',{query:needle,family:input.family??null,includeTrash:!!input.includeTrash,includeSynthetic:input.includeSynthetic!==false,limit});const key=decodeCursor(input.cursor,scope);let where='owner=?';const args:unknown[]=[owner];
+ if(!input.includeTrash)where+=' AND trashed_at IS NULL';if(input.includeSynthetic===false)where+=" AND coalesce(json_extract(data,'$.synthetic'),0)=0";if(input.family){where+=' AND family=?';args.push(input.family)}
+ where+=keysetClause(key,args);const [page,concepts]=await Promise.all([recordPage(env,where,args,limit,scope),queryConcepts(env,owner,needle,!key&&(!input.family||input.family==='article'),{},input.includeSynthetic!==false)]);return {...page,...concepts,limit};
 }
 export async function readContext(env:Cloudflare.Env,owner:string,f?:Family,id?:string,rendition?:string,options:ContextOptions={}){
  if(!object(options))fail(400,'invalid_context','Context options must be an object.');allowedKeys(options,['selection','relatedRefs','learningSpace','language']);const learningQuery=parseLearningScopeQuery(options);

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {privateStorageFixture} from './private-storage-fixture.mjs';
 const worker='import {domainHandler} from "./lib/domain-handler.ts";export default {fetch(request,env){return domainHandler(request,{...env,MINAMO_ACTIVITY_STUDIO:"1",MINAMO_LEARNING_ATLAS:"1"});}}';
 const ok=r=>{assert.equal(r.status,200,JSON.stringify(r.data));return r.data;};
-const call=async(c,name,args)=>{const r=ok(await c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name,arguments:{purpose:'TEST ONLY scoped continuity acceptance',...args}}}));assert.equal(r.result.isError,false,r.result.content[0].text);return JSON.parse(r.result.content[0].text);};
+const call=async(c,name,args)=>{const r=ok(await c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name,arguments:{purpose:'TEST ONLY scoped continuity acceptance',...((name==='get_minamo_learning_context'&&args.scope==='resume')||name==='query_minamo_records'?{includeSynthetic:true}:{}),...args}}}));assert.equal(r.result.isError,false,r.result.content[0].text);return JSON.parse(r.result.content[0].text);};
 const scope=language=>({version:1,spaces:['languages'],languages:[language],provenance:'authored'});
 const computing={version:1,spaces:['computing'],provenance:'authored'};
 const create=async(c,family,id,title,learningScope,extra={})=>ok(await c.command({action:'create',family,id,data:{title,body:'Original TEST ONLY bounded fixture.',synthetic:true,learningScope,...extra}})).record;

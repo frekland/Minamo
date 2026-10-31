@@ -27,7 +27,7 @@ test('outer MCP envelopes agree for nested CAS conflicts, replay, validation and
 });
 test('candidate pagination filters before limit and fences cursor scope and saved-work changes',{timeout:60000},async()=>{
  const f=await privateStorageFixture(worker),c=f.client('TEST-ONLY-candidate-pages');
- const call=async(args)=>(await c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name:'get_minamo_relationship_candidates',arguments:{purpose,query:'TESTONLYCANDIDATE',limit:1,...args}}})).data.result;
+const call=async(args)=>(await c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name:'get_minamo_relationship_candidates',arguments:{purpose,query:'TESTONLYCANDIDATE',limit:1,includeSynthetic:true,...args}}})).data.result;
  try{
   for(const [family,id] of [['journey','a'],['investigation','b'],['article','c'],['area','d'],['note','newer-one'],['note','newer-two']])await c.command({action:'create',family,id,data:{title:'TESTONLYCANDIDATE '+id,body:'Synthetic candidate pagination coverage.',synthetic:true}});
   const badLimit=await call({limit:41});assert.equal(badLimit.isError,true);assert.equal(badLimit.structuredContent.code,'invalid_limit');

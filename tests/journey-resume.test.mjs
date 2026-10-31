@@ -5,7 +5,7 @@ import {seedJourneyResume} from './journey-resume-fixture.mjs';
 const worker="import {domainHandler} from './lib/domain-handler.ts';export default {fetch:domainHandler}";
 async function ok(promise){const r=await promise;assert.equal(r.status,200,JSON.stringify(r.data));return r.data;}
 const read=(c,args)=>ok(c.request('/api/learning-context',args));
-const mcp=async(c,args)=>{const r=await ok(c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name:'get_minamo_learning_context',arguments:{purpose:'TEST ONLY continue a naturally named project',...args}}}));assert.notEqual(r.result.isError,true,JSON.stringify(r));return JSON.parse(r.result.content[0].text);};
+const mcp=async(c,args)=>{const r=await ok(c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name:'get_minamo_learning_context',arguments:{purpose:'TEST ONLY continue a naturally named project',...(args.scope==='resume'?{includeSynthetic:true}:{}),...args}}}));assert.notEqual(r.result.isError,true,JSON.stringify(r));return JSON.parse(r.result.content[0].text);};
 
 test('natural project continuation groups ordinary short Notes, exact task evidence and post-checkpoint intention without a handover',async()=>{
  const f=await privateStorageFixture(worker);try{const c=f.client('TEST-ONLY-resume-owner'),s=await seedJourneyResume(c);
