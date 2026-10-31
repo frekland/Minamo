@@ -34,7 +34,7 @@ test('scenario controller and its D1 migration select the synthetic MCP tests',(
     'tests/test-observation-adversarial.test.mjs','tests/test-observation.test.mjs'
   ]);
   assert.deepEqual(selectFocusedTests(['tests/project-scenarios/mood-to-music/seed.mjs'],present),[
-    'tests/mood-to-music-docs-variant.test.mjs','tests/mood-to-music-scenario.test.mjs',
+    'tests/mood-to-music-docs-variant.test.mjs','tests/mood-to-music-privacy-variant.test.mjs','tests/mood-to-music-scenario.test.mjs',
     'tests/mood-to-music-weekend-variant.test.mjs','tests/scenario-controller.test.mjs'
   ]);
 });
