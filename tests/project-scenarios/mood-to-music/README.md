@@ -75,3 +75,15 @@ V3 preserves A–F exactly and adds G–K **fictional User actions only**, with 
 - The controller admits only these registered synthetic IDs/operation receipts, inspects all Flags on their exact Articles across older renditions, withdraws authorised checkpoints, and fails closed on foreign/unknown records. This is not a general-purpose deletion tool. Additional real Site-generated user data needs separate deliberate registration or complete disposal of a genuinely isolated TEST-ONLY database.
 
 **Acceptance boundaries:** Passing a seeded G–K local replay proves the fixture's stored User history is reproducible; it does not prove the User operated Minamo UI, GPT continued across chats, or a GitHub/local test was independently verified. Each is separately recorded by the acceptance operator following [EVALUATION.md](./EVALUATION.md).
+
+## First persona overlay: intermittent weekend prototyper (31 October 2026)
+
+The opt-in [weekend-prototyper module](variants/weekend-prototyper.mjs) is a **local-only versioned `intermittent-weekend-prototyper/1` fixture** with `mood-to-music/3` as its immutable A–E foundation. It replaces the default F–K fictional User events with fewer, causally linked Note editions, one short passage reminder, a genuine Question revision and repeated time gaps. It does not rename or copy the 19-Note default history. The two late histories can coexist under separate synthetic namespaces for the **same** disposable test principal.
+
+`TEST-ONLY-m2m-weekend-v1-rN` is an explicitly permitted seed prefix **only in the local replay helper**. The hosted controller, MCP transcript and observer remain registered solely to the canonical `mood-to-music/3` fixture and `TEST-ONLY-m2m-rN`; `personaVariant` in the transcript is not yet a hosted state selector. Do not load the overlay into a Site or change any hosted epoch to run these tests.
+
+```sh
+node --test tests/mood-to-music-weekend-variant.test.mjs
+```
+
+The test uses actual compiled Worker/domain commands and disposable Miniflare D1/R2. It checks deterministic phase snapshots, canonical Note editions and CAS conflict, exact source anchors, absence of pre-generated GPT outputs, and same-owner/cross-owner isolation. Scripted dates, manually reported browser results and pinned React source are explicitly **not** evidence of independent execution or an accepted UX. This is one early corpus unit under #12, not acceptance of the full 3×3 matrix or a proposal for the Workbench information architecture.
