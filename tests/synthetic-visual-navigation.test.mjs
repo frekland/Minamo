@@ -17,6 +17,7 @@ test('owner-confirmed test context adds an ordinary-app Project entry and unmist
  assert.match(html,/Owner-only synthetic test Project/);
  assert.match(html,/Phase K · epoch 3/);
  assert.match(html,/Open test Project/);
+ assert.match(html,/learningSpace=all/,'the test entry must open the normal all-spaces context even from a language-specific Home');
  assert.match(html,/projects-index-test-label">TEST ONLY/);
  assert.match(html,/TEST ONLY Mood-to-Music/);
 });
