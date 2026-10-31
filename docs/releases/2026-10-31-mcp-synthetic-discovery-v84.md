@@ -34,6 +34,7 @@ Status: **deployed**; native Sites status `succeeded`, MCP enabled.
 
 - Public and native source: `pnpm run typecheck` passed.
 - Native production build: `pnpm run build` passed.
+- Complete built public regression suite: `node --test --test-concurrency=2 --test-reporter=dot tests/*.test.mjs` passed (exit code 0) after updating synthetic acceptance fixtures to use the explicit opt-in.
 - New real D1/MCP regression test verifies default exclusion, explicit inclusion, pre-pagination filtering, cursor scope, exact synthetic handoffs, browser HTTP compatibility and Home Favourites.
 - Focused existing MCP integration tests covering Projects, Library, Notes, Flags, synthetic manuscript, search evidence and language-scope continuation passed with explicit TEST ONLY opt-in.
 - Cloud browser navigation to production after V84 showed the owner-only TEST ONLY Project banner and normal Home navigation intact. The deployment API confirmed the production version and MCP availability.
