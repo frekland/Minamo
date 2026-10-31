@@ -4,8 +4,11 @@
  * canonical domain HTTP commands, with their revision/idempotency receipts.
  */
 import {DomainError} from './domain-error';
-import {generationContext,requireGeneration} from './generations';
+import {assertGenerationCurrent,generationContext,requireGeneration} from './generations';
 import {domainHandler} from './domain-handler';
+import {readRecord} from './domain';
+import {resolveProjectContinuation} from './project-context';
+import type {RegisteredFixtureContinuation} from './project-context';
 import {scenarioForPrefix,manifest} from '../tests/project-scenarios/mood-to-music/seed.mjs';
 
 type ScenarioEnv=Cloudflare.Env&{
@@ -16,7 +19,7 @@ type ScenarioEnv=Cloudflare.Env&{
   MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER?:string;
   MINAMO_SCENARIO_SOURCE_SHA?:string;
 };
-type Action='list'|'inspect'|'load'|'advance'|'reset';
+type Action='list'|'inspect'|'compare-continuation'|'load'|'advance'|'reset';
 type ScenarioInput={action:Action;purpose:string;scenarioId?:string;phase?:string;operationId?:string;expectedGeneration?:string;expectedRevision?:number};
 type Pending={action:'load'|'advance'|'reset';operationId:string;payload:string;epoch:number;phase:string;previousEpoch:number;previousPhase:string|null};
 type Row={owner:string;scenario:string;epoch:number;phase:string|null;revision:number;generation:string;pending_json:string|null;receipt_json:string|null};
@@ -69,8 +72,8 @@ export function requireScenarioOwner(env:ScenarioEnv,request:Request){
   return ctx!;
 }
 function validate(input:ScenarioInput){
-  if(!input||typeof input!=='object'||!['list','inspect','load','advance','reset'].includes(input.action))
-    error(400,'invalid_scenario_action','Choose list, inspect, load, advance or reset.');
+  if(!input||typeof input!=='object'||!['list','inspect','compare-continuation','load','advance','reset'].includes(input.action))
+    error(400,'invalid_scenario_action','Choose list, inspect, compare-continuation, load, advance or reset.');
   if(typeof input.purpose!=='string'||!input.purpose.trim()||input.purpose.length>500)error(400,'request_scope_required','Provide a short test purpose.');
   if(input.scenarioId!==undefined&&input.scenarioId!==scenarioId)error(400,'unknown_scenario','Choose a versioned scenario from list.');
   if(input.phase!==undefined&&!states.includes(input.phase))error(400,'unknown_scenario_phase','Choose a published phase from list.');
@@ -394,6 +397,57 @@ async function snapshot(c:ReturnType<typeof client>,env:ScenarioEnv,epoch:number
     bookmark:bookmark.data,operationReceipts,
     steps:outline.data.steps.map((s:any)=>s.stageId),notes,checkpointIds:[...new Set(checkpointIds)].sort()};
 }
+/** Read-only comparison of the same continuation resolver under ordinary and
+ * manifest-scoped synthetic admission. Never alters Home/GPT projections.
+ * Only the owner-gated scenario tool can reach this path. */
+async function compareContinuation(env:ScenarioEnv,owner:string,row:Row){
+ if(!row.phase||row.epoch<1)error(409,'scenario_not_loaded','Load a registered synthetic fixture before comparing continuation.');
+ if(parsePending(row))error(409,'scenario_operation_pending','Complete the pending fixture transition before comparing continuation.');
+ const run=prefix(row.epoch),projectId=run+'-project';
+ await assertSyntheticRunBoundary(env,owner,row.epoch);
+ const before=Number((await db(env).prepare('SELECT version FROM v2_namespace_versions WHERE owner=?')
+  .bind(owner).first<{version:number}>())?.version??0);
+ const project=await readRecord(env,owner,'journey',projectId);
+ if(!project||project.synthetic!==true)
+  throw new DomainError(409,'fixture_identity_collision','The registered synthetic Project is unavailable.');
+ const questionIds=questionIdsForRun(run);
+ if(project.links.some(link=>link.family==='investigation'&&!questionIds.has(link.id)))
+  error(409,'fixture_identity_collision','The synthetic Project links an unregistered Question.');
+ const fixture:RegisteredFixtureContinuation={
+  projectId,
+  checkpointIds:checkpointIdsForRun(run),
+  noteIds:manifest.stableIds.notes.map(id=>run+'-'+id.replace('TEST-ONLY-m2m-',''))
+ };
+ const scope={learningSpace:'computing' as const};
+ const [ordinary,registeredFixture]=await Promise.all([
+  resolveProjectContinuation(env,owner,project,scope),
+  resolveProjectContinuation(env,owner,project,scope,new Map(),fixture)
+ ]);
+ // Fail closed on mixed real/synthetic work rather than returning an owner's
+ // genuine linked Note through a synthetic comparison.
+ if(ordinary.continuation?.basis!=='start')
+  error(409,'fixture_mixed_provenance','An ordinary non-synthetic continuation is linked to this fixture; inspect privately.');
+ const selected=registeredFixture.continuation;
+ if((selected?.note&&!fixture.noteIds.includes(selected.note.id))||
+    (selected?.checkpoint&&!fixture.checkpointIds.includes(selected.checkpoint.id))||
+    (selected?.target?.kind==='journey-stage'&&selected.target.journeyId!==projectId)||
+    (selected?.target?.kind==='investigation'&&!questionIds.has(selected.target.investigationId)))
+  error(409,'fixture_identity_collision','Continuation selected an unregistered fixture target.');
+ await assertGenerationCurrent(env);
+ const [after,latest]=await Promise.all([
+  db(env).prepare('SELECT version FROM v2_namespace_versions WHERE owner=?').bind(owner).first<{version:number}>(),
+  db(env).prepare('SELECT phase,epoch,revision,pending_json FROM v2_scenario_control WHERE owner=? AND scenario=?')
+   .bind(owner,scenarioId).first<Pick<Row,'phase'|'epoch'|'revision'|'pending_json'>>()
+ ]);
+ if(Number(after?.version??0)!==before||!latest||latest.phase!==row.phase||
+    latest.epoch!==row.epoch||latest.revision!==row.revision||latest.pending_json)
+  error(409,'scenario_snapshot_changed','Fixture or learning state changed during comparison; inspect and retry.');
+ return {phase:row.phase,epoch:row.epoch,controllerRevision:row.revision,project:{id:project.id,rev:project.rev},
+  semantics:'same-resolver-different-admission',scope:'owner-only registered synthetic fixture',
+  ordinary,registeredFixture,
+  basisDiffers:ordinary.continuation?.basis!==registeredFixture.continuation?.basis,
+  notice:'The ordinary Home/Project/GPT paths still exclude synthetic history. This read-only comparison admits only exact synthetic manifest Notes and checkpoint IDs; it is not a temporal synthesis or passive MCP trace.'};
+}
 export function visibleScenarioTool(env:ScenarioEnv,request:Request){
   return env.MINAMO_SCENARIO_CONTROL_ENABLED==='1'&&!!env.MINAMO_OWNER_ID&&
     !!env.MINAMO_SITE_HOSTS?.split(',').includes(new URL(request.url).hostname)&&
@@ -402,10 +456,10 @@ export function visibleScenarioTool(env:ScenarioEnv,request:Request){
 }
 export const scenarioTool={
   name:'manage_minamo_test_scenario',
-  description:'Owner-only TEST ONLY scenario control for repeatable private Sites acceptance. Select published fixture states, inspect exact receipts and Project evidence; no arbitrary data reset. Mutations require explicit test intent, current generation/revision and an operator-approved recovery or synthetic-only waiver. Do not use during ordinary learning.',
+  description:'Owner-only TEST ONLY scenario control for repeatable private Sites acceptance. Select published fixture states, inspect receipts and compare ordinary versus manifest-scoped synthetic Project continuation. No arbitrary data reset. Mutations require explicit test intent, current generation/revision and a recovery or synthetic-only waiver. Do not use during ordinary learning.',
   inputSchema:{type:'object',properties:{
     purpose:{type:'string',minLength:1,maxLength:500},
-    action:{enum:['list','load','advance','inspect','reset']},
+    action:{enum:['list','load','advance','inspect','compare-continuation','reset']},
     scenarioId:{enum:[scenarioId]},phase:{type:'string',description:'Exact phase identifier returned by list (load only).'},
     operationId:{type:'string',pattern:'^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$'},
     expectedGeneration:{type:'string',maxLength:160},expectedRevision:{type:'integer',minimum:0}
@@ -422,6 +476,9 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
     syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1',
     reservedOutputs:reservedOutputsForEpoch(Math.max(1,row.epoch))};
   if(input.action==='list')return {...base,states:manifest.states,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:!!row.pending_json};
+  if(input.action==='compare-continuation')
+    return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},
+      continuationComparison:await compareContinuation(env,owner,row)};
   if(input.action==='inspect'){
     if(parsePending(row))return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:JSON.parse(row.pending_json!),retryRequired:true};
     return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},
