@@ -30,7 +30,7 @@ const validRevision=(value:unknown)=>Number.isSafeInteger(value)&&Number(value)>
 const now=()=>new Date().toISOString();
 const prefix=(epoch:number)=>`TEST-ONLY-m2m-r${epoch}-`;
 const view=(run:ObservationRun)=>({schemaVersion:1,contract:'test-observation/1',scenarioId,runId:run.run_id,
-  generation:run.generation,epoch:run.epoch,sourceCommit:run.source_commit,sessionId:run.session_id,
+  fixtureVersion,generation:run.generation,epoch:run.epoch,sourceCommit:run.source_commit,sessionId:run.session_id,
   status:run.status,revision:run.revision,createdAt:run.created_at,updatedAt:run.updated_at,
   provenance:'server-observed only for qualifying, scoped MCP calls; not host-complete',
   retention:'No ordinary learner content, tool inputs, outputs or authenticated identifiers are stored in observations.'});
@@ -195,8 +195,11 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
     for(const call of callRows.results){const tally=tools[call.tool_name]??={calls:0,errors:0,totalMs:0};
       tally.calls++;tally.errors+=Number(call.outcome==='error');tally.totalMs+=call.elapsed_ms;}
     return {eventKind:'state.verified-diff',provenance:'canonical D1 metadata at two verified instants',
-      checkpointId:input.checkpointId,before:{observedAt:before.observed_at,phase:before.phase,namespaceVersion:before.namespace_version},
-      after:{observedAt:after.observed_at,phase:after.phase,namespaceVersion:after.namespace_version},
+      run:view(run),checkpointId:input.checkpointId,
+      before:{observedAt:before.observed_at,sessionId:before.session_id,phase:before.phase,
+        controllerRevision:before.controller_revision,namespaceVersion:before.namespace_version},
+      after:{observedAt:after.observed_at,sessionId:after.session_id,phase:after.phase,
+        controllerRevision:after.controller_revision,namespaceVersion:after.namespace_version},
       changes,unchanged:new Set([...b.keys(),...a.keys()]).size-changes.length,
       observedCallsBetween:{count:callRows.results.length,byTool:tools},
       notice:'Identity/revision changes are canonical, but this interval does not prove which tool caused them or that an external program ran.'};
