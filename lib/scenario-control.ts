@@ -586,7 +586,8 @@ async function assertHostedBoundary(env:ScenarioEnv,owner:string,fixture:HostedF
     let value:any;
     try{value=JSON.parse(flag.data)}catch{error(409,'fixture_flag_mismatch','Unreadable synthetic Flag.');}
     const target=value?.flagTarget;
-    if(value?.synthetic!==true||!(target?.anchor?.articleId===run+'-reference'&&target.anchor.recordFamily==='article'||
+    if(value?.synthetic!==true||!(target?.kind==='passage'&&target.anchor?.articleId===run+'-reference'&&
+      (target.anchor.recordFamily===undefined||target.anchor.recordFamily==='article')||
       target?.kind==='record'&&target.family==='article'&&target.id===run+'-reference'))
       error(409,'fixture_flag_mismatch','Cannot prove Flag belongs to this synthetic Article.');
   }
@@ -667,11 +668,17 @@ async function cleanupHostedVariant(c:ReturnType<typeof client>,env:ScenarioEnv,
     if(result.status!==200||result.data.status!=='committed')
       error(409,'fixture_cleanup_blocked','Synthetic checkpoint retirement failed.');
   }
-  for(const [index,bookmark] of boundary.bookmarks.entries()){
+  const cleanupIds=new Set<string>();
+  for(const bookmark of boundary.bookmarks){
+    const cleanupId=run+'-cleanup-bookmark-'+bookmark.target_key.slice(-32);
+    if(cleanupIds.has(cleanupId))error(409,'fixture_flag_mismatch','Bookmark cleanup identities collide.');
+    cleanupIds.add(cleanupId);
+  }
+  for(const bookmark of boundary.bookmarks){
     const record=boundary.flags.find(flag=>flag.id===bookmark.flag_id);
     if(!record)error(409,'fixture_flag_mismatch','Synthetic bookmark/Flag pairing changed.');
     const target=JSON.parse(record!.data).flagTarget;
-    const receipt=await c.command({operationId:run+'-cleanup-bookmark-'+index,
+    const receipt=await c.command({operationId:run+'-cleanup-bookmark-'+bookmark.target_key.slice(-32),
       action:'setFlag',target,active:false,expectedTargetRev:bookmark.target_rev});
     if(receipt.status!==200||receipt.data.status!=='committed'||receipt.data.bookmark?.active!==false)
       error(409,'fixture_cleanup_blocked','Synthetic bookmark deactivation failed.');
@@ -682,7 +689,7 @@ async function cleanupHostedVariant(c:ReturnType<typeof client>,env:ScenarioEnv,
     if(current.status===404&&boundary.bookmarks.some(bookmark=>bookmark.flag_id===item.id))continue;
     if(current.status!==200||current.data.record.synthetic!==true)
       error(409,'fixture_cleanup_blocked','Cannot verify synthetic Flag before Trash.');
-    const receipt=await c.command({operationId:run+'-cleanup-flag-'+item.id,
+    const receipt=await c.command({operationId:run+'-cleanup-flag-'+item.id.slice(-32),
       action:'trash',family:'flag',id:item.id,expectedRev:current.data.record.rev});
     if(receipt.status!==200||receipt.data.status!=='committed')
       error(409,'fixture_cleanup_blocked','Synthetic Flag cleanup failed.');

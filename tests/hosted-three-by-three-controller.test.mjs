@@ -222,6 +222,13 @@ test('variant reset retires only known synthetic records and rejects prefix coll
       active:true,expectedTargetRev:0});
     assert.equal(flag.status,200,JSON.stringify(flag));
     assert.equal(flag.data.bookmark.active,true);
+    const article=(await c.context('article',oldPrefix+'-reference')).data.record;
+    const section=article.sections[0],part=section.parts[0];
+    const passageTarget={kind:'passage',anchor:{articleId:article.id,rendition:article.rendition,
+      sectionId:section.id,partId:part.id,start:0,end:4,quote:part.text.slice(0,4)}};
+    const passageFlag=await c.command({operationId:oldPrefix+'-temp-passage-flag',action:'setFlag',
+      target:passageTarget,active:true,expectedTargetRev:0});
+    assert.equal(passageFlag.status,200,JSON.stringify(passageFlag));
     const reset=await scenario(c,p,{action:'reset',expectedRevision:1,
       expectedGeneration:'legacy@0',operationId:'TEST-ONLY-v88-weekend-reset'});
     assert.equal(reset.error,false,JSON.stringify(reset));
@@ -232,6 +239,9 @@ test('variant reset retires only known synthetic records and rejects prefix coll
     const flagAfter=await c.request('/api/bookmarks',{target:flagTarget});
     assert.equal(flagAfter.status,200);
     assert.equal(flagAfter.data.active,false,'reset must retire the opaque bookmark head as well as Flag record');
+    const passageAfter=await c.request('/api/bookmarks',{target:passageTarget});
+    assert.equal(passageAfter.status,200);
+    assert.equal(passageAfter.data.active,false,'a second passage Flag must be deactivated independently');
     const collisionId='TEST-ONLY-m2m-weekend-v1-r3-unknown-genuine';
     const injected=await c.command({operationId:'TEST-ONLY-v88-genuine-collision',
       action:'create',family:'note',id:collisionId,
