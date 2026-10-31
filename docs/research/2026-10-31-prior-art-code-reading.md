@@ -2,7 +2,7 @@
 
 **31 October 2026 · Research note · Static source inspection, not UX acceptance**
 
-This note extends [the learner-experience redesign strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) and the [broader product philosophy](../PRODUCT-CONTEXT-AND-PRIOR-ART.md). It records findings from actual shallow Git clones of three public repositories, with file-level links pinned to the inspected commit. The preceding product comparison relied partly on documentation; the observations below are narrower, traceable implementation findings.
+This note supports [Project-experience design issue #51](https://github.com/frekland/Minamo/issues/51) and extends [the learner-experience redesign strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) and the [broader product philosophy](../PRODUCT-CONTEXT-AND-PRIOR-ART.md). It records findings from actual shallow Git clones of three public repositories, with file-level links pinned to the inspected commit. The preceding product comparison relied partly on documentation; the observations below are narrower, traceable implementation findings.
 
 **Scope:** GitLearnOS, DeepTutor, Logseq. Source reading only: no third-party application was run, no dependencies installed, no UI usability test conducted, no code copied into Minamo, and no Minamo product/schema change authorised. These findings describe selected code paths, not an exhaustive security or feature audit.
 
