@@ -41,6 +41,8 @@ The code uses React, TypeScript, Vinext and Cloudflare Workers with D1/R2 persis
 
 **For a fresh development chat:** begin with the [learner-experience redesign strategy and recovered decision trail](docs/LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), then [product context and prior-art lessons](docs/PRODUCT-CONTEXT-AND-PRIOR-ART.md) and the [V3 longitudinal closeout / learner-context test roadmap](docs/acceptance/2026-10-30-m2m-v3-closeout-and-learner-context-roadmap.md). Together these distinguish the immediate synthetic architecture tasks from the larger, still-unsolved Project UX problem, including what earlier research decided and what it did **not** establish.
 
+**Current UI/UX evidence (31 October 2026):** The [live Cloud Browser audit](docs/ux/2026-10-31-LIVE-AUDIT.md) and [canonical findings register](docs/ux/REGISTER.md) distinguish reproduced current Site behaviour from design interpretations and historical unverified claims. The [60-finding V70/V72 reconciliation](docs/ux/V70-V72-CROSSWALK.md) and [evidence-led roadmap](docs/ux/ROADMAP.md) preserve the earlier record without treating it as a fresh 60/60 pass. These documents are read-only audit outputs, not approval for app changes.
+
 Start with [Getting started](docs/GETTING-STARTED.md), [Architecture](docs/ARCHITECTURE.md) and [Deployment boundaries](docs/DEPLOYMENT.md).
 
 For authorised changes to the existing owner-private ChatGPT Site, the [direct Sites release workflow](docs/SITES-RELEASE-WORKFLOW.md) uses this repository as the single active GitHub source and release-evidence home. Actual publication still requires the Site's separate native Git commit, private deployment and live verification; public pushes do not deploy automatically.
