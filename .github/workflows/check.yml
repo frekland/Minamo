@@ -3,6 +3,15 @@ name: Source checks
 on:
   push:
     branches: [main]
+    # Review-ready PRs already run the full gate. Do not repeat that expensive
+    # gate after merging only synthetic persona fixtures/tests or documentation.
+    # Any app/domain/schema/tooling change still triggers the full main check.
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - 'tests/project-scenarios/**'
+      - 'tests/*-scenario.test.mjs'
+      - 'tests/*-variant.test.mjs'
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review, converted_to_draft]
   workflow_dispatch:

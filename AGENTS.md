@@ -17,6 +17,8 @@ This public repository is the active development and release-evidence home for s
 
 Make small, reviewable changes with clear purpose. Run `pnpm run typecheck`, `pnpm run build` and `pnpm test` before proposing a release; if an environment cannot run them, describe the limitation precisely. Include synthetic reproduction steps and any UI evidence needed to review the change.
 
+For the remaining #12 **3×3 fictional corpus**, follow [the accelerated gated test workflow](docs/TESTING.md#fast-gated-development-of-the-33-fictional-corpus-owner-decision-31-october-2026): one **draft PR per Project subject**, focused disposable D1/R2 replay tests after each persona, and the complete GitHub checks when that subject's PR becomes review-ready. Fixture-only, already-verified merges intentionally skip a redundant main-push full run. Never bypass the ready-PR full gate, conflate local passing tests with a learner-experience pass, or start the Workbench before corpus acceptance. Full checks are still required for product/release candidates and application/domain/schema changes.
+
 The current app is tied to ChatGPT Sites identity and publication capabilities. Read `docs/ARCHITECTURE.md` and `docs/DEPLOYMENT.md` before changing infrastructure. Keep third-party licence notices and verify rights before adding media or imported teaching material.
 
 AI-assisted changes are welcome, but the contributor is responsible for understanding, checking and describing their work.
