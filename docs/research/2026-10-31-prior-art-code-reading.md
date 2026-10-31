@@ -60,14 +60,17 @@ One possible interaction anatomy is **current meaning / active inquiry / inspect
 
 **31 October 2026 owner sequencing correction:** This research does **not** call for constructing three new Project histories. Reuse and extend the existing Minamo synthetic scenario/controller, MCP transcript/observed-call/state-diff and replay framework. The [approved scenario/persona matrix in #12](https://github.com/frekland/Minamo/issues/12) covers **Mood-to-Music, retired HTB Cap and Automatic Plant-Screamer**, each with **three isolated fictional learner variants** (nine combinations, not nine cloned curricula). Mood-to-Music's canonical history is already built/tested within its bounded scope; its variant overlays and the other two subjects are planned, not implemented/accepted. **Complete and verify that 3×3 corpus first**, after the needed #14/#17 testing foundation, and **then** use it to design and compare Project experience prototypes under [#51](https://github.com/frekland/Minamo/issues/51).
 
-With those reproducible subject/persona states available, test **two distinct integrated Project interaction hypotheses**:
+**31 October owner product-design correction:** The earlier A/B emphasis (active investigation versus decision/evidence return) is **superseded as a choice between mutually exclusive experiences**. A question-led perspective, the active work and the evolution of an investigation belong in **one hybrid Project Workbench**. The learner should be able to move among complementary **Work, Questions and Evolution perspectives** on the same canonical sources, with stable selected record/revision, evidence inspection, unsaved writing context and a reliable return path. The eventual UI might expose a lens toggle, reveal context fluidly or adapt with explicit user control; no tabs/panels are approved yet.
 
-- **A — focused investigation:** immediate current problem/uncertainty, contextual source exploration, writing and a reliable return path.
-- **B — decision-and-evidence return:** current interpretation, consequential change/reason, historical/source inspection, active continuation.
+With the same reproducible 3×3 subject/persona states available, compare **implementations of this shared hybrid experience**, for example:
 
-Neither is a prescribed UI screen composition; both must handle the same underlying source identities and revise gracefully after changed direction.
+- **Explicit lens workbench:** clear Work / Questions / Evolution perspective switcher; shared focus, evidence and writing survive each switch.
+- **Fluid contextual workspace:** questions, history and evidence reveal themselves naturally around the selected focus, without requiring frequent explicit mode changes.
+- **Controlled adaptive hybrid (optional):** relevant perspective can be suggested, but the current focus and user control remain predictable and reversible.
 
-For each, test realistic tasks: orient after interruption; recover one revised decision and its *specific* supporting evidence; distinguish reported from verified observations; follow a linked Question/Note/Library/code passage and return; add thinking without premature classification; explicitly request an update, then verify a fresh GPT recovers committed state.
+The experiment need not build all three. It must compare at least two meaningfully different interaction approaches using identical canonical record identities and scenarios, **not merely rename the present Steps/Questions/Activity pages as tabs**.
+
+For each, test realistic tasks: orient after interruption; recover one revised decision and its *specific* supporting evidence; distinguish reported from verified observations; follow a linked Question/Note/Library/code passage; **switch perspectives while preserving the selected object, source revision, draft and return path**; add thinking without premature classification; explicitly request an update, then verify a fresh GPT recovers committed state.
 
 Record successes and failures separately for **canonical data**, **server/MCP projection**, **visible interaction**, and **model interpretation**. Compare wrong claims, missing source links, navigation/backtracking, unnecessary user chores and actual measured operations/time only when observable. Begin with a narrow viewport; later compare at desktop size. Do not use subjective model ratings as evidence of genuine learner satisfaction.
 
