@@ -10,6 +10,7 @@ import {readRecord} from './domain';
 import {resolveProjectContinuation} from './project-context';
 import type {RegisteredFixtureContinuation} from './project-context';
 import {scenarioForPrefix,manifest} from '../tests/project-scenarios/mood-to-music/seed.mjs';
+import {selectHostedFixture,hostedSelectorList,hostedSourcePin,type HostedFixture} from './hosted-scenario-registry';
 
 type ScenarioEnv=Cloudflare.Env&{
   MINAMO_OWNER_ID?:string;
@@ -20,7 +21,7 @@ type ScenarioEnv=Cloudflare.Env&{
   MINAMO_SCENARIO_SOURCE_SHA?:string;
 };
 type Action='list'|'inspect'|'compare-continuation'|'load'|'advance'|'reset';
-type ScenarioInput={action:Action;purpose:string;scenarioId?:string;phase?:string;operationId?:string;expectedGeneration?:string;expectedRevision?:number};
+type ScenarioInput={action:Action;purpose:string;scenarioId?:string;personaVariant?:string;phase?:string;operationId?:string;expectedGeneration?:string;expectedRevision?:number};
 type Pending={action:'load'|'advance'|'reset';operationId:string;payload:string;epoch:number;phase:string;previousEpoch:number;previousPhase:string|null};
 type Row={owner:string;scenario:string;epoch:number;phase:string|null;revision:number;generation:string;pending_json:string|null;receipt_json:string|null};
 const scenarioId=manifest.key;
@@ -75,10 +76,11 @@ function validate(input:ScenarioInput){
   if(!input||typeof input!=='object'||!['list','inspect','compare-continuation','load','advance','reset'].includes(input.action))
     error(400,'invalid_scenario_action','Choose list, inspect, compare-continuation, load, advance or reset.');
   if(typeof input.purpose!=='string'||!input.purpose.trim()||input.purpose.length>500)error(400,'request_scope_required','Provide a short test purpose.');
-  if(input.scenarioId!==undefined&&input.scenarioId!==scenarioId)error(400,'unknown_scenario','Choose a versioned scenario from list.');
+  try{selectHostedFixture({scenarioId:input.scenarioId??scenarioId,personaVariant:input.personaVariant})}
+  catch{error(400,'unknown_scenario','Choose a registered scenario and persona variant from list.');}
   if(input.phase!==undefined&&!states.includes(input.phase))error(400,'unknown_scenario_phase','Choose a published phase from list.');
   if(['load','advance','reset'].includes(input.action)){
-    if(input.scenarioId!==scenarioId||!validOperation(input.operationId))error(400,'invalid_scenario_operation','Provide the listed scenarioId and a stable operationId.');
+    if(!input.scenarioId||!validOperation(input.operationId))error(400,'invalid_scenario_operation','Provide the listed scenarioId and a stable operationId.');
     if(!Number.isSafeInteger(input.expectedRevision)||input.expectedRevision!<0)error(400,'invalid_scenario_revision','Provide the exact nonnegative controller revision from inspect.');
     if(input.action==='load'&&!input.phase)error(400,'scenario_phase_required','Load requires an exact published phase.');
     if(input.action==='advance'&&input.phase!==undefined)error(400,'invalid_scenario_phase','Advance uses the next published phase; omit phase.');
@@ -86,11 +88,11 @@ function validate(input:ScenarioInput){
   }else if(input.phase!==undefined||input.operationId!==undefined||input.expectedRevision!==undefined)
     error(400,'invalid_scenario_read','Read operations do not accept mutation fields.');
 }
-export async function scenarioState(env:ScenarioEnv,owner:string):Promise<Row>{
+export async function scenarioState(env:ScenarioEnv,owner:string,selected:HostedFixture=selectHostedFixture({scenarioId})):Promise<Row>{
   const now=new Date().toISOString();
   await db(env).prepare('INSERT OR IGNORE INTO v2_scenario_control(owner,scenario,epoch,phase,revision,generation,updated_at) VALUES(?,?,0,NULL,0,?,?)')
-    .bind(owner,scenarioId,generationContext(env)!.generation,now).run();
-  const row=await db(env).prepare('SELECT * FROM v2_scenario_control WHERE owner=? AND scenario=?').bind(owner,scenarioId).first<Row>();
+    .bind(owner,selected.dbKey,generationContext(env)!.generation,now).run();
+  const row=await db(env).prepare('SELECT * FROM v2_scenario_control WHERE owner=? AND scenario=?').bind(owner,selected.dbKey).first<Row>();
   if(!row)error(503,'scenario_store_unavailable','Scenario row could not be read.');
   return row!;
 }
@@ -144,8 +146,8 @@ async function assertSyntheticRunBoundary(env:ScenarioEnv,owner:string,epoch:num
     ...manifest.stableIds.requestedArticles.map(id=>run+'-'+id.replace('TEST-ONLY-m2m-','')),
     ...published.map(item=>item.id)
   ]);
-  const rows=await db(env).prepare('SELECT family,id,data FROM v2_records WHERE owner=? AND id LIKE ? LIMIT 101')
-    .bind(owner,run+'-%').all<{family:string;id:string;data:string}>();
+  const rows=await db(env).prepare('SELECT family,id,data FROM v2_records WHERE owner=? AND instr(id,?)=1 LIMIT 101')
+    .bind(owner,run+'-').all<{family:string;id:string;data:string}>();
   if(rows.results.length>100)error(409,'fixture_identity_collision','Too many records under the reserved fixture identity.');
   for(const record of rows.results){
     let data:unknown;
@@ -456,11 +458,13 @@ export function visibleScenarioTool(env:ScenarioEnv,request:Request){
 }
 export const scenarioTool={
   name:'manage_minamo_test_scenario',
-  description:'Owner-only TEST ONLY scenario control for repeatable private Sites acceptance. Select published fixture states, inspect receipts and compare ordinary versus manifest-scoped synthetic Project continuation. No arbitrary data reset. Mutations require explicit test intent, current generation/revision and a recovery or synthetic-only waiver. Do not use during ordinary learning.',
+  description:'Owner-only TEST ONLY hosted 3x3 scenario selector. List registered fictional Projects/personas, load/inspect/advance/reset an exact isolated variant and compare manifest-scoped continuation. Legacy Mood-to-Music remains separately pinned. Revision, synthetic owner identity, source and cleanup safeguards apply; do not use for real learning.',
   inputSchema:{type:'object',properties:{
     purpose:{type:'string',minLength:1,maxLength:500},
     action:{enum:['list','load','advance','inspect','compare-continuation','reset']},
-    scenarioId:{enum:[scenarioId]},phase:{type:'string',description:'Exact phase identifier returned by list (load only).'},
+    scenarioId:{enum:['mood-to-music','retired-htb-cap','automatic-plant-screamer']},
+    personaVariant:{type:'string',description:'Exact registered fictional variant from list; omit for the preserved legacy Mood-to-Music scenario.'},
+    phase:{type:'string',description:'Exact phase identifier returned by list (load only).'},
     operationId:{type:'string',pattern:'^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$'},
     expectedGeneration:{type:'string',maxLength:160},expectedRevision:{type:'integer',minimum:0}
   },required:['purpose','action'],additionalProperties:false}
@@ -468,6 +472,8 @@ export const scenarioTool={
 export async function manageScenario(env:ScenarioEnv,owner:string,request:Request,input:ScenarioInput){
   const ctx=requireScenarioOwner(env,request);
   validate(input);
+  const selected=selectHostedFixture({scenarioId:input.scenarioId??scenarioId,personaVariant:input.personaVariant});
+  if(!selected.legacy)return manageHostedVariant(env,owner,request,input,selected);
   if(input.action!=='list')requireGeneration(ctx,input.expectedGeneration);
   const row=await scenarioState(env,owner);
   if(row.generation!==ctx.generation)error(409,'scenario_generation_conflict','Scenario control belongs to a different workspace generation; review recovery before proceeding.');
@@ -475,7 +481,8 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
     libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1',
     syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1',
     reservedOutputs:reservedOutputsForEpoch(Math.max(1,row.epoch))};
-  if(input.action==='list')return {...base,states:manifest.states,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:!!row.pending_json};
+  if(input.action==='list')return {...base,states:manifest.states,availableVariants:hostedSelectorList(),
+    active:{phase:row.phase,revision:row.revision,epoch:row.epoch},pending:!!row.pending_json};
   if(input.action==='compare-continuation')
     return {...base,active:{phase:row.phase,revision:row.revision,epoch:row.epoch},
       continuationComparison:await compareContinuation(env,owner,row)};
@@ -535,5 +542,271 @@ export async function manageScenario(env:ScenarioEnv,owner:string,request:Reques
     // and individual domain receipts; do NOT falsely claim a clean rollback.
     if(e instanceof DomainError)throw e;
     error(409,'scenario_partial_failure','Fixture transition stopped. Inspect pending state and retry the same operation ID; canonical receipts are preserved.');
+  }
+}
+
+/** Hosted variants use the same canonical HTTP command path, while their
+ * row keys, run prefixes and allowed record inventories are disjoint. This
+ * branch deliberately does not alter the accepted legacy K controller. */
+async function assertHostedBoundary(env:ScenarioEnv,owner:string,fixture:HostedFixture,epoch:number){
+  if(epoch<1)error(400,'invalid_scenario_epoch','Synthetic epoch must be positive.');
+  const run=fixture.prefix(epoch),known=new Set(fixture.recordLeaves.map(([family,leaf])=>family+':'+run+'-'+leaf));
+  const rows=await db(env).prepare('SELECT family,id,data FROM v2_records WHERE owner=? AND instr(id,?)=1 LIMIT 101')
+    .bind(owner,run+'-').all<{family:string;id:string;data:string}>();
+  if(rows.results.length>100)error(409,'fixture_identity_collision','Synthetic record inventory exceeded its safety limit.');
+  for(const row of rows.results){
+    let value:any;
+    try{value=JSON.parse(row.data)}catch{error(409,'fixture_identity_collision','Unreadable synthetic record.');}
+    if(!known.has(row.family+':'+row.id)||value?.synthetic!==true||value.id!==row.id)
+      error(409,'fixture_identity_collision','An unknown or non-synthetic identity occupies the selected persona namespace.');
+  }
+  const heads=await db(env).prepare(`SELECT id,event_json FROM v2_learning_developments WHERE owner=? AND withdrawn=0
+    AND (json_extract(event_json,'$.primaryTarget.journeyId')=? OR
+         instr(json_extract(event_json,'$.primaryTarget.investigationId'),?)=1) LIMIT 101`)
+    .bind(owner,run+'-project',run+'-question-').all<{id:string;event_json:string}>();
+  if(heads.results.length>100)error(409,'fixture_checkpoint_mismatch','Too many checkpoint heads.');
+  const permitted=new Set(fixture.checkpointLeaves.map(leaf=>run+'-'+leaf));
+  for(const item of heads.results){
+    let event:any;
+    try{event=JSON.parse(item.event_json)}catch{error(409,'fixture_checkpoint_mismatch','Unreadable checkpoint.');}
+    if(!permitted.has(item.id)||event?.synthetic!==true||
+      !(event.primaryTarget?.journeyId===run+'-project'||
+        fixture.questions.some(q=>event.primaryTarget?.investigationId===run+'-'+q)))
+      error(409,'fixture_checkpoint_mismatch','An unregistered checkpoint targets the selected fictional Project.');
+  }
+  // Opaque Flags are allowed only when their canonical target is the exact
+  // selected synthetic Article, never a prefix coincidence in a command ID.
+  const flags=await db(env).prepare(`SELECT id,data FROM v2_records WHERE owner=? AND family='flag'
+    AND trashed_at IS NULL AND
+      (json_extract(data,'$.flagTarget.anchor.articleId')=? OR
+       (json_extract(data,'$.flagTarget.id')=?)) LIMIT 101`)
+    .bind(owner,run+'-reference',run+'-reference').all<{id:string;data:string}>();
+  if(flags.results.length>100)error(409,'fixture_flag_mismatch','Too many Flags on selected synthetic reference.');
+  for(const flag of flags.results){
+    let value:any;
+    try{value=JSON.parse(flag.data)}catch{error(409,'fixture_flag_mismatch','Unreadable synthetic Flag.');}
+    const target=value?.flagTarget;
+    if(value?.synthetic!==true||!(target?.anchor?.articleId===run+'-reference'&&target.anchor.recordFamily==='article'||
+      target?.kind==='record'&&target.family==='article'&&target.id===run+'-reference'))
+      error(409,'fixture_flag_mismatch','Cannot prove Flag belongs to this synthetic Article.');
+  }
+  // The canonical Flag toggle also owns a bookmark head with a hashed ID.
+  // Trashing only the Flag record would leave an active bookmark head behind.
+  const bookmarks=await db(env).prepare(`SELECT target_key,target_rev,flag_id,target FROM v2_bookmarks
+    WHERE owner=? AND active=1 AND json_extract(target,'$.family')='article'
+      AND json_extract(target,'$.id')=? LIMIT 101`)
+    .bind(owner,run+'-reference')
+    .all<{target_key:string;target_rev:number;flag_id:string|null;target:string}>();
+  if(bookmarks.results.length>100)error(409,'fixture_flag_mismatch','Too many synthetic bookmark heads.');
+  for(const bookmark of bookmarks.results){
+    if(!bookmark.flag_id||!flags.results.some(f=>f.id===bookmark.flag_id))
+      error(409,'fixture_flag_mismatch','An active bookmark has no registered synthetic Flag record.');
+    let target:any;
+    try{target=JSON.parse(bookmark.target)}catch{error(409,'fixture_flag_mismatch','Unreadable synthetic bookmark target.');}
+    if(!['record','passage'].includes(target.kind)||target.family!=='article'||target.id!==run+'-reference')
+      error(409,'fixture_flag_mismatch','Bookmark source identity is not the selected synthetic reference.');
+  }
+  return {rows:rows.results,heads:heads.results,flags:flags.results,bookmarks:bookmarks.results};
+}
+
+async function hostedSnapshot(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
+  fixture:HostedFixture,epoch:number,phase:string){
+  const run=fixture.prefix(epoch);
+  const boundary=await assertHostedBoundary(env,owner,fixture,epoch);
+  const project=await c.context('journey',run+'-project'),reference=await c.context('article',run+'-reference');
+  if(project.status!==200||project.data.record.synthetic!==true||
+     reference.status!==200||reference.data.record.synthetic!==true)
+    error(409,'scenario_readback_failed','Registered synthetic Project or reference could not be read.');
+  const readEntries=async(family:string,leaves:readonly string[])=>{
+    const results=await readBatched(leaves,async leaf=>{
+      const found=await c.context(family,run+'-'+leaf);
+      if(found.status===404)return null;
+      if(found.status!==200||found.data.record.synthetic!==true)
+        error(409,'scenario_readback_failed','Registered synthetic record readback failed.');
+      return {id:found.data.record.id as string,rev:found.data.record.rev as number};
+    });
+    return results.filter((item):item is {id:string;rev:number}=>item!==null);
+  };
+  const [questions,notes,annotations]=await Promise.all([
+    readEntries('investigation',fixture.questions),readEntries('note',fixture.notes),
+    readEntries('annotation',fixture.recordLeaves.filter(([family])=>family==='annotation').map(([,leaf])=>leaf))
+  ]);
+  const receiptRows=await db(env).prepare('SELECT id,status FROM v2_operations WHERE owner=? AND instr(id,?)=1 LIMIT 201')
+    .bind(owner,run+'-').all<{id:string;status:number}>();
+  if(receiptRows.results.length>200)error(409,'scenario_receipt_limit','Too many selected synthetic receipts.');
+  return {phase,project:{id:project.data.record.id,rev:project.data.record.rev},
+    reference:{id:reference.data.record.id,rev:reference.data.record.rev,rendition:reference.data.record.rendition},
+    questions,notes,annotations,registeredRecords:boundary.rows.length,
+    syntheticFlagIds:boundary.flags.map(flag=>flag.id).sort(),
+    activeBookmarkHeads:boundary.bookmarks.map(bookmark=>({targetKey:bookmark.target_key,rev:bookmark.target_rev})),
+    checkpointIds:boundary.heads.map(head=>head.id).sort(),
+    operationReceipts:receiptRows.results.map(r=>({operationId:r.id,status:r.status})).sort((a,b)=>a.operationId.localeCompare(b.operationId)),
+    provenance:{fixtureVersion:fixture.fixtureVersion,personaVariant:fixture.personaVariant,runPrefix:run,
+      source:fixture.sourceProvenance,sourceFiles:fixture.sourceFiles,
+      authority:'canonical synthetic D1 readback'}};
+}
+
+async function cleanupHostedVariant(c:ReturnType<typeof client>,env:ScenarioEnv,owner:string,
+  fixture:HostedFixture,epoch:number){
+  if(epoch<1)return;
+  const run=fixture.prefix(epoch),boundary=await assertHostedBoundary(env,owner,fixture,epoch);
+  // All risky identities are inventoried before the first cleanup mutation.
+  for(const item of boundary.heads){
+    const event=JSON.parse(item.event_json),target=event.primaryTarget;
+    const row=await db(env).prepare('SELECT revision FROM v2_learning_developments WHERE owner=? AND id=?')
+      .bind(owner,item.id).first<{revision:number}>();
+    const family=target.kind==='investigation'?'investigation':'journey',
+      targetId=target.investigationId??target.journeyId;
+    const latest=await c.context(family,targetId);
+    if(!row||latest.status!==200||latest.data.record.synthetic!==true)
+      error(409,'fixture_cleanup_blocked','Checkpoint target is not safely readable.');
+    const result=await c.request('/api/learning-developments/revise',{
+      purpose:'TEST ONLY registered persona cleanup',intent:'explicit-user-checkpoint',
+      expectedGeneration:c.generation,operationId:run+'-cleanup-checkpoint-'+item.id.slice(run.length+1),
+      id:item.id,expectedRev:row!.revision,target,expectedTargetRev:latest.data.record.rev,withdraw:true});
+    if(result.status!==200||result.data.status!=='committed')
+      error(409,'fixture_cleanup_blocked','Synthetic checkpoint retirement failed.');
+  }
+  for(const [index,bookmark] of boundary.bookmarks.entries()){
+    const record=boundary.flags.find(flag=>flag.id===bookmark.flag_id);
+    if(!record)error(409,'fixture_flag_mismatch','Synthetic bookmark/Flag pairing changed.');
+    const target=JSON.parse(record!.data).flagTarget;
+    const receipt=await c.command({operationId:run+'-cleanup-bookmark-'+index,
+      action:'setFlag',target,active:false,expectedTargetRev:bookmark.target_rev});
+    if(receipt.status!==200||receipt.data.status!=='committed'||receipt.data.bookmark?.active!==false)
+      error(409,'fixture_cleanup_blocked','Synthetic bookmark deactivation failed.');
+  }
+  for(const item of boundary.flags){
+    const current=await c.context('flag',item.id);
+    // Canonical unflag already Trashed the paired Flag record above.
+    if(current.status===404&&boundary.bookmarks.some(bookmark=>bookmark.flag_id===item.id))continue;
+    if(current.status!==200||current.data.record.synthetic!==true)
+      error(409,'fixture_cleanup_blocked','Cannot verify synthetic Flag before Trash.');
+    const receipt=await c.command({operationId:run+'-cleanup-flag-'+item.id,
+      action:'trash',family:'flag',id:item.id,expectedRev:current.data.record.rev});
+    if(receipt.status!==200||receipt.data.status!=='committed')
+      error(409,'fixture_cleanup_blocked','Synthetic Flag cleanup failed.');
+  }
+  for(const [family,leaf] of fixture.recordLeaves){
+    const id=run+'-'+leaf,found=await c.context(family,id);
+    if(found.status===404)continue;
+    if(found.status!==200||found.data.record.synthetic!==true)
+      error(409,'fixture_cleanup_blocked','Cannot prove record is synthetic before retirement.');
+    const receipt=await c.command({operationId:run+'-cleanup-'+family+'-'+leaf,
+      action:'trash',family,id,expectedRev:found.data.record.rev});
+    if(receipt.status!==200||receipt.data.status!=='committed')
+      error(409,'fixture_cleanup_blocked','Synthetic persona cleanup stopped with pending receipts.');
+  }
+  const remaining=await db(env).prepare('SELECT id FROM v2_records WHERE owner=? AND instr(id,?)=1 AND trashed_at IS NULL LIMIT 1')
+    .bind(owner,run+'-').first();
+  if(remaining)error(409,'fixture_cleanup_incomplete','Synthetic records remained active after cleanup.');
+}
+
+async function manageHostedVariant(env:ScenarioEnv,owner:string,request:Request,input:ScenarioInput,fixture:HostedFixture){
+  const ctx=requireScenarioOwner(env,request);
+  if(input.action!=='list')requireGeneration(ctx,input.expectedGeneration);
+  const row=await scenarioState(env,owner,fixture);
+  if(row.generation!==ctx.generation)error(409,'scenario_generation_conflict','This fixture belongs to another generation.');
+  const sourcePin=hostedSourcePin(fixture,env.MINAMO_SCENARIO_SOURCE_SHA);
+  const priorSource=row.receipt_json?JSON.parse(row.receipt_json).sourcePin:null;
+  if(row.epoch>0&&priorSource!==null&&priorSource!==sourcePin)
+    error(409,'scenario_source_conflict','Fixture source pins changed; review registered persona before further operations.');
+  const base={scenarioId:fixture.scenarioId,personaVariant:fixture.personaVariant,
+    fixtureVersion:fixture.fixtureVersion,fixtureSource:fixture.sourceProvenance,
+    sourceFiles:fixture.sourceFiles,sourcePin,
+    generation:ctx.generation,
+    syntheticOnlyWaiver:env.MINAMO_SCENARIO_SYNTHETIC_ONLY_WAIVER==='1',
+    libraryRecoveryVerified:env.MINAMO_SCENARIO_LIBRARY_RECOVERY_VERIFIED==='1',
+    runPrefix:fixture.prefix(Math.max(1,row.epoch))};
+  const active={phase:row.phase,revision:row.revision,epoch:row.epoch};
+  if(input.action==='list')return {...base,availableVariants:hostedSelectorList(),states:fixture.states.map(id=>({id})),
+    active,pending:!!row.pending_json};
+  if(input.action==='inspect'){
+    if(parsePending(row))return {...base,active,pending:JSON.parse(row.pending_json!),retryRequired:true};
+    return {...base,active,receipt:row.receipt_json?JSON.parse(row.receipt_json):null,
+      snapshot:row.phase?await hostedSnapshot(client(env,request,owner,row.epoch),env,owner,fixture,row.epoch,row.phase):null};
+  }
+  if(input.action==='compare-continuation'){
+    if(!row.phase||row.pending_json)error(409,'scenario_not_loaded','Load and settle the selected synthetic fixture.');
+    const run=fixture.prefix(row.epoch),project=await readRecord(env,owner,'journey',run+'-project');
+    await assertHostedBoundary(env,owner,fixture,row.epoch);
+    if(!project||project.synthetic!==true)error(409,'fixture_identity_collision','Synthetic Project not readable.');
+    const before=await db(env).prepare('SELECT version FROM v2_namespace_versions WHERE owner=?').bind(owner).first<{version:number}>();
+    const configured:RegisteredFixtureContinuation={projectId:project!.id,
+      noteIds:fixture.notes.map(leaf=>run+'-'+leaf),checkpointIds:fixture.checkpointLeaves.map(leaf=>run+'-'+leaf)};
+    const [ordinary,registeredFixture]=await Promise.all([
+      resolveProjectContinuation(env,owner,project!,{learningSpace:'computing'}),
+      resolveProjectContinuation(env,owner,project!,{learningSpace:'computing'},new Map(),configured)
+    ]);
+    const selected=registeredFixture.continuation;
+    if((selected?.note&&!configured.noteIds.includes(selected.note.id))||
+      (selected?.checkpoint&&!configured.checkpointIds.includes(selected.checkpoint.id))||
+      (selected?.target?.kind==='journey-stage'&&selected.target.journeyId!==project!.id)||
+      (selected?.target?.kind==='investigation'&&
+        !new Set(fixture.questions.map(q=>run+'-'+q)).has(selected.target.investigationId)))
+      error(409,'fixture_identity_collision','Synthetic continuation selected an unregistered identity.');
+    const [after,current]=await Promise.all([
+      db(env).prepare('SELECT version FROM v2_namespace_versions WHERE owner=?').bind(owner).first<{version:number}>(),
+      db(env).prepare('SELECT phase,epoch,revision,pending_json FROM v2_scenario_control WHERE owner=? AND scenario=?')
+        .bind(owner,fixture.dbKey).first<Pick<Row,'phase'|'epoch'|'revision'|'pending_json'>>()
+    ]);
+    if(before?.version!==after?.version||current?.phase!==row.phase||current?.epoch!==row.epoch||
+      current?.revision!==row.revision||current?.pending_json)
+      error(409,'scenario_snapshot_changed','Canonical state or fixture revision moved during comparison.');
+    if(ordinary.continuation?.basis!=='start')error(409,'fixture_mixed_provenance','Ordinary continuation admitted unexpected state.');
+    return {...base,active,continuationComparison:{ordinary,registeredFixture,
+      provenance:'same resolver; registered synthetic records admitted only for owner-gated comparison'}};
+  }
+  if(!base.syntheticOnlyWaiver&&!base.libraryRecoveryVerified)
+    error(409,'scenario_mutation_not_authorized','Synthetic-only waiver or verified recovery is required.');
+  const payload=JSON.stringify({action:input.action,scenarioId:fixture.scenarioId,personaVariant:fixture.personaVariant,sourcePin,
+    phase:input.phase??null,expectedGeneration:input.expectedGeneration,expectedRevision:input.expectedRevision});
+  const oldReceipt=row.receipt_json?JSON.parse(row.receipt_json):null;
+  if(!row.pending_json&&oldReceipt?.operationId===input.operationId){
+    if(oldReceipt.payload!==payload)error(409,'scenario_idempotency_mismatch','Operation ID already has another payload.');
+    return {...base,...oldReceipt,replayed:true};
+  }
+  let pending=parsePending(row);
+  if(pending){
+    if(pending.operationId!==input.operationId||pending.payload!==payload)
+      error(409,'scenario_operation_pending','Retry the exact pending operation; do not advance another persona.');
+  }else{
+    if(row.revision!==input.expectedRevision)error(409,'scenario_revision_conflict','Refresh selected persona revision.');
+    const index=fixture.states.indexOf(row.phase??'');
+    if(input.action==='advance'&&index<0)error(409,'scenario_not_loaded','Load this persona first.');
+    if(input.action==='advance'&&index===fixture.states.length-1)error(409,'scenario_complete','Final phase reached.');
+    if(input.action==='reset'&&!row.phase)error(409,'scenario_not_loaded','No current fixture to reset.');
+    const phase=input.action==='advance'?fixture.states[index+1]:input.action==='reset'?fixture.states[0]:input.phase!;
+    const epoch=input.action==='advance'?row.epoch:row.epoch+1;
+    if(epoch>100)error(409,'scenario_run_limit','Fixture epoch limit reached.');
+    pending={action:input.action as Pending['action'],operationId:input.operationId!,payload,
+      epoch,phase,previousEpoch:row.epoch,previousPhase:row.phase};
+    const claimed=await db(env).prepare(`UPDATE v2_scenario_control SET pending_json=?,updated_at=?
+      WHERE owner=? AND scenario=? AND revision=? AND pending_json IS NULL AND generation=?`)
+      .bind(JSON.stringify(pending),new Date().toISOString(),owner,fixture.dbKey,row.revision,ctx.generation).run();
+    if(claimed.meta.changes!==1)error(409,'scenario_revision_conflict','Concurrent selection claimed revision.');
+  }
+  const c=client(env,request,owner,pending.epoch);
+  try{
+    await assertHostedBoundary(env,owner,fixture,pending.epoch);
+    if(pending.action!=='advance'){
+      await cleanupHostedVariant(c,env,owner,fixture,pending.previousEpoch);
+      for(const phase of fixture.states.slice(0,fixture.states.indexOf(pending.phase)+1))
+        await fixture.apply(c,phase,pending.epoch);
+    }else await fixture.apply(c,pending.phase,pending.epoch);
+    const checked=await hostedSnapshot(c,env,owner,fixture,pending.epoch,pending.phase);
+    const receipt={status:'committed',operationId:pending.operationId,payload,sourcePin,phase:pending.phase,
+      controllerRevision:row.revision+1,epoch:pending.epoch,snapshot:checked,
+      retainedHistoricalRevisions:true,cleanedOnlySyntheticRecords:true};
+    const committed=await db(env).prepare(`UPDATE v2_scenario_control SET epoch=?,phase=?,revision=revision+1,
+      pending_json=NULL,receipt_json=?,updated_at=? WHERE owner=? AND scenario=? AND revision=?
+      AND pending_json=? AND generation=?`)
+      .bind(pending.epoch,pending.phase,JSON.stringify(receipt),new Date().toISOString(),
+        owner,fixture.dbKey,row.revision,JSON.stringify(pending),ctx.generation).run();
+    if(committed.meta.changes!==1)error(409,'scenario_commit_conflict','Canonical writes may have committed; inspect and retry.');
+    return {...base,...receipt,runPrefix:fixture.prefix(pending.epoch),replayed:false};
+  }catch(e){
+    if(e instanceof DomainError)throw e;
+    error(409,'scenario_partial_failure','Synthetic transition stopped; retain pending intent and retry exact operation identity.');
   }
 }

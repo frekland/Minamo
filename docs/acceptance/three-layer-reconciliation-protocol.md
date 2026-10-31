@@ -1,6 +1,6 @@
 # Three-layer reconciliation acceptance — GPT Markdown, server MCP, canonical D1
 
-Status: **PROTOCOL / NOT YET EXECUTED** (31 October 2026). Follow-on to [V85 observed-call acceptance](2026-10-31-v85-observed-mcp-state-diff-acceptance.md) and [V86 resilience matrix](2026-10-31-observation-adversarial-matrix.md). This protocol is TEST ONLY, synthetic-scoped and owner-gated.
+Status: **PROTOCOL; first coordinated execution completed with a bounded PASS on 31 October 2026** in [the separate acceptance report](2026-10-31-three-layer-reconciliation-acceptance.md). The historical preflight and open-run constraints below describe that V87-era execution; a new V88 persona requires its own fresh read-only identity/source/run preflight, safely separate transcript/observation IDs and a new reconciliation ledger. Follow-on to [V85 observed-call acceptance](2026-10-31-v85-observed-mcp-state-diff-acceptance.md) and [V86 resilience matrix](2026-10-31-observation-adversarial-matrix.md). This protocol is TEST ONLY, synthetic-scoped and owner-gated; earlier PASS evidence does **not** automatically certify a later deployment.
 
 ## The acceptance objective
 
@@ -14,7 +14,7 @@ Establish whether **GPT's incremental model-reported Markdown account of a contr
 
 **No separate host runner is a prerequisite for this acceptance.** Complete host-level capture is a different, stronger assurance objective requiring an independently consented host/API trace source. Neither GPT Markdown nor server observation can prove the existence or nonexistence of a host-side dispatch that left no independent receipt.
 
-## Why the joint gate remains open
+## Historical reason the V85 joint gate was open
 
 The V85 acceptance attached an observer to an already-open 40-event, source-pinned transcript run, then tested ten qualifying observed calls and canonical diffs. The transcript remained at revision/event count 40 in the post-V86 read-only check. Consequently, V85 passed its bounded server-observation and D1-diff criteria, **but did not append new GPT attempt/result Markdown entries corresponding to those ten V85 calls**. Run/session linkage was verified; per-call three-layer reconciliation was not. Do not retroactively label that historical interval reconciled.
 

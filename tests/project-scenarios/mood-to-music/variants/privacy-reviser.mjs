@@ -1,5 +1,5 @@
 /** TEST ONLY: privacy-led interface reviser, distinct fictional F–K trajectory.
- * Opt-in local Miniflare replay only. No hosted controller registration.
+ * Opt-in local Miniflare replay and protected hosted controller registration.
  */
 import {manifest} from '../seed.mjs';
 import {replayOverlay} from './replay-overlay.mjs';
@@ -9,7 +9,7 @@ export const privacyVariant=Object.freeze({
   personaVariant:'privacy-led-interface-reviser',overlayVersion:1,
   phases:['F','G','H','I','J','K'],
   provenance:'Fictional User reports, pinned local React source and uncertain manual browser observations.',
-  scope:'Disposable local Miniflare only; no Site data or hosted persona selector.'
+  scope:'Local replay and protected owner-only hosted synthetic selector; no ordinary learner data.'
 });
 export function privacyPrefix(epoch=1){
   if(!Number.isSafeInteger(epoch)||epoch<1||epoch>999999)throw Error('Invalid privacy epoch');
@@ -32,10 +32,14 @@ export async function applyPrivacyPhase(c,phase,prefix=privacyPrefix()){
   const id=leaf=>prefix+'-'+leaf;
   const read=async(family,leaf)=>(await ok(c.context(family,id(leaf)))).record;
   const write=(leaf,command)=>ok(c.command({operationId:id(leaf),...command}));
-  const create=async(family,leaf,data)=>(await write('create-'+leaf,{
+  const create=async(family,leaf,data)=>{
+    if(await c.operation?.(id('create-'+leaf)))return read(family,leaf);
+    return (await write('create-'+leaf,{
     action:'create',family,id:id(leaf),data:{...data,synthetic:true}
   })).record;
+  };
   const update=async(family,leaf,data)=>{
+    if(await c.operation?.(id('update-'+leaf+'-'+phase)))return read(family,leaf);
     const prior=await read(family,leaf);
     return (await write('update-'+leaf+'-'+phase,{
       action:'update',family,id:prior.id,expectedRev:prior.rev,data

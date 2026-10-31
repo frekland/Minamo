@@ -9,7 +9,7 @@ export const weekendVariant=Object.freeze({
   personaVariant:'intermittent-weekend-prototyper',overlayVersion:1,
   phases:['F','G','H','I','J','K'],
   provenance:'Fictional User reports and source pins; no independent runtime result is seeded.',
-  scope:'Local disposable Miniflare only; not registered by the hosted controller.'
+  scope:'Disposable local replay and owner-only hosted TEST-ONLY scenario selection; no real learner history.'
 });
 export function weekendPrefix(epoch=1){
   if(!Number.isSafeInteger(epoch)||epoch<1||epoch>999999)throw Error('Invalid weekend epoch');
@@ -29,8 +29,12 @@ export async function applyWeekendPhase(c,phase,prefix=weekendPrefix()){
   c.scenarioPhase=phase;
   const read=async(family,leaf)=>(await ok(c.context(family,id(leaf)))).record;
   const write=(leaf,command)=>ok(c.command({operationId:id(leaf),...command}));
-  const create=async(family,leaf,data)=>(await write('create-'+leaf,{action:'create',family,id:id(leaf),data:{...data,synthetic:true}})).record;
+  const create=async(family,leaf,data)=>{
+    if(await c.operation?.(id('create-'+leaf)))return read(family,leaf);
+    return (await write('create-'+leaf,{action:'create',family,id:id(leaf),data:{...data,synthetic:true}})).record;
+  };
   const update=async(family,leaf,data)=>{
+    if(await c.operation?.(id('update-'+leaf+'-'+phase)))return read(family,leaf);
     const prior=await read(family,leaf);
     return (await write('update-'+leaf+'-'+phase,{action:'update',family,id:prior.id,expectedRev:prior.rev,data})).record;
   };
