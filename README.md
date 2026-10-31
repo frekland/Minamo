@@ -43,6 +43,8 @@ The code uses React, TypeScript, Vinext and Cloudflare Workers with D1/R2 persis
 
 Start with [Getting started](docs/GETTING-STARTED.md), [Architecture](docs/ARCHITECTURE.md) and [Deployment boundaries](docs/DEPLOYMENT.md).
 
+For authorised changes to the existing owner-private ChatGPT Site, the [direct Sites release workflow](docs/SITES-RELEASE-WORKFLOW.md) uses this repository as the single active GitHub source and release-evidence home. Actual publication still requires the Site's separate native Git commit, private deployment and live verification; public pushes do not deploy automatically.
+
 ## Development
 
 Recommended: Node.js 24 and pnpm 11.25.0.
