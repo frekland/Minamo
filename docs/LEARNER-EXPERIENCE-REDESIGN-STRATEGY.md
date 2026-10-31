@@ -47,7 +47,9 @@ The 28–29 October study identified **strong overlap**, not a uniquely invented
 | [RemNote](https://www.remnote.com/) | Close contact between notes, questions, references and reflection. | Imposing quizzes, spaced repetition, assessment or a curriculum as the default. |
 | Secondary: [Plane](https://plane.so/), [Logseq](https://logseq.com/), [OpenProject](https://www.openproject.org/), [Huly](https://huly.io/) | Dynamic grouping, event/history trails and contextual navigation patterns. | Mistaking a project-management activity feed for a learning investigation. |
 
-**Unfinished research gate:** Compare GitLearnOS, Heptabase and DeepTutor against the *same realistically changing inquiry*, with Tana/Capacities/RemNote as challenges; separate documented capability from observed interaction. Compare against a two-week Minamo return. This is **not yet a completed head-to-head study**, and no competitor subscription or replication is a prerequisite for the immediate #17 work.
+**31 October 2026 implementation-source update:** A [first cloned-code inspection of GitLearnOS, DeepTutor and Logseq](research/2026-10-31-prior-art-code-reading.md) is now complete, with pinned revisions, file-level receipts, limitations and lessons for Project semantics and contextual navigation. It revealed a valuable distinction between fingerprint-detected changes and incremental synthesis of changed *meaning*; it also exposed provenance-granularity trade-offs. These are code-path observations, **not** competitor runtime/UX acceptance or approval to copy implementations. The design research and comparative Project interaction remain tracked in [public #51](https://github.com/frekland/Minamo/issues/51).
+
+**Remaining research gate:** Compare GitLearnOS, Heptabase and DeepTutor against the *same realistically changing inquiry*, with Tana/Capacities/RemNote as challenges; separate documented capability, inspected code and observed interaction. Compare against a two-week Minamo return. The code-reading slice is done, but this is **not yet a completed head-to-head interaction study**; no competitor subscription or replication is a prerequisite for the immediate #17 work.
 
 ## 4. Keep four meanings distinct — do not choose a schema prematurely
 
@@ -107,6 +109,7 @@ Record observed failures and strengths, not a synthetic happiness score. A techn
 ## 8. Current responsibility map and fresh-chat entry point
 
 - **Public [#17](https://github.com/frekland/Minamo/issues/17):** synthetic event provenance, observed MCP trace and canonical diffs.
+- **Public [#51](https://github.com/frekland/Minamo/issues/51):** source-grounded Project-experience research and later focused comparative design experiment; [first code-inspection findings](research/2026-10-31-prior-art-code-reading.md) complete, hands-on product comparison outstanding.
 - **Public [#14](https://github.com/frekland/Minamo/issues/14):** real Project continuity, context projections, read/write efficiency and the isolated synthetic fidelity gap.
 - **Public [#12](https://github.com/frekland/Minamo/issues/12):** versioned Mood-to-Music fixture/replay; later other subjects, not the next work.
 - **Public [#18](https://github.com/frekland/Minamo/issues/18):** future, optional arbitrary-phase Site UI/visual acceptance; currently deferred.
