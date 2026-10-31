@@ -5,7 +5,7 @@ import {docsPrefix,docsVariant,replayDocumentation} from './project-scenarios/mo
 import {applyWeekendPhase,weekendPrefix} from './project-scenarios/mood-to-music/variants/weekend-prototyper.mjs';
 
 const id=(prefix,leaf)=>`${prefix}-${leaf}`;
-test('documentation sceptic is versioned, locally namespaced and not a hosted persona selector',()=>{
+test('documentation sceptic source and local namespace remain versioned and fail closed',()=>{
   assert.equal(docsVariant.baseFixtureVersion,`mood-to-music/${manifest.schemaVersion}`);
   assert.equal(docsVariant.personaVariant,'provider-documentation-sceptic');
   assert.deepEqual(docsVariant.phases,['F','G','H','I','J','K']);

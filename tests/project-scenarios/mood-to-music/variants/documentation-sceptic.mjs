@@ -9,7 +9,7 @@ export const docsVariant=Object.freeze({
   personaVariant:'provider-documentation-sceptic',overlayVersion:1,
   phases:['F','G','H','I','J','K'],
   provenance:'Fictional User notes, exact local source pointers and an unverified external documentation URL. No live provider call.',
-  scope:'Local disposable Miniflare only; not registered in the hosted controller.'
+  scope:'Disposable local replay and owner-only hosted TEST-ONLY scenario selection; no provider access.'
 });
 export function docsPrefix(epoch=1){
   if(!Number.isSafeInteger(epoch)||epoch<1||epoch>999999)throw Error('Invalid documentation epoch');
@@ -30,8 +30,12 @@ export async function applyDocumentationPhase(c,phase,prefix=docsPrefix()){
   const id=leaf=>`${prefix}-${leaf}`;
   const read=async(family,leaf)=>(await ok(c.context(family,id(leaf)))).record;
   const write=(leaf,command)=>ok(c.command({operationId:id(leaf),...command}));
-  const create=async(family,leaf,data)=>(await write('create-'+leaf,{action:'create',family,id:id(leaf),data:{...data,synthetic:true}})).record;
+  const create=async(family,leaf,data)=>{
+    if(await c.operation?.(id('create-'+leaf)))return read(family,leaf);
+    return (await write('create-'+leaf,{action:'create',family,id:id(leaf),data:{...data,synthetic:true}})).record;
+  };
   const update=async(family,leaf,data)=>{
+    if(await c.operation?.(id('update-'+leaf+'-'+phase)))return read(family,leaf);
     const prior=await read(family,leaf);
     return (await write('update-'+leaf+'-'+phase,{action:'update',family,id:prior.id,expectedRev:prior.rev,data})).record;
   };

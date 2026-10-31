@@ -1,7 +1,7 @@
-/** TEST ONLY: reusable local subject/variant replay over real Worker/D1/R2 contracts.
- * No hosted controller import or production writes. Data is fictional User material.
+/** TEST ONLY: reusable subject/variant phase replay through canonical domain
+ * HTTP contracts. Local harness and opt-in owner-only hosted selector share
+ * the fictional content; never permit ordinary learner writes.
  */
-import {seed} from '../mood-to-music/replay.mjs';
 
 export const PHASES=Object.freeze(['A','B','C','D','E','F','G','H','I','J','K']);
 const scope={version:1,spaces:['computing'],provenance:'authored'};
@@ -20,10 +20,14 @@ function operator(client,prefix){
   const id=leaf=>prefix+'-'+leaf;
   const read=async(family,leaf)=>(await ok(client.context(family,id(leaf)))).record;
   const write=(leaf,command)=>ok(client.command({operationId:id(leaf),...command}));
-  const create=async(family,leaf,data)=>(await write('create-'+leaf,{
+  const create=async(family,leaf,data)=>{
+    if(await client.operation?.(id('create-'+leaf)))return read(family,leaf);
+    return (await write('create-'+leaf,{
     action:'create',family,id:id(leaf),data:{...data,synthetic:true}
   })).record;
+  };
   const update=async(family,leaf,phase,data)=>{
+    if(await client.operation?.(id('update-'+leaf+'-'+phase)))return read(family,leaf);
     const old=await read(family,leaf);
     return (await write('update-'+leaf+'-'+phase,{
       action:'update',family,id:old.id,expectedRev:old.rev,data
@@ -131,6 +135,16 @@ async function applyEvent(o,phase,event){
     anchor:await o.anchor(marked.section,marked.quote)
   });
 }
+/** Run one exact phase in the hosted controller. Its domain adapter uses
+ * canonical receipts; repeated partial transitions may replay the same phase. */
+export async function applySubjectPhase(client,subject,personaKey,phase,{epoch=1}={}){
+  if(!PHASES.includes(phase)||!Object.hasOwn(subject.personas,personaKey))
+    throw Error('Unknown registered subject phase/persona');
+  client.scenarioPhase=phase;
+  const o=operator(client,subjectPrefix(subject,personaKey,epoch));
+  if('ABCDE'.includes(phase))await applyFoundation(o,subject,phase);
+  else await applyEvent(o,phase,subject.personas[personaKey].events[phase]);
+}
 async function inspect(o,subject,variant,phase){
   const project=await o.read('journey','project'),article=await o.read('article','reference');
   const notes=[];
@@ -162,9 +176,7 @@ export async function replayInto(session,subject,personaKey,target='K',{epoch=1}
   const prefix=subjectPrefix(subject,personaKey,epoch);
   const o=operator(session.client,prefix),states=[];
   for(const phase of PHASES){
-    session.client.scenarioPhase=phase;
-    if('ABCDE'.includes(phase))await applyFoundation(o,subject,phase);
-    else await applyEvent(o,phase,variant.events[phase]);
+    await applySubjectPhase(session.client,subject,personaKey,phase,{epoch});
     states.push(phase);
     if(phase===target)break;
   }
@@ -175,6 +187,10 @@ export async function replaySubject(subject,personaKey,target='K',{
 }={}){
   if(typeof owner!=='string'||!owner.startsWith('TEST-ONLY-'))throw Error('Only TEST-ONLY principals');
   subjectPrefix(subject,personaKey,epoch);
+  // Local test harness only. Variable import prevents Worker bundling of Node
+  // fs/Miniflare modules when this module supplies hosted pure phase actions.
+  const localFixturePath='../mood-to-music/replay.mjs';
+  const {seed}=await import(localFixturePath);
   const session=await seed({owner});
   try{
     const run=await replayInto(session,subject,personaKey,target,{epoch});

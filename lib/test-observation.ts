@@ -6,10 +6,11 @@ import {generationContext,requireGeneration} from './generations';
 import {requireScenarioOwner,scenarioState,visibleScenarioTool} from './scenario-control';
 import {manifest} from '../tests/project-scenarios/mood-to-music/seed.mjs';
 import sessionCases from '../tests/project-scenarios/mood-to-music/session-cases.json';
+import {selectHostedFixture,fixtureForDbKey,sessionsForFixture,hostedSourcePin,type HostedFixture} from './hosted-scenario-registry';
 
 type Env=Cloudflare.Env&{MINAMO_SCENARIO_SOURCE_SHA?:string};
 type Input={action:'start'|'arm'|'pause'|'stop'|'capture'|'list'|'calls'|'snapshots'|'diff';purpose:string;
-  scenarioId?:string;runId?:string;sessionId?:string;expectedGeneration?:string;expectedRevision?:number;
+  scenarioId?:string;personaVariant?:string;runId?:string;sessionId?:string;expectedGeneration?:string;expectedRevision?:number;
   operationId?:string;checkpointId?:string;moment?:'before'|'after';offset?:number;limit?:number};
 type ObservationRun={owner:string;scenario:string;run_id:string;generation:string;epoch:number;
   source_commit:string|null;status:string;session_id:string|null;revision:number;start_operation:string;
@@ -28,9 +29,15 @@ function fail(code:string,description:string,status=409):never{throw new DomainE
 const validId=(value:unknown,max=120)=>typeof value==='string'&&value.length<=max&&idPattern.test(value);
 const validRevision=(value:unknown)=>Number.isSafeInteger(value)&&Number(value)>=0;
 const now=()=>new Date().toISOString();
-const prefix=(epoch:number)=>`TEST-ONLY-m2m-r${epoch}-`;
-const view=(run:ObservationRun)=>({schemaVersion:1,contract:'test-observation/1',scenarioId,runId:run.run_id,
-  fixtureVersion,generation:run.generation,epoch:run.epoch,sourceCommit:run.source_commit,sessionId:run.session_id,
+const prefix=(fixture:HostedFixture,epoch:number)=>fixture.prefix(epoch)+'-';
+const view=(run:ObservationRun)=>({schemaVersion:1,contract:'test-observation/1',
+  scenarioId:fixtureForDbKey(run.scenario)?.scenarioId??run.scenario,
+  personaVariant:fixtureForDbKey(run.scenario)?.personaVariant??null,runId:run.run_id,
+  fixtureVersion:fixtureForDbKey(run.scenario)?.fixtureVersion??fixtureVersion,
+  generation:run.generation,epoch:run.epoch,
+  sourceCommit:fixtureForDbKey(run.scenario)?.legacy?run.source_commit:null,
+  sourcePin:run.source_commit,
+  sourceFiles:fixtureForDbKey(run.scenario)?.sourceFiles??[],sessionId:run.session_id,
   status:run.status,revision:run.revision,createdAt:run.created_at,updatedAt:run.updated_at,
   provenance:'server-observed only for qualifying, scoped MCP calls; not host-complete',
   retention:'Private D1 rows retain an owner-scoping key; public observation events exclude owner identity, tool inputs/outputs, prompt bodies and ordinary learner content.',
@@ -45,23 +52,25 @@ export const observationTool={name:'manage_minamo_test_observation',
   description:'Owner-only TEST ONLY synthetic instrumentation, disabled until explicitly started for a registered transcript run. The session ID must match the current settled fixture phase even if an older S01-labelled transcript run spans later sessions. start/arm/pause/stop control bounded server-received MCP call/error/timing metadata; capture saves immutable canonical record/revision metadata before or after a named experiment; diff compares snapshots. No tool inputs/output bodies, ordinary Notes, personal telemetry or complete ChatGPT messages are collected in observation events. Private D1 uses an owner-scoping key for isolation. Only current-epoch synthetic selectors and explicit synthetic discovery qualify; opaque Flag IDs require canonical verification. This is not complete ChatGPT-host tracing and is separate from model-submitted transcripts.',
   inputSchema:{type:'object',properties:{
     purpose:{type:'string',minLength:1,maxLength:500},action:{enum:['start','arm','pause','stop','capture','list','calls','snapshots','diff']},
-    scenarioId:{enum:[scenarioId]},runId:{type:'string',maxLength:80},sessionId:{enum:sessions.map(s=>s.id)},
+    scenarioId:{enum:['mood-to-music','retired-htb-cap','automatic-plant-screamer']},
+    personaVariant:{type:'string',maxLength:80},
+    runId:{type:'string',maxLength:80},sessionId:{enum:sessions.map(s=>s.id)},
     expectedGeneration:{type:'string'},expectedRevision:{type:'integer',minimum:0},
     operationId:{type:'string',maxLength:120},checkpointId:{type:'string',maxLength:120},
     moment:{enum:['before','after']},offset:{type:'integer',minimum:0},limit:{type:'integer',minimum:1,maximum:50}
   },required:['purpose','action'],additionalProperties:false}};
 
-async function runFor(env:Env,owner:string,runId:string){
+async function runFor(env:Env,owner:string,runId:string,fixture:HostedFixture){
   return db(env).prepare('SELECT * FROM v2_test_observation_runs WHERE owner=? AND scenario=? AND run_id=?')
-    .bind(owner,scenarioId,runId).first<ObservationRun>();
+    .bind(owner,fixture.dbKey,runId).first<ObservationRun>();
 }
-async function fixtureState(env:Env,owner:string){
-  const row=await scenarioState(env as any,owner);
+async function fixtureState(env:Env,owner:string,fixture:HostedFixture){
+  const row=await scenarioState(env as any,owner,fixture);
   if(row.generation!==generationContext(env)!.generation)fail('test_generation_conflict','Fixture generation changed.');
   return row as ScenarioRow;
 }
-async function sameRun(env:Env,owner:string,runId:string){
-  const run=await runFor(env,owner,runId);
+async function sameRun(env:Env,owner:string,runId:string,fixture:HostedFixture){
+  const run=await runFor(env,owner,runId,fixture);
   if(!run)fail('observation_run_unknown','Start an observation for an exact transcript run first.',404);
   if(run.generation!==generationContext(env)!.generation)fail('test_generation_conflict','Observation belongs to another workspace generation.');
   return run;
@@ -71,21 +80,21 @@ async function namespaceVersion(env:Env,owner:string){
     .bind(owner).first<{version:number}>();
   return Number(row?.version??0);
 }
-async function projection(env:Env,owner:string,epoch:number):Promise<StateEntry[]>{
-  const marker=prefix(epoch),like=marker+'%';
+async function projection(env:Env,owner:string,epoch:number,fixture:HostedFixture):Promise<StateEntry[]>{
+  const marker=prefix(fixture,epoch);
   const entries:StateEntry[]=[];
   const records=await db(env).prepare(`SELECT family,id,rev,trashed_at,
       json_extract(data,'$.synthetic') AS synthetic,json_extract(data,'$.rendition') AS rendition
-      FROM v2_records WHERE owner=? AND id LIKE ? LIMIT ?`)
-    .bind(owner,like,MAX_STATE_ROWS+1).all<{family:string;id:string;rev:number;trashed_at:string|null;synthetic:number|null;rendition:string|null}>();
+      FROM v2_records WHERE owner=? AND instr(id,?)=1 LIMIT ?`)
+    .bind(owner,marker,MAX_STATE_ROWS+1).all<{family:string;id:string;rev:number;trashed_at:string|null;synthetic:number|null;rendition:string|null}>();
   if(records.results.length>MAX_STATE_ROWS)fail('observation_state_limit','Too many synthetic records for a bounded snapshot.');
   for(const record of records.results){
     if(record.synthetic!==1)fail('fixture_identity_collision','Fixture-prefix record is not marked synthetic.');
     entries.push({key:`record:${record.family}:${record.id}`,rev:record.rev,rendition:record.rendition,trashed:record.trashed_at!==null});
   }
   const developments=await db(env).prepare(`SELECT id,revision,withdrawn,target_key FROM v2_learning_developments
-    WHERE owner=? AND (id LIKE ? OR id=?) LIMIT ?`)
-    .bind(owner,like,epoch===3?'TEST-ONLY-m2m-save-c01':'',MAX_STATE_ROWS+1)
+    WHERE owner=? AND (instr(id,?)=1 OR id=?) LIMIT ?`)
+    .bind(owner,marker,fixture.legacy&&epoch===3?'TEST-ONLY-m2m-save-c01':'',MAX_STATE_ROWS+1)
     .all<{id:string;revision:number;withdrawn:number;target_key:string}>();
   if(developments.results.length>MAX_STATE_ROWS)fail('observation_state_limit','Too many synthetic developments.');
   for(const d of developments.results){
@@ -98,8 +107,8 @@ async function projection(env:Env,owner:string,epoch:number):Promise<StateEntry[
   if(perspectives.results.length>MAX_STATE_ROWS)fail('observation_state_limit','Too many synthetic perspectives.');
   for(const p of perspectives.results)entries.push({key:`perspective:${p.target_key}`,rev:p.revision});
   const operations=await db(env).prepare(`SELECT id,status FROM v2_operations WHERE owner=?
-    AND (id LIKE ? OR id=?) LIMIT ?`)
-    .bind(owner,like,epoch===3?'TEST-ONLY-m2m-save-c01':'',MAX_STATE_ROWS+1)
+    AND (instr(id,?)=1 OR id=?) LIMIT ?`)
+    .bind(owner,marker,fixture.legacy&&epoch===3?'TEST-ONLY-m2m-save-c01':'',MAX_STATE_ROWS+1)
     .all<{id:string;status:number}>();
   if(operations.results.length>MAX_STATE_ROWS)fail('observation_state_limit','Too many synthetic receipts.');
   for(const op of operations.results)entries.push({key:`operation:${op.id}`,status:op.status});
@@ -117,51 +126,56 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
   const ctx=requireScenarioOwner(env as any,request);
   if(!input||typeof input.purpose!=='string'||!input.purpose.trim()||input.purpose.length>500)
     fail('test_scope_required','Provide the explicit owner-authorised synthetic observation purpose.',400);
-  if(input.scenarioId!==undefined&&input.scenarioId!==scenarioId)fail('unknown_scenario','Unknown registered fixture.',400);
+  let fixture:HostedFixture;
+  try{fixture=selectHostedFixture({scenarioId:input.scenarioId??scenarioId,personaVariant:input.personaVariant});}
+  catch{fail('unknown_scenario','Unknown registered fixture/persona.',400);}
+  const sessions=sessionsForFixture(fixture);
   if(input.expectedGeneration!==undefined)requireGeneration(ctx,input.expectedGeneration);
   if(input.action==='list'){
     const rows=await db(env).prepare('SELECT * FROM v2_test_observation_runs WHERE owner=? AND scenario=? ORDER BY created_at DESC LIMIT 50')
-      .bind(owner,scenarioId).all<ObservationRun>();
+      .bind(owner,fixture.dbKey).all<ObservationRun>();
     return {runs:rows.results.filter(r=>r.generation===ctx.generation).map(view),truncated:rows.results.length===50};
   }
   if(!validId(input.runId,80))fail('invalid_observation_run','Provide the exact registered transcript run ID.',400);
   const runId=input.runId!;
   if(input.action==='start'){
-    if(input.scenarioId!==scenarioId||!validId(input.operationId)||!input.expectedGeneration||
+    if(input.scenarioId!==fixture.scenarioId||!validId(input.operationId)||!input.expectedGeneration||
       !sessions.some(s=>s.id===input.sessionId))fail('invalid_observation_start','Start with exact scenario, generation, session and operation ID.',400);
-    const state=await fixtureState(env,owner),session=sessions.find(s=>s.id===input.sessionId)!;
+    const state=await fixtureState(env,owner,fixture),session=sessions.find(s=>s.id===input.sessionId)!;
     if(!state.phase||state.pending_json||state.phase!==session.phase)
       fail('observation_phase_conflict','Start at the matching, settled fictional session phase.');
     const transcript=await db(env).prepare(`SELECT generation,epoch,fixture_version,source_commit FROM v2_test_transcript_runs
-      WHERE owner=? AND scenario=? AND run_id=?`).bind(owner,scenarioId,runId)
+      WHERE owner=? AND scenario=? AND run_id=?`).bind(owner,fixture.dbKey,runId)
       .first<{generation:string;epoch:number;fixture_version:string;source_commit:string|null}>();
     if(!transcript||transcript.generation!==ctx.generation||transcript.epoch!==state.epoch||
-      transcript.fixture_version!==fixtureVersion||transcript.source_commit!==(env.MINAMO_SCENARIO_SOURCE_SHA??null))
+      transcript.fixture_version!==fixture.fixtureVersion||
+      transcript.source_commit!==hostedSourcePin(fixture,env.MINAMO_SCENARIO_SOURCE_SHA))
       fail('observation_transcript_conflict','Observation must attach to this exact registered synthetic transcript/source/epoch.');
     const at=now(),payload=JSON.stringify({action:'start',sessionId:input.sessionId,epoch:state.epoch});
     await db(env).prepare(`INSERT OR IGNORE INTO v2_test_observation_runs
       (owner,scenario,run_id,generation,epoch,source_commit,status,session_id,revision,start_operation,last_operation,last_payload,created_at,updated_at)
       VALUES(?,?,?,?,?,?,'armed',?,0,?,?,?,?,?)`)
-      .bind(owner,scenarioId,runId,ctx.generation,state.epoch,env.MINAMO_SCENARIO_SOURCE_SHA??null,
+      .bind(owner,fixture.dbKey,runId,ctx.generation,state.epoch,
+        hostedSourcePin(fixture,env.MINAMO_SCENARIO_SOURCE_SHA),
         input.sessionId,input.operationId,input.operationId,payload,at,at).run();
-    const started=(await sameRun(env,owner,runId));
+    const started=(await sameRun(env,owner,runId,fixture));
     if(started.start_operation!==input.operationId||started.epoch!==state.epoch||
       started.session_id!==input.sessionId||started.last_payload!==payload||
-      started.source_commit!==(env.MINAMO_SCENARIO_SOURCE_SHA??null))
+      started.source_commit!==hostedSourcePin(fixture,env.MINAMO_SCENARIO_SOURCE_SHA))
       fail('observation_run_conflict','Run was started with another identity or source pin.');
     return {...view(started),replayed:started.created_at!==at};
   }
-  const run=await sameRun(env,owner,runId);
+  const run=await sameRun(env,owner,runId,fixture);
   if(input.action==='calls'){
     const offset=input.offset??0,limit=input.limit??40;
     if(!validRevision(offset)||!Number.isSafeInteger(limit)||limit<1||limit>50||offset>MAX_CALLS)
       fail('invalid_observation_page','Use a bounded call offset and page size.',400);
     const [count,rows]=await Promise.all([
       db(env).prepare('SELECT COUNT(*) AS n FROM v2_test_observed_calls WHERE owner=? AND scenario=? AND run_id=?')
-        .bind(owner,scenarioId,runId).first<{n:number}>(),
+        .bind(owner,fixture.dbKey,runId).first<{n:number}>(),
       db(env).prepare(`SELECT call_id,session_id,phase,tool_name,outcome,error_code,elapsed_ms,received_at
         FROM v2_test_observed_calls WHERE owner=? AND scenario=? AND run_id=? ORDER BY received_at,call_id LIMIT ? OFFSET ?`)
-        .bind(owner,scenarioId,runId,limit,offset).all()
+        .bind(owner,fixture.dbKey,runId,limit,offset).all()
     ]);
     return {run:view(run),events:rows.results.map((r:any)=>({eventKind:r.outcome==='error'?'mcp.observed-error':'mcp.observed-call',
       provenance:'server-observed',callId:r.call_id,sessionId:r.session_id,phase:r.phase,tool:r.tool_name,
@@ -173,13 +187,13 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
   if(input.action==='snapshots'){
     const rows=await db(env).prepare(`SELECT * FROM v2_test_state_snapshots WHERE owner=? AND scenario=? AND run_id=?
       ORDER BY observed_at,checkpoint_id,moment LIMIT ?`)
-      .bind(owner,scenarioId,runId,MAX_SNAPSHOTS+1).all<Snapshot>();
+      .bind(owner,fixture.dbKey,runId,MAX_SNAPSHOTS+1).all<Snapshot>();
     return {run:view(run),snapshots:rows.results.map(snapshotView),truncated:rows.results.length>MAX_SNAPSHOTS};
   }
   if(input.action==='diff'){
     if(!validId(input.checkpointId))fail('observation_checkpoint_required','Select a named observation checkpoint.',400);
     const rows=await db(env).prepare(`SELECT * FROM v2_test_state_snapshots WHERE owner=? AND scenario=? AND run_id=?
-      AND checkpoint_id=? ORDER BY moment`).bind(owner,scenarioId,runId,input.checkpointId).all<Snapshot>();
+      AND checkpoint_id=? ORDER BY moment`).bind(owner,fixture.dbKey,runId,input.checkpointId).all<Snapshot>();
     const before=rows.results.find(s=>s.moment==='before'),after=rows.results.find(s=>s.moment==='after');
     if(!before||!after)fail('observation_pair_incomplete','Both canonical before and after captures are required.');
     if(after.observed_at<before.observed_at)fail('observation_time_conflict','The after snapshot predates the before snapshot.');
@@ -191,7 +205,7 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
     });
     const callRows=await db(env).prepare(`SELECT tool_name,outcome,elapsed_ms FROM v2_test_observed_calls
       WHERE owner=? AND scenario=? AND run_id=? AND received_at>=? AND received_at<=?`)
-      .bind(owner,scenarioId,runId,before.observed_at,after.observed_at).all<{tool_name:string;outcome:string;elapsed_ms:number}>();
+      .bind(owner,fixture.dbKey,runId,before.observed_at,after.observed_at).all<{tool_name:string;outcome:string;elapsed_ms:number}>();
     const tools:Record<string,{calls:number;errors:number;totalMs:number}>={};
     for(const call of callRows.results){const tally=tools[call.tool_name]??={calls:0,errors:0,totalMs:0};
       tally.calls++;tally.errors+=Number(call.outcome==='error');tally.totalMs+=call.elapsed_ms;}
@@ -206,22 +220,23 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
       notice:'Identity/revision changes are canonical, but this interval does not prove which tool caused them or that an external program ran.'};
   }
   if(!['arm','pause','stop','capture'].includes(input.action))fail('invalid_observation_action','Unknown observation action.',400);
-  if(run.epoch!==(await fixtureState(env,owner)).epoch||run.source_commit!==(env.MINAMO_SCENARIO_SOURCE_SHA??null))
+  if(run.epoch!==(await fixtureState(env,owner,fixture)).epoch||
+    run.source_commit!==hostedSourcePin(fixture,env.MINAMO_SCENARIO_SOURCE_SHA))
     fail('observation_retired','An observation cannot mutate after its epoch or source changes.');
   if(input.action==='capture'){
     if(run.status!=='armed'||!validId(input.checkpointId)||!['before','after'].includes(input.moment??''))
       fail('invalid_observation_capture','Arm the observation and provide a stable checkpoint ID and moment.',400);
-    const state=await fixtureState(env,owner);
+    const state=await fixtureState(env,owner,fixture);
     if(state.pending_json||!state.phase||sessions.find(s=>s.id===run.session_id)?.phase!==state.phase)
       fail('observation_phase_conflict','Capture only in a settled, armed matching session.');
     const old=await db(env).prepare(`SELECT * FROM v2_test_state_snapshots WHERE owner=? AND scenario=? AND run_id=?
-      AND checkpoint_id=? AND moment=?`).bind(owner,scenarioId,runId,input.checkpointId,input.moment).first<Snapshot>();
+      AND checkpoint_id=? AND moment=?`).bind(owner,fixture.dbKey,runId,input.checkpointId,input.moment).first<Snapshot>();
     if(old)return {snapshot:snapshotView(old),replayed:true};
     const count=await db(env).prepare('SELECT COUNT(*) AS n FROM v2_test_state_snapshots WHERE owner=? AND scenario=? AND run_id=?')
-      .bind(owner,scenarioId,runId).first<{n:number}>();
+      .bind(owner,fixture.dbKey,runId).first<{n:number}>();
     if(Number(count?.n??0)>=MAX_SNAPSHOTS)fail('observation_snapshot_limit','Snapshot quota reached.');
-    const version=await namespaceVersion(env,owner),entries=await projection(env,owner,state.epoch);
-    const [newVersion,newState]=await Promise.all([namespaceVersion(env,owner),fixtureState(env,owner)]);
+    const version=await namespaceVersion(env,owner),entries=await projection(env,owner,state.epoch,fixture);
+    const [newVersion,newState]=await Promise.all([namespaceVersion(env,owner),fixtureState(env,owner,fixture)]);
     if(version!==newVersion||state.epoch!==newState.epoch||state.phase!==newState.phase||
       state.revision!==newState.revision||newState.pending_json)
       fail('observation_snapshot_changed','Canonical state moved during capture; retry with a fresh checkpoint ID.');
@@ -235,12 +250,12 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
       AND EXISTS(SELECT 1 FROM v2_scenario_control WHERE owner=? AND scenario=?
         AND epoch=? AND phase=? AND revision=? AND pending_json IS NULL)
       AND COALESCE((SELECT version FROM v2_namespace_versions WHERE owner=?),0)=?`)
-      .bind(owner,scenarioId,runId,input.checkpointId,input.moment,run.session_id,state.phase,state.revision,
-        version,JSON.stringify(entries),at,owner,scenarioId,runId,MAX_SNAPSHOTS,
-        owner,scenarioId,runId,run.session_id,ctx.generation,state.epoch,
-        owner,scenarioId,state.epoch,state.phase,state.revision,owner,version).run();
+      .bind(owner,fixture.dbKey,runId,input.checkpointId,input.moment,run.session_id,state.phase,state.revision,
+        version,JSON.stringify(entries),at,owner,fixture.dbKey,runId,MAX_SNAPSHOTS,
+        owner,fixture.dbKey,runId,run.session_id,ctx.generation,state.epoch,
+        owner,fixture.dbKey,state.epoch,state.phase,state.revision,owner,version).run();
     const captured=await db(env).prepare(`SELECT * FROM v2_test_state_snapshots WHERE owner=? AND scenario=? AND run_id=?
-      AND checkpoint_id=? AND moment=?`).bind(owner,scenarioId,runId,input.checkpointId,input.moment).first<Snapshot>();
+      AND checkpoint_id=? AND moment=?`).bind(owner,fixture.dbKey,runId,input.checkpointId,input.moment).first<Snapshot>();
     if(!captured)fail('observation_snapshot_conflict','Canonical state, run control or snapshot quota changed during capture.');
     return {snapshot:snapshotView(captured),replayed:captured.observed_at!==at};
   }
@@ -255,7 +270,7 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
   }
   if(run.status==='sealed')fail('observation_sealed','Stopped observations cannot be rearmed.');
   if(run.revision!==input.expectedRevision)fail('observation_revision_conflict','Refresh the observation revision before control.');
-  const state=await fixtureState(env,owner);
+  const state=await fixtureState(env,owner,fixture);
   if(input.action==='arm'&&(state.pending_json||sessions.find(s=>s.id===input.sessionId)?.phase!==state.phase))
     fail('observation_phase_conflict','Arm only for the matching settled scenario phase.');
   const status=input.action==='stop'?'sealed':input.action==='pause'?'paused':'armed';
@@ -263,9 +278,9 @@ export async function manageObservation(env:Env,owner:string,request:Request,inp
   const changed=await db(env).prepare(`UPDATE v2_test_observation_runs
     SET status=?,session_id=?,revision=revision+1,last_operation=?,last_payload=?,updated_at=?
     WHERE owner=? AND scenario=? AND run_id=? AND revision=? AND status!='sealed'`)
-    .bind(status,sessionId,input.operationId,payload,now(),owner,scenarioId,runId,run.revision).run();
+    .bind(status,sessionId,input.operationId,payload,now(),owner,fixture.dbKey,runId,run.revision).run();
   if(changed.meta.changes!==1)fail('observation_revision_conflict','Concurrent observer control; inspect before retry.');
-  return {...view((await sameRun(env,owner,runId))),replayed:false};
+  return {...view((await sameRun(env,owner,runId,fixture))),replayed:false};
 }
 
 /** Never records payloads. A qualifying selector must explicitly identify the
@@ -288,11 +303,10 @@ function syntheticOperationRead(name:unknown,args:any,marker:string){
   return name==='read_minamo_operation'&&typeof args?.operationId==='string'&&
     args.operationId.startsWith(marker);
 }
-function qualifies(name:unknown,args:any,epoch:number){
+function qualifies(name:unknown,args:any,marker:string){
   if(typeof name!=='string'||!args||typeof args!=='object'||
     ['manage_minamo_test_observation','append_minamo_test_transcript','read_minamo_test_transcript',
       'manage_minamo_test_scenario'].includes(name))return false;
-  const marker=prefix(epoch);
   return (args.includeSynthetic===true&&discoveryTools.has(name))||
     selectedByPrefix(args,marker)||syntheticOperationRead(name,args,marker);
 }
@@ -314,24 +328,42 @@ export async function beginObservedCall(env:Env,owner:string,request:Request,nam
   // Ordinary owner MCP reads incur no observer D1 round-trip without a
   // synthetic selector, except opaque Flag IDs which need a private
   // eligibility check only after finding a matching armed observer.
-  const requestArgs=args as any,anyEpochMarker='TEST-ONLY-m2m-r';
+  const requestArgs=args as any,anyEpochMarker='TEST-ONLY-';
   const candidateFlag=name==='read_minamo_record'&&requestArgs?.family==='flag'&&
     typeof requestArgs?.id==='string'&&/^flag-[a-f0-9]{64}$/.test(requestArgs.id);
   if(typeof name!=='string'||!args||typeof args!=='object'||
     !requestArgs.includeSynthetic&&!selectedByPrefix(args,anyEpochMarker)&&
     !syntheticOperationRead(name,args,anyEpochMarker)&&!candidateFlag)return null;
   try{
-  const state=await db(env).prepare('SELECT epoch,phase,pending_json FROM v2_scenario_control WHERE owner=? AND scenario=?')
-    .bind(owner,scenarioId).first<{epoch:number;phase:string|null;pending_json:string|null}>();
-  if(!state||!state.phase||state.pending_json)return null;
-  const run=await db(env).prepare(`SELECT run_id,session_id FROM v2_test_observation_runs
-    WHERE owner=? AND scenario=? AND generation=? AND epoch=? AND source_commit IS ? AND status='armed' LIMIT 1`)
-    .bind(owner,scenarioId,generationContext(env)!.generation,state.epoch,env.MINAMO_SCENARIO_SOURCE_SHA??null)
-    .first<{run_id:string;session_id:string}>();
-  if(!run||sessions.find(s=>s.id===run.session_id)?.phase!==state.phase)return null;
-  if(!qualifies(name,args,state.epoch)&&
-    !(await eligibleSyntheticFlagRead(env,owner,name,args,prefix(state.epoch))))return null;
-  return {runId:run.run_id,sessionId:run.session_id,phase:state.phase,epoch:state.epoch,
+  const rows=await db(env).prepare(`SELECT r.scenario,r.run_id,r.session_id,r.source_commit,s.epoch,s.phase
+    FROM v2_test_observation_runs r JOIN v2_scenario_control s
+      ON s.owner=r.owner AND s.scenario=r.scenario AND s.generation=r.generation AND s.epoch=r.epoch
+    WHERE r.owner=? AND r.generation=? AND r.status='armed'
+      AND s.phase IS NOT NULL AND s.pending_json IS NULL LIMIT 12`)
+    .bind(owner,generationContext(env)!.generation)
+    .all<{scenario:string;run_id:string;session_id:string;source_commit:string|null;epoch:number;phase:string}>();
+  if(rows.results.length>10)return null;
+  const candidates=rows.results.filter(r=>{
+    const fixture=fixtureForDbKey(r.scenario);
+    return !!fixture&&r.source_commit===hostedSourcePin(fixture,env.MINAMO_SCENARIO_SOURCE_SHA)&&
+      sessionsForFixture(fixture).some(s=>s.id===r.session_id&&s.phase===r.phase);
+  });
+  const targeted=[] as typeof candidates;
+  for(const row of candidates){
+    const fixture=fixtureForDbKey(row.scenario)!;
+    const marker=prefix(fixture,row.epoch);
+    if(selectedByPrefix(args,marker)||syntheticOperationRead(name,args,marker)||
+      await eligibleSyntheticFlagRead(env,owner,name,args,marker))
+      targeted.push(row);
+  }
+  // A generic includeSynthetic discovery has no persona selector. It can be
+  // attributed only when precisely one observer is armed; never guess across
+  // concurrently armed fictional runs.
+  const chosen=targeted.length===1?targeted[0]:
+    targeted.length===0&&candidates.length===1&&qualifies(name,args,prefix(fixtureForDbKey(candidates[0].scenario)!,candidates[0].epoch))
+      ?candidates[0]:null;
+  if(!chosen)return null;
+  return {dbKey:chosen.scenario,runId:chosen.run_id,sessionId:chosen.session_id,phase:chosen.phase,epoch:chosen.epoch,
     name:name as string,receivedAt:now(),started:performance.now()};
   }catch{return null;}
 }
@@ -351,10 +383,10 @@ export async function finishObservedCall(env:Env,owner:string,call:Awaited<Retur
          AND r.generation=? AND r.epoch=? AND r.status='armed' AND r.session_id=?
          AND s.epoch=? AND s.phase=? AND s.pending_json IS NULL)
       AND (SELECT COUNT(*) FROM v2_test_observed_calls WHERE owner=? AND scenario=? AND run_id=?)<?`)
-      .bind(owner,scenarioId,call.runId,crypto.randomUUID(),call.sessionId,call.phase,call.name,
-        outcome,code,duration,call.receivedAt,owner,scenarioId,call.runId,
+      .bind(owner,call.dbKey,call.runId,crypto.randomUUID(),call.sessionId,call.phase,call.name,
+        outcome,code,duration,call.receivedAt,owner,call.dbKey,call.runId,
         generationContext(env)!.generation,call.epoch,call.sessionId,call.epoch,call.phase,
-        owner,scenarioId,call.runId,MAX_CALLS).run();
+        owner,call.dbKey,call.runId,MAX_CALLS).run();
   }catch{
     // Trace storage must never turn a successful learner operation into a failed
     // one. Readback explicitly documents best-effort coverage and bounded loss.

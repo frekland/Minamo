@@ -4,7 +4,7 @@ import {manifest,scenarioForPrefix} from './project-scenarios/mood-to-music/seed
 import {replayWeekend,weekendPrefix,weekendVariant} from './project-scenarios/mood-to-music/variants/weekend-prototyper.mjs';
 
 const id=(prefix,leaf)=>`${prefix}-${leaf}`;
-test('weekend overlay is explicitly versioned and local-only; unexpected namespaces fail closed',()=>{
+test('weekend overlay is explicitly versioned; unexpected local namespaces fail closed',()=>{
   assert.equal(weekendVariant.baseFixtureVersion,`mood-to-music/${manifest.schemaVersion}`);
   assert.equal(weekendVariant.personaVariant,'intermittent-weekend-prototyper');
   assert.deepEqual(weekendVariant.phases,['F','G','H','I','J','K']);

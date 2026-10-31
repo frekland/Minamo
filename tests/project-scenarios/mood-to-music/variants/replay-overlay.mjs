@@ -2,7 +2,6 @@
  * The hosted controller/transcript/observer do not import this helper.
  */
 import {manifest,scenarioForPrefix} from '../seed.mjs';
-import {seed} from '../replay.mjs';
 
 async function inspect(client,prefix,phase,{notes,question,annotation}){
   const id=leaf=>`${prefix}-${leaf}`;
@@ -29,6 +28,9 @@ export async function replayOverlay(target,{epoch,owner,prefixForEpoch,phases,ap
   if(!manifest.states.some(s=>s.id===target))throw Error('Unknown persona replay state');
   if(typeof owner!=='string'||!owner.startsWith('TEST-ONLY-'))throw Error('Only synthetic principals are accepted');
   const prefix=prefixForEpoch(epoch),base=scenarioForPrefix(prefix);
+  // Only local replay loads the Node test fixture; hosted phase actions never do.
+  const localFixturePath='../replay.mjs';
+  const {seed}=await import(localFixturePath);
   const session=await seed({owner}),states=[];
   try{
     for(const phase of manifest.states.map(s=>s.id)){
