@@ -10,10 +10,10 @@ import {fileURLToPath} from 'node:url';
 
 const mapped={
   'lib/domain.ts':['tests/domain-http.test.mjs','tests/domain-rich-integration.test.mjs'],
-  'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/mcp-learning-quality.test.mjs','tests/scenario-controller.test.mjs','tests/test-transcript.test.mjs','tests/test-observation.test.mjs'],
+  'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/mcp-learning-quality.test.mjs','tests/scenario-controller.test.mjs','tests/test-transcript.test.mjs','tests/test-observation.test.mjs','tests/test-observation-adversarial.test.mjs'],
   'lib/scenario-control.ts':['tests/scenario-controller.test.mjs'],
   'lib/test-transcript.ts':['tests/test-transcript.test.mjs'],
-  'lib/test-observation.ts':['tests/test-observation.test.mjs'],
+  'lib/test-observation.ts':['tests/test-observation.test.mjs','tests/test-observation-adversarial.test.mjs'],
   'lib/project-context.ts':['tests/project-context.test.mjs','tests/unified-projects-acceptance.test.mjs'],
   'lib/learning-work.ts':['tests/learning-work.test.mjs','tests/journey-resume.test.mjs']
 };
@@ -32,10 +32,12 @@ export function selectFocusedTests(changed,exists=existsSync){
       add('tests/scenario-controller.test.mjs');
     }
     if(path==='db/schema.ts'||path.startsWith('drizzle/0013_')){
-      add('tests/scenario-controller.test.mjs');add('tests/test-transcript.test.mjs');add('tests/test-observation.test.mjs');
+      add('tests/scenario-controller.test.mjs');add('tests/test-transcript.test.mjs');add('tests/test-observation.test.mjs');add('tests/test-observation-adversarial.test.mjs');
     }
     if(path.startsWith('drizzle/0014_'))add('tests/test-transcript.test.mjs');
-    if(path.startsWith('drizzle/0015_'))add('tests/test-observation.test.mjs');
+    if(path.startsWith('drizzle/0015_')){
+      add('tests/test-observation.test.mjs');add('tests/test-observation-adversarial.test.mjs');
+    }
     if(path==='scripts/ci-focused-tests.mjs')add('tests/ci-focused-tests.test.mjs');
     if(path.startsWith('app/')&&/project|journey/i.test(path)){
       add('tests/project-ui.test.mjs');
