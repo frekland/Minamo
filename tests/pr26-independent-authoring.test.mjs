@@ -40,7 +40,7 @@ test('independent fresh ordinary MCP authoring supports rich reference creation,
   const refs=Object.fromEntries(created.recordRefs.map(r=>[r.key,r]));
   const read=async(ref,extra={})=>(await call('read_minamo_record',{family:ref.family,id:ref.id,...extra})).record;
   const original=await read(refs.paths),command=original.concepts.find(x=>x.term==='pwd');assert.ok(command);assert.ok(command.examplePartId);assert.ok(original.links.some(x=>x.id===refs.shell.id));
-  const exact=await call('query_minamo_library',{facet:'references',kind:'shell-command',query:'pwd'});assert.ok(JSON.stringify(exact).includes(original.id));
+  const exact=await call('query_minamo_library',{facet:'references',kind:'shell-command',query:'pwd',includeSynthetic:true});assert.ok(JSON.stringify(exact).includes(original.id));
   const changed=article.replace('## Inspect one change','## Relative does not mean local to the script\n\nA script and its current working directory can be in different directories. Establish the process state before resolving the path.\n\n## Inspect one change');
   const target={family:'article',id:original.id,rev:original.rev};
   const revised=await call('publish_minamo_manuscript',request('independent-cwd-revise',[{key:'paths',role:'article',target,markdown:changed}],[{...target,purpose:'targeted-update'}]));assert.equal(revised.status,'committed',JSON.stringify(revised));
