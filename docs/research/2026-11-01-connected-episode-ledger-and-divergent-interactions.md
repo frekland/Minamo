@@ -1,0 +1,130 @@
+# Connected learning episode: five-question evidence ledger, route regressions and divergent interaction probes
+
+**1 November 2026 · D1 technical follow-through + bounded D2 desk research / D3 comparison brief · CURRENT research handoff.** Read after [the owner’s first-hand feedback](../ux/2026-11-01-owner-firsthand-ux-feedback.md), [superseding design decision](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) and [Project/Stage root-cause audit](2026-11-01-project-stage-continuity-root-cause-audit.md). This document extends, rather than reopens, those findings. No implementation, fixture mutation, new learner record, source migration, test reset or deployment is authorised by it.
+
+## Headline
+
+The critical product opportunity is **working with evidence in context and returning truthfully**, not adding more objects, a graph or a bigger Project dashboard. The new test shows both kinds of disconnection:
+
+1. **A contextual return token is lost at the first Note detour.** The Stage → Question link carries the Project/Step return; the Question → Recent work Note link drops it; the Note’s backlink to the same Question remains valid but the Back to Step control is gone.
+2. **An existing Article ↔ Activity link is buried and semantically mislabelled.** The Activity opens its source Article directly and Back to Practice works. The Article’s incoming Activity is present in exact Minamo MCP context and the live Reader, but is concealed near the end of a long Article under **collapsed “Your work 1”**, where it is labelled a **Tool**. It opens Activity Studio via the legacy Tools route, so the destination is not dead. The issue is attention, categorisation and task-first relevance, not link storage loss.
+
+These precise observations reject two overly simple fixes: “just add links” and “all reverse links are missing.” Source and UI need a context-preserving, task-relevant presentation.
+
+## Evidence and method
+
+- Hosted, signed-in **Minamo Sites V88** on 1 November 2026, read-only Chrome cloud browser, desktop. Native Sites version and public GitHub source revision are distinct identities; no source byte-for-byte native comparison was made.
+- Exact Minamo MCP read-only calls at **registered TEST ONLY K phases**: Mood-to-Music canonical K/epoch 3, retired Cap interrupted-sparse K/epoch 1, Plant careful-calibrator K/epoch 1. Source-rev/canonical readbacks were preserved; no load/reset/advance or Note save. The latter two manifests include seven personal Notes, three Questions, annotations and zero checkpoint IDs; the selected 14-record snapshots contain no Activity/Attempt fixture.
+- Separate **existing non-synthetic Japanese N4** Activity/Article relationship route was used **read-only** to test source-first Practice and reverse Article discovery. Public documentation here deliberately omits its private record IDs, source passages, output and account data.
+- Code inspected on public main after [PR #74](https://github.com/frekland/Minamo/pull/74): [LearningActivity](../../app/learning-activity.tsx), [LearningConnections](../../app/learning-links.tsx), [Activity Studio](../../app/activity-studio.tsx), [workspace routing](../../app/workspace.tsx), [Practice return](../../lib/practice-return.ts), [learning-work](../../lib/learning-work.ts), [project-context](../../lib/project-context.ts). Prior-art source-first research is linked below.
+- Confidence: **observed** = exact current UI or MCP output; **source-proven** = code path without a new runtime test; **interpretation** = product consequence; **unproven** = explicit follow-up. Server dates are fixture record update times. Some fictional Note prose contains later narrative dates than the fixture’s real write timestamp; never silently reconcile those into a real-world chronological event claim.
+
+## Five-question return ledger: what can truthfully be said
+
+These are **candidate read-only ledger entries**, not an AI-created checkpoint or accepted state. “Latest” means last *eligible, linked and returned* record within the relevant query’s coverage; an absent checkpoint or missing direct Project relation is not proof of no work. Each Note is user-authored **fictional material**, not independently observed execution. Source identities below refer to named TEST ONLY fixture records, not private user data.
+
+| Owner return question | Mood — changing privacy direction | Cap — sparse interrupted lab | Plant — provisional calibration |
+| --- | --- | --- | --- |
+| **1. Last actual recorded work** | Revised “scratch plan” Note rev 2 (30 Oct 19:23 UTC) explains that v5 refresh is only a reported observation and v7 still needs retest. A separate loose-ends Note rev 1 (19:23 UTC) has two Question links. Earlier S03/H checkpoint is 15:19 UTC. | Restart Note (31 Oct 23:49 UTC) says to establish a new authorised instance. A rev 3 sparse Note and an earlier “old address” Note appear in the same short return cluster. No checkpoint is recorded. | Return-with-calibration Note and rev 3 raw-readings Note (31 Oct 23:48 UTC) distinguish synthetic CSV/state model from physical measurement. No checkpoint is recorded. |
+| **2. Next *intended* activity** | The most recent explicit writing says to **disable Remember labels, reload and compare with exact source/tests**. The formal checkpoint still asks for **v6** digest/browser verification; these are competing dated sources, not interchangeable. | Explicit learner request: confirm the **current permitted instance** before commands; make **one harmless observation**; avoid spoilers and unsupported flag/credential claims. No formal agreed nextAction. | Explicit learner request: compare old 15% estimate to raw-count/hysteresis proposal; collect labelled **dry/wet board measurements** with attenuation/soil/time before adopting a threshold. No formal agreed nextAction. |
+| **3. Outstanding problems** | v7 privacy/disabled-storage behaviour unverified, test output incomplete; provider/OAuth capability unresolved; v6 source/digest and original refresh claims need correct provenance. | Whether old instance expired is a **belief**, not platform status; new authorisation and fresh observations absent; past HTTP/service inference remains uncertain. | No actual calibration or moisture accuracy proof; synthetic trace cannot establish hardware thresholds; stable hysteresis needs real measurements. |
+| **4. Misconceptions addressed** | Objective mood scoring has been abandoned in Project/older checkpoint. Distinguish “mood filter retains React state” from “full reload persists labels.” Later Note *reports* revising privacy policy, but no verified v7 browser behaviour or formal correction promotion. | Sparse revisions explicitly set aside prior unverified inference after instance loss. No saved misconception/correction checkpoint; **do not invent that one was resolved**. | The universal “15%” threshold is challenged by raw counts and a state model, but no physical validation; treat as *revised provisional claim*, not measured correction. |
+| **5. Real progress/change** | Recorded shift: objective scoring → personal labels → automatic persistence questioned → v7 opt-in proposed. Source/code/test status is **reported or partial**, not verified achievement. Stage number does not count as progress. | Meaningful change is a safer scope and restart plan, not completed exploit or acquired proof. An absence of checkpoint does not erase the revision. | Meaningful change is a move from guessed percentage to measurable raw-count/hysteresis hypothesis. Deterministic model evidence ≠ physical learning outcome. |
+
+**What the current interface/API chooses instead:** In Mood, the Stage lists these Notes in reverse chronology and separately shows the older v6 saved checkpoint. Registered fixture continuation points to one Question/Note destination; ordinary continuation returns “Start first step” by expected synthetic exclusion. In sparse Cap and careful Plant, the Project/Stage learning context groups the recent Notes while the direct Project-root related set omits the latest return Note and reports relatedTruncated:false; there is no checkpoint to populate a formal “Latest saved learning” narrative. Exact reads confirm the Notes exist.
+
+**Safe presentation contract for a future candidate:**
+
+- **Current recorded work:** latest eligible linked source(s), with event-type/actor/time/revision and a “more may exist” qualifier where coverage is bounded.
+- **What changed:** a *contrast* between explicitly stated positions, with quotes/links kept short and full source accessible; “appears to revise” is not “verified correction.”
+- **Intended next:** prefer a learner-confirmed statement where present; otherwise show **competing dated candidates** or **unknown**, with a simple confirm/edit action. Never guess from authored next Stage, most recent browser visit or GPT preference.
+- **Open problems:** attributable questions and unresolved evidence gaps, no automatic closure from an unrelated later Note.
+- **Progress:** work/evidence/change, not mastery score or checkmark. Unsupported results remain learner-reported/supplied, not independently observed.
+- **Unknown and ambiguity are normal states.** A multi-target Note may serve two Questions. Do not force one “current concern,” silently save GPT interpretations, or link unrelated captures by lexical match.
+
+## Precise route and relevance reproductions
+
+### R1 — Project/Step return context drops at the first Recent work Note
+
+**Observed reproducibly in Sites V88, TEST ONLY Mood K:**
+
+1. Open Project personal-labels Stage; open its linked storage Question. The Question URL has returnJourney and returnStage and displays **Back to Step**.
+2. Click the Question’s **Recent work → loose ends Note**. The Note opens successfully in Your work, but its destination URL **does not carry either return parameter**. The Note retains exact identity and two canonical Question backlinks.
+3. Click the storage-Question backlink from the Note. The Question opens, but its URL no longer has returnJourney/returnStage and **Back to Step is absent**. Its **Linked projects** section still offers a manual Stage link. No canonical data was lost.
+4. From that Question, its Related Article URL also lacks the original return parameters. Thus the earlier documented Question → Note → Article → Question loss is already caused by the earlier context-drop, not necessarily by the final Article backlink.
+
+**Source mechanism:** [ThinkingItems](../../app/learning-activity.tsx) renders the recent item’s bare record destination from [readLearningActivity](../../lib/learning-activity.ts); [LearningConnections](../../app/learning-links.tsx) builds generic links for relation identities without the originating Project/Stage return. [workspace](../../app/workspace.tsx) reconstructs a Step return only when those URL/context values exist. It preserves exact record navigation but has no durable route-origin stack across this detour.
+
+**Regression specification, not an implemented test:** Open exact Stage → Question → loose-ends Note → Question backlink → supporting Article → Question. At each hop assert (a) exact source ID/revision preserved, (b) a visible route back to originating Stage, (c) no unsaved Note draft retargeted, (d) correct scope and standard browser Back/Forward. Contrast the already-working direct Stage → Resources → Article → Back to Step. Browser navigation should never require copying a Project identifier into an unrelated record’s canonical links.
+
+### R2 — Canonical Article–Activity relation exists but is not foregrounded
+
+**Observed in a non-synthetic Japanese N4 learning path; public doc intentionally omits private IDs:**
+
+1. Practice & review → an existing reading Activity → Activity Studio Explore. The page shows a **Source Article**, Project and Library topic in Related content. Source → Article is one visible action.
+2. Open its Source Article. The URL preserves returnPractice and shows **Back to Practice**. The long Article has headings and a table of contents.
+3. Near the Article’s end, Related content initially shows Topic and Project. It also has a **collapsed “Your work 1”** section; opening that reveals an incoming link to the very Activity, labelled **“Links to this material … Tool.”**
+4. Clicking that link produces a legacy **view=tools** URL (not practice), but **Activity Studio does open** with Task/Explore/Saved answers. Back to Practice remains available in this sampled route. It is misleading, not a dead link.
+5. **Independent exact MCP cross-check:** get_minamo_context on the Activity returned Source Article/Project/Topic; on the Article returned Project/**experiment**/Topic, with relatedTruncated:false. The canonical reverse link is **not missing**.
+
+**Source mechanism:** [LearningConnections](../../app/learning-links.tsx) separates ‘reading’ families from other families; an incoming experiment is classified under the collapsed personal **Your work** group. The family-to-route mapping sends experiment to **tools**, an earlier legacy navigation label; [workspace](../../app/workspace.tsx) still renders Activity Studio for that record. [Practice index](../../lib/practice-index.ts) retrieves by kind, scope, title and exact Activity ID—not “Activities using this Article/Stage.”
+
+**Interpretation:** The system already stores the key relationship, yet makes it hard to use *while reading*. The right fix might be task-relevant surfacing, “Practise with this material” labelling and a retained return path, not additional links or a new content database. It must still distinguish genuine authored links from suggestions.
+
+**Regression specification:** From a known eligible Article with one exact incoming Activity, the learner can find **Practice using this Article** from the reading context without scanning a long generic footer, open the Activity Studio at its pinned/effective edition, and return to the Article’s selected passage and/or originating Project Stage. Where no eligible Activity exists, say so, do not invent one. Test rights revocation, multiple Activities, stale linked editions, scope switch, returnPractice and a deliberately unlinked Article.
+
+### R3 — The three Project-persona fixtures cannot yet exercise a complete Activity episode
+
+The inspected settled Cap sparse and Plant careful manifests have no Activity or Attempt records; their registered snapshots have Project, Questions, Notes, Article and annotations only. Their **Activity-context natural-name queries were ambiguous** because several TEST ONLY personas share the same Project title, and therefore did not resolve an Activity set. A literal synthetic Activity-title query returned no results, but does **not** prove total Activity absence across all pages. The separately observed N4 Activity proves the subsystem works; it is **not** a synthetic Project → Article → Activity → Note → cold-return acceptance chain.
+
+**Next test-architecture need (not authorised implementation):** Specify one stable, rights-bounded original Activity per representative subject/episode, with exact source Article and Stage/Question association plus an optional saved Attempt/review and a deliberately missing/withdrawn edge. Use the existing synthetic fixture/version/controller infrastructure and exact IDs; never treat a submitted answer as learning achievement. Before mutating a fixture, commission that limited extension, compare old/new manifest and replay receipts, and retain the no-Activity negative control. This should be decided alongside #12/#14/#17 rather than ad hoc in a browser.
+
+## Prior-art interaction mechanisms worth challenging — desk research, not hands-on parity
+
+Existing [GitLearnOS, DeepTutor and Logseq pinned code inspection](2026-10-31-prior-art-code-reading.md) already covers explicit supersession/derived dashboards, memory layering with revision pitfalls, and explicit versus unlinked references. The additional sources below are **current official product documentation**, not independently operated authenticated sessions or proof of successful learner UX.
+
+| Mechanism and primary source | Transferable interaction | Minamo’s distinctive test, and rejection risk |
+| --- | --- | --- |
+| [Heptabase: card/whiteboard separation](https://wiki.heptabase.com/fundamental-elements) and [UI context selection](https://wiki.heptabase.com/user-interface-logic) | One canonical card may be used in multiple whiteboards without being owned/copied by any board; selecting a board can refocus the exact card position; a side reference library supports comparison while writing. | Can a Minamo Note/Article/Attempt appear **in an episode** while preserving its record identity and location? **Reject** mandatory infinite canvas or spatial administration, especially mobile/short sessions. |
+| [RemNote: references vs tags vs portals](https://help.remnote.com/en/articles/6634227-what-s-the-difference-between-references-tags-and-portals) and [Portals](https://help.remnote.com/en/articles/6030742-portals) | Explicit reference conveys relation; portal shows the same content inline where it matters instead of navigating/copied prose. Its practice context is source-dependent, not merely a separate list. | Try a narrow **linked evidence preview in task** and source-backed practice entry. **Reject** hidden content duplication, flashcard-first assumptions and deeply nested note taxonomies. |
+| [Capacities: capture-first objects and links](https://docs.capacities.io/reference/organizational-structures), [Backlinks](https://docs.capacities.io/reference/backlinks) and [Related Content](https://docs.capacities.io/reference/related-content) | Notes can start without a permanent Project home; backlinks distinguish explicit relations from unlinked mentions; contextual queries and modest suggestions resurface relevant objects where someone is working. | Preserve spontaneous unlinked Notes, let the learner **promote** useful connections, distinguish suggested from confirmed, and show **related Activities** before a generic catalogue. **Reject** compulsory tagging/database setup and silent AI linking. |
+| [Capacities: reading workflow](https://docs.capacities.io/reference/use-cases/reading-workflow) and [RemNote: source-bound practice membership](https://help.remnote.com/en/articles/8892109-how-does-remnote-decide-what-flashcards-are-part-of-a-document) | Reading highlights have multiple access routes (source, date, topic), while practice can be selected from an explicit source context and visibility rules. | Test Article → exact passage → related Activity/Note → return against the current hidden Activity backlink. **Reject** inferred achievement or automatically treating every marked passage as a quiz. |
+| [GitLearnOS change semantics](https://github.com/Guojiz/gitlearnos/blob/3db0bac03ff655fe7c833f941486a7db3ecde264/templates/event-record.md) and [DeepTutor snapshot vs change path](https://github.com/HKUDS/DeepTutor/blob/1ea7df155447f4caf0e3abc86b3ff5395479cd4a/deeptutor/services/memory/consolidator/modes/update.py) | Source identity, changes and current interpretation are different layers; revision to a record must trigger review even if no new entity ID appears. | A later Note revision makes the displayed checkpoint **potentially stale** without silently revoking it. **Reject** opaque memory layers and automatic promotion to settled truth. |
+
+The clearest neglected opportunity is **source-in-context use**: show the relevant original material where the next decision/activity occurs, with a stable return, instead of making the learner navigate the Library → Practice → Your work hierarchy. No external product proves the right Minamo layout by itself.
+
+## D3: three genuinely divergent task hypotheses, not commissioned prototypes
+
+Compare against the **current Minamo Site as the baseline** and the same canonical fixture/source evidence. Do **not** implement three skins over Steps/Questions or score artificial satisfaction.
+
+| Hypothesis | Episode anatomy | Distinct benefit | Main failure/rejection condition | Likely technical tier (to verify) |
+| --- | --- | --- | --- | --- |
+| **A. Minimal contextual integration** | Keep Project/Reader/Notes/Practice. Add source-backed discrepancy/next-intention strip in Project/Stage, relevant Article–Activity affordance and consistent return context. | Least structural change; fixes demonstrated entry/relevance failures quickly. | Still forces the learner into a pre-authored Stage and multiple destinations to *think*; newest work becomes another dashboard card. | UI/navigation + bounded projection; no schema assumed. |
+| **B. Living inquiry / episode** | One revisable focus around a learner-selected Question or current activity, with source, Note and practice visible/available; Stage guide becomes optional reference. Episode history reflects decisions and unresolved branches. | Organises around what is being done rather than syllabus position; supports changed direction and sparse return. | Imposes a new “current focus” ceremony or hidden AI classification; loses independent strands or source rights. | Potential read-model/domain change; need an explicit owner-chosen-focus/unknown model if persistence proves necessary. |
+| **C. Evidence worktable / field notebook** | Learner brings selected Notes, source passages, experiments and counterevidence side-by-side; capture and comparison are primary, Project affiliation optional; return opens last *user-selected* arrangement with current evidence markers. | Supports exploratory/synthesis-heavy work and multiple simultaneous concerns without one dominant Stage. | Spatial complexity, mobile fragility, selection chores or a board that becomes storage administration. | UI/ephemeral selection first; any durable arrangement/session identity is a later design decision. |
+
+**Cross-cutting GPT** is not another compulsory tab. Any hypothesis can offer **user-controlled review of a proposed interpretation**, showing selected source receipts, changed claims, unresolved contradictions and what will *not* be saved. A learner must explicitly commit a checkpoint/relation change; GPT must not classify every Note automatically.
+
+### Four task scripts to use for a low-cost comparison
+
+1. **Spontaneous capture:** from no Project, write a small unrelated Note; later find it and optionally attach it to a real inquiry while retaining its original context. Test not-linking as a valid choice.
+2. **Contradictory return:** Mood K after a gap: identify last actual linked writing, older v6 checkpoint, later v7 privacy intention, unresolved provider issue and a specific next manual check. Must not assert that tests/refresh passed.
+3. **Sparse or non-software return:** Cap interrupted K **or** Plant careful K, with **no checkpoint**. Identify what is reported, which belief was revised, one safe next observation and what is unknown, without importing an imagined completion status.
+4. **Reading-to-doing:** start in the existing N4 source Article, locate the linked Practice Activity, open source as needed, optionally capture a Note, return to the same passage/Project. Current Site’s collapsed “Your work 1” is the baseline; no answer need be saved for a first navigation comparison.
+
+**Objective measures GPT can collect:** exact source/rights fidelity, missing/unsupported claims, number of context-breaking jumps, visible return destination at each hop, repeated scanning, actual source-to-Activity affordance, number of deliberate classifications and whether empty/ambiguous state is honest. Do not invent elapsed timings or judge “natural,” “engaging” or “useful” on behalf of the owner. Physical/mobile/assistive checks and one real functional persistence trial remain later gates.
+
+## Next actions and authority
+
+**GPT-autonomous now, without new live writes:**
+
+1. Translate R1/R2 into exact route/component test cases and trace the smallest safe fixes (including return intent propagation, Practice-versus-Tools link labelling, pagination/rights filtering and separate working/reading navigation contexts). Do not merge code without a specific engineering commission.
+2. Specify a read-only **five-question projection contract** over the three fixture histories: source IDs/revisions, chronology/coverage, explicit competing intents, source-status labels and unknowns. Compare simple deterministic extraction/selection to a GPT-authored *proposal*; no new authoritative current-state table assumed.
+3. Expand D2 with a small task-oriented inspection of *actual* prior-art UI where publicly accessible, clearly separating product documentation from observed interaction. The official docs above establish possible mechanisms, not head-to-head parity.
+4. Present concise A/B/C task storyboards with concrete first-screen and return actions, plus an explicit simple-current-Minamo baseline. Do not commission polished mock-ups or a functional build yet.
+
+**Owner manual review, only after the concrete comparison:** choose whether the first screen should foreground a revisable focus, a concise truthful return strip or a selected evidence arrangement; challenge whether attaching Notes feels like useful thinking or overhead; try one short everyday task and select **one** bounded persistence-backed vertical slice. This does **not** require repeating the original three UX complaints.
+
+**Still not proven:** deployed native source/public Git equivalence; full source/rights closure of all eligible Activity backreferences; any end-to-end new synthetic Project Activity/Attempt persistence in the 3×3 histories; source semantic contradiction adjudication; 320/390px and assistive-technology behaviour; independently measured learner benefit. These are explicit gates, not hidden completions.
+
+**Status:** research and reproduction only. The current product/design authority is unchanged. No new UI, Note, Activity, checkpoint, relation, fixture, schema, Site or private user data was modified.
