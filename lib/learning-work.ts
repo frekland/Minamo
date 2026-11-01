@@ -52,6 +52,18 @@ async function eligibleEvent(env:Cloudflare.Env,owner:string,event:LearningDevel
  const noteEvidence:NonNullable<LearningDevelopment['noteEvidence']>=[];for(const ref of event.noteRefs??[])if(!await evidence(env,owner,{kind:'record',family:'note',id:ref.id,rev:ref.rev},undefined,cache)){if(cache?.deferredRefs.has(stable([owner,{kind:'record',family:'note',id:ref.id,rev:ref.rev}])))deferred=true;else invalid=true;}else{const row=await exactRevision(env,owner,'note',ref.id,ref.rev,cache);if(row?.rendition)noteEvidence.push({...ref,rendition:row.rendition,destination:buildRecordLink({family:'note',id:ref.id},{rendition:row.rendition})});}
  return {event:{...event,...(event.decisions?{decisions}:{}),summary:deferred?'Checkpoint details are deferred by this bounded read. Open the exact Development to validate its evidence.':invalid?'Some saved evidence is unavailable. Eligible facts are shown below.':event.summary,evidenceUnavailable:invalid,detailsDeferred:deferred,facts:deferred?[]:invalid&&event.noteRefs?.length?facts.filter(f=>!!f.refs?.length):facts,noteEvidence:invalid||deferred?[]:noteEvidence,...(invalid||deferred?{decisions:[],nextAction:undefined,nextQuestions:[],relatedContexts:[],noteRefs:[]}: {})},invalid:invalid||deferred};
 }
+/** Read-only continuity adapter. Reuses checkpoint evidence admission rather than
+ * trusting the event JSON selected by an index query. A missing target or a
+ * revoked referenced edition never becomes a current learner intention. */
+export async function readContinuityDevelopment(env:Cloudflare.Env,owner:string,event:LearningDevelopment,scope:import('./learning-spaces').LearningScopeQuery){
+ const head=await targetRecord(env,owner,event.primaryTarget);
+ if(!head||!matchesLearningScope(head,scope))return null;
+ const checked=await eligibleEvent(env,owner,event,readCache(true));
+ const recorded=event.targetRenditionAtRecording?await readRendition(env,owner,head.id,event.targetRenditionAtRecording,head.family):null;
+ const stageId=event.primaryTarget.kind==='journey-stage'?event.primaryTarget.stageId:undefined;
+ const targetEdition=recorded&&matchesLearningScope(recorded,scope)&&(!stageId||recorded.learningShape?.kind==='journey'&&recorded.learningShape.stages.some(s=>s.id===stageId))?recorded:null;
+ return {event:checked.event,invalid:checked.invalid,targetHead:head,recordedTarget:targetEdition};
+}
 function eventInput(input:any):Pick<LearningDevelopment,'summary'|'kind'|'facts'|'decisions'|'nextAction'|'nextQuestions'|'relatedContexts'|'noteRefs'|'supersedesId'>{
  if(!object(input))return fail(400,'invalid_development','Provide a concise evidence-aware checkpoint.');keys(input,['summary','kind','facts','decisions','nextAction','nextQuestions','relatedContexts','noteRefs','supersedesId']);
  input={kind:'learning-update',facts:[],nextQuestions:[],...input};

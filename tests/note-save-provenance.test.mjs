@@ -4,7 +4,7 @@ import {createRequire} from 'node:module';
 import {privateStorageFixture} from './private-storage-fixture.mjs';
 const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json')),{build}=wr('esbuild');
 const compiled=await build({entryPoints:['lib/note-sync.ts'],bundle:true,format:'esm',platform:'node',write:false});
-const {noteSaveCommand,savedNoteDraft,editedNoteDraft}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
+const {noteSaveCommand,savedNoteDraft,newNoteDraft,editedNoteDraft}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
 const worker="import{domainHandler}from'./lib/domain-handler.ts';export default{fetch:domainHandler}";
 test('browser Note saves preserve both synthetic and genuine classifications through real D1, CAS and replay',async()=>{
  const f=await privateStorageFixture(worker);try{const client=f.client('synthetic-note-save-owner');const ok=r=>{assert.equal(r.status,200,JSON.stringify(r.data));return r.data};
@@ -22,4 +22,22 @@ test('browser Note saves preserve both synthetic and genuine classifications thr
  const blank={body:'Original browser-created prose',title:'',links:[],baseRev:0,dirty:true,intent:'create',sequence:1,bodyFormat:'markdown-v1'};
  const create=noteSaveCommand(blank,'local-draft','browser-create-normal','normal-created-note');assert.equal(create.data.synthetic,false);assert.equal(create.expectedRev,undefined);assert.equal(ok(await client.command(create)).record.synthetic,false);
  }finally{await f.dispose()}
+});
+test('R2/R4: only an explicitly selected Reader passage reaches the frozen new Note create command',async()=>{
+ const f=await privateStorageFixture(worker);try{const c=f.client('reader-exact-note-owner');const ok=async p=>{const r=await p;assert.equal(r.status,200,JSON.stringify(r.data));return r.data;};
+ const source=(await ok(c.command({action:'create',family:'article',id:'reader-note-source',data:{title:'Source',body:'Exact source.',synthetic:false,sections:[{id:'s',title:'Part',parts:[{id:'p',kind:'paragraph',text:'🧠 exact range.'}]}]}}))).record;
+ const anchor={articleId:source.id,recordFamily:'article',rendition:source.rendition,sectionId:'s',partId:'p',start:0,end:2,quote:'🧠'};
+ const sourceLink={family:'article',id:source.id,rendition:source.rendition,sectionId:'s',partId:'p'};
+ const draft=newNoteDraft(source,sourceLink,[sourceLink],undefined,anchor);
+ anchor.quote='changed outside this draft';sourceLink.id='elsewhere';
+ assert.equal(draft.anchor.quote,'🧠');assert.equal(draft.links[0].id,source.id,'capture freezes original source independently of later navigation');
+ const edited=editedNoteDraft(draft,{body:'My Note about the exact selected phrase.'});
+ const command=noteSaveCommand(edited,'local-draft','reader-note-create','reader-note-created');
+ assert.equal(command.data.anchor.quote,'🧠');assert.equal(command.data.links.length,1);
+ const created=(await ok(c.command(command))).record;assert.equal(created.anchor.quote,'🧠');
+ const updatedDraft=editedNoteDraft(savedNoteDraft(created),{body:'Later independent observation.'});
+ const update=noteSaveCommand(updatedDraft,created.id,'reader-note-update','unused');
+ assert.equal(Object.hasOwn(update.data,'anchor'),false,'ordinary prose update neither clears nor reanchors');
+ const changed=(await ok(c.command(update))).record;assert.equal(changed.anchor.quote,'🧠');
+ }finally{await f.dispose();}
 });

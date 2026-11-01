@@ -1,13 +1,21 @@
 import {withProjectReturn,type ProjectReturnContext} from './project-return-context';
-import type {PassageAnchor,RecordLink,WorkspaceRecord,LearningWorkTarget} from './contracts';
-import {absoluteReadingLink,contextDeepLinks,stageReadingLink,qualifiedRef,selectionFromAnchor,type ReadingSelection,MINAMO_V2_ORIGIN} from './reading-links';
+import type {PassageAnchor,RecordLink,WorkspaceRecord,LearningWorkTarget,SelectedContextRef} from './contracts';
+import {absoluteReadingLink,contextDeepLinks,stageReadingLink,qualifiedRef,readingSelection,selectionFromAnchor,type ReadingSelection,MINAMO_V2_ORIGIN} from './reading-links';
 export type GptContextRecord=Pick<WorkspaceRecord,'family'|'id'|'rendition'|'anchor'|'flagTarget'> & {title?:string};
-export type GptContextRequest={purpose:string;family:RecordLink['family'];id:string;rendition?:string;learningTarget?:LearningWorkTarget;relatedRefs?:Pick<RecordLink,'family'|'id'>[]};
+export type GptContextRequest={purpose:string;family:RecordLink['family'];id:string;rendition?:string;learningTarget?:LearningWorkTarget;relatedRefs?:SelectedContextRef[]};
 export type GptContextBrief={tool:'get_minamo_context';arguments:GptContextRequest;focus?:ReadingSelection;relatedRequests?:GptContextRequest[];returnTo:string;text:string};
 export const GPT_CONTEXT_PURPOSE='Discuss the specific context I selected in Minamo.';
-export function boundedRelatedRefs(refs:RecordLink[]=[]):RecordLink[]{if(!Array.isArray(refs)||refs.length>8)throw Error('Choose at most eight related records for this discussion.');const seen=new Set<string>();return refs.map(qualifiedRef).filter(ref=>{const key=JSON.stringify([ref.family,ref.id]);if(seen.has(key))return false;seen.add(key);return true;});}
+export function boundedRelatedRefs(refs:SelectedContextRef[]=[]):SelectedContextRef[]{
+ if(!Array.isArray(refs)||refs.length>8)throw Error('Choose at most eight related records for this discussion.');const seen=new Set<string>();
+ return refs.map(ref=>{
+  const target=qualifiedRef(ref),rendition=ref.rendition;
+  if(rendition!==undefined&&(typeof rendition!=='string'||!rendition||rendition.length>240||/[\u0000-\u001f\u007f]/.test(rendition)))throw Error('A valid exact related edition is required.');
+  if(ref.selection&&!rendition)throw Error('A selected related passage needs an exact retained edition.');
+  return {...target,...(rendition?{rendition}:{}),...(ref.selection?{selection:readingSelection(ref.selection)}:{})};
+ }).filter(ref=>{const key=JSON.stringify(ref);if(seen.has(key))return false;seen.add(key);return true;});
+}
 /** Build an on-demand read request, not a write grant or an automatic tool invocation. */
-export function buildGptContextBrief({record,selection,relatedRefs=[],siteOrigin=MINAMO_V2_ORIGIN,question='',learningTarget,returnContext}:{record:GptContextRecord;selection?:PassageAnchor|null;relatedRefs?:RecordLink[];siteOrigin?:string;question?:string;learningTarget?:LearningWorkTarget;returnContext?:ProjectReturnContext}):GptContextBrief{
+export function buildGptContextBrief({record,selection,relatedRefs=[],siteOrigin=MINAMO_V2_ORIGIN,question='',learningTarget,returnContext}:{record:GptContextRecord;selection?:PassageAnchor|null;relatedRefs?:SelectedContextRef[];siteOrigin?:string;question?:string;learningTarget?:LearningWorkTarget;returnContext?:ProjectReturnContext}):GptContextBrief{
  if(typeof question!=='string'||question.length>1000||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(question))throw Error('Keep your discussion question within 1000 characters.');
  const target=qualifiedRef(record),args:GptContextRequest={purpose:GPT_CONTEXT_PURPOSE,...target};let focus:ReadingSelection|undefined;
  if(record.rendition)args.rendition=record.rendition;

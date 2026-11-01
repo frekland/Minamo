@@ -6,8 +6,8 @@
 .ri-overlay button:disabled{cursor:not-allowed;opacity:.6}
 .ri-overlay :focus-visible,.ri-record-bookmark:focus-visible,.ri-mark-trigger:focus-visible,.ri-resume:focus-visible{outline:2px solid var(--mn-focus);outline-offset:3px}
 .ri-toolbar{padding:5px;overflow:visible}
-.ri-two-actions{display:flex;gap:5px}
-.ri-two-actions>button{flex:1;border:0;background:transparent;min-height:40px}
+.ri-two-actions{display:flex;flex-wrap:wrap;gap:5px}
+.ri-two-actions>button{flex:1 1 105px;border:0;background:transparent;min-height:40px}
 .ri-two-actions>button[aria-pressed=true]{background:var(--mn-selected);box-shadow:inset 0 -2px var(--mn-interactive)}
 .ri-preview-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
 .ri-preview-heading>button{border:0;background:none;padding-inline:4px}

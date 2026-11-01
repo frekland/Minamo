@@ -1,6 +1,7 @@
 'use client';
 import {subscribeForeground,retainContentAfterReadFailure} from '../lib/foreground-session';
 import {useContextualHref} from './navigation-context';
+import {routeDestination,type RouteTarget} from '../lib/navigation-origin';
 import {useEffect,useId,useRef,useState} from 'react';
 import type {WorkspaceRecord,CommandReceipt} from '../lib/contracts';
 import type {ActivityBlock,ActivityCartridge,ActivityAttempt} from '../lib/activity/schema';
@@ -21,7 +22,7 @@ import ActivitySavedPractice from './activity-saved-practice';
 import './activity-studio.css';
 
 type ActivityRecord=WorkspaceRecord&{activity?:ActivityCartridge;attempt?:ActivityAttempt};
-export type ActivityReadingTarget={family:string;id:string;rendition:string;sectionId?:string;partId?:string};
+export type ActivityReadingTarget={family:string;id:string;rendition:string}&Omit<RouteTarget,'recordFamily'|'rendition'>;
 type Props={record:WorkspaceRecord;scope:string;onRecordChange?:(record:WorkspaceRecord)=>void;onOpenNotes?:()=>void;onOpenReading?:(target:ActivityReadingTarget)=>void};
 type CurrentAuthority={scope:string;id:string;rendition:string;allowed:()=>boolean};
 type ActivityResponse={record?:ActivityRecord|null;deepLink?:string|null;hint?:{text:string};text?:string;receipt?:CommandReceipt;error?:string;message?:string};
@@ -36,7 +37,7 @@ function exactReadingLink(ref:{family:string;id:string;rendition:string;sectionI
  return '/?'+new URLSearchParams({view,family:ref.family,id:ref.id,rendition:ref.rendition,...(ref.sectionId?{section:ref.sectionId}:{}),...(ref.partId?{part:ref.partId}:{})});
 }
 /** Keep ordinary exact-source navigation in the one Workspace; modified clicks retain native links. */
-function ActivityLink({href,onOpenReading,children,className}:{href:string;onOpenReading?:Props['onOpenReading'];children:React.ReactNode;className?:string}){const contextualHref=useContextualHref();return <a href={contextualHref(href)} className={className} onClick={event=>{if(!onOpenReading||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;const params=new URLSearchParams(href.split('?')[1]??'');const family=params.get('family'),id=params.get('id'),rendition=params.get('rendition');if(!family||!id||!rendition)return;event.preventDefault();onOpenReading({family,id,rendition,...(params.get('section')?{sectionId:params.get('section')!}:{}),...(params.get('part')?{partId:params.get('part')!}:{})});}}>{children}</a>;}
+function ActivityLink({href,onOpenReading,children,className}:{href:string;onOpenReading?:Props['onOpenReading'];children:React.ReactNode;className?:string}){const contextualHref=useContextualHref(),path=contextualHref(href);return <a href={path} className={className} onClick={event=>{if(!onOpenReading||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;const destination=routeDestination(path);if(!destination?.target.rendition)return;event.preventDefault();onOpenReading({family:destination.target.recordFamily!,id:destination.id,rendition:destination.target.rendition,...destination.target});}}>{children}</a>;}
 function downloadBytes(bytes:Uint8Array,name:string,mime:string){const blob=new Blob([Uint8Array.from(bytes)],{type:mime}),url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download=name;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
 /** A plain source browser. Imported code never becomes HTML, a shell, or an executable preview. */
