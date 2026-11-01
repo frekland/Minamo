@@ -1,5 +1,7 @@
 # Testing and evidence
 
+> **Product-design sequencing clarification — 1 November 2026:** [Broadened discovery D1–D3](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) may proceed without waiting for all nine independent GPT/MCP cold-context runs. This does **not** change any technical acceptance, isolation, CI, three-layer or hosted release gate. A later real Workbench implementation must be separately commissioned and verified.
+
 The repository includes Node test suites, isolated D1/R2/Worker exercises, browser-spec fixtures and development helpers.
 
 
