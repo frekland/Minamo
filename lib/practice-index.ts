@@ -34,8 +34,11 @@ export function sourceActivityMatch(record:WorkspaceRecord,source:{family:Family
  let strongest:SourceActivityMatch|undefined;
  for(const ref of atlasRecordLinks(record)){
   if(ref.family!==source.family||ref.id!==source.id||ref.rendition!==source.rendition)continue;
-  if(ref.sectionId&&source.sectionId&&ref.sectionId!==source.sectionId||ref.partId&&source.partId&&ref.partId!==source.partId)continue;
-  const scope:SourceActivityMatch['scope']=ref.partId&&source.partId&&ref.sectionId===source.sectionId?'exact-part':ref.sectionId&&source.sectionId?'section':'edition';
+  // A learner at one exact passage still needs to find the Activity related
+  // elsewhere in the same retained Article. Rank the actual part/section
+  // match higher; never mislabel an elsewhere link as a passage match.
+  const sameSection=!!ref.sectionId&&!!source.sectionId&&ref.sectionId===source.sectionId;
+  const scope:SourceActivityMatch['scope']=sameSection&&ref.partId&&source.partId&&ref.partId===source.partId?'exact-part':sameSection?'section':'edition';
   if(!strongest||({edition:0,section:1,'exact-part':2})[scope]>({edition:0,section:1,'exact-part':2})[strongest.scope])strongest={basis:'typed-or-saved-link',scope,rendition:source.rendition};
  }
  return strongest;

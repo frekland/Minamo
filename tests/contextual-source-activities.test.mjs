@@ -10,7 +10,7 @@ const sourcePath=(source,extra={})=>'/api/activities/browse?'+new URLSearchParam
 test('A01/A03/A04/A05: source-qualified Activity discovery checks actual D1 rights, typed links, edition and partial coverage',{timeout:60000},async t=>{
  const fixture=await privateStorageFixture(worker),c=fixture.client('source-discovery-owner'),other=fixture.client('source-discovery-other');
  try{
-  const source=ok(await c.command({action:'create',family:'article',id:'article-e1',data:{title:'TEST ONLY source e1',body:'Source 😀 e1.',synthetic:true,sections:[{id:'s',title:'Exact section',parts:[{id:'p',kind:'paragraph',text:'😀 A Japanese example.'}]}]}})).record;
+  const source=ok(await c.command({action:'create',family:'article',id:'article-e1',data:{title:'TEST ONLY source e1',body:'Source 😀 e1.',synthetic:true,sections:[{id:'s',title:'Exact section',parts:[{id:'p',kind:'paragraph',text:'😀 A Japanese example.'}]},{id:'other',title:'Another passage',parts:[{id:'other-p',kind:'paragraph',text:'A separate part of the same Article.'}]}]}})).record;
   const typed=ok(await c.command({action:'create',family:'experiment',id:'typed-source',data:{title:'TEST ONLY typed linked Activity',synthetic:true,activity:cartridge([{id:'read',kind:'reading',ref:{family:'article',id:source.id,rendition:source.rendition,sectionId:'s',partId:'p'}}])}})).record;
   const generic=ok(await c.command({action:'create',family:'experiment',id:'generic-source',data:{title:'TEST ONLY generic linked Activity',synthetic:true,links:[{family:'article',id:source.id,rendition:source.rendition}],activity:cartridge([{id:'guide',kind:'instruction',text:'Original independent instructions.'}])}})).record;
   const edition2=ok(await c.command({action:'update',family:'article',id:source.id,expectedRev:source.rev,data:{body:'Source e2 has replaced e1.'}})).record;
@@ -20,6 +20,9 @@ test('A01/A03/A04/A05: source-qualified Activity discovery checks actual D1 righ
    assert.deepEqual(new Set(page.items.map(item=>item.record.id)),new Set([typed.id,generic.id]));
    assert.equal(page.items.find(item=>item.record.id===typed.id).sourceMatch.scope,'exact-part');
    assert.equal(page.items.find(item=>item.record.id===generic.id).sourceMatch.scope,'edition');
+   const anotherPassage=ok(await c.request(sourcePath(source,{sourceSection:'other',sourcePart:'other-p'})));
+   assert.deepEqual(new Set(anotherPassage.items.map(item=>item.record.id)),new Set([typed.id,generic.id]));
+   assert.equal(anotherPassage.items.find(item=>item.record.id===typed.id).sourceMatch.scope,'edition','a different passage must still reveal the Article-level Activity without claiming an exact match');
    assert.equal(page.source.rendition,source.rendition);assert.equal(page.nextCursor,null);
    assert.equal(JSON.stringify(page).includes('Source e2 has replaced'),false);
    const e2=ok(await c.request(sourcePath(edition2,{sourceSection:'s',sourcePart:'p'})));

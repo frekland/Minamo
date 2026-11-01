@@ -1,7 +1,7 @@
 import {notFound} from 'next/navigation';
 import {getChatGPTUser} from '../../chatgpt-auth';
 export const dynamic='force-dynamic';
-const WIDTHS=[320,390,768,1280] as const;
+const WIDTHS=[320,375,390,768,1280] as const;
 const READING_KEYS=['view','family','id','stage','rendition','section','part','start','end','returnJourney','returnStage'] as const;
 const VIEWS=['journeys','investigations','library','sources','work'];
 const FAMILIES=['journey','investigation','article','area','source','note','annotation','flag','run'];

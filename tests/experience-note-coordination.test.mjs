@@ -18,6 +18,19 @@ test('general New Note is independent; reading creation freezes exact links and 
  const result=reconcileNoteReceipt(newest,flight,ack).draft;assert.equal(result.body,'Second thought');assert.equal(result.title,newest.title);assert.deepEqual(result.links,[readingLink,task.link]);assert.equal(result.dirty,true);assert.equal(noteSavePresentation(result,undefined,true),'Saving…');
  const next=noteSaveCommand(result,'saved','second','unused');assert.equal(next.expectedRev,1);assert.equal(next.action,'update');assert.deepEqual(next.data.links,[readingLink,task.link]);
 });
+test('Activity-origin candidates stay opt-in and frozen, and removing a saved relation does not remove Note writing',()=>{
+ const activity={...reading,family:'experiment',id:'TEST-ONLY-activity',title:'Reading practice'};
+ const activityLink={family:'experiment',id:activity.id,rendition:'activity-e1'};
+ const originOptions=[{title:'originating Article',link:{...readingLink,relation:'related',reason:'Explicit source choice'}}];
+ const draft=newNoteDraft(activity,activityLink,[activityLink],undefined,undefined,originOptions);
+ assert.deepEqual(draft.links,[activityLink]);assert.equal(draft.optionalOriginLinks[0].link.partId,'two');
+ originOptions[0].link.partId='changed';assert.equal(draft.optionalOriginLinks[0].link.partId,'two');
+ const accepted=editedNoteDraft(draft,{title:'Origin Note',body:'Independent learning thought',links:[...draft.links,draft.optionalOriginLinks[0].link]});
+ assert.equal(noteSaveCommand(accepted,'local','create','saved').data.links.length,2);
+ const removed=editedNoteDraft({...accepted,baseRev:1,intent:'update',dirty:false},{links:[activityLink]});
+ const command=noteSaveCommand(removed,'saved','remove','unused');assert.deepEqual(command.data.links,[activityLink]);assert.equal(command.data.body,'Independent learning thought');
+ assert.equal(newNoteDraft(null,undefined,undefined,undefined,undefined,originOptions).optionalOriginLinks,undefined);
+});
 test('all admissions reuse the same dirty buffer and pending operation; stale clean editors require comparison',()=>{
  const note={...reading,family:'note',id:'TEST-ONLY-note',body:'Saved',title:'Saved',rev:3};
  const retained=editedNoteDraft(noteDraftForOpening(note),{body:'Unsaved exact 😄 writing'});const flight={command:noteSaveCommand(retained,note.id,'pending','unused'),sequence:retained.sequence,sent:structuredClone(retained)};
