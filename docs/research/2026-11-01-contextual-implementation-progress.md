@@ -67,6 +67,8 @@ Verification: `node --test tests/contextual-source-first.test.mjs tests/contextu
 
 **Product/technical limits:** This is a first working 1B presentation path, **not the finished integrated Home/Project experience**. The old checkpoint Continue and Recent Notes still appear below the new list, potentially duplicating entries and requiring actual owner task observation before consolidation. The focused Project relationship frontier remains capped and lacks a target-pagination cursor; the separate bookmark index and all specialised Activity attempt streams are not enumerated, so incomplete coverage must never be called comprehensive. The Project data path currently reads only for an admitted current server record; local preview cannot be used as acceptance. Full source-first Activity/GPT navigation integration, no-Project capture usability, complete stable cursor coverage, C-PLANT replay, performance bounds and real task/browser tests remain open. No hosted learner data, Site, release or merge was touched.
 
+Resumption documentation follow-up: `AGENTS.md` now prominently identifies the separate active coding commission and directs fresh agents to this log and the current draft head; the older documentation-only research boundary text is historical, while the integrated test/release safeguards remain current.
+
 ## Next implementation tasks
 
 1. Add an actual Classic browser A e1/p→X→N→X→A regression with return/Back/Forward/new-tab/reload, verify no navigation-only mutation and preserve pending Notes. Extend A01 negative cases for empty partial pages and later source/Activity changes; preserve legacy Tools.

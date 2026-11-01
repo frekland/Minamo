@@ -1,5 +1,11 @@
 # Contributor and coding-agent guidance
 
+## Active contextual-learning coding commission — draft PR #78 (1 November 2026)
+
+The owner **separately commissioned implementation** after the documentation-only preflight below. Draft [PR #78](https://github.com/frekland/Minamo/pull/78) on `docs/contextual-implementation-blueprint` now contains code for exact navigation origins, source-authored Activity discovery, rights-checked return cues, bounded read-only continuity evidence, deliberate Note passage capture/clear, and a first source-first Home/Project evidence entry. **Do not treat the historical “not yet implemented” or “no code commission” wording below as the current status of PR #78.** The owner-selected 1B/2A integrated brief, E1–E6 gates, privacy/rights safeguards and separate release authorisation remain controlling.
+
+**Resumption authority:** read [the continuously updated checkpoint/test/limits log](docs/research/2026-11-01-contextual-implementation-progress.md) and inspect the live PR head/current main before coding. The full regression suite passed 1,537/1,541 with 4 skips **before** the new Home/Project candidate; checkpoint 6 adds 38 passing focused/adjacent tests, typecheck and build, but has **not** passed the full suite or real browser/owner acceptance. Bookmark/specialised attempt coverage, deferred Project traversal, source-first consolidation and E1–E6 remain open. Keep PR #78 **draft**; no automatic merge, native Sites deployment, hosted fixture or learner-data mutation is authorised by this status note.
+
 ## Current learner-experience design authority — 1 November 2026
 
 **Bounded implementation architecture preflight completed (documentation only):** Read the [source-pinned implementation blueprint](docs/research/2026-11-01-contextual-learning-implementation-blueprint.md) with the integrated brief when commissioning the 1B/2A release. It maps actual functions, proposed read/navigation/save contracts, three implementation increments, E1–E6 test oracles and protected Sites rollback. Its conclusion is targeted integration, with no demonstrated need for a new persistent learner-state model or broad rewrite. Proposed interfaces and tests are not implemented or passing; a separate coding/release commission remains necessary. No further design election or broad research programme is required by this preflight.
