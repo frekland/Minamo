@@ -1,13 +1,13 @@
 import type {LearningScope} from './learning-spaces';
 import {parseNoteImagePlacements} from './note-image-placement';
-import type {ArticleSection,ContentPatch,PassagePart,CommandReceipt,RecordLink,WorkspaceCommand,WorkspaceRecord} from './contracts';
-export type NoteDraft={learningScope?:LearningScope;body:string;title:string;links:RecordLink[];baseRev:number;dirty:boolean;syncQueued?:boolean;intent:'create'|'update';bodyFormat?:'markdown-v1';attachmentSections?:ArticleSection[];inlineImages?:PassagePart[];imageReselectRequired?:boolean;sequence:number;dirtySince?:number;editedAt?:number;paused?:boolean;message?:string;creationContext?:{title:string;link:RecordLink};optionalTaskLink?:{title:string;link:RecordLink}};
+import type {ArticleSection,ContentPatch,PassageAnchor,PassagePart,CommandReceipt,RecordLink,WorkspaceCommand,WorkspaceRecord} from './contracts';
+export type NoteDraft={learningScope?:LearningScope;body:string;title:string;links:RecordLink[];anchor?:PassageAnchor;baseRev:number;dirty:boolean;syncQueued?:boolean;intent:'create'|'update';bodyFormat?:'markdown-v1';attachmentSections?:ArticleSection[];inlineImages?:PassagePart[];imageReselectRequired?:boolean;sequence:number;dirtySince?:number;editedAt?:number;paused?:boolean;message?:string;creationContext?:{title:string;link:RecordLink};optionalTaskLink?:{title:string;link:RecordLink}};
 export function sameNoteContext(a:RecordLink,b:RecordLink){return a.family===b.family&&a.id===b.id&&a.rendition===b.rendition&&a.sectionId===b.sectionId&&a.partId===b.partId;}
 /** Freeze author intent when the draft is created; navigation is never a relationship write. */
-export function newNoteDraft(context?:WorkspaceRecord|null,link?:RecordLink,links?:RecordLink[],optionalTaskLink?:{title:string;link:RecordLink}):NoteDraft{
+export function newNoteDraft(context?:WorkspaceRecord|null,link?:RecordLink,links?:RecordLink[],optionalTaskLink?:{title:string;link:RecordLink},anchor?:PassageAnchor):NoteDraft{
  const frozen=structuredClone(links??(context?[link??{family:context.family,id:context.id}]:[]));
  const primary=frozen[0];
- return {body:'',title:'',links:frozen,baseRev:0,dirty:false,intent:'create',bodyFormat:'markdown-v1',sequence:0,...(context&&primary?{creationContext:{title:context.title,link:structuredClone(primary)}}:{}),...(context&&!['investigation','journey'].includes(context.family)&&optionalTaskLink?{optionalTaskLink:structuredClone(optionalTaskLink)}:{})};
+ return {body:'',title:'',links:frozen,baseRev:0,dirty:false,intent:'create',bodyFormat:'markdown-v1',sequence:0,...(anchor?{anchor:structuredClone(anchor)}:{}),...(context&&primary?{creationContext:{title:context.title,link:structuredClone(primary)}}:{}),...(context&&!['investigation','journey'].includes(context.family)&&optionalTaskLink?{optionalTaskLink:structuredClone(optionalTaskLink)}:{})};
 }
 /** The compact status describes the latest buffer, separately from explanatory recovery text. */
 export function noteSavePresentation(draft:NoteDraft|undefined,flight:NoteFlight|undefined,locallyRetained:boolean,running=false){
@@ -32,6 +32,7 @@ export function noteSaveCommand(draft:NoteDraft,id:string,operationId:string,new
  return {operationId,action:draft.intent==='create'?'create':'update',family:'note',id:draft.intent==='create'?newNoteId:id,
   ...(draft.intent==='update'?{expectedRev:draft.baseRev}:{}),
   data:{title:draft.title.trim()||'Untitled note',body:draft.body,...(draft.bodyFormat?{bodyFormat:draft.bodyFormat}:{}),links:draft.links,...attachment,
+   ...(draft.intent==='create'&&draft.anchor?{anchor:structuredClone(draft.anchor)}:{}),
    ...(draft.intent==='create'?{synthetic:false,...(draft.learningScope?{learningScope:draft.learningScope}:{})}:{})}};
 }
 export function savedNoteDraft(record:WorkspaceRecord):NoteDraft{return {...(record.learningScope?{learningScope:record.learningScope}:{}),body:record.body,title:record.title,links:record.links??[],baseRev:record.rev,dirty:false,intent:'update',sequence:0,inlineImages:(record.sections??[]).flatMap(section=>section.parts).filter(part=>parseNoteImagePlacements(record.body).some(marker=>marker.partId===part.id)),...(record.bodyFormat?{bodyFormat:record.bodyFormat}:{})};}
