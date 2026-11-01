@@ -30,4 +30,6 @@ The live Site opened in the authenticated Cloud Browser and displayed Home, the 
 
 ## Release boundary
 
+**Subsequent E1–E6 execution:** The owner later authorised running the acceptance cases. E1–E3 now pass their tested Cloud Browser mechanics; E4 navigation, Note creation and interrupted-save/reload succeed for separately replayed branches but its full Question/Step chain remains partial; E5 mobile/assistive and E6 live second-principal/revocation remain unverified. The focused isolated-D1 negative-control suite passed **43/43**. Two labelled synthetic Notes were created and retained, with the E4 Note saved to revision 2. See the [E1–E6 live acceptance ledger](2026-11-01-sites-v89-e1-e6-live-acceptance.md) for exact evidence and exclusions. The earlier *read-only* observations above are a historical initial smoke, not the latest gate verdict.
+
 The owner's later **“Changed my mind. Please deploy.”** superseded the earlier review-before-deploy hold; it did **not** supply a merge instruction, a comprehensive E1–E6 acceptance verdict or a hosted-data-mutation authorisation. Sol 6.1 High review can examine PR #78 against this precise native release. Keep the PR draft, preserve the production policy, and record new defects/acceptance outcomes separately before any further mutation.
