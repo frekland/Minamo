@@ -1,5 +1,8 @@
 # Project Workbench: build approach and fresh-chat handoff
 
+> **SUPERSEDED DESIGN COMMISSION SEQUENCE — 1 November 2026:** The owner's [broadened product-design discovery decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) is authoritative for future Workbench/learner-experience work. This historical handoff's mandatory Work/Questions/Evolution perspectives, fixed A/B alternative set and requirement to complete nine cold-context acceptance chats before product discovery are no longer design gates. Begin with D1–D3 discovery and explicit owner/GPT responsibility split; keep the real-persistence vertical slice, source/rights/privacy/recovery invariants, and separate implementation authorisation. The sections below are retained as historical engineering lessons, **not a fresh-chat execution plan**.
+
+
 **Owner decision · 31 October 2026 · Planning/commission handoff, not implementation authority.**
 
 Read with the [learner-experience redesign strategy](LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), [source-inspected prior art](research/2026-10-31-prior-art-code-reading.md), and live issues [#51](https://github.com/frekland/Minamo/issues/51), [#12](https://github.com/frekland/Minamo/issues/12), [#14](https://github.com/frekland/Minamo/issues/14), [#17](https://github.com/frekland/Minamo/issues/17) and [#18](https://github.com/frekland/Minamo/issues/18).
