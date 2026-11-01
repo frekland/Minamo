@@ -96,6 +96,8 @@ Measure task detours and forced classification decisions, misattributed/omitted 
 
 ## Strong-model bounded architecture preflight (optional, recommended)
 
+**Completed technical preflight:** [Source-pinned implementation blueprint](research/2026-11-01-contextual-learning-implementation-blueprint.md). Use its file/function mappings, minimal proposed contracts, dependency/test matrix and protected release/rollback plan for the coding commission. It recommends targeted integration rather than a new persistent learner-state schema or broad rewrite. This is documentation, not implemented behavior or a test pass; the selected 1B/2A direction remains unchanged.
+
 Before starting implementation in normal chat, a strong coding/reasoning model (e.g. Sol 6.1 High) can perform **one bounded, source-pinned, documentation-only technical design review**: map the five workstreams to actual call sites/data contracts; challenge proposed reuse; identify the minimum read-model and route changes; produce a concrete integrated PR/test/deployment sequence and risk/cutline list. This is *not* another taste-based UX study or authority to implement. See [preflight task brief](research/2026-11-01-contextual-implementation-architecture-preflight.md).
 
 The best use of stronger reasoning is **cross-surface integration and negative-case design**—finding where a seemingly local change breaks Note autosave, rights/edition retention, native hrefs or current Project continuation. It should show file/function-level evidence, alternative tradeoffs and “unknown until test,” not fabricate a comprehensive architecture or insist on a new schema.
