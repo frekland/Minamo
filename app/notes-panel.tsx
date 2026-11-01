@@ -71,7 +71,12 @@ export default function NotesPanel({onManageNotes,records,currentRecord,currentR
  useEffect(()=>{onLayoutChange?.({open:open&&!narrow,mode:state.mode,size:clampNotesSize(dock,dimensions[dock],viewport),viewportWidth:viewport.width})},[onLayoutChange,open,narrow,state.mode,dock,dimensions,viewport]);
  function closeTab(id:string){closeNewMenus();change(old=>({...old,...closeNoteTab(old.tabs,old.selected,id),closedTabs:[id,...old.closedTabs.filter(tab=>tab!==id)].slice(0,30)}));setRename(null);setConfirmTrash(false);}
  function setLayout(next:Mode){closeNewMenus();change(old=>({...old,mode:next,previousDock:isNotesDock(next)?next:isNotesDock(old.mode)?old.mode:old.previousDock}));}
- function minimise(){setLayout('minimised');onOpenChange?.(false)}
+ function minimise(){setLayout('minimised');onOpenChange?.(false);if(modalActive){
+  // The mobile launcher replaces the sheet's focusable controls only after
+  // React commits the dismissal. Explicitly restore keyboard focus then;
+  // relying on an unmount cleanup can leave focus on the document body.
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const launcher=document.querySelector<HTMLButtonElement>('.nw-mobile-launcher');if(launcher?.isConnected&&launcher.getClientRects().length&&!launcher.closest('[inert]'))launcher.focus()}));
+ }}
  useEffect(()=>{const panel=panelRef.current;if(!modalActive||!panel)return;const app=panel.closest('.v2-app');const opener=document.activeElement instanceof HTMLElement?document.activeElement:null;const inerted=new Map<HTMLElement,boolean>();
   // Preserve the persistent editor/aside. Only the obscured application
   // siblings become inert; their previous state is restored on dismissal.
