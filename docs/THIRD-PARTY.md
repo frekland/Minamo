@@ -4,9 +4,9 @@ Minamo depends on many upstream open-source packages, listed with versions in `p
 
 ## Main project licence and brand scope
 
-Unless a file carries separate terms, original Minamo code and project documentation are licensed under [MIT](../LICENSE). This does not relicense third-party source, character data, media or other artwork.
+Unless a file carries separate terms, original Minamo code and project documentation are licensed under [GNU Affero General Public License v3.0 only](../LICENSE). This does not relicense third-party source, character data, media or other artwork.
 
-The owner has confirmed that the Minamo logos may be published with this repository. The **Minamo name and branded identity artwork are excluded from the general MIT software grant**; see the [brand notice](../NOTICE.md). The clean repository's Computing and Languages learning-space icons are original simple vectors and can be used under MIT.
+The owner has confirmed that the Minamo logos may be published with this repository. The **Minamo name and branded identity artwork are excluded from the general AGPL software grant**; see the [brand notice](../NOTICE.md). The clean repository's Computing and Languages learning-space icons are original simple vectors and are included in the AGPL-3.0-only grant.
 
 ## Included source and assets
 
