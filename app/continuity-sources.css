@@ -1,0 +1,12 @@
+.continuity-sources{display:grid;gap:12px;margin:16px 0 22px;min-width:0}
+.continuity-sources-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.continuity-sources-head h2{margin:0}
+.continuity-sources-intro,.continuity-sources-coverage{font-size:.88rem;color:var(--muted,#667085);margin:0;line-height:1.5}
+.continuity-sources-list{display:grid;gap:10px;list-style:none;margin:0;padding:0}
+.continuity-sources-list li{min-width:0;border:1px solid var(--border,#ddd);border-radius:12px;padding:12px;display:grid;gap:6px}
+.continuity-source-meta{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:.78rem;color:var(--muted,#667085)}
+.continuity-source-link{display:flex;justify-content:space-between;gap:10px;align-items:center;overflow-wrap:anywhere}
+.continuity-source-excerpt{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.continuity-source-intention{margin:0;font-size:.89rem}
+.continuity-sources-list small{color:var(--muted,#667085)}
+@media(max-width:375px){.continuity-sources-list li{padding:10px}.continuity-sources-head{gap:8px}}

@@ -15,7 +15,7 @@ export type ContinuityInput=LearningScopeQuery&{focus?:Focus;cursor?:string;limi
 type Cursor={scope:string;at:string;key:string};
 type Candidate={kind:'record'|'checkpoint';family:string;id:string;at:string;key:string;data:string};
 type Path={edges:RecordLink[];target?:LearningWorkTarget};
-type Item={source:{family:Family;id:string;rev:number;rendition?:string};author:Actor;at:string;destination?:string;basis:'authored-writing'|'saved-checkpoint'|'supplied-attempt'|'bookmark';preview:{text:string;complete:boolean};paths:Path[];checkpoint?:{id:string;revision:number;target:LearningWorkTarget;recordedRev:number;nextAction?:string;status:'active'|'superseded'|'withdrawn'|'unavailable'};exactRead:object;detailsDeferred:boolean};
+type Item={title:string;source:{family:Family;id:string;rev:number;rendition?:string};author:Actor;at:string;destination?:string;basis:'authored-writing'|'saved-checkpoint'|'supplied-attempt'|'bookmark';preview:{text:string;complete:boolean};paths:Path[];checkpoint?:{id:string;revision:number;target:LearningWorkTarget;recordedRev:number;nextAction?:string;status:'active'|'superseded'|'withdrawn'|'unavailable'};exactRead:object;detailsDeferred:boolean};
 const LIMITS={targets:12,identities:80,items:20,bytes:65536} as const;
 const ident=(v:unknown):v is string=>typeof v==='string'&&v.length<=160&&/^[A-Za-z0-9][A-Za-z0-9_.:-]*$/.test(v);
 function fail(code:string,message:string,status=400):never{throw new DomainError(status,code,message);}
@@ -133,7 +133,7 @@ export async function readContinuityEvidence(env:Cloudflare.Env,owner:string,inp
    const linked=await recordPaths(env,owner,record,focus,selection),paths=linked.paths;pathsDeferred ||= linked.deferred;if(focus&&!paths.length)continue;
    if(record.family==='flag'&&(!record.bookmark?.active||record.bookmark.available===false))continue;
    checked++;const preview=record.family==='flag'?{text:'',complete:true,detailsDeferred:false}:prose(record);
-   item={source:source(record),author:record.actor,at:record.updatedAt,destination:buildRecordLink(record,record.rendition?{rendition:record.rendition}:{}),basis:record.family==='flag'?'bookmark':record.family==='run'?'supplied-attempt':'authored-writing',preview:{text:preview.text,complete:preview.complete},paths,exactRead:{family:record.family,id:record.id,rev:record.rev,...(record.rendition?{rendition:record.rendition}:{})},detailsDeferred:preview.detailsDeferred};
+   item={title:record.title,source:source(record),author:record.actor,at:record.updatedAt,destination:buildRecordLink(record,record.rendition?{rendition:record.rendition}:{}),basis:record.family==='flag'?'bookmark':record.family==='run'?'supplied-attempt':'authored-writing',preview:{text:preview.text,complete:preview.complete},paths,exactRead:{family:record.family,id:record.id,rev:record.rev,...(record.rendition?{rendition:record.rendition}:{})},detailsDeferred:preview.detailsDeferred};
   }else{
    const event=JSON.parse(row.data) as LearningDevelopment;if(focus&&!checkpointPaths(event,focus).length)continue;
    const admitted=await readContinuityDevelopment(env,owner,event,selection);if(!admitted||(!focus&&event.synthetic))continue;
@@ -142,7 +142,7 @@ export async function readContinuityEvidence(env:Cloudflare.Env,owner:string,inp
    const status=e.withdrawn?'withdrawn':corrected?'superseded':admitted.invalid||!admitted.recordedTarget?'unavailable':'active';
    const summary=!admitted.recordedTarget?'The checkpoint\'s pinned target edition is unavailable. Its original reading has not been replaced.':status==='withdrawn'?'This checkpoint was withdrawn.':e.summary;
    const preview={text:summary.slice(0,700),complete:summary.length<=700};
-   item={source:source(admitted.recordedTarget??admitted.targetHead),author:e.author,at:e.revisedAt??e.createdAt,...(admitted.recordedTarget?{destination:learningDestination(e.primaryTarget,e.targetRenditionAtRecording)}:{}),basis:'saved-checkpoint',preview,paths,checkpoint:{id:e.id,revision:e.revision,target:e.primaryTarget,recordedRev:e.targetRevAtRecording,...(status==='active'&&e.nextAction?{nextAction:e.nextAction}:{}),status},exactRead:{scope:'target',target:e.primaryTarget,developmentId:e.id},detailsDeferred:!preview.complete||!!e.detailsDeferred||!!e.evidenceUnavailable||!admitted.recordedTarget};
+   item={title:(admitted.recordedTarget??admitted.targetHead).title,source:source(admitted.recordedTarget??admitted.targetHead),author:e.author,at:e.revisedAt??e.createdAt,...(admitted.recordedTarget?{destination:learningDestination(e.primaryTarget,e.targetRenditionAtRecording)}:{}),basis:'saved-checkpoint',preview,paths,checkpoint:{id:e.id,revision:e.revision,target:e.primaryTarget,recordedRev:e.targetRevAtRecording,...(status==='active'&&e.nextAction?{nextAction:e.nextAction}:{}),status},exactRead:{scope:'target',target:e.primaryTarget,developmentId:e.id},detailsDeferred:!preview.complete||!!e.detailsDeferred||!!e.evidenceUnavailable||!admitted.recordedTarget};
   }
   const size=JSON.stringify(item).length;if(bytes+size>LIMITS.bytes-4500){examined--;break;}bytes+=size;items.push(item);detailsDeferred ||= item.detailsDeferred;
  }

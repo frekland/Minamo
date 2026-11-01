@@ -21,6 +21,8 @@ test('C-MOOD/C-MULTI: Project evidence retains Question and Stage, older checkpo
   const focused=await ok(query(c,{focus:projectFocus(project.id)}));
   assert.equal(focused.contract,'minamo.continuity-evidence.v1');
   assert.deepEqual(new Set(focused.items.map(x=>x.basis)),new Set(['authored-writing','saved-checkpoint']));
+  assert.equal(focused.items.find(x=>x.source.id===note.id).title,'Latest observation','the UI receives the admitted exact record title rather than guessing from an opaque ID');
+  assert.equal(focused.items.find(x=>x.checkpoint).title,'Focus project','the retained checkpoint identifies its admitted task without replacing its original edition');
   assert.deepEqual(new Set(focused.items.map(x=>x.checkpoint?.id??x.source.id)),new Set([note.id,checkpoint.development.id]));
   assert.equal(focused.items.find(x=>x.source.id===note.id).paths[0].target.investigationId,question.id);
   assert.equal(focused.items.find(x=>x.checkpoint).checkpoint.nextAction,'Inspect the pinned source, do not assume success.');
