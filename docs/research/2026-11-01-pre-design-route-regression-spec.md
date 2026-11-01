@@ -1,0 +1,60 @@
+# Proposed route and Activity-discovery regression specification
+
+**Status:** research/test design, not an approved UI change. Parent: [independent audit](2026-11-01-independent-pre-design-audit.md); issue [#51](https://github.com/frekland/Minamo/issues/51). Baseline public main: [46acee8](https://github.com/frekland/Minamo/tree/46acee8283fbd995711366881bcdb16840cb9ff9), hosted Site V88 inspected read-only 2026-11-01. R1/R2 were also previously described in [PR #75 ledger](2026-11-01-connected-episode-ledger-and-divergent-interactions.md).
+
+## Evidence provenance, not to be confused
+
+- **R1 independently reproduced on Site:** TEST ONLY Mood Project → Stage 4 → storage Question. Question contained an explicit Back to Step and return parameters. Choosing a recent Note yielded a Note URL without return context. Following the Note's exact Question backlink yielded that same Question without return parameters, so Back to Step was missing. Record identity remained valid. No content changed.
+- **R2 independently reproduced on Site:** Existing Japanese N4 reading Activity exposed its original Article via Activity Studio Related content. On Article, the reverse Activity was at the bottom under a collapsed Your work (1) detail, labelled Tool. Opening that item reached Activity Studio. This demonstrates discoverability/mislabelling, **not** a broken relation or inaccessible record. Private IDs/content omitted.
+- **Source-backed causal hypothesis:** [app/learning-activity.tsx](../../app/learning-activity.tsx) renders recent thinking item destinations through bare learningSpaceHref; [lib/learning-activity.ts](../../lib/learning-activity.ts) supplies the raw target. The existing contextual wrapper [app/navigation-context.tsx](../../app/navigation-context.tsx), including withProjectReturn, is used on other routes but not that list. [app/learning-links.tsx](../../app/learning-links.tsx) groups work in a closed details element and maps experiment to legacy tools; [lib/learner-labels.ts](../../lib/learner-labels.ts) calls experiment Tool even when [lib/record-origin.ts](../../lib/record-origin.ts) differentiates an authored Activity. The exact smallest fix is not yet verified.
+- **Not observed:** mobile screen-reader, native browser History states under edited drafts, revoked rights, stale Activity/Article revisions, multiple reverse activities, and role changes. All below are **proposed** requirements/test cases until tested.
+
+## Contract R-NAV (proposed)
+
+A contextual navigation edge should carry the origin independently of a current React session: exact task family/id/revision, Stage/Step where applicable, source Article family/id/rendition/edition and anchor when available, learning-space/scope, and an explicit return target. Target record identity and requested rendition must never be silently replaced by a similar title or most-recent record. Context is a navigation invitation, **not** a new authoritative Project or learner intention.
+
+- A contextual Back to Step is offered only when its origin is valid and the destination is permitted. If origin becomes unavailable, show a neutral fallback (e.g. Back to Project, source list, or prior browser state); do not leak labels/metadata.
+- Same-tab Back/Forward, reload, open-in-new-tab, and copy/paste deep link must preserve or honestly degrade context. Never override browser history or invent a Step when entered directly.
+- An unsaved local draft on any hop must have explicit leave/return semantics: warning, retention under stable local key or intentionally discarded with confirmation. A navigation test must check both outcomes with a dirty draft, not assume autosave. No AI or fixture mutation required to verify prompts and local state.
+- Exact identity and source revision supersede fuzzy label linking. When rendition is stale or missing, indicate revised/unavailable rather than displaying an unrelated edition as if exact. Existing UTF-16 anchor and receipt invariants apply; avoid naked substring search as canonical anchor.
+- Accessible entry and return must be operable via keyboard and screen reader, visible at narrow width, with useful names, focus landing point and expanded-state semantics. No interaction hidden only behind hover or mouse.
+
+## Contract R-ACT (proposed)
+
+An Article with accessible linked Activities should expose an in-context, named **Activity** entry while reading, with count, purpose and clear difference from article text. Its related-work footer may remain as secondary affordance. Activity Studio should keep the exact Article + edition + anchor/reading position as a recoverable return target, even if the learner makes a Note or follows another linked object before return.
+
+- Activity is a semantic authored subtype of experiment, not a blanket rename of all legacy Tool records. The tools record route may still resolve Studio, but user-facing wording should match record origin/type; do not assume migration.
+- Zero activities: no deceptive badge or dead link; optional discovery/creation action must be explicit, not implied existing content.
+- One activity: direct, named invitation with context; several: disambiguation by stable title/type and current access, no silently chosen first.
+- Broken, withdrawn, forbidden or older link: show safe unavailable/updated state; do not reveal private metadata. Rights re-evaluated at click and return, not solely render.
+- Article → Activity → Article should return to requested source record, edition and position when still valid, or reveal why precise return is unavailable. Practice browse and Article-origin flows need distinct return semantics.
+
+## Deterministic route matrix
+
+All fixtures synthetic/permission-controlled, no real learner data in snapshots or public logs. For each test record **before URL, after URL, history stack, record identity/rendition, visible return name, focus and local draft state**. Add a separate direct Site smoke test only after pinning version/source parity.
+
+| Case | Exact actions / expected oracle | Test level and required fixture | Gap before implementation |
+|---|---|---|---|
+| N01 reproduced | Project P → Stage S → Question Q (returnJourney=P, returnStage=S) → recent Note N → backlink Q; both N and second Q preserve accessible route back to S while exact N/Q identities remain unchanged. | Navigation href unit + Playwright full hop; registered synthetic Mood P/S/Q/N with real links, known revisions. | Confirm whether return context can be encoded for native href without changing URL contract. |
+| N02 direct-entry negative | Enter N or Q cold, with no P/S context; no fabricated Back to Step. Conventional browser Back remains valid. | Route integration; same records and clean tab. | Decide neutral fallback wording. |
+| N03 history | Perform N01; browser Back twice, Forward twice; check context and appropriate focus after each. Reload Q and open its contextual link in new tab. | Browser E2E with deterministic history; same fixture. | Distinguish SPA pushState from full reload on raw anchors. |
+| N04 draft | On Q, N or Article create dirty *local-only* draft, follow route, cancel leave, confirm leave, Back; verify warning/restore/loss contract and no unintended save. | Component + browser with synthetic unsaved form; local storage isolation. | Identify actual draft persistence hooks before assert. |
+| N05 exact version | Link to Note N revision r1 and source Article A edition e1, then make r2/e2 available; link must point at r1/e1 or clearly state historical/unavailable. | Repository resolver/reader integration + seeded revisions; no production writes. | Specify intended historical rendering/translation if obsolete. |
+| N06 scope/permission | When scope switches or token loses access to N/P/A mid-hop, no private title/preview/return metadata; safe fallback and no leaked payload. | Auth/rights integration with test principal changes; synthetic fixture. | Existing resolver denial semantics; no real privilege revocation performed. |
+| N07 multiple tasks | A Note linked to two distinct Questions/Projects reached from P/S; return to *originating* S, not a random association or auto-selected Project. | Resolver + browser; synthetic multi-edge Note. | Existing continuation resolver intentionally skips multi-task candidates. |
+| A01 reproduced | Article A with authored Activity X shows discoverable named Activity affordance while reading; footer, if present, uses Activity for X, not Tool. Click reaches X and Back to A. | Reader/learning-links render + browser; read-only N4 test reproduction, synthetic replacement for CI. | Surface placement and count need owner task judgement. |
+| A02 full cycle | Article A edition e1, anchor p, scroll y → Activity X → linked Note N → back through Activity to A; return to exact e1/p or explicit approximate return if invalid. | Full browser with anchored synthetic Article/Activity/Note, real reading position. | Which return stack survives nested links versus browser Back? |
+| A03 cardinality | Same Article with zero, one, three accessible Activities plus an inaccessible fourth: no false counts; multiple entries distinguishable; only permitted items shown. | Query/projection unit + reader component; 0/1/many/mixed-rights fixtures. | How reverse index is bounded and counted. |
+| A04 edition drift | A e1 is source of X; A e2 now latest. Navigate X → source: disclose e1/e2 relationship and never silently claim X exercises e2 content. | Activity Studio/reader integration; old/new article editions and source refs. | Does Activity persist edition or only record ID? |
+| A05 removed/revoked | Linked Activity soft-deleted, hidden or permission-revoked after Article render; following it yields safe unavailable state and Article remains recoverable. | Access integration + browser, isolated mutable synthetic fixture. | No such mutation executed in this audit. |
+| A06 Practice origin | Practice & review → X → A → X; distinguish Back to Practice from Back to Article; no return-stack inversion. | Browser E2E; authored Activity with source Article. | Choose precedence for nested source and practice origins. |
+| U01 accessibility | On narrow mobile viewport, keyboard-only and automated a11y pass: named Activity link/count, details state, Enter/Space, focus after route, visible Back, no horizontal clipping. | Playwright viewport, axe/assistive manual checks; A01 fixture. | Screen reader verification remains human/manual evidence. |
+| U02 retrieval partial | Activity reverse scan paginated/limited or rights filtered: do not show confident count of “no activities” unless coverage complete. | Projection/query contract + mock partial cursor. | Need bounded coverage metadata available to UI. |
+
+## Smallest plausible engineering diffs to estimate, **not authorised**
+
+1. Use existing contextual URL construction in the ThinkingItems recent-work link **as a real href** (including native click/open new tab) and carry Project Stage + task provenance across subsequent Note → Question edges. Review [app/workspace.tsx](../../app/workspace.tsx) history and [lib/layout-workspace.ts](../../lib/layout-workspace.ts) task/position fields rather than new session schema.
+2. In LearningConnections, distinguish authored Activity from general experiment/Tool and expose accessible Article-side Activity entry where the reader already has source relationships. Preserve other Tool names and existing Studio route.
+3. Extend precise return tests in [tests/record-navigation.test.mjs](../../tests/record-navigation.test.mjs), [tests/library-return.test.mjs](../../tests/library-return.test.mjs), [tests/practice-ux.test.mjs](../../tests/practice-ux.test.mjs), [tests/reading-continuity.test.mjs](../../tests/reading-continuity.test.mjs) and [tests/interface-browser/workspace.spec.mjs](../../tests/interface-browser/workspace.spec.mjs).
+
+These are candidate change surfaces. First measure route encoding, edge cardinality, rights and revision behaviour in safe tests; no code or fixture was changed for this specification.
