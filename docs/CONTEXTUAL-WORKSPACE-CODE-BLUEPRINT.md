@@ -227,6 +227,8 @@ Reuse lib/navigation-origin.ts (ViewOrigin, routeDestination, extended UTF-16 se
 
 ### B. Substantial integrated contextual-workspace UI
 
+**Implementation candidate:** [post-V91 checkpoint B progress receipt](research/2026-11-01-contextual-implementation-progress.md#post-v91-checkpoint-b--integrated-contextual-ui-candidate). `app/working-context.tsx` now uses the shared A read with capture-first Home, contextual saved-source/Activity/Note guidance, bounded transient return and comparison, optional Project focus and deliberate GPT request. The single existing NotesPanel remains the only writing coordinator and `?workspace=context` is reversible. Source-level checks pass; the local-browser run is blocked by absent Chromium and the real save/return, narrow assistive and owner usefulness gates are **not accepted**. Do not treat this preview as C cutover or deploy it without explicit approval.
+
 1. Introduce WorkingContextHost and a shared working selection/return state; wire the existing Notes coordinator once. Deliver capture-first entry, single primary content, contextual related/source/Activity actions, optional Project guide, source evidence/history and deliberate GPT bundle.
 2. Keep all old deep links resolving; use a reversible route/flag to compare the new composition with V91 without a data fork. The new route must use **actual canonical D1 saves**, CAS receipts, reload, edits and deleted/revoked-source failures—not mocked card state.
 3. Verify a complete TCP episode, then Mood/Cap/Plant adversarial returns. Test keyboard/mobile/IME and multi-tab draft recovery during real context changes.
