@@ -1,5 +1,7 @@
 # Contextual Learning Experience — owner-selected integrated implementation brief
 
+> **Post-V91 supersession notice (1 November 2026):** This document remains the **historical 1B/2A implementation and E1–E6 regression baseline**, not the accepted final learner-experience architecture. A real V91 learner session exposed continuing disconnected Home/Library/Activity/Notes/Projects/Practice flow and old/unpinned Article→Activity discovery gaps. The owner has now selected a substantial contextual workspace model, documented in [the new code blueprint](CONTEXTUAL-WORKSPACE-CODE-BLUEPRINT.md) and the canonical decision. Reuse the successful evidence/navigation/draft/MCP foundations; do not treat the old incremental UI requirements as the ceiling. PR #78 is still draft/unmerged. This notice plans future code; it does not authorise deployment or data/schema mutation.
+
 **Decision recorded 1 November 2026. Status: approved product direction and planning baseline, NOT yet a production-code, schema, fixture-write or deployment commission.** Central tracking: [#51](https://github.com/frekland/Minamo/issues/51). Canonical design authority: [product-design discovery decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md). Evidence and original task comparison: [D3 A/B interaction study](research/2026-11-01-contextual-learning-interaction-study.md) and [exact read-only MCP/regression ledger](research/2026-11-01-contextual-study-evidence-and-test-oracles.md).
 
 ## Owner choices and scale
