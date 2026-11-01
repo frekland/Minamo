@@ -1,8 +1,10 @@
 # Minamo UX findings register
 
-**Canonical status date: 31 October 2026.** This is a maintained catalogue of **current evidence**, not a count of all unfixed app bugs. Read the [live Cloud Browser audit](2026-10-31-LIVE-AUDIT.md) for scope and reproducibility, the [60-row historical crosswalk](V70-V72-CROSSWALK.md) for V70/V72 claims, and the [decision roadmap](ROADMAP.md) before implementing.
+**Canonical status date: 1 November 2026.** This is a maintained catalogue of **current evidence**, not a count of all unfixed app bugs. Read the [live Cloud Browser audit](2026-10-31-LIVE-AUDIT.md) for scope and reproducibility, the [60-row historical crosswalk](V70-V72-CROSSWALK.md) for V70/V72 claims, and the [decision roadmap](ROADMAP.md) before implementing.
 
 **1 November D1 reconciliation:** [The existing-capability and gap audit](2026-11-01-d1-existing-capability-gap-audit.md) maps current UI/source/test coverage against the full learning cycle and separates autonomous follow-up from owner UX feedback. It adds **no newly reproduced bug IDs**; continue to use the numbered findings below for defects and the [superseding design decision](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) for commissioning. Avoid misreporting projectless Notes/Questions, Home continuation, GPT context choice or Activity Workbench layouts as wholly absent.
+
+**1 November connected-workflow follow-up:** [The five-question synthetic evidence ledger, exact return route and Article–Activity reverse-link trace](../research/2026-11-01-connected-episode-ledger-and-divergent-interactions.md) adds UX-LIVE-08/09 below. Read it alongside the [root-cause audit](../research/2026-11-01-project-stage-continuity-root-cause-audit.md). The source links and Activity Studio work in some directions; the defects are contextual return propagation and discoverability/category, not proof of lost records.
 
 ## Direct owner experience — highest design priority (1 November)
 
@@ -76,6 +78,24 @@ The [first-hand owner feedback](2026-11-01-owner-firsthand-ux-feedback.md) **ove
 - **Observed:** Many large “Links to this material” cards and edition/section/part-style relationship details compete with a short article. Exact source provenance is useful; its current foregrounding creates density.
 - **Desired outcome:** Prioritise intelligible source title, relationship purpose and return destination, with detailed immutable edition/anchor metadata available on demand.
 - **Acceptance:** A reader can choose the relevant link and preserve exact original anchors; detailed metadata remains inspectable, but is not repeated as primary card copy. Compare scan/focus count and narrow layout.
+
+### UX-LIVE-08 — Recent-work Note loses the originating Project/Step return
+
+- **Priority:** P2, potentially higher if common in normal use; **state:** Reproduced current signed-in Sites V88, desktop, TEST ONLY Mood K/epoch 3. No data write.
+- **Steps:** Project personal-labels Stage → linked storage Question (**Back to Step** visible and returnJourney/returnStage in URL) → **Recent work: loose ends Note** → its storage-Question backlink.
+- **Observed:** The Note opens correctly but its generic destination drops the originating Project/Stage URL parameters. The Question backlink also lacks them. On arriving at the same Question, **Back to Step is absent**, although a manual **Linked projects** Stage link remains. The linked Article from there also lacks the original return. This locates the loss at the **Question → Note** hop, earlier than the four-hop loss recorded in V89. No canonical record or exact Note content was lost.
+- **Source mechanism:** [ThinkingItems](../../app/learning-activity.tsx) uses a bare record destination; [LearningConnections](../../app/learning-links.tsx) builds generic backlinks. The return controller depends on the transient origin values. See the [full read-only trace](../research/2026-11-01-connected-episode-ledger-and-divergent-interactions.md#r1--projectstep-return-context-drops-at-the-first-recent-work-note).
+- **Expected:** An intentional multi-hop task detour retains a visible, accurate return-to-origin path across Notes, Questions, Articles and Activities, without mutating unrelated record links or retargeting drafts.
+- **Acceptance:** Exact Stage → Question → Note → Question → Article → Question; verify source identity/revision, Back-to-Step availability, Back/Forward, and return after reload where supported. Include the already-working direct Stage → Resources → Article → Back-to-Step control case. Add route tests only under an engineering commission.
+
+### UX-LIVE-09 — Source Article hides its linked Activity as “Your work / Tool”
+
+- **Priority:** P2; **state:** Reproduced one signed-in non-synthetic Japanese N4 Activity/Article route on Sites V88, desktop, read-only. The public register omits account/private record IDs and passages.
+- **Steps:** Practice & review → existing reading Activity → **Source Article** → Article Related content near the bottom → expand **Your work 1** → click incoming **Tool** link.
+- **Observed:** Activity Studio lists its source Article prominently and preserves Back to Practice. The Article has a canonical reverse Activity edge (also returned by exact Minamo MCP context with relatedTruncated:false), but initially displays only Topic/Project; the Activity is under a collapsed generic personal-work group, labelled **Tool**, after a long article. Clicking the link uses a legacy **view=tools** destination but ultimately opens Activity Studio; **not a dead-link or lost-edge bug**.
+- **Source mechanism:** [LearningConnections](../../app/learning-links.tsx) groups experiment records under collapsible “Your work” and maps experiment to tools; [Practice catalogue](../../lib/practice-index.ts) is largely kind/title oriented. The [route evidence](../research/2026-11-01-connected-episode-ledger-and-divergent-interactions.md#r2--canonical-articleactivity-relation-exists-but-is-not-foregrounded) separates availability from task-first relevance.
+- **Expected:** From a relevant Article/Stage, an eligible linked Activity is discoverable as **Practice using this material** with source/return context, not confused with personal work; keep suggestions distinct from exact authored links.
+- **Acceptance:** Article with one/multiple/no eligible linked Activity, source-revision change, rights loss and different learning space. Open Activity Studio and return to the original selected Article passage/Project context. Preserve the existing working Activity → Article → Back to Practice route. Compare at 320/390px and desktop; no automatically invented Activity link.
 
 ## Historical items requiring *verification*, not reopening by assertion
 
