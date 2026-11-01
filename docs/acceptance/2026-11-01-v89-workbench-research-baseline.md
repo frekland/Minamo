@@ -11,7 +11,7 @@ Related: [V88 acceptance report](2026-11-01-v88-hosted-3x3-workbench-evidence.md
 | Gate | V89 evidence-backed verdict |
 | --- | --- |
 | V88 implementation and deployed source | **PASS unchanged** within earlier published V88 evidence; current Sites listing independently verified version/source and access mode. No new build, code change or deployment in this research. |
-| Hosted 3×3 controller, identities and source pins | **PASS read-only revalidation**: all nine exact `inspect` and registered continuation comparisons, distinct epoch-1 Projects, committed fixture setup receipts, no pending transition in the initial controller list; 124 registered records total. |
+| Hosted 3×3 controller, identities and source pins | **PASS read-only revalidation**: all nine exact `inspect` and registered continuation comparisons, distinct epoch-1 Projects, committed fixture setup receipts, legacy controller list returned `pending:false` and overlay inspections returned committed snapshots without an indicated pending transition; 124 registered records total. |
 | Representative three-layer reconciliation | **Earlier bounded PASS retained, not rerun**. This turn did not generate a new pair or Flag mutation. The earlier three expected multi-observer exclusions and additional server-only diagnostic remain disclosed, so the submitted Markdown ledger is not exhaustive. |
 | Genuine independent cold-context GPT conversations | **NOT COMPLETE: 0/9**. This was one continuing model context. Cloud Browser opened a separate ChatGPT page but it was **unauthenticated, without the installed Minamo MCP connection**. An anonymous/new tab, a new run/session or the nine versioned prompts are not a qualifying independent conversation. No fictional learner conversation was simulated or backfilled. |
 | Source/provenance fidelity | **Read-only sample PASS**, not full longitudinal dialog acceptance: nine exact latest Notes, three detailed Project contexts and one source/Flag readback were inspected. Actor, note rendition, target links, exact reference anchors and explicit uncertainty survived. No independent GitHub/terminal/hardware/provider execution established. |
@@ -77,7 +77,7 @@ The actor=user weekend `note-pivot` embeds lines labelled SCRIPTED GPT and SCRIP
 ## Cleanup and safety verification
 
 - No `load`, `advance`, `reset`, Flag mutation, checkpoint save, transcript append, observer start/arm or D1 write in this turn.
-- Exact current source-pinned controller `inspect` was read for 9/9 and disclosed no pending transition; all previous receipts left intact.
+- Exact current source-pinned controller `inspect` was read for 9/9 and disclosed committed snapshots without an indicated pending transition; all previous receipts left intact.
 - Three pre-existing persona observer runs checked (weekend, Cap command-log, Plant breadboard): all **paused**, none armed. Legacy owner-only observer separately read as paused.
 - Direct exact canonical Article readback for Cap command-log Flag: **inactive, target revision 2, Flag revision 2**, Article revision 1. Earlier temporary activation was not repeated.
 - Existing transcript runs retained open: weekend smoke (3 events), Cap reconciliation (28 events), Plant breadboard test (16 events); no new run created, no retroactive conversation inserted. Other six variants had zero pre-existing runs.
