@@ -1,5 +1,8 @@
 # Integrated Project Workbench — evidence-grounded information contract and comparison gate
 
+> **HISTORICAL RESEARCH HYPOTHESIS — SUPERSEDED 1 November 2026:** The [broader product-design discovery decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) now governs. The Work/Questions/Evolution vocabulary, the proposed CurrentConcern/DecisionChange/read types and the explicit-lens-versus-fluid A/B are **examples to challenge, not required prototype contracts or schema decisions**. Preserved source-level findings and rights/recovery principles remain evidence; later open PR #70 offers qualified S06 updates, not design authority. Proceed with the D1–D3 activity/interaction research before selecting a functional slice.
+
+
 **V89 research specification · 1 November 2026 · owner decision still required before a replacement UI or schema migration.**
 
 Read with [V89 live baseline](acceptance/2026-11-01-v89-workbench-research-baseline.md), [#51](https://github.com/frekland/Minamo/issues/51), [Workbench handoff](PROJECT-WORKBENCH-IMPLEMENTATION-HANDOFF.md), [redesign strategy](LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) and [current architecture](ARCHITECTURE.md). This contract is an **implementation hypothesis constrained by checked canonical evidence**, not a new authoritative database, a deployed feature or a tested visual prototype.
