@@ -1,8 +1,10 @@
 # D1 existing-capability and remaining-UX-gap audit — 1 November 2026
 
-**Status:** GPT-led D1 source/documentation reconciliation and a *bounded authenticated desktop Cloud Browser follow-up*. **D1 technical inventory substantially complete; owner lived-use assessment remains open.** This is a research finding, not a new Workbench specification, production regression pass, deployment identity, or authorisation to change learner data. The governing decision is [Product-design discovery reset](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md).
+**Status:** GPT-led D1 source/documentation reconciliation and a *bounded authenticated desktop Cloud Browser follow-up*. **D1 technical inventory substantially complete; direct owner UX findings were subsequently supplied and supersede the open-questions framing below.** This is a research finding, not a new Workbench specification, production regression pass, deployment identity, or authorisation to change learner data. The governing decision is [Product-design discovery reset](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md).
 
 **Public source baseline:** `frekland/Minamo` main commit `75b283b1b7574803b0504d11d267151b0d60c8a1` (PR #71). The authenticated hosted Site was sampled on 1 November in a desktop browser; its exact running native Sites/Worker SHA was **not independently attested**. Browser observations, public code assertions, historical tests and subjective hypotheses are separate types of evidence. Do not publish private learner names, records, images or links in derived work.
+
+> **Later owner correction — read first:** [Direct first-hand UX feedback](2026-11-01-owner-firsthand-ux-feedback.md) establishes that Notes remain disconnected; Projects/Stages are the biggest problem, disconnected and unadaptive; Library navigation and Activity connection fail the owner; and all essential return state (last work, next intended work, outstanding problems, corrected misconceptions, progress) felt stale. **Do not use this technical inventory to contradict those observations or ask the owner to repeat the earlier four generic questions.** The owner-experience “unknown/pending” cells below describe the state **before** that feedback, not the current requirement.
 
 ## Bottom line / anti-duplication decision
 
@@ -68,22 +70,22 @@ These are mechanism comparisons, **not hands-on product verdicts**. The earlier 
 
 **Requires owner or explicit further authority:**
 
-- **Lived-use observations (highest value):** Do 2–3 real 10–20 minute tasks, including a real Project return and a spontaneous non-Project thought. Report what you tried, where you hesitated, what was unnecessary, and the last step that felt useful. Screenshots or private learning content need not enter the public repository.
+- **First-hand problem feedback is now received:** See the [owner correction](2026-11-01-owner-firsthand-ux-feedback.md). Do not request the generic three tasks again to validate the complaint. Later, test a specific proposed candidate on real tasks and capture what changed; private learning content should stay private.
 - **Judgement:** Decide whether you would rather see stronger Home/Reader/Notes integration, a temporary evidence worktable, a journal-first experience or a different shape entirely. **Do not choose from polished mock-ups alone.**
 - **Permissions:** Physical phone/touch and assistive testing; any synthetic write/failure injection; third-party paid account/trial; code/UX release, schema migration, native Sites deploy or genuine learner-data edits require the applicable explicit approvals.
 
-### Three owner prompts (answer with examples, not ratings)
+### Historical owner prompts — answered and superseded on 1 November
 
 1. **Spontaneous curiosity:** “I want to jot down a thought before deciding if it deserves a Project.” Where did you put it? Could you find/connect it later? Was the difference between Note and Question welcome or unnecessary?
 2. **Actual reading/trying:** “I read or practised something in Minamo and want to use it.” What did you need at hand; what was too many clicks or too much metadata; did GPT and Notes help or interrupt?
 3. **Returning to a real thread:** “I was away; what matters now?” Which screen first answered that, which fact was misleading/stale, and what would you remove from that screen?
 
-A brief annotated screen recording or concise bullets is enough. **No GPT/browser simulation can answer the subjective part on the owner's behalf.**
+**These prompts are retained only as the pre-feedback trail.** The owner answered them in [direct first-hand feedback](2026-11-01-owner-firsthand-ux-feedback.md). Do not ask again without a concrete new candidate to assess.
 
 ## Current decision and stop conditions
 
-- **D1 code/repo evidence review:** substantially completed; do not order the same audit again. **D1 owner friction/priorities:** pending.
+- **D1 code/repo evidence review:** substantially completed; do not order the same audit again. **D1 owner friction/priorities:** received and prioritised in the [first-hand correction](2026-11-01-owner-firsthand-ux-feedback.md); a specific candidate remains untested.
 - **D2 operated prior-art/baseline comparison:** pending; existing static reading is reusable. **D3 divergent workflow choice:** pending owner input.
 - **Known independent engineering defects/assurance:** continue in their existing issue/register tracks, not as new design blockers or a pretext for a Workbench.
-- **Recommendation:** retain the superseding design decision. The default next commission is a **small D2/task-based comparison and owner observation**, then an explicit choice of one bounded real-persistence intervention. A giant Workbench is **not** established as necessary.
+- **Recommendation after direct owner feedback:** centre GPT follow-up on **Project/Stage disconnection, stale return and Library/Notes/Activity integration**, compare bounded task-grounded options, then seek owner evaluation of a proposed intervention. The owner has already supplied the problem diagnosis; do not commission another generic inspection or questionnaire. A giant Workbench is **not** established as necessary.
 - **This turn's mutation boundary:** Only a blank, unsaved standalone local Untitled Note draft was opened as an inspection of the new-note affordance; no content entered, no server learning record saved/edited/deleted, no Note/Question/Project or Activity response submitted, no preference intentionally changed. The local tab/draft was left retained. No private screenshots or learner record details are included here.
