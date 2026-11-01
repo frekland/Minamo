@@ -2,6 +2,8 @@
 
 **Canonical status date: 31 October 2026.** This is a maintained catalogue of **current evidence**, not a count of all unfixed app bugs. Read the [live Cloud Browser audit](2026-10-31-LIVE-AUDIT.md) for scope and reproducibility, the [60-row historical crosswalk](V70-V72-CROSSWALK.md) for V70/V72 claims, and the [decision roadmap](ROADMAP.md) before implementing.
 
+**1 November D1 reconciliation:** [The existing-capability and gap audit](2026-11-01-d1-existing-capability-gap-audit.md) maps current UI/source/test coverage against the full learning cycle and separates autonomous follow-up from owner UX feedback. It adds **no newly reproduced bug IDs**; continue to use the numbered findings below for defects and the [superseding design decision](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) for commissioning. Avoid misreporting projectless Notes/Questions, Home continuation, GPT context choice or Activity Workbench layouts as wholly absent.
+
 ## Triage semantics
 
 - **P1** blocks a critical real task or risks data/continuity; **P2** materially impedes a common task; **P3** adds avoidable friction or a low-risk presentation issue. These are proposed triage levels, subject to owner validation.
