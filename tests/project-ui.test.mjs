@@ -34,6 +34,8 @@ test('Project links retain exact edition/section/part and entry parent through U
  for(const [key,value]of Object.entries({rendition:'reference-edition',section:'streams',part:'stdout',returnJourney:'project',returnStage:'stable-one'}))assert.equal(p.get(key),value);
  let called;const event={button:0,preventDefault(){this.defaultPrevented=true;}};ui.openProjectDestination(event,href,(...args)=>{called=args;});assert.equal(event.defaultPrevented,true);assert.equal(called[2].returnStage,'stable-one');assert.equal(called[2].partId,'stdout');
  const newTab={button:0,ctrlKey:true,preventDefault(){throw Error('Native new tab must remain native');}};ui.openProjectDestination(newTab,href,()=>{throw Error('Must not route modified click');});
+ const passage=href+'&start=3&end=8&segments='+encodeURIComponent(JSON.stringify([{sectionId:'streams',partId:'stdout',start:3,end:8}]));
+ ui.openProjectDestination(event,passage,(...args)=>{called=args;});assert.equal(called[2].start,3);assert.equal(called[2].end,8);assert.deepEqual(called[2].segments,[{sectionId:'streams',partId:'stdout',start:3,end:8}]);
  const html=ui.render(ui.ProjectQuestionLinks,{questions:[question],projectId:'project',stageId:'stable-one'});assert.match(html,/Why does the output change/);assert.match(html,/returnJourney=project/);assert.match(html,/returnStage=stable-one/);assert.doesNotMatch(html,/completed|mastered|progress|Investigation/);
 });
 test('map uses one underlying multi-linked Question, honest edges, readable positions and equivalent outline destinations',()=>{

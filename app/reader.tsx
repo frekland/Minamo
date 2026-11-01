@@ -18,6 +18,7 @@ import {MAX_PASSAGE_QUOTE,MAX_PASSAGE_SEGMENTS,canonicalReadingParts,isReadingFa
 import type {LearningWorkTarget,CommandReceipt,Family,PassageAnchor,PassagePart,WorkspaceCommand,WorkspaceRecord} from "../lib/contracts";
 import SourceReference from "./source-reference";
 import {useContextualHref} from './navigation-context';
+import type {ViewOrigin} from '../lib/navigation-origin';
 import {buildRecordLink,MINAMO_V2_ORIGIN,RETIRED_MINAMO_SITE_ORIGIN,readingView} from "../lib/reading-links";
 import ReadingImageView from "./reading-image";
 import ReadingMedia from "./reading-media";
@@ -35,7 +36,7 @@ import {diagramError,diagramCanonicalText,type AuthoredDiagram} from "../lib/dia
 import "./reader-notes.css";
 import "./reading-interactions.css";
 export type Segment={sectionId:string;partId:string;start:number;end:number};
-export type ReadingTarget={recordFamily?:Family;captureId?:string;captureFamily?:"annotation"|"flag";sectionId?:string;partId?:string;start?:number;end?:number;rendition?:string;quote?:string;segments?:Segment[];stageId?:string;returnJourney?:string;returnStage?:string};
+export type ReadingTarget={recordFamily?:Family;captureId?:string;captureFamily?:"annotation"|"flag";sectionId?:string;partId?:string;start?:number;end?:number;rendition?:string;quote?:string;segments?:Segment[];stageId?:string;returnJourney?:string;returnStage?:string;origin?:ViewOrigin};
 export type NavigateReading=(view:string,id?:string,anchor?:ReadingTarget)=>void;
 export type ReadingDisplayAdapter=(input:{part:PassagePart;sectionId:string;article:WorkspaceRecord;ownerScope?:string;common:{"data-reading-part":string;"data-section-id":string};renderRange:(start:number,end:number)=>ReactNode})=>ReactNode|undefined;
 export type ReaderProps={displayAdapter?:ReadingDisplayAdapter;draftScope:string;article:WorkspaceRecord;records:WorkspaceRecord[];onCommand:(command:WorkspaceCommand)=>Promise<CommandReceipt>;onNavigate?:NavigateReading;anchorTarget?:ReadingTarget;visibleSectionId?:string;visibleSectionIds?:string[];sectionHeadingLevel?:1|2;titleHeadingLevel?:1|2;compactHeader?:boolean;readingNavigation?:ReactNode;onOpenNotes?:()=>void;onPreview?:(destination:{family:'article'|'area';id:string;rendition?:string;sectionId?:string;partId?:string})=>void;learningTarget?:LearningWorkTarget};
