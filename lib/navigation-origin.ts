@@ -4,7 +4,7 @@ import {readingSelection,readingView} from './reading-links';
 
 /** Portable *view history*, never a RecordLink, command payload or permission grant. */
 export type RouteReading={family:Family;id:string;rendition:string;sectionId?:string;partId?:string;start?:number;end?:number;segments?:ReadingSelection['segments']};
-export type RouteTask={family:'journey'|'investigation';id:string;projectId?:string;stageId?:string};
+export type RouteTask={family:'journey'|'investigation';id:string;rendition?:string;projectId?:string;stageId?:string};
 export type ViewOrigin={v:1;source?:RouteReading;activity?:RouteReading;task?:RouteTask};
 export type RouteTarget={recordFamily?:Family;rendition?:string;stageId?:string;sectionId?:string;partId?:string;start?:number;end?:number;segments?:ReadingSelection['segments'];returnJourney?:string;returnStage?:string;captureId?:string;captureFamily?:'flag'|'annotation';origin?:ViewOrigin};
 
@@ -27,8 +27,9 @@ function exactReading(value:unknown):value is RouteReading{
 function exactTask(value:unknown):value is RouteTask{
  if(!value||typeof value!=='object'||Array.isArray(value))return false;
  const t=value as Record<string,unknown>;
- return Object.keys(t).every(key=>['family','id','projectId','stageId'].includes(key))&&
+ return Object.keys(t).every(key=>['family','id','rendition','projectId','stageId'].includes(key))&&
  (t.family==='journey'||t.family==='investigation')&&identifier(t.id)&&
+ (t.rendition===undefined||identifier(t.rendition))&&
  (t.projectId===undefined||identifier(t.projectId))&&(t.stageId===undefined||identifier(t.stageId))&&
  (t.stageId===undefined||t.family==='journey'||t.projectId!==undefined)&&
  (t.family!=='journey'||t.projectId===undefined);
@@ -84,8 +85,8 @@ export function extendViewOrigin(previous:ViewOrigin|undefined,current:{family:F
   if(exactReading(source))next.source=source;
  }
  if(!next.activity&&current.family==='experiment'&&current.rendition)next.activity={family:'experiment',id:current.id,rendition:current.rendition};
- if(current.family==='investigation'&&(!next.task||next.task.family==='journey'))next.task={family:'investigation',id:current.id,...(project?{projectId:project.journeyId,...(project.stageId?{stageId:project.stageId}:{})}:{})};
- if(!next.task&&current.family==='journey'&&project?.stageId)next.task={family:'journey',id:current.id,stageId:project.stageId};
+ if(current.family==='investigation'&&(!next.task||next.task.family==='journey'))next.task={family:'investigation',id:current.id,...(current.rendition?{rendition:current.rendition}:{}),...(project?{projectId:project.journeyId,...(project.stageId?{stageId:project.stageId}:{})}:{})};
+ if(!next.task&&current.family==='journey'&&project?.stageId)next.task={family:'journey',id:current.id,stageId:project.stageId,...(current.rendition?{rendition:current.rendition}:{})};
  return next.source||next.activity||next.task?next:undefined;
 }
 export function withViewOrigin(href:string,origin:ViewOrigin|undefined):string{

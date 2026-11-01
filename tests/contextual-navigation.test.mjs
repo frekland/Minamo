@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
 const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
-const built=await wr('esbuild').build({stdin:{contents:`import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {NavigationContext} from './app/navigation-context';export * from './lib/navigation-origin';export {NavigationContext,useContextualHref} from './app/navigation-context';export {LearningSpaceContext} from './app/learning-space-ui';export {ThinkingItems} from './app/learning-activity';export {SourceActivityItems} from './app/source-activities';export function render(Component,props,context={}){return renderToStaticMarkup(React.createElement(NavigationContext.Provider,{value:context},React.createElement(Component,props)));}`,resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false,loader:{'.css':'empty'},define:{'import.meta.env':'{"DEV":false}','process.env.NODE_ENV':'"production"'}});
+const built=await wr('esbuild').build({stdin:{contents:`import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {NavigationContext} from './app/navigation-context';export * from './lib/navigation-origin';export {verifiedOriginReturn} from './lib/view-origin-return';export {NavigationContext,useContextualHref} from './app/navigation-context';export {LearningSpaceContext} from './app/learning-space-ui';export {ThinkingItems} from './app/learning-activity';export {SourceActivityItems} from './app/source-activities';export function render(Component,props,context={}){return renderToStaticMarkup(React.createElement(NavigationContext.Provider,{value:context},React.createElement(Component,props)));}`,resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false,loader:{'.css':'empty'},define:{'import.meta.env':'{"DEV":false}','process.env.NODE_ENV':'"production"'}});
 const dir=mkdtempSync(join(tmpdir(),'context-nav-')),entry=join(dir,'navigation.cjs');writeFileSync(entry,built.outputFiles[0].text);const api=require(entry);rmSync(dir,{recursive:true,force:true});
 const selection={sectionId:'s',partId:'p',start:1,end:4,segments:[{sectionId:'s',partId:'p',start:1,end:4},{sectionId:'s',partId:'p2',start:0,end:2}]};
 
@@ -22,7 +22,7 @@ test('N01: canonical Project interception retains exact URL edition, multi-segme
 
 test('N07: original Question Q2 and Stage S are selected from navigation, never a Note backlink to Q1',()=>{
  const original=api.extendViewOrigin(undefined,{family:'investigation',id:'Q2',rendition:'q-e3'},{journeyId:'P',stageId:'S'});
- assert.deepEqual(original.task,{family:'investigation',id:'Q2',projectId:'P',stageId:'S'});
+ assert.deepEqual(original.task,{family:'investigation',id:'Q2',rendition:'q-e3',projectId:'P',stageId:'S'});
  const href=api.withViewOrigin('/?view=work&family=note&id=N',original);
  assert.deepEqual(api.routeDestination(href).target.origin.task,original.task);
  const stillOriginal=api.extendViewOrigin(original,{family:'note',id:'N'},undefined);
@@ -57,7 +57,7 @@ test('N07: rendered recent Note native link carries the actual Question task ret
  const html=api.render(api.ThinkingItems,{items:[item]},context);
  const href=html.match(/href="([^"]+)"/)?.[1]?.replaceAll('&amp;','&');assert.ok(href);
  const origin=api.routeDestination(href).target.origin;
- assert.deepEqual(origin.task,{family:'investigation',id:'Q2',projectId:'P',stageId:'S'});
+ assert.deepEqual(origin.task,{family:'investigation',id:'Q2',rendition:'q1',projectId:'P',stageId:'S'});
  assert.match(href,/learningSpace=computing/);
 });
 
@@ -70,4 +70,20 @@ test('A01/A04: visible authored Activity link carries the retained Article passa
  assert.equal(parsed.target.origin.source.id,'A');assert.equal(parsed.target.origin.source.rendition,'e1');
  assert.deepEqual(parsed.target.origin.source.segments,selection.segments);
  assert.deepEqual(parsed.target.origin.task,{family:'investigation',id:'Q2',projectId:'P',stageId:'S'});
+});
+
+test('R3/E6: return actions require independently admitted exact records and verified passage coordinates',()=>{
+ const origin={v:1,source:{family:'article',id:'A',rendition:'e1',...selection},activity:{family:'experiment',id:'X',rendition:'x1'},task:{family:'investigation',id:'Q2',rendition:'q1',projectId:'P',stageId:'S'}};
+ const source={family:'article',id:'A',rendition:'e1',title:'Verified Article e1',sections:[{id:'s',parts:[{id:'p',text:'A😀B',kind:'paragraph'},{id:'p2',text:'more',kind:'paragraph'}]}]};
+ assert.equal(api.verifiedOriginReturn('source',origin,{record:source}),undefined,'unchecked bytes do not make an exact link');
+ assert.equal(api.verifiedOriginReturn('source',origin,{record:{...source,rendition:'e2'},selection:{}}),undefined,'retained source must not be remapped to e2');
+ assert.equal(api.verifiedOriginReturn('source',origin,{record:null,selection:{}}),undefined,'denied source carries no title');
+ const exact=api.verifiedOriginReturn('source',origin,{record:source,selection:{quote:'😀'}});
+ assert.match(exact.label,/exact source passage/);assert.equal(api.routeDestination(exact.href).target.rendition,'e1');
+ assert.deepEqual(api.routeDestination(exact.href).target.segments,selection.segments);
+ const task=api.verifiedOriginReturn('task',origin,{record:{family:'investigation',id:'Q2',rendition:'q1',title:'Verified Question'}});
+ assert.equal(new URL(task.href,'https://minamo.invalid').searchParams.has('returnStage'),false,'unverified Project context cannot be asserted');
+ const checked=api.verifiedOriginReturn('task',origin,{record:{family:'investigation',id:'Q2',rendition:'q1',title:'Verified Question'}},true);
+ assert.equal(api.routeDestination(checked.href).target.returnStage,'S');
+ assert.equal(api.verifiedOriginReturn('activity',origin,{record:{family:'experiment',id:'X',rendition:'x1',title:'Unavailable Activity'}}),undefined);
 });

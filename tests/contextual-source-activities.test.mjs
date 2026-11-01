@@ -24,6 +24,9 @@ test('A01/A03/A04/A05: source-qualified Activity discovery checks actual D1 righ
    assert.equal(JSON.stringify(page).includes('Source e2 has replaced'),false);
    const e2=ok(await c.request(sourcePath(edition2,{sourceSection:'s',sourcePart:'p'})));
    assert.deepEqual(e2.items.map(item=>item.record.id),[newer.id]);
+   const selection={sectionId:'s',partId:'p',start:0,end:2},context=ok(await c.request('/api/context?'+new URLSearchParams({family:'article',id:source.id,rendition:source.rendition,selection:JSON.stringify(selection)})));
+   assert.equal(context.record.rendition,source.rendition);assert.equal(context.selection.quote,'😀');
+   assert.equal((await c.request('/api/context?'+new URLSearchParams({family:'article',id:source.id,rendition:source.rendition,selection:JSON.stringify({...selection,start:1})}))).status,409,'a split UTF-16 surrogate must not become a return cue');
   });
   await t.test('query is exact, scoped and feature-gated',async()=>{
    assert.equal((await c.request('/api/activities/browse?kind=activities&sourceId='+source.id)).status,400);

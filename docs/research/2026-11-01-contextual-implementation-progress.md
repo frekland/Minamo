@@ -27,9 +27,19 @@ Verification after checkpoint 2: `pnpm run typecheck` **PASS**; `pnpm run build`
 
 **Remaining:** the Reader's visible action is only a source-qualified discovery surface, not proof of a complete A→X→N→A return or an exact saved Note anchor. Source-first continuity projection, explicit return cues, Note lifecycle work and integrated acceptance remain required. Live Site parity, identity, mobile assistive behaviour and native manifest checks are unverified.
 
+## Checkpoint 3 — verified view-history return cues (1 November 2026)
+
+- `lib/navigation-origin.ts`: the originating Question/Stage can additionally retain its exact task rendition. Browsing remains a fixed-slot, ephemeral history, not saved learning provenance.
+- `lib/view-origin-return.ts` and `app/view-origin-return.tsx` / `.css`: where a source/Activity/Question origin exists, render return actions **only after separately checking** the retained record through `/api/context`. Exact passage returns require the server to accept the submitted UTF-16 segments; a missing/denied edition produces no surrogate link or private title. An inherited Project Step is appended to a Question return only after the current Project/Stage can also be admitted. Retained/revoked changes trigger rechecks; transient failures are reported as such. Nothing writes learner data.
+- Focused tests now include real `/api/context` old-edition emoji coordinate acceptance and split-surrogate rejection, plus rendered source→Activity links and denial/new-edition/unchecked-coordinate return controls.
+
+Verification after checkpoint 3: `pnpm run typecheck` **PASS**; `pnpm run build` **PASS**; adjacent six-file tests `contextual-navigation`, `contextual-source-activities`, `project-ui`, `practice-index`, `activity-independent-integration` and `reading-continuity`: **41/41 PASS**. These are unit/SSR and isolated D1 tests, **not** a real browser E4 PASS. Known build chunk warnings do not by themselves indicate an implementation error. No full `pnpm test`, native browser task, hosted identity/release test or owner usefulness assessment has been performed yet.
+
+**Still unimplemented:** `scope:'evidence'` continuity composer and honest bounded frontier/cursor (R1), source-first Home/Project restructuring (1B), deliberate Note exact-anchor save/clear, multi-hop browser and storage-flight tests, and all E1–E6 end-to-end release gates. This draft must not be marked ready, merged or deployed from component-only evidence.
+
 ## Next implementation tasks
 
-1. Add rights-checked return cues to the shared view-origin contract and an actual Classic browser A e1/p→X→N→X→A regression. Extend A01 negative cases for empty partial pages and later source/Activity changes; preserve legacy Tools.
+1. Add an actual Classic browser A e1/p→X→N→X→A regression with return/Back/Forward/new-tab/reload, verify no navigation-only mutation and preserve pending Notes. Extend A01 negative cases for empty partial pages and later source/Activity changes; preserve legacy Tools.
 2. Build one bounded read-only continuity evidence composer above the existing Project/work readers, wire the web and MCP scope additively, and exercise C-MOOD/C-CAP/C-PLANT/C-PARTIAL with truthful frontiers and revisions.
 3. Integrate selected 1B source-first Home/Project entry, independent/contextual Notes, deliberate anchor capture/clear and draft/flight preservation. Then run actual browser E1–E6 and full gates.
 4. Before any merge/deployment, compare the exact public candidate with **current** main and native Sites source, preserve native-only recovery/configuration and follow the protected release workflow. No hosted learner/fixture mutation, reset or Site deploy has happened here.
