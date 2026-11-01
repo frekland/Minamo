@@ -1,5 +1,8 @@
 # Product context, prior-art lessons, and development orientation
 
+> **Current design authority — 1 November 2026:** [Broadened product-design discovery decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md). The original active-learning ambition below remains foundational. The earlier Project-history-first and fixed hybrid Workbench sequencing is superseded: first investigate capture, sense-making, creation, practice, return, cross-space and controlled GPT assistance, including what the owner must personally assess. This older orientation is retained for historical context.
+
+
 **Updated 30 October 2026.** This is a public, deliberately sanitised orientation for a new contributor or a fresh ChatGPT conversation. It is a *product decision and investigation guide*, not a claim that all linked features are shipped or that the acceptance tests establish learning outcomes.
 
 **Read this alongside the [recovered learner-experience redesign strategy](LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md).** It restores the detailed owner feedback, historical experience decisions, prior-art comparison gates and post-#17 product-design path. The broader UX problem is **not solved** by giving GPT a better checkpoint summary, and no new Project hierarchy or visual UI has yet been chosen.
