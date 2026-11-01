@@ -2,6 +2,9 @@
 
 The repository includes Node test suites, isolated D1/R2/Worker exercises, browser-spec fixtures and development helpers.
 
+
+> **1 November 2026 V89 live-check update:** See the [hosted V89 read-only research and coverage report](acceptance/2026-11-01-v89-workbench-research-baseline.md). V88 remains deployed from native SHA `ea255bce9a5d849e96c46383188af2a1cb21fd1c`; PR #65 changed public documentation only. All nine exact hosted persona fixtures were re-inspected, 124 registered records verified, per-variant source/epoch and continuation compared, the synthetic Flag was read inactive rev2, and checked observers remained paused. **Independent fresh-context GPT/MCP acceptance remains 0/9; no new run or mutation occurred.** The prior coordinated three-layer result is bounded PASS, not host-complete capture. The [Workbench information contract](PROJECT-WORKBENCH-INFORMATION-CONTRACT.md) and comparative interaction plan are design outputs, not implemented/proven prototypes. Older dated status paragraphs below are historical snapshots and may predate V88.
+
 ## Current acceptance gate (31 October 2026)
 
 The [coordinated three-layer reconciliation](acceptance/2026-10-31-three-layer-reconciliation-acceptance.md) has **bounded TEST-ONLY PASS** evidence for nine paired GPT-submitted attempt/result reports, eight qualifying server-received MCP calls, one explained selector exclusion, three canonical before/after comparisons and revision-safe synthetic Flag cleanup. This follows [V85 observed-call/state-diff acceptance](acceptance/2026-10-31-v85-observed-mcp-state-diff-acceptance.md) and [V86 adversarial local tests](acceptance/2026-10-31-observation-adversarial-matrix.md). The result is **not** a complete host transcript, a physical-byte privacy audit or a learner-experience PASS. The transcript is still open and the observer paused; no fixture reset or production learner data change was performed.
