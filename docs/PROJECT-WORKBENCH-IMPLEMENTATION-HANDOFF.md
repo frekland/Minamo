@@ -6,6 +6,9 @@ Read with the [learner-experience redesign strategy](LEARNER-EXPERIENCE-REDESIGN
 
 **Purpose:** Make the next Project-experience effort a real, evidence-led working product experiment. Prior visual/UX attempts repeatedly yielded attractive concepts, reports, components or passing tests without convincing the owner that Minamo was a natural place to understand and continue evolving work. This handoff specifies a different development and acceptance method. It supersedes earlier advice to treat active investigation, questions and history as competing product concepts, or to require alternative implementations to retain the current information architecture.
 
+
+> **V89 research checkpoint — 1 November 2026:** [Current hosted 3×3 read-only baseline and independent-session limitation](acceptance/2026-11-01-v89-workbench-research-baseline.md) and [source-grounded Workbench information contract/A–B comparison gate](PROJECT-WORKBENCH-INFORMATION-CONTRACT.md) now exist. The Site remains V88. Nine source-pinned fixtures and canonical latest Notes were reinspected; genuine fresh ChatGPT/MCP conversations are still **0/9**, because the available separate browser ChatGPT session was unauthenticated without Minamo MCP. Do not treat this research as Gate 1 cold-context acceptance or a working Workbench prototype. A new root-Project-context finding is that Question-linked return Notes can be absent from the direct Project related projection even with complete direct-result coverage; trial bounded relation closure before a schema change. The live Question→Note→Library→Question navigation also loses the original Step return parameters on a specific backlink path. Continue with the functional, isolated, real-persistence slice only after the missing accepted gates and owner review.
+
 ## 1. What we are trying to build
 
 A **single Project Workbench** with complementary perspectives on:
