@@ -2,6 +2,9 @@
 
 > **CURRENT OWNER DIRECTION — 1 November 2026:** Read [the broadened product-design discovery decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) first. Its broader learning-cycle inquiry, non-technical/sparse cases, prior-art interaction studies, genuinely divergent options, minimal baseline, and manual-versus-GPT gates **supersede the fixed hybrid Work/Questions/Evolution design and compulsory nine-chat-before-discovery sequence below**. This document remains valuable recovered research/history; source rights, canonical fidelity, explicit GPT writes and a real persistent slice still apply.
 
+> **LATEST OWNER-SELECTED DESIGN STUDY — LATER 1 NOVEMBER 2026:** The [canonical decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md#later-owner-selected-forward-direction--contextual-learning-not-a-predetermined-workbench) now favours a capture-first contextual hybrid with truthful return, optional evidence comparison and adaptable Projects; compare it to repaired Minamo on identical tasks before commissioning one real slice. This historical document is **not an operative fresh-chat plan**. No functional prototype, schema/UI change, fixture mutation or deployment follows from this preference.
+
+
 
 **Decision handoff — 30 October 2026.** Public, sanitised orientation for a fresh development chat. This is **not** a commission to change production data, implement a new schema, redesign the Site, reset a fixture, enable tracing or run visual agents. Historical reports and earlier designs remain evidence, not blanket implementation authority.
 
