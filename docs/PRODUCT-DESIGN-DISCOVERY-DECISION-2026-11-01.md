@@ -4,7 +4,9 @@
 
 Start here for any future Minamo Project/Workbench/learner-experience design work. Then read [the implementation handoff](PROJECT-WORKBENCH-IMPLEMENTATION-HANDOFF.md), [recovered strategy](LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), [product context](PRODUCT-CONTEXT-AND-PRIOR-ART.md), [architecture](ARCHITECTURE.md), and current issue/PR comments. Where these sources disagree about *design direction*, **this document governs**. Current operational test and release safeguards in AGENTS.md, TESTING.md and the three-layer protocol still govern their respective technical work.
 
-**D1 differential evidence update (1 November):** The [source/UI existing-capability and remaining-UX-gap audit](ux/2026-11-01-d1-existing-capability-gap-audit.md) inventories already-implemented capture, Reader, saved-work organisation, Project continuation, Practice, GPT handoff and in-repo Activity layout experiments against the V70/V72/V86 and V88/89 evidence. **Do not repeat generic inspection or assert those capabilities are missing.** Technical D1 inventory is substantially complete; the owner's real-task frustration/necessity judgement, bounded D2 comparison and D3 choice are still open. This is an evidence supplement, not a replacement for the design authority below.
+**Direct owner UX correction (later 1 November; priority input):** The owner has now supplied [first-hand feedback](ux/2026-11-01-owner-firsthand-ux-feedback.md): Notes still feel disconnected; **Projects and Stages are the biggest problem—disconnected and unadaptive**; Library Articles are hard to discover, navigate and use with Activities; after a break the displayed last work, next intended activity, outstanding problems, addressed misconceptions and progress were **all stale**. This overrides the D1 report's tentative “awaiting owner frustration” language and the assistant's four generic questions. Existing data links or continuation code do not refute the experienced failure. Research should now trace the connections and recency/meaning failures, then evaluate contrasting remedies. The owner need not restate this diagnosis before GPT proceeds; later owner validation of proposed solutions remains essential. No design choice or implementation is authorised.
+
+**D1 differential evidence update (1 November):** The [source/UI existing-capability and remaining-UX-gap audit](ux/2026-11-01-d1-existing-capability-gap-audit.md) inventories already-implemented capture, Reader, saved-work organisation, Project continuation, Practice, GPT handoff and in-repo Activity layout experiments against the V70/V72/V86 and V88/89 evidence. **Do not repeat generic inspection or assert those capabilities are missing.** Technical D1 inventory is substantially complete; **the owner subsequently supplied direct problem feedback (see the correction above)**. Bounded D2 comparison, precise solution design and D3 choice remain open. This is an evidence supplement, not a replacement for the design authority below.
 
 ## Why this decision was needed
 
@@ -101,7 +103,7 @@ Before any Workbench implementation brief, require:
 
 1. A concise evidence-backed map of **what Minamo currently enables** across the full learning cycle, including reusable Reader, Notes, Activities, Library, search and MCP capabilities.
 2. A small set of contrasting interaction hypotheses with their *unique* benefit, trade-off and failure condition; not different skins over the same three assumed tabs.
-3. At least one real owner task observation and one non-technical/sparse task challenge, with the simple-current-product baseline.
+3. Use the owner's existing first-hand complaint as the starting requirement. Include a non-technical/sparse task challenge and simple-current-product baseline; before product acceptance, have the owner evaluate at least one actual candidate task without asking them to repeat the generic diagnosis.
 4. A list of what can be achieved by UI/navigation changes, read projection or minor domain changes, versus what would require schema/record migration.
 5. An explicit owner choice of the **one bounded real-persistence vertical slice** to commission next, including task, permitted synthetic state, acceptance, rollback and deploy authority.
 
@@ -109,7 +111,7 @@ No automatic acceptance because a screenshot is polished, CI is green, GPT retri
 
 ## Fresh-chat instruction
 
-For the next Minamo development/design chat: **first read this decision, AGENTS.md and current public main/issue #51/PR status.** Treat the Work/Questions/Evolution contract and prior A/B/gate sequence as historical hypotheses, not current marching orders. Start with **D1: current-system activity map**, then a bounded D2/D3 proposal. Report clearly:
+For the next Minamo development/design chat: **first read this decision, AGENTS.md and current public main/issue #51/PR status.** Treat the Work/Questions/Evolution contract and prior A/B/gate sequence as historical hypotheses, not current marching orders. Start from the completed D1 technical inventory and the [first-hand owner diagnosis](ux/2026-11-01-owner-firsthand-ux-feedback.md); **do not ask those generic questions again**. Trace the Project/Stage/Note/Library/Activity joins and stale return sources, then make a bounded D2/D3 proposal. Report clearly:
 
 - what GPT can do now without further owner involvement;
 - the minimal specific owner observation/choice needed next;
