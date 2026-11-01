@@ -35,6 +35,10 @@ A component inventory remains useful for preventing duplicate engineering, but *
 4. **D2/D3 should be directed by this evidence.** Evaluate a few structurally distinct ways to *work with connected material and resume truthfully*—including minimal integration and more fundamental Project/Stage reorganisation—against the same reported tasks. Prior art should be used for specific interaction mechanisms (contextual object use, juxtaposition, source selection, field notebook), not as a feature checklist.
 5. **Implementation remains a later owner gate.** A code/route/schema change, synthetic persisted write, real learner-data manipulation or Site deploy still requires the applicable explicit scope and verification. Preserve source/revision rights, owner control and the V88/V89 technical evidence limits.
 
+## Read-only root-cause follow-up — completed 1 November
+
+The [source/Site/MCP continuity audit](../research/2026-11-01-project-stage-continuity-root-cause-audit.md) now supplies the first technical trace requested above: exact Stage and Project relations, older checkpoint versus later Note, direct-root versus Stage-context retrieval, Library/Activity discovery and working/broken return routes. It cross-checks the rich Mood history against sparse Cap and careful Plant synthetic histories (both without checkpoints). **This supplements the owner's problem statement; it does not downgrade it because some links exist.** The leading diagnosis is a fragmented current-work projection and task hierarchy, with a separate direct Project-root relationship-closure gap and context-return weakness; no canonical loss or required new storage model was established. The next GPT task is the focused evidence ledger/regression specifications and divergent D2/D3 interaction comparisons in that audit; owner judgement is needed only once concrete alternatives are ready.
+
 ## Practical acceptance questions for a future candidate
 
 These are **criteria for a proposed solution**, not a request to restate the complaint:
