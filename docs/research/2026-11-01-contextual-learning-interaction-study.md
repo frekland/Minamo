@@ -1,5 +1,7 @@
 # D3 contextual learning — same-task interaction study (1 November 2026)
 
+**Later owner disposition (1 November):** Choice **1B** (source-first continuation) and **2A** (repaired Reader→Activity with exact return) are accepted as the design direction. The owner prefers planning one **integrated larger build/deployment**, not this study's proposed tiny Article loop. [Current integrated implementation brief](../CONTEXTUAL-LEARNING-INTEGRATED-IMPLEMENTATION-BRIEF.md) supersedes the commissioning recommendation and the two questions at the end; preserve the original study as comparative evidence. No code or deployment is authorised by this banner.
+
 **Status: proposed low-fidelity interaction design, not an implemented UI, tested usability outcome, schema decision, or Workbench commission.** Central issue [#51](https://github.com/frekland/Minamo/issues/51). Design authority: [owner decision](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md); [first-hand owner feedback](../ux/2026-11-01-owner-firsthand-ux-feedback.md). Evidence/rehearsal: [companion ledger and regression cases](2026-11-01-contextual-study-evidence-and-test-oracles.md). Builds on [PR #76](https://github.com/frekland/Minamo/pull/76), not a replacement for its independent audit and three appendices.
 
 ## Verdict before design detail
