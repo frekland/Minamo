@@ -2,7 +2,6 @@ import type {Actor,Family,LearningDevelopment,LearningWorkTarget,RecordLink,Work
 import {DomainError,readRecord,readRendition} from './domain';
 import {generationContext,assertGenerationCurrent} from './generations';
 import {learningScopeSql,matchesLearningScope,parseLearningScopeQuery,type LearningScopeQuery} from './learning-spaces';
-import {getProjectContext} from './project-context';
 import {learningDestination,readContinuityDevelopment} from './learning-work';
 import {buildRecordLink} from './reading-links';
 import {parseNoteTerminalPlacements} from './note-terminal';
@@ -11,7 +10,7 @@ import {parseNoteTerminalPlacements} from './note-terminal';
  * SQL chooses bounded identities; every displayed record and checkpoint is
  * independently admitted under the current owner and edition rights. */
 type Focus={family:'journey'|'investigation';id:string};
-export type ContinuityInput=LearningScopeQuery&{focus?:Focus;cursor?:string;limit?:number};
+export type ContinuityInput=LearningScopeQuery&{focus?:Focus;cursor?:string;focusCursor?:string;limit?:number};
 type Cursor={scope:string;at:string;key:string};
 type Candidate={kind:'record'|'checkpoint';family:string;id:string;at:string;key:string;data:string};
 type Path={edges:RecordLink[];target?:LearningWorkTarget};
@@ -29,10 +28,23 @@ function cursorOf(raw:unknown,scope:string):Cursor|undefined{
  if(typeof parsed.at!=='string'||!Number.isFinite(Date.parse(parsed.at))||typeof parsed.key!=='string'||parsed.key.length>340)fail('invalid_evidence_cursor','Use the returned continuity cursor.');
  return parsed as Cursor;
 }
+function frontierCursorOf(raw:unknown,scope:string){
+ if(raw===undefined)return '';
+ if(typeof raw!=='string'||raw.length>1800)fail('invalid_evidence_focus_cursor','Use the returned Project target cursor.');
+ let parsed:any;try{parsed=JSON.parse(atob(raw));}catch{fail('invalid_evidence_focus_cursor','Use the returned Project target cursor.');}
+ if(parsed?.scope!==scope)fail('stale_evidence_focus_cursor','Project links, permissions or generation changed. Restart the focused read.',409);
+ if(typeof parsed.key!=='string'||!/^[01]:[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(parsed.key))fail('invalid_evidence_focus_cursor','Use the returned Project target cursor.');
+ return parsed.key as string;
+}
 function prose(record:WorkspaceRecord){
  let text='',at=0;for(const block of record.family==='note'?parseNoteTerminalPlacements(record.body):[]){text+=record.body.slice(at,block.from)+'\n[External terminal capture; open the exact Note to inspect.]\n';at=block.to;}text+=record.body.slice(at);
- return {text:text.slice(0,700),complete:text.length<=700&&at===0,detailsDeferred:text.length>700||at>0||!!record.sections?.length};
+ const structured=!!record.attempt||record.family==='run'&&!!(record.code||record.output||record.outputBundle);
+ if(!text.trim()&&record.attempt)text='Saved Activity attempt; open the exact record to inspect the supplied answer and later feedback.';
+ else if(!text.trim()&&structured)text='Saved run; open the exact record to inspect supplied code and output.';
+ else if(!text.trim()&&record.sections?.some(section=>section.parts.some(part=>part.text.trim()||part.image||part.media||part.reference||part.table||part.diagram)))text='Saved rich content; open the exact record to inspect its sections and attachments.';
+ return {text:text.slice(0,700),complete:text.length<=700&&at===0&&!structured&&!record.sections?.length,detailsDeferred:text.length>700||at>0||!!record.sections?.length||structured};
 }
+function hasSavedContent(record:WorkspaceRecord){return record.family!=='note'||!!record.body.trim()||!!record.sections?.some(section=>section.parts.some(part=>part.text.trim()||part.image||part.media||part.reference||part.table||part.diagram));}
 function source(record:WorkspaceRecord){return {family:record.family,id:record.id,rev:record.rev,...(record.rendition?{rendition:record.rendition}:{})};}
 function refLink(record:WorkspaceRecord):RecordLink[]{
  const refs=[...record.links];if(record.anchor)refs.push({family:record.anchor.recordFamily??'article',id:record.anchor.articleId,...(record.anchor.rendition?{rendition:record.anchor.rendition}:{}),...(record.anchor.sectionId?{sectionId:record.anchor.sectionId}:{}),...(record.anchor.partId?{partId:record.anchor.partId}:{})});
@@ -47,21 +59,34 @@ async function admittedLink(env:Cloudflare.Env,owner:string,link:RecordLink,scop
  else if(selected.source?.excerpt?.unavailable||selected.sections?.some(s=>s.parts.some(p=>p.unavailable)))return null;
  return selected;
 }
-type AdmittedFocus={focus:Focus;head:WorkspaceRecord;questionPaths:Map<string,RecordLink[]>;stages:Set<string>;deferred:boolean;count:number};
-async function readFocus(env:Cloudflare.Env,owner:string,focus:Focus|undefined,scope:LearningScopeQuery):Promise<AdmittedFocus|undefined>{
+type AdmittedFocus={focus:Focus;head:WorkspaceRecord;questionPaths:Map<string,RecordLink[]>;stages:Set<string>;includeRoot:boolean;nextTargetKey?:string;deferred:boolean;count:number};
+/** The Project target frontier is independently pageable; empty source-candidate pages
+ * cannot silently discard Questions beyond the first authorised relationship page. */
+async function readFocus(env:Cloudflare.Env,owner:string,focus:Focus|undefined,scope:LearningScopeQuery,after=''):Promise<AdmittedFocus|undefined>{
  if(!focus)return undefined;
  const head=await readRecord(env,owner,focus.family,focus.id);if(!head||!matchesLearningScope(head,scope))fail('evidence_focus_unavailable','The selected task is unavailable.',404);
- if(focus.family==='investigation')return {focus,head,questionPaths:new Map(),stages:new Set(),deferred:false,count:1};
- const outline:any=await getProjectContext(env,owner,{...scope,mode:'outline',projectId:focus.id,limit:50});
- const stages=new Set<string>(),questionPaths=new Map<string,RecordLink[]>();let deferred=!outline.relationshipCoverage.complete;
- for(const step of outline.steps){if(stages.size+questionPaths.size<LIMITS.targets-1)stages.add(step.stageId);else deferred=true;}
- const questions=[...outline.projectQuestions,...outline.steps.flatMap((step:any)=>step.questions)];
- for(const question of questions){if(questionPaths.has(question.id))continue;if(stages.size+questionPaths.size>=LIMITS.targets-1){deferred=true;continue;}
-  const q=await readRecord(env,owner,'investigation',question.id);
-  const relations=[...head.links.filter(l=>l.family==='investigation'&&l.id===question.id),...(q?.links.filter(l=>l.family==='journey'&&l.id===head.id)??[])];
-  for(const relation of relations)if(await admittedLink(env,owner,relation,scope)){questionPaths.set(question.id,[relation]);break;}
+ if(focus.family==='investigation')return {focus,head,questionPaths:new Map(),stages:new Set(),includeRoot:true,deferred:false,count:1};
+ const includeRoot=!after,stages=new Set<string>(),questionPaths=new Map<string,RecordLink[]>(),stageSpecs=head.learningShape?.kind==='journey'?head.learningShape.stages.map(s=>({id:s.id,sectionId:s.sectionId})):(head.sections??[]).map(s=>({id:s.id,sectionId:s.id}));
+ let selected=includeRoot?1:0,last=after;
+ const orderedStages=[...stageSpecs].sort((a,b)=>a.id.localeCompare(b.id));
+ for(const stage of orderedStages){const key='0:'+stage.id;if(key<=after)continue;if(selected>=LIMITS.targets)return {focus,head,questionPaths,stages,includeRoot,nextTargetKey:last,deferred:true,count:selected};stages.add(stage.id);selected++;last=key;}
+ // Incoming and outgoing authored Question links share one stable ID-ordered cursor.
+ // Scan only bounded candidate identities; rejected links still advance this frontier.
+ if(selected>=LIMITS.targets)return {focus,head,questionPaths,stages,includeRoot,nextTargetKey:last,deferred:true,count:selected};
+ const refs=JSON.stringify(head.links.filter(l=>l.family==='investigation').map(l=>l.id));
+ const sourceScope=learningScopeSql('q',scope),questionAfter=after.startsWith('1:')?after.slice(2):'';
+ const rows=(await env.DB!.prepare(`SELECT q.id FROM v2_records q WHERE q.owner=? AND q.family='investigation' AND q.trashed_at IS NULL AND (${sourceScope.sql}) AND q.id>? AND (EXISTS(SELECT 1 FROM json_each(?) wanted WHERE wanted.value=q.id) OR EXISTS(SELECT 1 FROM json_each(q.data,'$.links') parent WHERE json_extract(parent.value,'$.family')='journey' AND json_extract(parent.value,'$.id')=?)) ORDER BY q.id LIMIT 49`).bind(owner,...sourceScope.args,questionAfter,refs,head.id).all<{id:string}>()).results;
+ let examined=0;
+ for(const row of rows.slice(0,48)){
+  if(selected>=LIMITS.targets)break;
+  examined++;last='1:'+row.id;
+  const q=await readRecord(env,owner,'investigation',row.id);if(!q||!matchesLearningScope(q,scope))continue;
+  const relations=[...head.links.filter(l=>l.family==='investigation'&&l.id===row.id),...q.links.filter(l=>l.family==='journey'&&l.id===head.id)];
+  for(const relation of relations){if(relation.sourceContext?.stageId){const stage=stageSpecs.find(s=>s.id===relation.sourceContext?.stageId);if(!stage||relation.sourceContext.sectionId&&relation.sourceContext.sectionId!==stage.sectionId)continue;}
+   if(await admittedLink(env,owner,relation,scope)){questionPaths.set(row.id,[relation]);selected++;break;}}
  }
- return {focus,head,questionPaths,stages,deferred,count:1+stages.size+questionPaths.size};
+ const deferred=examined<rows.length;
+ return {focus,head,questionPaths,stages,includeRoot,...(deferred?{nextTargetKey:last}:{}),deferred,count:selected};
 }
 async function recordPaths(env:Cloudflare.Env,owner:string,record:WorkspaceRecord,focus:AdmittedFocus|undefined,scope:LearningScopeQuery):Promise<{paths:Path[];deferred:boolean}>{
  const paths:Path[]=[],seen=new Set<string>(),links=refLink(record);let deferred=links.length>24;
@@ -78,6 +103,7 @@ async function recordPaths(env:Cloudflare.Env,owner:string,record:WorkspaceRecor
   const q=link.family==='investigation'?focus.questionPaths.get(link.id):undefined;
   if(!isFocus&&!q)continue;
   if(!await admittedLink(env,owner,link,scope))continue;
+  if(isFocus&&!focus.includeRoot)continue;
   if(isFocus&&focus.focus.family==='journey'&&link.sourceContext?.stageId){
    if(!focus.stages.has(link.sourceContext.stageId))continue;
    const stage=focus.head.learningShape?.kind==='journey'?focus.head.learningShape.stages.find(s=>s.id===link.sourceContext?.stageId):undefined;
@@ -106,12 +132,14 @@ function checkpointPaths(event:LearningDevelopment,focus:AdmittedFocus|undefined
  return [...new Map(paths.map(p=>[JSON.stringify(p),p])).values()];
 }
 export async function readContinuityEvidence(env:Cloudflare.Env,owner:string,input:ContinuityInput={}){
- if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!['focus','cursor','limit','learningSpace','language'].includes(k)))fail('invalid_evidence_input','Use an optional exact focus, learning space and bounded cursor.');
+ if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!['focus','cursor','focusCursor','limit','learningSpace','language'].includes(k)))fail('invalid_evidence_input','Use an optional exact focus, learning space and bounded cursor.');
  if(input.focus!==undefined&&(!input.focus||typeof input.focus!=='object'||Array.isArray(input.focus)||Object.keys(input.focus).some(k=>!['family','id'].includes(k))||!['journey','investigation'].includes(input.focus.family)||!ident(input.focus.id)))fail('invalid_evidence_focus','Choose an exact Project or Question.');
  const limit=input.limit??12;if(!Number.isSafeInteger(limit)||limit<1||limit>LIMITS.items)fail('invalid_evidence_limit','Choose 1–20 evidence items.');
  const selection=parseLearningScopeQuery(input),before=await snapshot(env,owner),generation=generationContext(env)?.generation??'legacy@0';
- const scope=await digest({contract:1,owner,generation,before,selection,focus:input.focus??null,limit});
- const cursor=cursorOf(input.cursor,scope),focus=await readFocus(env,owner,input.focus,selection);
+ if(input.focusCursor&&input.focus?.family!=='journey')fail('invalid_evidence_focus_cursor','A Project target continuation requires an exact Project focus.');
+ const frontierScope=await digest({contract:2,owner,generation,before,selection,focus:input.focus??null}),targetAfter=frontierCursorOf(input.focusCursor,frontierScope);
+ const scope=await digest({contract:2,owner,generation,before,selection,focus:input.focus??null,targetAfter,limit});
+ const cursor=cursorOf(input.cursor,scope),focus=await readFocus(env,owner,input.focus,selection,targetAfter);
  const recordScope=learningScopeSql('r',selection),targetScope=learningScopeSql('target',selection);
  const candidateSql=`SELECT * FROM (
  SELECT 'record' kind,r.family family,r.id id,json_extract(r.data,'$.updatedAt') at,r.family||':'||r.id key,r.data data FROM v2_records r
@@ -129,7 +157,7 @@ export async function readContinuityEvidence(env:Cloudflare.Env,owner:string,inp
   let item:Item|undefined;
   if(row.kind==='record'){
    const record=await readRecord(env,owner,row.family as Family,row.id);
-   if(!record||!matchesLearningScope(record,selection)||(!focus&&record.synthetic))continue;
+   if(!record||!matchesLearningScope(record,selection)||(!focus&&record.synthetic)||!hasSavedContent(record))continue;
    const linked=await recordPaths(env,owner,record,focus,selection),paths=linked.paths;pathsDeferred ||= linked.deferred;if(focus&&!paths.length)continue;
    if(record.family==='flag'&&(!record.bookmark?.active||record.bookmark.available===false))continue;
    checked++;const preview=record.family==='flag'?{text:'',complete:true,detailsDeferred:false}:prose(record);
@@ -144,12 +172,15 @@ export async function readContinuityEvidence(env:Cloudflare.Env,owner:string,inp
    const preview={text:summary.slice(0,700),complete:summary.length<=700};
    item={title:(admitted.recordedTarget??admitted.targetHead).title,source:source(admitted.recordedTarget??admitted.targetHead),author:e.author,at:e.revisedAt??e.createdAt,...(admitted.recordedTarget?{destination:learningDestination(e.primaryTarget,e.targetRenditionAtRecording)}:{}),basis:'saved-checkpoint',preview,paths,checkpoint:{id:e.id,revision:e.revision,target:e.primaryTarget,recordedRev:e.targetRevAtRecording,...(status==='active'&&e.nextAction?{nextAction:e.nextAction}:{}),status},exactRead:{scope:'target',target:e.primaryTarget,developmentId:e.id},detailsDeferred:!preview.complete||!!e.detailsDeferred||!!e.evidenceUnavailable||!admitted.recordedTarget};
   }
-  const size=JSON.stringify(item).length;if(bytes+size>LIMITS.bytes-4500){examined--;break;}bytes+=size;items.push(item);detailsDeferred ||= item.detailsDeferred;
+  const size=new TextEncoder().encode(JSON.stringify(item)).byteLength;
+  if(bytes+size>LIMITS.bytes-4500){examined--;if(!items.length)fail('evidence_item_budget','This source exceeds the bounded evidence preview budget. Open its exact record.',503);break;}
+  bytes+=size;items.push(item);detailsDeferred ||= item.detailsDeferred;
  }
  const moreAvailable=examined<rows.length,at=rows[examined-1];
  const nextCursor=moreAvailable&&at?btoa(JSON.stringify({scope,at:at.at,key:at.key})):undefined;
+ const targetNextCursor=focus?.nextTargetKey?btoa(JSON.stringify({scope:frontierScope,key:focus.nextTargetKey})):undefined;
  const gaps:('targets-deferred'|'records-deferred'|'details-deferred'|'external-unobserved')[]=[];
  if(focus?.deferred||pathsDeferred)gaps.push('targets-deferred');if(moreAvailable)gaps.push('records-deferred');if(detailsDeferred)gaps.push('details-deferred');gaps.push('external-unobserved');
  await assertGenerationCurrent(env);if(await snapshot(env,owner)!==before)fail('evidence_changed','Learning records or rights changed during this evidence read. Restart.',409);
- return {contract:'minamo.continuity-evidence.v1' as const,asOf:new Date().toISOString(),generation,snapshotVersion:before,scope:{...(focus?{focus:focus.focus}:{}),...selection},items,coverage:{completeWithinScope:!moreAvailable&&!focus?.deferred&&!pathsDeferred,moreAvailable,...(nextCursor?{nextCursor}:{}),checked:{targets:focus?.count??0,records:checked},limits:LIMITS,gaps,notice:moreAvailable||focus?.deferred||pathsDeferred?'This is a bounded page of eligible saved evidence. More linked work may exist; do not infer absence or resolution from missing items.':'Eligible saved evidence in this declared scan has been enumerated. This does not establish learner intent, completion, or what GPT last saw.'},lastSeenByGpt:'unknown' as const};
+ return {contract:'minamo.continuity-evidence.v1' as const,asOf:new Date().toISOString(),generation,snapshotVersion:before,scope:{...(focus?{focus:focus.focus}:{}),...selection},items,coverage:{completeWithinScope:!moreAvailable&&!focus?.deferred&&!pathsDeferred,moreAvailable,...(nextCursor?{nextCursor}:{}),moreTargetsAvailable:!!targetNextCursor,...(targetNextCursor?{targetNextCursor}:{}),checked:{targets:focus?.count??0,records:checked},limits:LIMITS,gaps,notice:moreAvailable||focus?.deferred||pathsDeferred?'This is a bounded page of eligible saved evidence. More linked work may exist; do not infer absence or resolution from missing items.':'Eligible saved evidence in this declared scan has been enumerated. This does not establish learner intent, completion, or what GPT last saw.'},lastSeenByGpt:'unknown' as const};
 }

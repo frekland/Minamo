@@ -59,6 +59,15 @@ test('empty bounded page never implies absence; later pages remain explicit and 
  assert.match(ui.render({key:'scope-a',loading:false,page:{...base,items:[denied]}}),/Cannot open original/);
 });
 
+test('a deferred Project target frontier offers its own continuation after the current record page',()=>{
+ const targetPartial={...base,items:[],coverage:{...base.coverage,completeWithinScope:false,moreTargetsAvailable:true,targetNextCursor:'opaque-target-cursor',gaps:['targets-deferred']}};
+ const html=ui.render({key:'focused-project',loading:false,page:targetPartial});
+ assert.match(html,/Check more linked tasks/);assert.match(html,/This view is partial/);
+ const mixed={...targetPartial,coverage:{...targetPartial.coverage,moreAvailable:true,nextCursor:'records-first'}};
+ const mixedHtml=ui.render({key:'focused-project',loading:false,page:mixed});
+ assert.match(mixedHtml,/Check more recorded sources/);assert.doesNotMatch(mixedHtml,/Check more linked tasks/);
+});
+
 test('a revoked edition or corrected checkpoint retains its status, but no stale or unverified destination',()=>{
  const unavailable={...checkpoint,destination:undefined,checkpoint:{...checkpoint.checkpoint,status:'unavailable'}};
  const html=ui.render({key:'scope-a',loading:false,page:{...base,items:[unavailable]}});

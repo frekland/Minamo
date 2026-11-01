@@ -82,3 +82,78 @@ test('C-PARTIAL/C-EMPTY/C-REV: bounded pages are honest, stale cursors rejected 
   const invalid=await c.request('/api/learning-context?scope=evidence&focus='+encodeURIComponent(JSON.stringify({family:'article',id:'x'})));assert.equal(invalid.status,400);
  }finally{await f.dispose();}
 });
+
+test('R1 Project-target cursor exposes later linked Questions and their Notes without declaring first-frontier completion',{timeout:120000},async()=>{
+ const f=await privateStorageFixture(worker);try{
+  const c=f.client('continuity-target-pages'),other=f.client('another-target-owner');
+  const project=(await ok(c.command({action:'create',family:'journey',id:'large-target-project',data:{title:'Project with many questions',body:'Authored guidance',synthetic:false,sections:[{id:'intro',title:'Opening stage',parts:[{id:'p',kind:'paragraph',text:'The original task.'}]}],learningShape:{version:1,kind:'journey',stages:[{id:'stage-one',sectionId:'intro',title:'Stage one'}]}}}))).record;
+  const questions=[];
+  for(let i=0;i<16;i++)questions.push((await ok(c.command({action:'create',family:'investigation',id:'target-q-'+String(i).padStart(2,'0'),data:{title:'Question '+i,body:'Observe carefully.',synthetic:false,links:[{family:'journey',id:project.id,rendition:project.rendition}]}}))).record);
+  const latest=(await ok(c.command({action:'create',family:'note',id:'later-linked-note',data:{title:'A later linked Note',body:'This source must remain findable after the target frontier.',synthetic:false,links:[{family:'investigation',id:questions.at(-1).id}]}}))).record;
+  const first=await ok(query(c,{focus:projectFocus(project.id),limit:'8'}));
+  assert.equal(first.coverage.completeWithinScope,false);assert.equal(first.coverage.moreTargetsAvailable,true);assert.ok(first.coverage.targetNextCursor);
+  assert.ok(first.coverage.gaps.includes('targets-deferred'));assert.equal(first.items.some(item=>item.source.id===latest.id),false);
+  const second=await ok(query(c,{focus:projectFocus(project.id),focusCursor:first.coverage.targetNextCursor,limit:'8'}));
+  assert.equal(second.items.some(item=>item.source.id===latest.id),true,'later Question-linked writing is discoverable without synthetic relationship guesses');
+  assert.equal(second.items.find(item=>item.source.id===latest.id).paths[0].target.investigationId,questions.at(-1).id);
+  assert.equal(second.coverage.moreTargetsAvailable,false);assert.equal(second.coverage.completeWithinScope,true);
+  const otherScope=await query(c,{focus:projectFocus(project.id),focusCursor:first.coverage.targetNextCursor,limit:'9'});
+  assert.equal(otherScope.status,200,'target cursor has its own scope, independent of evidence-item page size');
+  const wrongPrincipal=await query(other,{focus:projectFocus(project.id),focusCursor:first.coverage.targetNextCursor});assert.equal(wrongPrincipal.status,409);
+  const notFocused=await query(c,{focusCursor:first.coverage.targetNextCursor});assert.equal(notFocused.status,400);
+  await ok(c.command({action:'trash',family:'investigation',id:questions.at(-1).id,expectedRev:questions.at(-1).rev}));
+  const stale=await query(c,{focus:projectFocus(project.id),focusCursor:first.coverage.targetNextCursor});assert.equal(stale.status,409);
+ }finally{await f.dispose();}
+});
+
+test('R1 active bookmark index and saved Activity Attempt are distinct read-only Home receipts',{timeout:90000},async()=>{
+ const enabled='import {domainHandler} from "./lib/domain-handler.ts";export default {fetch(request,env){return domainHandler(request,{...env,MINAMO_ACTIVITY_STUDIO:"1"})}}';
+ const f=await privateStorageFixture(enabled);try{
+  const c=f.client('continuity-bookmark-attempt-owner');
+  const source=(await ok(c.command({action:'create',family:'article',id:'attempt-linked-reading',data:{title:'Actual reading',body:'Source material.',synthetic:false,sections:[{id:'s',title:'Source',parts:[{id:'p',kind:'paragraph',text:'Only local synthetic content.'}]}]}}))).record;
+  const flagged=await ok(c.command({action:'setFlag',target:{kind:'record',family:'article',id:source.id},active:true,expectedTargetRev:0}));
+  const pub=await ok(c.request('/api/activities/publish',{purpose:'TEST ONLY independent saved Attempt fixture',operationId:'continuity-publish',id:'continuity-activity',title:'An authored Activity',synthetic:false,activity:{contract:'minamo.activity.v1',template:'predict-compare',intent:'Compare two possible explanations.',authorship:'original-exercise',blocks:[{id:'question',kind:'practice',exercise:{version:1,id:'question',kind:'open-response',prompt:'Explain one uncertainty.',rubric:'Retain uncertainty.',modelAnswer:'Not automatically disclosed.'}}]}}));
+  const attempt=await ok(c.request('/api/activities/attempt',{purpose:'TEST ONLY independent Attempt fixture',operationId:'continuity-attempt',id:'continuity-run',title:'A supplied answer',synthetic:false,attempt:{contract:'minamo.attempt.v1',activity:{family:'experiment',id:pub.record.id,rendition:pub.record.rendition},state:'submitted',hintsRevealed:[],evidence:[],practice:{version:1,responses:[{id:'answer',itemId:'question',revision:1,input:'My independent answer'}],feedback:[],corrections:[],reviewEvents:[],interactions:[]}}}));
+  const page=await ok(query(c));const bookmark=page.items.find(item=>item.basis==='bookmark'),run=page.items.find(item=>item.source.id===attempt.record.id);
+  assert.ok(bookmark);assert.equal(bookmark.source.family,'flag');assert.equal(bookmark.paths[0].edges[0].id,source.id);
+  assert.equal(run.basis,'supplied-attempt');assert.equal(run.source.family,'run');assert.equal(run.title,'A supplied answer');
+  assert.equal(run.detailsDeferred,true,'response, feedback and trace remain in the exact retained Attempt');
+  assert.doesNotMatch(run.preview.text,/My independent answer|Not automatically disclosed/);
+  assert.equal((await f.db.prepare('SELECT count(*) n FROM v2_bookmarks WHERE active=1').first()).n,1);
+  await ok(c.command({action:'setFlag',target:{kind:'record',family:'article',id:source.id},active:false,expectedTargetRev:flagged.bookmark.targetRev}));
+  const after=await ok(query(c));assert.equal(after.items.some(item=>item.basis==='bookmark'),false,'the active bookmark is not reconstructed from a historical Flag');
+  assert.equal(after.items.some(item=>item.source.id===attempt.record.id),true,'independent supplied Attempt survives an unrelated bookmark change');
+ }finally{await f.dispose();}
+});
+
+test('R1 body-less rich Note remains eligible but an empty saved shell is not learner writing',{timeout:90000},async()=>{
+ const f=await privateStorageFixture(worker);try{
+  const c=f.client('continuity-rich-only-owner');
+  const rich=(await ok(c.command({action:'create',family:'note',id:'rich-note',data:{title:'Structured observation',body:'',synthetic:false,sections:[{id:'s',title:'Code observation',parts:[{id:'sample',kind:'code',language:'text',text:'A substantive source-only observation'}]}]}}))).record;
+  const empty=(await ok(c.command({action:'create',family:'note',id:'empty-shell',data:{title:'No writing yet',body:'',synthetic:false}}))).record;
+  const page=await ok(query(c));const receipt=page.items.find(item=>item.source.id===rich.id);
+  assert.ok(receipt,'a Note with authored sections is eligible without a plain-text body');
+  assert.equal(receipt.detailsDeferred,true);assert.match(receipt.preview.text,/Saved rich content/);
+  assert.equal(page.items.some(item=>item.source.id===empty.id),false,'an empty shell cannot be presented as learner work');
+  assert.equal(page.coverage.completeWithinScope,true);
+ }finally{await f.dispose();}
+});
+
+test('R1 UTF-8 response and query budgets page a larger multibyte corpus without losing records',{timeout:120000},async t=>{
+ const measured=`import {domainHandler} from './lib/domain-handler.ts';export default {async fetch(request,env){let count=0;const db=env.DB,started=performance.now();const response=await domainHandler(request,{...env,DB:{prepare(sql){count++;return db.prepare(sql)},batch(statements){return db.batch(statements)},exec(sql){return db.exec(sql)}}});response.headers.set('X-Test-Queries',String(count));response.headers.set('X-Test-Worker-Ms',String(performance.now()-started));return response;}};`;
+ const f=await privateStorageFixture(measured);try{
+  const c=f.client('continuity-utf8-budget-owner');
+  for(let i=0;i<24;i++)await ok(c.command({action:'create',family:'note',id:'multibyte-'+String(i).padStart(2,'0'),data:{title:'Multibyte source '+i,body:'🌿'.repeat(3000),synthetic:false}}));
+  let cursor,seen=[],pages=0;const samples=[];
+  do{
+   const reply=await c.request('/api/learning-context?'+new URLSearchParams({scope:'evidence',limit:'20',...(cursor?{cursor}:{})}));
+   const page=await ok(Promise.resolve(reply));const bytes=new TextEncoder().encode(JSON.stringify(page)).byteLength,queries=Number(reply.headers.get('X-Test-Queries'));
+   assert.ok(bytes<=65536,'actual UTF-8 JSON envelope must stay under 64 KiB, not merely JS string length');
+   assert.ok(queries<=250,'bounded read must not issue unbounded per-record D1 queries');
+   seen.push(...page.items.map(item=>item.source.id));cursor=page.coverage.nextCursor;pages++;assert.ok(pages<=12,'cursor must advance');
+   samples.push({bytes,queries,workerMs:+Number(reply.headers.get('X-Test-Worker-Ms')).toFixed(1),items:page.items.length});
+   if(cursor)assert.equal(page.coverage.completeWithinScope,false);
+  }while(cursor);
+  assert.equal(new Set(seen).size,24);assert.equal(seen.length,24);t.diagnostic(JSON.stringify({kind:'isolated-D1-continuity-utf8',samples}));
+ }finally{await f.dispose();}
+});
