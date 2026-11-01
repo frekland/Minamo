@@ -24,7 +24,7 @@ import {flagTargetKey} from './bookmark-targets';
 import {diagramError,diagramCanonicalText} from './diagrams';
 import {prepareImageAttachment,imageAdmissionGuard,imageAttachmentStatements,readImageMetadata,type ImageMetadata} from './assets';
 import {learningExamples} from './learning-examples';
-import { canonicalReadingParts, tableCanonicalText, imageCanonicalText, mediaCanonicalText, RELATIONS, isReadingFamily, FAMILIES, type Family, type Actor, type WorkspaceRecord, type RecordData, type WorkspaceCommand, type WorkspaceSnapshot, type PassageAnchor, type CommandReceipt, type ActivityItem, type RecordLink, type ContextOptions, type ConceptEntry, type ConceptMatch, type ConceptDestination, type SourceInfo, type PassagePart, type FlagTarget } from './contracts';
+import { canonicalReadingParts, tableCanonicalText, imageCanonicalText, mediaCanonicalText, RELATIONS, isReadingFamily, FAMILIES, type Family, type Actor, type WorkspaceRecord, type RecordData, type WorkspaceCommand, type WorkspaceSnapshot, type PassageAnchor, type CommandReceipt, type ActivityItem, type RecordLink, type ContextOptions, type SelectedContextRef, type ReadingSelection, type ConceptEntry, type ConceptMatch, type ConceptDestination, type SourceInfo, type PassagePart, type FlagTarget } from './contracts';
 import {DomainError} from './domain-error';
 export {DomainError} from './domain-error';
 function fail(status:number,code:string,message:string):never{throw new DomainError(status,code,message)}
@@ -607,12 +607,45 @@ export async function readContext(env:Cloudflare.Env,owner:string,f?:Family,id?:
  const record=f&&id?(rendition?await readRendition(env,owner,id,rendition,f):await readRecord(env,owner,f,id)):null;
  if(f&&id&&!record)fail(404,'record_unavailable','This record or retained rendition is unavailable.');
  let selection:PassageAnchor|null=null;if(options.selection!==undefined){if(!record||!isReadingFamily(record.family)||!rendition||record.rendition!==rendition)fail(400,'pinned_selection_required','An exact selected context needs a readable record and explicit retained rendition.');selection=contextSelection(record,options.selection);const resolved=await resolveAnchor(env,owner,selection);if(!resolved.article)fail(409,'passage_unavailable','The selected rendition is currently unavailable.');}
- const selectedRelated:WorkspaceRecord[]=[],unavailableRelatedRefs:{family:Family;id:string}[]=[],summarizedRelatedRefs:{family:Family;id:string}[]=[],omittedRelatedRefs:{family:Family;id:string}[]=[];let selectedRelatedBytes=0;if(options.relatedRefs!==undefined){if(!Array.isArray(options.relatedRefs)||options.relatedRefs.length>8)fail(400,'related_context_budget','Choose at most eight explicit related records.');const seen=new Set<string>();for(const ref of options.relatedRefs){if(!object(ref)||!family(ref.family)||!identifier(ref.id))fail(400,'invalid_target','A selected related record needs exact family and ID.');allowedKeys(ref,['family','id']);const key=ref.family+':'+ref.id;if(seen.has(key))continue;seen.add(key);const related=await readRecord(env,owner,ref.family,ref.id);if(related&&matchesLearningScope(related,learningQuery)){const bytes=new TextEncoder().encode(JSON.stringify(related)).byteLength;if(selectedRelatedBytes+bytes<=200000){selectedRelated.push(related);selectedRelatedBytes+=bytes;}else{const {sections,code,output,anchor,...summary}=related;const projection={...summary,links:[],body:summary.body.slice(0,1000)};const summaryBytes=new TextEncoder().encode(JSON.stringify(projection)).byteLength;if(selectedRelatedBytes+summaryBytes<=200000){selectedRelated.push(projection);selectedRelatedBytes+=summaryBytes;summarizedRelatedRefs.push(ref);}else omittedRelatedRefs.push(ref);}}else unavailableRelatedRefs.push(ref);}}
+ const selectedRelated:WorkspaceRecord[]=[],unavailableRelatedRefs:SelectedContextRef[]=[],summarizedRelatedRefs:SelectedContextRef[]=[],omittedRelatedRefs:SelectedContextRef[]=[],selectedRelatedSelections:(SelectedContextRef&{selection:ReadingSelection})[]=[];
+ let selectedRelatedBytes=0;
+ if(options.relatedRefs!==undefined){
+  if(!Array.isArray(options.relatedRefs)||options.relatedRefs.length>8)fail(400,'related_context_budget','Choose at most eight explicit related records.');
+  const seen=new Set<string>();
+  for(const ref of options.relatedRefs){
+   if(!object(ref)||!family(ref.family)||!identifier(ref.id))fail(400,'invalid_target','A selected related record needs exact family and ID.');
+   allowedKeys(ref,['family','id','rendition','selection']);
+   if(ref.rendition!==undefined&&(!isReadingFamily(ref.family)||!renditionId(ref.rendition)))fail(400,'invalid_target','The selected related edition must identify retained readable material.');
+   if(ref.selection!==undefined&&!ref.rendition)fail(400,'pinned_selection_required','A selected related passage needs its exact retained edition.');
+   if(ref.selection!==undefined&&(JSON.stringify(ref.selection).length>12000||Array.isArray(ref.selection?.segments)&&ref.selection.segments.length>40))fail(400,'selection_budget','Select at most 40 exact segments and 12,000 selector characters.');
+   const pin:SelectedContextRef={family:ref.family,id:ref.id,...(ref.rendition?{rendition:ref.rendition}:{})};
+   const key=stable({pin,selection:ref.selection??null});if(seen.has(key))continue;seen.add(key);
+   const related=pin.rendition?await readRendition(env,owner,pin.id,pin.rendition,pin.family):await readRecord(env,owner,pin.family,pin.id);
+   if(!related||!matchesLearningScope(related,learningQuery)){unavailableRelatedRefs.push(pin);continue;}
+   if(ref.selection!==undefined){
+    let anchor:PassageAnchor;try{anchor=contextSelection(related,ref.selection);}catch(error){if(error instanceof DomainError&&error.status===409){unavailableRelatedRefs.push(pin);continue;}throw error;}
+    const resolved=await resolveAnchor(env,owner,anchor);
+    if(!resolved.article){unavailableRelatedRefs.push(pin);continue;}
+    // A reused Source excerpt resolves through its original Source, but these
+    // displayed coordinates still belong to the selected containing Article.
+    const chosen=ref.selection as ReadingSelection;
+    pin.selection={sectionId:chosen.sectionId,partId:chosen.partId,start:chosen.start,end:chosen.end,...(chosen.segments?{segments:chosen.segments}:{})};
+   }
+   const bytes=new TextEncoder().encode(JSON.stringify(related)).byteLength+new TextEncoder().encode(JSON.stringify(pin)).byteLength;
+   if(selectedRelatedBytes+bytes<=200000){selectedRelated.push(related);selectedRelatedBytes+=bytes;if(pin.selection)selectedRelatedSelections.push({...pin,selection:pin.selection});}
+   else{
+    const {sections,code,output,anchor,...summary}=related;
+    const projection={...summary,links:[],body:summary.body.slice(0,1000)},summaryBytes=new TextEncoder().encode(JSON.stringify(projection)).byteLength;
+    if(selectedRelatedBytes+summaryBytes<=200000){selectedRelated.push(projection);selectedRelatedBytes+=summaryBytes;summarizedRelatedRefs.push(pin);if(pin.selection)selectedRelatedSelections.push({...pin,selection:pin.selection});}
+    else omittedRelatedRefs.push(pin);
+   }
+  }
+ }
  let where='owner=? AND trashed_at IS NULL';const args:unknown[]=[owner];const learningFilter=learningScopeSql('v2_records',learningQuery);where+=' AND '+learningFilter.sql;args.push(...learningFilter.args);
  if(record){where+=" AND (EXISTS(SELECT 1 FROM json_each(?) l WHERE json_extract(l.value,'$.family')=v2_records.family AND json_extract(l.value,'$.id')=v2_records.id) OR EXISTS(SELECT 1 FROM json_each(v2_records.data,'$.links') l WHERE json_extract(l.value,'$.family')=? AND json_extract(l.value,'$.id')=?) OR (json_extract(data,'$.anchor.articleId')=? AND coalesce(json_extract(data,'$.anchor.recordFamily'),'article')=?))";args.push(JSON.stringify(record.links),record.family,record.id,record.id,record.family)}else{where+=" AND family IN ('note','flag','annotation','investigation')";}
  const limit=record?40:24;
  const rows=await db(env).prepare(`SELECT json_set(json_remove(data,'$.sections','$.code','$.output','$.outputBundle','$.activity','$.attempt','$.source.excerpt.text'),'$.body',substr(json_extract(data,'$.body'),1,1000)) data FROM v2_records WHERE ${where} ORDER BY json_extract(data,'$.updatedAt') DESC,family,id LIMIT ?`).bind(...args,limit+1).all<{data:string}>();
- return {record,bookmarks:record&&isReadingFamily(record.family)?{record:await readBookmarkState(env,owner,{kind:'record',family:record.family,id:record.id}),...(selection?{selection:await readBookmarkState(env,owner,{kind:'passage',anchor:selection})}:{})}:null,conceptEntries:conceptEntries(record),selection,selectedRelated,unavailableRelatedRefs,summarizedRelatedRefs,omittedRelatedRefs,selectedRelatedProjection:'Up to 200,000 serialized bytes; large records summarized or explicitly omitted for later exact reads.',selectedRelatedByteLimit:200000,provenanceNotice:'Repository and source references are links or authored explanations, not proof of command execution or learner achievement. Image alternative text, media descriptions and transcripts are owner-authored metadata, not inspection or transcription of file bytes. Private image URLs require owner authentication; image pixels are not delivered by this JSON context.',related:await projectRecordPage(env,owner,rows.results.slice(0,limit).map(r=>unpack(r)!)),relatedTruncated:rows.results.length>limit,relatedProjection:'summaries; exact reads return complete eligible records',anchor:record?.anchor?await resolveAnchor(env,owner,record.anchor):null,permissions:{authenticated:true,scope:'site-private-owner-records',automaticGptAction:false},evidence:'Reading or saving records is not learner achievement.'};
+ return {record,bookmarks:record&&isReadingFamily(record.family)?{record:await readBookmarkState(env,owner,{kind:'record',family:record.family,id:record.id}),...(selection?{selection:await readBookmarkState(env,owner,{kind:'passage',anchor:selection})}:{})}:null,conceptEntries:conceptEntries(record),selection,selectedRelated,selectedRelatedSelections,unavailableRelatedRefs,summarizedRelatedRefs,omittedRelatedRefs,selectedRelatedProjection:'Up to 200,000 serialized bytes; large records summarized or explicitly omitted for later exact reads. Explicit related selections retain exact rendition identities and validated UTF-16 selectors.',selectedRelatedByteLimit:200000,provenanceNotice:'Repository and source references are links or authored explanations, not proof of command execution or learner achievement. Image alternative text, media descriptions and transcripts are owner-authored metadata, not inspection or transcription of file bytes. Private image URLs require owner authentication; image pixels are not delivered by this JSON context.',related:await projectRecordPage(env,owner,rows.results.slice(0,limit).map(r=>unpack(r)!)),relatedTruncated:rows.results.length>limit,relatedProjection:'summaries; exact reads return complete eligible records',anchor:record?.anchor?await resolveAnchor(env,owner,record.anchor):null,permissions:{authenticated:true,scope:'site-private-owner-records',automaticGptAction:false},evidence:'Reading or saving records is not learner achievement.'};
 }
 
 /** Original authored examples. External references are link-only, never copied teaching text. */

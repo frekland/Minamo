@@ -78,7 +78,7 @@ export default function JourneyRoute(props:ReaderProps&{stageId?:string;onStage:
  const selection=useLearningSpace();
  const {article,stageId,onStage,onNavigate}=props,stages=journeyStages(article),stage=stages.find(s=>s.id===stageId),index=stage?stages.indexOf(stage):-1;
  const evidence=useContinuityEvidence({scope:props.draftScope,serverReads:!!props.currentHead&&!stageId,focus:{family:'journey',id:article.id}});
- const showLegacyContinuation=!!evidence.read.error||(!evidence.read.page&&!evidence.read.loading);
+ const showLegacyContinuation=!evidence.read.page&&!evidence.read.loading;
  const stageHref=(id?:string)=>learningSpaceHref(journeyStageDestination(article,id),selection),openStage=(event:MouseEvent<HTMLAnchorElement>,id?:string)=>{if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onStage(id);};
  const openingSections=(article.sections??[]).filter(section=>!stages.some(item=>item.sectionId===section.id));
  const [lastPosition,setLastPosition]=useState<{key:string;id?:string}>(),[panel,setPanel]=useState<'resources'|'map'|'introduction'|null>(null);

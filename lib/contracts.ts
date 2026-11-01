@@ -34,7 +34,10 @@ export const MAX_PASSAGE_SEGMENTS=40;
 export const MAX_PASSAGE_QUOTE=12000;
 export type PassageAnchor = { articleId:string; recordFamily?:Family; rendition:string; sectionId:string; partId:string; start:number; end:number; quote:string; displayReturn?:PassageDisplayReturn; segments?:{sectionId:string;partId:string;start:number;end:number}[] };
 export type ReadingSelection=Pick<PassageAnchor,'sectionId'|'partId'|'start'|'end'|'segments'>;
-export type ContextOptions=import('./learning-spaces').LearningScopeQuery & {selection?:ReadingSelection;relatedRefs?:Pick<RecordLink,'family'|'id'>[]};
+/** Deliberately selected related sources may pin an edition and exact passage.
+ * The older family/id form continues to request the current eligible head. */
+export type SelectedContextRef=Pick<RecordLink,'family'|'id'|'rendition'> & {selection?:ReadingSelection};
+export type ContextOptions=import('./learning-spaces').LearningScopeQuery & {selection?:ReadingSelection;relatedRefs?:SelectedContextRef[]};
 export function tableCanonicalText(table:ReadingTable):string{return [table.headers.join('\t'),...table.rows.map(row=>row.join('\t'))].join('\n');}
 export type SourceInfo = { url:string; attribution:string; rights:'link-only'|'original'|'permitted-excerpt'; commit?:string;path?:string;kind?:'documentation'|'repository'|'external';excerpt?:SourceExcerpt };
 export const CONCEPT_LIMITS={entries:40,aliases:12,term:120,definition:1000,environment:120,matches:20} as const;

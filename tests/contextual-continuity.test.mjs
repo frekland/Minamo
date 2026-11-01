@@ -139,6 +139,36 @@ test('R1 body-less rich Note remains eligible but an empty saved shell is not le
  }finally{await f.dispose();}
 });
 
+test('W5 secondary GPT context retains two revisions of one Note and an old Article passage across web and MCP',{timeout:90000},async()=>{
+ const f=await privateStorageFixture(worker);try{
+  const c=f.client('selected-editions-owner'),other=f.client('selected-editions-other');
+  const q=(await ok(c.command({action:'create',family:'investigation',id:'edition-question',data:{title:'How did my explanation change?',body:'An exact source question.',synthetic:false}}))).record;
+  const note1=(await ok(c.command({action:'create',family:'note',id:'edition-note',data:{title:'My different revisions',body:'Original claim is still available.',synthetic:false}}))).record;
+  const note2=(await ok(c.command({action:'update',family:'note',id:note1.id,expectedRev:note1.rev,data:{body:'Reconsidered claim.'}}))).record;
+  const note3=(await ok(c.command({action:'update',family:'note',id:note1.id,expectedRev:note2.rev,data:{body:'Third independent claim.'}}))).record;
+  const article1=(await ok(c.command({action:'create',family:'article',id:'edition-article',data:{title:'Pinned reference',body:'Reference source',synthetic:false,sections:[{id:'s',title:'Reference section',parts:[{id:'p',kind:'paragraph',text:'Alpha 🧪 original source'}]}]}}))).record;
+  const article2=(await ok(c.command({action:'update',family:'article',id:article1.id,expectedRev:article1.rev,data:{sections:[{id:'s',title:'Reference section',parts:[{id:'p',kind:'paragraph',text:'Changed second edition'}]}]}}))).record;
+  assert.notEqual(note1.rendition,note3.rendition);assert.notEqual(article1.rendition,article2.rendition);
+  const refs=[{family:'note',id:note1.id,rendition:note1.rendition},{family:'note',id:note3.id,rendition:note3.rendition},{family:'article',id:article1.id,rendition:article1.rendition,selection:{sectionId:'s',partId:'p',start:0,end:5}}];
+  const url='/api/context?'+new URLSearchParams({family:'investigation',id:q.id,relatedRefs:JSON.stringify(refs)});
+  const get=await ok(c.request(url));assert.deepEqual(get.selectedRelated.map(x=>[x.family,x.id,x.rendition]),refs.map(x=>[x.family,x.id,x.rendition]));
+  assert.deepEqual(get.selectedRelated.filter(x=>x.family==='note').map(x=>x.body),[note1.body,note3.body]);assert.match(get.selectedRelated[2].sections[0].parts[0].text,/original source/);
+  assert.deepEqual(get.selectedRelatedSelections,[refs[2]],'only validated exact selected coordinates are acknowledged');
+  assert.deepEqual(get.unavailableRelatedRefs,[]);assert.deepEqual(get.omittedRelatedRefs,[]);
+  const post=await ok(c.request('/api/context',{family:'investigation',id:q.id,relatedRefs:refs}));assert.deepEqual(post.selectedRelated.map(x=>x.rendition),refs.map(x=>x.rendition));
+  const rpc=await ok(c.request('/mcp',{jsonrpc:'2.0',id:3,method:'tools/call',params:{name:'get_minamo_context',arguments:{purpose:'Compare my selected retained sources',family:'investigation',id:q.id,relatedRefs:refs}}}));
+  assert.equal(rpc.result.isError,false,JSON.stringify(rpc));assert.match(JSON.stringify(rpc),new RegExp(note1.rendition));assert.match(JSON.stringify(rpc),new RegExp(note3.rendition));
+  const denied=await ok(c.request('/api/context',{family:'investigation',id:q.id,relatedRefs:[{family:'note',id:'not-owned'},{family:'article',id:'edition-article',rendition:'not-existing'}]}));
+  assert.equal(denied.selectedRelated.length,0);assert.equal(denied.unavailableRelatedRefs.length,2);assert.doesNotMatch(JSON.stringify(denied),/Original claim|original source/);
+  const wrongOwner=await other.request(url);assert.equal(wrongOwner.status,404,'the primary record is owner-fenced');
+  const badSelection=await c.request('/api/context',{family:'investigation',id:q.id,relatedRefs:[{family:'article',id:article1.id,selection:refs[2].selection}]});assert.equal(badSelection.status,400,'an unpinned selected passage cannot guess the current head');
+  await ok(c.command({action:'trash',family:'article',id:article2.id,expectedRev:article2.rev}));
+  const revoked=await ok(c.request('/api/context',{family:'investigation',id:q.id,relatedRefs:refs}));
+  assert.deepEqual(revoked.selectedRelated.map(x=>x.rendition),[note1.rendition,note3.rendition]);assert.deepEqual(revoked.unavailableRelatedRefs,[{family:'article',id:article1.id,rendition:article1.rendition}]);
+  assert.doesNotMatch(JSON.stringify(revoked),/Alpha 🧪 original source|Changed second edition/);
+ }finally{await f.dispose();}
+});
+
 test('R1 UTF-8 response and query budgets page a larger multibyte corpus without losing records',{timeout:120000},async t=>{
  const measured=`import {domainHandler} from './lib/domain-handler.ts';export default {async fetch(request,env){let count=0;const db=env.DB,started=performance.now();const response=await domainHandler(request,{...env,DB:{prepare(sql){count++;return db.prepare(sql)},batch(statements){return db.batch(statements)},exec(sql){return db.exec(sql)}}});response.headers.set('X-Test-Queries',String(count));response.headers.set('X-Test-Worker-Ms',String(performance.now()-started));return response;}};`;
  const f=await privateStorageFixture(measured);try{

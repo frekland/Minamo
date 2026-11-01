@@ -22,6 +22,11 @@ test('portable brief names existing read tool and preserves exact selector but o
 test('related records are owner-selected, bounded and family-qualified; none are added by default',()=>{
  const record={family:'investigation',id:'question'};assert.equal(gpt.buildGptContextBrief({record}).relatedRequests,undefined);
  const chosen=[{family:'note',id:'same'},{family:'annotation',id:'same'},{family:'note',id:'same'}];assert.deepEqual(gpt.boundedRelatedRefs(chosen),chosen.slice(0,2));assert.throws(()=>gpt.boundedRelatedRefs(Array.from({length:9},(_,i)=>({family:'note',id:String(i)}))),/eight/);
+ const editions=[{family:'note',id:'same',rendition:'note-r1'},{family:'note',id:'same',rendition:'note-r3'},{family:'article',id:'source',rendition:'article-e1',selection:{sectionId:'s',partId:'p',start:0,end:5}}];
+ const related=gpt.buildGptContextBrief({record:{family:'investigation',id:'question'},relatedRefs:editions});
+ assert.deepEqual(related.arguments.relatedRefs,editions,'selected editions of one record are distinct, and a secondary exact passage stays pinned');
+ assert.equal(related.relatedRequests.length,3);assert.match(related.text,/note-r1/);assert.match(related.text,/note-r3/);
+ assert.throws(()=>gpt.boundedRelatedRefs([{family:'article',id:'source',selection:{sectionId:'s',partId:'p',start:0,end:5}}]),/retained edition/);
 });
 test('mismatched rendition/record and unsupported large selections reject rather than retarget or truncate',()=>{
  for(const record of [{family:'article',id:anchor.articleId,rendition:'different'},{family:'note',id:anchor.articleId,rendition:'r-one'},{family:'article',id:'different',rendition:'r-one'}])assert.throws(()=>gpt.buildGptContextBrief({record,selection:anchor}),/does not match/);
