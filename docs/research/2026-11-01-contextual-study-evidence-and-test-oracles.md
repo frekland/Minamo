@@ -1,0 +1,109 @@
+# Contextual study — executed read-only evidence and exact regression oracles (1 November 2026)
+
+**Status:** new read-only MCP/browser observations + deterministic *test specifications*, not executed app regression tests, functional UX acceptance or deployed repairs. Companion [interaction study](2026-11-01-contextual-learning-interaction-study.md). Supplements [independent audit](2026-11-01-independent-pre-design-audit.md), [route spec](2026-11-01-pre-design-route-regression-spec.md) and [five-question contract](2026-11-01-pre-design-continuity-contract.md); tracking [#51](https://github.com/frekland/Minamo/issues/51).
+
+## Verification envelope — precise scope
+
+- **Repository:** public main at merge commit [40b679d](https://github.com/frekland/Minamo/commit/40b679d795560682e8a13330087295e685b23295) after PR #76; this study branched from that exact commit. No later main commit was listed at read time. Existing source and tests were *read*, not edited or executed. Issue #51 and comments were checked; earlier Workbench prescriptions do not supersede the 1 Nov owner decision.
+- **Site:** read-only authenticated Cloud Browser opened existing Minamo at its owner-only TEST ONLY Mood Project. Current entry visibly foregrounds the revised Project plus five ordered Steps; Notes tabs and separate navigation coexist. This session did **not** replay R1/R2, inspect mobile or publish/save anything. The [independent audit](2026-11-01-independent-pre-design-audit.md) separately reproduced R1/R2 on hosted V88 on the same date. Native Sites/public-source byte parity remains unverified.
+- **MCP:** action **list** and action **inspect** only on three registered, settled, synthetic Phase K variants. Exact active controller state: documentation-sceptic Mood **epoch 1, revision 1**; interrupted-sparse Cap **epoch 1, revision 1**; careful-calibrator Plant **epoch 1, revision 1**. The preserved legacy Mood controller is separate at **epoch 3, revision 21**. **No load, advance, reset, trace start, transcript append, checkpoint or record mutation.**
+- **Reads actually executed:** three full Project/Stage *journey-overview* reads; three exact Question target reads with profile full and activityLimit 20; exact Mood provider Stage target read; direct Project get-context reads for Cap and Plant. Results were returned from generation **legacy@0**, learning-work source version **learning-work@4**, as-of 2026-11-01 13:50–13:54 UTC. A first target request with activityLimit 25 was rejected by validation (allowed 1–20); retried correctly with 20. Validation failure is not an app test failure.
+- **Identity privacy:** the keys below are manifest-defined **TEST ONLY** fictional identifiers, not private learner identifiers. Never publish signed-in non-synthetic N4 Article/Activity IDs, excerpts, account details or logs. Narrative dates embedded in fictional Notes (including **23 November**) are not real event timestamps and may postdate the 1 November server read; use actual record createdAt/updatedAt separately.
+
+## Five-question contract — observed source pins and cautious rehearsal
+
+The following is a **human-interpreted rehearsal over actual read-only MCP output**. No new deterministic projection implementation was run, no learner “next intent” was confirmed, and no functional user test has passed. All stated actions/results are *fictional learner reports* unless separately marked as a canonical saved record or demonstrated test.
+
+| Contract question | Mood documentation-sceptic K | Cap sparse K | Plant calibrator K |
+| --- | --- | --- | --- |
+| 1. Last returned authored work | Provider Question latest linked Note **docs-return r1**, actual updated **Oct 31 23:46:50 UTC**; revised **docs-audit r3** at **23:46:49 UTC**; older provider Stage checkpoint **save-b r1** at **23:45:28 UTC**. They are distinct sources. | Instance Question **restart Note r1**, actual updated **Oct 31 23:49:19 UTC**; earlier **expired Note r1** at **23:49:06 UTC**. No checkpoint in pinned fixture. | Calibration Question **cal-next Note r1**, actual updated **Oct 31 23:48:06 UTC**; **raw-series Note r3** at **23:48:04 UTC**. No checkpoint in pinned fixture. |
+| 2. Explicit intention | Latest Note asks to locate current offline source/earliest unsupported API assumption and make **one narrow evidence-gathering check**; revised r3 says verify one permission claim. Older Stage checkpoint says build local React card/mood control. **Competing dated advice; do not silently pick.** | Latest Note asks tutor to request a **currently authorised lab instance** before commands, avoid spoilers and unsupported captures. No authorised instance is present in returned evidence. | Latest Note requests comparison of guessed 15% and raw model plus **one bench measurement**; raw-series r3 specifies labelled actual dry/wet readings with attenuation, soil and time. |
+| 3. Unresolved problem | Provider eligibility, documented permission, consent, OAuth scope and actual live response unverified. Available cited source is an authored reference, not a credential/approval proof. | Whether old tab failure means platform expiry is a learner **belief**; no platform status or new target validation. | Dry/wet sensor calibration, accuracy and audible physical output unverified; code and synthetic CSV are insufficient. |
+| 4. Changed understanding | Revised docs-audit r3 explicitly retracts earlier “public docs guarantee access” assumption. Earlier research Note r2 corrects feasibility assumptions; checkpoint still references **research Note r1** retained rendition. Correction is a written revision, **not an independently tested provider outcome**. | Pivot Note r1 retracts the inference “open HTTP implies exploitable”; old command fragment preserved as a learner report. No independently executed lab in fixture. | Earlier first-parts Note r1 says “15%” was a wish; raw-series r3 says CSV was synthetic and physical calibration absent. This is a revision of model, not validated moisture measurement. |
+| 5. What changed | Canonical saved revisions (docs-audit **r3**, provider Question **r5**) and explicit offline/no-token decisions. No demonstrated Spotify API call or success. | Sparse Note **r3** is revised and restart method is better scoped; no verified exploit/credential/flag. | Raw-series **r3**, calibration Question **r4**, deterministic model discussion; no verified hardware calibration or device output. |
+
+### Exact synthetic record/revision references used
+
+Only identifiers whose leading key begins **TEST-ONLY** are included below; for rendered learner UI, prefer human-readable source title/date with an inspectable technical receipt.
+
+| Scenario (registered exact variant) | Source target | Essential exact records and retained edition evidence |
+| --- | --- | --- |
+| Mood **provider-documentation-sceptic** (fixture mood-to-music/3) | Question **TEST-ONLY-m2m-docs-v1-r1-question-provider r5**; Stage **provider** of Project r4 | **TEST-ONLY-m2m-docs-v1-r1-note-docs-return r1** (current rendition prefix **r-061f077d**), **note-docs-audit r3** (**r-5c8fc065**), **note-research r2** (**r-faff4bd2**); provider Stage checkpoint **TEST-ONLY-m2m-docs-v1-r1-save-b r1** refers to *retained research Note r1*, rendition **r-61005323**, with Stage target rev **2** at recording versus current Project rev **4**. |
+| Cap **interrupted-sparse-recorder** (retired-htb-cap/1) | **TEST-ONLY-htb-cap-sparse-return-v1-r1-question-instance r3**, source rendition **r-05c80a9c** | **note-restart r1** (**r-5e048455**), **note-expired r1** (**r-496c926d**), **note-pivot r1** (**r-12f45c46**), **note-sparse r3** in separate service Question. Checkpoint count **0** in fixture snapshot. |
+| Plant **careful-calibrator** (automatic-plant-screamer/1) | **TEST-ONLY-plant-screamer-calibrator-v1-r1-question-calibration r4**, source rendition **r-d358f22e** | **note-cal-next r1** (**r-c2ef4234**), **note-raw-series r3** (**r-4c9707e1**), **note-first-parts r1** (**r-9486fd0a**), **note-hysteresis r1** (**r-9d5ae549**). Checkpoint count **0** in fixture snapshot. |
+
+**Important Mood limitation:** the documentation-sceptic's provider **Question** returned zero checkpoints while its *separate provider Stage* returned one saved checkpoint. An implementation reading only the Question and claiming “there is no checkpoint” would be falsely certain. A Project/Stage/Question join must retain provenance and not conflate different target scopes. This study deliberately did **not** merge the documentation-sceptic history with the different legacy privacy-v7 Mood history used in previous storyboards.
+
+### Retrieval closure and missed evidence — exact observed counts
+
+| Read pair | Direct Project get-context | Full exact Question target | Latest eligible Note invisible at root? | Meaning |
+| --- | --- | --- | --- | --- |
+| Cap sparse | **7 related** records; **relatedTruncated:false** | Instance Question **4** activity items, **moreAvailable:false** | **Yes**: restart r1 and expired r1 absent. **3/4** target activity entries absent at root (includes annotation). | A non-truncated *direct* relation set does not establish transitive Question-linked completeness. |
+| Plant calibrator | **7 related** records; **relatedTruncated:false** | Calibration Question **8** activity items, **moreAvailable:false** | **Yes**: cal-next r1 and raw-series r3 absent. **5/8** target activity entries absent at root (including two annotations and hysteresis Note). | Root-only summary would miss the revised model and actual next learner request. |
+
+The comparisons are **exact identity intersections**, not estimated false-negative rates across all records/users. “Absent from direct root related” does **not** mean stored data lost, inaccessible, or necessarily absent from the more deliberate journey-overview/group traversal; those group reads did show the newer Notes. Query coverage at a target may be complete in that window while the entire learner's history is not. No full cursor sweep of every Project source family or independent rights revocation was executed.
+
+**Coverage evidence:** initial Project overview lists showed **4 top-level recent items with moreAvailable:true/partial:true** for each variant and grouped Question/Stage windows often reported **moreAvailable:true**; selected exact Question target reads with activityLimit 20 reported **moreAvailable:false/partial:false**, and **lastSeenByGpt:unknown**. Neither result authorises a global “nothing else happened.” External lab/Spotify/hardware state and unsaved chats/drafts remain out of scope.
+
+### Potential false certainty — marked, not committed
+
+No GPT- or app-generated continuity view was executed to count actual incorrect outputs. This rehearsal found these **specific traps** (and safe substitutes) for a future projection test:
+
+1. **“No recent work” from root:** false for Cap/Plant latest Question-linked Notes. Instead: “Nothing found in direct root links; relevant Question links contain recent work.”
+2. **“No checkpoint” from Mood Question only:** false for Mood Stage. Instead: “No checkpoint on this Question; one older Stage checkpoint found.”
+3. **“Last seen/last worked on 23 Nov”:** fictional narrative date, **not** actual server write date or last app visit. Instead show **Oct 31 saved timestamp** and clarify the fixture's fictional text.
+4. **“Spotify access proven” / “OAuth ready”:** no verified permission/endpoint response. Instead: “learner wants to verify eligibility.”
+5. **“Cap instance expired” / “flag captured”:** old-tab failure is a belief and no validated target or flag. Instead: “instance status unknown; ask for current permitted target.”
+6. **“Plant threshold calibrated / device worked”:** synthetic trace and code are not physical measurements. Instead: “state model proposed; real dry/wet measurement still needed.”
+7. **“A corrected Note replaces checkpoint evidence”:** old checkpoint refers to retained research r1; new research r2 must not rewrite it. Instead display both with historical source version.
+8. **“No Activity exists” from inspected 14-record Cap/Plant snapshots:** no Activity/Attempt is present in their **registered fixture snapshot**, but current query and visibility must still be rights/scope aware; do not generalise to all Minamo or to external evidence.
+
+A correct future projector must produce **source receipts, conflicts and unknowns** for these cases; assigning it a pass before execution would be misleading. The five slots are **data availability obligations**, not five compulsory dashboard panels.
+
+## Refined deterministic route and discovery test cases (not run)
+
+Source inspected at [main 40b679d](https://github.com/frekland/Minamo/tree/40b679d795560682e8a13330087295e685b23295):
+- **R1:** [ThinkingItems](../../app/learning-activity.tsx) currently renders each recent-item anchor with bare **learningSpaceHref(item.destination, selection)**. [useContextualHref](../../app/navigation-context.tsx) wraps Project/Library/Practice returns elsewhere. [LearningConnections](../../app/learning-links.tsx) makes its own generic incoming anchors. Merely changing the *first* Note link may be insufficient: the Note → Question backlink must also retain the origin.
+- **R2:** [LearningConnections](../../app/learning-links.tsx) classifies experiment under work and places it in a closed **Your work** details footer; **viewFor(experiment) → tools**. [learnerFamilyLabel](../../lib/learner-labels.ts) defaults experiment to **Tool**; [recordOriginLabel](../../lib/record-origin.ts) can distinguish authored Activity. [Practice index](../../lib/practice-index.ts) is searchable by kind/scope/title/ID, not Article source identity.
+- **Reusable state:** [layout-workspace](../../lib/layout-workspace.ts) already has taskFamily/taskId/taskStage/taskRendition, resource edition identity and bounded semantic reading positions. That is view state, not authority to change learner meaning. Existing [record-navigation tests](../../tests/record-navigation.test.mjs) verify record-read transitions, **not** the full Stage→Note→Question return.
+
+Before any fix, create **synthetic-only** fixture builders with fixed Project P, Stage S, Question Q, Note N (including **two distinct Question links**), Article A editions e1/e2 and Activity X explicitly sourced to e1. A forbidden Activity Y, withdrawn historical rendition and no-Activity Article are negative controls. Do not use real learner material in test snapshots. Capture: exact source IDs/renditions, visible action names, URL query/fragment, navigation stack, focus, draft-state status, rights response and counts/coverage.
+
+| Case / execution level | Steps and precise assertion (the proposed oracle) | Must *not* happen |
+| --- | --- | --- |
+| **N01** href/unit + browser | Start P/S; open Q with returnJourney=P/returnStage=S; choose Q Recent work N; N backlink Q; optional Q→A→Q; at **each** hop direct native href carries a valid authorised origin and return button to S; N/Q IDs and selected renditions unchanged. | Dropping return on Q→N or N→Q; mapping Note to arbitrary linked Stage. |
+| **N02** route negative | Cold open N or Q in a new tab with no origin: exact record visible; browser Back works; *no invented* Back to Step. | Fabricated Project based on Note title or first backlink. |
+| **N03** browser history | Run N01, Back twice, Forward twice, reload and modifier-click contextual Note link into new tab. At each landing: correct origin, exact record, focus/return semantics. | SPA-only success with broken native/new-tab href. |
+| **N04** dirty draft | Type unsaved local-only Note on Q/Article, try route; cancel leave (draft retained), confirm leave (known retain/discard behaviour), navigate Back, verify status. | Unexpected implicit save/overwrite; false claim autosave without receipt. |
+| **N05** edition drift | Open A e1/s/p and N r1; make e2 and N r2 eligible in isolated fixture; follow old links; show exact retained version or clearly unavailable/updated, never substituted e2/r2. | Silent source quote/offset remapping. |
+| **N06** rights/scope | Deny a linked Note, Stage or Article after first render, then click/return; re-authorise and show safe fallback with no forbidden title/quote. | Leaking inaccessible target in return chip/tooltips. |
+| **N07** multi-link | N links Q1 and Q2; open from P/S/Q2; return selects *origin Q2/S*, never Q1 or a guessed primary. | Using lexical match or insertion order as navigation history. |
+| **A01** renderer/browser | A has one eligible authored Activity X: named **Activity** is visible in Reader while working; open X in Studio; return to A. Legacy experiment without authored Activity stays Tool where appropriate. | Activity only under collapsed Your work; all experiments blindly renamed. |
+| **A02** nested source loop | At A e1/s/p span start/end, open X, capture Note N, return N→X→A **e1/s/p** and original P/S separately if present. Verify Note save/readback only in explicitly authorised isolated test. | Returning merely to Practice root or current Article e2. |
+| **A03** zero/many/partial | A0 has zero accessible Activities; A1 one; A3 three plus forbidden fourth; partial reverse pagination returns “more may exist” rather than confident zero/total. | Leaking forbidden title/count, quietly picking first, false “no Activity.” |
+| **A04** source drift | X cites A e1; latest Article e2 exists; Studio discloses original edition and opens retained e1 or safe unavailable with optional **Open newer**. | Claim X exercises e2 when not pinned. |
+| **A05** revoked/withdrawn | Remove access or soft-delete X in isolated fixture after Reader render; click yields rights-safe unavailable and source return intact. | Dead link with private metadata or data resurrection. |
+| **A06** distinct origins | Practice→X→A→X and Project Q→A→X→N→A; return to actual originating Practice/Q as explicitly chosen; task context remains separate from Article back. | Nested return-stack inversion. |
+| **U01** mobile/keyboard | 320px and 375px widths, tab/Enter/Space, named Activity and source-return links, focus heading, no horizontal scroll/hover-only action; separately schedule manual screen-reader observation. | Passing automated a11y alone counted as screen-reader pass. |
+
+**Test gating:** run targeted unit/integration and real browser tests after an explicitly authorised implementation; inspect failures before fixing. Pin a Site source/version before separate hosted smoke tests. A “passing” test requires actual execution against the intended committed code/fixture, not the scenario descriptions above. No app tests, Playwright tests, permission-change tests, fault injection or Site deployments were performed in this study.
+
+### Read-only projector acceptance inputs (future executable cases)
+
+| Case | Input | Expected envelope and failure oracle |
+| --- | --- | --- |
+| C-MOOD | Mood docs: Question r5, Stage provider checkpoint r1 pointing to Note research r1, current research r2, latest docs-audit r3 and docs-return r1. | Both old/new provenance, checkpoint scope and retained rendition; **no** provider authentication claim. Direct-Question-only retrieval must flag missing Stage history. |
+| C-CAP | Cap Project root vs instance Question, Note restart r1 and sparse r3 in another Question, no checkpoint. | Source-based last work and safe next; root-only result marked incomplete; no flag/exploit/instance-status assertion. |
+| C-PLANT | Plant Project root vs calibration Question, raw-series r3, first-parts r1, cal-next r1, no checkpoint. | Changed measurement hypothesis with explicit physical unknown; no “15% is calibrated” or “device works.” |
+| C-MULTI | One Note explicitly linked to two Questions, plus unrelated similar-title Note. | Two valid relation paths but no single imposed current concern; unrelated note excluded. |
+| C-REV | Same Note r1→r2, older checkpoint pinned to r1, newer Article edition. | Revalidate derived output by rendition/rev, not ID alone; no stale quote or silent replacement. |
+| C-PARTIAL | Truncated/paginated related set and an unvisited edge; denied source. | Counts/window/cursor/asOf and explicit missing coverage; no universal absence or privacy leak. |
+| C-EMPTY | Complete authorised empty scope vs empty partial scope. | “No evidence in checked scope” vs “unknown; more may exist,” never a personal diagnosis. |
+
+**Metrics to collect when implemented:** source-identified expected candidates returned/missed; number of false-certainty phrases; wrong revision/rendition; omitted competing intention; cross-variant/scope contamination; rights leaks; query coverage and cursor state; cold/warm latency; learner forced categorisations; actual route backtracks. No invented numeric score or target percentage is reported now.
+
+## Recommendation and handoff
+
+**Engineering priority order, subject to new authorisation:** (1) characterise/repair N01 native href and reverse breadcrumb without rewriting canonical relations; (2) expose the authored Activity source action and accurate semantic label A01; (3) deterministic read-only continuity projection with source/coverage envelope, using existing Notes, checkpoints, target edges and retained editions; (4) investigate optional comparison only if real source-to-source reasoning is still hard. Do not add a persistent Inquiry/current-intent table on faith.
+
+The owner should first judge the [two concrete interaction choices](2026-11-01-contextual-learning-interaction-study.md#two-owner-judgments-after-reading-the-flows). Any next functional vertical slice remains **proposal only**, with explicit separate permission for source changes, fixture extension, authenticated persistence or deployment.
