@@ -10,3 +10,12 @@
 .continuity-source-intention{margin:0;font-size:.89rem}
 .continuity-sources-list small{color:var(--muted,#667085)}
 @media(max-width:375px){.continuity-sources-list li{padding:10px}.continuity-sources-head{gap:8px}}
+.continuity-gpt-dialog{padding:0;width:min(700px,calc(100vw - 24px));max-height:85dvh;overflow:auto;color:var(--mn-text)}
+.continuity-gpt-body{padding:18px;display:grid;gap:12px}
+.continuity-gpt-body h2,.continuity-gpt-body p{margin:0}
+.continuity-gpt-choices{display:grid;gap:8px;max-height:220px;overflow-y:auto}
+.continuity-gpt-choices label{display:flex;align-items:start;gap:10px}
+.continuity-gpt-choices small{display:block;color:var(--mn-text-muted)}
+.continuity-gpt-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.continuity-gpt-body textarea{display:block;width:100%;min-width:0;padding:10px;margin-top:6px;white-space:pre-wrap}
+.continuity-gpt-coverage{font-size:.85rem;color:var(--mn-text-muted)}

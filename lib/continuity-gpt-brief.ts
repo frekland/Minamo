@@ -1,0 +1,18 @@
+import type {LearningSpaceSelection} from './learning-space-navigation';
+
+type SourceReceipt={source:{family:string;id:string;rev:number;rendition?:string};checkpoint?:{id:string;status:string};preview?:{text:string};title?:string};
+type HandoffPage={contract:string;asOf:string;generation?:string;snapshotVersion?:number;items:SourceReceipt[];coverage:{moreAvailable:boolean;completeWithinScope:boolean;gaps:string[]}};
+type Focus={family:'journey'|'investigation';id:string};
+const id=(v:string)=>/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(v);
+export function evidenceChoiceKey(item:SourceReceipt){return item.checkpoint?'checkpoint:'+item.checkpoint.id:'record:'+item.source.family+':'+item.source.id;}
+/** Clipboard only, never a tool call or durable relation. Deliberately excludes excerpts and titles. */
+export function buildContinuityGptBrief(page:HandoffPage,selection:LearningSpaceSelection,chosenKeys:string[],focus?:Focus){
+ if(page.contract!=='minamo.continuity-evidence.v1'||!Number.isFinite(Date.parse(page.asOf))||!Array.isArray(page.items)||!Array.isArray(page.coverage?.gaps))throw Error('Refresh the saved evidence before preparing a discussion.');
+ if(focus&&(!['journey','investigation'].includes(focus.family)||!id(focus.id)))throw Error('The selected Project or Question is invalid.');
+ if(chosenKeys.length<1||chosenKeys.length>6||new Set(chosenKeys).size!==chosenKeys.length)throw Error('Choose 1–6 distinct sources to discuss.');
+ const selected=chosenKeys.map(key=>{const item=page.items.find(item=>evidenceChoiceKey(item)===key);if(!item||!id(item.source.id)||!id(item.source.family)||!Number.isSafeInteger(item.source.rev)||item.source.rev<1||item.source.rendition&&!id(item.source.rendition)||item.checkpoint&&!id(item.checkpoint.id))throw Error('The chosen source has changed. Refresh the evidence.');return {family:item.source.family,id:item.source.id,rev:item.source.rev,...(item.source.rendition?{rendition:item.source.rendition}:{}),...(item.checkpoint?{checkpointId:item.checkpoint.id,checkpointStatus:item.checkpoint.status}:{})};});
+ const request={scope:'evidence',learningSpace:selection.learningSpace,...(selection.language?{language:selection.language}:{}),...(focus?{focus}:{}),selected,asOf:page.asOf,...(page.generation?{generation:page.generation}:{}),...(Number.isSafeInteger(page.snapshotVersion)?{snapshotVersion:page.snapshotVersion}:{}),coverage:{moreAvailable:page.coverage.moreAvailable,completeWithinScope:page.coverage.completeWithinScope,gaps:page.coverage.gaps}};
+ const text=['Continue my Minamo learning discussion from the selected canonical source receipts below.','If Minamo MCP is connected, first use get_minamo_learning_context with scope:evidence and the specified learning space/focus. Follow its actual bounded cursors when needed; then read selected exact records/checkpoints before relying on their contents. If MCP is unavailable, ask me for the original sources.','Keep each source author, time, revision and retained edition separate. Treat a checkpoint next action as an intention recorded then, not my current instruction. Compare uncertainties and contradictions without choosing my next task for me. Other pages, external activity, unsaved drafts and what GPT last saw may be unknown. Do not claim completion, mastery or observed execution from a Note or supplied run. Suggest links/corrections only; do not save changes without my separate confirmation.','These are deliberately selected source identities, not copied Note prose:',JSON.stringify(request,null,2)].join('\n\n');
+ if(text.length>7000)throw Error('Too many source references for a bounded discussion request.');
+ return text;
+}
