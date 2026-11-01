@@ -1,0 +1,9 @@
+.v2-source-activities{margin:0 0 18px;padding:12px 16px;border:1px solid var(--mn-border);border-radius:10px;background:var(--mn-surface,transparent)}
+.v2-source-activities h2{margin:0 0 8px;font-size:15px}
+.v2-source-activities ul{padding:0;margin:0;list-style:none;display:grid;gap:8px}
+.v2-source-activities li{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;min-width:0}
+.v2-source-activities li a{font-weight:600;overflow-wrap:anywhere}
+.v2-source-activities li small{font-size:12px;color:var(--mn-muted)}
+.v2-source-activities p{margin:6px 0;color:var(--mn-muted)}
+.v2-source-activities button{margin-top:8px}
+@media(max-width:375px){.v2-source-activities{padding:10px 12px}.v2-source-activities li{display:block}.v2-source-activities li small{display:block;margin-top:2px}}

@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
 const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
-const built=await wr('esbuild').build({stdin:{contents:`import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {NavigationContext} from './app/navigation-context';export * from './lib/navigation-origin';export {NavigationContext,useContextualHref} from './app/navigation-context';export {LearningSpaceContext} from './app/learning-space-ui';export {ThinkingItems} from './app/learning-activity';export function render(Component,props,context={}){return renderToStaticMarkup(React.createElement(NavigationContext.Provider,{value:context},React.createElement(Component,props)));}`,resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false,loader:{'.css':'empty'},define:{'import.meta.env':'{"DEV":false}','process.env.NODE_ENV':'"production"'}});
+const built=await wr('esbuild').build({stdin:{contents:`import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {NavigationContext} from './app/navigation-context';export * from './lib/navigation-origin';export {NavigationContext,useContextualHref} from './app/navigation-context';export {LearningSpaceContext} from './app/learning-space-ui';export {ThinkingItems} from './app/learning-activity';export {SourceActivityItems} from './app/source-activities';export function render(Component,props,context={}){return renderToStaticMarkup(React.createElement(NavigationContext.Provider,{value:context},React.createElement(Component,props)));}`,resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false,loader:{'.css':'empty'},define:{'import.meta.env':'{"DEV":false}','process.env.NODE_ENV':'"production"'}});
 const dir=mkdtempSync(join(tmpdir(),'context-nav-')),entry=join(dir,'navigation.cjs');writeFileSync(entry,built.outputFiles[0].text);const api=require(entry);rmSync(dir,{recursive:true,force:true});
 const selection={sectionId:'s',partId:'p',start:1,end:4,segments:[{sectionId:'s',partId:'p',start:1,end:4},{sectionId:'s',partId:'p2',start:0,end:2}]};
 
@@ -59,4 +59,15 @@ test('N07: rendered recent Note native link carries the actual Question task ret
  const origin=api.routeDestination(href).target.origin;
  assert.deepEqual(origin.task,{family:'investigation',id:'Q2',projectId:'P',stageId:'S'});
  assert.match(href,/learningSpace=computing/);
+});
+
+test('A01/A04: visible authored Activity link carries the retained Article passage and original Question independently',()=>{
+ const context={selection:{learningSpace:'computing'},project:{journeyId:'P',stageId:'S'},current:{family:'article',id:'A',rendition:'e1',...selection},origin:{v:1,task:{family:'investigation',id:'Q2',projectId:'P',stageId:'S'}}};
+ const items=[{record:{family:'experiment',id:'X',title:'Exact reading exercise',rendition:'x1'},sourceMatch:{scope:'exact-part',rendition:'e1'}}];
+ const html=api.render(api.SourceActivityItems,{items},context),href=html.match(/href="([^"]+)"/)?.[1]?.replaceAll('&amp;','&');
+ assert.match(html,/Activity · Exact reading exercise/);assert.match(html,/Linked to this exact part/);
+ const parsed=api.routeDestination(href);assert.equal(parsed.target.rendition,'x1');
+ assert.equal(parsed.target.origin.source.id,'A');assert.equal(parsed.target.origin.source.rendition,'e1');
+ assert.deepEqual(parsed.target.origin.source.segments,selection.segments);
+ assert.deepEqual(parsed.target.origin.task,{family:'investigation',id:'Q2',projectId:'P',stageId:'S'});
 });
