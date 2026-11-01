@@ -1,5 +1,8 @@
 # Learner experience redesign: recovered decisions and next evidence-led experiment
 
+> **CURRENT OWNER DIRECTION — 1 November 2026:** Read [the broadened product-design discovery decision](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) first. Its broader learning-cycle inquiry, non-technical/sparse cases, prior-art interaction studies, genuinely divergent options, minimal baseline, and manual-versus-GPT gates **supersede the fixed hybrid Work/Questions/Evolution design and compulsory nine-chat-before-discovery sequence below**. This document remains valuable recovered research/history; source rights, canonical fidelity, explicit GPT writes and a real persistent slice still apply.
+
+
 **Decision handoff — 30 October 2026.** Public, sanitised orientation for a fresh development chat. This is **not** a commission to change production data, implement a new schema, redesign the Site, reset a fixture, enable tracing or run visual agents. Historical reports and earlier designs remain evidence, not blanket implementation authority.
 
 > **Start here after the synthetic architecture work:** Minamo's aim is not merely to retrieve a better Project summary for GPT. The Site itself must become a coherent, active environment for investigating evolving work. Server-side context, MCP and UI are complementary; none alone establishes that outcome.

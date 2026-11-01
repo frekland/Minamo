@@ -1,5 +1,8 @@
 # Minamo UX improvement roadmap — evidence-led, not implementation authorisation
 
+> **Design direction superseded 1 November 2026:** For Project/Workbench scope and commissioning, use [the broadened product-design discovery decision](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md). The individual reproduced bugs and assurance tasks below remain valid where current; the proposed single Project-current-state slice is **not** the predetermined next product design. D1–D3 broader activity/prior-art/owner discovery now precedes a selected implementation slice.
+
+
 **Decision input, 31 October 2026.** Use with [live audit](2026-10-31-LIVE-AUDIT.md), [register](REGISTER.md), [V70/V72 crosswalk](V70-V72-CROSSWALK.md) and the enduring [learner-experience strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md). This document proposes **what to validate and in what order**. It does **not** authorise a new schema, product redesign, production release, real-data experimentation, Site fixture reset or automatic visual-agent deployment.
 
 ## Priority order and why
