@@ -1,4 +1,33 @@
-# Product-design discovery reset — broaden Minamo before commissioning a Workbench
+# Minamo learner-experience design direction — contextual, capture-first and evidence-grounded
+
+
+## Later owner-selected forward direction — contextual learning, not a predetermined Workbench
+
+**Owner preference confirmed later 1 November 2026. This is now the forward direction for D3 interaction design study, not a commission to build production UI, a settled information architecture or permission to modify learner data.** The owner favours exploring a **capture-first, context-aware Minamo with optional evidence workspaces and adaptable Projects**, as a hybrid of the researched mechanisms. The core unit of experience is **what the learner is trying to do or understand**, including unplanned or uncertain work—not a mandatory Project, Stage, Inquiry, Episode, Note dashboard or Workbench. The prior divergent A/B/C/D analysis remains valuable as challenge evidence, not four equally obligatory implementations. [Independent audit](research/2026-11-01-independent-pre-design-audit.md), [regression specifications](research/2026-11-01-pre-design-route-regression-spec.md), [continuity contract](research/2026-11-01-pre-design-continuity-contract.md) and [task storyboards/prior art](research/2026-11-01-pre-design-task-storyboards-and-prior-art.md) are **proposed research**, not test passes.
+
+**Preferred interaction principles to investigate:**
+
+1. **Capture freely.** A Note, question, observation, source excerpt or experiment can begin outside any Project; record exact available origin and edition without forced classification. Suggested connections remain suggestions until the learner accepts them.
+2. **Continue honestly.** Surface recent eligible authored work, explicit (possibly competing) next intentions, unresolved problems and changes in understanding, with links, timestamps, source revisions, author/report-versus-verification and visible coverage limits. Show multiple strands or **unknown** rather than invent one GPT-determined “current concern.” The five-question contract supplies evidence; it need not become five permanent dashboard panels.
+3. **Work with sources in context.** While reading, practising, experimenting or writing, offer discoverable related Activity and exact source/return actions; selected evidence may be compared in an optional worktable/field-notebook view. Canonical records are reused, not copied into a new untracked graph.
+4. **Make Projects adaptive guidance.** A Project may provide structure and authored Stages but must not constrain capture, current intent or next action; changing direction, skipping/revisiting guidance and maintaining several concerns remain ordinary. Do not assume the current Stage/Step hierarchy is the new organising centre.
+5. **Keep GPT deliberately subordinate to learner control.** Use bounded, rights-safe selected sources to propose synthesis, relevant links or next checks for explicit review; no unrequested persistent intent, misconception, progress score, relation or background chat ingestion.
+
+**Recommended comparison — exactly two focused conditions initially, not four full prototypes:**
+- **Repaired-Minamo baseline:** existing Reader, Notes, Library, Practice, Project guidance and continuation, with the two known contextual-return/Activity-discovery defects specified for repair and a truthful bounded return view. This is a *comparison condition*, not evidence those repairs have happened.
+- **Contextual-learning hybrid:** capture first, task-sensitive truthful continuation, revisable learner-chosen focus without an obligatory new Inquiry model, and an optional canonical evidence comparison space. Project/Stage functions as reference guidance, not gatekeeper. The lightweight dated field log is its complexity floor, while living inquiry and worktable are optional mechanisms that must earn their cost.
+
+Compare both with **identical concrete tasks**: (T1) unplanned Note without Project, (T2) Mood K return with later conflicting Note and older checkpoint, (T3) Cap/Plant sparse or non-technical no-checkpoint resumption, and (T4) exact Article → linked Activity → new thinking → original Article edition/passage/task. Include narrow mobile, keyboard/accessibility, interruption and relevant cross-source rights/stale-revision behaviour. Capture first screen, actions, evidence reused, error/unknown representation, backtracks, cognitive burden and failure/rejection criteria. Do not grade invented persona satisfaction. An owner-facing compact interaction demonstration may follow this paper/low-fidelity study, but **no polished/functional prototype, new schema, synthetic mutation, Site deploy or production change is authorised here**.
+
+**Execution order for the next chat:**
+- **Track 1 (objective groundwork):** refine/run safe read-only retrieval coverage checks and the five-question source-attributed projection expectations; turn the two reproduced route failures into exact deterministic failing-test designs. **Any app-code edits or mutating fixture tests require a separate authorisation.**
+- **Track 2 (design groundwork):** produce one sufficiently detailed, low-fidelity interaction-level comparison of repaired Minamo and the preferred hybrid on the same tasks, including mobile/keyboard flow, source receipts, multi-intention and missing-context states; explain whether simpler capture-first integration outperforms a new worktable.
+- Use existing completed D1 evidence, PR #76 and prior-art observations. Do **not** restart generic PR/UI inventories, repeat the owner's rejected four UX questions, commission four full implementations or assume all nine cold-context sessions must finish first.
+- Return with a **specific small interaction choice** requiring owner UX judgement; after that, propose **one real authenticated vertical slice** with explicit permission, fidelity, rollback and release gates. The owner has chosen a direction to **study**, not preapproved its final design.
+
+**Rejection gates:** if the hybrid requires a new compulsory organising record, silently treats partial history as complete, makes sparse/mobile work slower than a simple Note, copies sources without identity/edition fidelity, obscures rights, or cannot beat a repaired baseline on meaningful action and return, reduce or reject it. More metadata, AI summaries and flexible panels are not inherently better.
+
+---
 
 **Owner direction · 1 November 2026 · CURRENT DESIGN AUTHORITY.** This decision supersedes conflicting product-design sequencing, mandatory prototype alternatives and information-architecture assumptions in issue #51, the 31 October Workbench handoff, the V89 information contract and the design recommendations of PRs #66–70. Earlier evidence, technical acceptance records and historical decisions remain intact. **This is a research/commissioning decision, not permission to build a Workbench, change schema, touch learner data, reset fixtures or deploy.**
 
@@ -72,7 +101,7 @@ Before selecting an interface, test these additional mechanisms against comparab
 
 Distinguish **vendor-described behaviour**, **code evidence**, **actual UI operation** and **owner-observed usefulness**. A competitive feature list is not completion; paid trials or account authorisation require a separate owner choice.
 
-## Candidate directions to challenge, not to preselect
+## Earlier candidate directions (historical research alternatives; current comparison is specified above)
 
 Consider at least these genuinely different starting assumptions:
 
@@ -113,7 +142,7 @@ Before any Workbench implementation brief, require:
 
 No automatic acceptance because a screenshot is polished, CI is green, GPT retrieves every record, or an interface reproduces one competitor's feature. The owner may reject the proposed Workbench, choose a narrower change or commission substantial redesign. Preserve negative findings.
 
-## Fresh-chat instruction
+## Earlier fresh-chat instruction (superseded by the owner-selected execution order above)
 
 For the next Minamo development/design chat: **first read this decision, AGENTS.md and current public main/issue #51/PR status.** Treat the Work/Questions/Evolution contract and prior A/B/gate sequence as historical hypotheses, not current marching orders. Start from the completed D1 technical inventory, the [first-hand owner diagnosis](ux/2026-11-01-owner-firsthand-ux-feedback.md) the [Project/Stage root-cause audit](research/2026-11-01-project-stage-continuity-root-cause-audit.md) and [connected-episode follow-up](research/2026-11-01-connected-episode-ledger-and-divergent-interactions.md); **do not ask those generic questions again**. Trace the Project/Stage/Note/Library/Activity joins and stale return sources, then make a bounded D2/D3 proposal. Report clearly:
 
