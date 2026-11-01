@@ -3,18 +3,27 @@ import {useEffect,useRef,useState} from 'react';
 import {generationFetch} from '../lib/workspace-generation';
 import {subscribeForeground,retainContentAfterReadFailure} from '../lib/foreground-session';
 import {learningSpaceParams} from '../lib/learning-space-navigation';
-import {buildRecordLink} from '../lib/reading-links';
+import {buildLinkedReadingLink,buildRecordLink} from '../lib/reading-links';
 import {routeDestination} from '../lib/navigation-origin';
 import {useContextualHref} from './navigation-context';
 import {useLearningSpace} from './learning-space-ui';
 import type {WorkspaceRecord} from '../lib/contracts';
+import type {SourceActivityMatch} from '../lib/practice-index';
 import type {ReaderProps} from './reader';
 import './source-activities.css';
 
-type Item={record:WorkspaceRecord;sourceMatch:{scope:'exact-part'|'section'|'edition';rendition:string}};
+type Item={record:WorkspaceRecord;sourceMatch:SourceActivityMatch};
 type Page={items:Item[];nextCursor?:string|null;scanIncomplete:boolean;notice:string};
 export function sourceActivityDescription(match:Item['sourceMatch']){
- return match.scope==='exact-part'?'Linked to this exact part':match.scope==='section'?'Linked to this section':'Linked to this source edition';
+ switch(match.quality){
+  case 'exact-part':return 'Linked to this exact part';
+  case 'exact-section':return 'Linked to this section';
+  case 'exact-edition':return 'Linked to this source edition, not necessarily this passage';
+  case 'older-edition':return 'References an older source edition, not this edition';
+  case 'newer-edition':return 'References a newer source edition, not this edition';
+  case 'different-edition':return 'References a different retained edition, not this edition';
+  case 'unversioned-saved-link':return 'Saved broad source link; no edition or passage is pinned';
+ }
 }
 const ordinary=(event:React.MouseEvent<HTMLAnchorElement>)=>event.button===0&&!event.defaultPrevented&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey;
 
@@ -23,7 +32,8 @@ export function SourceActivityItems({items,onNavigate}:{items:Item[];onNavigate?
  const contextualHref=useContextualHref();
  return <ul>{items.map(item=>{
   const path=contextualHref(buildRecordLink({family:'experiment',id:item.record.id},{rendition:item.record.rendition}));
-  return <li key={item.record.id}><a href={path} onClick={event=>{if(!ordinary(event)||!onNavigate)return;const destination=routeDestination(path);if(!destination)return;event.preventDefault();onNavigate(destination.view,destination.id,destination.target);}}>Activity · {item.record.title}</a><small>{sourceActivityDescription(item.sourceMatch)} · Retained source edition</small></li>;
+  const old=['older-edition','newer-edition','different-edition'].includes(item.sourceMatch.quality)&&item.sourceMatch.sourceRef?contextualHref(buildLinkedReadingLink(item.sourceMatch.sourceRef)):undefined;
+  return <li key={item.record.id}><a href={path} onClick={event=>{if(!ordinary(event)||!onNavigate)return;const destination=routeDestination(path);if(!destination)return;event.preventDefault();onNavigate(destination.view,destination.id,destination.target);}}>Activity · {item.record.title}</a><small>{sourceActivityDescription(item.sourceMatch)}{old&&<> · <a href={old} onClick={event=>{if(!ordinary(event)||!onNavigate)return;const destination=routeDestination(old);if(!destination)return;event.preventDefault();onNavigate(destination.view,destination.id,destination.target);}}>Open referenced edition</a></>}</small></li>;
  })}</ul>;
 }
 

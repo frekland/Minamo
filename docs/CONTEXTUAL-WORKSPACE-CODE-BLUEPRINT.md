@@ -1,6 +1,6 @@
 # Minamo contextual workspace — substantial code implementation blueprint
 
-**Status:** Owner-selected post-V91 implementation direction, 1 November 2026. **Blueprint only; not implemented or accepted.** Applies to draft [PR #78](https://github.com/frekland/Minamo/pull/78) and supersedes its incremental 1B/2A UI scope as the proposed final learner experience. Preserve already verified code where useful; do not merge, reset data, change access or publish on the strength of this document. Explicit follow-up coding and Sites release gates remain necessary.
+**Status:** Owner-selected post-V91 implementation direction, 1 November 2026. **Checkpoint A source/read contracts and failing-then-green isolated regressions implemented on draft PR #78; the B contextual UI and C integrated acceptance remain open.** This is not a usable/accepted contextual workspace. The blueprint supersedes the incremental 1B/2A UI scope as the proposed final learner experience. Preserve already verified code where useful; do not merge, reset data, change access or publish on the strength of checkpoint A. Explicit follow-up coding and Sites release gates remain necessary.
 
 **Source baseline inspected:** Public PR #78 head cfaff47d4bab5db85e43e3661f6bca3e76296e0a, deployed V91 receipt in docs/releases/2026-11-01-sites-v91-e4-e6-verification.md, current main e381ae24d0a5c9bf021f658ccb5fc7e8ff4613e9 at review. Recheck all identities at implementation time. Related authorities: AGENTS.md, docs/PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md, docs/CONTEXTUAL-LEARNING-INTEGRATED-IMPLEMENTATION-BRIEF.md (historical 1B/2A acceptance baseline), docs/PROJECT-WORKBENCH-INFORMATION-CONTRACT.md (research hypothesis), D1/D3 studies and the three-layer acceptance protocol.
 
@@ -217,6 +217,8 @@ Reuse lib/navigation-origin.ts (ViewOrigin, routeDestination, extended UTF-16 se
 ## 9. Coherent build sequence — one usable release, reviewable checkpoints
 
 ### A. Failing behavioural contract and source-read foundation
+
+**Implementation checkpoint:** see [the checkpoint A progress receipt](research/2026-11-01-contextual-implementation-progress.md#post-v91-checkpoint-a--contextual-read-and-relation-quality). `lib/working-context-read.ts` provides the additive `minamo.working-context.v1` through `scope=working` on the existing learning-context HTTP route and the dedicated `get_minamo_working_context` MCP read. This is a selected-source plus bounded-evidence projection, not a new persisted context or a second learning-history authority. Typed Activity refs, older retained versions and saved unpinned links now have distinct qualities. B must actually wire this into a cohesive learner-facing host and is not implied by passing A.
 
 1. Pin exact public PR head and native Sites source; inventory existing data/migration and UI/API contracts. Preserve V91 rollback.
 2. Add **red tests using real source shapes**: TCP current Article v3 + unpinned guided Activity + older-edition stream Activity; Project→Question→later Note; independent Note; explicit multi-target Note; temporary selected context versus saved link.

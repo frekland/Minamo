@@ -63,13 +63,29 @@ test('N07: rendered recent Note native link carries the actual Question task ret
 
 test('A01/A04: visible authored Activity link carries the retained Article passage and original Question independently',()=>{
  const context={selection:{learningSpace:'computing'},project:{journeyId:'P',stageId:'S'},current:{family:'article',id:'A',rendition:'e1',...selection},origin:{v:1,task:{family:'investigation',id:'Q2',projectId:'P',stageId:'S'}}};
- const items=[{record:{family:'experiment',id:'X',title:'Exact reading exercise',rendition:'x1'},sourceMatch:{scope:'exact-part',rendition:'e1'}}];
+ const items=[{record:{family:'experiment',id:'X',title:'Exact reading exercise',rendition:'x1'},sourceMatch:{scope:'exact-part',quality:'exact-part',sourceRendition:'e1',opensCurrentSource:true,basis:'typed-activity-reference',reason:'Authored source link'}}];
  const html=api.render(api.SourceActivityItems,{items},context),href=html.match(/href="([^"]+)"/)?.[1]?.replaceAll('&amp;','&');
  assert.match(html,/Activity · Exact reading exercise/);assert.match(html,/Linked to this exact part/);
  const parsed=api.routeDestination(href);assert.equal(parsed.target.rendition,'x1');
  assert.equal(parsed.target.origin.source.id,'A');assert.equal(parsed.target.origin.source.rendition,'e1');
  assert.deepEqual(parsed.target.origin.source.segments,selection.segments);
  assert.deepEqual(parsed.target.origin.task,{family:'investigation',id:'Q2',projectId:'P',stageId:'S'});
+});
+
+test('A-TCP: native Activity choices distinguish unpinned and older sources and offer only a verified historical edition link',()=>{
+ const context={current:{family:'article',id:'A',rendition:'e2'},selection:{learningSpace:'computing'}};
+ const items=[
+  {record:{family:'experiment',id:'old',title:'Old stream Activity',rendition:'x-old'},sourceMatch:{scope:'edition',quality:'older-edition',sourceRendition:'e1',sourceRef:{family:'article',id:'A',rendition:'e1',sectionId:'s',partId:'p'},opensCurrentSource:false,basis:'typed-activity-reference',reason:'Older retained source'}},
+  {record:{family:'experiment',id:'broad',title:'Unpinned guided Activity',rendition:'x-broad'},sourceMatch:{scope:'edition',quality:'unversioned-saved-link',opensCurrentSource:false,basis:'saved-record-link',reason:'Unpinned Article link'}},
+  {record:{family:'experiment',id:'new',title:'Future revision Activity',rendition:'x-new'},sourceMatch:{scope:'edition',quality:'newer-edition',sourceRendition:'e3',sourceRef:{family:'article',id:'A',rendition:'e3'},opensCurrentSource:false,basis:'typed-activity-reference',reason:'Later retained source'}}
+ ];
+ const html=api.render(api.SourceActivityItems,{items},context);
+ assert.match(html,/References an older source edition, not this edition/);
+ assert.match(html,/Saved broad source link; no edition or passage is pinned/);
+ assert.match(html,/References a newer source edition, not this edition/);
+ const historical=html.match(/href="([^"]+)"[^>]*>Open referenced edition</)?.[1]?.replaceAll('&amp;','&');
+ assert.equal(api.routeDestination(historical).target.rendition,'e1');
+ assert.equal((html.match(/Open referenced edition/g)??[]).length,2);
 });
 
 test('R3/E6: return actions require independently admitted exact records and verified passage coordinates',()=>{
