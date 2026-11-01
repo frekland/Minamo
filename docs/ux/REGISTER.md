@@ -4,6 +4,10 @@
 
 **1 November D1 reconciliation:** [The existing-capability and gap audit](2026-11-01-d1-existing-capability-gap-audit.md) maps current UI/source/test coverage against the full learning cycle and separates autonomous follow-up from owner UX feedback. It adds **no newly reproduced bug IDs**; continue to use the numbered findings below for defects and the [superseding design decision](../PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) for commissioning. Avoid misreporting projectless Notes/Questions, Home continuation, GPT context choice or Activity Workbench layouts as wholly absent.
 
+## Direct owner experience — highest design priority (1 November)
+
+The [first-hand owner feedback](2026-11-01-owner-firsthand-ux-feedback.md) **overrides the D1 audit's tentative owner-feedback questions**: Notes still feel disconnected; **Projects and Stages are the biggest issue, disconnected and unadaptive**; Library Articles are difficult to find/navigate/connect to Activities; and return context for last work, next intended activity, outstanding problems, addressed misconceptions and progress is **all stale**. This is **owner-observed product failure**, not a newly reproduced storage/data-loss bug or proof that any one read model will solve it. Link this evidence to UX-LIVE-02/03 and #51; diagnose Note/Library/Activity relationships as part of the same experience. Do not mistake capability existence for successful workflow integration.
+
 ## Triage semantics
 
 - **P1** blocks a critical real task or risks data/continuity; **P2** materially impedes a common task; **P3** adds avoidable friction or a low-risk presentation issue. These are proposed triage levels, subject to owner validation.
@@ -26,11 +30,11 @@
 
 ### UX-LIVE-02 — Project needs a learner-visible current investigation projection
 
-- **Priority:** High product priority; **state:** Owner-observed requirement corroborated by LIVE structural sample, **not a confirmed P1 bug**.
+- **Priority:** Highest owner-stated product priority for Project/Stage disconnection, unadaptiveness and stale return (1 November); **state:** Direct owner experience plus LIVE structural sample, **not a confirmed P1 storage/runtime bug**.
 - **Entry:** Owner-only TEST ONLY Mood-to-Music Project, final K/epoch 3.
 - **Observed:** A revised introductory summary mentions the switch to personal labels and a settled Continue link returns to the last-opened Step. But the dominant hierarchy remains static ordered Steps with linked Questions; more recent evidence appears on separate Question/Recent work surfaces, while prior checkpoints remain foregrounded elsewhere. One glance does not give a concise, attributable *what changed / current position / open uncertainty / evidence / next action* projection.
 - **Interpretation:** The learner must do synthesis across surfaces. This matches first-hand owner feedback and the [strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), but the browser cannot measure genuine confusion or prove an untested replacement design superior.
-- **Desired outcome:** One bounded integrated Project slice presenting current state, major changes, the latest saved evidence and uncertainties, with drill-down to original Step/Question/Note/source and a clear way back. Distinguish learner report, observed tool result, verified source and uncertain hypothesis.
+- **Desired outcome:** A coherent Project/Stage **working and return experience**, connected to Notes, Library and Activities. On return, distinguish last actual work, next intended action, outstanding problems, misconceptions addressed and genuine progress/change, with dated direct evidence and useful source/Activity links. Do not assume a particular current-state card or Workbench arrangement in advance. Distinguish learner report, observed tool result, verified source and uncertain hypothesis.
 - **Acceptance:** Goal-based cold return: find current direction, latest decision and why, one abandoned path, the exact source behind a claim, one unresolved question and the next meaningful action without losing place. Compare old/new on the same versioned fixture and 320/390px plus desktop. Do not require new taxonomy, session rituals, mastery scores, graph/maps or a schema by default.
 - **Related:** Public [#14](https://github.com/frekland/Minamo/issues/14), strategy and earlier owner feedback. Do not treat a single successful GPT continuation as Site UX acceptance.
 
