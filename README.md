@@ -1,5 +1,8 @@
 # Minamo
 
+> **Current learner-experience direction (1 November 2026):** [Broadened product-design discovery and GPT/owner responsibility gates](docs/PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md). Before commissioning a Workbench, examine the whole learning cycle—capture, active thinking, experiment, practice, creation, return and user-controlled GPT—and compare genuinely different interactions with the existing product. Earlier Work/Questions/Evolution A/B directions remain historical research, not the chosen design. No product implementation or Site release is implied.
+
+
 A personal workspace for learning that develops over time.
 
 Minamo connects structured projects, reference material, questions, practical observations and personal notes with conversations in ChatGPT. It helps you **pick apart what you are learning, keep track of uncertainty and return to the work later**—including from a fresh AI conversation.
