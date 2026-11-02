@@ -17,6 +17,9 @@ Finish this gate on disposable D1 and source code before building the Study shel
 | Source extraction | Fresh public main + exact #78 donor dependency/retirement manifest | Compiles without the old learner shells; actual browser DOM proves non-nesting | Missing contracts/API tests or copied legacy composition |
 | Product feedback | Connected A+B experience, not A-only shell | Early owner walkthrough of one authentic task before C polish | Same disconnected journey under new headings |
 
+**Additional D0 proof for M1–M5:** (a) ordinary Site Note + optional typed meaning without a GPT checkpoint, preserving one visible Note and existing autosave; (b) exact multi-claim correction anchor compatible with validators/old readers; (c) Note source-chip in-flight removal/retry/permission race; (d) a supported L2 interpretation transport with no phantom in-Site AI; and (e) hidden-legacy search recovery plus saved cross-device continuation. These are bounded source/interaction proofs, not new storage systems or research tracks. If a proof needs a new command/schema, state the exact contract and seek the existing migration/owner gate before material change.
+
+
 Record the chosen v2 validator and read-path changes, migration/no-migration conclusion, failed alternatives and exact commits in a short D0 receipt on the implementation branch. **No real owner records are rewritten by D0.** A schema, hosted-data or migration change still requires the owner's separate explicit approval.
 
 ## D1. Work is its own optional canonical record family; Journeys are legacy-only
@@ -243,7 +246,7 @@ A+B+C remain **one product commission**, with safe checkpoints; opt-in incomplet
 
 **After integrated A+B, before major C polish:** invite an early owner-usefulness check on a real or honestly fictional changing-work episode and an unplanned capture. If it still feels like an archive of detached records, stop and correct architecture/interaction—not another banner, modal or dashboard.
 
-**Before product/default-route cutover:** all C1–C7 plus UX-N01–N24 and new D0–D9 negative oracles are satisfied. Demonstrate two naturally connected episodes: (1) reading→Activity→Note→multi-source question→GPT explicit save→fresh GPT→exact Site return, with no Project; (2) changing optional work→external observation and uncertainty→correction→late Note link→return after a gap. Include non-technical/language, narrow real device/IME and a sparse/contradictory history. Compare to V95 on content-firstness, backtracks, origin retention, draft recovery and owner preference; do not invent timings or satisfaction scores.
+**Before product/default-route cutover:** all C1–C7, L1–L5, M1–M5 and UX-N01–N29 and new D0–D9 negative oracles are satisfied. Demonstrate two naturally connected episodes: (1) reading→Activity→Note→multi-source question→GPT explicit save→fresh GPT→exact Site return, with no Project; (2) changing optional work→external observation and uncertainty→correction→late Note link→return after a gap. Include non-technical/language, narrow real device/IME and a sparse/contradictory history. Compare to V95 on content-firstness, backtracks, origin retention, draft recovery and owner preference; do not invent timings or satisfaction scores.
 
 The owner may reject the product even if every technical invariant passes. A failed usefulness judgement returns to implementation, **not** an automatic new administrative layer. Technical proof and first-hand usefulness are independent gates.
 
@@ -260,5 +263,44 @@ Required additional browser/domain oracles, also specified as UX-N20–N24 in th
 - **L5:** Guarded same-target and cross-target correction representation, including unknown/contrast and old-reader compatibility.
 
 These refine C1–C3 and C7 and are **mandatory for accepted product cutover** alongside C4–C6. An A-only engineering release cannot satisfy them. Include the early owner walkthrough after integrated A+B, and stop on genuine disconnection even if transaction/unit tests pass.
+
+## D11. Final mandatory closure — M1–M5 in the existing integrated commission
+
+These are **selected implementation contracts**, not optional enhancements. They refine C1–C7 and L1–L5 without changing the Stage-free Work choice, Study/Find/Notebook navigation candidacy, source-rights model or A+B+C checkpoints.
+
+### M1 — Ordinary Site-only capture can express meaningful change
+
+The current Notes coordinator persists original prose and exact links with rapid autosave. The current typed LearningDevelopment model separately carries decisions, reasons, corrections and next actions. A backlink alone does not establish a causal explanation. The new Study interaction must support a **site-only, optional Record a change** alongside a real saved Note or Attempt, without an intervening GPT chat or Work requirement. The learner may record a short decision/reason, corrected earlier claim, open question or intended next action, choose the exact supporting original and approve the semantic claim. The free-form Note works equally well if this action is ignored; no automatic inference, status, mastery, compulsory field sheet or duplicate visible checkpoint is allowed.
+
+**Selected write-side direction:** reuse the canonical Note coordinator and versioned Development representation. For an already-saved original, a guarded, idempotent operation targets that exact Note/revision and writes its learner-approved semantics, with same-owner/generation/space rights and one visible Note in the read model; where the Note is first being committed, a combined compatible transaction may atomically create Note+meaning without bypassing existing draft/flight/CAS invariants. D0 must choose and prove exact command payload/read integration against current code before UI work. A separate user-managed Development item or parallel Note editor is prohibited. Later typing into a Note does not silently revise an accepted semantic claim. On a Site-only return, use the typed facts where explicitly accepted and otherwise show dated original excerpts with honest limits; L2 may offer optional external interpretation.
+
+**Oracle:** Three ordinary Site-only Notes/Attempt across a misconception and pivot, no GPT checkpoint, no Work at start; the learner optionally records one correction/next intention, then returns after unrelated sessions and can trace real change and original evidence. An entirely prose-only strand remains usable and never falsely synthesised as settled.
+
+### M2 — L2 provisional interpretation uses the actual GPT transport
+
+Do not ship an inert **Help me understand what changed** button or pretend Minamo contains an in-Site inference engine. **Baseline interaction:** select bounded eligible exact original passages (including both competing accounts) → review what is included → Prepare and copy (with selectable-text fallback on clipboard denial) → Open ChatGPT with the Minamo connection → GPT independently reads admitted canonical sources → learner challenges, revises or discards a clearly provisional explanation → return to the exact eligible Study selection. No automatic relation or Note save occurs. If the learner explicitly asks to preserve an accepted interpretation, D2's reviewed update command applies. A disconnected/unauthorised GPT session receives an honest connection instruction or a non-AI original-reading fallback, never a fabricated result. A future proven host integration may shorten transport without changing authorisation and source rules.
+
+**Oracle:** Sparse old prose, contradictory checkpoint and missing reason; select/re-read/copy/open, challenge or discard and exact Android/Desktop return, including no clipboard, no connected tools, cancellation and revoked source. Test the actual visible words and supported actions.
+
+### M3 — Corrections have exact claim identity
+
+D4/L5's typed correction choice cannot stop at Note-level relation. A Note can contain multiple independently meaningful claims. **D0 must choose and prove a versioned claim-level anchor**: typed fact identity when the prior Development supplied it, or an exact admissible Note/source revision plus stable passage/text selection when the prior claim was prose. The domain must validate specificity and permissions, preserve the original edition, and never silently retarget after edits. Same-target Development supersession can withdraw only the guarded event in its applicable scope; cross-target learner-accepted correction addresses the identified prior claim; `contrasts` leaves both accounts live. If the old claim cannot be precisely identified, save the new explanation without claiming that the old one was formally corrected.
+
+**Oracle:** Note N has claims A and B; later Note M corrects only A. Work/Notebook/GPT projections show A's reviewed correction, B unaffected and source exact. Test stale/revoked prior revision, retries, v1 readers, partial reads, withdrawn correction and unresolved alternative. No unsupported `RecordLink.relation` value may be sent before the validator/export/restore/MCP change is proved.
+
+### M4 — Contextual Note links and rapid autosave have one truth
+
+Selecting **Note on this** is deliberate intent to associate the displayed exact passage/Activity with the draft, distinct from passive navigation. The removable chip shows its precise source and its status as **pending in the local buffer**, **saving**, **saved** or **removal pending**; never suggest a link has not committed after a flight already committed it. Persist only what the frozen `NoteFlight.sent` payload actually contained and reconcile the exact receipt/revision. If the learner clears the chip **before** that flight is sent, the source link is absent. If an in-flight operation commits the link first, clearing the chip becomes an explicit, guarded follow-up removal; do not rewrite history or claim cancellation of an already committed save. A failed or revoked-source association preserves the complete Note draft, requires explicit recovery/standalone-save choice and must not attach a guessed substitute. Preserve existing autosave cadence, local recovery, images/attachments, Note CAS, owner isolation and one original Note visible from source and Notebook.
+
+**Oracle:** Chip remove/change before, during and after an in-flight autosave; simultaneous revision conflict; revoked exact source; lost acknowledgement/replay; two intentionally linked sources; clean unlinked Note. User-visible status must agree with the actual receipt and final relation graph.
+
+### M5 — Hidden old material is recoverable, and continuity survives devices
+
+Keep **Show legacy Journeys** default Off and device-local. Search must continue to filter old Journeys before pagination. When a learner explicitly searches for a title with no suitable result while the toggle is Off, a restrained **Include older Journeys** action may offer to open Settings → Workspace and enable the existing preference; do not silently expose old titles or create a parallel navigation tab. Exact old links and explicit relations remain readable regardless of the toggle. New Work adoption is still previewed and link-only.
+
+**Oracle:** With no remembered old deep link, find legacy work deliberately through the search fallback, opt in, open exact Stage and optionally Continue as Work without migrating originals. Separately, start Notes/Activity without Work on desktop, continue saved originals on Android (not device-local drafts or navigation history), later adopt Work and record a correction, then resume after unrelated sessions. Show meaningful original changes, remaining uncertainty and explicit next intention where supported; no taxonomy or duplicate progress cards.
+
+**Delivery and stop rule:** Add UX-N25–N29 alongside UX-N01–N24. D0 proves schema/transaction/link semantics; A proves Note chip and legacy search recovery; B proves Site-only causal capture, actual L2 transport and claim-precise corrections; C proves longitudinal cross-device usability in authenticated owner-facing use. All M1–M5 are mandatory before default-route/product cutover. An opt-in incomplete engineering candidate remains allowed only under the existing fast release gate and must be labelled incomplete. Owner usefulness can still veto a technically passing build.
+
 
 **Final boundary:** This file changes the planning contract only. It does not create database objects, install MCP schema changes, reclassify old Journeys, write learner records, merge PRs or deploy Sites.
