@@ -28,7 +28,7 @@ A further owner-authorised review of the strengthened draft found five specific 
 | **L2 · Prose-only sense-making (C2)** | Sparse free-text historical Notes must support an optional source-grounded, unsaved **Help me understand what changed** interpretation. The learner may revise/discard it; no fabricated recorded reason or compulsory structuring. |
 | **L3 · Contextual capture (C1/C7)** | **Note on this** conveys deliberate source selection, with a removable pre-save source chip. One existing-coordinator save persists eligible original Note and exact accepted link; it must be visible from both source and Notebook without a filing ritual. |
 | **L4 · Longitudinal usability (C2/C3/C7)** | Multiple separate GPT updates across a pivot/correction must remain one useful entry per deliberate save, not duplicated Note/Development cards or growing record-administration overhead. |
-| **L5 · Correction semantics (C2/C3/C7)** | Close the existing typed relation/supersession mismatch: 'corrects' is not currently in RecordLink.RELATIONS; prove exact same-target and cross-target representations, old-reader compatibility and refusal to invent causal links in D0. |
+| **L5 · Correction semantics (C2/C3/C7)** | Close the existing typed relation/supersession mismatch: 'corrects' is not currently among the RELATIONS values admitted by RecordLink.relation; prove exact same-target and cross-target representations, old-reader compatibility and refusal to invent causal links in D0. |
 
 **Failure rule:** No C1–C7 claim is complete if its applicable L1–L5 interaction fails. Test actual authenticated first-viewport and multi-session outcomes, not only schema shapes or MCP receipts.
 
