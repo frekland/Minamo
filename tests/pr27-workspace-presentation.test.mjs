@@ -21,7 +21,7 @@ test('passive preview does not duplicate canonical IDs/hooks and preserves code 
  const huge=ui.previewParts(record,{...target,partId:'oversize'});assert.deepEqual(huge.parts,[]);assert.equal(huge.omitted,true);
 });
 test('device settings whitelist and scope cannot carry arbitrary state or learning authority',()=>{
- assert.deepEqual(ui.presentationPreferences({version:900,size:'largest',width:'wrong',codeWrap:true,motion:'reduce',drafts:{secret:'no'},owner:'no'}),{version:1,size:'largest',width:'comfortable',spacing:'comfortable',codeWrap:true,sidebar:'open',motion:'reduce'});assert.notEqual(ui.presentationKey('owner-A'),ui.presentationKey('owner-B'));assert.deepEqual(ui.presentationPreferences(null),ui.defaultPresentation);assert.equal(ui.workspaceEntry({minamoWorkspace:{scope:'other',mainScroll:200}},'owner'),null);
+ assert.deepEqual(ui.presentationPreferences({version:900,size:'largest',width:'wrong',codeWrap:true,motion:'reduce',drafts:{secret:'no'},owner:'no'}),{version:1,size:'largest',width:'comfortable',spacing:'comfortable',codeWrap:true,sidebar:'open',motion:'reduce',showLegacyJourneys:false});assert.notEqual(ui.presentationKey('owner-A'),ui.presentationKey('owner-B'));assert.deepEqual(ui.presentationPreferences(null),ui.defaultPresentation);assert.equal(ui.workspaceEntry({minamoWorkspace:{scope:'other',mainScroll:200}},'owner'),null);
  const link=ui.readingContextLink({...record,family:'journey',learningShape:{kind:'journey',version:1,stages:[{id:'stage-1',sectionId:'s1'}]}},'stage-1');assert.deepEqual(link,{family:'journey',id:record.id,rendition:'edition-1',sectionId:'s1'});
  assert.deepEqual(ui.recordSummary({...record,body:''},100),{text:'A return passes a value to the caller.',origin:'canonical-excerpt'});
 });
