@@ -22,7 +22,7 @@ const stamp='2026-10-27T05:00:00.000Z';
 const record=(id,family,title,extra={})=>({
   id,family,title,body:'Independent synthetic example.',links:[],rev:1,
   rendition:'TEST-ONLY-edition-'+id,createdAt:stamp,updatedAt:stamp,
-  trashedAt:null,actor:'system',synthetic:true,...extra
+  trashedAt:null,actor:'system',synthetic:false,...extra
 });
 const insert=(fixture,owner,r)=>fixture.db
   .prepare('INSERT INTO v2_records(owner,family,id,rev,data,trashed_at,last_operation) VALUES(?,?,?,?,?,?,?)')

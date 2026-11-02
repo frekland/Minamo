@@ -41,8 +41,8 @@ test('space and language eligibility precedes pagination, cursor lookahead, inhe
 
 test('Library references and area counts respect exact scope before SQL aggregation',async()=>{
  const f=await privateStorageFixture(worker);try{const c=f.client('scope-library');
- ok(await c.command({action:'create',family:'area',id:'shared-area',data:{title:'Cross-disciplinary reference',body:'Shared.',synthetic:true,learningScope:{version:1,spaces:['computing','languages'],languages:['ja','fr'],provenance:'authored'}}}));
- for(const [id,language] of [['japanese','ja'],['french','fr'],['computing',null]])ok(await c.command({action:'create',family:'article',id,data:{title:id,body:'Body',synthetic:true,learningScope:scope(language),links:[{family:'area',id:'shared-area'}],concepts:[{id:'entry',term:'same',aliases:[],definition:'Definition',sectionId:'__article',partId:'__body'}]}}));
+ ok(await c.command({action:'create',family:'area',id:'shared-area',data:{title:'Cross-disciplinary reference',body:'Shared.',synthetic:false,learningScope:{version:1,spaces:['computing','languages'],languages:['ja','fr'],provenance:'authored'}}}));
+ for(const [id,language] of [['japanese','ja'],['french','fr'],['computing',null]])ok(await c.command({action:'create',family:'article',id,data:{title:id,body:'Body',synthetic:false,learningScope:scope(language),links:[{family:'area',id:'shared-area'}],concepts:[{id:'entry',term:'same',aliases:[],definition:'Definition',sectionId:'__article',partId:'__body'}]}}));
  const refs=ok(await c.request('/api/library?'+new URLSearchParams({facet:'references',learningSpace:'languages',language:'ja',q:'same'})));assert.deepEqual(refs.items.map(x=>x.id),['japanese']);
  const areas=ok(await c.request('/api/library?'+new URLSearchParams({facet:'areas',learningSpace:'languages',language:'ja'})));assert.equal(areas.items[0].topicCount,1);
  const aliases=ok(await query(c,{learningSpace:'languages',language:'ja',q:'same'}));assert.deepEqual(aliases.conceptMatches.map(x=>x.article.id),['japanese']);

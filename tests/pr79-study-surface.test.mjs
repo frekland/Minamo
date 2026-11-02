@@ -60,6 +60,14 @@ test('Reading is the actual original explanation, one title and a contextual Not
  assert.match(html,/Note on this/);
  assert.match(html,/class="study-reader"/);
  assert.doesNotMatch(html,/class="v2-sidebar|Journey roadmap|Full Activity Studio|class="nw-desktop-bar/);
+ const studySource=readFileSync('app/study/study-app.tsx','utf8');
+ const readerSource=readFileSync('app/reader.tsx','utf8');
+ const notesSource=readFileSync('app/notes-panel.tsx','utf8');
+ assert.match(studySource,/onCreateNoteForSelection=\{link=>noteOnLinked\(reading,link\)\}/);
+ assert.match(readerSource,/noteLinkForSelectedPassage\(selection,article\)/);
+ assert.match(readerSource,/onCreateNoteForSelection\(noteSelectionLink\)/);
+ assert.match(studySource,/sourceHref=\{link=>studyExactHref\(link.family,link.id/);
+ assert.match(notesSource,/Return to source<\/a>/);
 });
 
 test('Work shows the actual linked Note, without invented completion or stage state',()=>{

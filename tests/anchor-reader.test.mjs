@@ -4,12 +4,23 @@ import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
 const {build}=wr('esbuild');
 const compiled=await build({entryPoints:['app/reader.tsx'],bundle:true,format:'esm',platform:'node',write:false,loader:{'.css':'empty'},define:{'process.env.NODE_ENV':'"production"'}});
-const {anchorValid,anchorMatchesPart,anchorSegments,validBoundary}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
+const {anchorValid,anchorMatchesPart,anchorSegments,validBoundary,noteLinkForSelectedPassage}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
 const article={id:'article-a',family:'article',title:'Evidence',body:'',rendition:'rendition-a',sections:[{id:'s1',title:'One',parts:[{id:'p1',kind:'paragraph',text:'Same phrase. Same phrase. α 😄 e\u0301'},{id:'p2',kind:'code',text:'first\r\nsecond\r\n',joinBefore:'\n'},{id:'p3',kind:'paragraph',text:'continued',joinBefore:''}]}]};
 function anchor(extra={}){return{articleId:'article-a',rendition:'rendition-a',sectionId:'s1',partId:'p1',start:0,end:12,quote:'Same phrase.',...extra}}
 test('exact occurrence identity retains repeated text positions',()=>{const first=anchor(),second=anchor({start:13,end:25});assert.equal(anchorValid(first,article),true);assert.equal(anchorValid(second,article),true);assert.notDeepEqual(anchorSegments(first),anchorSegments(second));});
 test('multi-part reconstruction uses declared boundaries and exact raw CRLF',()=>{const segments=[{sectionId:'s1',partId:'p1',start:13,end:32},{sectionId:'s1',partId:'p2',start:0,end:15},{sectionId:'s1',partId:'p3',start:0,end:9}];const quote=article.sections[0].parts[0].text.slice(13,32)+'\n'+article.sections[0].parts[1].text+'continued';const target=anchor({start:13,end:32,segments,quote});assert.equal(anchorValid(target,article),true);assert.equal(anchorMatchesPart(target,article,'s1',article.sections[0].parts[2]),true);assert.equal(anchorValid({...target,quote:quote.replaceAll('\r','')},article),false);});
 test('a stale rendition or altered quotation cannot silently retarget',()=>{assert.equal(anchorValid(anchor({rendition:'rendition-b'}),article),false);assert.equal(anchorValid(anchor({quote:'same phrase.'}),article),false);assert.equal(anchorValid(anchor({articleId:'other-article'}),article),false);});
+test('a selected passage starts a free Note at the exact original edition and part, without copying an unreviewed quote',()=>{
+ const link=noteLinkForSelectedPassage(anchor(),article);
+ assert.deepEqual(link,{family:'article',id:article.id,rendition:article.rendition,sectionId:'s1',partId:'p1'});
+ assert.equal('quote' in link,false);assert.equal('start' in link,false);
+ assert.equal(noteLinkForSelectedPassage(anchor({rendition:'newer'}),article),null);
+ assert.equal(noteLinkForSelectedPassage(anchor(),{...article,trashedAt:'2026-11-02T00:00:00.000Z'}),null);
+ assert.equal(noteLinkForSelectedPassage(anchor(),{...article,synthetic:true}),null);
+ const segments=[{sectionId:'s1',partId:'p1',start:0,end:12},{sectionId:'s1',partId:'p2',start:0,end:5}];
+ const across=anchor({segments,quote:'Same phrase.\nfirst'});assert.equal(anchorValid(across,article),true);
+ assert.equal(noteLinkForSelectedPassage(across,article),null,'a multi-part highlight cannot be falsely filed as one exact part');
+});
 test('UTF16 keeps astral and combining sequences distinct without normalization',()=>{const text=article.sections[0].parts[0].text,emoji=text.indexOf('😄'),combining=text.indexOf('e\u0301');assert.equal(validBoundary(text,emoji),true);assert.equal(validBoundary(text,emoji+1),false);assert.equal(validBoundary(text,emoji+2),true);assert.equal(anchorValid(anchor({start:emoji,end:emoji+2,quote:'😄'}),article),true);assert.equal(anchorValid(anchor({start:emoji,end:emoji+1,quote:'\ud83d'}),article),false);assert.equal(anchorValid(anchor({start:combining,end:combining+2,quote:'é'}),article),false);assert.equal(anchorValid(anchor({start:combining,end:combining+2,quote:'e\u0301'}),article),true);});
 test('malformed and noncanonical multi-part ranges are rejected',()=>{assert.equal(anchorValid(anchor({start:-1}),article),false);assert.equal(anchorValid(anchor({end:12.5}),article),false);assert.equal(anchorValid(anchor({end:999}),article),false);assert.equal(anchorValid(anchor({end:0,quote:''}),article),false);assert.equal(anchorValid(anchor({segments:[{sectionId:'s1',partId:'p2',start:0,end:5},{sectionId:'s1',partId:'p1',start:0,end:12}],quote:'first\nSame phrase.'}),article),false);assert.equal(anchorValid(anchor({segments:[{sectionId:'s1',partId:'p1',start:0,end:12},{sectionId:'s1',partId:'p3',start:0,end:9}],quote:'Same phrase.continued'}),article),false);});
 

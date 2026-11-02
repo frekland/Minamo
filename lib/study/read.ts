@@ -34,8 +34,8 @@ export async function readStudyWork(env:Cloudflare.Env,owner:string,id:string):P
  deduped.sort((a,b)=>b.savedAt.localeCompare(a.savedAt)||a.source.id.localeCompare(b.source.id));
  const retained=deduped.slice(0,24);if(deduped.length>retained.length)partial=true;
  const withUpdates=await Promise.all(retained.map(async entry=>{
-  if(entry.source.family!=='note')return entry;
-  try{const data=await getLearningContext(env,owner,{scope:'target',target:{kind:'record',family:'note',id:entry.source.id},limit:4});return {...entry,updates:updates(data)};}
+  if(!['note','run'].includes(entry.source.family))return entry;
+  try{const data=await getLearningContext(env,owner,{scope:'target',target:{kind:'record',family:entry.source.family as 'note'|'run',id:entry.source.id},limit:4});return {...entry,updates:updates(data)};}
   catch{partial=true;return entry}
  }));
  let directUpdates:SavedUpdate[]=[];
