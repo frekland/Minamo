@@ -18,14 +18,13 @@ test('owner-confirmed test context adds an ordinary-app Project entry and unmist
  assert.match(html,/Phase K · epoch 3/);
  assert.match(html,/Open test Project/);
  assert.match(html,/learningSpace=all/,'the test entry must open the normal all-spaces context even from a language-specific Home');
- assert.match(html,/projects-index-test-label">TEST ONLY/);
- assert.match(html,/TEST ONLY Mood-to-Music/);
+ assert.doesNotMatch(html,/projects-index-test-label">TEST ONLY/,'ordinary Projects browsing excludes synthetic records even with an owner test entry');
 });
 
 test('without server-confirmed owner context, Projects are still browsable but no privileged fixture entry appears',()=>{
  const html=render(props);
  assert.doesNotMatch(html,/Owner-only synthetic test Project/);
- assert.match(html,/projects-index-test-label">TEST ONLY/);
+ assert.doesNotMatch(html,/projects-index-test-label">TEST ONLY/,'a synthetic record is not an ordinary Project listing');
 });
 
 test('signed-out UI never renders a privileged fixture entry even if given one',()=>{
