@@ -15,7 +15,7 @@ import AnnotationPreview from './annotation-preview';
 import './personal-work-organiser.css';
 type Choice={family:Family;id:string;title:string};
 type Page={records:WorkspaceRecord[];nextCursor?:string|null;error?:string;searchIncomplete?:boolean;queryContexts?:Choice[]};
-const names:Record<Family,string>={note:'Note',annotation:'Annotation',flag:'Flag',run:'Run',article:'Article',area:'Subject',journey:'Project',investigation:'Question',source:'Source',experiment:'Activity'};
+const names:Record<Family,string>={note:'Note',annotation:'Annotation',flag:'Flag',run:'Run',article:'Article',area:'Subject',journey:'Legacy Journey',work:'Work',investigation:'Question',source:'Source',experiment:'Activity'};
 const tabs:[WorkTab,string][]=[['all','All work'],['note','Notes'],['annotation','Annotations'],['flag','Flags'],['run','Attempts & runs'],['unlinked','Unlinked'],['trash','Trash']];
 export function personalWorkKindLabel(record:WorkspaceRecord){return record.family==='run'&&record.attempt?'Saved attempt':names[record.family];}
 export function personalRunDescription(record:WorkspaceRecord){

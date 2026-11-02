@@ -5,9 +5,9 @@ import {noteImageSegments,parseNoteImagePlacements} from './note-image-placement
 import type {AuthoredDiagram} from './diagrams';
 import type {ReadingInline} from './reading-inline';
 /** Shared JSON contracts. Durable validation and identity are enforced on the server. */
-export const FAMILIES = ['journey','investigation','article','area','note','annotation','flag','source','experiment','run'] as const;
+export const FAMILIES = ['journey','work','investigation','article','area','note','annotation','flag','source','experiment','run'] as const;
 export type Family = typeof FAMILIES[number];
-export const READING_FAMILIES = ['journey','investigation','article','area','note','annotation','source','experiment','run'] as const;
+export const READING_FAMILIES = ['journey','work','investigation','article','area','note','annotation','source','experiment','run'] as const;
 export type ReadingFamily = typeof READING_FAMILIES[number];
 export function isReadingFamily(value:unknown):value is ReadingFamily{return typeof value==='string'&&(READING_FAMILIES as readonly string[]).includes(value);}
 export type Actor = 'user'|'gpt'|'system';
@@ -19,6 +19,8 @@ export type ReadingReference={url:string;label:string;alt?:string;rights:'link-o
 export type ReadingImage={assetId:string;alt:string;caption?:string};
 /** Personal presentation metadata; excluded from canonical reading identity. */
 export type ProjectCover={assetId:string;decorative:boolean;alt?:string};
+/** Optional, Stage-free work identity. Meaning and progress live in original evidence, not this metadata. */
+export type WorkMetadata={version:1;archivedAt?:string};
 export type ReadingMedia={assetId:string;kind:'document'|'audio'|'video';description:string;caption?:string;transcript?:string};
 export function mediaCanonicalText(media:ReadingMedia):string{return media.description+(media.caption?'\n'+media.caption:'')+(media.transcript?'\n'+media.transcript:'');}
 export type MediaDisplay={mime:string;bytes:number;kind:ReadingMedia['kind'];details:{format:string;codecs?:string[];durationSeconds?:number;width?:number;height?:number;sampleRate?:number;channels?:number}};
@@ -55,11 +57,12 @@ export type WorkspaceRecord = {
  id:string;family:Family;title:string;body:string;bodyFormat?:'markdown-v1';flagTarget?:FlagTarget;bookmark?:FlagBookmark;status?:string;links:RecordLink[];
  learningScope?:import('./learning-spaces').LearningScope;learningScopeRev?:number;learningScopeInherited?:boolean;learningShape?:LearningShape;sections?:ArticleSection[]; concepts?:ConceptEntry[]; anchor?:PassageAnchor; rendition?:string; source?:SourceInfo;
  projectCover?:ProjectCover|null;
+ workMeta?:WorkMetadata;
  outputBundle?:import('./typed-outputs').TypedOutputBundle; activity?:ActivityCartridge;attempt?:ActivityAttempt;
  engine?:'regex'|'unicode'|'sql'|'python'|'web'; code?:string; output?:string; evidence?:'observed'|'illustrative';
  rev:number;createdAt:string;updatedAt:string;trashedAt:string|null;actor:Actor;synthetic:boolean;
 };
-export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'>> & {source?:SourceInfo|SourceUpdate};
+export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'|'workMeta'>> & {source?:SourceInfo|SourceUpdate};
 export type BlockChanges=Partial<Omit<PassagePart,'id'|'kind'|'table'|'callout'|'reference'|'image'|'media'|'unavailable'|'imageDisplay'|'mediaDisplay'|'excerptDisplay'>> & {table?:Partial<ReadingTable>;callout?:Partial<ReadingCallout>;reference?:Partial<ReadingReference>;image?:Partial<ReadingImage>;media?:Partial<ReadingMedia>};
 /** Ordered, bounded edits against one exact record revision. No patch data is persisted. */
 export type ContentPatch=
@@ -114,9 +117,9 @@ export function canonicalReadingParts(article:WorkspaceRecord):{sectionId:string
 export const canonicalArticleParts=canonicalReadingParts;
 
 /** Learning work is explicit checkpointed evidence, independent of canonical reading. */
-export type LearningWorkTarget={kind:'investigation';investigationId:string}|{kind:'journey-stage';journeyId:string;stageId:string};
+export type LearningWorkTarget={kind:'investigation';investigationId:string}|{kind:'journey-stage';journeyId:string;stageId:string}|{kind:'record';family:'note'|'work'|'article'|'experiment'|'run'|'journey'|'investigation';id:string};
 export type EvidenceRef={kind:'record';family:'note'|'source'|'run'|'article';id:string;rev:number;rendition?:string}|{kind:'repository';url:string;commit:string}|{kind:'owner-statement';text:string};
 export type LearningFact={role:'prediction'|'attempt'|'reported-observation'|'misconception'|'correction'|'interpretation'|'open-question';text:string;basis:'learner-reported'|'supplied-artifact'|'minamo-observed'|'gpt-interpretation'|'provisional'|'illustrative';refs?:EvidenceRef[]};
 export type LearningDecision={choice:string;reason:string;status:'provisional'|'established';basis:LearningFact['basis'];refs?:EvidenceRef[]};
-export type LearningDevelopment={id:string;schemaVersion:1;primaryTarget:LearningWorkTarget;targetRenditionAtRecording:string;targetRevAtRecording:number;summary:string;kind:'learning-update'|'question'|'correction'|'interpretation';facts:LearningFact[];decisions?:LearningDecision[];nextAction?:string;relatedContexts?:{target:LearningWorkTarget|{kind:'library';articleId:string;sectionId?:string};relevance:'explicit'|'accepted-relation';reason?:string}[];noteRefs?:{id:string;rev:number;purpose:string}[];nextQuestions:string[];supersedesId?:string;author:Actor;createdAt:string;revisedAt?:string;revision:number;operationId:string;withdrawn?:boolean;synthetic:boolean;evidenceUnavailable?:boolean;detailsDeferred?:boolean;noteEvidence?:{id:string;rev:number;purpose:string;rendition:string;destination:string}[]};
+export type LearningDevelopment={id:string;schemaVersion:1|2;primaryTarget:LearningWorkTarget;targetRenditionAtRecording:string;targetRevAtRecording:number;summary:string;kind:'learning-update'|'question'|'correction'|'interpretation';facts:LearningFact[];decisions?:LearningDecision[];nextAction?:string;relatedContexts?:{target:LearningWorkTarget|{kind:'library';articleId:string;sectionId?:string};relevance:'explicit'|'accepted-relation';reason?:string}[];noteRefs?:{id:string;rev:number;purpose:string}[];nextQuestions:string[];supersedesId?:string;author:Actor;createdAt:string;revisedAt?:string;revision:number;operationId:string;withdrawn?:boolean;synthetic:boolean;evidenceUnavailable?:boolean;detailsDeferred?:boolean;noteEvidence?:{id:string;rev:number;purpose:string;rendition:string;destination:string}[]};
 export type LearningPerspective={revision:number;summary:string;dependencies:{id:string;revision:number}[];updatedAt:string;stale?:boolean;detailsDeferred?:boolean};

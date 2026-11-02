@@ -4,6 +4,7 @@ const id=(v:unknown)=>typeof v==='string'&&/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/
 const text=(v:unknown,max=1000)=>typeof v==='string'&&wellFormed(v)&&!!v.trim()&&v.length<=max;
 export function validateLearning(data:any,family:string,existing:any){
  const shape=data.learningShape!==undefined?data.learningShape:existing?.learningShape,sections=Array.isArray(data.sections)?data.sections:existing?.sections??[];
+ if(family==='work'&&shape!==undefined)throw new DomainError(400,'work_stage_free','Work has no Journey or Stage learningShape. Write original Notes and explicit links.','data.learningShape');
  if(shape!==undefined){
   const fail=(path:string,msg:string):never=>{throw new DomainError(400,'invalid_learning_shape',msg,'data.learningShape'+path)};
   if(!object(shape)||!(shape.version===1||shape.version===2&&family==='investigation'))fail('','Use a versioned learning presentation contract.');
