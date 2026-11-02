@@ -16,7 +16,7 @@ The included `.openai/hosting.example.json` is a development placeholder. A real
 
 ## Existing owner-private Site publication
 
-Shared changes for the current Site are developed and reviewed here. The public repository does **not** replace the existing Site's native Git remote, but the intermediate private GitHub repository is no longer required for routine releases. Follow the [direct public-to-native Sites release protocol](SITES-RELEASE-WORKFLOW.md), retaining native-only configuration/branding and checking source hashes, private access and hosted behaviour for each release.
+Shared changes for the current Site are developed and reviewed here. The public repository does **not** replace the existing Site's native Git remote, but the intermediate private GitHub repository is no longer required for routine releases. Follow the [direct public-to-native Sites release protocol](SITES-RELEASE-WORKFLOW.md), retaining native-only configuration/branding and checking source hashes, private access and hosted behaviour for each release. **A full regression suite is not mandatory before Sites publication**: the current policy permits a focused-tested, buildable, rollback-ready opt-in candidate, with test omissions recorded and post-deploy smoke checks. Merge and product acceptance remain separate gates.
 
 ## What is not provided
 
