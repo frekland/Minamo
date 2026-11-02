@@ -1,0 +1,62 @@
+# Minamo learner-experience reset: repeated failure review
+
+**2 November 2026 · design evidence, not implementation or acceptance.** This review consolidates earlier owner feedback and design/implementation attempts against the V95 authenticated learner-browser inspection. It contains no private learner record bodies or identifiers, and does not authorise data changes, merging, a Sites deployment or default-route cutover. The proposed replacement implementation is in [the learner-first code blueprint](../LEARNER-FIRST-PRODUCT-RESET-CODE-BLUEPRINT.md).
+
+## Verdict
+
+The repeatedly reported problem was **not a shortage of source links, truthful notices, Project controls, dashboards or tests**. It was the absence of a coherent place to *read or do something, think about it, preserve an update and return to what changed*. Repeated implementation waves retained the Stage/Question/Reader/Activity route hierarchy and added correctness/continuity panels around it. The current opt-in contextual route therefore leaves the same learner work fragmented and foregrounds the data contract.
+
+This is an evidence-based product failure of the V91–V95 contextual candidate, **not** a finding that canonical storage, exact editions, Notes recovery, MCP or rights controls should be discarded. PR #78 remains draft/unmerged; V95 was successfully deployed but has not earned learner-usefulness acceptance.
+
+## Repeated first-hand feedback, not a new discovery prompt
+
+| When | Evidence | Already stated problem | What it rules out |
+| --- | --- | --- | --- |
+| 9–12 Oct | Recovered Stage-3 target in the [redesign strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) | Stored learning can be less understandable than a fresh GPT explanation; learner wants a focused investigation with context, original material, writing and a return path. | More storage or a summary card alone. |
+| 24 Oct | Internal real-component workflow A/B study, later summarised in [the public strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) | Task/reference/writing should remain together across desktop and mobile; simulations were not proof of real saving or longitudinal use. | Reusing current components in an attractive shell as acceptance. |
+| 26 Oct | Internal “make the work lead” review, reflected in [the public product context](../PRODUCT-CONTEXT-AND-PRIOR-ART.md) | Learners encounter the app's recording model and publishing/provenance machinery ahead of the subject. Old task scope leaks into unrelated reading; Notes can open an authoring form. | More implementation language and parallel editors. |
+| 27 Oct | Project-unification and V70–V72 internal reviews; [public 60-finding crosswalk](../ux/V70-V72-CROSSWALK.md) | Better title navigation, Notes, maps, Steps, recovery and UI controls did not establish a useful living Project. Historical report: 53 resolved, 5 deferred, 2 partial; not 60 independent learner passes. | Treating issue-resolution counts as a product verdict. |
+| 28–29 Oct | First-hand owner feedback, sanitised in [the public strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md) | Project is “static” and records feel like detached progress. Stages do not adapt to pivots; questions, Notes and repeated checkpoints obscure what changed and why. | A bigger Stage list, a graph, a renamed compulsory thread or repeated checkpoint panels. |
+| 28–30 Oct | Owner correction and wording follow-up in the public strategy; [public PR #34](https://github.com/frekland/Minamo/pull/34) | Unsolicited “mastery/not mastered” talk is alien to an ordinary checkpoint. The write-side safeguard should not dictate conversation style. | Moving data-integrity disclaimers into every visible learner surface. |
+| 30–31 Oct | [Redesign strategy](../LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), [Workbench handoff](../PROJECT-WORKBENCH-IMPLEMENTATION-HANDOFF.md), [V86 live audit](../ux/2026-10-31-LIVE-AUDIT.md) | A connected, real-persistence Project experience is still absent. Steps remain primary; evidence is split; links and provenance are overexposed. | Mock-only prototypes, additional perspectives without a real work loop, or a positive MCP test as UI acceptance. |
+| 1 Nov | [Direct owner correction](../ux/2026-11-01-owner-firsthand-ux-feedback.md), [issue #51](https://github.com/frekland/Minamo/issues/51) | Notes disconnected; **Projects/Stages biggest problem**; Library→Activity awkward; last work, next intention, open problems, corrected misconceptions and progress all feel stale. | Asking the owner to repeat the diagnosis, or claiming existing controls prove usefulness. |
+| 1 Nov | [D3 same-task interaction study](2026-11-01-contextual-learning-interaction-study.md), [PRs #71–77](https://github.com/frekland/Minamo/pulls) | Contextual option B was a *conditional* hypothesis: reject if capture becomes heavier, return still depends on Stages, or source→Activity→Note remains fragmented. | Treating “capture-first” wording as an accepted design. |
+| 1–2 Nov | [Draft PR #78](https://github.com/frekland/Minamo/pull/78), [V92 live fix register in that draft](https://github.com/frekland/Minamo/blob/docs/contextual-implementation-blueprint/docs/research/2026-11-02-v92-live-learner-review-fix-register.md), V95 browser review | Contextual route is live but still wraps fixed Project Steps, Questions, old Article/Activity pages and explanatory record-coverage notices. | Calling a technically deployed, opt-in interface a successful learner redesign. |
+
+Earlier discussion explicitly warned that flexible “threads,” Work/Questions/Evolution tabs, an Atlas, maps, generated status, a record feed or a Session ceremony could merely substitute another administrative hierarchy. These are **negative constraints**, not ideas to quietly resurrect in the next design.
+
+## Mechanism of repeated failure
+
+| Persistent symptom | Attempted remedy | Why it did not remove the symptom |
+| --- | --- | --- |
+| Evolving Project feels like a plan plus detached records | Unified Projects, Step selectors/maps, checkpoints, source-first Project evidence, contextual host | `app/journey-route.tsx` still renders `Steps` as the primary overview path; evidence and work are separate sections. A newer Note does not change the hierarchy. |
+| Notes feel disconnected | Floating Notes, exact capture links, CAS drafts, related sources and contextual panels | The primary material is still routed through legacy containers; Notes remain a separate dock, and co-visiting does not make an episode. Technical non-linking notices occupy learner space. |
+| Return is stale | Project continuation target, MCP read projections, bounded relation closure, newer/older evidence distinctions | The implementation can return accurate individual facts but no simple connected experience. Project-wide explicit updates remain constrained by `LearningWorkTarget` to a Stage or Investigation. |
+| Library and Activities feel detached | Typed Activity links, exact rendition return, old/unpinned relation quality, F01/F03 fixes | An Article still has a distinct Reader chrome; an Activity opens another full Studio with source-binding metadata. The learner must stitch the path together. |
+| Internal language overwhelms learning | V80 tool wording changes, provenance/uncertainty labels, F05 preview improvements | Contracts/coverage strings are rendered directly by `app/working-context.tsx` and `app/continuity-sources.tsx`; canonical Activity source-binding text is shown in the Task pane. |
+| Technical release success is mistaken for product progress | Large suites, cold GPT/MCP acceptance, synthetic variants, browser fix registers and fast deployment gates | Most gates verify *truth and stability*, not whether a human can start, learn, interrupt and resume comfortably. The D3 rejection criteria did not become cutover blockers. |
+
+### The #78 reversal
+
+The [contextual blueprint in draft PR #78](https://github.com/frekland/Minamo/blob/docs/contextual-implementation-blueprint/docs/CONTEXTUAL-WORKSPACE-CODE-BLUEPRINT.md) correctly says **not** to permanently couple the primary UI to Project/Stage and describes a single material-first work area. But the concrete `§6.2` approach simultaneously says to keep authored stages, Step selectors, Project map and Questions within the existing route. The implementation mounted an additive `WorkingContextHost` around the old route renderer in `app/workspace.tsx` rather than replacing that route's learner-facing composition.
+
+At the reviewed head, PR #78 changes 75 files with approximately **3,367 additions and 143 deletions** (GitHub PR metadata, 2 Nov). Those numbers are not a quality measure; in combination with the live DOM and component tree, they explain why the old layout survived. Its code-side correctness can be real while the learner-facing promise remains unfulfilled.
+
+## V95 bounded authenticated browser evidence (2 Nov)
+
+This was a desktop cloud-browser *product inspection*, not a human study, exhaustive acceptance or new execution test. We made no learner saves or account changes. The normal contextual Site showed:
+
+1. **Home:** “What would you like to work on?” followed by an empty saved-source panel containing “eligible sources”, “declared read” and GPT-last-seen caveats. Honest backend semantics occupy the main learner surface while no action-rich recent source exists.
+2. **Project:** a full fixed nine-Step sequence, an embedded Question, a separate “Recorded work” block, and coverage prose. Project title and route header repeat. Content-first behaviour is not established by the optional label.
+3. **Step:** `Intent / Outcome / Checkpoint` instructions and a Question branch, plus text about not automatically recording achievement. Some copy is written for the recorder/tutor rather than the learner.
+4. **Library:** a global Library detour retained a previous Project/Step return origin, then offered “Back to Step” inside independent source browsing. The Article itself has useful reference content, but navigation remains organized around old destinations.
+5. **Practice:** the Activity Task tab exposes immutable source-browser wording and SHA-256 binding metadata. “Your attempt” initially reopened a `TEST ONLY V92` **browser-local** draft. The prior MCP cleanup removed saved test records but did not clear that local draft; this is a separate, explicit cleanup gap.
+6. **Classic comparison:** switching temporarily to Classic retained the same top-level discovery categories and much of the same recorded-work caution. Contextual Home was restyled and capture-forward, but core Project/Article/Activity rendering remained shared. Contextual mode was restored after inspection.
+
+The record-level correctness cannot be assessed from these screens alone. The documented direct owner feedback and visible hierarchy are sufficient to reject the current *product* result without claiming lost data or fabricated status.
+
+## Corrected decision
+
+**Stop patching the V95 contextual wrapper as a final product candidate.** Keep PR #78 draft/unmerged as a technical source and failed experience experiment. Do not destroy its tests, canonical rights or release receipts. The next product code must *replace* the learner-facing routes, not mount the legacy pages under new labels. Implement a connected work path first, including genuine Note persistence and deliberate GPT update, then demonstrate a meaningful Project return. No new conceptual design election, competitor survey, synthetic expansion or generic owner questionnaire is required.
+
+The [replacement blueprint](../LEARNER-FIRST-PRODUCT-RESET-CODE-BLUEPRINT.md) specifies the product composition, code seams, data contract extension, old-renderer retirement, migration/rollback and non-waivable learner-experience gates. It is a **proposal** until the owner approves implementation; no source deployment or data migration is implied here.
