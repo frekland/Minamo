@@ -1,5 +1,7 @@
 # PR #79 independent cross-repository architecture review — required amendments
 
+**Latest owner decision (2 November 2026):** New Work uses its own canonical `work` record family; existing Journeys are legacy-only, hidden by default and accessible through a Settings opt-in or exact links. The earlier D0 Journey-v2 choice discussed below is **superseded**. See the final owner correction and binding D1 contract.
+
 **2 November 2026 · review-only decision record; no implementation or acceptance claim.** This report reviews the proposed [learner-first blueprint](../LEARNER-FIRST-PRODUCT-RESET-CODE-BLUEPRINT.md) against the active public `frekland/Minamo` implementation and its private historical predecessor `frekland/minamo-v2`. It is deliberately sanitised: private learning text, IDs, screenshots, personal GitHub operations and host details are not copied here.
 
 ## Verdict
@@ -90,3 +92,12 @@ A further review found that mandatory C1–C7 **still permitted ambiguity at imp
 7. **Delivery integrity:** D0 source/transaction proof precedes A; exact #78 transitive donor and feature disposition manifests are mandatory; a fresh public-main coding branch must bring #79 authority in its first commit; early A+B owner usefulness precedes C polish.
 
 These are **selected implementation designs to validate against existing source**, not claims that the current schema/host has already passed. If a selected shape violates a real invariant, record the failure and amend the decision with explicit owner approval before committing to an alternative. The owner has authorised updating this *draft PR plan*, not code, migration, merge or deployment. The original historical diagnosis above remains intact.
+
+
+## Owner correction — Work is not a new Journey; legacy visibility is optional (2 November 2026)
+
+The owner challenged the D0 decision to encode Work as Journey v2. That compromise would preserve legacy conceptual coupling even if hidden from the learner. **This newer decision supersedes the earlier D0/Journey-v2 choice above.**
+
+The binding [D1 architecture contract](../architecture/PR79-ARCHITECTURE-DECISIONS-AND-LEARNER-CONTRACTS.md#d1-work-is-its-own-optional-canonical-record-family-journeys-are-legacy-only) now requires a distinct **work** canonical family using existing record/revision/operation infrastructure, without Stages or a separate WorkStatus table. Legacy family=journey records are not deleted, reclassified or promoted to new Work. Their regular discovery visibility is **Off by default**, with Settings → Workspace → **Show legacy Journeys** permitting an explicit secondary Find grouping. Existing Journey/Stage deep links and rights-checked MCP reads continue regardless of the toggle; the toggle is only a device-local display preference and cannot act as an access boundary. The preference implementation must filter server-paginated Find before ranking and cursors and preserve other owner-scoped settings.
+
+Update the D0 family-switch/export/MCP/retained-source and toggle acceptance proofs accordingly. A new family in the existing table is **not** a blanket guarantee of schema-free deployment; any required migration/real-data mutation remains separately approval-gated. This correction changes planning documents only, not application code or owner data.
