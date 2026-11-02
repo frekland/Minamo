@@ -1,6 +1,14 @@
 # Contributor and coding-agent guidance
 
-## Current owner direction — post-V91 contextual workspace (1 November 2026)
+## Current task — post-V92 live learner review fixes (2 November 2026)
+
+Draft PR #78 has an **implementation-ready fix register**: [V92 deployed learner review and fix tasks](docs/research/2026-11-02-v92-live-learner-review-fix-register.md). V92 has been deployed to the existing protected Minamo Site from public source `42f92ff` and native source `e62099e`; access policy is unchanged, `?workspace=context` remains optional, Classic remains accessible, and V91 is the recorded rollback. The PR remains **draft/unmerged**; no full C1–C9, mobile/assistive, native after-fix or owner usefulness acceptance is claimed. The local browser fixture was waived before V92; an exploratory deployed cloud-browser learner review then identified the below fixes.
+
+**Start implementation with F01** contextual mode loss in global search links and **F02** synthetic Projects leaking into ordinary discovery, then F04 GPT preselection, F05 truthful Attempt preview, F03 content-first responsive layout, and F06 a bounded editorial subject-placement review. Exact repro steps, source seams, positive/negative regression gates, current MCP working-context tool verification, release boundaries and implementation order are in the register. Do **not** repeat general design election, create a second Note writer, infer saved relations from browsing, or change access/schema/fixtures. Preserve Article→Activity old/unpinned relation quality, exact editions and rights, CAS drafts, bounded coverage, synthetic diagnostics isolation, native parity and V91 rollback.
+
+**Read for this coding pass:** this section, the [fix register](docs/research/2026-11-02-v92-live-learner-review-fix-register.md), the [contextual blueprint](docs/CONTEXTUAL-WORKSPACE-CODE-BLUEPRINT.md), then the exact PR head and current main. Run focused regressions plus full typecheck/build/test and real interface-browser C1–C9 before proposing a replacement release. Product usefulness, PR merge and future deployment need separate owner decisions.
+
+## Historical owner direction — post-V91 contextual workspace (1 November 2026)
 
 **This is the active design/implementation-planning authority for draft PR #78.** After live V91 testing, the owner judged that the incremental **1B source-first Home / 2A Reader→Activity** implementation retained too much of the disconnected destination-based experience. The owner has selected a **substantial contextual learning workspace** as the next implementation direction, with capture-first working, selected sources/Activities/Notes in context, truthful evidence/history, optional Project/Stage guidance and explicit GPT source control. The previous 1B/2A work is a valuable **technical foundation and regression baseline, not product acceptance of the final UX**.
 
