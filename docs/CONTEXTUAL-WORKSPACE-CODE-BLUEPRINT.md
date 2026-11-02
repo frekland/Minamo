@@ -236,6 +236,8 @@ Reuse lib/navigation-origin.ts (ViewOrigin, routeDestination, extended UTF-16 se
 
 ### C. Comparative acceptance, cutover and cleanup
 
+**Current verification status:** [C's non-browser checkpoint receipt](research/2026-11-01-contextual-implementation-progress.md#post-v91-checkpoint-c--non-browser-verification-owner-waived-browser-run) records disposable-D1 TCP/contradictory/sparse episodes, the Home comparison regression, green full source gates and remaining unknowns. The owner first waived the local browser run, then **authorised protected Sites deployment after the full suite passed and required a cloud-browser test of the deployed release**. This later release instruction does **not** establish C1–C9 owner acceptance, native parity or a normal-route cutover. Keep PR #78 draft and the contextual route opt-in while evaluating the separately published candidate.
+
 1. Measure the same tasks in V91 and the new context route: click/backtrack count, forced classification, time to relevant Activity/Note, lost exact position, wrong or missing records, source ambiguity, focus loss, draft loss, and what the learner judges confusing. No invented usability score.
 2. If the new model does not reliably beat a simple Note + selected sources / existing V91 on the representative tasks, simplify it; do not ship an elaborate context-management ceremony.
 3. After owner acceptance, route normal Home/Project/Article/Activity entry into the new composition while keeping safe compatibility links and rollback. Remove redundant old cards/surfaces only once their behaviours are covered; mark obsolete code for later deletion rather than doing a blind large purge.

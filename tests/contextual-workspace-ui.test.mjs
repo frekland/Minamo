@@ -6,9 +6,9 @@ import {fileURLToPath} from 'node:url';
 import {dirname,resolve} from 'node:path';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
-const result=await wr('esbuild').build({stdin:{contents:`import React from 'react';import{renderToStaticMarkup}from'react-dom/server';import{WorkingContextHost,admittedWorkingRead,failedWorkingRead,combineWorkingEvidence}from'./app/working-context.tsx';import{experienceFromParams,carryWorkspaceExperience,contextHref,extendContextReturn,explicitContextSelection,workingContextReadKey}from'./lib/contextual-workspace-state.ts';export{admittedWorkingRead,failedWorkingRead,combineWorkingEvidence,experienceFromParams,carryWorkspaceExperience,contextHref,extendContextReturn,explicitContextSelection,workingContextReadKey};export const render=(home=true)=>renderToStaticMarkup(React.createElement(WorkingContextHost,{scope:'test-owner:epoch',selection:{learningSpace:'all'},serverReads:true,home,onStartNote:()=>{},onNavigate:()=>{},...(home?{}:{current:{family:'note',id:'one',title:'A Note',body:'test',rev:1,links:[]},onOpenNote:()=>{}})}));`,resolveDir:root},bundle:true,format:'cjs',platform:'node',write:false,loader:{'.css':'empty'},define:{'process.env.NODE_ENV':'"production"'}});
+const result=await wr('esbuild').build({stdin:{contents:`import React from 'react';import{renderToStaticMarkup}from'react-dom/server';import{WorkingContextHost,WorkingComparisonView,admittedWorkingRead,failedWorkingRead,combineWorkingEvidence}from'./app/working-context.tsx';import{experienceFromParams,carryWorkspaceExperience,contextHref,extendContextReturn,explicitContextSelection,workingContextReadKey}from'./lib/contextual-workspace-state.ts';export{admittedWorkingRead,failedWorkingRead,combineWorkingEvidence,experienceFromParams,carryWorkspaceExperience,contextHref,extendContextReturn,explicitContextSelection,workingContextReadKey};export const render=(home=true)=>renderToStaticMarkup(React.createElement(WorkingContextHost,{scope:'test-owner:epoch',selection:{learningSpace:'all'},serverReads:true,home,onStartNote:()=>{},onNavigate:()=>{},...(home?{}:{current:{family:'note',id:'one',title:'A Note',body:'test',rev:1,links:[]},onOpenNote:()=>{}})}));export const comparison=(items)=>renderToStaticMarkup(React.createElement(WorkingComparisonView,{items,selection:{learningSpace:'all'},onNavigate:()=>{}}));`,resolveDir:root},bundle:true,format:'cjs',platform:'node',write:false,loader:{'.css':'empty'},define:{'process.env.NODE_ENV':'"production"'}});
 const ui={exports:{}};new Function('module','exports','require',result.outputFiles[0].text)(ui,ui.exports,require);
-const {render,admittedWorkingRead,failedWorkingRead,combineWorkingEvidence,experienceFromParams,carryWorkspaceExperience,contextHref,extendContextReturn,explicitContextSelection,workingContextReadKey}=ui.exports;
+const {render,comparison,admittedWorkingRead,failedWorkingRead,combineWorkingEvidence,experienceFromParams,carryWorkspaceExperience,contextHref,extendContextReturn,explicitContextSelection,workingContextReadKey}=ui.exports;
 
 const note={family:'note',id:'first',rendition:'edition-a'},article={family:'article',id:'library',rendition:'edition-b'};
 test('context route is explicit, reversible, and does not create a separate data route',()=>{
@@ -52,6 +52,19 @@ test('history pagination preserves only matching canonical snapshots',()=>{
  assert.deepEqual(merged.evidence.items.map(item=>item.source.id),['one','two']);
  assert.throws(()=>combineWorkingEvidence(page(5,[item('one')],'next'),page(6,[item('two')],null)),/Restart/);
  assert.throws(()=>combineWorkingEvidence(page(5,[item('one')],'next'),{...page(5,[item('two')],null),generation:'g-2'}),/Restart/);
+});
+test('Home comparison shows only admitted originals; revoked sources never reveal retained excerpts',()=>{
+ const current={requested:article,status:'available',source:{family:'article',id:'library',rev:3,rendition:'edition-b'},title:'Latest & exact source',preview:{text:'Reported—not observed.',complete:false},destination:'/?view=library&family=article&id=library&rendition=edition-b'};
+ const denied={requested:note,status:'unavailable',title:'SHOULD NOT SHOW',preview:{text:'PRIVATE OLD WORDS',complete:true},destination:'/?view=work&family=note&id=first'};
+ const html=comparison([current,denied]);
+ assert.match(html,/Latest &amp; exact source/);
+ assert.match(html,/Reported—not observed/);
+ assert.match(html,/rendition=edition-b&amp;learningSpace=all&amp;workspace=context/);
+ assert.match(html,/This selected source is no longer eligible/);
+ assert.doesNotMatch(html,/PRIVATE OLD WORDS|SHOULD NOT SHOW/);
+ const code=readFileSync(resolve(root,'app/working-context.tsx'),'utf8');
+ assert.match(code,/home&&compared\.length>0/,'comparison is visibly reachable directly from Home');
+ assert.match(code,/selectionIsSaved:false|temporary and creates no saved link/);
 });
 test('capture-first landing is an action, not a second editor or status dashboard',()=>{
  const markup=render(true);
