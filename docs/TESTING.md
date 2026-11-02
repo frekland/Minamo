@@ -1,5 +1,7 @@
 # Testing and evidence
 
+> **Current Sites release rule — 2 November 2026:** Per [the owner-authorised fast Sites deployment gate](SITES-RELEASE-WORKFLOW.md#fast-owner-authorised-sites-deployment-gate--2-november-2026), **`pnpm test`, full browser fixtures and C1–C9 are not mandatory before deploying a reversible opt-in candidate**. Build/package the exact native source, run focused relevant tests, retain parity/access/rollback and disclose every skipped check. This does **not** relax the separate #12 review-ready PR CI full gate, merge readiness, normal-route adoption or product acceptance. Dated earlier notes remain historical.
+
 > **Product-design sequencing clarification — 1 November 2026:** [Broadened discovery D1–D3](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) may proceed without waiting for all nine independent GPT/MCP cold-context runs. This does **not** change any technical acceptance, isolation, CI, three-layer or hosted release gate. A later real Workbench implementation must be separately commissioned and verified.
 
 The repository includes Node test suites, isolated D1/R2/Worker exercises, browser-spec fixtures and development helpers.
