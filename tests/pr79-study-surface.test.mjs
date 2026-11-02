@@ -13,6 +13,8 @@ const article=record('article','reading','Why saved writing changes', 'This is t
 const note=record('note','thought','My original thought','I wondered what was durable.',{links:[{family:'work',id:'my-work',relation:'related',reason:'I chose to connect this Note to this Work.'}]});
 const work=record('work','my-work','Test a persistent idea','I want to compare two observations.',{workMeta:{version:1}});
 const activity=record('experiment','activity','Try an experiment','A deliberate test.',{activity:{contract:'minamo.activity.v1',blocks:[]}});
+const oldJourney=record('journey','earlier','A question from last year','My original question is still useful.',{sections:[{id:'old-section',title:'An earlier exploration',parts:[{id:'old-part',kind:'paragraph',text:'I tried this meaningful historical example.'}]}],learningShape:{version:1,kind:'journey',stages:[{id:'old-stage',sectionId:'old-section',title:'Earlier stage'}]}});
+const oldNote=record('note','old-note','An earlier Note','This used to matter to me.',{links:[{family:'journey',id:oldJourney.id,relation:'related'}]});
 const props={authenticated:true,draftScope:'test-only-study',generation:'legacy@0',initialLearningScope:{learningSpace:'all'},initialRecords:[],initialRelated:[]};
 
 test('Study first viewport leads with a learning choice and no old administrative shell',()=>{
@@ -59,6 +61,7 @@ test('Find looks for reading, Activities and writing as one surface',()=>{
  const html=render({...props,initialTab:'find',initialQuery:'durable'});
  assert.match(html,/What are you curious about\?/);
  assert.match(html,/Search explanations, activities and your own writing together/);
+ assert.match(html,/Search older Journeys/);
  assert.match(html,/value="durable"/);
  assert.doesNotMatch(html,/class="v2-sidebar|class="nw-desktop-bar/);
 });
@@ -69,6 +72,17 @@ test('Activity content is local and does not carry the old Studio page heading',
  assert.match(html,/Note on this/);
  assert.match(html,/aria-label="Activity task"/);
  assert.doesNotMatch(html,/Activity Studio|ACTIVITY · EDITION/);
+});
+
+test('Exact older Journey remains readable and offers one explicit non-destructive Work adoption preview',()=>{
+ const html=render({...props,initialRecords:[oldJourney,oldNote],initialRelated:[oldNote],initialFamily:'journey',initialId:oldJourney.id});
+ assert.match(html,/EARLIER JOURNEY/);
+ assert.match(html,/I tried this meaningful historical example/);
+ assert.match(html,/Continue this earlier Journey as Work/);
+ assert.match(html,/keeps the earlier Journey and its Stages exactly as they were/);
+ assert.match(html,/An earlier Note/);
+ assert.match(html,/Begin Work with 2 reviewed sources/);
+ assert.doesNotMatch(html,/Step roadmap|Current stage|Complete Stage/);
 });
 
 test('Native exact links carry rendition, passage and capture without changing the saved record',()=>{

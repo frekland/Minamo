@@ -35,5 +35,13 @@ test('PR79 Study Find discovers original writing and substantive passages in one
   const isolated=await other.request('/api/query?study=1&q=curious-sentinel&limit=20&includeLegacyJourneys=0');
   assert.equal(isolated.status,200);
   assert.deepEqual(isolated.data.records,[]);
+  const historicalNote=await save('note','pr79-old-note','An earlier note','This original remains an independent record.',{links:[{family:'journey',id:hidden.id,relation:'related'}]});
+  const continued=await save('work','pr79-continued','Continue an old question','I want to test a new idea in my own words.',{links:[{family:'journey',id:hidden.id,rendition:hidden.rendition,relation:'related',reason:'Reviewed historical source.'},{family:'note',id:historicalNote.id,relation:'related',reason:'Reviewed Note.'}]});
+  assert.equal(continued.family,'work');
+  assert.equal(continued.links.length,2);
+  const originalAfter=await client.context('journey',hidden.id),noteAfter=await client.context('note',historicalNote.id);
+  assert.equal(originalAfter.status,200);assert.equal(originalAfter.data.record.rev,hidden.rev);
+  assert.equal(noteAfter.status,200);assert.equal(noteAfter.data.record.rev,historicalNote.rev);
+  assert.equal(originalAfter.data.record.learningShape.stages[0].id,'stage');
  }finally{await fixture.dispose();}
 });
