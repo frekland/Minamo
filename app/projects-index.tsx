@@ -14,7 +14,7 @@ type Props={records:WorkspaceRecord[];scope:string;serverReads:boolean;onNavigat
 type SavedRecency={at:string;basis:'checkpoint'|'recent-note'};
 function recordDestination(record:WorkspaceRecord){return '/?'+new URLSearchParams({view:'journeys',family:'journey',id:record.id});}
 /** Recency ranks real saved work only; editorial edits never become a learning event. */
-export function sortProjectRecords(records:WorkspaceRecord[],saved:Record<string,SavedRecency>={}){return records.filter(record=>record.family==='journey'&&!record.trashedAt).sort((a,b)=>{const av=saved[a.id]?.at,bv=saved[b.id]?.at;if(av||bv)return bv?(av?bv.localeCompare(av)||a.title.localeCompare(b.title):1):-1;return a.title.localeCompare(b.title);});}
+export function sortProjectRecords(records:WorkspaceRecord[],saved:Record<string,SavedRecency>={}){return records.filter(record=>record.family==='journey'&&!record.trashedAt&&!record.synthetic).sort((a,b)=>{const av=saved[a.id]?.at,bv=saved[b.id]?.at;if(av||bv)return bv?(av?bv.localeCompare(av)||a.title.localeCompare(b.title):1):-1;return a.title.localeCompare(b.title);});}
 function ProjectThumbnail({record,scope}:{record:WorkspaceRecord;scope:string}){
  const [failed,setFailed]=useState(false);const cover=record.projectCover;
  useEffect(()=>{setFailed(false);},[record.id,cover?.assetId,scope]);
