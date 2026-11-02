@@ -55,6 +55,8 @@ test('owner-only synthetic scenario banner requires deliberate diagnostics opt-i
  const page=readFileSync(resolve(root,'app/page.tsx'),'utf8');
  assert.match(page,/if\(user&&owner&&scalar\('diagnostics'\)==='synthetic'\)try\{/);
  assert.match(page,/requireScenarioOwner\(/,'diagnostics remain independently owner-authorised');
+ const workspace=readFileSync(resolve(root,'app/workspace.tsx'),'utf8');
+ assert.doesNotMatch(workspace,/Contextual workspace · local preview/,'live learner chrome should not claim to be a local preview');
 });
 
 test('F03: selected material collapses the secondary connections panel with a discoverable button',()=>{
