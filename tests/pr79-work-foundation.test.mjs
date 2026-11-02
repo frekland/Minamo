@@ -42,6 +42,8 @@ test('PR79 D0: Stage-free Work identity and filtered legacy discovery preserve e
    assert.equal(replay.data.replayed,true);
   });
   await t.test('Pre-pagination legacy visibility is cursor-bound, explicit old links and independent MCP are unaffected',async()=>{
+   const study=await request('/api/query?study=1&q=SYNTHETIC&limit=1&includeLegacyJourneys=0');
+   assert.equal(study.status,200);assert.ok(study.data.records.every(record=>!record.synthetic&&record.family!=='journey'),'Study omits synthetic fixtures at the server read boundary');
    const hidden=await request('/api/query?q=SYNTHETIC&limit=1&includeLegacyJourneys=0');
    assert.equal(hidden.status,200,JSON.stringify(hidden));assert.ok(hidden.data.records.every(record=>record.family!=='journey'));
    const shown=await request('/api/query?q=SYNTHETIC&limit=1&includeLegacyJourneys=1');

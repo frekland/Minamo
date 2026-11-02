@@ -3,6 +3,12 @@ import {parseNoteImagePlacements} from './note-image-placement';
 import type {ArticleSection,ContentPatch,PassagePart,CommandReceipt,RecordLink,WorkspaceCommand,WorkspaceRecord} from './contracts';
 export type NoteDraft={learningScope?:LearningScope;body:string;title:string;links:RecordLink[];baseRev:number;dirty:boolean;syncQueued?:boolean;intent:'create'|'update';bodyFormat?:'markdown-v1';attachmentSections?:ArticleSection[];inlineImages?:PassagePart[];imageReselectRequired?:boolean;sequence:number;dirtySince?:number;editedAt?:number;paused?:boolean;message?:string;creationContext?:{title:string;link:RecordLink};optionalTaskLink?:{title:string;link:RecordLink}};
 export function sameNoteContext(a:RecordLink,b:RecordLink){return a.family===b.family&&a.id===b.id&&a.rendition===b.rendition&&a.sectionId===b.sectionId&&a.partId===b.partId;}
+/** One deliberate removal clears the frozen context chip and its exact link,
+ * without changing the original writing or any other independently chosen link. */
+export function clearNoteCreationContext(draft:NoteDraft,now=Date.now()):NoteDraft{
+ const source=draft.creationContext;if(!source)return draft;
+ return editedNoteDraft(draft,{creationContext:undefined,links:draft.links.filter(link=>!sameNoteContext(link,source.link))},now);
+}
 /** Freeze author intent when the draft is created; navigation is never a relationship write. */
 export function newNoteDraft(context?:WorkspaceRecord|null,link?:RecordLink,links?:RecordLink[],optionalTaskLink?:{title:string;link:RecordLink}):NoteDraft{
  const frozen=structuredClone(links??(context?[link??{family:context.family,id:context.id}]:[]));

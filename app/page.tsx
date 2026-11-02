@@ -7,6 +7,7 @@ import {requireScenarioOwner,scenarioState} from '../lib/scenario-control';
 import {FAMILIES} from "../lib/contracts";
 import {resolveTitleResultRequest} from '../lib/result-intent';
 import Workspace from "./workspace";
+import StudyApp from "./study/study-app";
 import StartupRetry from "./startup-retry";
 import {deferInitialWorkspaceCollection} from "../lib/workspace-bootstrap";
 import {learningSpaceSelection} from "../lib/learning-space-navigation";
@@ -42,6 +43,7 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
  const addRecord=(record:WorkspaceRecord)=>{snapshot.records=[...snapshot.records.filter(r=>!(r.family===record.family&&r.id===record.id)),record]};
  let retained:WorkspaceRecord|null=null;let rendition=scalar('rendition');let target:(ReadingTarget & {recordFamily?:Family;captureId?:string;captureFamily?:'flag'|'annotation'})|undefined;
  const captureId=scalar('capture');const rawCaptureFamily=scalar('captureFamily');
+ let segments:ReadingTarget['segments'];try{const value=scalar('segments');if(value&&value.length<1600){const parsed=JSON.parse(value);if(Array.isArray(parsed)&&parsed.length<=16)segments=parsed;}}catch{/* The Reader validates exact selections; invalid route data is not a saved link. */}
  const snapshotCaptures=captureId?snapshot.records.filter(r=>r.id===captureId&&!r.trashedAt&&(r.family==='annotation'||r.family==='flag')&&(!rawCaptureFamily||r.family===rawCaptureFamily)&&r.anchor):[];
  const captureFamily=rawCaptureFamily==='flag'||rawCaptureFamily==='annotation'?rawCaptureFamily:snapshotCaptures.length===1?snapshotCaptures[0].family:undefined;
  let capture:WorkspaceRecord|undefined;
@@ -49,7 +51,7 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
  const captureTarget=captureReturnTarget(capture?.anchor,scalar('id'),family);
  if(captureId&&!captureTarget){error='The saved capture is unavailable or does not match this material. Your other work remains available.';target={captureId,recordFamily:family,...(rendition?{rendition}:{})};}
  else if(captureTarget&&capture){target={...captureTarget,captureId,captureFamily:capture.family as 'flag'|'annotation'};rendition=captureTarget.rendition;}
- else if(rendition||scalar('stage')||scalar('section')||scalar('part')||scalar('returnJourney'))target={...(rendition?{rendition}:{}),stageId:scalar('stage'),returnJourney:scalar('returnJourney'),returnStage:scalar('returnStage'),recordFamily:family,sectionId:scalar('section'),partId:scalar('part'),...(scalar('start')?{start:Number(scalar('start'))}:{}),...(scalar('end')?{end:Number(scalar('end'))}:{}),...(captureId?{captureId}:{})};
+ else if(rendition||scalar('stage')||scalar('section')||scalar('part')||scalar('returnJourney')||segments)target={...(rendition?{rendition}:{}),stageId:scalar('stage'),returnJourney:scalar('returnJourney'),returnStage:scalar('returnStage'),recordFamily:family,sectionId:scalar('section'),partId:scalar('part'),...(scalar('start')?{start:Number(scalar('start'))}:{}),...(scalar('end')?{end:Number(scalar('end'))}:{}),...(captureId?{captureId}:{}),...(segments?{segments}:{})};
  const loadedTargets=snapshot.records.filter(r=>r.id===scalar('id')&&!r.trashedAt);
  const selectedFamily=family??target?.recordFamily??(loadedTargets.length===1?loadedTargets[0].family:undefined);
  let related:WorkspaceRecord[]=[];
@@ -64,5 +66,6 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
  if(user&&rendition&&scalar('id')&&(!captureId||capture?.anchor))try{retained=(await readContext(scopedEnv,owner!,target?.recordFamily??selectedFamily??'article',scalar('id'),rendition)).record}catch{error='The exact retained version is unavailable. Your captured words remain in Your work.'}
  const draftScope=user?'v2-'+Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.userId)))).map(n=>n.toString(16).padStart(2,'0')).join(''):'signed-out';
  const flags=env as unknown as {MINAMO_ACTIVITY_STUDIO?:string};
+ if(scalar('view')==='study')return <StudyApp authenticated={!!user} draftScope={draftScope} generation={generation?.generation??'legacy@0'} initialRecords={snapshot.records} initialRelated={related} initialRetained={retained} initialFamily={selectedFamily} initialId={scalar('id')} initialTab={scalar('tab')==='find'||scalar('tab')==='notebook'||scalar('tab')==='work'?scalar('tab') as 'find'|'notebook'|'work':undefined} initialQuery={scalar('q')??''} initialReadingTarget={target} initialError={targetError??error} initialLearningScope={learningSelection}/>;
  return <Workspace initialTestScenario={ownerTestScenario} initialCollectionPending={initialCollectionPending} initialTitleResultResolved={titleResultResolved} initialLearningScope={learningSelection} activityStudioEnabled={flags.MINAMO_ACTIVITY_STUDIO==='1'} initialWorkTab={scalar('tab')==='notes'?'note':scalar('tab')==='runs'?'run':'all'} draftScope={draftScope} initialGeneration={generation?.generation??"legacy@0"} initialArticle={retained} initialRendition={rendition} initialReadingTarget={target} initialFamily={selectedFamily} initialRecords={snapshot.records} initialActivity={snapshot.activity} initialNextCursor={snapshot.nextCursor??null} initialTruncated={!!snapshot.truncated} initialRelated={related} initialTargetError={targetError} authenticated={!!user} initialError={error} initialView={scalar('view')==='atlas'?'library':scalar('view')??'home'} initialId={scalar('id')}/>;
 }
