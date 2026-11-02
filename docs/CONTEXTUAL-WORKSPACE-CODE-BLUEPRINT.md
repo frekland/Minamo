@@ -1,8 +1,8 @@
 # Minamo contextual workspace — substantial code implementation blueprint
 
-**Status:** Owner-selected post-V91 implementation direction, 1 November 2026. **Checkpoint A source/read contracts and failing-then-green isolated regressions implemented on draft PR #78; the B contextual UI and C integrated acceptance remain open.** This is not a usable/accepted contextual workspace. The blueprint supersedes the incremental 1B/2A UI scope as the proposed final learner experience. Preserve already verified code where useful; do not merge, reset data, change access or publish on the strength of checkpoint A. Explicit follow-up coding and Sites release gates remain necessary.
+**Status (2 November 2026):** Checkpoints A/B and the non-browser C candidate are implemented on draft PR #78. V92 was deployed to the existing protected audience from public source `42f92ff` and protected native source `e62099e`; `?workspace=context` remains opt-in and V91 remains the rollback. A real deployed cloud-browser learner review verified several authentic Note/Attempt/Article/GPT flows but exposed **six actionable fixes** and did **not** complete C1–C9 or establish owner acceptance. The canonical next-code-pass checklist is the [V92 fix register](research/2026-11-02-v92-live-learner-review-fix-register.md). This blueprint still governs architecture, source rights, exact link quality and release gates. Keep PR #78 draft/unmerged; do not change access, reset learner data, migrate schema, redeploy or cut over the normal route without separate authorisation.
 
-**Source baseline inspected:** Public PR #78 head cfaff47d4bab5db85e43e3661f6bca3e76296e0a, deployed V91 receipt in docs/releases/2026-11-01-sites-v91-e4-e6-verification.md, current main e381ae24d0a5c9bf021f658ccb5fc7e8ff4613e9 at review. Recheck all identities at implementation time. Related authorities: AGENTS.md, docs/PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md, docs/CONTEXTUAL-LEARNING-INTEGRATED-IMPLEMENTATION-BRIEF.md (historical 1B/2A acceptance baseline), docs/PROJECT-WORKBENCH-INFORMATION-CONTRACT.md (research hypothesis), D1/D3 studies and the three-layer acceptance protocol.
+**Historical planning source baseline (1 November; recheck current head):** Public PR #78 head cfaff47d4bab5db85e43e3661f6bca3e76296e0a, deployed V91 receipt in docs/releases/2026-11-01-sites-v91-e4-e6-verification.md, current main e381ae24d0a5c9bf021f658ccb5fc7e8ff4613e9 at review. Recheck all identities at implementation time. Related authorities: AGENTS.md, docs/PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md, docs/CONTEXTUAL-LEARNING-INTEGRATED-IMPLEMENTATION-BRIEF.md (historical 1B/2A acceptance baseline), docs/PROJECT-WORKBENCH-INFORMATION-CONTRACT.md (research hypothesis), D1/D3 studies and the three-layer acceptance protocol.
 
 ## 1. Why a stronger application model is warranted
 
@@ -281,7 +281,7 @@ This is a **substantial integrated candidate**, not a tiny isolated demo and not
 
 ## 12. Decision and handoff for the next coding chat
 
-The owner has **chosen the stronger contextual workspace architecture direction** after the V91 learner experience exposed that incremental 1B/2A changes did not sufficiently connect real study work. This authorises updating the plan/PR documentation, **not** silently merging/deploying or migrating data. The next implementation commission should begin with the exact PR #78 head, current main and native Sites manifest; read this blueprint and current AGENTS.md; produce a short source-diff checklist and immediately implement the A regressions/read projection, then the substantial B interaction. Do not restart D1–D3 research or commission another large concept survey.
+The owner chose the stronger contextual workspace after V91. A/B and the non-browser C candidate have since been built and V92 deployed for opt-in learning review. **The next coding pass must not redo A/B:** use the [V92 fix register](research/2026-11-02-v92-live-learner-review-fix-register.md) as the current F01–F06 implementation commission, beginning with the exact PR #78 head, current main and protected Sites manifest. This is authorisation to plan and implement these fixes on the draft PR, **not** to merge, redeploy, migrate data or make contextual mode default. Preserve all C1–C9 gates and current release rollback.
 
 Open choices to resolve with implementation evidence rather than abstract design debate:
 1. Is a local/URL WorkingSelection sufficient for natural restart, or is an explicit saved working set worth a separately reviewed schema?
@@ -289,3 +289,19 @@ Open choices to resolve with implementation evidence rather than abstract design
 3. How much of current Home/Project rendering can be retired after the new route proves better without breaking deep links?
 
 **Done means:** the user can genuinely study in one coherent context, leave, return, see exact evidence and choose what to do next—without a false memory or a compulsory filing ritual.
+
+
+## 13. Post-V92 live review — next implementation exit
+
+The [2 November V92 fix register](research/2026-11-02-v92-live-learner-review-fix-register.md) is the detailed, browser-evidence-backed regression contract for draft PR #78. It gives exact repros, likely source seams, priorities, rights/draft negative controls, and C1–C9 mapping. Summary:
+
+1. **F01 P1** — Global search→Library links lose `workspace=context`. Carry the same explicit mode through native href, click, reload, new tab and Back/Forward; Classic is unchanged.
+2. **F02 P1** — Synthetic Projects are visible in the ordinary index because `sortProjectRecords` lacks synthetic filtering. Keep fixture content within explicit owner diagnostics across index/search/context/GPT; do not delete fixtures.
+3. **F04 P2** — A comparison's explicitly selected exact sources are not prechecked in GPT handoff. Reuse temporary selection only as a user-editable proposal; recheck rights and retain deliberate preparation.
+4. **F05 P2** — A saved Attempt's bounded Home preview omits learner-authored prediction/next action. Show eligible detail or explain deferral without claiming Minamo-observed execution.
+5. **F03 P2** — Contextual Article/Activity/Project still wrap large Classic surfaces and Notes can obscure the main task. Move to a dominant primary object, compact dismissible context and responsive recoverable Notes.
+6. **F06 P2 editorial** — Audit explicit Subject membership for the relevant Python TCP source; if intentionally uncategorised, keep any suggestion distinctly qualified.
+
+The dedicated `get_minamo_working_context` MCP tool was initially absent from one catalog snapshot but was subsequently discovered and read successfully; **do not assume an API implementation failure**. Verify registration and reconnect discovery again as an integration check.
+
+**Ready for implementation, not for merge:** F01–F05 have concrete reproduction/acceptance contracts, F06 has a constrained content-authoring decision, and no unresolved broad product design election is required. Retain `?workspace=context` opt-in and V91 rollback; require full source gates, executable browser C1–C9 (including rights, multiple widths, keyboard/IME and draft continuity), exact protected native parity and owner usability sign-off after the fixes. A successful V92 cloud browser exploratory session is not proof those future gates passed.
