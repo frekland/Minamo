@@ -42,6 +42,12 @@ type WorkFocus = { kind: 'work'; id: string };
 * Existing family=journey records remain **unchanged and legacy**, irrespective of whether an old record was actually a course, project or informal investigation. Do not auto-label them as Guides or Work, bulk convert them, silently move Notes or infer purpose from title/content. Original editions, Stage links, annotations, retained checkpoints and exact routes survive.
 * A learner can deliberately link a new Work to a legacy Journey, or view an old Journey through its original deep link. That establishes a typed relationship, **not** conversion or a claim that the historic Journey describes current work. A separate explicit, previewable import/conversion may be proposed later but is **not** required for the reset or allowed implicitly.
 
+### Legacy Journey → Work continuation (L1)
+
+Opening a retained Journey through an exact old link or an opt-in Find result must offer **Continue as Work** when the learner deliberately wants to carry that undertaking forward. This action creates a new canonical Stage-free Work identity and an accepted, revisioned reference to the original Journey. It does **not** convert, copy, rename, reparent or reclassify the Journey, its Stages, Notes or Developments. It may offer clearly previewed links to eligible historical Notes and evidence; only individually accepted links are committed, without duplicate records. Failure/retry must leave the old material byte/revision-exact and must not create an orphan Work.
+
+The action is available from an explicitly opened old Journey even while **Show legacy Journeys** is Off. A learner can also find and reopen a new named Work through Study's small **Resume work** affordance when eligible or through Find, without a permanent Work tab or compulsory organisation. A hidden legacy Journey cannot silently populate the new Work's current-state projection. Test old-link → optional adoption → changed direction → later return on a narrow screen, with no manual reconstruction of Stage/Question links.
+
 ### Legacy Journey visibility — Settings toggle
 
 **Default is hidden.** Add a Settings → Workspace toggle:
@@ -127,15 +133,29 @@ The work projection is **read-only** and never becomes another authoritative cur
 
 This algorithm has **negative** tests: older checkpoint vs later Question-linked Note; competing next actions; Note linked after capture; multiple unrelated work contexts; no checkpoint; failed/deferred pagination; revoked evidence; edited edition; withdrawn correction; reported terminal output vs observed execution; a recent but unrelated Note; archived/renamed work. Exercise actual first-viewport wording, not only returned JSON. A failure may degrade gracefully to accurate original excerpts, never to fabricated certainty.
 
+### On-demand sense-making for unstructured history (L2)
+
+Older Notes may contain a real change of thinking only in free prose, without a typed Development, explicit reason or accepted causal link. Correctly listing those Notes is not yet a successful return experience. From their original entries offer an optional **Help me understand what changed** action: compare only admitted, exact original passages and clearly present an *unsaved, provisional interpretation* with source/revision links, missing evidence and competing alternatives. The learner can correct or discard it without writing anything. Only an additional explicit, reviewed update may save a learner-accepted explanation and exact associations. When no admissible causal evidence exists, say the reason was not recorded; do not fabricate one or block the ordinary Note/Activity path.
+
+Mandatory oracle: use a sparse historical Journey with later free-text Notes, no typed causal Development and a contradictory earlier checkpoint. A returning learner must be able to inspect the originals, request an evidence-linked interpretation, challenge it and return to the same material on mobile. No new mandatory status form, assessment, taxonomy, automatic classification or hidden persistence is allowed. The UI must not confuse provisional GPT interpretation with a recorded reason.
+
 ## D4. Intelligent organisation without learner administration
 
 Do not substitute a new compulsory Thread, Session, Inquiry, taxonomy or manual filing ritual for Stages.
+
+**Intentional contextual capture (L3).** Choosing **Note on this** from an admitted passage, Activity task or source is itself deliberate selection of that exact context, unlike passive co-visiting. Show the source/edition/passage in a removable draft chip before saving. A single ordinary Note save must use the existing CAS/draft coordinator and atomically persist the Note and its user-accepted source relation when still eligible; no second filing dialogue, mandatory Work selector or separate relation-management chore. Clearing the chip saves a standalone Note. After save, both the source and Notebook surface the same original Note and valid return; the source must be independently retrievable after refresh, new tab and later Work pivots. Handle stale/revoked source by explaining the lost association without losing the draft or silently substituting another source. Do not auto-link based only on navigation, title similarity or GPT speculation.
 
 * During an explicit GPT save, the agent may **propose** a bounded set of typed relationships: related to this optional work, supports, contrasts, corrects, extends or links to an exact passage/Activity where supported. Each proposal has source identity, direction, natural reason and confidence/uncertainty. A title match is insufficient.
 * One plain-language review combines proposed Note content, material decisions/uncertainties and suggested associations. The learner can untick any proposal or save only the Note. One approval invokes the transactional command. No individual manual MCP calls.
 * A standalone Note does not need a project, category or intention. From the Note itself, “Link to...” can propose matches; an accepted late link is an explicit revisioned operation. No duplicate Note or inferred single owner Project.
 * Relations have a provenance basis distinct from the truth of the associated claims. An agent-proposed relation becomes a **user-accepted link**, not “Minamo verified the scientific claim”. If a relation is withdrawn, original content remains.
 * A first viewport should favour the *reason the learner opened the material*: real content, relevant related Activity, current writing and useful original change. Never present a relationship-management dashboard by default.
+
+### Correction and supersession semantics (L5)
+
+The current public contract's 'RELATIONS' union does not contain 'corrects', although this proposal discusses GPT-suggested correction links; historical 'LearningDevelopment.supersedesId' is also constrained by exact target identity. **Do not send an unsupported 'RecordLink.relation=corrects' payload or represent a cross-target correction as unqualified chronological succession.** D0 must choose and prove the exact versioned representation: use guarded Development supersession for an eligible same-target event; where an exact earlier Note, fact or passage in another target is corrected, require a reviewed typed relation with a precise prior-claim/source anchor and compatible validator/read/export/MCP changes. An unresolved disagreement is 'contrasts', not a claimed correction. If source identity is insufficient, save the new original explanation without asserting that an earlier claim was technically superseded.
+
+Test same-target and cross-target corrections, an ordinary Note correction, conflicting but unresolved claims, withdrawn corrections, missing/revoked prior evidence, late links, retries and all old v1 readers. The Work projection must distinguish resolved accepted correction from mere contrast and from a GPT-proposed unsaved interpretation. A code-level D0 receipt must name the actual schema/validator changes before UI work; this is not left to a UI string formatter.
 
 ## D5. Connected Study interaction states — stronger than a component inventory
 
@@ -226,5 +246,19 @@ A+B+C remain **one product commission**, with safe checkpoints; opt-in incomplet
 **Before product/default-route cutover:** all C1–C7 plus UX-N01–N19 and new D0–D9 negative oracles are satisfied. Demonstrate two naturally connected episodes: (1) reading→Activity→Note→multi-source question→GPT explicit save→fresh GPT→exact Site return, with no Project; (2) changing optional work→external observation and uncertainty→correction→late Note link→return after a gap. Include non-technical/language, narrow real device/IME and a sparse/contradictory history. Compare to V95 on content-firstness, backtracks, origin retention, draft recovery and owner preference; do not invent timings or satisfaction scores.
 
 The owner may reject the product even if every technical invariant passes. A failed usefulness judgement returns to implementation, **not** an automatic new administrative layer. Technical proof and first-hand usefulness are independent gates.
+
+### Repeated-use and legacy-adoption product gate (L1–L5)
+
+Beyond the single golden-path handoff, exercise a source-free beginning and a named Work over several distinct authorised updates: contextual Note capture from two materials, independent unlinked Note, external change, pivot, competing intention, correction, later Note association, genuine fresh-chat read and a gap return. Notes and typed Developments may coexist in storage, but the learner must see **one useful entry per deliberate update**, not duplicate Note/checkpoint cards or an administrative feed. Opening the Work should expose what actually changed and why when supported; an old prose-only entry remains explorable through the optional L2 interpretation, not silently marked settled. Compare to V95 in real owner use; record whether finding/reopening Work and inspecting evidence is easier, including narrow Android, without inventing scores or accepting a clean three-tab shell as success.
+
+Required additional browser/domain oracles, also specified as UX-N20–N24 in the blueprint:
+
+- **L1:** Legacy exact link → reviewable Continue as Work → accepted links → pivot → return, with legacy toggle Off and no mutation of old history.
+- **L2:** Sparse prose-only contradictory history → source-grounded optional interpretation → revise/discard → exact return; no fabricated reason.
+- **L3:** Note on this → one save with deliberate exact link → bidirectional discovery and draft recovery; unlinked capture equally easy.
+- **L4:** Three or more distinct GPT update episodes across a pivot/correction → one visible entry each, no proliferating duplicate progress panels or taxonomy chores.
+- **L5:** Guarded same-target and cross-target correction representation, including unknown/contrast and old-reader compatibility.
+
+These refine C1–C3 and C7 and are **mandatory for accepted product cutover** alongside C4–C6. An A-only engineering release cannot satisfy them. Include the early owner walkthrough after integrated A+B, and stop on genuine disconnection even if transaction/unit tests pass.
 
 **Final boundary:** This file changes the planning contract only. It does not create database objects, install MCP schema changes, reclassify old Journeys, write learner records, merge PRs or deploy Sites.
