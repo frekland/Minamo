@@ -10,7 +10,7 @@ Finish this gate on disposable D1 and source code before building the Study shel
 
 | Decision/proof | Selected baseline | Pass evidence | Stop condition |
 | --- | --- | --- | --- |
-| Work identity | Versioned, Stage-free Journey **record** purpose (below), not another permanent work table | Create/open/pivot/archive/reopen and read legacy v1 without rewriting it | Existing command/validator invariants cannot safely accept v2 work |
+| Work identity | New optional canonical **work** family in the existing record system; legacy Journeys hidden by default with a Settings toggle | Create/open/pivot/archive/reopen Work, no Stages; old Journey routes remain exact and toggle is non-destructive | Work falls back to Journey v2, creates a second status database or hides/deletes original records |
 | Explicit update | One owner-authorised transaction producing one original Note and one typed Development, with one user-visible entry | Atomic D1 fault/replay/CAS tests, old/new readers, genuinely new-chat MCP readback | Any partial Note/Development/receipt or Stage requirement |
 | Meaningful return | Read-only, evidence-admitted causal projection from typed developments and original records | Contradiction, sparse, late-link, pagination, revoked-source and two-hop tests | Newest prose promoted to settled fact or incomplete read reported as complete |
 | Proposal-assisted organisation | GPT may suggest exact relations; user confirms the bundle once | One update with accepted links and one without, zero writes from merely visiting | User must maintain a thread/taxonomy or speculative relation saved silently |
@@ -19,29 +19,47 @@ Finish this gate on disposable D1 and source code before building the Study shel
 
 Record the chosen v2 validator and read-path changes, migration/no-migration conclusion, failed alternatives and exact commits in a short D0 receipt on the implementation branch. **No real owner records are rewritten by D0.** A schema, hosted-data or migration change still requires the owner's separate explicit approval.
 
-## D1. One optional work identity: use canonical records, not a second ontology
+## D1. Work is its own optional canonical record family; Journeys are legacy-only
 
-**Decision:** represent *new* evolving work as an existing canonical Journey-family record with a versioned, explicitly declared purpose. Do not create a separate WorkStatus, CurrentConcern, Session, Thread or WorkAnchor database by default. The technical family name stays behind the adapter; the learner sees a named area of work, if they want one.
+**Revised owner decision (2 November):** Do **not** encode new Work as a version-2 Journey. The earlier proposal reused too much of the Stage-led domain identity. Give Work a distinct **canonical family, work**, inside the **existing** v2_records/v2_revisions/operations infrastructure. This is not a new work-status database, a compulsory Project, a thread hierarchy or a duplicate persistence system.
 
-Proposed discriminated addition to LearningShape, subject to actual validator compatibility proof:
+Proposed contract, subject to D0 validation and the same owner approval boundary as every schema change:
 
 ~~~ts
-type JourneyShapeV2 =
-  | { version: 2; kind: 'journey'; purpose: 'work'; archivedAt?: string }
-  | { version: 2; kind: 'journey'; purpose: 'guide';
-      stages?: ExistingAuthoredStage[]; archivedAt?: string };
-
-type WorkFocus = { kind: 'journey-record'; id: string }; // no Stage required
+type FamilyV2 = Family | 'work'; // add to the canonical FAMILIES registry
+type WorkMetadata = { version: 1; archivedAt?: string };
+type WorkRecord = WorkspaceRecord & {
+  family: 'work';
+  workMeta: WorkMetadata; // no stages, target position or progress flag
+};
+type WorkFocus = { kind: 'work'; id: string };
 ~~~
 
-* A new evolving undertaking is a Journey record with purpose=work, title, optional introductory body, zero required Stages and ordinary revisioned RecordLinks. A Guide is authored teaching material, optionally with a sequence. The same learner may use both without either owning the other.
-* Do **not** change the meaning or shape of existing version-1 Journey records. Their purpose is **legacy-undetermined** unless explicitly reviewed; do not silently call every old Project a Guide. They can open in Study as a named context with authored material/outline available on request. A small explicit “Use as evolving work / Use as guide” decision may version a specific record after review, preserving old renditions/deep links. **No bulk reclassification.**
-* A work context can contain zero, one or multiple independent Notes, Attempts, source references, Questions or explicit Developments via already permitted typed links. A Note can relate to multiple contexts, or none. A source visit/selection is never a link.
-* A named work context can be created, renamed, have its direction updated in ordinary original writing, be archived/unarchived and reopened. Archive is visibility metadata on the versioned identity, **not Trash, deletion, completion, mastery or an invented progress state**. Older entries survive any rename, pivot or archive.
-* Use an existing revisioned record relation when possible. A late association is one explicit link command on the appropriate record, with the original Note unchanged when the link belongs on the work anchor; preserve relation reason, source edition/part where supported and owner/scope checks. Remove/detach is likewise explicit and independently versioned. Avoid double-writing both ends merely to make a backlink.
-* Work opening shows current **evidence** before an optional historic authored outline. It does not select a “current Stage” from a visited route. A version-1 Journey whose original outline matters can still open an exact old Stage link through compatibility routing.
+* Work is an **optional named context** with a title, short optional original description and revisioned typed links to Notes, evidence, Activity, Questions and source material. It has no required Stage/Step, status percentage, current thread, completion or synthetic learning summary. The actual working state comes from admitted original records and typed Developments.
+* New Work creation/rename/archive/reopen uses the normal canonical command, expected revision, generation, rights and idempotency. Archive is a bounded discoverability choice, **not** Trash, deletion, assessment or erasure of related history. A single Note or Activity must work perfectly without any Work record.
+* Extend FAMILIES, RecordLink, record validators, links/reverse links, LearningTargetV2, read/write APIs, SQLite family filters/index assumptions, workspace projection, search, generation, MCP descriptions, installed-client catalogues, backup/import/export and old/new native deep links in one audited implementation. A new family requires real migration/compatibility testing even if no additional physical D1 table is needed. **Do not infer “no migration required” merely because v2_records has a family column.**
+* An authored Guide is **learning material**, not Work. It can be represented by an Article with authored sections/contents or an explicitly supported guided-material adapter. Do not create new Guides as Journeys just to reuse Stages. If a structured Guide needs more than Articles, prove the requirement and decide deliberately; it cannot become compulsory learner navigation.
+* Existing family=journey records remain **unchanged and legacy**, irrespective of whether an old record was actually a course, project or informal investigation. Do not auto-label them as Guides or Work, bulk convert them, silently move Notes or infer purpose from title/content. Original editions, Stage links, annotations, retained checkpoints and exact routes survive.
+* A learner can deliberately link a new Work to a legacy Journey, or view an old Journey through its original deep link. That establishes a typed relationship, **not** conversion or a claim that the historic Journey describes current work. A separate explicit, previewable import/conversion may be proposed later but is **not** required for the reset or allowed implicitly.
 
-The selected v2 shape deliberately avoids a new D1 table as its first implementation. Prove v1/v2 validation, create/update/rollback, old Project readers, Link/Trash/export/import, deep links and generation handling on disposable D1. If that proof fails, **stop** with the concrete failure and a minimal alternative decision for owner review; do not quietly add a parallel identity store or force v1 Stages.
+### Legacy Journey visibility — Settings toggle
+
+**Default is hidden.** Add a Settings → Workspace toggle:
+
+**Show legacy Journeys** — default **Off**.
+
+Supporting description: “Show older Project/Journey material in Find on this device. Existing links still work.”
+
+* With toggle **Off**, legacy Journey entries do not populate the ordinary Study start, Find results, recent-work suggestions, ordinary cross-family discovery recommendations or permanent navigation. They are not silently renamed “Guides”. New Work, Notes, Activities and Articles remain available. The mere existence of old Journeys cannot create a current Work projection.
+* With toggle **On**, legacy records appear in Find under a visibly secondary **Legacy Journeys** grouping/filter, with their original titles and source identities. No permanent Journey tab, Step-first default page or second learner mode is added. The toggle can be changed back without data changes.
+* **Direct links and explicit relationships always work**, regardless of toggle setting. Opening a saved legacy Journey/Stage URL renders a bounded compatibility view with its original content and an exact return route. Turning the toggle Off while a legacy item is already open must not destroy navigation history, draft state or the open original. It merely changes future discovery.
+* This is **presentation visibility, not access control**. Do not remove legacy records from storage, backup, explicit MCP reads or rights-checked old links. GPT must not infer that a hidden Journey is current Work. An explicitly requested legacy context remains readable with normal permissions. Hiding does not revoke source permissions.
+* Reuse the current owner-scoped, device-local presentation-preference mechanism in lib/presentation-preferences.ts and app/presentation-settings.tsx. Extend its version/validator safely with showLegacyJourneys:boolean, default false for old or missing values. Label the preference “on this device”; do not imply cross-device sync. Keep owner/generation scope isolation and all unrelated display preferences. Do not add a server-side preferences table solely for this switch.
+* Find/search uses a **server-side includeLegacyJourneys selection before ranking and pagination**. Never fetch pages and merely CSS-hide legacy items, producing misleading empty/short pages. Changing the toggle resets cursors/result counts and does not rewrite learner content. Exact explicit lookup is exempt from the discovery filter.
+
+**D0 pass tests:** new Work without Stages; old Journey v1 remains byte/revision-exact; Work linked to several Notes/Activity sources and vice versa; archive/unarchive without loss; old URL and Stage return valid with toggle Off; Find excludes legacy before pagination; toggle On displays secondary Legacy Journeys; preference survives reload on the same device, resets safely for a different owner and does not imply cross-device sync; no legacy family in normal first viewport; no unintended MCP evidence exclusion. Fail if the implementation merely renames Journey, adds a hidden Stage requirement, requires a Work to save Notes, or treats the toggle as destructive filtering.
+
+The selected model should be validated against current record-family switches and API commands on disposable D1 before UI coding. If it breaks fundamental invariants, stop with an exact incompatibility report and request an alternative decision; **do not silently fall back to Journey v2 or create a second status database**.
 
 ## D2. One explicit “Update Minamo” transaction, including no source selected
 
@@ -54,7 +72,7 @@ Canonical representation for a **new** ordinary update:
 3. Persist only the specifically accepted optional relations, normally as outgoing links on the new Note; never mutate an immutable Article/Activity merely to create a backlink. Neither selected browsing history nor GPT-suggested connections are automatically written.
 4. Commit Note, Development, accepted relations, operation identity and replayable receipt **atomically**. Present one “Saved your update” acknowledgement with one original entry link.
 
-The v2 target vocabulary must include an exact record target for Note, Journey, Investigation, Article and Activity where permitted. A no-source event uses the new Note as its primary target; related contexts remain optional. Historical v1 Journey-Stage and Investigation developments are never rewritten and remain readable.
+The v2 target vocabulary must include an exact record target for Work, Note, legacy Journey, Investigation, Article and Activity where permitted. A no-source event uses the new Note as its primary target; related contexts remain optional. Historical v1 Journey-Stage and Investigation developments are never rewritten and remain readable.
 
 Suggested **domain-level** envelope (not a claim that existing MCP tools already expose this shape):
 
@@ -98,7 +116,7 @@ This operation **must** reject absent explicit user approval; no passive per-tur
 
 The work projection is **read-only** and never becomes another authoritative current-state table. It admits original records with owner/generation/space/source-rights checks, then derives limited, inspectable interpretation.
 
-1. **Scope and frontier.** Select explicit work focus or an unscoped personal Notebook window. Start from admitted original revisions and typed direct links; traverse a bounded, explainable one/two-hop frontier including Journey → Question → Note, both incoming and outgoing accepted relations. Never connect records by title similarity or co-visit. A late accepted relation can bring an older Note into the current work view without changing the Note itself.
+1. **Scope and frontier.** Select explicit work focus or an unscoped personal Notebook window. Start from admitted original revisions and typed direct links; traverse a bounded, explainable one/two-hop frontier including legacy Journey → Question → Note and new Work → linked Note/Question/Activity, both incoming and outgoing accepted relations. Never connect records by title similarity or co-visit. A late accepted relation can bring an older Note into the current work view without changing the Note itself.
 2. **Completeness.** Use real cursor/limit semantics. A successful first page, a non-truncated direct Project-root context or a deferred evidence branch does not prove a complete connected history. Preserve missing, deferred, ineligible, revoked and partial outcomes internally. Only call something “latest”, “none outstanding” or “last actual recorded” when the eligible scope/ordering genuinely supports it. Otherwise say “Recent saved work” or show eligible original entries without a blanket absence claim.
 3. **Primary material.** Show a short, original, dated, attributed Note/Attempt/Development entry first. Keep distinct saved strands separate. Never let an old authored Stage or mere last visit override later actual writing.
 4. **What changed and why.** Derive causal changes only from an explicit supersession, a typed correction, a recorded decision and reason, or a user-confirmed relation to a prior claim/evidence. Chronological adjacency, prose resemblance, titles and GPT interpretation are not proof. When no reason was recorded, show the relevant originals and “The reason was not recorded” if useful; optionally offer a clearly labelled **reviewable interpretation**, not a saved fact.
@@ -126,7 +144,7 @@ The application must demonstrate these states using real authenticated DOM and s
 | State | First viewport / nearby actions | Required transition |
 | --- | --- | --- |
 | Read and practise | Actual Article passage with one title; nearby eligible “Try this”, “Note on this”, “Discuss with GPT”; source details secondary | Activity opens on Task; Note editor preserves original source and local draft; one exact Back-to-passage route, even through Note and refresh |
-| Change direction in evolving work | A short original dated change/decision, why if explicitly saved, competing earlier claim if relevant, next/unknown where warranted; old authored Guide outline subordinate | Inspect the older evidence; ask GPT about the contradiction; save a new correction; return without Stage maintenance |
+| Change direction in evolving work | A short original dated change/decision, why if explicitly saved, competing earlier claim if relevant, next/unknown where warranted; any explicitly opened legacy authored outline subordinate | Inspect the older evidence; ask GPT about the contradiction; save a new correction; return without Stage maintenance |
 | Compare uncertain sources | One primary source, an optional temporary comparison of distinct exact renditions/Note/Attempt, selected origins and a compact context review | Deselect/compare; send only accepted exact refs into prepared GPT handoff; zero implicit durable links |
 | Return after gap | Recent actual saved writing before arbitrary navigation history; explicit open problems and next intentions only where recorded; helpful original source destinations | Continue original material, choose a new direction or create a Note; no technical scan/exclusion panel or made-up “current state” |
 
@@ -199,7 +217,7 @@ Complete a **feature-disposition matrix** before deleting old UI. Minimum catego
 
 A+B+C remain **one product commission**, with safe checkpoints; opt-in incomplete deployment may follow the fast Sites gate but does not imply product acceptance.
 
-**Before Increment A:** D0 typed-shape/transaction/legacy-read proof and donor/feature manifest complete. Resolve failures explicitly. Do not postpone a wrong data identity until after drawing Study.
+**Before Increment A:** D0 work-family/legacy-toggle/transaction/legacy-read proof and donor/feature manifest complete. Resolve failures explicitly. Do not postpone a wrong data identity until after drawing Study.
 
 **After Increment A:** a real authenticated source→Activity→Note→exact-source loop, no legacy shell, first-use simplicity and non-title Find with a missing-material request. This is engineering evidence only.
 
