@@ -43,3 +43,15 @@
 .synthetic-ui-banner + .wp-workspace.v2-app{height:calc(100dvh - 36px)}
 
 .wp-reference>header{position:sticky;top:0;z-index:2;background:var(--mn-code-bg)}
+/* Contextual study keeps the existing Notes writer, but defaults to a compact
+   inspector instead of hiding half the material. Focus mode remains full size. */
+@media(min-width:701px){
+ .wp-workspace[data-contextual=true]{--wp-context-notes-size:min(var(--wp-notes-size),clamp(280px,30vw,360px))}
+ .wp-workspace[data-contextual=true] .nw-workspace.rn-dock-right,.wp-workspace[data-contextual=true] .nw-workspace.rn-dock-left{width:min(var(--nw-dock-size),clamp(280px,30vw,360px),calc(100vw - 32px))}
+ .wp-workspace[data-contextual=true][data-notes-open=true][data-notes-dock=right] .v2-shell{padding-right:calc(var(--wp-context-notes-size) + 32px)}
+ .wp-workspace[data-contextual=true][data-notes-open=true][data-notes-dock=left] .v2-shell{padding-left:calc(var(--wp-context-notes-size) + 32px)}
+ .wp-workspace.v2-app[data-layout=classic][data-contextual=true][data-notes-open=true][data-notes-dock=left] .v2-shell{padding-left:calc(var(--desktop-navigation-width) + var(--wp-context-notes-size) + 32px)}
+ .wp-workspace[data-contextual=true] .nw-workspace.rn-dock-bottom,.wp-workspace[data-contextual=true] .nw-workspace.rn-dock-top{height:min(var(--nw-dock-size),38dvh)}
+ .wp-workspace[data-contextual=true][data-notes-open=true][data-notes-dock=bottom] .v2-shell{margin-bottom:calc(min(var(--wp-notes-size),38dvh) + 17px)}
+ .wp-workspace[data-contextual=true][data-notes-open=true][data-notes-dock=top] .v2-shell{padding-top:calc(min(var(--wp-notes-size),38dvh) + 22px)}
+}

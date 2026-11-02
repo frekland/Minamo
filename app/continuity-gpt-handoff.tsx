@@ -4,20 +4,38 @@ import {buildContinuityGptBrief,evidenceChoiceKey} from '../lib/continuity-gpt-b
 import type {LearningSpaceSelection} from '../lib/learning-space-navigation';
 import type {EvidenceFocus,EvidencePage} from './continuity-sources';
 import {closeOnDialogBackdrop} from '../lib/overlay-interactions';
+import {generationFetch} from '../lib/workspace-generation';
+import {learningSpaceParams} from '../lib/learning-space-navigation';
+import type {SelectedContextRef} from '../lib/contracts';
+
+/** Comparison selection is an editable proposal, never permission to send or save. */
+export function proposedEvidenceChoices(page:EvidencePage,refs:SelectedContextRef[]){
+ const requested=new Set(refs.map(ref=>JSON.stringify([ref.family,ref.id,ref.rendition??null])));
+ return page.items.slice(0,24).filter(item=>requested.has(JSON.stringify([item.source.family,item.source.id,item.source.rendition??null]))).map(evidenceChoiceKey).slice(0,6);
+}
 
 /** Explicit owner selection; no prose is sent, persisted, fetched or copied on navigation. */
-export default function ContinuityGptHandoff({page,selection,focus}:{page:EvidencePage;selection:LearningSpaceSelection;focus?:EvidenceFocus}){
+export default function ContinuityGptHandoff({page,selection,focus,preselectedRefs=[],scope}:{page:EvidencePage;selection:LearningSpaceSelection;focus?:EvidenceFocus;preselectedRefs?:SelectedContextRef[];scope?:string}){
  const [open,setOpen]=useState(false),[chosen,setChosen]=useState<string[]>([]),[brief,setBrief]=useState(''),[status,setStatus]=useState(''),[busy,setBusy]=useState(false),trigger=useRef<HTMLButtonElement>(null),dialog=useRef<HTMLDialogElement>(null);
- const sourceKey=JSON.stringify([page.asOf,page.generation,page.snapshotVersion,focus,selection,page.items.map(item=>[evidenceChoiceKey(item),item.source.rev,item.source.rendition,item.checkpoint?.status])]);
+ const sourceKey=JSON.stringify([scope,page.asOf,page.generation,page.snapshotVersion,focus,selection,page.items.map(item=>[evidenceChoiceKey(item),item.source.rev,item.source.rendition,item.checkpoint?.status])]);
  const previous=useRef(sourceKey);
  useEffect(()=>{if(previous.current===sourceKey)return;previous.current=sourceKey;setChosen([]);setBrief('');setStatus('');setOpen(false);},[sourceKey]);
  useEffect(()=>{if(!open)return;dialog.current?.showModal();return()=>dialog.current?.close();},[open]);
  function close(){dialog.current?.close();setOpen(false);trigger.current?.focus();}
  function toggle(key:string,checked:boolean){setChosen(old=>checked?[...old.filter(x=>x!==key),key].slice(0,6):old.filter(x=>x!==key));setBrief('');setStatus('Source selection changed. Prepare the new request.');}
- async function prepare(copy:boolean){setBusy(true);try{const result=buildContinuityGptBrief(page,selection,chosen,focus);setBrief(result);if(copy){try{if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(result);setStatus('Request copied. Paste it into ChatGPT with Minamo tools connected.');}catch{setStatus('Clipboard unavailable. Select and copy the request manually.');}}else setStatus('Request prepared. No learning record or relationship was changed.');}catch(error){setStatus(error instanceof Error?error.message:'The selected sources could not be prepared.');}finally{setBusy(false);}}
+ async function prepare(copy:boolean){setBusy(true);try{
+  if(scope){
+   const selectedItems=page.items.filter(item=>chosen.includes(evidenceChoiceKey(item)));
+   const refs=selectedItems.map(item=>({family:item.source.family,id:item.source.id,...(item.source.rendition?{rendition:item.source.rendition}:{})}));
+   const response=await generationFetch(scope,'/api/learning-context?'+new URLSearchParams({scope:'working',selectedRefs:JSON.stringify(refs),...learningSpaceParams(selection)}),{cache:'no-store'});
+   const value=await response.json() as {contract?:string;selected?:Array<{status:string;source?:{family:string;id:string;rev:number;rendition?:string}}>};
+   if(!response.ok||value.contract!=='minamo.working-context.v1'||value.selected?.length!==selectedItems.length||selectedItems.some((item,index)=>{const check=value.selected?.[index];return check?.status!=='available'||check.source?.family!==item.source.family||check.source?.id!==item.source.id||check.source?.rev!==item.source.rev||check.source?.rendition!==item.source.rendition;}))throw Error('Source access or edition changed. Refresh recorded sources and choose again; no request was prepared.');
+  }
+  const result=buildContinuityGptBrief(page,selection,chosen,focus);setBrief(result);if(copy){try{if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(result);setStatus('Request copied. Paste it into ChatGPT with Minamo tools connected.');}catch{setStatus('Clipboard unavailable. Select and copy the request manually.');}}else setStatus('Request prepared. No learning record or relationship was changed.');
+ }catch(error){setBrief('');setStatus(error instanceof Error?error.message:'The selected sources could not be prepared.');}finally{setBusy(false);}}
  if(!page.items.length)return null;
  return <div className="continuity-gpt">
-  <button ref={trigger} type="button" className="v2-text-button" aria-haspopup="dialog" aria-expanded={open} onClick={()=>setOpen(true)}>Discuss selected sources with GPT</button>
+  <button ref={trigger} type="button" className="v2-text-button" aria-haspopup="dialog" aria-expanded={open} onClick={()=>{setChosen(proposedEvidenceChoices(page,preselectedRefs));setBrief('');setStatus('');setOpen(true);}}>Discuss selected sources with GPT</button>
   {open&&<dialog ref={dialog} className="v2-dialog continuity-gpt-dialog" aria-label="Discuss recorded sources with GPT" onCancel={event=>{event.preventDefault();close();}} onClick={event=>closeOnDialogBackdrop(event,close)}><div className="continuity-gpt-body">
    <h2>Choose recorded sources</h2><p>Select up to six sources for a bounded GPT discussion. The request contains exact identities and coverage limits—not copied private Note text. GPT must reread eligible originals through Minamo.</p>
    <div className="continuity-gpt-choices" role="group" aria-label="Recorded sources to discuss">{page.items.slice(0,24).map(item=>{const key=evidenceChoiceKey(item),checked=chosen.includes(key);return <label key={key}><input type="checkbox" checked={checked} disabled={!checked&&chosen.length>=6} onChange={event=>toggle(key,event.currentTarget.checked)}/><span>{item.title} <small>{item.checkpoint?'Saved checkpoint · '+item.checkpoint.status:item.source.family} · {new Date(item.at).toLocaleDateString('en-GB')}</small></span></label>;})}</div>

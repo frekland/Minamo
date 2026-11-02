@@ -110,16 +110,16 @@ export async function resolveProjectContinuation(env:Cloudflare.Env,owner:string
  return {continuation,complete};
 }
 async function independent(env:Cloudflare.Env,owner:string,input:Input,before:number,scopeToken:string,after:string,cache:Cache):Promise<IndependentQuestions>{
- const scope=learningScopeSql('r',input),limit=input.limit??40,rows=(await env.DB!.prepare(`SELECT r.family,r.id FROM v2_records r WHERE r.owner=? AND r.family='investigation' AND r.trashed_at IS NULL AND (${scope.sql}) AND r.family||':'||r.id>? ORDER BY r.family,r.id LIMIT ?`).bind(owner,...scope.args,after,limit+1).all<{family:Family;id:string}>()).results,questions:ProjectQuestion[]=[];
+ const scope=learningScopeSql('r',input),limit=input.limit??40,rows=(await env.DB!.prepare(`SELECT r.family,r.id FROM v2_records r WHERE r.owner=? AND r.family='investigation' AND r.trashed_at IS NULL AND coalesce(json_extract(r.data,'$.synthetic'),0)=0 AND (${scope.sql}) AND r.family||':'||r.id>? ORDER BY r.family,r.id LIMIT ?`).bind(owner,...scope.args,after,limit+1).all<{family:Family;id:string}>()).results,questions:ProjectQuestion[]=[];
  let pending:{questionId:string;parentAfter:string}|undefined,completedKey=after;
  const retained=input.cursor?JSON.parse(atob(input.cursor)):undefined;
  if(retained?.pendingQuestion!==undefined&&(!validId(retained.pendingQuestion)||!validId(retained.parentAfter)))fail(400,'invalid_project_cursor','Use the returned cursor.');
  for(const row of rows.slice(0,limit)){
-  const q=await cached(env,owner,'investigation',row.id,cache);if(!q||unavailable(q)){completedKey=row.family+':'+row.id;continue;}
-  let linked=false;for(const link of q.links.filter(l=>l.family==='journey')){const parent=await eligibleLink(env,owner,link,input,cache);if(parent&&!unavailable(parent)){linked=true;break;}}
+  const q=await cached(env,owner,'investigation',row.id,cache);if(!q||q.synthetic||unavailable(q)){completedKey=row.family+':'+row.id;continue;}
+  let linked=false;for(const link of q.links.filter(l=>l.family==='journey')){const parent=await eligibleLink(env,owner,link,input,cache);if(parent&&!parent.synthetic&&!unavailable(parent)){linked=true;break;}}
   if(linked){completedKey=row.family+':'+row.id;continue;}
-  const parentsScope=learningScopeSql('parent',input),parentAfter=retained?.pendingQuestion===q.id?retained.parentAfter:'',parents=(await env.DB!.prepare(`SELECT parent.id FROM v2_records parent WHERE parent.owner=? AND parent.family='journey' AND parent.trashed_at IS NULL AND (${parentsScope.sql}) AND parent.id>? AND EXISTS(SELECT 1 FROM json_each(parent.data,'$.links') link WHERE json_extract(link.value,'$.family')='investigation' AND json_extract(link.value,'$.id')=?) ORDER BY parent.id LIMIT 51`).bind(owner,...parentsScope.args,parentAfter,q.id).all<{id:string}>()).results;
-  for(const row of parents.slice(0,50)){const parent=await cached(env,owner,'journey',row.id,cache);if(!parent||unavailable(parent)||!matchesLearningScope(parent,input))continue;for(const link of parent.links.filter(l=>l.family==='investigation'&&l.id===q.id))if(await eligibleLink(env,owner,link,input,cache)){linked=true;break;}if(linked)break;}
+  const parentsScope=learningScopeSql('parent',input),parentAfter=retained?.pendingQuestion===q.id?retained.parentAfter:'',parents=(await env.DB!.prepare(`SELECT parent.id FROM v2_records parent WHERE parent.owner=? AND parent.family='journey' AND parent.trashed_at IS NULL AND coalesce(json_extract(parent.data,'$.synthetic'),0)=0 AND (${parentsScope.sql}) AND parent.id>? AND EXISTS(SELECT 1 FROM json_each(parent.data,'$.links') link WHERE json_extract(link.value,'$.family')='investigation' AND json_extract(link.value,'$.id')=?) ORDER BY parent.id LIMIT 51`).bind(owner,...parentsScope.args,parentAfter,q.id).all<{id:string}>()).results;
+  for(const row of parents.slice(0,50)){const parent=await cached(env,owner,'journey',row.id,cache);if(!parent||parent.synthetic||unavailable(parent)||!matchesLearningScope(parent,input))continue;for(const link of parent.links.filter(l=>l.family==='investigation'&&l.id===q.id))if(await eligibleLink(env,owner,link,input,cache)){linked=true;break;}if(linked)break;}
   if(!linked&&parents.length>50){pending={questionId:q.id,parentAfter:parents[49].id};break;}
   if(!linked)questions.push(question(q,[]));completedKey=row.family+':'+row.id;
  }

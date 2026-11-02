@@ -36,10 +36,19 @@ function frontierCursorOf(raw:unknown,scope:string){
  if(typeof parsed.key!=='string'||!/^[01]:[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(parsed.key))fail('invalid_evidence_focus_cursor','Use the returned Project target cursor.');
  return parsed.key as string;
 }
-function prose(record:WorkspaceRecord){
+export function prose(record:WorkspaceRecord){
  let text='',at=0;for(const block of record.family==='note'?parseNoteTerminalPlacements(record.body):[]){text+=record.body.slice(at,block.from)+'\n[External terminal capture; open the exact Note to inspect.]\n';at=block.to;}text+=record.body.slice(at);
  const structured=!!record.attempt||record.family==='run'&&!!(record.code||record.output||record.outputBundle);
- if(!text.trim()&&record.attempt)text='Saved Activity attempt; open the exact record to inspect the supplied answer and later feedback.';
+ // The canonical Attempt writer supplies a generic body. Do not let that boilerplate
+ // hide the learner's authored prediction, uncertainty or next intention.
+ if(record.attempt&&(!text.trim()||text.trim()==='Explicit Activity attempt. Supplied evidence is not Minamo-observed execution.')){
+  const fields=[
+   record.attempt.prediction?.trim()?`Learner prediction (not tested here): ${record.attempt.prediction.trim()}`:'',
+   record.attempt.reflection?.trim()?`Learner reflection: ${record.attempt.reflection.trim()}`:'',
+   record.attempt.nextIntention?.trim()?`Next intention recorded then: ${record.attempt.nextIntention.trim()}`:''
+  ].filter(Boolean);
+  text=fields.length?`Supplied Activity attempt; no Minamo-observed execution.\n${fields.join('\n')}`:'Saved Activity attempt; details not included — open the original. No Minamo-observed execution.';
+ }
  else if(!text.trim()&&structured)text='Saved run; open the exact record to inspect supplied code and output.';
  else if(!text.trim()&&record.sections?.some(section=>section.parts.some(part=>part.text.trim()||part.image||part.media||part.reference||part.table||part.diagram)))text='Saved rich content; open the exact record to inspect its sections and attachments.';
  return {text:text.slice(0,700),complete:text.length<=700&&at===0&&!structured&&!record.sections?.length,detailsDeferred:text.length>700||at>0||!!record.sections?.length||structured};

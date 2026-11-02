@@ -4,7 +4,8 @@ type SourceReceipt={source:{family:string;id:string;rev:number;rendition?:string
 type HandoffPage={contract:string;asOf:string;generation?:string;snapshotVersion?:number;items:SourceReceipt[];coverage:{moreAvailable:boolean;moreTargetsAvailable?:boolean;completeWithinScope:boolean;gaps:string[]}};
 type Focus={family:'journey'|'investigation';id:string};
 const id=(v:string)=>/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(v);
-export function evidenceChoiceKey(item:SourceReceipt){return item.checkpoint?'checkpoint:'+item.checkpoint.id:'record:'+item.source.family+':'+item.source.id;}
+/** The same record can occur at two retained editions; each is a separate choice. */
+export function evidenceChoiceKey(item:SourceReceipt){return item.checkpoint?'checkpoint:'+item.checkpoint.id:'record:'+JSON.stringify([item.source.family,item.source.id,item.source.rev,item.source.rendition??null]);}
 /** Clipboard only, never a tool call or durable relation. Deliberately excludes excerpts and titles. */
 export function buildContinuityGptBrief(page:HandoffPage,selection:LearningSpaceSelection,chosenKeys:string[],focus?:Focus){
  if(page.contract!=='minamo.continuity-evidence.v1'||!Number.isFinite(Date.parse(page.asOf))||!Array.isArray(page.items)||!Array.isArray(page.coverage?.gaps))throw Error('Refresh the saved evidence before preparing a discussion.');

@@ -37,6 +37,8 @@ test('exact Article and mobile Notes remain separate primary surfaces with sourc
  await expect(host.getByText('CURRENT MATERIAL')).toBeVisible();
  await expect(page.locator('[data-reading-part="japanese"]').first()).toContainText('今日');
  await expect(page.locator('.nw-workspace')).toHaveCount(1);
+ const connections=host.getByRole('button',{name:'Connections & history'});await expect(connections).toHaveAttribute('aria-expanded','false');
+ await expect(page.locator('#wc-context-panel')).toBeHidden();await connections.click();await expect(connections).toHaveAttribute('aria-expanded','true');
  const history=host.getByRole('button',{name:'Browse recorded history'});await expect(history).toHaveAttribute('aria-expanded','false');await history.click();await expect(host).toHaveAttribute('data-history-open','true');
  await host.getByRole('button',{name:'Blank Note'}).click();
  const sheet=page.getByRole('dialog',{name:'Notes writing workspace'});await expect(sheet).toBeVisible();
@@ -44,4 +46,21 @@ test('exact Article and mobile Notes remain separate primary surfaces with sourc
  const editor=page.getByRole('textbox',{name:'Note rich writing editor',exact:true});await editor.pressSequentially('今日も検証中 😀');
  await page.getByRole('button',{name:'Minimise Notes'}).click();await expect(sheet).toBeHidden();
  await page.getByRole('button',{name:'Restore Notes'}).click();await expect(editor).toContainText('今日も検証中 😀');
+});
+
+test('global search native Library route, reload and browser history preserve the deliberate contextual opt-in',async({page})=>{
+ await page.setViewportSize({width:1280,height:800});await page.goto(root);
+ await page.getByRole('button',{name:'Open search'}).click();
+ await page.getByRole('searchbox',{name:'Search in this learning space'}).fill('Python sockets');
+ const modal=page.getByRole('dialog',{name:'Search'});
+ const links=modal.getByRole('link',{name:/Search.*in the Library|Search the Library|See more Library matches/});
+ await expect(links.first()).toBeVisible();
+ const native=await links.first().getAttribute('href');
+ expect(new URL(native,origin).searchParams.get('workspace')).toBe('context');
+ await links.first().click();
+ await expect(page).toHaveURL(/workspace=context/);await expect(page).toHaveURL(/libraryFacet=search/);
+ await expect(page).toHaveURL(/libraryQuery=Python/);
+ await page.reload();await expect(page.getByRole('button',{name:'Use classic workspace'})).toBeVisible();
+ await page.goBack();await expect(page).toHaveURL(/workspace=context/);
+ await page.goForward();await expect(page).toHaveURL(/workspace=context/);
 });

@@ -9,6 +9,13 @@ export function carryWorkspaceExperience(next:URLSearchParams,prior:URLSearchPar
  if(experienceFromParams(prior)==='context')next.set('workspace','context');
  return next;
 }
+/** Native links must carry the deliberate mode choice, including search results and new tabs. */
+export function experienceHref(href:string,experience:WorkspaceExperience){
+ if(!href.startsWith('/?'))return href;
+ const params=new URLSearchParams(href.slice(2));
+ if(experience==='context')params.set('workspace','context');else params.delete('workspace');
+ return '/?'+params;
+}
 /** Native new-tab links retain the reversible experience without changing source selectors. */
 export function contextHref(href:string){
  if(!href.startsWith('/?'))return href;
