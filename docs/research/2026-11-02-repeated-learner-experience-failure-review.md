@@ -57,6 +57,10 @@ This was a desktop cloud-browser *product inspection*, not a human study, exhaus
 
 The record-level correctness cannot be assessed from these screens alone. The documented direct owner feedback and visible hierarchy are sufficient to reject the current *product* result without claiming lost data or fabricated status.
 
+## Owner follow-up — no P1 deferral (2 November 2026)
+
+The subsequent owner decision requires **all seven** architecture/product closure conditions C1–C7 before accepting a replacement: evolving-work lifecycle, causal continuity, source-free update architecture, genuine Find/content creation, browser↔GPT handoff, external-change evidence and full architecture/implementation hygiene. P0/P1 is only an engineering sequencing label. A technically sound or attractive Study/Find/Notebook shell that lacks any of these capabilities repeats the earlier partial-improvement pattern. The [canonical blueprint](../LEARNER-FIRST-PRODUCT-RESET-CODE-BLUEPRINT.md#owner-decision-after-comprehensive-review--all-seven-corrections-are-mandatory) now records this complete product gate. This does not retroactively convert V95 observations into testing of the unbuilt replacement.
+
 ## Corrected decision
 
 **Stop patching the V95 contextual wrapper as a final product candidate.** Keep PR #78 draft/unmerged as a technical source and failed experience experiment. Do not destroy its tests, canonical rights or release receipts. The next product code must *replace* the learner-facing routes, not mount the legacy pages under new labels. Implement a connected work path first, including genuine Note persistence and deliberate GPT update, then demonstrate a meaningful Project return. No new conceptual design election, competitor survey, synthetic expansion or generic owner questionnaire is required.
