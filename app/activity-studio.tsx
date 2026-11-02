@@ -1,8 +1,8 @@
 'use client';
 import {subscribeForeground,retainContentAfterReadFailure} from '../lib/foreground-session';
 import {useContextualHref} from './navigation-context';
-import {useEffect,useId,useRef,useState} from 'react';
-import type {WorkspaceRecord,CommandReceipt} from '../lib/contracts';
+import {useContext,useEffect,useId,useRef,useState} from 'react';
+import type {WorkspaceRecord,CommandReceipt,Family} from '../lib/contracts';
 import type {ActivityBlock,ActivityCartridge,ActivityAttempt} from '../lib/activity/schema';
 import type {ProjectPackage} from '../lib/challenge-exchange/package';
 import type {Artefact,ArtefactRegistry} from '../lib/foundry/platform';
@@ -17,6 +17,8 @@ import {ScenarioPracticePanel} from './practice-scenario-panel';
 import type {PracticeInteraction} from '../lib/practice-character';
 import ActivityScratch,{ScratchSubmissionSummary} from './activity-scratch';
 import {PracticePanel,PracticeAttemptSummary} from './practice-panel';
+import {StudyActivityLinks} from '../lib/study/activity-navigation-context';
+import {studyExactHref} from '../lib/study/navigation';
 import ActivitySavedPractice from './activity-saved-practice';
 import './activity-studio.css';
 
@@ -35,8 +37,8 @@ function exactReadingLink(ref:{family:string;id:string;rendition:string;sectionI
  const view=ref.family==='journey'?'journeys':ref.family==='investigation'?'investigations':ref.family==='article'||ref.family==='area'?'library':ref.family==='source'?'sources':ref.family==='experiment'?'tools':'work';
  return '/?'+new URLSearchParams({view,family:ref.family,id:ref.id,rendition:ref.rendition,...(ref.sectionId?{section:ref.sectionId}:{}),...(ref.partId?{part:ref.partId}:{})});
 }
-/** Keep ordinary exact-source navigation in the one Workspace; modified clicks retain native links. */
-function ActivityLink({href,onOpenReading,children,className}:{href:string;onOpenReading?:Props['onOpenReading'];children:React.ReactNode;className?:string}){const contextualHref=useContextualHref();return <a href={contextualHref(href)} className={className} onClick={event=>{if(!onOpenReading||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;const params=new URLSearchParams(href.split('?')[1]??'');const family=params.get('family'),id=params.get('id'),rendition=params.get('rendition');if(!family||!id||!rendition)return;event.preventDefault();onOpenReading({family,id,rendition,...(params.get('section')?{sectionId:params.get('section')!}:{}),...(params.get('part')?{partId:params.get('part')!}:{})});}}>{children}</a>;}
+/** Exact Activity links stay in Study for normal and modified navigation alike. */
+function ActivityLink({href,onOpenReading,children,className}:{href:string;onOpenReading?:Props['onOpenReading'];children:React.ReactNode;className?:string}){const contextualHref=useContextualHref(),study=useContext(StudyActivityLinks),params=new URLSearchParams(href.split('?')[1]??''),family=params.get('family'),id=params.get('id'),rendition=params.get('rendition'),sectionId=params.get('section')??undefined,partId=params.get('part')??undefined,path=study&&family&&id&&rendition?studyExactHref(family as Family,id,{rendition,sectionId,partId}):contextualHref(href);return <a href={path} className={className} onClick={event=>{if(study||!onOpenReading||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||!family||!id||!rendition)return;event.preventDefault();onOpenReading({family,id,rendition,sectionId,partId});}}>{children}</a>;}
 function downloadBytes(bytes:Uint8Array,name:string,mime:string){const blob=new Blob([Uint8Array.from(bytes)],{type:mime}),url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download=name;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 
 /** A plain source browser. Imported code never becomes HTML, a shell, or an executable preview. */
@@ -70,7 +72,7 @@ export function ActivityAttemptSummary({record,onOpenReading,scope,onRecordChang
 export default function ActivityStudio(props:Props){const record=props.record as ActivityRecord;if(record.attempt)return <ActivityAttemptSummary key={JSON.stringify([props.scope,record.id])} record={record} scope={props.scope} onOpenReading={props.onOpenReading} onRecordChange={props.onRecordChange}/>;if(!record.activity||!record.rendition)return null;return <ActivitySession key={JSON.stringify([props.scope,record.id,record.rendition])} {...props} record={record}/>;}
 /** Content engine for Study. It retains the exact Activity's hint, scratch, answer,
  * revision and attempt machinery without composing the old Studio page shell. */
-export function StudyActivityTask(props:Props){const record=props.record as ActivityRecord;if(record.attempt)return <ActivityAttemptSummary key={JSON.stringify([props.scope,record.id])} record={record} scope={props.scope} onOpenReading={props.onOpenReading} onRecordChange={props.onRecordChange} compact/>;if(!record.activity||!record.rendition)return null;return <ActivitySession key={JSON.stringify([props.scope,record.id,record.rendition])} {...props} record={record} study/>;}
+export function StudyActivityTask(props:Props){const record=props.record as ActivityRecord;if(record.attempt)return <StudyActivityLinks.Provider value={true}><ActivityAttemptSummary key={JSON.stringify([props.scope,record.id])} record={record} scope={props.scope} onOpenReading={props.onOpenReading} onRecordChange={props.onRecordChange} compact/></StudyActivityLinks.Provider>;if(!record.activity||!record.rendition)return null;return <StudyActivityLinks.Provider value={true}><ActivitySession key={JSON.stringify([props.scope,record.id,record.rendition])} {...props} record={record} study/></StudyActivityLinks.Provider>;}
 export function activityAttemptExperience(activity:ActivityCartridge|null|undefined,record?:Pick<WorkspaceRecord,'learningScope'>){
  const answers=!!activity?.blocks.some(block=>block.kind==='practice'||block.kind==='listening');
  const language=activity?.template==='language'||!!record?.learningScope?.spaces.includes('languages')||!!activity?.blocks.some(block=>block.kind==='listening'||block.kind==='practice'&&!!block.exercise.language&&block.exercise.language!=='en');

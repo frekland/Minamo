@@ -150,3 +150,17 @@ test('Study embeds Reader and Notes with legible light-theme tokens without chan
  assert.ok(contrast(hex('mn-code-text'),hex('mn-code-bg'))>=4.5,'Canonical code must remain readable');
  assert.doesNotMatch(css,/:root\s*\{\s*color-scheme:light/,'The existing workspace remains dark');
 });
+
+test('Study form labels and empty-draft action are readable without a misleading primary action',()=>{
+ const css=readFileSync('app/study/study.css','utf8');
+ assert.match(css,/\.study-app \.study-work-form label,[^\n]*\{color:var\(--study-ink\)\}/);
+ assert.match(css,/\.study-app \.study-writing button\.v2-text-button\{[^}]*width:auto;[^}]*background:#f5f8f4;[^}]*font-size:12px/);
+});
+
+test('Activity exact source links stay in Study without altering Classic routes',()=>{
+ const studio=readFileSync('app/activity-studio.tsx','utf8'),practice=readFileSync('app/practice-panel.tsx','utf8');
+ assert.match(studio,/StudyActivityLinks\.Provider value=\{true\}/);
+ assert.match(studio,/studyExactHref\(/);
+ assert.match(practice,/study\?studyExactHref\(source\.family,source\.id/);
+ assert.match(practice,/Read the source passage/);
+});
