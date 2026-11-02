@@ -21,7 +21,9 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
  const learningSelection=learningSpaceSelection({learningSpace:scalar('learningSpace'),language:scalar('language')});
  const family=scalar('family')&&(FAMILIES as readonly string[]).includes(scalar('family')!)?scalar('family') as Family:undefined;
  let ownerTestScenario:{projectId:string;title:string;phase:string;epoch:number}|undefined;
- if(user&&owner)try{
+ // Synthetic diagnostics are opt-in even for the owner: normal learner Home
+ // must never surface fixture banners or perform scenario-controller reads.
+ if(user&&owner&&scalar('diagnostics')==='synthetic')try{
   const requestHeaders=await headers(),host=requestHeaders.get('host');
   if(host){
    requireScenarioOwner(scopedEnv as Parameters<typeof requireScenarioOwner>[0],new Request(`https://${host}/`,{headers:requestHeaders}));

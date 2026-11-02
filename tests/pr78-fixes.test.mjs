@@ -51,6 +51,12 @@ test('F02: ordinary Project discovery excludes synthetic records before sorting 
  assert.match(project,/coalesce\(json_extract\(r\.data,'\$\.synthetic'\),0\)=0/,'independent Questions exclude fixtures server-side');
 });
 
+test('owner-only synthetic scenario banner requires deliberate diagnostics opt-in',()=>{
+ const page=readFileSync(resolve(root,'app/page.tsx'),'utf8');
+ assert.match(page,/if\(user&&owner&&scalar\('diagnostics'\)==='synthetic'\)try\{/);
+ assert.match(page,/requireScenarioOwner\(/,'diagnostics remain independently owner-authorised');
+});
+
 test('F03: selected material collapses the secondary connections panel with a discoverable button',()=>{
  const html=renderSelected();
  assert.match(html,/Connections &amp; history/);
