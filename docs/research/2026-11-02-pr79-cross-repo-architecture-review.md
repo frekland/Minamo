@@ -75,3 +75,18 @@ The owner agreed with the subsequent critical review and expressly requested **a
 - **C7 / R6–R7:** settle Guide/work compatibility, late Note linking, data/read dependency closure and legacy renderer retirement; make AGENTS routing unambiguous and require A+B+C as one accepted product scope.
 
 **Disposition:** PR #79 stays draft and docs-only. All seven conditions are first-release product requirements even where marked P1. A narrow engineering candidate may be published only after a separately authorised safe Sites gate and must be explicitly incomplete until C1–C7 and owner usefulness acceptance. No app source, schema, MCP install, learner data or live Site has changed in this review update.
+
+
+## Second independent review closure — D0 implementation decisions (2 November 2026)
+
+A further review found that mandatory C1–C7 **still permitted ambiguity at implementation time**, particularly the work identity, causal read, source-free persistence, learner-maintained links, external status claims, source donor closure and stale branch authority. The binding [architecture decisions and executable learner contracts](../architecture/PR79-ARCHITECTURE-DECISIONS-AND-LEARNER-CONTRACTS.md) now select concrete baselines and tests:
+
+1. **Work:** a new Stage-free Journey v2 with explicit purpose=work; existing v1 records remain legacy-undetermined, not bulk Guides. No second status/work table unless a disposable-D1 incompatibility forces a reviewed amendment.
+2. **Save:** one idempotent, human-approved Note + LearningDevelopment + accepted-links + receipt transaction, including a completely source-free conversation; all old/new readers, retries, CAS, installed MCP schemas and restore paths must be proved.
+3. **Meaningful continuity:** explicit causal/supersession relations only, two-hop Question→Note discovery, conflicting intentions retained, incomplete scans non-authoritative and evidence revisions visible on inspection.
+4. **Low-burden organisation:** GPT can propose bounded exact associations during an explicit update; a learner accepts them once. Nothing is linked from mere browsing or title matching.
+5. **Connected Study:** four concrete first-viewport states and full Article→Activity→Note→source, evolving work, temporary comparison and gap-return loops; old renderer shells are prohibited.
+6. **Find/GPT/external:** non-title rights-filtered content retrieval and missing-material creation; honest clipboard/host transition with independent readback and exact return; connector-reported changes distinguished from actually server-verified observations.
+7. **Delivery integrity:** D0 source/transaction proof precedes A; exact #78 transitive donor and feature disposition manifests are mandatory; a fresh public-main coding branch must bring #79 authority in its first commit; early A+B owner usefulness precedes C polish.
+
+These are **selected implementation designs to validate against existing source**, not claims that the current schema/host has already passed. If a selected shape violates a real invariant, record the failure and amend the decision with explicit owner approval before committing to an alternative. The owner has authorised updating this *draft PR plan*, not code, migration, merge or deployment. The original historical diagnosis above remains intact.
