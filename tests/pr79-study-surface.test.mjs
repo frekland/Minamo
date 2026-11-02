@@ -138,3 +138,15 @@ test('Returning Work orients from saved originals and explicit reasons, with com
  assert.match(comparison,/Second original/);
  assert.match(comparison,/Minamo has not inferred a cause/);
 });
+
+test('Study embeds Reader and Notes with legible light-theme tokens without changing Classic',()=>{
+ const css=readFileSync('app/study/study.css','utf8');
+ const palette=css.match(/\.study-app\{color-scheme:light;([^}]*)\}/)?.[1];
+ assert.ok(palette,'Study must scope a light Reader/Notes palette instead of inheriting dark root tokens');
+ const hex=key=>{const value=palette.match(new RegExp('--'+key+':(#[0-9a-f]{6})'))?.[1];assert.ok(value,'Missing '+key);return value};
+ const lum=color=>{const channels=[1,3,5].map(i=>parseInt(color.slice(i,i+2),16)/255).map(x=>x<=0.04045?x/12.92:((x+0.055)/1.055)**2.4);return channels[0]*0.2126+channels[1]*0.7152+channels[2]*0.0722};
+ const contrast=(a,b)=>{const values=[lum(a),lum(b)].sort((x,y)=>y-x);return(values[0]+0.05)/(values[1]+0.05)};
+ for(const name of ['mn-text','mn-text-body','mn-text-muted'])assert.ok(contrast(hex(name),'#fbfcf8')>=4.5,name+' is not readable on Study paper');
+ assert.ok(contrast(hex('mn-code-text'),hex('mn-code-bg'))>=4.5,'Canonical code must remain readable');
+ assert.doesNotMatch(css,/:root\s*\{\s*color-scheme:light/,'The existing workspace remains dark');
+});
