@@ -1,13 +1,34 @@
 import type {LearningScope} from './learning-spaces';
 import {parseNoteImagePlacements} from './note-image-placement';
 import type {ArticleSection,ContentPatch,PassagePart,CommandReceipt,RecordLink,WorkspaceCommand,WorkspaceRecord} from './contracts';
-export type NoteDraft={learningScope?:LearningScope;body:string;title:string;links:RecordLink[];baseRev:number;dirty:boolean;syncQueued?:boolean;intent:'create'|'update';bodyFormat?:'markdown-v1';attachmentSections?:ArticleSection[];inlineImages?:PassagePart[];imageReselectRequired?:boolean;sequence:number;dirtySince?:number;editedAt?:number;paused?:boolean;message?:string;creationContext?:{title:string;link:RecordLink};optionalTaskLink?:{title:string;link:RecordLink}};
+export type NoteDraft={learningScope?:LearningScope;body:string;title:string;links:RecordLink[];baseRev:number;dirty:boolean;syncQueued?:boolean;intent:'create'|'update';bodyFormat?:'markdown-v1';attachmentSections?:ArticleSection[];inlineImages?:PassagePart[];imageReselectRequired?:boolean;sequence:number;dirtySince?:number;editedAt?:number;paused?:boolean;message?:string;creationContext?:{title:string;link:RecordLink};removedCreationContext?:{title:string;link:RecordLink};optionalTaskLink?:{title:string;link:RecordLink}};
 export function sameNoteContext(a:RecordLink,b:RecordLink){return a.family===b.family&&a.id===b.id&&a.rendition===b.rendition&&a.sectionId===b.sectionId&&a.partId===b.partId;}
 /** One deliberate removal clears the frozen context chip and its exact link,
  * without changing the original writing or any other independently chosen link. */
 export function clearNoteCreationContext(draft:NoteDraft,now=Date.now()):NoteDraft{
  const source=draft.creationContext;if(!source)return draft;
- return editedNoteDraft(draft,{creationContext:undefined,links:draft.links.filter(link=>!sameNoteContext(link,source.link))},now);
+ return editedNoteDraft(draft,{creationContext:undefined,removedCreationContext:structuredClone(source),links:draft.links.filter(link=>!sameNoteContext(link,source.link))},now);
+}
+/** Only the received, guarded Note revision can make a pending removal saved.
+ * The buffered draft and frozen flight may legitimately disagree meanwhile. */
+export function noteCreationSourceState(draft:NoteDraft|undefined,flight:NoteFlight|undefined,saved?:WorkspaceRecord|null){
+ const source=draft?.creationContext??draft?.removedCreationContext??flight?.sent.creationContext;
+ if(!source)return null;
+ if(draft?.removedCreationContext)return {source,status:'removal-pending' as const};
+ if(saved?.links.some(link=>sameNoteContext(link,source.link)))return {source,status:'saved' as const};
+ if(flight?.sent.links.some(link=>sameNoteContext(link,source.link)))return {source,status:draft?.paused?'save-unconfirmed' as const:'saving' as const};
+ return {source,status:'pending' as const};
+}
+/** All retained, explicitly saved Note links remain inspectable after reopening
+ * a Note on another device, even when ephemeral creationContext is gone. */
+export function noteLinkStatus(draft:NoteDraft|undefined,flight:NoteFlight|undefined,saved:WorkspaceRecord|undefined|null,link:RecordLink){
+ const buffered=!!draft?.links.some(item=>sameNoteContext(item,link));
+ const acknowledged=!!saved?.links.some(item=>sameNoteContext(item,link));
+ const sent=!!flight?.sent.links.some(item=>sameNoteContext(item,link));
+ if(!buffered)return acknowledged||sent?'removal-pending' as const:null;
+ if(acknowledged)return 'saved' as const;
+ if(sent)return draft?.paused?'save-unconfirmed' as const:'saving' as const;
+ return 'pending' as const;
 }
 /** Freeze author intent when the draft is created; navigation is never a relationship write. */
 export function newNoteDraft(context?:WorkspaceRecord|null,link?:RecordLink,links?:RecordLink[],optionalTaskLink?:{title:string;link:RecordLink}):NoteDraft{
@@ -60,7 +81,10 @@ export function reconcileNoteReceipt(local:NoteDraft,flight:NoteFlight,receipt:C
  if(current&&current.rev!==committedRev)return {draft:{...local,baseRev:committedRev,intent:'update',paused:true,dirty:true,message:`Your save committed at revision ${committedRev}; current server revision is ${current.rev}. Compare before saving again.`},conflict:true,committedRev};
  const attachments=local.attachmentSections?.map(section=>({...section,parts:section.parts.filter(part=>!flight.sent.attachmentSections?.some(sent=>sent.parts.some(p=>p.id===part.id)))})).filter(section=>section.parts.length);
  const edited=local.sequence!==flight.sequence;
- return {draft:{...local,baseRev:committedRev,intent:'update',dirty:edited,syncQueued:edited,dirtySince:edited?Date.now():undefined,paused:false,attachmentSections:attachments,message:edited?'Newer writing retained · syncing…':`Saved · revision ${committedRev}`},conflict:false,committedRev};
+ const acknowledgedRemoval=!!local.removedCreationContext&&!!current&&current.rev===committedRev&&!current.links.some(link=>sameNoteContext(link,local.removedCreationContext!.link))&&!local.links.some(link=>sameNoteContext(link,local.removedCreationContext!.link));
+ const next={...local,baseRev:committedRev,intent:'update' as const,dirty:edited,syncQueued:edited,dirtySince:edited?Date.now():undefined,paused:false,attachmentSections:attachments,message:edited?'Newer writing retained · syncing…':`Saved · revision ${committedRev}`};
+ if(acknowledgedRemoval)delete next.removedCreationContext;
+ return {draft:next,conflict:false,committedRev};
 }
 export function closeNoteTab(tabs:string[],selected:string|null,id:string){const remaining=tabs.filter(tab=>tab!==id);return {tabs:remaining,selected:selected===id?(remaining.at(-1)??null):selected};}
 
