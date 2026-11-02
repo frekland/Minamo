@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {privateStorageFixture} from './private-storage-fixture.mjs';
 const worker=`import {domainHandler} from './lib/domain-handler.ts';export default {fetch:domainHandler};`;
 const stamp='2026-10-26T10:00:00.000Z';
-const base=(id,family,title,body,extra={})=>({id,family,title,body,links:[],rev:1,rendition:'TEST-ONLY-edition-'+id,createdAt:stamp,updatedAt:stamp,trashedAt:null,actor:'system',synthetic:true,...extra});
+const base=(id,family,title,body,extra={})=>({id,family,title,body,links:[],rev:1,rendition:'TEST-ONLY-edition-'+id,createdAt:stamp,updatedAt:stamp,trashedAt:null,actor:'system',synthetic:false,...extra});
 const insert=(f,owner,r)=>f.db.prepare('INSERT INTO v2_records(owner,family,id,rev,data,trashed_at,last_operation) VALUES(?,?,?,?,?,?,?)').bind(owner,r.family,r.id,r.rev,JSON.stringify(r),r.trashedAt,'TEST-ONLY-search-ranking').run();
 const get=async(c,path,params)=>{const result=await c.request(path+'?'+new URLSearchParams(params));assert.equal(result.status,200,JSON.stringify(result.data));return result.data;};
 
@@ -21,7 +21,7 @@ test('NC, ss, git and quoted git discover canonical entries before prose and rem
   const library=await get(c,'/api/library',{facet:'search',q:query,limit:'5'});assert.equal(library.items[0].reference.term,term);assert.equal(library.items[0].destination.rendition,article.rendition);assert.equal(library.items[0].destination.partId,term);assert.ok(library.items[0].matchEvidence);assert.equal(library.items[0].matchEvidence.kind,query==='NC'?'name-match':'exact-term');assert.ok(library.items.every(item=>!item.id.startsWith('a-noise')));
   const global=await get(c,'/api/query',{q:query,limit:'5'});assert.equal(global.conceptMatches[0].concept.term,term);assert.equal(global.conceptMatches[0].matchedTerm,term);assert.equal(global.conceptMatches[0].discovery,query==='NC'?'case-folded':'exact');assert.equal(global.libraryMatches[0].reference.term,term);assert.ok(global.records.every(record=>!record.id.startsWith('a-noise')));
  }
- const mcp=await c.request('/mcp',{jsonrpc:'2.0',id:'TEST-ONLY-ranking',method:'tools/call',params:{name:'query_minamo_library',arguments:{purpose:'TEST ONLY verify synthetic Library name lookup',facet:'search',query:'"git"',limit:5,includeSynthetic:true}}});assert.equal(mcp.status,200);const result=mcp.data.result.structuredContent??JSON.parse(mcp.data.result.content[0].text);assert.equal(result.items[0].reference.term,'git');assert.equal(result.items[0].destination.partId,'git');
+ const mcp=await c.request('/mcp',{jsonrpc:'2.0',id:'TEST-ONLY-ranking',method:'tools/call',params:{name:'query_minamo_library',arguments:{purpose:'TEST ONLY verify exact Library name lookup',facet:'search',query:'"git"',limit:5,includeSynthetic:true}}});assert.equal(mcp.status,200);const result=mcp.data.result.structuredContent??JSON.parse(mcp.data.result.content[0].text);assert.equal(result.items[0].reference.term,'git');assert.equal(result.items[0].destination.partId,'git');
  const isolated=await get(f.client('TEST-ONLY-foreign-ranking-owner'),'/api/library',{facet:'search',q:'git'});assert.deepEqual(isolated.items,[]);
  }finally{await f.dispose()}
 });
