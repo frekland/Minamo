@@ -4,9 +4,9 @@ import {createRequire} from 'node:module';
 import {readFileSync} from 'node:fs';
 
 const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
-const built=await wr('esbuild').build({stdin:{contents:"import React from 'react';import{renderToStaticMarkup}from'react-dom/server';import StudyApp from './app/study/study-app.tsx';export{studyHref,studyExactHref,WorkOrientation,WorkComparison}from'./app/study/study-app.tsx';export const render=props=>renderToStaticMarkup(React.createElement(StudyApp,props));export const renderPart=(Component,props)=>renderToStaticMarkup(React.createElement(Component,props));",resolveDir:process.cwd()},bundle:true,platform:'node',format:'cjs',write:false,loader:{'.css':'empty'},define:{'process.env.NODE_ENV':'"production"'},logLevel:'error'});
+const built=await wr('esbuild').build({stdin:{contents:"import React from 'react';import{renderToStaticMarkup}from'react-dom/server';import StudyApp from './app/study/study-app.tsx';import MeaningCapture from './app/study/meaning-capture.tsx';export {MeaningCapture};export{studyHref,studyExactHref,WorkOrientation,WorkComparison}from'./app/study/study-app.tsx';export const render=props=>renderToStaticMarkup(React.createElement(StudyApp,props));export const renderPart=(Component,props)=>renderToStaticMarkup(React.createElement(Component,props));",resolveDir:process.cwd()},bundle:true,platform:'node',format:'cjs',write:false,loader:{'.css':'empty'},define:{'process.env.NODE_ENV':'"production"'},logLevel:'error'});
 const mod={exports:{}};new Function('require','module','exports',built.outputFiles[0].text)(require,mod,mod.exports);
-const {render,renderPart,studyHref,studyExactHref,WorkOrientation,WorkComparison}=mod.exports;
+const {render,renderPart,studyHref,studyExactHref,WorkOrientation,WorkComparison,MeaningCapture}=mod.exports;
 const now='2026-11-02T10:00:00.000Z';
 const record=(family,id,title,body,extra={})=>({family,id,title,body,links:[],rev:1,rendition:'edition-'+id,actor:'user',synthetic:false,createdAt:now,updatedAt:now,trashedAt:null,...extra});
 const article=record('article','reading','Why saved writing changes', 'This is the full original introduction.',{sections:[{id:'why',title:'What happens',parts:[{id:'first',kind:'paragraph',text:'An actual paragraph of explanatory text about retaining a thought.'}]}]});
@@ -36,6 +36,20 @@ test('Study composes content-level engines without pulling in prior page shells'
  assert.match(source,/import Reader from '..\/reader'/);
  assert.match(source,/import NotesPanel from '..\/notes-panel'/);
  assert.match(source,/import \{StudyActivityTask\} from '..\/activity-studio'/);
+});
+
+test('Optional Site change is semantic meaning beside the saved Note, never a parallel prose editor or compulsory checkpoint',()=>{
+ const html=renderPart(MeaningCapture,{record:note,recentNotes:[note],scope:'fictional-owner-scope',generation:'legacy@0',canRecord:true});
+ assert.match(html,/Record a change/);
+ assert.match(html,/Your original Note or Attempt is already saved/);
+ assert.match(html,/What changed in your thinking/);
+ assert.match(html,/What question remains open/);
+ assert.match(html,/select the original words/);
+ assert.match(html,/Save this reviewed change/);
+ assert.doesNotMatch(html,/Complete Step|Progress percentage|New Note title|Import checkpoint|Open ChatGPT to save/);
+ const source=readFileSync('app/notes-panel.tsx','utf8');
+ assert.match(source,/inlineSavedNoteExtra\?\.\(saved/);
+ assert.match(source,/!draft\.dirty&&!draft\.paused&&!flight&&!composing/);
 });
 
 test('Reading is the actual original explanation, one title and a contextual Note action',()=>{
