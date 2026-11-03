@@ -23,13 +23,13 @@ The key loop:
 
 ## Non-negotiable learner-facing decisions
 
-- **Remove "Checkpoint" and "Saved Learning" as UI concepts.** They were terms for an informal user-requested GPT save, not product objects the learner should manage. Do not replace them with a differently named compulsory assessment/progress panel. Retain underlying historical records, revisions, receipts and recovery, and provide discreet History/undo only when useful.
+- **Remove "Checkpoint" and "Saved Learning" as UI concepts.** They were terms for an informal user-requested GPT save, not product objects the learner should manage. Do not replace them with a differently named compulsory assessment/progress panel. Retain underlying historical records, revisions, receipts and recovery, with prior-composition restoration handled through GPT/MCP on explicit request—not an in-app History/undo panel.
 - No mastery, achievement or completion judgments inferred from activity or phrased defensively in ordinary tutoring. Show actual work, uncertainties, problems, decisions and next possibilities in natural language where supported.
 - No default requirement to create a Stage, Question, Session, status or category before work can be saved. Guided Stages are a supported optional presentation.
-- No learner-facing backend/MCP terminology, provenance debug chatter, synthetic fixtures or duplicated record cards. Original evidence remains inspectable behind concise, useful content.
+- No learner-facing backend/MCP terminology, provenance debug chatter, synthetic fixtures or duplicated record cards. **Projects must render eligible learning content itself** (text, Notes, code/output, research/evidence, questions) inline where useful—not become a prettier list of links to disconnected records. Original evidence remains inspectable with exact sources.
 - Preserve freeform capture and normal reading/practice. GPT is the primary conversational Project-composition editor, not a barrier to using the Site.
 - Content, Project presentation and layout preference must not be conflated: changing a template must not rewrite original Notes, code, source editions or links. Learner-directed inline edits and Project renaming remain possible within fixed native layouts.
-- Stable blocks and explicitly **layout-locked** regions resist gratuitous reorganisation. These layout locks are distinct from Note-to-page pins. A routine update consolidates existing work; it does not append a new panel per chat or arbitrarily redesign the entire Project.
+- Stable block identities and prior direct learner edits resist gratuitous reorganisation. Any internal layout locks are GPT-managed and **not another visible pin/lock interface**; they are distinct from Note-to-page pins. A routine update consolidates existing work; it does not append a new panel per chat or arbitrarily redesign the entire Project.
 
 ## Remove GPT handoffs and page chrome (observed in restored V91)
 
@@ -41,24 +41,23 @@ A live read-only inspection of a Bandit Project Step found **Pin task**, **Conti
 - Remove legacy "Checkpoint", "Saved Learning" and achievement-management boilerplate **from the composed learner display**, including operational text embedded in old authored templates where appropriate. Do not silently erase or misrepresent canonical learner-written material; keep original source inspectable when relevant.
 - Don't compensate for removed toolbars with another row of tiny icons. A single quiet Note-pin action and a compact signal for already linked Notes are intentional exceptions.
 
-## Mobile Home and Projects — owner screenshot findings
+## Home and Projects overview — preserve for separate design
 
-The owner's 3 November mobile screenshots show two specific failures. On **Projects**, "New project", "Create a project with GPT" and "Independent questions" consume a large stacked action area before a dense list of text-only Project rows. On **Home**, an owner-visible synthetic fixture banner, "Recorded work" scan/unknown-state paragraphs and three large links to Practice, Library and Projects crowd out anything immediately useful. The source-aware caution is valuable internally; it should not read like backend diagnostics in a personal learning app.
+The owner's 3 November mobile screenshots exposed genuine clutter: a stack of creation/independent-question actions on the Projects directory, and a Home page dominated by a test fixture banner, empty Recorded-work scan language and duplicate navigation shortcuts. This is evidence for **later focused Home and Projects overview redesign**, not a mandate to invent their new structures inside this commission.
 
-The replacement must be deliberately quieter:
-
-- **Projects directory:** **no Site-side New Project button, creation wizard or GPT handoff action.** Project creation/initial organisation happens in ordinary GPT chat through MCP; the new Project simply appears in Minamo. An empty directory may offer one short, unobtrusive sentence explaining this, not a large CTA. Move unrelated "Independent questions" to relevant navigation, not the Projects header.
-- Project cards should lead with **name and optional small thumbnail** (plus at most one meaningful secondary cue if available). Avoid identical arrow-heavy strips, large decorative gaps, compulsory summaries or generated progress badges. Use a readable responsive list on mobile; allow richer grouping on wide screens without sacrificing scanability.
-- **Home:** show relevant owned Projects/Notes/favourites or a quiet empty state, not default test fixtures, a creation funnel or an empty "Recorded work" diagnostic. An empty section quietly collapses or offers a short normal-language invitation. Do not display saved-context completeness/provenance warnings as paragraphs. Practice, Library and Projects already have navigation; do not repeat them as three oversized buttons unless they genuinely serve a specific first-use state.
-- **Synthetic testing surfaces:** owner-visible fixtures, test status and scenario controllers belong behind an explicit testing/developer entry (for example in Tools), excluded by default from Home and the ordinary Projects directory. Keep test accessibility for explicit owner-requested scenarios without treating the owner as a default fixture. This is a presentation/filtering policy, not permission to delete fixtures or test records.
-- Verify the experience at approximately **360px mobile width** with a persistent Notes launcher and small-screen navigation. No sideways scroll, action stack or banner should displace actual content.
+**Scope boundary for PR #80:**
+- **Keep Home as a distinct page.** Do not merge Home into Projects, redirect the Home route, invent a new Home dashboard, replace it with a recent-work recommender or add another Notes link. The persistent Notes launcher already works across Minamo.
+- **Keep the Projects directory/overview as its own surface** for now. No comprehensive card/grid, sorting, favourites or Home-navigation redesign. Only adapt it where necessary to the new system: remove the now-obsolete in-app New Project/Create-with-GPT creation controls, reflect Project renames and optional small thumbnails, and keep accessible navigation.
+- Obvious low-risk hygiene (e.g. keeping synthetic test fixtures out of ordinary learner discovery, hiding backend scan/provenance paragraphs or stale handoff controls) may accompany the work **without creating replacement panels or new content strategies**. If it entails a broader information-architecture change, defer it.
+- Detailed purposes, content priorities, visual layout and navigation relationships for Home and Projects overview should receive **their own owner-directed design brief and commission later**. Project **content sections and their six templates** remain in scope for PR #80.
+- The one-click Notes dock is persistent globally; do not add a second entry to it on Home, the Projects directory or a new dashboard.
 
 ## Simple, direct editing within refined templates
 
 **GPT is the conversational creator, organiser and revision-restoration assistant; Minamo remains a direct content editor.** Fixed, validated layout templates determine polished presentation, but they are *not locked documents*. The owner can rename Projects, add an individual layout section and immediately put content in it, or edit existing content without returning to GPT for every typo. Broad reorganisation and retrieving/restoring earlier compositions happen through explicit GPT requests, not an on-site dashboard.
 
 - **Rename Project** directly in the Project page (and via an unobtrusive per-card menu in the directory), with immediate title update across cards, links and MCP reads. Also support conversational rename on explicit GPT request. Identity and deep links remain stable; title changes are revisioned and reversible.
-- Provide one quiet **Edit** action or contextual menu that reveals inline editors for applicable text, summaries, headings, code snippets, tables, captions and media blocks. In Edit mode, **Add section** opens a small chooser of the six native layout patterns; selecting one inserts that section *in the current Project*, ready to fill immediately. Optional minimal in-section move/hide controls are acceptable if genuinely useful. **No whole-Project layout switcher, compare-layout screen, version picker or generic page builder.** Keep normal View state clean: no permanent pencil icon on every block or a second toolbar at both ends.
+- Provide one quiet **Edit** action or contextual menu that reveals inline editors for applicable text, summaries, headings, code snippets, tables, captions and media blocks. In Edit mode, **Add section** opens a small chooser of the six native layout patterns; selecting one inserts that section *in the current Project*, ready to fill immediately. **Do not expose per-block move/hide/lock controls in the initial learner UI.** GPT handles structure and explicit “keep this here” instructions through MCP; changes made by the learner directly are protected automatically. No whole-Project layout switcher, compare-layout screen, version picker or generic page builder. Keep normal View state clean: no permanent pencil icon on every block or a second toolbar at both ends.
 - Editing a **GPT-composed editorial block** updates that block. Editing an existing canonical Note, Article or other source must follow its authentic source editor and revision rules; do not silently fork it into a stale Project copy. Clearly distinguish read-only referenced content from editable local composition. User edits and explicit layout locks take precedence over routine GPT rearrangement.
 - Make direct-edit save/cancel and conflicts understandable but unobtrusive; use current revisioned operations/receipts and preserve draft recovery. **Historical composition/source revision inspection and restoration are GPT/MCP operations on explicit request**, without a visible history/restore interface. No compulsory "Save learning", "Checkpoint" or achievement-management step.
 
@@ -97,7 +96,7 @@ Invest substantially in **six functional, responsive and composable layout patte
 | **Research** | Reading, sources, questions, evidence and comparisons | Exact source references, credibility/uncertainty, sources adjacent to interpretations |
 | **Guide** | Deliberate ordered instruction or optional Stages | Stable Stage IDs, optional branching/skip, no automatic mastery/completion |
 
-A Project can mix patterns within sections. **GPT normally chooses the composition; a learner may also insert one named layout section in Edit mode and fill it immediately.** Minamo owns typography, responsive layout, navigation, accessibility and interactions. Layouts must be meaningfully different, not cosmetic skins of the same record grid. GPT may reorganise sections on explicit request, preserving original content and direct user edits. **Keep composition revisions for MCP-supported recovery, not an on-site switch/compare/restore workflow.**
+A Project is an **ordered collection of sections**, each using one of the six rich native patterns. Each section can have its own internal slots, but the initial schema has **no recursive nesting of layout templates**. **GPT normally chooses the composition; a learner may also insert one named layout section in Edit mode and fill it immediately.** Minamo owns typography, responsive layout, navigation, accessibility and interactions. Layouts must be meaningfully different, not cosmetic skins of the same record grid. GPT may reorganise sections on explicit request, preserving original content and direct user edits. **Keep composition revisions for MCP-supported recovery, not an on-site switch/compare/restore workflow.**
 
 ### Initial content capability set — deliberately limited
 
@@ -114,13 +113,13 @@ These are shared primitives, not a mandate to build a new runtime for every subj
 
 ### Composition and presentation
 
-GPT provides a versioned, declarative **Project composition**: stable block IDs, types, content/reference data, named layout patterns/slots, order, emphasis, visibility and optional pinned state. Minamo validates against a capability registry and renders polished native components. GPT never supplies arbitrary HTML/CSS/JavaScript for execution on the server; any future executable learning runtime requires separate sandboxing and scoped authority.
+GPT provides a versioned, declarative **Project composition**: an ordered list of stable section IDs and named layout patterns/slots, stable content block IDs, content/reference data, order and emphasis. Keep internal preservation flags only where needed; no learner-facing layout-lock UI. Minamo validates against a capability registry and renders polished native components. GPT never supplies arbitrary HTML/CSS/JavaScript for execution on the server; any future executable learning runtime requires separate sandboxing and scoped authority.
 
 Original Notes, Articles, Activities, source anchors, code and history stay canonical. GPT-authored summaries may appear as attributed composition text linked to evidence, not as a false replacement for source records. A presentation template may be changed without mutating underlying learning content.
 
 ## Conversational behaviour and design advice
 
-**Normal update:** "Update Minamo with what we did." GPT reads the relevant Project, extracts significant reported/verified work, decisions, obstacles, open questions, source/code artifacts and possible next actions, then creates/revises the best layout/content within bounded authority. Missing categories are omitted; no fabricated progress. Summaries are edited/consolidated rather than stacked as duplicate learning events.
+**Normal update:** "Update Minamo with what we did." GPT reads the relevant Project, extracts significant reported/verified work, decisions, obstacles, open questions, source/code artifacts and possible next actions, then directly saves a bounded content/composition change with ordinary revision, permission and idempotency checks. No mandatory preview/approval ritual for routine changes; reserve preview and extra confirmation for major or destructive rearrangements. Missing categories are omitted; no fabricated progress. Summaries are edited/consolidated rather than stacked as duplicate learning events.
 
 **Explicit design-help request:** "How would you lay out this Project?" GPT can inspect Project content and available layouts, compare plausible alternatives, explain tradeoffs and offer a choice. Default is a natural conversation. An optional ChatGPT interactive choice UI may be used where the host supports it; MCP can return typed suggestions or request input, but cannot guarantee a particular host-rendered UI. Do not make a special form/copy-to-ChatGPT workflow mandatory.
 
@@ -136,7 +135,7 @@ Use genuine, varied conversations rather than a new large synthetic fixture prog
 4. **Other subject:** use language text or a plant-sensor investigation to prove the system is not a networking-specific template.
 5. **Return after a gap:** new GPT chat reads eligible saved context and understands the current Project, contradictions and unknowns; Site gives a useful view, not a stale first Step.
 6. **Owner editing and images:** rename a Project, insert a native layout section and type into it, edit composition text inline, adjust an image/crop and see a tasteful thumbnail in the mobile directory. GPT's next ordinary update preserves the direct edit and existing links. The site remains useful with no images.
-7. **Clutter regression:** at mobile width, the Home and Projects screenshots' creation controls, fixture banner, scan/provenance paragraphs and duplicate navigation cards are gone; no layout-switch or version-history chrome appears. Real content and the Notes dock remain accessible.
+7. **Clutter regression:** at mobile width, the Project content experience has no handoff/task-pin/management chrome, layout-switch or version-history UI. The Projects directory reflects GPT-created/renamed Projects and optional thumbnails without creation controls. Home and directory redesign remain separate; no duplicate Notes launcher is introduced.
 8. **Trust:** layout-locked sections survive routine updates, original records and exact editions survive composition changes, failed/duplicate operations do not half-save, and owner-private access is unchanged.
 
 Product acceptance is based on whether the Project gets **more useful** as learning happens, with little organisational work by the learner. Engineering integrity gates remain specific to the change. **Learner scenarios are opt-in and owner-customisable:** on request, run a specified sequence (for example five actions, a substantial planning chat, code review, or live JLPT N5 grammar tutoring); never initialise the owner as an automatic test fixture.
@@ -148,18 +147,19 @@ Product acceptance is based on whether the Project gets **more useful** as learn
 - No imposed GPT transcript capture/handoff UI, persistent AI persona memory, automatic per-turn write, or compulsory Stage hierarchy.
 - No resurrection of V92–V98 as the learner-facing product baseline or silent merge of draft #78/#79.
 - No long series of research/acceptance checkpoints before a runnable candidate: implement a coherent working slice and use it as a learner.
-- No in-app Project creation wizard, whole-Project template switcher, side-by-side layout comparison or previous-version restore screen. GPT/MCP supplies creation, restructuring and historical restoration; the Site supplies a small Add section choice when editing.
+- No in-app Project creation wizard, whole-Project template switcher, side-by-side layout comparison, previous-version restore screen, per-block lock/move panel or new Home/Projects landing-page architecture. GPT/MCP supplies creation, restructuring and historical restoration; the Site supplies a small Add section choice when editing.
 
 ## Owner-editable decisions before coding
 
-- Exact block/template registry and how section-level mixed layouts compose.
+- Exact block/template registry within a **flat ordered section model** (each template may have its own internal slots); no recursive cross-template nesting for the initial commission.
 - Whether composition metadata belongs in an existing revisioned Project sidecar or a small new versioned D1 representation; select only after a bounded source-level compatibility check.
-- Which layout choices and layout locks are device-local versus shared per Project. **Note-to-page pins are saved owner-visible relationships, not device-local chrome.**
+- Where server-scoped composition, direct-user-edit protection and GPT-managed internal layout preservation flags belong. They are **not new device-local layout preferences or visible lock controls**. **Note-to-page pins are saved owner-visible relationships**, not device-local chrome.
 - Minimum semantics for GPT-authored "what we did / problems / next" claims and attribution.
 - What changes require explicit confirmation versus the broad "Update Minamo" instruction.
 - Which specialised block, if any, earns inclusion in the initial six primitives.
 - Image role defaults (header crop, small thumbnail crop), whether a separately uploaded thumbnail is available immediately, and the clearest low-chrome Edit / Add section / Appearance menu. Keep the existing Project image upload path as the starting point.
 - Exact short MCP workflow for asking GPT to inspect a past composition revision and restore it, distinguishing layout from irreversible changes to canonical source data.
+- Risk threshold for optional preview/confirmation. Routine user-authorised additions/updates should apply in one validated write, without a compulsory preview tool call.
 
 These are design details to resolve within this draft PR, **not excuses to restart a months-long discovery programme**.
 
