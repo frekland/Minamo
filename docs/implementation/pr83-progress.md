@@ -34,3 +34,7 @@ Packaging instructions and source-inspected runtime details: `pr83-pygbag-packag
 ## Owner-requested pause
 
 Work is parked. **Read [the exact pause/resume record](pr83-pause-20261103.md) before continuing.** V101 was deployed for live verification; a drawing store-reset bug was found and a candidate fix is committed but not live-verified. **The owner explicitly directed that V101 remain live; no rollback was performed.** PR83 is not complete and must remain draft/unmerged.
+
+## V101 continuation (later on 3 November 2026)
+
+Authenticated Cloud Browser verification has continued on the retained synthetic Project. Confirmed real Python Stop/restart, visual Canvas and parameter changes, three persisted observation Notes, direct UI arrangement persistence, MCP hide/pin/restore/stale-CAS protections, image-backed flashcards uploaded on both faces and rendering after reload, and exact TEST inventory/continuation/cleanup preview. The live V101 tldraw reset was reproduced. **The unpublished correction has not been deployed**, and Pygbag remains unverified. See [detailed continuation and exact next actions](pr83-v101-continuation-20261103.md). Current filesystem workspace is read-only; native build/deployment requires a writable code workspace. PR stays draft and V101 stays live.
