@@ -205,3 +205,15 @@ These are **documented contracts**, not observations of working GitHub or Drive 
 The necessary next action is to obtain a Sites session in which the documented native eligibility function is actually exposed, then run it with this exact Site ID. There is no verified basis here to prescribe an account upgrade, workspace change, plugin reinstall or provider reconnection as the fix. If a future response is denied, report its stated reason; if it is allowed, use only its returned IDs/actions for the separately published read-only fixed-file Refresh experiment. Account/Site/provider eligibility, hosted visitor consent, runtime retrieval, revision metadata and genuine Refresh all remain **unverified**.
 
 A separate experimental Site URL is **not applicable: no Site was created**. Minamo V100 remains untouched. This report's conditional complexity judgments are not implementation approval.
+
+## 11. Reattempt from the Site-linked prompt — 3 November 2026
+
+The owner launched the full experiment again with an explicit Minamo Site reference after the connect-plugin question. This execution freshly read the Sites 1.1.3 integration guidance, current Site metadata and the existing PR #84 report before deciding whether a proof of concept could proceed.
+
+**Result unchanged:** the native registry exposes no eligibility tool, and the documented `tools.mcp__codex_apps__sites_list_plugin_eligibility` function is `undefined`. Selecting the Sites plugin and supplying the exact Site reference did not expose that function in this execution. This observation narrows the session limitation; it still does not establish account-plan ineligibility, workspace denial or provider incompatibility.
+
+The Site remains active with latest saved version V100, custom access policy revision 1 and `requires_byop: false`. The known V100 deployment `appgdep_6ae9503af8e8819184c1c5d01cd2e4ca` was re-read and reports `succeeded`. No production change was made. Draft PR #84 was still unmerged at `3b1e66fd3122fe34e1e68aad5df41087c48b3320` before this report-only recheck entry.
+
+The existing complete feasibility assessment and conditional GitHub/Drive analysis above stand. Exact eligible connector IDs, Site action schemas, hosted visitor authentication/consent and runtime Refresh remain unknown. No test Site, local preview or provider-data call was attempted, and no external provider content was written. PR #83 was untouched and PR #84 was not merged.
+
+**Stop condition reached again:** no-go for the hosted experiment until native eligibility discovery is actually available. Repeating this prompt or choosing a provider name alone has not resolved tool exposure; no upgrade, credential copying, declaration guessing or unsupported workaround is recommended.
