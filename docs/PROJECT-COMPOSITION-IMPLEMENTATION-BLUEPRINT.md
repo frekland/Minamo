@@ -67,7 +67,7 @@ Design choices:
 - Missing/denied record refs render an honest unavailable state; never silently substitute a different source edition or leak private metadata.
 - Content ref blocks should reuse canonical record IDs and exact editions; avoid content copies where an existing record is suitable.
 - GPT-composed prose is bounded, clearly distinguishable from evidence, and may be edited/corrected independently.
-- Stable block IDs, explicitly layout-locked regions and a minimal structural diff prevent the Project from chaotically rearranging each update. Note-to-page pins are a separate explicit relationship.
+- Stable block IDs, explicitly layout-locked regions and a minimal structural diff prevent the Project from chaotically rearranging each update. Direct learner edits are revisioned and respected by routine GPT compositions. Note-to-page pins are a separate explicit relationship.
 - Implementation may choose a validated Project metadata extension or a narrowly scoped D1 sidecar after inspecting actual record/command semantics. There is no pre-approved new status/Work table.
 
 ## Six layout implementations, not six superficial skins
@@ -84,6 +84,49 @@ Build a shared semantic component/layout renderer with responsive primitives (si
 | Guide | Optional stages/steps using stable IDs, links and source blocks | No forced completion, easy skip/branch and return |
 
 For every pattern: semantic headings, keyboard navigation, focus recovery, meaningful empty states, layout locks, predictable link destinations and no project-level backend/debug jargon. Use existing design tokens; avoid creating a second CSS system. No invented learning achievements.
+
+## Direct editing, Project directory and optional imagery
+
+The owner's mobile V91 screenshots establish concrete presentation problems that the composition renderer must **not** reproduce: the Projects directory begins with three stacked actions ("New project", "Create a project with GPT", "Independent questions") above nearly identical text-only rows. Home shows an owner-visible TEST ONLY fixture banner, empty "Recorded work" scan commentary, an empty Favourites explanation and three duplicated navigation cards (Practice, Library, Projects). Remove these *surfaces*, not just the words.
+
+### Minimal mobile Home / Projects contracts
+
+- Projects directory: one compact New Project action (blank creation available), with GPT conversational Project creation handled through MCP rather than a clipboard "Create with GPT" handoff. Unrelated independent questions live in relevant navigation, not the first action stack. Each Project appears as a concise title-first row/card, optional small thumbnail, readable truncation and no compulsory completion/status indicator. On larger screens layout can become a restrained grid if appropriate.
+- Home: genuinely useful recent/favourite Projects or Notes and a short starting affordance if needed. Empty Recorded work and Favourites sections collapse; no technical "source scan", "GPT last saw", unknown coverage or proof-of-completion disclaimers on the learner home page. No three large duplicate links to already-present primary navigation.
+- TEST ONLY fixtures and scenario-controller banners are **hidden from ordinary Home/Project discovery**, surfaced through an explicit opt-in developer/test view with exact isolation/ownership safeguards. Do not delete testing data just to remove a banner.
+- Persistent Notes remains accessible without obscuring content on narrow mobile widths; avoid header-height growth, multilevel action stacks, repeated management toolbars or full-width meta panels.
+
+### Low-chrome human editing is a first-class path
+
+The composition renderer is a set of **refined layout templates with editable content**, not a read-only GPT painting. A concise Project menu or single Edit affordance toggles a local editing state. Normal viewing has no per-block toolbars; Edit state exposes inline title/text/media editing and light block controls when relevant.
+
+Initial user-facing operations:
+
+1. Rename an existing Project from its page or directory menu, without changing its canonical ID or deep links. The list, page title and future MCP reads update consistently. Support the same rename from an explicitly authorised GPT/MCP update.
+2. Edit eligible GPT-composed text, heading, code/output annotation, question, table, caption and image placement **inside the chosen layout**; reorder/move/hide a block, switch a native template and restore a previous composition. No unconstrained HTML/CSS page builder or permanent inspector panel.
+3. When an embedded block points at an original Note/Article/Activity or source edition, do **not** edit a copied rendering. Show the original source and route any real content edit to the canonical editor with permissions, exact revision and conflict handling. Some externally sourced or immutable blocks are inherently read-only.
+4. Preserve explicit learner edits/locks against casual subsequent GPT "Update Minamo" compositions. A GPT request to replace a directly edited or locked block should make the change explicit rather than overwrite it in the background.
+5. Save via existing validated domain/CAS/receipt flow, show a short confirmation or specific conflict and provide practical undo/restore. Keep Notes autosave and draft recovery as-is; do not add an assessment/checkpoint step.
+
+The proposed `apply_project_update` should cover typed `renameProject`, `editBlockContent`, `moveBlock`, `setBlockVisibility`, `switchLayout` and media-placement operations through internal validators. Native UI edits and GPT/MCP edits must converge on the **same canonical revision rules**; don't create a second unsynchronised client-only Project editor. Only expose additional public tools if actual host ergonomics demand them.
+
+### Media roles and GPT-assisted creation
+
+Reuse the existing `app/project-cover.tsx` / `lib/project-cover.ts` and private staged asset flow as the donor. Existing cover upload accepts PNG/JPEG/WebP up to 8 MiB and has alt/decorative state. Its current "Create image with GPT" action is a **copy-prompt dialog**: retire that handoff in the new learner experience.
+
+Add optional native presentation roles, with **one image master able to serve more than one role**:
+
+- `hero`: compact Project header/cover image with responsive wide crop, focal position and unobscured title.
+- `thumbnail`: small Project directory image, square-ish crop and consistent visual footprint on mobile; default to a generated crop of the cover, permit separate asset override.
+- `content`: existing media block inside layouts with caption, meaningful alt text or decorative indication.
+
+Proposed first-pass capability metadata (refine visual geometry with real layout): `acceptedMime: image/png,image/jpeg,image/webp`, `maxBytes: 8 MiB` (reusing current validation), `preferredMaster: landscape at least ~1536×1024`, `heroCrop: wide ~2.2:1`, `thumbnailCrop: 1:1`, `safeArea: central subject; avoid important edge details`. Minamo must show actual responsive crop previews and allow focal-position adjustment. These are **generation/display guidance**, not grounds to reject all other valid image dimensions or create a second asset pipeline.
+
+Expose concise role specs through `get_layout_capabilities`, allowing a GPT chat with image-generation support to produce coherent artwork suited to the Site (typically no baked-in text, suitable contrast/visual balance, optionally style/palette matching the Project). For attaching an image, prefer validated file/asset handoff through an available authenticated MCP upload path if the host supports it; otherwise the already existing private upload is a clear one-action fallback. The MCP server itself cannot assume it can generate an image or retrieve arbitrary ChatGPT media bytes. Do not use public hotlinks or arbitrary generated HTML as a media shortcut.
+
+Model media placements as references to existing authorised assets plus role/crop/alt metadata. Choose whether this extends the existing Project cover property or the revisioned composition after a **bounded** compatibility inspection; never create two competing owner-image truths. Remove/replace assets visually without deleting the Project, its Note/source records or other referenced uses.
+
+**Visual bar:** a Project with no image must still look good. A thumbnail is modest, not a giant poster; the cover is optional, not a new header obstacle. An explicit Edit/Appearance menu is sufficient—no persistent button cluster on every card or image.
 
 ## Learner-surface reduction and Note pins (owner refinement, observed V91)
 
@@ -184,9 +227,9 @@ JSON above is not an already-implemented API. Specific schema, value/size limits
 
 ## Build plan — lean, deployable iterations
 
-**A. Functional composition foundation.** Resolve storage choice and typed schema with one bounded source inspection. Add composition read/preview/apply semantics and a shared renderer using the six initial content primitives. Make Dashboard and Notebook useful with *real* mixed content; do not add fake data families. Remove GPT handoff/task-pinning page chrome and integrate the Notes dock's deliberate multi-page pin operation in the foundation, rather than postponing them until after layout work.
+**A. Functional composition foundation.** Resolve storage choice and typed schema with one bounded source inspection. Add composition read/preview/apply semantics and a shared renderer using the six initial content primitives. Make Dashboard and Notebook useful with *real* mixed content; do not add fake data families. Remove GPT handoff/task-pinning page chrome, simplify mobile Home/Project directory, and integrate the Notes dock's deliberate multi-page pin operation in the foundation, rather than postponing them until after layout work.
 
-**B. Layout breadth.** Complete Workbench, Board, Research and Guide using the same shared blocks/slots. Support nesting/mixed sections, responsive behaviour, layout locking, layout comparison and restoration. Test the same Project across alternatives.
+**B. Layout breadth and editing.** Complete Workbench, Board, Research and Guide using the same shared blocks/slots. Support nesting/mixed sections, responsive behaviour, direct Project rename/inline block editing, layout locking, layout comparison and restoration. Add optional Project cover and small directory thumbnail with sensible cropping, reuse private media upload and provide published generation specs. Test the same Project across alternatives.
 
 **C. Natural GPT update.** Finish MCP capability discovery, bounded conversational content/structure update, optional design advice and a concise receipt. Try live ordinary conversations (including a freeform Project, code/terminal work, language or hardware content, and an interrupted return), revise ergonomics promptly.
 
@@ -206,13 +249,15 @@ A brief release receipt is enough: public/native pins, focused checks, deployed 
 
 ## Acceptance is product usefulness
 
-Initial success is a coherent Project page that evolves after several natural GPT chats without making the learner organise records. Verify in a **short targeted UI observation** that the handoff dialog, task-pin controls and redundant top/bottom chrome have disappeared, while meaningful reading and Notes remain reachable. Measure: unnecessary navigation, time to find current work/related evidence, unnecessary generated blocks, layout stability, correctness of unchanged originals, and ability to switch templates. At the owner's request, bespoke learner scenarios should be trivial to specify and run (e.g. five particular transitions, a long planning conversation, code review, or live JLPT N5 grammar chat), but no owner-as-test fixture or scripted scenario replay is automatic. For Note pins, a focused case is sufficient: pin the same Note on two different pages, read the associations in MCP, recompose a Project, unpin one and verify the Note and the other pin persist. Collect owner feedback early on the deployed candidate. Do not count schema pass or synthetic test count as proof of a better learning experience.
+Initial success is a coherent Project page that evolves after several natural GPT chats without making the learner organise records. Verify in a **short targeted UI observation** that the handoff dialog, task-pin controls and redundant top/bottom chrome have disappeared, while meaningful reading and Notes remain reachable. Measure: unnecessary navigation, time to find current work/related evidence, unnecessary generated blocks, layout stability, correctness of unchanged originals, ability to switch templates, simple user edits and a Project directory with optional thumbnails. At the owner's request, bespoke learner scenarios should be trivial to specify and run (e.g. five particular transitions, a long planning conversation, code review, or live JLPT N5 grammar chat), but no owner-as-test fixture or scripted scenario replay is automatic. For image/editing, test a rename from the Project directory, one inline edit that survives GPT recomposition, upload/replace/crop of a cover with a derived thumbnail, and a Project without any image. For Note pins, a focused case is sufficient: pin the same Note on two different pages, read the associations in MCP, recompose a Project, unpin one and verify the Note and the other pin persist. Collect owner feedback early on the deployed candidate. Do not count schema pass or synthetic test count as proof of a better learning experience.
 
 ## Open decisions for the draft PR
 
 - Presentation document storage and transaction integration.
 - Exact block registry and permitted nesting.
 - Initial layout defaults and when GPT may switch patterns automatically.
+- Exact single-menu Edit/View interaction, native source edit handoff, and how explicit learner edits survive later GPT recomposition.
+- Hero/thumbnail crop defaults and exact existing private asset role extension; do not add a custom image subsystem unless required.
 - Per-user/device versus shared composition and layout-lock state (explicit Note-page pins are persisted shared relationships).
 - How a user sees meaningful changes without a "Saved Learning" area.
 - Host optional rich recommendation UI versus always-conversational choice.
