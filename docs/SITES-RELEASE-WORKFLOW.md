@@ -1,20 +1,41 @@
-# Publishing the owner-private ChatGPT Site from public Minamo source
+# Minamo Sites publishing — focused, owner-authorised iterations
 
-**Workflow decision — 31 October 2026.** `frekland/Minamo` is the single active GitHub source, issue, PR and release-evidence home for shared Minamo application development, including work intended for the existing ChatGPT Site. The historical private GitHub engineering repository is a retained reference, **not a second mandatory implementation or promotion repository**.
+**Current owner release policy: 3 November 2026.** The existing owner-private ChatGPT Site is the release target. The user wants rapid, reversible Sites deployments with minimal unrelated checks. This policy replaces the previous **full-regression-before-functional-release** requirement in older documents, AGENTS guidance and draft PRs. It does not relax privacy, auth, rights, canonical write correctness, access policy or rollback.
 
-The existing Site still builds from its **separate native Sites Git repository**. A public GitHub commit is neither that native commit nor a deployment. The Site's audience, identity, D1/R2 storage, MCP bindings and runtime environment stay separate and private. Independent Cloudflare/Auth0 staging is another distinct release target; nothing in this procedure promotes to it.
+## Default: fast Sites gate, not a 30-minute suite
 
-## Direct public-to-native Sites release
+When the owner authorises a production update or candidate, use the smallest change-specific path:
 
-1. **Select the SITES target explicitly.** Identify the existing Site by an authorised, privately held project ID and read the current saved version, deployed native source SHA, access mode and environment/binding revisions. Inspect public `main`, open PRs and current source. Never create a replacement Site just to simplify the repository arrangement.
-2. **Develop and review in public.** Use a focused public issue/branch/PR. Keep real learner records, credentials, IDs, private endpoints, private assets and deployment configuration out of public Git. Run directly affected tests during draft development; run typecheck, production build, full regression and relevant browser/fixture checks on the exact approved public candidate before a functional release.
-3. **Classify a bounded source manifest.** Compare the affected public files against the current native Sites checkout, including exact content hashes. Apply only reviewed shared-code changes, plus clearly documented Site-specific adaptations. Never overwrite an unrelated, newer native change or blindly copy/delete either entire tree. Do not require an impossible full-tree SHA match between unrelated Git histories.
-4. **Retain protected native-only material.** The private `.openai/hosting.json`, source identity and allowed-origin configuration, access/secret bindings, owned brand assets and separately reviewed Site-only source remain native. Runtime values should be configured through the host when supported. Never infer permission to publish native-only files from their presence in a checkout.
-5. **Build and verify native source.** Apply the manifest to the current expected native HEAD, preserving its ancestry. Check every ported file's blob/digest against the approved public version or record an explicit adaptation. Test the resulting native source and report the exact native commit/tree, tested public SHA, file exceptions and any unrun checks.
-6. **Publish to the existing audience.** Push the new native commit to its configured Sites Git branch using short-lived scoped credentials, then save that exact native HEAD. Select the Sites deployment operation from the *actual access policy*: owner-only sites may use the owner-private operation, but an existing custom invitation list must use the standard saved-version deployment operation **without changing the access policy**. Verify success, unchanged audience and D1/R2/MCP configuration, and absence of unauthorised fixture or learner-data mutations. A GitHub merge alone does not publish.
-7. **Close the loop in public.** Record a sanitised release receipt with the public commit, selected file manifest/digests, native commit, user-facing Sites version, test matrix, observed smoke/MCP evidence, residual gaps and rollback target. Keep operational secrets, owner identities and sensitive logs private. Fix shared-source regressions in a new public PR; avoid untracked hotfixes that live only in native Git.
+1. **Select exact Site and source.** Confirm current production version and saved rollback; preserve the existing custom audience, auth, D1/R2/MCP bindings and private native-only files. Public GitHub is the shared code/PR source; Sites has a separate protected native Git source. Do not assume a GitHub merge publishes.
+2. **Prepare only the change.** Port reviewed changed shared files to the native Sites source, with a short changed-path manifest or equivalent focused comparison. Do not demand a whole-repository byte-parity audit or mass tree replacement. Check that native source identity is the intended one.
+3. **Check only what's relevant.**
+   - Docs-only: links and basic diff sanity; no build or Site release.
+   - UI/layout/copy: successful production build and a few focused smoke/assertions for touched paths. Typecheck if the edit could affect it. No full test suite, full Playwright matrix or extensive browser campaign.
+   - MCP/domain writes: build plus directly affected transaction/owner/CAS/idempotency tests. No unrelated fixture-corpus replays.
+   - Auth, database schema, recovery, privacy, external rights or destructive data change: inspect the exact risk and verify the affected safety invariants. Stop for unknown destructive effects or failed critical checks; separate owner authority may be required.
+4. **Deploy the exact saved Sites version** to the current authorised audience. For a previously saved version/rollback, deployment can use that immutable artifact directly without rerunning its build/tests.
+5. **Verify briefly:** Sites says succeeded; check unchanged audience/bindings/MCP and one relevant authenticated page or MCP operation where feasible. A private Site returning 401 to anonymous HTTP is expected, not failed publication. Keep a rollback version ready.
+6. **Report succinctly:** source/native pin, Site version, checks run/skipped, deployment outcome and known risks. Avoid lengthy release reports for a basic edit.
 
-The native repository is an **output/deployment surface**, not another place to independently develop shared features. The private historical GitHub repository can stay readable without accumulating new implementation PRs, routine release reports or mirrored source changes. A private operational note may still be needed for genuinely sensitive decisions; it must not become a parallel code authority.
+**Not mandatory for an owner-authorised, reversible candidate:** full pnpm test, broad browser/assistive sweep, nine-persona synthetic replay, C1–C9 matrices, independent handoff/review agents, CI completion, a 30-minute test wait, exhaustive source parity or a separate staging launch. Such testing can be commissioned for higher-stakes work, code review or genuine bugs, but must not silently become a publication blocker.
+
+A focused failing safety-critical check, unknown source identity, broken production build, unsafe migration or changed access/binding is a genuine blocker. A skipped *unrelated* full suite is not.
+
+## Scope and operational boundaries
+
+- An owner commission that expressly includes deployment authorises iterative saved-version publication within that scope. Do not deploy from a docs-only design request.
+- Reuse the existing Site, URL and custom invitation policy. Do not create a replacement Site or change sharing as a shortcut.
+- Preserve canonical learner history, immutable source editions, Note autosave/CAS, signed-in owner scoping, idempotent operation receipts, recovery and permitted-content rules. Do not wipe D1 for a UI rollback.
+- The public frekland/Minamo repo is the shared design/source authority. The native Sites Git repo contains protected hosting material and a distinct commit history; inspect and preserve Site-only differences on touched paths. Never publish secrets or learner data in public.
+- Do not assume independent Cloudflare staging equals the protected ChatGPT Site. No cross-target promotion unless explicitly commissioned.
+- GitHub Actions/tests are a development convenience, not a second Site publication authority. Production truth is the successfully deployed Sites saved-version ID and source pin.
+- If status is pending/publishing, check deployment status until terminal. Don't claim success from an initial accepted request.
+- For site UI interactions that need authentication, use a short authorised real-browser smoke when useful; avoid broad exploratory UX acceptance during a routine fix unless specifically asked.
+
+## Historical workflow notes — not current release gates
+
+Older V80/V81 parity and release receipts are preserved as useful provenance. Historical statements that a full suite was required before all functional Sites releases are **superseded by the focused policy above**.
+
 
 ## V80 baseline comparison (31 October 2026)
 
