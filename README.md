@@ -1,6 +1,6 @@
 # Minamo
 
-> **Current learner-experience direction (1 November 2026):** [Broadened product-design discovery and GPT/owner responsibility gates](docs/PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md). Before commissioning a Workbench, examine the whole learning cycle—capture, active thinking, experiment, practice, creation, return and user-controlled GPT—and compare genuinely different interactions with the existing product. Earlier Work/Questions/Evolution A/B directions remain historical research, not the chosen design. No product implementation or Site release is implied.
+> **CURRENT OWNER DIRECTION — 3 November 2026:** [Draft PR #80 — GPT-composed Projects and flexible layouts](https://github.com/frekland/Minamo/pull/80) is the next editable product-design/implementation brief. V91 is the live baseline. Draft PRs #78/#79 and issue #51 are closed as superseded; their work is historical evidence. Project layouts and MCP-driven conversational updates replace compulsory Stages and learner-facing Checkpoint/Saved Learning interfaces. **Read PR #80 before proposing new learner-facing work.** The [focused Sites release policy](docs/SITES-RELEASE-WORKFLOW.md) applies immediately: ordinary owner-authorised updates need only a successful build, directly relevant checks and a brief smoke; no blanket full-suite/30-minute test gate. The dated November 1 instructions below are historical where inconsistent.
 
 
 A personal workspace for learning that develops over time.
