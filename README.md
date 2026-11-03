@@ -1,7 +1,14 @@
 # Minamo
 
-> **Current learner-experience direction (1 November 2026):** [Broadened product-design discovery and GPT/owner responsibility gates](docs/PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md). Before commissioning a Workbench, examine the whole learning cycle—capture, active thinking, experiment, practice, creation, return and user-controlled GPT—and compare genuinely different interactions with the existing product. Earlier Work/Questions/Evolution A/B directions remain historical research, not the chosen design. No product implementation or Site release is implied.
+> **Forward development direction · 3 November 2026:** [GPT-composed Projects and flexible layouts](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md), with an [editable implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md) in a new draft PR. The owner has rejected the learner-facing contextual workspace (#78) and Work/Study/Find reset (#79) as product directions. They remain historical evidence and experimental code, not the next implementation. **V91 is the restored live baseline.**
+>
+> The new concept: natural GPT chats drive bounded user-requested Minamo updates; a versioned Project composition selects content and flexible layouts rendered by Minamo. Projects can start freeform; Stages are optional. Prioritise six thorough responsive templates and a small shared content block library. Remove learner-facing "Checkpoint"/"Saved Learning" concepts, while retaining canonical history.
+>
+> **Publishing:** the [3 November focused Sites policy](docs/SITES-RELEASE-WORKFLOW.md) permits rapid owner-authorised iterative releases after a build and directly relevant checks. No mandatory full suite or 30-minute browser/test campaign for routine changes. Draft design alone does not authorise deployment.
 
+---
+
+## Existing V91 application (historical implementation description)
 
 A personal workspace for learning that develops over time.
 
