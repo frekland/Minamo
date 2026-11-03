@@ -7,10 +7,10 @@
 Keep the newly useful, clean, fast V100 learner experience. Deepen it in three ways:
 
 1. **Compose what matters.** A Project can foreground, reorder, collapse, pin and hide material without becoming a complex page builder. GPT and the learner can adjust the same canonical Project through natural conversation and light direct editing.
-2. **Learn by doing.** Render a small, vetted family of meaningful interactive artefacts directly alongside explanatory Notes, sources, code and observations: image-backed flip flashcards, a drawing board, and working browser Python visualisations first. Explore packaged pygame-ce experiences and tldraw without committing to either as a universal engine.
+2. **Learn by doing.** Ship four genuinely usable, GPT/MCP-composable artefact renderers alongside explanatory Notes and sources: image-capable flip flashcards, a drawing board, Python-to-Canvas visualisations and reusable parameter explorers. Add bounded support for owner-provided packaged pygame-ce browser artefacts. **tldraw SDK setup is deferred entirely** to a later commission.
 3. **Test anything on demand.** The owner can ask GPT for a fictional Project and arbitrary dated learning history, choose the stopping point and depth of inspection, then return, extend, keep or explicitly delete it. Reuse Minamo's existing MCP observation, GPT transcript and canonical state-diff evidence when useful. Do not impose fixed fixture matrices, personas, epochs or A–K states on ordinary testing.
 
-The separate genuine simulation Project for the owner and Evie is **not** a disposable test. The existing **TEST — Simulation Playground (Six-Layout Walkthrough)** (ID: test-simulation-playground-layouts-20261103) is the exploratory gallery. Preserve it and both kinds of existing content.
+The separate genuine simulation Project for the owner and Evie is **not** a disposable test. The existing **TEST — Simulation Playground (Six-Layout Walkthrough)** (ID: test-simulation-playground-layouts-20261103) remains available for owner-directed experimentation. Preserve it and both kinds of existing content; **do not automatically populate or modify the gallery as part of this commission**. The commission builds the means for GPT to present an artefact in a Project when requested.
 
 The six V100 patterns — Dashboard, Notebook, Workbench, Board, Research and Guide — are useful **visual recipes**, not six exclusive learning stages or a claim to cover all domains. Prefer flexible composition plus suitable artefacts over multiplying rigid page templates.
 
@@ -54,18 +54,18 @@ Reuse the current validated composition and revision/CAS/operation-receipt machi
 
 ### Shared artefact contract (bounded, not an arbitrary-code plugin system)
 
-An interactive item is a typed, versioned Project reading artefact with its canonical authored definition, stable ID, a plain-text summary/fallback, accessible instructions, optional original assets, and optional learner-created output. It lives among normal Project sections and should be re-usable in Notes/Library only where rights and ownership permit. Preserve normal revision, export, rendering fallback, exact-read and recovery behavior.
+An interactive item is a typed Project reading artefact with its canonical authored definition, stable ID, a plain-text summary/fallback, accessible instructions, optional original assets, and optional learner-created output. Its definition/configuration belongs in existing canonical Project content where possible, **using the Project's existing revision, CAS, receipt, export and recovery model**; the artefact does not get a separate independent revision ledger. Learner-created drawings and saved observations should use an appropriate existing persistent Note/record or asset attachment. Only reuse in Notes/Library where rights and ownership permit.
 
 Start with explicit whitelisted renderers and strict schema validation, not model-authored HTML/JS or an enormous generic runtime. GPT creates/edits the declarative data through existing guarded Project operations. A separate **trusted code artefact** path may execute code only through a bounded sandbox, with conspicuous Run/Stop/Reset and an explicit owner choice. Generated material cannot call authenticated Minamo APIs or retrieve tokens.
 
 A renderer needs:
 - canonical text for quoting/search/accessible fallback; text-only export that stays intelligible;
 - permission-aware image/media references, alt text, source labels and image failure fallback;
-- stable IDs, version and per-artefact revision behavior; explicit saving, not false claims that a local animation has been persisted;
+- stable artefact IDs and schema versions **within V100's canonical Project revision**, with normal CAS/operation receipts; no new per-artefact history or parallel persistence subsystem; explicit saving, not false claims that local animation state has been persisted;
 - a compact mobile presentation and keyboard/touch support; no infinite reflow or uncontrolled focus capture;
 - a clear distinction among the **authored example**, **current in-browser state** and **saved learner observation**.
 
-### Concrete V1 examples to put in the TEST Project
+### Core V1 renderer capabilities (illustrative learning uses, not commissioned demonstrations)
 
 | Renderer | Interactive behaviour | Learning example and storage |
 | --- | --- | --- |
@@ -73,17 +73,17 @@ A renderer needs:
 | **Drawing / explanation board** | Pen/erase/shapes, move, undo/redo, clear, save/restore; attach an exported image and short explanation to a Note or Project. | Draw the predicted path before a run; annotate a historical map or a science diagram. Compare predicted vs observed drawing without marking either as objectively correct. |
 | **Python-to-Canvas lab** | Editable or read-only Python, explicit Run/Stop/Reset, output canvas, status/stdout/errors, two or three adjustable variables and a reproducible seed. | Animate balls bouncing or falling into targets. Show the link between a simple variable and the visual change, including an optional adult code view. |
 | **Parameter explorer** | Sliders/toggles for a trusted simulation or simple graph, immediate labelled feedback, reset and save observations. | Gravity/speed/bounce, harmonic motion or probability; a general physics/explanation artefact, not a game-engine rewrite. |
-| **Packaged pygame-ce demo (feasibility)** | Run a prebuilt, separately hosted browser bundle in a constrained embed with focus controls and restart. | Compare a tiny pygame-ce ball simulation to the Canvas lab. Distinct packaging route, not an import into the Pyodide worker. |
+| **Packaged pygame-ce artefact support** | Admit and reference an owner-supplied, already-packaged browser bundle; render it in an isolated embed with focus/restart and understandable failure states. | GPT can place a supplied pygame-ce artefact in a Project alongside code and observations. No demo game, general pygame-ce editor or package authoring is commissioned. |
 
-The owner specifically wants to see **all plausible first-level examples actually populated** in the named TEST gallery before committing to a universal design. The implementation commission should deliver working examples, not screenshots or empty placeholder panels. Use a small, meaningful range of subjects to challenge domain neutrality.
+**Implementation requirement:** all four core renderers must genuinely work and be creatable, updated and positioned through ordinary GPT/MCP Project operations, not merely through manually constructed React props. Verify them with small isolated technical test material and Site/browser checks; do **not** commission or seed a demonstrator Project/game/deck. The owner can subsequently ask GPT to populate the retained TEST Project or a real Project with any supported artefact.
 
 ### Practical runtime decisions
 
 **Pyodide:** already a dependency. First prototype in a Web Worker to keep long-running Python off the UI thread; output to Canvas through a narrow controlled message/drawing protocol or transferable canvas where viable. For genuinely untrusted authored code, a Worker by itself is **not** a security boundary: design a credential-free sandboxed iframe/origin, explicit resource/time/output limits, controlled package availability, restricted network access and kill/restart lifecycle. Investigate Site runtime CSP/bundling and mobile memory before broad enablement. Initially ship a curated example with a small supported Python drawing API; do not promise all Python packages or desktop GUI capabilities.
 
-**pygame-ce:** [Pygbag](https://pygame-web.github.io/wiki/pygbag/) packages pygame-ce for browser delivery using its own WebAssembly runtime. Treat a Pygbag-produced artefact as a separately built, versioned, isolated web package, not as arbitrary Python pasted into Pyodide. Prototype one known-good bundled demo and measure footprint/loading before considering an editor or general hosting flow.
+**pygame-ce:** [Pygbag](https://pygame-web.github.io/wiki/pygbag/) packages pygame-ce for browser delivery using its own WebAssembly runtime. Implement only the bounded infrastructure to accept/reference an owner-provided packaged artefact and display it safely in a Project (asset admission, versioned URL/reference, isolated embed, Run/Restart/error and permissions). Verify the adapter with minimal technical test material, not a commissioned game/demo. This is not an import into Pyodide, nor an obligation to build a pygame-ce editor, packaging service or simulation.
 
-**Drawing:** a lightweight bounded Canvas is enough to establish usefulness and persistence. [tldraw](https://tldraw.dev/) is an excellent optional spike because the dependency is present; verify its storage/export, keyboard/mobile ergonomics, integration isolation, and [production licence/key conditions](https://tldraw.dev/sdk-features/license-key) before shipping. A production commercial use licence is not implicitly granted by the installed npm package.
+**Drawing:** implement the agreed lightweight, bounded Canvas drawing board with saving, restoration and export. **Do not integrate, configure, compare or commission a tldraw SDK demo in this PR.** The dependency's presence is not authority to ship it; any later adoption needs its own SDK/licensing/storage review ([tldraw licensing](https://tldraw.dev/sdk-features/license-key)). Preserve a sensible future extension seam without building a speculative framework.
 
 **Flashcards:** build as native React UI, not embedded remote HTML. Images on both sides, genuine focus/reveal behaviour, readable alt text, optional audio/source later. Stored cards must survive a reload and be editable by GPT and by a learner.
 
@@ -93,7 +93,7 @@ The owner specifically wants to see **all plausible first-level examples actuall
 
 - No bespoke level-B physics/particle simulation platform, arbitrary game development framework or general-purpose unsafe HTML/JS executor.
 - No full Python package manager, server-side arbitrary Python execution or unrestricted browsing from code artefacts.
-- No mandatory tldraw adoption, pygame-ce editor, built-in grading engine or “mastery” score.
+- No tldraw SDK work in this commission, no commissioned pygame-ce demo/game/editor, no built-in grading engine or “mastery” score.
 - No new Project type hierarchy merely because artefacts differ across domains.
 
 ## 4. TEST runs: natural language, minimal machinery, evidence only as deep as needed
@@ -125,16 +125,19 @@ An implementation might use one tiny TEST run manifest (run ID, owner, created I
 
 **Old fixtures:** retain historical V88/V89 acceptance reports and tooling as archival/research material. Deprecation of rigid routine testing does not require wiping evidence or breaking an already working controller before a replacement exists.
 
-## 5. Implementation proposal — thin vertical slices, not one giant rebuild
+## 5. One integrated implementation and deployment — internal checkpoints
 
-| Slice | Deliverable | Focused acceptance |
+**Commission boundary:** implement the agreed capabilities together in one PR/release rather than requiring four separate owner approvals, implementation PRs or Sites deployments. The following are internal progress and verification checkpoints, not stage-gates or independent releases. Proceed autonomously between them, preserving a usable branch and meaningful progress commits so work can resume after interruption.
+
+| Internal checkpoint | Required delivery | Focused verification |
 | --- | --- | --- |
-| **A. Composition/navigation** | Section outline; hidden/collapsed/reordered blocks via unobtrusive direct controls and MCP; limited pin/favourite semantics. | Use existing TEST Project; reorder and hide then restore by UI and GPT, reload and compare canonical sections/Note/source revisions; narrow-screen and keyboard check. |
-| **B. Activity gallery** | Genuine image flip cards; basic persistent drawing board; curated Python Canvas experiment with clear Run/Stop/Reset and fallback. Populate named TEST Project. | Run, change one variable, stop/restart; flip image card; draw/save/reload; verify actual rendered UI, no silent lost drafts, export/recovery and accessibility. |
-| **C. Flexible TEST history** | Natural-language generated run label/inventory, arbitrary stop point, selective deeper tracing, keep/continue and previewed explicit cleanup. | Create a different-subject three-week history with Notes/annotations/edits; inspect at chosen stop; continue, keep through reload; preview exact deletion without affecting real content. |
-| **D. Optional artefact feasibility** | One prepackaged pygame-ce/Pygbag demo; short tldraw-vs-lightweight Canvas comparison, including licensing and mobile footprint. | Decide by actual Site execution and owner usefulness. No promise that either ships unless evidence justifies it. |
+| **0. V100 baseline and guidance** | Update AGENTS.md before writing application code: confirm merged PR #80, deployed V100 and the accepted source/behavior, PR #83 scope and current fast release policy. Reconcile public/native code deliberately; retain Note, auth and access safeguards. | Confirm release provenance, no accidental return of rejected V92/V98 UI. |
+| **1. Composition/navigation** | Unobtrusive section outline plus move/hide/show/collapse/pin/favourite with limited placement and natural GPT/MCP parity. | UI and GPT can reorder, hide and restore blocks while preserving canonical Note/source revisions; keyboard and narrow viewport. |
+| **2. All four core interactive renderers** | **Image flip flashcards, persistent drawing board, runnable Pyodide→Canvas, and reusable parameter explorer** (including controls that can drive a Python Canvas visualisation). The same validated Project content contract and existing revision/receipt machinery apply to each. | GPT/MCP create, update and arrange each artefact; direct view/interact, variable change, reset, save/read-back and error behavior; no unrelated Project or Note changes. No user-facing demo Project is required. |
+| **3. Packaged pygame-ce and flexible TEST runs** | Bounded owner-supplied Pygbag artefact admission/reference/isolated display, plus natural-language arbitrary TEST history, selected stop point, optional trace depth, keep/continue and previewed explicit cleanup. No tldraw SDK integration. | Minimal adapter smoke for a prepackaged artefact; create and inspect a scoped TEST history, retain it across reload, preview exact cleanup and verify synthetic isolation. |
+| **4. Integrated acceptance and one Sites deployment** | Typecheck, successful native production build, directly relevant safety/transaction checks and brief real browser verification of the combined GPT/MCP→saved Project→interactive rendering flow. Merge/deploy when ready under the fast Sites workflow. | Observe working interaction in the actual deployed Site, including a genuinely verified narrow-screen check or explicit limitation. Preserve all existing owner content, access policy, drafts and recovery. |
 
-Slices may be grouped in a release if safe, but each should leave Minamo usable. Reuse existing React/Reader and Project validation rather than constructing a separate application inside every section. Provide example content to judge with the owner and Evie before expanding the artefact catalogue. Large performance costs or unsupported runtime security require narrowing the slice, not accepting a hidden risk.
+There is **one integrated release** after the implementation is ready. Focused checks happen along the way; neither a default full-suite campaign nor the old nine-persona scenario gate is required. Keep a practical stop condition for genuinely failing critical safety/runtime checks rather than deploying a broken interactive renderer. The existing TEST Project may be used for expressly authorised checks, but must not be automatically reset, seeded with demonstrations or deleted.
 
 ### Baseline and verification guardrails
 
@@ -145,12 +148,12 @@ Slices may be grouped in a release if safe, but each should leave Minamo usable.
 - Include a real narrow viewport check with a verified method, or mark it genuinely unverified; do not treat a desktop screenshot as mobile evidence.
 - No release until an artefact shown as interactive **actually works** in the deployed Site.
 
-## 6. Decisions for the owner after seeing examples
+## 6. Optional future decisions (outside this commission)
 
-1. Which of these artefacts most improve a real learning session, versus creating novelty or visual clutter?
+1. Which artefacts become most useful in actual owner/Evie learning sessions once GPT can place them on demand?
 2. Should personal favourites and collapsed state follow an account across devices or remain view-local?
-3. Is the lightweight drawing board enough, or does tldraw's deeper editing justify licensing/footprint?
-4. Is pygame-ce a useful specialized import format, or do Python Canvas + native React controls cover the actual need?
-5. Do Projects benefit from another named pattern, or only more composable blocks?
+3. Whether to commission tldraw SDK setup/licensing, or keep the lightweight drawing board.
+4. Whether to add a pygame-ce authoring/packaging service later; embedding existing packages is sufficient for this commission.
+5. Whether Projects need another named pattern after the existing six become more composable.
 
-These are deliberately choices **after** working examples and a real TEST walkthrough. This draft PR authorizes no code changes, data deletion, test-run reset or deployment.
+This draft document is not itself an implementation authorization. Once separately commissioned, the feature set above is intended for **one integrated implementation/deployment**, with internal checkpoints only. Never automatically generate example Projects, delete TEST runs or touch the genuine owner/Evie Project.
