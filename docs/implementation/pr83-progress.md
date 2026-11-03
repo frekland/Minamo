@@ -30,3 +30,7 @@ Local preview returned a running URL but Cloud Browser could not connect. The ow
 Python uses one active isolated Worker per page, 20-second termination, bounded stdout and up to 120 frames/600 Canvas commands. Browsers do not enforce a strict memory quota. Pygbag accepts only the documented standalone profile (up to 128 embedded files / 16 MiB), with no ZIP/directory loader, sound facility or arbitrary remote resources; external runtime/package paths remain versioned dependencies. Evidence remains optional and partial; it is not a host-complete recorder. Evidence tables are not automatically included in portable product recovery; selected evidence can be exported into ordinary synthetic Notes/documents. Cleanup is atomic per chunk up to 100 records, never a globally atomic purge or R2 deletion; any outside record reference conservatively retains the run.
 
 Packaging instructions and source-inspected runtime details: `pr83-pygbag-packaging.md` and `pr83-pygbag-probe.md`. Actual execution must be verified live; source inspection alone is not evidence of a working runtime.
+
+## Owner-requested pause
+
+Work is parked. **Read [the exact pause/resume record](pr83-pause-20261103.md) before continuing.** V101 was deployed for live verification; a drawing store-reset bug was found and a candidate fix is committed but not live-verified. **The owner explicitly directed that V101 remain live; no rollback was performed.** PR83 is not complete and must remain draft/unmerged.
