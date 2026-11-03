@@ -1,3 +1,5 @@
+> **Owner release-policy override — 3 November 2026:** For owner-authorised iterative ChatGPT Sites deployments, [the focused Sites workflow](SITES-RELEASE-WORKFLOW.md) controls: build, directly relevant tests and brief Site smoke, with no mandatory full regression/browser/3×3 suite. The detailed acceptance/fixture/CI gates below are historical or apply only when those particular testing exercises are commissioned; they must not be imposed as universal production-build blockers. Auth/schema/recovery/rights changes still need focused safety verification.
+
 # Testing and evidence
 
 > **Product-design sequencing clarification — 1 November 2026:** [Broadened discovery D1–D3](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) may proceed without waiting for all nine independent GPT/MCP cold-context runs. This does **not** change any technical acceptance, isolation, CI, three-layer or hosted release gate. A later real Workbench implementation must be separately commissioned and verified.
