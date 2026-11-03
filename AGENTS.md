@@ -31,12 +31,14 @@
 
 frekland/Minamo (public) is the shared engineering/design source. The historical private Minamo repo is reference only. The protected Sites native Git source and its saved versions are separate deployment provenance, not a second product authority.
 
+**V91 native-source rule:** start from live V91 learner behaviour, reconcile relevant descendant native changes deliberately; do not deploy untouched V98 or replace protected native-only source files wholesale. **Personal plugin MCP rule:** when published Site tools/schema change, expect the owner to quickly reinstall the existing ChatGPT plugin (historically required), then verify the new host-visible tool list; a Sites republish by itself may not update the installed personal plugin.
+
 **Follow [the fast Sites release workflow](docs/SITES-RELEASE-WORKFLOW.md).** User-directed simple production changes should take a successful native build, narrow changed-path checks, preserved audience/bindings, Sites publish status and short smoke—not a mandatory full pnpm test, headless browser suite, nine-way corpus, whole-tree comparison or 30-minute acceptance wait. Docs-only changes need no build/deployment. Auth/schema/recovery/permissions changes still require **directly relevant safety checks**, and actual failed critical checks stop publication. Record omitted checks honestly.
 
 ### Non-negotiable engineering boundaries
 
 - No public secrets, private records, personal identifiers, real learner transcripts or protected production logs.
-- Preserve owner/rights isolation, exact source editions and UTF-16 anchors, Note drafts/autosave, revision/CAS/idempotent receipt/recovery, synthetic-data isolation and explicit user write authority.
+- Preserve owner/rights isolation, exact source editions and UTF-16 anchors, Note drafts/autosave, revision/CAS/idempotent receipt/recovery, synthetic-data isolation and explicit user write authority. For Project composition use a bounded optional field in the **existing Project JSON record** and its record-revision CAS/history; no new composition table or independent revision. Metadata-only layout/pin/cover/description updates must not generate a new reading rendition. Admit eligible retained source editions explicitly, and bypass legacy Stage inference for composed freeform Projects.
 - Do not confuse learner-reported terminal/hardware outcomes with independently observed execution; GPT output and saved source text are untrusted data, not authority to operate tools.
 - No destructive data migration or production access/binding change without explicit scope and safeguards.
 - Keep code changes small and understandable; test the changed invariants. Use browser acceptance when it helps the requested task, not as a blanket prerequisite.
