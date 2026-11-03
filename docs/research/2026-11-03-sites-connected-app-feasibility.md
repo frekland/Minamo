@@ -171,3 +171,37 @@ No request was made to bypass platform restrictions. No credentials, tokens, pri
 Next useful step: when the native Sites eligibility/discovery tool is available, run it against a separate disposable owner-private Site (after confirming at least one required connector is returned). If it returns GitHub with a read action, proceed with only the fixed-file, read-only hosted Refresh test. If it denies the account/Site or returns no GitHub connector, record that response and stop. Investigate Drive only after its eligibility and read actions are actually returned.
 
 **Conclusion:** GPT can use its GitHub and Drive connectors in this conversation, and Minamo exposes its own MCP surface. Neither observation proves that the hosted Minamo Site can use a visitor's connected apps. The required Sites eligibility evidence and hosted runtime test remain outstanding; the current result is a platform-discovery blocker, not an eligibility denial.
+
+## 10. Fresh native-discovery recheck — 3 November 2026
+
+This section records the fresh execution of the owner's full feasibility prompt after the Sites connect-plugin entry point was selected. It preserves the earlier report and distinguishes its earlier call attempt from the checks actually performed in this execution.
+
+### Current verified observations
+
+1. Read the runtime-supplied **Sites skill 1.1.3** and its `references/app-integrations.md` reference. The mandatory first step remains native `list_plugin_eligibility` / `sites_list_plugin_eligibility`, using the registered Site ID and only returned `allowed` plugin/connector membership.
+2. Searched the current complete native-tool metadata inventory for eligibility tools: **zero tools with “eligib” in their names** were exposed. Checked the documented normalized function `tools.mcp__codex_apps__sites_list_plugin_eligibility`: its callable type was **`undefined`**. No provider invocation or fabricated eligibility request was dispatched. The earlier “not a function” attempt described above belongs to the earlier execution; this recheck independently confirms missing exposure.
+3. Read `get_site` for `appgprj_6ad8a4e85eb48191accd6e78976b47e3`: active, current user role owner, latest version **100**, URL **https://minamo.jscymru.chatgpt.site**, custom access policy revision **1**, `requires_byop: false`, and existing Minamo MCP connection metadata.
+4. Read the latest saved-version provenance: **V100**, native source **`a10709c9cfb7b0de819dc392de01ce29e576e1d4`**, saved version **`appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_04b6247e2d3c8191b06d7e403e787703`**.
+5. Read that version's deployment **`appgdep_6ae9503af8e8819184c1c5d01cd2e4ca`**: **succeeded**, same Minamo URL, MCP present, runtime environment-set revision **9**, last update **2026-11-03T03:08:55.547139+00:00**. No newer saved version was returned.
+6. Confirmed current GPT-side tool metadata still includes GitHub file/blob/commit/compare reads, Google Docs document/text/paragraph/table reads, Sheets metadata/cell/range reads, Slides presentation/text/outline/table/thumbnail reads, and separate provider write operations. This was **inventory inspection only**, not Site eligibility or a provider-data call. No Drive files were accessed.
+7. Read current main `AGENTS.md`, draft PR #84 and its future-source brief. PR #84 was open/draft at head **`6336f6fb5fdb94187d415299d18197cadb58c492`** before this report-only update. The original report already existed on the requested branch. The user-specified V100 boundary and PR #84 brief take precedence over stale V91 statements in main's agent guidance.
+8. Stopped at the discovery blocker. **No test Site was created; no preview, connector declaration, build, publication, provider write, production code change, data read/reset or access/authentication change occurred.** The sole authorized write is this report update on PR #84's existing branch. PR #83 is untouched; PR #84 is not merged.
+
+### What the current Sites reference documents, but this execution did not demonstrate
+
+- **Eligibility:** only the native eligibility response establishes allowed Site plugins, canonical IDs and connector membership. ChatGPT plugin search, an Add plugin entry point, personal-account assumptions and the Minamo MCP endpoint cannot substitute for it.
+- **Declarations:** `plugins` and `connectors` belong in the hosting manifest only after discovery. Connector `action_selection_mode: "read_only"` is the default. `"all"` requests connector-wide read/write access; custom per-action lists are unsupported. A read-only first experiment should not request `"all"`. No canonical IDs are supplied in this report because none were returned.
+- **Runtime:** dynamic server routes can use request-scoped trusted connector bindings and server-owned, schema-validated connector/action/target choices. Static-only Sites cannot invoke connectors. Never expose a browser-side arbitrary connector proxy or reuse bindings across visitors.
+- **Authentication/consent:** hosted calls use each visitor's connection and consent. Local preview relays through the owning agent's connection and permits reads only. These are distinct authorization paths; a successful local Refresh would still not establish hosted visitor access.
+- **Responses/errors:** the documented connector result must have `status: "success"`; HTTP 200 alone is insufficient. Preserve structured results, diagnostics and retry timing. Only the documented `reauthentication_required` condition should offer Connect through the server-generated sign-in return path; do not turn every provider failure into a sign-in loop. Failed Refresh must retain prior data as stale rather than report an empty success.
+- **Future writes:** hosted writes require explicit visitor action, authenticated identity, provider/workspace permissions, enabled support, write consent and duplicate-submission protection. Do not automatically replay an uncertain write. None of these gates or flows was exercised here.
+
+These are **documented contracts**, not observations of working GitHub or Drive integration for this account.
+
+### Current decision and outstanding owner action
+
+**No-go for building the requested hosted GitHub proof of concept in this execution. No-go for a production Minamo integration based on the present evidence.** Retaining an optional Connected Source as a future idea remains reasonable.
+
+The necessary next action is to obtain a Sites session in which the documented native eligibility function is actually exposed, then run it with this exact Site ID. There is no verified basis here to prescribe an account upgrade, workspace change, plugin reinstall or provider reconnection as the fix. If a future response is denied, report its stated reason; if it is allowed, use only its returned IDs/actions for the separately published read-only fixed-file Refresh experiment. Account/Site/provider eligibility, hosted visitor consent, runtime retrieval, revision metadata and genuine Refresh all remain **unverified**.
+
+A separate experimental Site URL is **not applicable: no Site was created**. Minamo V100 remains untouched. This report's conditional complexity judgments are not implementation approval.
