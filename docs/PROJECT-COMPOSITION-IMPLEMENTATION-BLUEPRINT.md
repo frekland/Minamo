@@ -23,7 +23,7 @@ Existing preview/apply command, atomic authoring package and relationship suppor
 
 **Canonical learning content:** existing owner-scoped records, evidence, renditions, timestamps, Notes, Activities, sources and revision history. May be created/revised through existing validated domain operations.
 
-**Project composition:** a separate *versioned presentation document* describing how eligible content and short attributed editorial framing are arranged. It does not certify understanding or become the source of truth for original Notes.
+**Project composition:** a semantically separate but **physically embedded optional metadata field in the existing versioned Project JSON record** describing how eligible content and short attributed editorial framing are arranged. It does not certify understanding or become the source of truth for original Notes.
 
 Proposed contract sketch (to refine after bounded domain inspection):
 
@@ -31,7 +31,7 @@ Proposed contract sketch (to refine after bounded domain inspection):
 type ProjectComposition = {
   version: 1;
   project: {family: 'journey'; id: string};
-  compositionRev: number;
+  // Current Project record revision is the sole composition CAS/history identity.
   sections: ProjectSection[]; // ordered; no arbitrary nested layouts
   blocks: ProjectBlock[];
   preferredFocusId?: string;
@@ -54,7 +54,7 @@ type ProjectBlock = {
   kind: 'text'|'record-ref'|'code-output'|'table'|'media'|'question-task';
   title?: string;
   refs?: Array<{family: string; id: string; rev?: number; rendition?: string}>;
-  content?: unknown; // bounded kind-specific data, not arbitrary HTML
+  content?: unknown; // schematic only: implement strict per-kind schemas and byte limits, never an unvalidated arbitrary payload
   layoutLock?: 'position'|'content'|'both'; // not a Note-to-page pin
   hidden?: boolean;
   provenance?: 'learner-authored'|'gpt-interpretation'|'source-derived';
@@ -68,7 +68,7 @@ Design choices:
 - Content ref blocks should reuse canonical record IDs and exact editions; avoid content copies where an existing record is suitable.
 - GPT-composed prose is bounded, clearly distinguishable from evidence, and may be edited/corrected independently.
 - Stable block IDs, automatically preserved direct learner edits, internal GPT-managed layout locks when explicitly requested, and a minimal structural diff prevent chaotic rearrangement. **Do not expose layout-lock, move/hide or arrangement controls on every block.** Note-to-page pins are a separate explicit relationship.
-- Implementation may choose a validated Project metadata extension or a narrowly scoped D1 sidecar after inspecting actual record/command semantics. There is no pre-approved new status/Work table.
+- **Storage decision (native preflight):** optional validated `projectComposition` metadata on the existing Project JSON record using `v2_records`, `v2_revisions` and `v2_operations`; **one Project-record CAS**, no independent composition revision/head, D1 sidecar or new table. Preserve prior arrangements through ordinary Project record revisions. Implement unique stable section/block IDs, allowed pattern-specific slots, referential integrity and bounded count/byte limits before accepting MCP writes.
 
 ## Existing Projects → new sections, without a separate fallback UI
 
@@ -200,7 +200,7 @@ Suggested new commands, intentionally few:
 1. **get_project_composition** — exact current Project, composition revision, eligible linked material and bounded content/coverage, including layout locks, eligible Note-to-page associations and unsupported blocks. On an explicit restoration request, allow a bounded view of eligible earlier composition revisions and exact revision retrieval.
 2. **get_layout_capabilities** — versioned template registry, block capabilities, limits and rendering affordances; short enough for GPT to use without a huge tool schema.
 3. **preview_project_update** — **optional risk-based** read-only preview for large rearrangements, consequential replacement, ambiguous restorations or destructive operations. Validate proposed records/links, structural changes and permissions, and return a concise diff. **Do not require this call before every ordinary 'Update Minamo'.**
-4. **apply_project_update** — for ordinary authorised bounded updates, **validate and commit directly in one call**, with immutable operationId and applicable expectedProjectRev/expectedCompositionRev/source revisions; support typed create/update/explicit restore actions; write canonical content and composition together or not at all. A create operation allocates a new canonical Project ID and its initial composition atomically. A scoped restore operation targets an exact earlier composition revision. Return receipt, changed refs and Project URL.
+4. **apply_project_update** — for ordinary authorised bounded updates, **validate and commit directly in one call**, with immutable operationId and applicable expectedProjectRev plus revisions of changed canonical sources; support typed create/update/explicit restore actions; write canonical content and composition together or not at all. A create operation allocates a new canonical Project ID and its initial composition atomically. A scoped restore operation targets an exact earlier composition revision. Return receipt, changed refs and Project URL.
 
 A routine GPT update should be one visible request followed by one committed receipt; do not create a habitual preview-then-confirm interaction. For potentially destructive/meaning-changing operations, GPT uses the optional preview and obtains owner clarification. Avoid turning these into ten specialised public MCP tools. **A conversational “create a Project for this investigation” is first-class**, without requiring the learner to open the Site or create a blank shell first. An explicit “put this Project back how it was before the TCP reorganisation” should let GPT inspect bounded composition history, preview an exact structural restoration, ask if meaningful content changes would be involved, then commit the appropriate revision without rolling back unrelated canonical Notes. No on-site revision picker is needed. Implement internal validators per block, slot and operation. Rely on existing auth and record-admission boundaries. If a multi-record atomic transaction is not compatible with the current code, prove it in a **short source spike**, then adjust the contract before pretending the new surface is atomic.
 
@@ -220,7 +220,6 @@ A routine GPT update should be one visible request followed by one committed rec
 {
   "projectId": "networking",
   "expectedProjectRev": 12,
-  "expectedCompositionRev": 3,
   "operationId": "unique-retry-stable-id",
   "intent": "owner-requested-conversational-update",
   "contentChanges": [
@@ -233,11 +232,13 @@ A routine GPT update should be one visible request followed by one committed rec
   "compositionChanges": [
     {
       "op": "upsertBlock",
+      "sectionId": "tcp-investigation",
+      "slotId": "primary",
       "id": "tcp-failures",
       "kind": "question-task",
       "title": "Why do connections fail?"
     },
-    {"op": "focusBlock", "id": "tcp-failures"}
+    {"op": "focusSection", "sectionId": "tcp-investigation"}
   ]
 }
 ~~~
@@ -247,13 +248,21 @@ JSON above is not an already-implemented API. Specific schema, value/size limits
 ## Required safeguards, implemented narrowly
 
 - Same signed-in principal and rights-check path as ordinary Notes/MCP. No new sharing, external content import or unauthorised source extraction.
-- CAS against both Project and composition state, conflict reporting, immutable receipts, idempotent retry and reversible prior layout.
+- CAS against the **existing Project record revision**, including its embedded composition, with conflict reporting, immutable receipts, idempotent retry and reversible prior arrangement. Check revisions of other canonical records only when changed. No second independent composition CAS/head.
 - Atomic cross-record writes or explicit stop-and-revise if not feasible; no partial Project visible as a successful update.
 - Old Journey/Step/deep links and saved Notes continue to open. Stages retain stable IDs when merely reordered; hide/archive view state rather than deleting linked evidence.
 - Keep original section/rendition anchors and user text, even when GPT changes presentation.
 - Prompt injection in Notes/source material must not become authority for MCP writes.
 - Disallow arbitrary generated HTML, script, server execution or source-rights bypass. Future code execution belongs in a separate controlled runtime.
 - No fabricated achieved/completed/verified status from chat descriptions. No learner-facing "Checkpoint", "Saved Learning" or backend/provenance chatter.
+
+### Native preflight clarifications — binding for implementation
+
+- **Retained sources and old links:** exact retained source renditions/UTF-16 passage coordinates require a dedicated admitted-reference validation path against the current owner's rights. The existing `admittedLinks` path does not accept all retained non-current editions. Never relax checks globally or silently retarget a reference to latest. Keep Stage/section/part links and original source IDs stable.
+- **No accidental Stages:** new Projects with `projectComposition` render the declared native patterns directly; bypass `journeyStages`' legacy fallback that treats every canonical section as a Stage. Only uncomposed existing Projects use a deterministic read adapter that includes introduction, unassigned content and stable Stage Guide references, with no database write on read.
+- **Metadata-only rendition semantics:** updates to composition, Note pins, short description or Project cover preserve the existing reading rendition when reading content is unchanged. Project record revisions still advance for CAS/history; do not duplicate rendered editions or learning-event cards. Prior composition restore uses an earlier **Project record revision** against today's Project CAS, preserving present canonical source versions and rights.
+- **Native source baseline:** production **V91** (`b649c630a6302433c466e251aed1885dc5dc00c6`) is the accepted behaviour; native remote saved/HEAD **V98** (`82b35b70d3dc4117c7b22d8a68788f1967944455`) is retained experiment history, **not** an acceptable untouched deployment. Build a deliberate native descendant that restores/retains V91 learner surfaces while reconciling only relevant new paths. Preserve native-only exact selection/rendition, Notes autosave/dock recovery, auth, origins and rights on touched files; never replace whole native modules blindly with older public copies or reactivate rejected contextual/Study routes.
+- **Owner plugin refresh:** adding or changing tools in this owner's personal ChatGPT plugin has historically required a **quick reinstall**. After publishing the first new MCP capability/schema, ask the owner to reinstall/refresh the existing plugin and then confirm the host-visible tool catalogue and read-only capability response before new-tool acceptance. Do not create a second plugin; do not make reinstall a prerequisite for server implementation. This owner-observed workflow supersedes the more optimistic plugin-refresh assumption in the native preflight report.
 
 ## Build plan — lean, deployable iterations
 
@@ -279,11 +288,11 @@ A brief release receipt is enough: public/native pins, focused checks, deployed 
 
 ## Acceptance is product usefulness
 
-Initial success is a coherent **end-to-end GPT-created and GPT-updated** Project page showing real learning content inline, not generic record/link cards. The Projects overview must then show title, editable purpose description, optional thumbnail and accessible Cards/List/category navigation without adding a management interface; Library must become easier to enter and read without a new content system. Verify in a **short targeted UI observation** that the handoff dialog, task-pin controls and redundant top/bottom chrome have disappeared, while meaningful reading and Notes remain reachable. Measure: unnecessary navigation, time to find current work/related evidence, unnecessary generated blocks, layout stability, correctness of unchanged originals, ability to add/fill a layout section without a wizard, simple user edits and a Project directory reflecting title/thumbnail changes; no Home/Projects landing redesign. At the owner's request, bespoke learner scenarios should be trivial to specify and run (e.g. five particular transitions, a long planning conversation, code review, or live JLPT N5 grammar chat), but no owner-as-test fixture or scripted scenario replay is automatic. For image/editing, test a rename from the Project overview, a Stage/description Project adapted into the same renderer, a direct edit preserved on a routine GPT update but revisable on explicit request, upload/replace/crop of a cover with a derived thumbnail, and a Project without an image. For Board, confirm grouped presentation without drag controls. Short browser observation should confirm reduced Library/Article chrome and usable Notes dock space; do not launch a Practice/Activity testing programme by default. For Note pins, a focused case is sufficient: pin the same Note on two different pages, read the associations in MCP, recompose a Project, unpin one and verify the Note and the other pin persist. Collect owner feedback early on the deployed candidate. Do not count schema pass or synthetic test count as proof of a better learning experience.
+Initial success is a coherent **end-to-end GPT-created and GPT-updated** Project page showing real learning content inline, not generic record/link cards. The Projects overview must then show title, editable purpose description, optional thumbnail and accessible Cards/List/category navigation without adding a management interface; Library must become easier to enter and read without a new content system. Verify in a **short targeted UI observation** that the handoff dialog, task-pin controls and redundant top/bottom chrome have disappeared, while meaningful reading and Notes remain reachable. Measure: unnecessary navigation, time to find current work/related evidence, unnecessary generated blocks, layout stability, correctness of unchanged originals, ability to add/fill a layout section without a wizard, simple user edits and a Project directory reflecting title/thumbnail changes; no Home/Projects landing redesign. At the owner's request, bespoke learner scenarios should be trivial to specify and run (e.g. five particular transitions, a long planning conversation, code review, or live JLPT N5 grammar chat), but no owner-as-test fixture or scripted scenario replay is automatic. For image/editing, test a rename from the Project page, a Stage/description Project adapted into the same renderer, a direct edit preserved on a routine GPT update but revisable on explicit request, upload/replace/crop of a cover with a derived thumbnail, and a Project without an image. For Board, confirm grouped presentation without drag controls. Short browser observation should confirm reduced Library/Article chrome and usable Notes dock space; do not launch a Practice/Activity testing programme by default. For Note pins, a focused case is sufficient: pin the same Note on two different pages, read the associations in MCP, recompose a Project, unpin one and verify the Note and the other pin persist. Collect owner feedback early on the deployed candidate. Do not count schema pass or synthetic test count as proof of a better learning experience.
 
 ## Open decisions for the draft PR
 
-- Presentation document storage and transaction integration.
+- Use the settled optional Project JSON metadata storage and existing record revision; choose a minimal native atomic write implementation (including linked content, asset attachment and receipt) under existing owner/rights guards. No new table or independent composition head.
 - Exact block registry and each template's internal slots within the **flat ordered section model**; nested template trees are deferred.
 - Initial layout defaults and how GPT chooses/inserts/rearranges sections in an explicitly requested update, without an on-site whole-Project layout switcher.
 - Exact single-menu Edit/View interaction, compact Add section pattern chooser, native source edit handoff, and how explicit learner edits survive later GPT recomposition.
