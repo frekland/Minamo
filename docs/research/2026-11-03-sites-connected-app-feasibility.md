@@ -3,7 +3,7 @@
 **Date:** 3 November 2026  
 **Repository / report target:** `frekland/Minamo`, draft PR #84  
 **Branch:** `docs/future-connected-sources-and-library-exploration-20261103`  
-**Scope:** Read-only feasibility investigation. No Site, repository source, production data, or Drive content was changed.
+**Scope:** Read-only feasibility investigation. No Site, production data, or external provider content was changed; this report is the only repository change.
 
 ## Executive finding
 
