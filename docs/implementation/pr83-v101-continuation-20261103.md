@@ -31,7 +31,7 @@ All observations below came from authenticated real Cloud Browser interaction wi
 - Project `test-pr83-release-20261103`: rev **9**, six sections, Flashcards after Drawing, Flashcards default-collapsed/favourited, no temporary hide or pin/compact override.
 - Observation Note `test-pr83-observations-20261103`: rev **4**, three saved runs; preserve it.
 - Drawing Note `test-pr83-drawing-state-20261103`: rev **1** as last verified; no canvas save.
-- These exact records and their existing histories remain retained. No synthetic cleanup and no modifications to retained playground or genuine learner Projects.
+- These exact records and their existing histories remain retained. No synthetic cleanup and no modifications to retained playground or genuine learner Projects.\n- Final refreshed `manage_minamo_test_run inventory` and `preview-cleanup` after all writes: watermark **9683**, exactly Project rev **9**, drawing Note rev **1** and observations Note rev **4**; zero excluded, zero remaining outside one prospective chunk, **no cleanup performed**. The prior preview digest is stale; generate a fresh one for any future owner-authorised cleanup.
 
 ## Unverified/blocked release work
 
@@ -43,7 +43,7 @@ All observations below came from authenticated real Cloud Browser interaction wi
 - Narrow viewport/mobile interaction, drawing Note conflict/draft recovery, Pygbag resource/CSP success, final native build and source identity are not verified.
 - The prior agent reported **11/11 focused tests and native typecheck/build passed** for the *older integrated V101 source*. This continuation did **not** rerun tests/typecheck/build and does not attribute those checks to the unpublished drawing fix.
 
-## Exact next actions
+## Final status check\n\nAt the end of this continuation, `sites_get_site` still reported **V101**, active, custom audience revision **1**, current live URL unchanged. PR #83 was still **draft/unmerged**, branch HEAD at this documentation update, and the critical drawing correction was not published. No Sites version greater than 101 was saved or deployed.\n\n## Exact next actions
 
 1. Obtain writable native workspace, compare touched drawing file with native V101 and public PR83 HEAD, copy only the candidate correction without replacing native-only content.
 2. Run focused drawing/interactive tests, `typecheck`, production build. Commit native source; save/deploy new version to unchanged custom audience, record native SHA and deployment ID/status.
