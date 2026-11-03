@@ -126,10 +126,10 @@ export default function NotesPanel({onManageNotes,records,currentRecord,currentR
  async function pinNote(target:ProjectRef,pinned:boolean){
   if(!selected||pinBusy)return;const clickedId=selected,clickedScope=scopeRef.current,capturedTarget=structuredClone(target);setPinBusy(true);
   try{
-   await send(clickedId,true);if(scopeRef.current!==clickedScope)return;
+   if(!pinFlight.current)await send(clickedId,true);if(scopeRef.current!==clickedScope)return;
    const id=ref.current.drafts[clickedId]?clickedId:Object.keys(aliases.current).find(id=>aliases.current[id]===clickedId&&ref.current.drafts[id]?.baseRev);
    if(!id)throw Error('Save this Note before pinning.');const local=ref.current.drafts[id];
-   if(!local?.baseRev||local.dirty||local.paused||ref.current.flights[id]||running.current.has(id))throw Error('Let this Note finish saving before pinning.');
+   if(!local?.baseRev||!pinFlight.current&&(local.dirty||local.paused||ref.current.flights[id]||running.current.has(id)))throw Error('Let this Note finish saving before pinning.');
    const current=await exactNote(id);if(scopeRef.current!==clickedScope)return;
    if(!pinFlight.current&&current.rev!==local.baseRev)throw Error('This Note changed elsewhere. Reopen it before pinning.');
    running.current.add(id);
@@ -137,7 +137,7 @@ export default function NotesPanel({onManageNotes,records,currentRecord,currentR
     const response=await generationFetch(draftScope,'/api/notes/pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(request)}),value=await response.json() as any;
     if(!response.ok||value.status!=='committed'){if(response.status>=400&&response.status<500)pinFlight.current=null;throw Error(value.error??'Note pin was not confirmed. Retry the same action.');}
     const refreshed=await exactNote(id);if(scopeRef.current!==clickedScope)return;
-    change(old=>{const d=old.drafts[id];return d&&d.baseRev===request.expectedNoteRev?{...old,drafts:{...old.drafts,[id]:{...d,baseRev:refreshed.rev,message:pinned?'Pinned to page.':'Page pin removed.'}}}:old;});pinFlight.current=null;
+    change(old=>{const d=old.drafts[id];return d&&d.baseRev===request.expectedNoteRev?{...old,drafts:{...old.drafts,[id]:{...d,baseRev:request.expectedNoteRev+1,...(refreshed.rev!==request.expectedNoteRev+1?{paused:true,dirty:true,message:'The pin saved, then this Note changed elsewhere. Compare before writing.'}:{message:pinned?'Pinned to page.':'Page pin removed.'})}}}:old;});pinFlight.current=null;
    }finally{running.current.delete(id);setRecoveryTick(n=>n+1);}
   }catch(e){if(scopeRef.current===clickedScope)setMessage(ref.current.selected??clickedId,(e as Error).message);}finally{setPinBusy(false);}
  }

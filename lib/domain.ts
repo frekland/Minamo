@@ -421,10 +421,10 @@ async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor
  const now=new Date().toISOString();const record:WorkspaceRecord={id:c.id!,family:c.family!,title:'',body:'',links:[],synthetic:false,...existing,...data,rev:existing?existing.rev+1:1,createdAt:existing?.createdAt??now,updatedAt:now,trashedAt:c.action==='trash'?now:c.action==='restore'?null:existing?.trashedAt??null,actor};
  if(record.projectComposition){
   try{record.projectComposition=validateComposition(record.projectComposition,record);}catch(e){fail(400,'invalid_composition',(e as Error).message);}
-  const prior=existing?.projectComposition, next=record.projectComposition;
+  const prior=existing?adaptedComposition(existing):undefined, next=record.projectComposition;
   if(prior){const protectedIds=[...new Set([...(prior.protectedIds??[]),...prior.blocks.filter(b=>b.layoutLock).map(b=>b.id)])];
    for(const key of protectedIds){const before=protectedSnapshot(existing!,prior,key),after=protectedSnapshot(record,next,key);if(actor==='gpt'&&!options?.overrideIds?.includes(key)&&stable(before)!==stable(after))fail(409,'learner_edit_preserved','This update would replace or move directly edited content: '+key);}
-   next.protectedIds=[...new Set([...(prior.protectedIds??[]),...(actor==='user'?['title','description','body',...next.blocks.filter(b=>stable(protectedSnapshot(existing!,prior,b.id))!==stable(protectedSnapshot(record,next,b.id))).map(b=>b.id)]:[])])];
+   next.protectedIds=[...new Set([...(prior.protectedIds??[]),...(actor==='user'?[...(['title','description','body'].filter(key=>stable(protectedSnapshot(existing!,prior,key))!==stable(protectedSnapshot(record,next,key)))),...next.blocks.filter(b=>stable(protectedSnapshot(existing!,prior,b.id))!==stable(protectedSnapshot(record,next,b.id))).map(b=>b.id)]:[])])];
   }else if(actor==='user')next.protectedIds=['title','description','body',...next.blocks.map(b=>b.id)];
  }
  // Admit exact retained editions through projected reads and guard the current head in the batch.
