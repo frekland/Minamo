@@ -1,3 +1,5 @@
+> **Current owner Sites release policy — 3 November 2026:** [Focused, rapid Sites publishing](SITES-RELEASE-WORKFLOW.md) replaces earlier default whole-suite or exhaustive parity requirements for routine, authorised Site updates. Preserve exact changed-file/native source identity, private configuration and audience, focused safety checks, saved version and rollback. No broad test wait is automatically required.
+
 # Deployment and hosting boundaries
 
 This source was developed for **ChatGPT Sites**, with Vinext on Cloudflare Workers, Sites-authenticated user headers, an MCP route, D1 storage and R2 assets. A fresh checkout is not automatically an independent, secure hosted Minamo instance.
