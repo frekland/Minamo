@@ -14,9 +14,11 @@
 - A Project may begin freeform. **Stages are optional**, not a compulsory Project→Stage→Question hierarchy. Start with a strong layout/template system: Dashboard, Notebook, Workbench, Board, Research and Guide. Only a modest shared block set initially; add specialist capabilities when use proves useful.
 - GPT provides typed content/structure through MCP. Minamo validates, persists and renders native responsive components; no model-generated executable HTML/script or parallel AI UI backend.
 - **Eliminate "Checkpoint" and "Saved Learning" as app interfaces.** Keep historical records/revisions/receipts and discreet recoverability, not another assessment/progress dashboard. Do not infer mastery, achievement or completion from conversation.
-- Ordinary updates are user-requested, not automatic writes on every chat turn. GPT chooses appropriate summarisation, focus and arrangement, keeps stable/pinned sections, preserves original Note/source facts, and returns a short receipt.
+- Ordinary updates are user-requested, not automatic writes on every chat turn. GPT chooses appropriate summarisation, focus and arrangement, respects explicit Project **layout locks**, preserves original Note/source facts, and returns a short receipt.
+- **Remove learner-facing GPT handoff/copy-request tools, “Pin task” and task-continuation chrome**, including redundant top/bottom context/status panels across Projects, Steps, readers, Activities and Notes. Native conversation + MCP provide continuation. Preserve deep-link/source read semantics without visible handoff bureaucracy.
+- **Keep the persistent Notes dock and add an explicit pin icon that attaches an existing Note to the current page** (repeatable across many pages). Pin/unpin associations are independent, server-saved, and readable by GPT via MCP. These Note pins are **not** task pins or Project layout locks.
 - When explicitly asked for design advice, GPT may suggest layouts conversationally or with optional ChatGPT interactive controls if available. Do not require or assume host UI capability to force an interactive form.
-- User usefulness is the release's product objective. Never claim that technical tests prove a good learner experience.
+- User usefulness is the release's product objective. Never claim that technical tests prove a good learner experience. Hosted learner scenarios are **opt-in**, defined in natural language for the owner's requested activity (multi-step task, planning conversation, code review, language tutoring, etc.), not a default regression gate or automatic owner fixture.
 
 ### Repository and publishing
 
