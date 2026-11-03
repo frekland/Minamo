@@ -29,7 +29,30 @@ The key loop:
 - No learner-facing backend/MCP terminology, provenance debug chatter, synthetic fixtures or duplicated record cards. Original evidence remains inspectable behind concise, useful content.
 - Preserve freeform capture and normal reading/practice. GPT is the primary conversational Project-composition editor, not a barrier to using the Site.
 - Content, Project presentation and layout preference must not be conflated: changing a template must not rewrite original Notes, code, source editions or links.
-- Stable blocks and learner-pinned/locked regions resist gratuitous reorganisation. A routine update consolidates existing work; it does not append a new panel per chat or arbitrarily redesign the entire Project.
+- Stable blocks and explicitly **layout-locked** regions resist gratuitous reorganisation. These layout locks are distinct from Note-to-page pins. A routine update consolidates existing work; it does not append a new panel per chat or arbitrarily redesign the entire Project.
+
+## Remove GPT handoffs and page chrome (observed in restored V91)
+
+A live read-only inspection of a Bandit Project Step found **Pin task**, **Continue with GPT** (a large generated copy/paste request, GPT scope selector and ChatGPT link), **Manage this record and saved learning**, **Related context**, and a generic **Recent work** panel competing with the teaching material. The same design tendency affects the top/bottom of other reading and work pages. These are real V91 UI affordances, not requirements to carry into the new composition.
+
+- **Retire the learner-facing GPT handoff workflow outright.** No "Continue with GPT"/"Discuss with GPT" copy-request dialog, copied instruction packets, handoff links, GPT scope picker, task handoff prompt or "open ChatGPT" CTA in Project, Step, source/reading, Activity or Note surfaces. Connected GPT/MCP and normal conversation are already the continuation mechanism. Preserve canonical MCP reads, exact source references and existing deep links; remove the *presentation ritual*, not the data.
+- **Retire "Pin task" and task-pinning chrome.** No persistent task chip/bar, pinned task selector, task-specific takeover or task query-parameter state as a learner workflow. Historical links and context can still resolve internally where needed, but must not revive a task-pinning affordance. This is not the same as pinning a Note to a page.
+- **Quiet top and bottom of pages.** Lead with the title, relevant content and a few purposeful actions; keep useful navigation and unobtrusive Notes access. Remove duplicated copy/context/continuation toolbars, empty or generic Recent work panels, backend disclaimers and heavy meta footers. Show related sources or actual work contextually when it improves learning, not as an obligatory wrapper.
+- Remove legacy "Checkpoint", "Saved Learning" and achievement-management boilerplate **from the composed learner display**, including operational text embedded in old authored templates where appropriate. Do not silently erase or misrepresent canonical learner-written material; keep original source inspectable when relevant.
+- Don't compensate for removed toolbars with another row of tiny icons. A single quiet Note-pin action and a compact signal for already linked Notes are intentional exceptions.
+
+## Persistent Notes: one-click pin to the current page
+
+The existing floating/dockable Notes interface stays central. While a Note is open, a recognisable **pin icon** adds an explicit relationship from **that same Note** to the **current Minamo page**; no new Note, clipboard handoff, destination picker or mandatory Stage is involved. The learner can repeat on multiple pages and can pin several Notes to one page.
+
+- A saved Note may have **many independent page pins**. Repeating the action on the same exact page is idempotent, not a duplicate. Each pin can be removed independently without deleting/changing Note text or other pins.
+- The Notes dock shows where the Note is pinned (titles/links and remove-per-pin actions). On a page with linked Notes, offer discreet discovery/opening in the same persistent dock, not a large extra context pane. If an unsaved Note is active, use the existing Note save/recovery coordinator to save then attach, or report why the pin cannot yet be committed; never claim a local-only pin is server-saved.
+- The **pin target is a stable canonical page identity**, not browser navigation history or the displayed URL string: Project, optional Stage/section, source/Article, Question, Activity or specific stable passage/block where supported. Preserve exact edition/anchor details when they matter. Recomposition, moving Stages, template switching and later visits must not silently drop pins; inaccessible/removed targets are identified honestly.
+- A pin is created **only by deliberate user action** (UI or explicit GPT instruction). Merely opening a page, viewing a source in a conversation, following a return link or having a Note open does not create an association.
+- **GPT must be able to read the pins via MCP**: for a Note, the complete eligible pin targets; for a page/Project, the eligible pinned Notes. Return stable identities, human titles and edition/anchor context in the existing source-aware MCP read paths so another chat can reliably use the links. A brief Note snippet is optional; the full Note must obey ordinary auth/read limits.
+- Pin/unpin must share owner authorization, revision checks, retry identity and truthful save receipts with existing Notes operations. Keep Notes drafts, autosave, tabs and image/code attachments intact; protect against stale-page targets when navigation changes during an in-flight action.
+
+**The distinction matters:** a Project *layout lock* protects a composed block from GPT rearrangement; a *Note pin* intentionally links a persistent Note to one or more pages. Neither resurrects the retired "Pin task" workflow.
 
 ## Layout-first scope
 
@@ -82,9 +105,9 @@ Use genuine, varied conversations rather than a new large synthetic fixture prog
 3. **Contrast layouts:** render the same meaningful content as Dashboard, Notebook and Workbench; switch/compare without duplicating source records or breaking links.
 4. **Other subject:** use language text or a plant-sensor investigation to prove the system is not a networking-specific template.
 5. **Return after a gap:** new GPT chat reads eligible saved context and understands the current Project, contradictions and unknowns; Site gives a useful view, not a stale first Step.
-6. **Trust:** pinned sections survive routine update, original records and exact editions survive composition changes, failed/duplicate operations do not half-save, and owner-private access is unchanged.
+6. **Trust:** layout-locked sections survive routine updates, original records and exact editions survive composition changes, failed/duplicate operations do not half-save, and owner-private access is unchanged.
 
-Product acceptance is based on whether the Project gets **more useful** as learning happens, with little organisational work by the learner. Engineering integrity gates remain specific to the change.
+Product acceptance is based on whether the Project gets **more useful** as learning happens, with little organisational work by the learner. Engineering integrity gates remain specific to the change. **Learner scenarios are opt-in and owner-customisable:** on request, run a specified sequence (for example five actions, a substantial planning chat, code review, or live JLPT N5 grammar tutoring); never initialise the owner as an automatic test fixture.
 
 ## Explicit non-goals for the first commission
 
@@ -98,7 +121,7 @@ Product acceptance is based on whether the Project gets **more useful** as learn
 
 - Exact block/template registry and how section-level mixed layouts compose.
 - Whether composition metadata belongs in an existing revisioned Project sidecar or a small new versioned D1 representation; select only after a bounded source-level compatibility check.
-- Which layout choices/pins are device-local versus shared per Project.
+- Which layout choices and layout locks are device-local versus shared per Project. **Note-to-page pins are saved owner-visible relationships, not device-local chrome.**
 - Minimum semantics for GPT-authored "what we did / problems / next" claims and attribution.
 - What changes require explicit confirmation versus the broad "Update Minamo" instruction.
 - Which specialised block, if any, earns inclusion in the initial six primitives.
