@@ -137,3 +137,5 @@
 .nw-recent-status{flex-basis:100%;margin:0;padding:5px 8px;font-size:12px;color:var(--mn-status-warning)}
 
 .nw-inline-title{display:flex;gap:8px;align-items:center;font:13px system-ui;margin:8px 0}.nw-inline-title input{min-width:0;flex:1;min-height:44px;font:500 16px system-ui;color:var(--mn-text);background:transparent;border:0;border-bottom:1px solid var(--mn-border-control)}.writing-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.writing-comparison section{min-width:0}.writing-comparison pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:280px;overflow:auto}.writing-comparison time{display:block;font-size:12px}@media(max-width:640px){.writing-comparison{grid-template-columns:1fr}}
+
+.nw-pin-destinations{position:absolute;right:16px;top:52px;z-index:12;max-width:320px;padding:12px;border:1px solid var(--border,#ddd);border-radius:10px;background:var(--background,#fff);box-shadow:0 8px 28px #0002}.nw-pin-destinations>div{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px}.nw-pin-destinations a{overflow-wrap:anywhere}
