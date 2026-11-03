@@ -21,6 +21,12 @@ When the owner authorises a production update or candidate, use the smallest cha
 
 A focused failing safety-critical check, unknown source identity, broken production build, unsafe migration or changed access/binding is a genuine blocker. A skipped *unrelated* full suite is not.
 
+## Personal ChatGPT plugin update handoff
+
+For this owner's **personal Site plugin**, newly added or changed MCP tools have historically **required a quick reinstall of the existing plugin** to refresh the ChatGPT-visible catalogue. Do not assume that Sites republishing automatically updates an already-installed personal plugin. After the **first deployment that actually adds/changes Project or Note-pin MCP tools/schema**, tell the owner to reinstall or refresh that existing plugin, then verify the new tool list and a harmless read-only capabilities call from a fresh chat before relying on new writes. A reinstall is not needed for documentation, unchanged tools or before server implementation. Do not create a second plugin. This owner-observed workflow takes precedence over more optimistic generic guidance in earlier preflight reports.
+
+**Current native caution:** the live learner surface is restored **V91**; saved native **V98** source/history is retained experimentation. New releases must intentionally preserve the V91 learner experience, account for native-only reading/Notes/auth differences and avoid accidentally publishing the discarded contextual/Study interface when reconciling descendant source.
+
 ## Scope and operational boundaries
 
 - An owner commission that expressly includes deployment authorises iterative saved-version publication within that scope. Do not deploy from a docs-only design request.

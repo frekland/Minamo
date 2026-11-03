@@ -1,4 +1,4 @@
-> **Current policy — 3 November 2026:** [Fast focused Sites releases](SITES-RELEASE-WORKFLOW.md) replace old full-suite/exhaustive parity requirements for ordinary authorised updates. Preserve audience/bindings, exact changed source, rollback and directly affected safety checks.
+> **Current owner Sites release policy — 3 November 2026:** [Focused, rapid Sites publishing](SITES-RELEASE-WORKFLOW.md) replaces earlier default whole-suite or exhaustive parity requirements for routine, authorised Site updates. Preserve exact changed-file/native source identity, private configuration and audience, focused safety checks, saved version and rollback. No broad test wait is automatically required.
 
 # Deployment and hosting boundaries
 

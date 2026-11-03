@@ -1,4 +1,4 @@
-> **SUPERSEDED — 3 November 2026:** The active proposed direction is [draft PR #80 — GPT-composed Projects and flexible layouts](https://github.com/frekland/Minamo/pull/80). This November 1 contextual/1B–2A document is historical evidence, not current implementation authority. V91 remains the live baseline.
+> **SUPERSEDED DESIGN AUTHORITY — 3 November 2026.** The owner has selected [GPT-composed Projects and flexible layouts](PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md) as the new draft direction, replacing the 1B/2A and contextual workspace recommendations in this document and draft PRs #78/#79. Retain the research and safety evidence below, but do not treat its dated implementation instructions as current. V91 is the restored live baseline. No code or deployment is authorised by the new draft.
 
 # Minamo learner-experience design direction — contextual, capture-first and evidence-grounded
 

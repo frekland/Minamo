@@ -9,7 +9,7 @@ import {buildGptContextBrief,type GptContextRecord} from '../lib/gpt-context';
 import {buildTaskGptBrief,exactTaskTarget} from '../lib/layout-gpt-intents';
 export type GptHandoffProps={returnContext?:ProjectReturnContext;taskRecord?:WorkspaceRecord|null;taskStageId?:string;taskDefault?:boolean;label?:string;selectionError?:string;record:GptContextRecord;selection?:PassageAnchor|null;relatedRecords?:Pick<WorkspaceRecord,'family'|'id'|'title'>[];siteOrigin?:string;className?:string;learningTarget?:LearningWorkTarget};
 /** Owner-triggered clipboard brief only. No tool calls, private fetches, writes or automatic GPT navigation. */
-export default function GptHandoff({record,selection,selectionError,relatedRecords=[],siteOrigin,className,learningTarget,taskRecord,taskStageId,taskDefault=false,label='Discuss with GPT',returnContext}:GptHandoffProps){
+function RetiredGptHandoff({record,selection,selectionError,relatedRecords=[],siteOrigin,className,learningTarget,taskRecord,taskStageId,taskDefault=false,label='Discuss with GPT',returnContext}:GptHandoffProps){
  const taskTarget=taskRecord?exactTaskTarget(taskRecord,taskStageId):null;
  const [scope,setScope]=useState<'task'|'reading'>(taskDefault&&taskTarget?'task':'reading');
  const [open,setOpen]=useState(false),[brief,setBrief]=useState(''),[status,setStatus]=useState(''),[chosen,setChosen]=useState<RecordLink[]>([]),[copying,setCopying]=useState(false),[question,setQuestion]=useState('');const textArea=useRef<HTMLTextAreaElement>(null),dialog=useRef<HTMLDialogElement>(null),trigger=useRef<HTMLButtonElement>(null),headingId=useId();
@@ -31,3 +31,5 @@ export default function GptHandoff({record,selection,selectionError,relatedRecor
  <a href="https://chatgpt.com/" onClick={close} target="_blank" rel="noopener noreferrer" style={{display:'inline-block',marginLeft:16,color:'var(--mn-interactive)',textDecoration:'underline'}}>Open ChatGPT ↗</a><p role="status" style={{fontSize:'14px',lineHeight:'1.7',marginBlock:'10px'}}>{status}</p><small style={{display:'block',fontSize:'12px',color:'var(--mn-text-muted)'}}>Only selected related records are included.</small><button type="button" className="rn-subtle v2-text-button" onClick={close}>Close</button></dialog>}
  </div>;
 }
+
+export default function GptHandoff(_props:Parameters<typeof RetiredGptHandoff>[0]){return null;}

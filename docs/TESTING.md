@@ -1,4 +1,4 @@
-> **Owner Sites release override — 3 November 2026:** [Focused Sites workflow](SITES-RELEASE-WORKFLOW.md) controls routine authorised deployments: build, changed-path checks, short publish smoke, no mandatory full suite/browser/3×3 wait. The detailed fixture/acceptance cases below are not universal release gates; preserve directly relevant safety tests for auth/schema/data writes.
+> **Owner release-policy override — 3 November 2026:** For owner-authorised iterative ChatGPT Sites deployments, [the focused Sites workflow](SITES-RELEASE-WORKFLOW.md) controls: build, directly relevant tests and brief Site smoke, with no mandatory full regression/browser/3×3 suite. The detailed acceptance/fixture/CI gates below are historical or apply only when those particular testing exercises are commissioned; they must not be imposed as universal production-build blockers. Auth/schema/recovery/rights changes still need focused safety verification.
 
 # Testing and evidence
 

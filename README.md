@@ -1,7 +1,14 @@
 # Minamo
 
-> **CURRENT OWNER DIRECTION — 3 November 2026:** [Draft PR #80 — GPT-composed Projects and flexible layouts](https://github.com/frekland/Minamo/pull/80) is the next editable product-design/implementation brief. V91 is the live baseline. Draft PRs #78/#79 and issue #51 are closed as superseded; their work is historical evidence. Project layouts and MCP-driven conversational updates replace compulsory Stages and learner-facing Checkpoint/Saved Learning interfaces. **Read PR #80 before proposing new learner-facing work.** The [focused Sites release policy](docs/SITES-RELEASE-WORKFLOW.md) applies immediately: ordinary owner-authorised updates need only a successful build, directly relevant checks and a brief smoke; no blanket full-suite/30-minute test gate. The dated November 1 instructions below are historical where inconsistent.
+> **Forward development direction · 3 November 2026:** [GPT-composed Projects and flexible layouts](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md), with an [editable implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md) in a new draft PR. The owner has rejected the learner-facing contextual workspace (#78) and Work/Study/Find reset (#79) as product directions. They remain historical evidence and experimental code, not the next implementation. **V91 is the restored live baseline.**
+>
+> The new concept: natural GPT chats drive bounded user-requested Minamo updates; a versioned Project composition selects content and flexible layouts rendered by Minamo. Projects can start freeform; Stages are optional. Prioritise six thorough responsive templates and a small shared content block library. Remove learner-facing "Checkpoint"/"Saved Learning" concepts, while retaining canonical history.
+>
+> **Publishing:** the [3 November focused Sites policy](docs/SITES-RELEASE-WORKFLOW.md) permits rapid owner-authorised iterative releases after a build and directly relevant checks. No mandatory full suite or 30-minute browser/test campaign for routine changes. Draft design alone does not authorise deployment.
 
+---
+
+## Existing V91 application (historical implementation description)
 
 A personal workspace for learning that develops over time.
 

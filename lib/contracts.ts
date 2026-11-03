@@ -18,7 +18,7 @@ export type ReadingCallout={tone:'note'|'question'|'warning';label?:string};
 export type ReadingReference={url:string;label:string;alt?:string;rights:'link-only';commit?:string;path?:string;sourceId?:string;externalVideo?:ExternalVideo};
 export type ReadingImage={assetId:string;alt:string;caption?:string};
 /** Personal presentation metadata; excluded from canonical reading identity. */
-export type ProjectCover={assetId:string;decorative:boolean;alt?:string};
+export type ProjectCover={assetId:string;decorative:boolean;alt?:string;focal?:{x:number;y:number}};
 export type ReadingMedia={assetId:string;kind:'document'|'audio'|'video';description:string;caption?:string;transcript?:string};
 export function mediaCanonicalText(media:ReadingMedia):string{return media.description+(media.caption?'\n'+media.caption:'')+(media.transcript?'\n'+media.transcript:'');}
 export type MediaDisplay={mime:string;bytes:number;kind:ReadingMedia['kind'];details:{format:string;codecs?:string[];durationSeconds?:number;width?:number;height?:number;sampleRate?:number;channels?:number}};
@@ -54,12 +54,13 @@ export type LearningShape =
 export type WorkspaceRecord = {
  id:string;family:Family;title:string;body:string;bodyFormat?:'markdown-v1';flagTarget?:FlagTarget;bookmark?:FlagBookmark;status?:string;links:RecordLink[];
  learningScope?:import('./learning-spaces').LearningScope;learningScopeRev?:number;learningScopeInherited?:boolean;learningShape?:LearningShape;sections?:ArticleSection[]; concepts?:ConceptEntry[]; anchor?:PassageAnchor; rendition?:string; source?:SourceInfo;
+ projectComposition?:import('./project-composition').ProjectComposition;projectDescription?:string;pagePins?:import('./project-composition').ProjectRef[];
  projectCover?:ProjectCover|null;
  outputBundle?:import('./typed-outputs').TypedOutputBundle; activity?:ActivityCartridge;attempt?:ActivityAttempt;
  engine?:'regex'|'unicode'|'sql'|'python'|'web'; code?:string; output?:string; evidence?:'observed'|'illustrative';
  rev:number;createdAt:string;updatedAt:string;trashedAt:string|null;actor:Actor;synthetic:boolean;
 };
-export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'>> & {source?:SourceInfo|SourceUpdate};
+export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'|'projectComposition'|'projectDescription'|'pagePins'>> & {source?:SourceInfo|SourceUpdate};
 export type BlockChanges=Partial<Omit<PassagePart,'id'|'kind'|'table'|'callout'|'reference'|'image'|'media'|'unavailable'|'imageDisplay'|'mediaDisplay'|'excerptDisplay'>> & {table?:Partial<ReadingTable>;callout?:Partial<ReadingCallout>;reference?:Partial<ReadingReference>;image?:Partial<ReadingImage>;media?:Partial<ReadingMedia>};
 /** Ordered, bounded edits against one exact record revision. No patch data is persisted. */
 export type ContentPatch=
