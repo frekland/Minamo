@@ -2,6 +2,8 @@
 
 ## CURRENT OWNER DECISION — 3 November 2026
 
+PR #80 has now been commissioned for implementation and production deployment. See [implementation progress](docs/PR80-IMPLEMENTATION-PROGRESS.md) and [candidate release receipt](docs/releases/2026-11-03-pr80-candidate.md). Earlier planning-only limitations describe the original specification stage and are superseded by this owner commission. Issue #81 remains deferred. Personal-plugin reinstallation and refreshed host capabilities are required after the first new-tool deployment; do not claim GPT/MCP acceptance before that check.
+
 **Forward product direction:** [GPT-composed Projects and flexible layouts](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md), with its editable [implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md). Both are part of a **draft planning PR**, not an implementation/merge/deploy commission. Read these first for any learner-facing design, Project/Stage, MCP authoring or Project presentation work.
 
 **Live Site:** V91 restored as the everyday learner-facing baseline. Later V92–V98 experimental versions and their native source history are retained. Do not accidentally redeploy V98 or assume that source/version history equals the public GitHub default branch.
