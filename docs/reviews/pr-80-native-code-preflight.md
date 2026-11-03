@@ -90,6 +90,9 @@ For an unsaved/dirty Note, flush through `app/notes-panel.tsx` / `lib/note-sync.
 3. **History restore needs exact semantics:** restore arrangement by prior record revision against today's Project CAS; retain current canonical Notes/content and current rights. If an old arrangement references missing or explicitly revised material, report/preview that consequence rather than silently rolling back sources.
 4. **Two stale blueprint details need interpretation, not redesign:** its sample `upsertBlock/focusBlock` lacks the final section/slot semantics, and its acceptance paragraph says rename from the overview despite the binding rule that editing happens inside the Project. Follow the latter rule.
 
+5. **Exact retained references need dedicated admission.** `lib/domain.ts`'s `admittedLinks` currently rejects a newly attached non-current rendition, apart from its Activity-attempt exception. Composition/pin admission must validate the requested eligible retained rendition and coordinates while guarding the current target's availability/rights; do not silently substitute latest or globally relax existing link rules.
+6. **Bypass legacy Stage inference for composed freeform Projects.** Omitting `learningShape` already permits creation, but `journeyStages` falls back to treating every canonical section as a Stage. New compositions must use their declared patterns directly; reserve that fallback for adapting old records.
+
 No source-access or storage blocker was found. The genuine implementation hazards are the existing raw-GPT editorial gate, incomplete atomic/asset integration, loss of native functionality and stale-edit overwrites. Exact crop defaults and internal component filenames are optional refinements, not reasons to delay implementation.
 
 ## Practical implementation, checks and delivery
