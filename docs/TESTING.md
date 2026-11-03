@@ -1,3 +1,5 @@
+> **Owner Sites release override — 3 November 2026:** [Focused Sites workflow](SITES-RELEASE-WORKFLOW.md) controls routine authorised deployments: build, changed-path checks, short publish smoke, no mandatory full suite/browser/3×3 wait. The detailed fixture/acceptance cases below are not universal release gates; preserve directly relevant safety tests for auth/schema/data writes.
+
 # Testing and evidence
 
 > **Product-design sequencing clarification — 1 November 2026:** [Broadened discovery D1–D3](PRODUCT-DESIGN-DISCOVERY-DECISION-2026-11-01.md) may proceed without waiting for all nine independent GPT/MCP cold-context runs. This does **not** change any technical acceptance, isolation, CI, three-layer or hosted release gate. A later real Workbench implementation must be separately commissioned and verified.
