@@ -1,5 +1,11 @@
 # Minamo contributor and coding-agent guidance
 
+## CURRENT PR #83 RESUME DIRECTIVE — 4 November 2026
+
+**Owner-approved same-run implementation addition:** Read [the bounded V101 UX-polish addendum](docs/implementation/pr83-v101-ux-polish-addendum-20261104.md) and [the last exact V101 continuation record](docs/implementation/pr83-v101-continuation-20261103.md) before resuming draft PR #83. **Live V101—not V100—is the starting deployment.** Complete the still-unpublished tldraw store fix, the bounded Pygbag check, and the seven agreed Project UX/MCP improvements **within the existing PR #83 Work commission**, not a separate architecture/PR. Keep the six layouts and all existing data/access/persistence safeguards.
+
+The owner's two narrow refinements supersede older wording below: (1) support **Project-local saved observations without creating Notes**, while retaining existing Note saves; (2) defer the **extensive real-browser visual/interaction acceptance** to a later independent chat after Work's implementation/deployment, using focused tests/build and fast deployment/status checks during Work. Report all deferred browser behaviours as unverified. Flashcard npm-package selection is **conditional and deferred**; first polish the existing component. PR #83 remains **draft/unmerged** until later acceptance and owner review. Do not rollback V101, delete TEST fixtures or reset the database.
+
 ## CURRENT OWNER BASELINE — 3 November 2026
 
 **Accepted live production:** Minamo **V100** (native source a10709c9cfb7b0de819dc392de01ce29e576e1d4). [PR #80](https://github.com/frekland/Minamo/pull/80) was implemented, merged and deployed successfully. The clean V100 learner presentation, six native Project patterns, direct editing, note pins, conversational GPT/MCP Project updates and retained auth/access/Notes/recovery are the stable starting point. [V100 release receipt](docs/releases/2026-11-03-pr80-candidate.md) is current; older V91/V92/V98 source pins are *historical context or rollback provenance*, not implementation starting instructions.
