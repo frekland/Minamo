@@ -32,7 +32,20 @@ These changes are presentation-only; the six Project layouts, existing rich comp
 
 ## Live Cloud Browser verification
 
-Pending at initial V105 deployment checkpoint. Test the Project fixture `test-simulation-playground-layouts-20261103`, Japanese passage, favourite, section expand/fold, block expand/edit, flashcards, full cover and sidebar viewport. Save/reload only bounded edits and keep other records intact. Record browser outcomes honestly; the current deployment must remain running even if an issue appears.
+### V105 visual finding and corrective V106 deployment
+
+The first authenticated Cloud Browser screenshot at **1363 × 1023** showed the intended improvements: sidebar Tools sits immediately after Your work with no forced sidebar scroll; the Project title is now one line at a restrained font size; section controls use compact symbols, and the Project Edit action is a pencil. However, the per-block **Edit this block** label still wrapped vertically inside its narrow button. V105 was therefore an *interim* deployment, not accepted.
+
+Correction: `app/project-sections.tsx` now renders real Lucide Maximize/Minimize and Pencil/Close icons with explicit `aria-label` and `title`, retaining `aria-pressed`, Esc focus return and editing behaviour. `app/project-sections.css` removed the pseudo-element/text-hiding trick. `tests/pr83-polish-components.test.mjs` now locates the accessible Edit action by label. A fresh full production build was generated **after** these source changes, preventing a stale archive.
+
+- Focused four-test-file run: **8/8 passed**; `pnpm typecheck` and **new** `pnpm build`: **PASS** (same known nonfatal warnings).
+- V106 native published source: `1bb6f9249aa49ae3d5468d01b25f84b672fb29a2` (local pre-workflow commit `3641774e1c37d79b15ec81eb1f1f6a09ddc0d7d3`).
+- Public PR branch code sync commits: `1e8d3d9be4164d6a15d4e36f6722047083b43db6`, `d0094dd3c8f91aea3bcde9c1ef9e08d09db525d6`, `e2a67b128600724cc58cd1b85b8c2e4fafb907c8`.
+- Saved **V106**: `appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_9587b9bc0dc88191a2da5bedf734a9aa`.
+- Production deployment: `appgdep_6aeb04e08d88819191c08678d8de2846`, **succeeded** at https://minamo.jscymru.chatgpt.site. Access policy preserved.
+- Japanese toggle live DOM text on V105 verified as `Hide furigana` (state enabled), with correct space; live contents of the test Project retained.
+
+**V106 post-deployment browser acceptance still pending at this checkpoint.** Test the Project fixture `test-simulation-playground-layouts-20261103`, Japanese passage, favourite, section expand/fold, block expand/edit, flashcards, full cover and sidebar viewport. Save/reload only bounded edits and keep other records intact. Record browser outcomes honestly; the current deployment must remain running even if an issue appears.
 
 ## Unchanged outstanding scope
 
