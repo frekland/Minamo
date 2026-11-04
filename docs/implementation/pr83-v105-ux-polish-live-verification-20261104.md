@@ -47,6 +47,32 @@ Correction: `app/project-sections.tsx` now renders real Lucide Maximize/Minimize
 
 **V106 post-deployment browser acceptance still pending at this checkpoint.** Test the Project fixture `test-simulation-playground-layouts-20261103`, Japanese passage, favourite, section expand/fold, block expand/edit, flashcards, full cover and sidebar viewport. Save/reload only bounded edits and keep other records intact. Record browser outcomes honestly; the current deployment must remain running even if an issue appears.
 
+### V106 acceptance and bounded V107 flashcard finish
+
+Authenticated Cloud Browser on V106 (desktop 1363 × 1023) tested actual learner content:
+
+- **PASS** sidebar: TOOLS, Practical tools and Trash are all adjacent to Your work and visible without a nested sidebar scrollbar in the observed desktop viewport.
+- **PASS** Project hierarchy: the two-line, huge simulation Project title became one restrained line; section titles are readable and compact; section expand/fold buttons and block edit/maximize are icon-only with accessible names. Fresh screenshot showed no vertically wrapped labels.
+- **PASS** section collapse/reopen: first section's `aria-expanded` became `false`, block hidden; reopening restored content.
+- **PASS** scoped block maximize: `Our hypotheses` received `pc-expanded` and its button became `Restore width of Our hypotheses`; the table visibly expanded across the available width. Subsequent Playwright clicks on that restore control timed out despite a visible match, so the reversal was *not* independently accepted in this pass. The component test covers restoration without remount.
+- **PASS** direct edit and Cancel: opening `Edit Our hypotheses` showed Project Save/Cancel controls; Cancel returned to read mode without a write.
+- **PASS** Japanese: live button toggled from `Hide furigana` to `Show furigana`; a desktop pointer click restored `Hide furigana`. The passage text and kanji remained visible.
+- **PASS** image-backed flashcards: in `test-pr83-release-20261103` opened the collapsed Flashcards section, flipped card 1 to answer, navigated to card 2, returned to card 1 front. Both front/back private images completed loading with natural width `1448`, and were visibly rendered and contained in the card. No save was attempted or needed.
+- **PASS** full Project cover: `test-sudoku-20261103` presented the *whole* generated Sudoku illustration with its large text and grid intact; lateral letterboxing is intentional. MCP `query_minamo_records` independently located the existing synthetic Project at revision 10, unchanged; it was not recreated or edited.
+- **Observed, not changed:** TEST fixture retained older drawing-draft recovery UI from V104. No draw/save operation was repeated here. An attempted Projects catalogue load showed ordinary Project tiles, but the Sudoku synthetic thumbnail was **not directly viewed** in the bounded catalogue session.
+
+The remaining visual defect in this pass was the flashcard toolbar's loud bright-blue, chunky buttons on a dark surface. Targeted CSS uses neutral controls with a subtle accent on the reveal action, without changing flip/navigation logic or installing a dependency.
+
+**V107 release checkpoint (committed before final V107 browser inspection):**
+
+- Change: `app/project-sections.css`, local pre-workflow commit `bcca5aba6065f981c3e3e372609e5a4654177566`; public PR source commit `70cc259f4e8daedbbec26d78ec3c8afdf4de322b`.
+- `pnpm typecheck`: **PASS**; fresh `pnpm build`: **PASS**. Four relevant focused test files had passed **8/8** on V106; CSS-only V107 did not change JS, test state or schemas.
+- Protected published native source: `1b151ed60e7572ea428176b3b1a78e65f44e4057`.
+- Saved **V107** ID: `appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_cf6cecb651fc81919ec05889d91d67f0`.
+- Deployed version `appgdep_6aeb077370d4819198f5183b8a243838`: **succeeded**, https://minamo.jscymru.chatgpt.site. No auth/access, DB, Project/Notes/Library or MCP change.
+
+**V107 post-deploy comparison pending** at this exact checkpoint. The V107 version should remain live; do not restore V100 or merge PR #83 automatically.
+
 ## Unchanged outstanding scope
 
 - tldraw V104 rectangle save/reload/edit/conflict tested in the preceding report; image-in-canvas and extended gesture coverage remain outside this polish pass.
