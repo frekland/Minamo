@@ -29,11 +29,7 @@
 .v2-app .pc-project .pc-icon-action,.v2-app .pc-project .pc-block-tools button{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;min-height:38px;min-width:38px;padding:0;border-radius:9px;background:transparent;color:var(--v2-muted);border:1px solid transparent}
 .v2-app .pc-project .pc-icon-action:hover,.v2-app .pc-project .pc-block-tools button:hover{background:var(--mn-surface-secondary);border-color:var(--mn-border-control);color:var(--v2-ink)}
 .pc-block-tools{gap:2px;margin:0 0 2px;min-height:38px}
-.pc-block-tools button{font-size:0!important;line-height:1}
-.pc-block-tools button:before{font-size:19px;line-height:1}
-.pc-block-tools button[aria-pressed]:before{content:'⤢'}
-.pc-block-tools button[aria-pressed='true']:before{content:'⤡'}
-.pc-block-tools button:not([aria-pressed]):before{content:'✎'}
+.pc-block-tools button{line-height:1}
 .pc-actions>.v2-text-button:only-child{min-width:38px;width:38px;min-height:38px;gap:0;padding:7px;font-size:0!important;border-radius:9px}
 .pc-actions>.v2-text-button:only-child svg{width:17px;height:17px}
 .pc-project .ri-record-bookmark{width:40px;min-width:40px;height:40px;justify-content:center;padding:0;border-radius:9px}
