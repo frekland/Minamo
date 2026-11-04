@@ -76,7 +76,7 @@ Do not add another database table, independent taxonomy, custom NLP adapters for
 
 ## 4 November addendum — language-friendly Project interactions
 
-**Owner direction:** In addition to removing the prescribed-language list, make existing Project sections substantially more useful for language study through a small number of reusable, *offline/client-side* content interactions. The owner explicitly does **not** want a text-to-speech service, token-metered language backend or dependence on poor browser speech synthesis. Real conversation can happen through ChatGPT Voice or with people. These additions should also benefit other subjects.
+**Owner direction:** In addition to removing the prescribed-language list, make existing Project sections substantially more useful for language study through a small number of reusable, *offline/client-side* content interactions. The owner does **not** want a hosted text-to-speech service, token-metered language backend or poor native browser speech synthesis. **Later 4 November lab testing approved optional browser-local Piper/Piper Plus TTS; see the superseding addendum below.** Real conversation can happen through ChatGPT Voice or with people. These additions should also benefit other subjects.
 
 **Product thesis:** Keep Dashboard, Guide, Notebook, Workbench, Board and Research as the six structural patterns. Improve the **content blocks inside them**, not the hierarchy of Projects or the top-level navigation. Reuse the current PR #83 image-backed flip flashcards, parameter explorers, rich content, source/media handling and native composition where feasible.
 
@@ -109,7 +109,7 @@ Add **cultural pragmatics / register** as normal authored explanations accompany
 
 **3. Dialogue rehearsal**
 - A finite, editable array of speaker-labelled turns; each may contain target text, optional translation, note and a few authored alternatives.
-- Reveal next turn; optionally reveal translation; restart. Show the conversation in logical DOM order with keyboard access and a readable linear fallback. No live chatbot, TTS or pseudo-assessment.
+- Reveal next turn; optionally reveal translation; restart. Show the conversation in logical DOM order with keyboard access and a readable linear fallback. No live chatbot or pseudo-assessment. Optional local TTS playback is covered by the later addendum.
 - Avoid assuming all dialogues alternate exactly between two people or have a single obligatory natural response.
 
 **4. Flashcard extensions**
@@ -124,7 +124,7 @@ Add **cultural pragmatics / register** as normal authored explanations accompany
 
 **6. Authentic listening**
 - Reuse permitted owner-uploaded audio or deliberate external links. Simple play/replay and reveal of an **authored** transcript/translation are valuable without generation.
-- No TTS, paid speech API, automatic transcription, remote media scraping, unverified playback or copyright-unsafe import. Missing/unavailable audio must leave readable text and an honest source link.
+- No generated audio should masquerade as an authentic recording; no paid speech API, automatic transcription, remote media scraping, unverified playback or copyright-unsafe import. Optional local TTS is a separate capability in the later addendum. Missing/unavailable audio must leave readable text and an honest source link.
 - Audio looping and time-range segmentation are optional polish, not prerequisites for first delivery.
 
 ### A concrete Tetum walkthrough (source-language generic)
@@ -160,3 +160,80 @@ This addendum belongs in PR #85's **planning scope**, not an instruction to impl
 8. At least one honest adult-learner scenario (Tetum) is inspected in the deployed browser after a future authorised implementation; schema tests alone do not establish usefulness.
 
 **No code, release, data or MCP changes are authorised by this document-only PR.**
+
+
+---
+
+## 4 November addendum — local TTS, verified in a separate lab
+
+**Decision update (supersedes earlier blanket “no TTS” language in this draft):** The owner now wants an *optional, free, entirely browser-local neural speech capability* alongside language Project text. The earlier ban on a hosted TTS service, paid speech APIs, per-request tokens and native Web Speech remains. This is a deliberate change following direct device testing, not an instruction to import the entire experimental lab into Minamo.
+
+### Evidence and boundaries from the owner’s lab
+
+The owner tested the separate private **Minamo TTS Lab** on a Pixel 8a, including initial download, generation speed, voice quality, Japanese pronunciation and slow playback. These are **owner observations**, not a full browser/device compatibility study.
+
+| Candidate | Observed decision |
+| --- | --- |
+| Original Piper, browser-local voices | **Preferred for all individually verified non-Japanese languages.** Fast and useful on Pixel 8a despite a somewhat synthetic timbre. |
+| Piper Plus, Japanese CSS10 demo voice | **Preferred for Japanese only.** Japanese was intelligible, good and responsive enough; owner approved the resulting practice pacing. |
+| Piper Plus multilingual modes beyond Japanese | **Do not enable.** The owner's trial generated unintelligible speech for other languages, despite the advertised language settings. |
+| Kokoro | **Do not integrate in the first slice.** English quality/performance compared unfavourably on the owner's phone, with long load/generation times. |
+| Native Web Speech / remote API | **Excluded.** Browser-native quality was unacceptable; paid/hosted inference and token costs are outside the product decision. |
+
+A language tag should **never imply a usable voice exists**. Open-ended BCP 47 language classification remains independent of the optional, finite *verified voice catalogue*. Tetum is a legitimate Project language even if no Tetum TTS model is available. Do not silently substitute a different language or a poor-quality voice.
+
+The lab is a **comparison prototype**, not a new learner-facing Minamo module or a dependency on the lab Site. A subsequent implementation commission should inspect the lab source and pinned versions, reconcile them with the then-current Minamo PR #83 composition and native Sites sources, and extract only the appropriate reusable behaviour. It must not copy a brittle lab-only patch uncritically.
+
+### Small learner-facing contract
+
+- Language Projects keep their six normal layouts and language-practice blocks. Attach a discreet, accessible **listen/play affordance next to eligible authored target-language text** in reading/reveal, flashcards, dialogue turns and sentence-pattern outputs, rather than a separate speech page or a full voice dashboard.
+- Expose **Normal** and **Slow practice** as the default everyday choices; repeat the phrase with one action. Optional per-phrase replay is better for study than stretching a long mixed sentence indiscriminately. Never force audio generation just to reveal text.
+- **Japanese / Piper Plus CSS10**: the owner-approved synthesis settings are:
+  - Normal: \`lengthScale: 1.6\`, \`noiseW: 0.2\`.
+  - Slow practice: \`lengthScale: 2.4\`, \`noiseW: 0.2\`.
+  These apply to the tested Japanese model/path, **not** globally to Piper voices or to arbitrary future model revisions.
+- Use **synthesis-time pacing**, not crude \`HTMLAudioElement.playbackRate\` slowdown, which the owner found distorted. Avoid surfacing \`lengthScale\`, \`noiseW\` or inference terms in the standard UI. Advanced lab controls remain in the lab.
+- For other verified Piper voices, start with the model’s readable normal behaviour; establish **voice-specific** slow presets through direct listening before claiming quality. Do not import the Japanese numeric settings as universal defaults. Allow a text-only fallback if a slow preset is unsuitable.
+- Play the **source-language utterance**, with correct language/voice mapping. Keep translations, glosses, Japanese authored ruby/furigana and Mandarin authored pinyin separate from the synthesis input. Handle scripts, RTL direction and Unicode without assuming space-delimited words; do not promise perfect G2P or pronunciation.
+- Capability should be optional and unobtrusive: if unsupported, offline before cache fill, not yet downloaded, incompatible, or failed, the text and reveal/dialogue/card remain fully usable. State clearly when a voice is unavailable instead of falling back unnoticed to Web Speech, English or a remote service.
+- A single small **voice-download/load state** and clear error/retry affordance are sufficient. Most voice selection/diagnostics belong in Settings, not the learning card. Preserve keyboard, screen-reader and touch operation, and respect autoplay/user-gesture restrictions.
+- Keep **authentic recordings** separate from generated speech. A cited human recording/transcript is not equivalent to synthetic playback and must keep its original attribution, rights and source status.
+
+### Implementation architecture — limited, browser-local
+
+1. Introduce a small **optional voice capability adapter** at the presentation layer: \`languageTag → verified model/voice → local synthesizer → playable audio\`. Do not tie language classification or existing Project schemas to model availability; no new mandatory Project field, record family or database.
+2. Package browser-run inference (WASM/ONNX or the verified browser runtime) as lazy-loaded, worker-isolated code where supported; render text immediately and download/initialise a model **only on user action**. Cache version-pinned model assets using ordinary browser caching where safe. Cancel/reject stale results and release audio object URLs/worker resources to avoid memory creep on mobile.
+3. **Original Piper** for vetted non-Japanese voices; **Piper Plus** for Japanese only. Fix the exact runtime/model version and voice file, record expected download sizes, media types, integrity/provenance, availability and feature detection in the implementation report. Keep a bounded catalog that can grow without revising the BCP 47 classification contract.
+4. The experimental lab may have exposed Piper \`length_scale\` through a **Vite build-time adapter** because its browser wrapper hardcoded the setting. Treat that as a lab-specific technique requiring a maintainability review; choose a clean pinned adapter/upstream API if possible and test production bundling. Piper Plus has separate synthesis options; do not assume both engines accept identical parameters or audio formats.
+5. Model files are generally **downloaded by the visitor's browser**, not sent to a paid inference backend. Someone must host the initial bytes—approved CDN/upstream or a deliberate static-asset mirror—and browser caching does not remove bandwidth, CORS, availability, cache-eviction, integrity or origin-policy considerations. Do not silently bundle large models into Minamo’s initial JS payload or assume Sites can economically host every model.
+6. Check **runtime, model/voice weights, phonemizer and supporting library licenses individually** (including any obligations around distribution or asset mirroring) before production. Verify upstream attribution and terms; do not rely on a blanket “Piper is MIT” or “Piper Plus is MIT” claim as a complete commercial/use/distribution assessment.
+7. No text-to-speech API keys, per-request billing or server-side inference. Model downloads may contact their permitted host; **the text to be spoken and generated audio remain local to the browser**, barring normal user-selected media and explicitly disclosed telemetry policy. Never record spoken inputs, audio or pronunciation performance in learner records without a separate explicit feature decision.
+8. Integrate with current Project block rendering and natural GPT/MCP authoring without changing saved source text or revision receipts. Synthesis is a view action, not a learning-history mutation. Ensure no uncontrolled renderer duplication, new seventh layout or compulsory audio field.
+
+### Sequenced implementation and focused acceptance
+
+**Preflight before commission:** Inspect the currently deployed native source and PR #83 renderer; read the actual independent lab source and runtime/model manifests; assess package and model licensing, cross-origin hosting, size, caching and Japanese text handling. Report any incompatible voice/runtime rather than promoting it.
+
+**First slice:** One discreet play control for vetted original Piper examples and Japanese Piper Plus in a real language Project, with a lazy load/retry, human-readable availability, exact source text, Normal/Slow selection and text-only fallback. Keep the six Project layouts and existing language interactions intact. Expand placements to other rich language blocks only after this end-to-end slice is verified.
+
+**Tests/checks:**
+- On the owner’s Pixel 8a, compare the **same Japanese utterance** in Normal \`1.6/0.2\` and Slow \`2.4/0.2\`, with intact words, clear pacing and reproducible output. Test a longer sample, a short phrase and the previously inconsistent middle phrase \`いろいろな国の人と自然に話して\`; quality is an owner listening judgement, not an automated pass.
+- Check at least two distinct, licensed, **non-Japanese original Piper voices** in their actual target languages; do not enable unverified multilingual Piper Plus modes. An Arabic/RTL and CJK scenario should be considered when suitable licensed voices exist, with honest coverage limits.
+- Cold first download, repeat play, reload/cache hit, offline after caching, cache eviction, unsupported browser, failure/retry and low-memory mobile operation. Observe sizes, startup latency, cancellation and leaks; avoid mandatory preload.
+- Confirm locally generated sound and that no utterance text or inference request is sent to a TTS backend; verify model-download origins, version pins, CORS, license notices and relevant hosting policy.
+- Confirm keyboard/screen reader/mobile 320/375px, user-gesture playback, focus, text-only usability and no surprise audio. Check reveal, dialogue, cloze, images, note drafts, CAS, native-source editions and GPT/MCP content updates remain unchanged.
+- Produce a bounded **real learner-use observation**, not merely green unit tests or claims that synthesised Japanese sounds “native”.
+
+Implementation, release and the final voice catalogue remain **separately commissioned**. This PR is still documentation-only; no lab or production code, voice assets, model downloads, data, MCP schemas or Sites configuration change is approved by this addendum.
+
+### Related design direction — deferred, not part of this implementation
+
+The owner also likes the **TTS Lab’s soft rounded cards, differentiated inset panels, restrained borders and generous spacing**. In Minamo, preserve the existing **charcoal dark theme**, strengthen surface hierarchy (page canvas → raised content card → inset/status area), and soften corners without adding nested boxes everywhere. This is an **app-wide visual-system follow-on**, not a language renderer change and **not a release criterion for PR #85**.
+
+Proposed *curated* Settings themes (illustrative tokens, not yet an implementation spec):
+- **Deep Ocean** — charcoal, cool blue-grey surfaces and subdued cyan/blue accents (preferred default, explicitly *not* green).
+- **Midnight** — charcoal with restrained indigo-blue.
+- **Graphite** — cool grey/steel-blue, almost monochrome.
+- **Dusk Violet** — a slightly brighter but **non-neon** smoky violet/lavender accent against charcoal, as approved in discussion; sample palette: canvas \`#191821\`, card \`#2B2839\`, inset \`#393249\`, border \`#514563\`–\`#645477\`, action \`#775A9E\`, accent \`#D2B2FA\`, main text \`#F5F0FA\`.
+
+Prefer **shared CSS design tokens** and a small persisted Settings preset choice over an unrestricted colour picker. Verify contrast, focus, Project/Library/Notes consistency and mobile hierarchy before any future implementation. Commission in a **separate PR** once concurrent PR #83 work stabilises; do not create styling churn in this language PR.
