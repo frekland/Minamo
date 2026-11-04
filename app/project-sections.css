@@ -73,3 +73,12 @@
  .pi-controls label{min-width:0;width:100%;max-width:none}
  .pi-controls input[type="range"]{width:100%;min-width:0}
 }
+
+/* Native drawing focus mode: fill the viewport without depending on Fullscreen API support. */
+.pi-drawing-editor{position:relative;height:520px;min-height:340px}
+.pi-drawing .pi-drawing-fullscreen-toggle{margin-left:auto}
+.pi-drawing.pi-drawing-fullscreen{position:fixed!important;inset:0!important;z-index:2147483000!important;display:flex;flex-direction:column;width:100vw;height:100dvh;max-width:none;max-height:none;overflow:hidden;border:0;border-radius:0;background:var(--mn-canvas,#fff);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.pi-drawing-fullscreen>.pi-toolbar{flex:none;margin:0;padding:.4rem .65rem;align-items:center;background:var(--mn-surface,#fff);color:var(--mn-text,#111)}
+.pi-drawing-fullscreen>.pi-drawing-editor{flex:1;min-height:0;height:auto!important;max-height:none!important}
+.pc-expanded .pi-drawing-fullscreen>.pi-drawing-editor{height:auto!important}
+.pi-drawing-fullscreen .tl-container{height:100%!important}
