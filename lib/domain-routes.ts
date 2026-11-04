@@ -1,6 +1,6 @@
 /** Shared production dispatch and method contract for the domain HTTP API. */
 export const DOMAIN_ROUTES: Readonly<Record<string, readonly string[]>> = {
- '/api/test-runs':['GET','POST'], '/api/projects/runtime-config':['GET'], '/mcp':['POST'], '/api/projects/composition':['GET','POST'], '/api/projects/update':['POST'], '/api/notes/pin':['POST'], '/api/notes/pins':['GET','POST'],
+ '/api/test-runs':['GET','POST'], '/api/projects/runtime-config':['GET'], '/api/projects/observation':['POST'], '/mcp':['POST'], '/api/projects/composition':['GET','POST'], '/api/projects/update':['POST'], '/api/notes/pin':['POST'], '/api/notes/pins':['GET','POST'],
  '/api/workspace':['GET'], '/api/commands':['POST'], '/api/bookmarks':['POST'],
  '/api/preview':['POST'], '/api/query':['GET','POST'], '/api/context':['GET','POST'], '/api/operations':['GET','POST'],
  '/api/editorial-policy':['GET'], '/api/library':['GET','POST'], '/api/investigation-order':['GET'], '/api/project-context':['GET'], '/api/trash/empty':['GET','POST'],

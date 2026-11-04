@@ -7,9 +7,10 @@ import {advanceRecall,languagePracticeTsv,languageSegments,type RecallState} fro
 import {languageDomRange,languageDomSelection} from '../lib/foundry/language-dom';
 import LanguageWordCard from './language-word-card';
 import './language-reader.css';
+import 'katex/dist/katex.min.css';
 import type {MathRendition} from '../lib/foundry/math-render';
 
-/** Small native host. The heavy math renderer loads only on explicit request. */
+/** Small native host. The heavy math renderer loads on first display. */
 function SemanticReading({semantic,common,renderRange,ownerScope}:{semantic:SemanticContent;ownerScope?:string;common:{'data-reading-part':string;'data-section-id':string};renderRange:(start:number,end:number)=>ReactNode}){
  const passageId=useId(),source=useRef<HTMLParagraphElement>(null),wordTrigger=useRef<HTMLButtonElement|null>(null);
  const [help,setHelp]=useState(false),[word,setWord]=useState<number|null>(null),[individual,setIndividual]=useState<Set<number>>(()=>new Set()),[phrase,setPhrase]=useState<number|null>(null),[recall,setRecall]=useState<RecallState>({phase:'idle',index:0}),[notice,setNotice]=useState('');
@@ -19,7 +20,7 @@ function SemanticReading({semantic,common,renderRange,ownerScope}:{semantic:Sema
  function exportWords(){if(!language)return;const blob=new Blob([languagePracticeTsv(language)],{type:'text/tab-separated-values;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='minamo-language-phrases.tsv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  function closeWord(){setWord(null);wordTrigger.current?.focus({preventScroll:true});}
 
- const [revealed,setRevealed]=useState(true),[typeset,setTypeset]=useState(false),[math,setMath]=useState<MathRendition|null>(null),[mathError,setMathError]=useState(false),[mathRetry,setMathRetry]=useState(0);
+ const [revealed,setRevealed]=useState(true),[typeset,setTypeset]=useState(true),[math,setMath]=useState<MathRendition|null>(null),[mathError,setMathError]=useState(false),[mathRetry,setMathRetry]=useState(0);
  useEffect(()=>{let current=true;setMath(null);setMathError(false);if(typeset&&semantic.kind==='math')import('../lib/foundry/math-render').then(m=>m.renderMath(semantic.expression)).then(result=>{if(current)setMath(result);}).catch(()=>{if(current)setMathError(true)});return()=>{current=false;};},[semantic,typeset,mathRetry]);
  if(semantic.kind==='ruby'){
   const content=semantic.language,activePhrase=phrase===null?null:content.phrases?.[phrase],selected=word===null?undefined:content.spans[word];
@@ -41,7 +42,7 @@ function SemanticReading({semantic,common,renderRange,ownerScope}:{semantic:Sema
    {notice&&<p data-language-decoration="true" role="status">{notice}</p>}
   </div>;
  }
- return <figure style={{margin:'1rem 0',minWidth:0}}><div data-foundry-decoration="true">{typeset&&math?.status==='rendered'?<div style={{overflowX:'auto',maxWidth:'100%'}} dangerouslySetInnerHTML={{__html:math.html}}/>:null}{mathError&&<p role="status">Typesetting could not load. The exact source remains below. <button type="button" onClick={()=>setMathRetry(value=>value+1)}>Retry typesetting</button></p>}{math?.status==='fallback'&&<p role="status">Typesetting unavailable. The exact source remains below.</p>}<button type="button" aria-expanded={typeset} onClick={()=>setTypeset(!typeset)}>{typeset?'Hide typesetting':'Typeset formula'}</button><figcaption>{semantic.expression.description??'Authored formula; display does not evaluate or prove it.'}</figcaption></div><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}><code {...common} data-canonical-start={0} data-canonical-end={semantic.expression.source.length}>{renderRange(0,semantic.expression.source.length)}</code></pre></figure>;
+ return <figure className="semantic-formula" style={{margin:'1rem 0',minWidth:0}}><div data-foundry-decoration="true">{typeset&&math?.status==='rendered'?<div style={{overflowX:'auto',maxWidth:'100%'}} dangerouslySetInnerHTML={{__html:math.html}}/>:null}{mathError&&<p role="status">Typesetting could not load. <button type="button" onClick={()=>setMathRetry(value=>value+1)}>Retry typesetting</button></p>}<figcaption>{semantic.expression.description??'Authored formula'}</figcaption></div>{math?.status==='rendered'?<details><summary>Formula source</summary><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}><code {...common} data-canonical-start={0} data-canonical-end={semantic.expression.source.length}>{renderRange(0,semantic.expression.source.length)}</code></pre></details>:<pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}><code {...common} data-canonical-start={0} data-canonical-end={semantic.expression.source.length}>{renderRange(0,semantic.expression.source.length)}</code></pre>}</figure>;
 }
 /** Activate only from an owner-enabled Activity Studio workspace. Historic text is never parsed. */
 export const semanticReadingAdapter:ReadingDisplayAdapter=({part,common,renderRange,ownerScope})=>{

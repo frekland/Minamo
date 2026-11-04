@@ -44,3 +44,21 @@ Authenticated Cloud Browser verification has continued on the retained synthetic
 See [the binding V101 UX-polish addendum](pr83-v101-ux-polish-addendum-20261104.md), now linked at the top of PR #83 and AGENTS.md. The existing paused Work commission should **resume from live V101** and complete the unpublished tldraw correction, bounded Pygbag path and **seven selected learner-UX/MCP fixes in one run**, not commission a new design or PR. The specific additions are Expand/Focus, responsive Workbench/Board, compact image flashcards, scoped editing, default maths/diagram improvements, authenticated MCP image upload via existing storage, and Save-to-Project observations without Notes. Flashcard npm package selection remains conditional, following subsequent visual review.
 
 During Work, prioritise changed-path tests, typecheck/build, native/public reconciliation, fast Sites deployment and essential publication verification; **defer extensive Cloud Browser interaction/visual acceptance to a separate follow-up chat**, recording it unverified. Keep PR #83 draft/unmerged until that acceptance and owner review. At this documentation update no code, Site deployment, database, TEST records, access configuration or user content was changed. Previous reports remain accurate historical state, subject to a fresh Sites/native check on resume.
+
+## 4 November resumed implementation — prepublication checkpoint
+
+Resumed from public `40562afcc446204708712dcdd46e6d6940eee141` and verified live/native V101 `eb1a1475390d788405405db405475ac989e6527c`, unchanged custom access revision 1. Writable public/native checkouts were reopened; no old transient workspace state was assumed.
+
+Implemented the seven approved changes: in-place section/block Expand/Restore with Escape and stable keyed children; intermediate-width Workbench/Board layout; compact click/keyboard flashcards with private card-sized images; block-scoped editing plus separately disclosed arrangement and retained Project draft/CAS; automatic safe KaTeX with source fallback and diagram sizing/region borders; `upload_minamo_project_image` through existing raster staging; Project-local observations as adjacent ordinary callout + typed JSON code parts with no Note creation. Existing Save-to-Note remains. No new package or schema/table/ledger. Existing cover-derived catalogue thumbnails are reused.
+
+The image MCP transport deliberately fits the existing 220 KB envelope: standard base64 up to 160,000 characters / 120,000 decoded bytes; signature/MIME/dimensions/owner/retry identity remain the existing asset checks. Larger files use existing authenticated browser upload (8 MiB); no remote URL fetching.
+
+Project observation saves capture exact inputs, seed, timestamp and definition SHA-256, check current definition and Project CAS, append only beside that artefact, and replay a retry-stable receipt without duplication. Classification is browser-reported, never server-observed execution. A neighbouring dirty Project edit retains its original base revision instead of silently overwriting an observation.
+
+Reconciled the saved drawing fix (memoized asset store, stable shape utilities, document-only SDK snapshots) into native. Live save/reload/conflict and graphical Pygbag execution remain explicitly deferred to the separate browser chat. Existing exact standalone-package admission/negative tests passed; the isolated loader/profile was not broadened.
+
+Focused results before publication: 13 D1/R2/MCP/recovery tests passed, one React mount/state/scoped-draft test passed, four diagram/escaping/region tests passed; typecheck passed; production build passed before the final KaTeX stylesheet/region-border additions. Publication rebuilds the final exact source. No full suite, screenshots, learner matrix or comprehensive browser tour.
+
+Approved content-only adjustment: `test-sudoku-20261103` revision 7 → 8, only `s-grid` / `sudoku-grid` now explicitly declares existing `regionRows:3, regionColumns:3` and matching canonical fallback. Operation `pr83-sudoku-region-boundaries-20261104`. Other parts/sections, retained technical fixture, Notes and histories are preserved; no cleanup/reset.
+
+PR83 stays draft/unmerged. Final source/version/deployment receipt follows publication. This checkpoint does not claim visual acceptance or a proven live drawing/Pygbag fix.

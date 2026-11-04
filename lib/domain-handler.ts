@@ -1,3 +1,5 @@
+import {mcpImageSchema,uploadMcpImage} from './mcp-image-upload';
+import {saveProjectObservation} from './project-observation';
 import {manageTestRun,testRunInput,beginAdhocCall,finishAdhocCall} from './test-runs';
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {interactiveSchema} from './project-interactive';
@@ -114,6 +116,7 @@ const projectUpdateJson=toJsonSchema(updateSchema);
 function refineProjectSchema(node:any){if(!node||typeof node!=='object')return;if(node.properties?.parts)node.properties.parts=(sectionSchema as any).properties.parts;if(node.properties?.learningScope)node.properties.learningScope=learningScopeSchema;if(node.properties?.projectCover)node.properties.projectCover={anyOf:[{type:'null'},{type:'object',properties:{assetId:str,decorative:{type:'boolean'},alt:str,focal:{type:'object',properties:{x:{type:'number',minimum:0,maximum:100},y:{type:'number',minimum:0,maximum:100}},required:['x','y'],additionalProperties:false}},required:['assetId','decorative'],additionalProperties:false}]};for(const value of Object.values(node))if(Array.isArray(value))value.forEach(refineProjectSchema);else if(value&&typeof value==='object')refineProjectSchema(value);}
 refineProjectSchema(projectUpdateJson);
 const projectTools=[
+ {name:'upload_minamo_project_image',description:'Explicit owner-requested private raster upload. Standard base64, at most 120000 decoded bytes / 160000 base64 characters within the existing 220 KB request envelope. Reuse uploadId with identical bytes for uncertain retries. Signature, MIME, dimensions and owner are validated through existing asset staging. Returns assetId; attach through apply_project_update using current Project CAS. No arbitrary URLs, remote fetching or pixel interpretation. Larger images require the authenticated Site upload (8 MiB).',inputSchema:toJsonSchema(mcpImageSchema)},
  {name:'manage_minamo_test_run',description:'Owner-requested arbitrary synthetic histories. Start a synthetic Project root; create new member records using synthetic:true,testRunId. Retain and continue indefinitely. Optional model transcript/received-call observer/paged canonical state diff. Preview exact recoverable cleanup, then only explicit authorised:true plus digest; never prefix cleanup, fixture reset or auto-delete.',inputSchema:toJsonSchema(testRunInput)},
  {name:'get_layout_capabilities',description:'Read the six native Project patterns, rich content and image limits. Natural explicitly requested updates need no mandatory preview.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
  {name:'get_project_composition',description:'Read a current Project with inline content, exact referenced records, direct-edit protection and the last 12 record revisions. Optional revision reads an exact earlier arrangement.',inputSchema:projectReadSchema},
@@ -159,6 +162,7 @@ async function invoke(name:string,args:any,env:Cloudflare.Env,owner:string,reque
  if(args.learningSpace!==undefined||args.language!==undefined)parseLearningScopeQuery(args);
  switch(name){
  case 'manage_minamo_test_run':if(!request)throw new DomainError(403,'owner_required','An authenticated owner request is required.');requireScenarioOwner(env as any,request);return manageTestRun(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose')));
+ case 'upload_minamo_project_image':return uploadMcpImage(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose')));
  case 'get_layout_capabilities':return layoutCapabilities;
  case 'get_project_composition':return getProjectComposition(env,owner,args.projectId,args.revision);
  case 'apply_project_update':return receiptWithLinks(await applyProjectUpdate(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose')),'gpt'));
@@ -290,6 +294,7 @@ export async function domainHandler(request:Request,env:Cloudflare.Env):Promise<
  case '/api/trash/empty':return respond(await emptyTrash(env,owner,input));
  case '/api/projects/composition':return respond(await getProjectComposition(env,owner,url.searchParams.get('projectId')??input.projectId,input.revision));
  case '/api/test-runs':requireScenarioOwner(env as any,request);return respond(await manageTestRun(env,owner,input));
+ case '/api/projects/observation':return respond(await saveProjectObservation(env,owner,input));
  case '/api/projects/update':return respond(receiptWithLinks(await applyProjectUpdate(env,owner,input,'user')));
  case '/api/notes/pin':return respond(receiptWithLinks(await setNotePagePin(env,owner,input,'user')));
  case '/api/notes/pins':return respond(await listPagePins(env,owner,input.target??{family:url.searchParams.get('family'),id:url.searchParams.get('id')}));
