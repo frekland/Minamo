@@ -2,7 +2,7 @@
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {Tldraw,loadSnapshot,defaultShapeUtils,type Editor,type TLAssetStore} from 'tldraw';
 import 'tldraw/tldraw.css';
-import {drawingDocument,drawingImageIds,DRAWING_MIME} from '../lib/drawing-document';
+import {drawingAssetId,drawingAssetUrl,drawingDocument,drawingImageIds,DRAWING_MIME} from '../lib/drawing-document';
 import {stageImage} from '../lib/asset-client';
 import {reencodeDrawingJpeg,shouldReencodeDrawingJpeg} from '../lib/drawing-image-upload';
 import {stageMedia,privateMediaUrl} from '../lib/media-client';
@@ -25,12 +25,13 @@ export default function ProjectDrawing({noteId,scope}:{noteId:string;scope:strin
    // Keep its selected bytes locally for live canvas display until the drawing is saved.
    previewUrls.current.set(admitted.assetId,URL.createObjectURL(image));
    setMessage(converted?'Camera JPEG converted locally for drawing compatibility. Save drawing to retain it.':'Image uploaded. Save drawing to retain it.');
-   return{src:'minamo-image:'+admitted.assetId};
+   return{src:drawingAssetUrl(admitted.assetId)};
   }catch(error){setInvalidDraft(true);setMessage('Image upload failed: '+(error as Error).message+' Remove the blank image and try again.');throw error;}
   finally{setUploading(count=>Math.max(0,count-1));}
  },resolve:asset=>{
-  if(asset.type!=='image'||!/^minamo-image:image-[a-f0-9]{64}$/.test(asset.props.src??''))return null;
-  const id=asset.props.src!.slice(13);
+  if(asset.type!=='image')return null;
+  const id=drawingAssetId(asset.props.src);
+  if(!id)return null;
   return previewUrls.current.get(id)??'/api/assets/'+id+'?generation='+encodeURIComponent(workspaceGenerationFromScope(scope));
  }}),[scope]);
  useEffect(()=>()=>{for(const url of previewUrls.current.values())URL.revokeObjectURL(url);previewUrls.current.clear();},[scope,noteId]);
