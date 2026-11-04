@@ -49,6 +49,9 @@
 .pi-flashcards .pi-card-image{max-height:clamp(160px,35vh,330px);border-radius:10px}
 .pi-flashcards>.pi-toolbar{gap:.4rem}
 .pi-flashcards>.pi-toolbar button{border-radius:8px}
+.v2-app .pi-flashcards>.pi-toolbar button{min-height:38px;padding:.45rem .75rem;background:var(--mn-surface-secondary);color:var(--mn-text);border:1px solid var(--mn-border-control);font-size:.85rem;font-weight:500}
+.v2-app .pi-flashcards>.pi-toolbar button:hover{background:color-mix(in srgb,var(--mn-interactive) 13%,var(--mn-surface-secondary));border-color:var(--mn-interactive)}
+.v2-app .pi-flashcards>.pi-toolbar button:nth-child(2){background:color-mix(in srgb,var(--mn-interactive) 16%,var(--mn-surface-secondary));border-color:color-mix(in srgb,var(--mn-interactive) 45%,var(--mn-border-control))}
 @media(max-width:700px){
  .v2-app .pc-project .pc-heading h1{font-size:1.6rem}
  .v2-app .pc-project .rn-section h2{font-size:1.35rem}
