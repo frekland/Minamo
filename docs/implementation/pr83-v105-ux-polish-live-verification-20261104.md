@@ -71,10 +71,18 @@ The remaining visual defect in this pass was the flashcard toolbar's loud bright
 - Saved **V107** ID: `appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_cf6cecb651fc81919ec05889d91d67f0`.
 - Deployed version `appgdep_6aeb077370d4819198f5183b8a243838`: **succeeded**, https://minamo.jscymru.chatgpt.site. No auth/access, DB, Project/Notes/Library or MCP change.
 
-**V107 post-deploy comparison pending** at this exact checkpoint. The V107 version should remain live; do not restore V100 or merge PR #83 automatically.
+### V107 post-deployment browser verification and final disposition
+
+An authenticated Cloud Browser re-opened the existing `test-pr83-release-20261103` technical fixture on the actual **V107** Site. The Flashcards section opened, and the first card flipped from question to answer (`Card 1 of 2 · Answer`). Browser-computed styles confirmed the change was genuinely live, rather than just in source: **Previous/Next/Shuffle/Reset** have neutral dark backgrounds (`rgb(45, 45, 45)`) and legible light text, and the Reveal/Show-question action uses a muted, complementary accent rather than the earlier bright blue blocks. The front/back image loading and flip/navigation behaviour had already been directly verified on V106, and V107 changed styling only. This is a bounded **PASS** for the V107 flashcard visual refinement and continued flip action; it is not a fresh upload or persistence test.
+
+Site control-plane readback after deployment: latest version **107**, V107 deployment **succeeded**, live URL `https://minamo.jscymru.chatgpt.site`, MCP enabled; access mode still **custom**, policy revision **1**, owner and existing external viewer retained. There was no user-data reset, Notes/Library mutation, migration, cleanup or access change during this polish run.
+
+**Acceptance status:** V105–V107 sidebar/title/control/flashcard polish is accepted at the observed desktop viewport, subject to the limitations below. PR #83 must **remain draft and unmerged** for independent owner/Sol review. Keep **V107** live. Production/native source is `1b151ed60e7572ea428176b3b1a78e65f44e4057` and the synchronized public source change is `70cc259f4e8daedbbec26d78ec3c8afdf4de322b`; the public PR's later report commits are documentation-only.
 
 ## Unchanged outstanding scope
 
 - tldraw V104 rectangle save/reload/edit/conflict tested in the preceding report; image-in-canvas and extended gesture coverage remain outside this polish pass.
 - Pygbag actual live graphical output is still deferred/unverified. Avoid a generic packaging service.
 - Independent comprehensive UX critique, mobile testing, flashcards at scale, and owner review remain necessary before merging PR #83.
+- V106 block maximize was seen to work, but the Playwright restore click timed out despite a matched visible locator; a component-level reversal test passed, but browser re-restoration was not independently confirmed. This may be an automation-control issue rather than app failure and should not be silently marked accepted.
+- V107's final visual comparison confirmed CSS and flip state, but image upload, deletion, concurrent refresh and actual persistence across reload were **not** re-run as part of the V107 CSS-only change. The Sudoku cover was directly seen in the full Project page, not its catalogue thumbnail. Narrow/mobile layout was not accepted in this session.
