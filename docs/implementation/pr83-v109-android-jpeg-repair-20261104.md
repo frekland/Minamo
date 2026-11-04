@@ -35,3 +35,9 @@ The original Android JPEG was not provided, and no owner photo has been re-impor
 4. On any failure, collect **exact visible status/toast wording** and approximate time. Inspect current worker logs for sanitized POST status/code evidence, but do not put actual private request headers, cookies, user identifiers or image bytes in Git. Do not weaken private image read eligibility.
 5. Draft recovery after a reload **before attaching staged images** remains a separate image-preview continuity limitation: in-memory Blob URLs cannot survive reload, although a valid canonical draft may still be saveable during staging TTL. Investigate separately if real use demands it.
 6. Pygbag actual graphical package admission and other outstanding interactive gates from V108 remain **unverified**. No TEST fixture cleanup, rollback, merge, access changes or broader product redesign is authorized by this fix.
+
+## Post-deployment smoke and diagnosis correction
+
+- Sites `get_site` after V109 confirmed **live version 109**, **custom** access mode and original access-policy revision **1**.
+- Authenticated Cloud Browser opened Home, Projects, the six-layout synthetic Project and the existing family simulation Project successfully. The test Project rendered the retained sections and the “Hide furigana” control. This was a **read-only live route/render smoke**, not an image-upload test; no stored Project or Note was changed.
+- A follow-up hypothesis that upload IDs could fail because `clientId()` generates hyphenated UUIDs was **disproved**: the server regex explicitly permits a trailing-class hyphen, and existing Miniflare tests already confirm hyphenated upload IDs succeed. No change or deployment was made for that discarded hypothesis. The observed 400 remains unclassified until its response code or original phone photo is available.
