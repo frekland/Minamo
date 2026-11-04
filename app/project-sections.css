@@ -16,3 +16,46 @@
 @media(max-width:940px){.pc-stable-layout>.pc-block.pc-width-auto.pc-workbench,.pc-stable-layout>.pc-block.pc-width-auto.pc-board,.pc-stable-layout>.pc-block.pc-width-auto.pc-research,.pc-stable-layout>.pc-block.pc-width-split,.pc-stable-layout>.pc-block.pc-width-compact{grid-column:1/-1}}
 .pi-flashcards{max-width:48rem;margin:auto}.pi-card{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;min-height:16rem;padding:clamp(1rem,3vw,2rem);background:var(--mn-surface,var(--background,transparent));color:inherit;text-align:center;cursor:pointer;transition:background-color .15s}.pi-card:hover{background:color-mix(in srgb,currentColor 5%,transparent)}.pi-card:focus-visible{outline:3px solid var(--mn-interactive);outline-offset:4px}.pi-card-face{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;opacity:.65}.pi-card-text{font-size:clamp(1.1rem,2.5vw,1.5rem);line-height:1.5;white-space:pre-wrap}.pi-card-image{display:block;max-width:100%;width:auto;height:auto;max-height:clamp(150px,30vh,320px);object-fit:contain;border-radius:6px}.pi-card-hint{font-size:.75rem;opacity:.6;margin-top:auto}.pi-card-details{font-size:.8rem;margin:.5rem 0}.pi-card-details p{margin:.3rem 0}.pi-card-answer{border-color:var(--mn-interactive)}.pi-flashcards>.pi-toolbar{justify-content:center}.pi-canvas canvas{width:100%;max-height:520px;object-fit:contain}.semantic-formula{min-height:4rem}.pc-block .rn-learning-grid td{border-color:var(--mn-border-control,#8794a4)}
 @media(prefers-reduced-motion:reduce){.pi-card{transition:none}}
+
+/* V105: learner-scale hierarchy, compact actions and better use of available width. */
+.v2-app .pc-project .pc-heading h1{font-size:clamp(1.65rem,2.2vw,2.12rem);line-height:1.2;letter-spacing:-.025em;max-width:100%;margin-bottom:.55rem}
+.v2-app .pc-project .pc-heading{margin-bottom:1rem;gap:12px}
+.v2-app .pc-project .pc-description{font-size:.95rem;line-height:1.6;margin:0}
+.v2-app .pc-project .pc-section-heading h2{font-size:clamp(1.25rem,1.8vw,1.55rem);line-height:1.25;margin:0}
+.v2-app .pc-project .rn-section h2{font-size:clamp(1.28rem,1.75vw,1.58rem);line-height:1.3}
+.v2-app .pc-project .rn-section h3{font-size:1.1rem;line-height:1.35}
+.pc-section-heading{justify-content:flex-start;gap:.65rem;min-height:40px}
+.pc-heading-tools{display:flex;gap:3px;margin-left:auto}
+.v2-app .pc-project .pc-icon-action,.v2-app .pc-project .pc-block-tools button{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;min-height:38px;min-width:38px;padding:0;border-radius:9px;background:transparent;color:var(--v2-muted);border:1px solid transparent}
+.v2-app .pc-project .pc-icon-action:hover,.v2-app .pc-project .pc-block-tools button:hover{background:var(--mn-surface-secondary);border-color:var(--mn-border-control);color:var(--v2-ink)}
+.pc-block-tools{gap:2px;margin:0 0 2px;min-height:38px}
+.pc-block-tools button{font-size:0!important;line-height:1}
+.pc-block-tools button:before{font-size:19px;line-height:1}
+.pc-block-tools button[aria-pressed]:before{content:'⤢'}
+.pc-block-tools button[aria-pressed='true']:before{content:'⤡'}
+.pc-block-tools button:not([aria-pressed]):before{content:'✎'}
+.pc-actions>.v2-text-button:only-child{min-width:38px;width:38px;min-height:38px;gap:0;padding:7px;font-size:0!important;border-radius:9px}
+.pc-actions>.v2-text-button:only-child svg{width:17px;height:17px}
+.pc-project .ri-record-bookmark{width:40px;min-width:40px;height:40px;justify-content:center;padding:0;border-radius:9px}
+.pc-project .ri-record-bookmark>span:last-child{display:none}
+.pc-outline{margin:.65rem 0 1rem}
+.pc-outline nav{gap:.4rem;padding:.55rem 0}
+.pc-outline nav a{display:inline-flex;align-items:center;min-height:32px;font-size:.85rem;line-height:1.3;text-decoration:none;border-radius:6px;padding:5px 9px;background:var(--mn-surface-secondary)}
+.pc-outline nav a:hover{text-decoration:underline}
+.pc-stable-layout{gap:.8rem}
+.pc-stable-layout>.pc-block.pc-width-auto.pc-workbench{padding:13px}
+.pc-stable-layout>.pc-block.pc-width-auto.pc-board{padding:12px}
+.pc-stable-layout .pc-block pre,.pc-stable-layout .pc-block table,.pc-stable-layout .pi-host{max-width:100%;min-width:0}
+.pi-flashcards{max-width:43rem}
+.pi-flashcards>.pi-card{border-radius:16px;min-height:14rem;padding:clamp(1.1rem,3vw,1.8rem);box-shadow:0 2px 12px color-mix(in srgb,#000 9%,transparent);gap:.8rem}
+.pi-flashcards .pi-card-face{font-size:.7rem;letter-spacing:.14em}
+.pi-flashcards .pi-card-text{font-size:clamp(1.06rem,2.3vw,1.42rem);line-height:1.45}
+.pi-flashcards .pi-card-image{max-height:clamp(160px,35vh,330px);border-radius:10px}
+.pi-flashcards>.pi-toolbar{gap:.4rem}
+.pi-flashcards>.pi-toolbar button{border-radius:8px}
+@media(max-width:700px){
+ .v2-app .pc-project .pc-heading h1{font-size:1.6rem}
+ .v2-app .pc-project .rn-section h2{font-size:1.35rem}
+ .pc-stable-layout>.pc-block.pc-width-auto.pc-workbench,.pc-stable-layout>.pc-block.pc-width-auto.pc-board{padding:10px}
+ .pc-outline nav a{max-width:100%;overflow-wrap:anywhere}
+}
