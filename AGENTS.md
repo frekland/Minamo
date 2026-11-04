@@ -1,5 +1,10 @@
 # Minamo contributor and coding-agent guidance
 
+## ACTIVE V109 ANDROID DRAWING UPLOAD CHECKPOINT — 4 November 2026
+
+**Live Site V109**, native source `5b1e57e9cf6710750fdf7bfd05e9da01bb670daf`, custom access policy unchanged. Read [the exact V109 repair, logs and safe retry handover](docs/implementation/pr83-v109-android-jpeg-repair-20261104.md) and [the V108 responsive acceptance baseline](docs/implementation/pr83-v108-live-responsive-acceptance-20261104.md) before further drawing/media work. An owner Android JPEG import on V108 failed HTTP 400; V109 adds a narrowly coded JPEG container fallback, staged-image in-memory preview and truthful draft/status behaviour. **The original Android photo has not yet been retested against V109, so end-to-end success is NOT verified.** Do not save a blank failed-image placeholder, change the protected access policy, remove test fixtures, or merge PR #83. Remaining Pygbag graphical runtime acceptance is still unverified. Follow the current fast Sites workflow and checkpoint PR #83 after any additional deployment. The older V103/V102 baseline instructions below are history, not current source pins.
+
+
 
 ## ACTIVE V103 CONTINUATION — 4 November 2026 (supersedes earlier verification scheduling)
 
