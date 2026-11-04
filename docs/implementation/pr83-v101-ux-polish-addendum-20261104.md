@@ -1,0 +1,72 @@
+# PR #83 — V101 continuation and bounded learner-UX polish
+
+**Owner decision: 4 November 2026.** This is a binding addendum for the **same resumed implementation-and-deployment commission** on draft PR #83, not a separate design proposal, new architecture, release train or PR. The seven improvements below are selected. Implement them alongside the outstanding original PR #83 work in one continuous Work run, making small commits/checkpoints. Preserve all other blueprint and `AGENTS.md` boundaries except the two explicit refinements below.
+
+## Authority and starting point
+
+- Read `AGENTS.md`, the PR #83 blueprint/preflight, `docs/implementation/pr83-progress.md`, `pr83-pause-20261103.md`, `pr83-v101-continuation-20261103.md`, and `docs/SITES-RELEASE-WORKFLOW.md` before editing. **The actual deployed V101 is the starting point, not V100.** The last verified production native source is `eb1a1475390d788405405db405475ac989e6527c`; the last confirmed successful deployment is `appgdep_6aea56b6ac94819185671c0137402fbe`. Recheck actual Sites/native state on resume, including public/native divergences; do not assume these pins are still current.
+- The existing public PR #83 branch is `design/v100-plus-flexible-projects-artifacts-test-runs-20261103`; it remains **draft/unmerged**. At preparation, its HEAD was `b8015d5984363c2f03ffef876c9086fec818c2c0` (this documentation commit will advance it). Keep V101 live until a later successful deployment; never roll back automatically, reset storage, delete TEST histories, change access policy or overwrite native-only material.
+- This addendum explicitly refines the earlier assumption that **every saved interactive observation must be a Note**: the owner now also wants a bounded **Save to Project** operation that writes within the Project, with **no Note created**. Retain existing Note-based saves and existing Note data. Do not introduce an independent observation ledger or hidden Notes.
+- This addendum also refines **verification scheduling**: the owner will commission a **separate, extensive Cloud Browser learner-UX/live-interaction review after Work finishes**. The resumed Work implementation should concentrate on code, targeted tests, native build, deployment and a short essential publication/status smoke; do not spend its usage budget on another comprehensive browser tour, screenshot comparison or synthetic acceptance campaign. **Explicitly mark deferred browser behaviours unverified**. This does not excuse known failing tests or dangerous publication conditions, nor permit an unverified feature to be claimed as accepted.
+
+## Evidence motivating the polish
+
+The 3 November 2026 independent Cloud Browser + Minamo MCP evaluation created and inspected the synthetic Project **`test sudoku`** (`test-sudoku-20261103`, test run of the same ID, revision **7** at last readback). It contains six native layouts, 16 content sections, 53 rich parts and a fictional 12 October–2 November near-finished Python Sudoku-solver history. **Only the Project root is in this TEST run: no Notes, Flags or Annotations. Preserve it; do not reset, trash or recreate it.** The older technical fixture `test-pr83-release-20261103` and its existing Notes/history also remain retained.
+
+What was observed: code is readable in Notebook but cramped in 6-column Workbench; Board tables squeeze/truncate columns; compact native parameter-explorer charts waste surrounding space. Direct Edit exposes a very long form with every Project block. Image-backed flashcards function but generic `ReadingImageView` shows oversized images and management/description chrome between question and answer. Formula source needs an extra **Typeset formula** click. Python and native parameter controls run and change visual output, but **Save observation** asks for an existing Note ID, contradicting a Project-only workflow. Direct-UI arrangement persisted; MCP preserved direct edits, rejected protected changes and could hide/restore untouched blocks. The new Sudoku illustrations were generated but **not uploaded** because MCP exposes no image-byte upload and the browser's upload selector requires a local file. Do not claim those images are attached.
+
+## Seven agreed implementation changes — narrow acceptance contract
+
+### 1. Expand/Focus controls for layouts and individual rich blocks
+
+- Add a discreet, keyboard-labelled **Expand/Restore** control for sections/blocks whose contents benefit from more width (especially code, tables, diagrams, Python Canvas, drawings and rich flashcards). An optional **Focus** presentation may use an existing accessible dialog primitive or an equivalent minimal focus treatment; avoid toolbars on every paragraph.
+- The existing `pc-stable-layout` has 12 columns (`app/project-sections.css`). First use simple full-span styling such as `grid-column: 1 / -1` and local React view state; do not invent a seventh Project layout or persist transient expanded state in Project history. Keep prose at an appropriate reading measure, while allowing code/figures a wider canvas.
+- **Critically, do not remount/re-key tldraw, Python or other interactive runtime components merely because a view expands/collapses.** Preserve in-memory drawing/parameter state. Focus mode needs Escape, restored focus, mobile usability and reduced-motion consideration. If a dialog would portal/remount a runtime, expand the mounted element in place instead.
+
+### 2. Responsive Workbench/Board widths
+
+- Correct fixed half/third-width treatment in `app/project-sections.css` at intermediate widths; use content-aware minima and appropriate breakpoints, not the current 700px-only fallback. A three-column table or long Python listing must have an intelligible full-width option without horizontal clipping of the whole page.
+- Consider `react-resizable-panels` **only if** natural responsive layout plus Expand are insufficient. Any package must be deliberately selected, checked for compatibility/accessibility/licence and must not introduce new persisted arrangement machinery. Avoid forcing all split panels to be manually resized.
+
+### 3. Flashcard presentation polish; npm adoption conditional
+
+- Retain the current flashcard **data contract**, private image assets, alt text, keyboard navigation, shuffle, reveal and reset. In `app/project-interactive.tsx`, avoid rendering a normal full `ReadingImageView` inside each card with its large metadata/details chrome. Use a purpose-sized card-media presentation (`object-fit: contain`, sensible responsive max dimensions) with optional discreet image details and clear front/back hierarchy. A card tap/click should flip, as well as the existing labelled button; provide reduced-motion behaviour.
+- **Do not choose or install an npm flashcard package yet.** First implement and assess the small native presentation changes. If they prove inadequate or cumbersome, recommend a maintained, licence-compatible, accessible React flashcard package (e.g. evaluate `react-quizlet-flashcard`), documenting why it improves on the compact current implementation. **Package selection is deferred until the later browser review**, unless a concrete technical blocker makes it essential during implementation. Avoid dependency churn for animation alone.
+
+### 4. Local, block-scoped direct editing
+
+- Replace the visually overwhelming Edit-all-blocks presentation with a targeted **Edit this block** affordance and, when useful, Edit section. Retain the existing overall Project save transaction, revision/CAS, locally recoverable drafts, protected direct-edit IDs, undo/error information and equivalent MCP operations. Expose rearrangement separately on demand; no freeform drag-canvas/page builder.
+- Scope changes carefully: editing one block must not inadvertently replace other sections, assets, definitions or direct edits. Existing imported/legacy Project sections should remain usable. Keep an accessible way to add parts/sections.
+
+### 5. Formula and diagram readability
+
+- Typeset valid mathematical content on first display, with a readable fallback and optional source-view control rather than a compulsory **Typeset formula** button. Avoid blank initial render, layout jump and unguarded executable markup.
+- Improve image/diagram enlargement and sensible default sizing within wider blocks. For the Sudoku grid specifically, strengthen 3-by-3 boundaries **in the synthetic content or its existing diagram representation**; do not build a dedicated Sudoku renderer or expand the schema for one test.
+
+### 6. Authenticated GPT/MCP Project-image upload
+
+- Reuse the **existing authenticated Site `stageImage`/private asset bucket and Project-cover attachment contract** (`app/project-cover.tsx`, `lib/asset-client.ts`, existing asset routes/permissions). Supply a bounded MCP-accessible operation that admits an image (bytes/data URL or another transport actually supported by this host), validates MIME/signature/dimensions/size, binds the owner's scope, uses retry-stable identity and returns the canonical `assetId`; Project cover/content/flashcard association then uses the existing exact-revision Project update. Derive catalogue thumbnails from the cover when practicable; **do not create a new thumbnail store/service**.
+- Check MCP argument/payload limits before promising large base64 files. If this host cannot transmit binary safely, document the real constraint and smallest compatible upload handoff; **do not** fetch arbitrary remote URLs (SSRF/rights/privacy), bypass private permissions or create a new image infrastructure. Add narrow positive/negative tests for ownership, type/size, replay, stale Project revision and readback. After deploy, a changed personal MCP catalogue may need the owner to refresh/reinstall the existing plugin; document that handoff.
+
+### 7. Project-local saved Python/parameter observations
+
+- Provide **Save to Project** next to a successful Python/native parameter run. Persist concise typed inputs, timestamp, descriptive result/observation and optionally an existing private image asset as a rich content part in the **same Project**, using its existing CAS/recovery machinery. Do **not** require an existing Note ID, create a hidden Note or infer mastery. Keep the existing Save-to-Note path for users who want it.
+- Place saved observations close to their related activity or in a modest Project-local Observations block, without extra learner-facing backend/metadata chrome. Preserve the original interactive definition, neighbouring content and direct edits. Errors/retries/stale revisions must not silently duplicate or erase observations. A saved observation must distinguish actual in-browser runtime output from fictional or user-reported results.
+
+## Complete the pre-existing PR #83 work in this same run
+
+1. **tldraw first:** reconcile the committed-but-undeployed candidate store identity/snapshot correction (`app/project-drawing.tsx`) with the actual protected native V101 source. Run focused tests/build; do not save a blank/corrupt V101 canvas, and do not claim the reset issue fixed without later observed live evidence. Preserve Note/R2 recovery and image permissions.
+2. **Pygbag:** keep the bounded `standalone-html-v1` packaged pygame-ce format in `pr83-pygbag-packaging.md` and `pr83-pygbag-probe.md`; run available local/package-level checks. Do not create a general ZIP packaging service or expand the runtime. Any true live graphical execution left for the subsequent browser review must be marked pending.
+3. Deliver the seven changes above on the existing draft branch, in small reviewable commits, porting **only touched shared files** to the protected native Site source after comparing actual current content. Preserve V101 current production until a successful successor release; no database reset, broad native tree overwrite, access-policy edit or automatic synthetic cleanup.
+
+## Efficient verification and deployment division
+
+**During resumed Work:** narrowly focused component/domain/auth/CAS/asset/recovery tests for touched paths; typecheck; production build; source reconciliation; save/deploy via the existing fast Sites release workflow; confirm Sites terminal success, exact native/public commits and unchanged owner-private audience/auth/D1/R2/MCP. Perform at most a short relevant authenticated smoke when essential to establish the release is not plainly broken, **not** a broad Cloud Browser learner walkthrough. Do not burn the implementation run on mobile screenshots, multiple layout tours, historical full suites or nine-persona synthetic campaigns. Never claim skipped browser tests passed. Keep PR #83 **draft and unmerged** after deployment pending separate browser acceptance and the owner's Sol 6.1 review.
+
+**In a later chat, outside the resumed Work run:** the owner will ask an independent agent to use Cloud Browser + Minamo MCP against the actual deployed version. Test `test-sudoku-20261103` and retained `test-pr83-release-20261103` without resetting them: desktop/mobile widths, focus/restore with live runtime state, Workbench/Board long code and tables, flashcard front/back images after reload, targeted edit and MCP protection, typeset maths, upload/cover/thumbnail, Project-only observation save/readback, drawing shape/text/image→save→reload→edit/revision conflict, Pygbag graphics, and TEST exact membership/cleanup preview (no cleanup). Publish specific bugs and UX judgement before marking the PR review-ready. A later browser finding may justify considering an npm flashcard package, **not** its automatic installation now.
+
+## Handover discipline
+
+Update `docs/implementation/pr83-progress.md` as work proceeds and add a dated, exact implementation/verification handover before stopping: current public/native SHAs, new Sites version/deployment ID/status, changed files/commits, focused tests and build, what was technically checked versus explicitly deferred to browser, known failures, plugin refresh need, TEST fixtures retained, precise next actions. Keep old reports as historical evidence. In an unfinished run, leave a recoverable checkpoint and exact outstanding work rather than repeatedly restarting or declaring the implementation complete.
+
+**Do not expand into PR #84, external integrations, Home/Library redesign, broad Notes redesign, a separate workbench architecture, extensive test-fixture creation, or a new UI library simply because one is available.**
