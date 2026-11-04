@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {drawingDocument} from '../lib/drawing-document.ts';
+import {shouldReencodeDrawingJpeg} from '../lib/drawing-image-upload.ts';
 
 const user={id:'user:author',typeName:'user',name:'Learner',color:'#4d6bd8',imageUrl:'',meta:{}};
 const page={id:'page:page1',typeName:'page',name:'Page 1',index:'a1',meta:{}};
@@ -21,4 +22,20 @@ test('tldraw session records and malformed attribution are still rejected',()=>{
 test('drawing media controls remain enforced',()=>{
   assert.throws(()=>drawingDocument({...document,store:{...document.store,'asset:remote':{id:'asset:remote',typeName:'asset',type:'image',props:{src:'https://example.test/remote.png'}}}}),/admitted Minamo raster images/);
   assert.throws(()=>drawingDocument({...document,store:{...document.store,[rectangle.id]:{...rectangle,type:'embed'}}}),/Unsupported drawing shape/);
+});
+
+test('an admitted image stays a canonical drawing reference',()=>{
+  const id='image-'+'a'.repeat(64);
+  const image={id:'asset:test',typeName:'asset',type:'image',props:{src:'minamo-image:'+id}};
+  assert.doesNotThrow(()=>drawingDocument({...document,store:{...document.store,[image.id]:image}}));
+});
+
+test('JPEG fallback is restricted to explicit server container rejection',()=>{
+  const jpeg={type:'image/jpeg'},png={type:'image/png'};
+  const ImageStageError=class extends Error{constructor(message,status,code){super(message);this.name='ImageStageError';this.status=status;this.code=code;}};
+  assert.equal(shouldReencodeDrawingJpeg(jpeg,new ImageStageError('JPEG marker rejected',400,'invalid_image')),true);
+  assert.equal(shouldReencodeDrawingJpeg(png,new ImageStageError('PNG rejected',400,'invalid_image')),false);
+  for(const failure of [new Error('network failed'),new ImageStageError('unauthorized',401,'authentication_required'),new ImageStageError('quota',413,'image_size'),new ImageStageError('generation conflict',409,'workspace_generation_conflict'),new ImageStageError('storage down',503,'asset_storage_unavailable'),new ImageStageError('bad mime',400,'image_mime_mismatch')]){
+    assert.equal(shouldReencodeDrawingJpeg(jpeg,failure),false);
+  }
 });
