@@ -6,6 +6,12 @@ export const IMAGE_UPLOAD_LIMITS=Object.freeze({maxBytes:8*1024*1024,maxDimensio
 export type ImageMime='image/png'|'image/jpeg'|'image/webp';
 export type PrivateImageAsset={assetId:string;mime:ImageMime;bytes:number;width:number;height:number;digest:string;revision:number;state:'staged'|'attached';expiresAt?:string|null};
 export type ImageAttachmentProposal={assetId:string;alt:string;caption?:string};
+/** Preserve structured admission failures so clients can choose a narrow, safe compatibility fallback. */
+export class ImageStageError extends Error{
+ readonly status:number;
+ readonly code:string;
+ constructor(message:string,status:number,code:string){super(message);this.name='ImageStageError';this.status=status;this.code=code;}
+}
 const MIME_TYPES:readonly string[]=['image/png','image/jpeg','image/webp'];
 export function imageAttachmentProposal(assetId:string,alt:string,caption=''):ImageAttachmentProposal{
  if(typeof assetId!=='string'||!assetId||assetId.length>240||/[\u0000-\u0020/\\?#]/.test(assetId))throw new Error('The uploaded image is unavailable.');
@@ -38,7 +44,7 @@ export async function stageImage(file:Blob,uploadId:string,signal?:AbortSignal,o
  try{
  const response=await generationFetch(ownerScope,'/api/assets/stage?'+new URLSearchParams({uploadId}),{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{'Content-Type':file.type},body:file,signal:abort.signal});
  let result:unknown;try{result=await response.json();}catch{throw new Error('Image acknowledgement could not be read. Retry the same original image.');}
- if(!response.ok){const message=result&&typeof result==='object'&&(result as {error?:unknown}).error;throw new Error(typeof message==='string'?message.slice(0,1000):'Image upload was not acknowledged. Retry the same original image.');}
+ if(!response.ok){const details=result&&typeof result==='object'?result as {error?:unknown;code?:unknown}:{};throw new ImageStageError(typeof details.error==='string'?details.error.slice(0,1000):'Image upload was not acknowledged. Retry the same original image.',response.status,typeof details.code==='string'?details.code:'unknown');}
  return parseStagedImage(result&&typeof result==='object'?(result as {asset?:unknown}).asset:null,file);
  }finally{clearTimeout(timeout);signal?.removeEventListener('abort',forwardAbort);}
 }
