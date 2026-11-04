@@ -62,3 +62,7 @@ Focused results before publication: 13 D1/R2/MCP/recovery tests passed, one Reac
 Approved content-only adjustment: `test-sudoku-20261103` revision 7 → 8, only `s-grid` / `sudoku-grid` now explicitly declares existing `regionRows:3, regionColumns:3` and matching canonical fallback. Operation `pr83-sudoku-region-boundaries-20261104`. Other parts/sections, retained technical fixture, Notes and histories are preserved; no cleanup/reset.
 
 PR83 stays draft/unmerged. Final source/version/deployment receipt follows publication. This checkpoint does not claim visual acceptance or a proven live drawing/Pygbag fix.
+
+## V102 publication completed — 4 November 2026
+
+**V102 is live, deployment succeeded.** Public implementation `05487f7ced053c60ffeb4c2273445bf407b92e25`; native `4ecf2a5e47d9ed276dadb3a5c58899c8612f63d5`. All seven addendum changes and the saved drawing correction are included. 18 focused tests, native typecheck and final build/package passed. Existing custom access revision 1/auth/DB/R2/MCP preserved. See [exact V102 release and acceptance handover](pr83-v102-release-20261104.md) for source/archive/version/deployment identities, changed-path reconciliation and all verification limits. PR remains draft/unmerged. Comprehensive browser acceptance, live drawing restoration and actual Pygbag graphics are explicitly pending in the separate chat; plugin refresh is needed for the new image tool.

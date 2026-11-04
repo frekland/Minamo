@@ -1,5 +1,9 @@
 # Minamo contributor and coding-agent guidance
 
+## LATEST DEPLOYED STATE — 4 November 2026
+
+**V102 is live**, native `4ecf2a5e47d9ed276dadb3a5c58899c8612f63d5`, public implementation `05487f7ced053c60ffeb4c2273445bf407b92e25`. All seven UX addendum changes and the drawing candidate correction are deployed. Read [the exact V102 handover](docs/implementation/pr83-v102-release-20261104.md). Focused checks/typecheck/build and essential publication smoke passed; comprehensive Cloud Browser acceptance, actual drawing restoration and Pygbag graphics remain pending. **Keep PR83 draft/unmerged** for that separate acceptance and owner review. Refresh the existing personal plugin for the new bounded image-upload tool; preserve retained Projects/data/access. Older V101/V100 instructions below are starting-point history, not current deployment pins.
+
 ## CURRENT PR #83 RESUME DIRECTIVE — 4 November 2026
 
 **Owner-approved same-run implementation addition:** Read [the bounded V101 UX-polish addendum](docs/implementation/pr83-v101-ux-polish-addendum-20261104.md) and [the last exact V101 continuation record](docs/implementation/pr83-v101-continuation-20261103.md) before resuming draft PR #83. **Live V101—not V100—is the starting deployment.** Complete the still-unpublished tldraw store fix, the bounded Pygbag check, and the seven agreed Project UX/MCP improvements **within the existing PR #83 Work commission**, not a separate architecture/PR. Keep the six layouts and all existing data/access/persistence safeguards.
