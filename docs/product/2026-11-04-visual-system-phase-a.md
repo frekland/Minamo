@@ -65,3 +65,48 @@ After owner reviews the fuller prototype, reconcile the **then-current native Si
 - Read `AGENTS.md`, PR #80 product decisions, and the live Minamo UI before any production integration; do not assume default-branch source equals native source.
 - Continue by inspecting this draft PR and the private Visual Lab, not by reconstructing an unspecified previous chat.
 - **Current status at creation:** design contract recorded; Phase A implementation and deployment evidence will be appended to this document after the lab is updated.
+
+
+## Phase A implementation receipt — 4 November 2026
+
+**Outcome:** The existing owner-private Visual Lab was rebuilt and published as **Site V2**. This is a visual/interaction acceptance fixture, not native Minamo production implementation.
+
+- **Live lab:** https://minamo-visual-lab.jscymru.chatgpt.site
+- **Site project:** `appgprj_6aeba0aa528c81918be19dd51427b2cb`
+- **Deployed source commit:** `2e70dc3222f927f57cd17db0f0000647a956d1eb`
+- **Saved version ID:** `appgprj_6aeba0aa528c81918be19dd51427b2cb~appgver_7c40a883120c81918d724b810d035dbc`
+- **Deployment ID:** `appgdep_6aebae3fe2d08191b163e4d2f164a919`; Sites returned `succeeded`.
+- **Access:** `custom`, owner-only allowlist of one user; unchanged from V1.
+- **Source:** the Lab Site's separate source repository, not `frekland/Minamo` production app code.
+
+### Actual lab surfaces and behaviours
+
+- A credible Home, Projects catalogue (search and cards/list), two synthetic Projects (Japanese and networking), and Library subject/article reading, with everyday learner content and no marketing hero or explainer cards in the learning space.
+- A six-layout Project with an ordered outline, contextual section editing and saved additions, Project title/summary editing for the Japanese fixture, and Add section with a layout and title. Sections and edited fields use browser-local storage. Project fixtures remain separate when switching.
+- Dashboard, Guide (Japanese furigana, translation reveal, typed response), Notebook, Workbench (interactive subject changes and code/diagram example), Board (flip/next cards), Research (source questions and Library navigation).
+- Notes dock with note list, creation, title/body editing and debounced local autosave, pin/unpin on the current section/article, and dock resizing. Supported image types up to 500 KB can be previewed and saved locally; there is **no real upload or sync**.
+- Library subject filtering, search, an article reader with table of contents, code/copy affordance and contextual Notes.
+- The agreed Deep Ocean, Midnight, Graphite, Dusk Violet and Classic-reference themes; control radius and card-density settings are remembered on the device.
+
+### Verification performed
+
+- `node --check dist/app.js` passed; static deployment packaging and source push succeeded.
+- Browser preview inspected visually on a desktop-size viewport. The Japanese Project and all six outline section labels rendered. Guide navigation and translation control were present.
+- Notes dock opened; title/body and note selection were shown; editing changed content, autosave transitioned through “Saving…” to “Saved on this device”, and unpinning reduced the current-page pin count. The edit remained after refreshing and reopening the dock.
+- Add section created a seventh section, navigated to it, and remained present after refresh and switching out to the catalogue and back.
+- Library subject filter reduced the article list; opening the article displayed its reading content and TOC.
+- Settings theme selection changed the visual palette; Dusk Violet and Deep Ocean were visually inspected.
+- A concrete bug was found: with the Notes dock open, Dashboard cards became too narrow and the floating Notes trigger overlapped the dock. CSS was changed to stack these cards, hide the redundant trigger and contain the Note-list overflow, then the corrected docked view was visually checked.
+- The Sites connector independently confirmed V2 active with the same custom owner-only access policy.
+
+### Known limits and next decision
+
+- **Mobile-width browser QA was not achieved** in this session; responsive CSS was implemented but its usability requires an actual 320–430 px inspection on a mobile device/browser. No claim of mobile acceptance.
+- This is browser-local illustrative content, not actual Minamo auth, Notes transactions, MCP, Project CAS, Library source rights, tldraw, asset service or persistent server editing. Appearance and interaction fidelity—not backend parity—is the evidence it provides.
+- More complex rendering such as large tables, rich media, real tldraw canvas and advanced PR #83 composition features is **not comprehensively represented**. Owners should check those in the live native app before Phase B.
+- The specific Notes image handling is a small local demonstration with a 500 KB limit; production has independent private asset handling. Do not migrate this fixture as production code.
+- **Next:** owner explores V2 on Pixel 8a and desktop, judging the full Project/Notes experience and colour palette. Record feedback in this draft PR. Only then commission Phase B against fresh native/public source identities. Do **not** merge or deploy Minamo production from this PR.
+
+### Fresh-chat continuation prompt
+
+“Review draft PR #86 in `frekland/Minamo`, especially `docs/product/2026-11-04-visual-system-phase-a.md`, and inspect the owner-private Minamo Visual Lab V2 at https://minamo-visual-lab.jscymru.chatgpt.site. Treat the lab as an isolated synthetic UX fixture. Do a candid visual/functional acceptance on desktop and mobile, especially a full Japanese Project with Notes open, Library article, theme switching and contextual editing. Identify oversimplifications and design regressions against current Minamo, not just superficial aesthetics. Do not change production Minamo or PRs #83/#85; add findings to PR #86 and propose a bounded Phase B only if warranted.”
