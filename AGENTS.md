@@ -1,5 +1,12 @@
 # Minamo contributor and coding-agent guidance
 
+
+## ACTIVE V103 CONTINUATION — 4 November 2026 (supersedes earlier verification scheduling)
+
+**PR #83 remains draft/unmerged; V102 is the live starting point.** Read the binding [V102 browser findings and V103 Work commission](docs/implementation/pr83-v102-browser-findings-v103-commission-20261104.md) **before editing**. Authenticated Cloud Browser found a **confirmed P0 tldraw failure**: drawing a rectangle works, but Save returns `Unsupported drawing record.` and reload loses the shape. Work has explicit autonomy to diagnose and repair the entire existing tldraw integration, and **must itself demonstrate** real browser shape/text/image save → reload → edit → second save, plus conflict/draft recovery, before claiming V103 complete. Existing empty-store tests do not satisfy this gate.
+
+Implement the bounded cover-image, expansion-control, Workbench-spacing and flashcard visual refinements in the same V103 run. Run focused code/build checks, but **defer comprehensive browser UX acceptance of those non-tldraw changes to the owner's next independent chat**. Pygbag live graphical acceptance may also be deferred and must remain labelled unverified if so. Preserve all data, policies and Notes; deploy only through the fast Sites workflow; no automatic rollback/reset/merge. Commit a detailed, exact-source implementation and browser-verification handover.
+
 ## LATEST DEPLOYED STATE — 4 November 2026
 
 **V102 is live**, native `4ecf2a5e47d9ed276dadb3a5c58899c8612f63d5`, public implementation `05487f7ced053c60ffeb4c2273445bf407b92e25`. All seven UX addendum changes and the drawing candidate correction are deployed. Read [the exact V102 handover](docs/implementation/pr83-v102-release-20261104.md). Focused checks/typecheck/build and essential publication smoke passed; comprehensive Cloud Browser acceptance, actual drawing restoration and Pygbag graphics remain pending. **Keep PR83 draft/unmerged** for that separate acceptance and owner review. Refresh the existing personal plugin for the new bounded image-upload tool; preserve retained Projects/data/access. Older V101/V100 instructions below are starting-point history, not current deployment pins.
