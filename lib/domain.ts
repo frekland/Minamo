@@ -1,3 +1,6 @@
+import {drawingDocument,drawingImageIds,DRAWING_MIME} from './drawing-document';
+import {PYGBAG_MIME,PYGBAG_RUNTIME} from './pygbag-package';
+import {validateInteractive,interactiveImages} from './project-interactive';
 import {validateComposition,adaptedComposition,protectedSnapshot,projectRefSchema} from './project-composition';
 import {validateProjectCover} from './project-cover';
 import {libraryReferenceFindings} from './library-reference-policy';
@@ -18,7 +21,7 @@ import {readCatalogue,readCatalogueHeads,type CatalogueHead,prepareCatalogue,pro
 import {validateLearning} from './learning-validation';
 import {requireEditorialPackage} from './editorial-policy';
 import {compileAuthorData} from './author-input';
-import {prepareMediaAttachment,mediaAdmissionGuard,mediaAttachmentStatements,readMediaMetadata,type MediaMetadata} from './media';
+import {admittedMediaBytes,prepareMediaAttachment,mediaAdmissionGuard,mediaAttachmentStatements,readMediaMetadata,type MediaMetadata} from './media';
 import {generationContext,generationGuard,requireGeneration,assertGenerationCurrent,permissionFloorStatements} from './generations';
 import {executeFlagCommand,readBookmarkState,projectFlagBookmark,targetOfFlag,type FlagPreparation} from './bookmarks';
 import {flagTargetKey} from './bookmark-targets';
@@ -70,7 +73,8 @@ function pinnedReference(url:URL,value:Record<string,unknown>){
  if(value.kind==='repository'&&(!value.commit||!value.path))fail(400,'unpinned_source','Repository references require an exact commit and file path. A reference is not execution evidence.');
 }
 function validateRichPart(p:Record<string,unknown>){
- allowedKeys(p,['id','kind','text','language','joinBefore','table','callout','reference','image','media','diagram','excerpt','inline','semantic']);
+ if(p.kind==='interactive'){try{p.interactive=validateInteractive(p.interactive);}catch(e){fail(400,'invalid_interactive',(e as Error).message);}if(!text(p.text,20000,true))fail(400,'interactive_fallback','Interactive content needs canonical explanatory text.');}else if(p.interactive!==undefined)fail(400,'invalid_interactive','Interactive metadata belongs to an interactive part.');
+ allowedKeys(p,['id','kind','text','language','joinBefore','table','callout','reference','image','media','diagram','excerpt','inline','semantic','interactive']);
  if(p.semantic!==undefined){if(!['paragraph','code','excerpt'].includes(String(p.kind)))fail(400,'invalid_semantic','Semantic metadata belongs to paragraph/code/excerpt source.');try{p.semantic=admitSemanticContent(p.semantic,String(p.text));}catch(error){fail(400,'invalid_semantic',(error as Error).message);}}
  if(p.inline!==undefined){const error=readingInlineError(String(p.text),p.inline);if(error)fail(400,'invalid_inline',error);}
  if(p.kind==='table'){
@@ -119,9 +123,9 @@ export function validateData(input:unknown,f:Family,existing?:WorkspaceRecord|nu
  if(data.sections!==undefined){
   if(!isReadingFamily(f)||!Array.isArray(data.sections)||data.sections.length>30)fail(400,'invalid_sections','Only readable records have bounded sections.');
   const seen=new Set<string>();let size=0;
-  for(const [sectionIndex,section] of data.sections.entries()){if(!object(section)||!identifier(section.id)||seen.has(String(section.id))||!text(section.title,180,true)||!Array.isArray(section.parts)||section.parts.length>40)fail(400,'invalid_section','Sections need unique stable IDs, titles and bounded parts.');seen.add(String(section.id));allowedKeys(section,['id','title','parts']);const partIds=new Set();for(const [partIndex,p] of section.parts.entries()){if(!object(p)||!identifier(p.id)||partIds.has(p.id)||!['paragraph','code','diagram','table','callout','reference','image','excerpt','media'].includes(String(p.kind))||!text(p.text,20000,true)||(p.language!==undefined&&!text(p.language,40)))fail(400,'invalid_part','A content part is invalid.');try{validateRichPart(p)}catch(error){if(error instanceof DomainError&&!error.path)error.path=`data.sections[${sectionIndex}].parts[${partIndex}]`+(error.code==='invalid_reference'?'.reference.url':error.code.startsWith('noncanonical_')?'.text':'');throw error;}if(p.joinBefore!==undefined&&!['','\n'].includes(String(p.joinBefore)))fail(400,'invalid_join','Content parts use explicit empty or LF joins.');partIds.add(p.id);size+=(p.text as string).length;}}const imageIds=new Set((data.sections as any[]).flatMap(section=>section.parts).filter(p=>p.kind==='image').map(p=>p.image.assetId));const excerptIds=new Set((data.sections as any[]).flatMap(section=>section.parts).filter(p=>p.kind==='excerpt').map(p=>p.excerpt.sourceId));if(excerptIds.size>8)fail(400,'excerpt_budget','Use at most eight distinct excerpt Sources per record.');if(imageIds.size>16)fail(400,'image_budget','A record may reference at most 16 distinct private images.');if(size>100000)fail(400,'article_too_large','Article text exceeds the bounded rendition limit.');
+for(const [sectionIndex,section] of data.sections.entries()){if(!object(section)||!identifier(section.id)||seen.has(String(section.id))||!text(section.title,180,true)||!Array.isArray(section.parts)||section.parts.length>40)fail(400,'invalid_section','Sections need unique stable IDs, titles and bounded parts.');seen.add(String(section.id));allowedKeys(section,['id','title','parts']);const partIds=new Set();for(const [partIndex,p] of section.parts.entries()){if(!object(p)||!identifier(p.id)||partIds.has(p.id)||!['paragraph','code','diagram','table','callout','reference','image','excerpt','media','interactive'].includes(String(p.kind))||!text(p.text,20000,true)||(p.language!==undefined&&!text(p.language,40)))fail(400,'invalid_part','A content part is invalid.');try{validateRichPart(p)}catch(error){if(error instanceof DomainError&&!error.path)error.path=`data.sections[${sectionIndex}].parts[${partIndex}]`+(error.code==='invalid_reference'?'.reference.url':error.code.startsWith('noncanonical_')?'.text':'');throw error;}if(p.joinBefore!==undefined&&!['','\n'].includes(String(p.joinBefore)))fail(400,'invalid_join','Content parts use explicit empty or LF joins.');partIds.add(p.id);size+=(p.text as string).length;}}const imageIds=new Set((data.sections as any[]).flatMap(section=>section.parts).filter(p=>p.kind==='image').map(p=>p.image.assetId));const excerptIds=new Set((data.sections as any[]).flatMap(section=>section.parts).filter(p=>p.kind==='excerpt').map(p=>p.excerpt.sourceId));if(excerptIds.size>8)fail(400,'excerpt_budget','Use at most eight distinct excerpt Sources per record.');if(imageIds.size>16)fail(400,'image_budget','A record may reference at most 16 distinct private images.');if(size>100000)fail(400,'article_too_large','Article text exceeds the bounded rendition limit.');
  }
- const coverForBudget=data.projectCover!==undefined?data.projectCover:existing?.projectCover;const coverImages=new Set((data.sections??existing?.sections??[]).flatMap((section:any)=>section.parts).filter((part:any)=>part.kind==='image'&&part.image).map((part:any)=>part.image.assetId));if(coverForBudget)coverImages.add(coverForBudget.assetId);if(coverImages.size>16)fail(400,'image_budget','A record may reference at most 16 distinct private images.');
+const coverForBudget=data.projectCover!==undefined?data.projectCover:existing?.projectCover;const coverImages=new Set((data.sections??existing?.sections??[]).flatMap((section:any)=>section.parts).filter((part:any)=>part.kind==='image'&&part.image).map((part:any)=>part.image.assetId));for(const section of data.sections??existing?.sections??[])for(const part of section.parts)for(const image of interactiveImages(part.interactive))coverImages.add(image.assetId);if(coverForBudget)coverImages.add(coverForBudget.assetId);if(coverImages.size>16)fail(400,'image_budget','A record may reference at most 16 distinct private images.');
  if(data.concepts!==undefined||(f==='article'&&data.sections!==undefined&&existing?.concepts?.length)){
   const concepts=data.concepts??existing?.concepts;if(f!=='article'||!Array.isArray(concepts)||concepts.length>40)fail(400,'invalid_concepts','Canonical entries belong inside an Article, with at most 40 entries.');
   const target={...existing,...data,sections:data.sections??existing?.sections??[]} as WorkspaceRecord;const mapped=canonicalReadingParts(target);const ids=new Set<string>();
@@ -170,15 +174,15 @@ async function projectExcerpts(env:Cloudflare.Env,owner:string,record:WorkspaceR
 }
 /** Read projections never mutate retained editions or write unavailable placeholders into storage. */
 async function projectImages(env:Cloudflare.Env,owner:string,record:WorkspaceRecord,allowStaged=false):Promise<WorkspaceRecord>{
- const parts=(record.sections??[]).flatMap(s=>s.parts).filter(p=>p.kind==='image'&&p.image);const cover=record.family==='journey'?record.projectCover:null;if(!parts.length&&!cover)return record;
+ const parts=(record.sections??[]).flatMap(s=>s.parts).flatMap(p=>p.kind==='interactive'?interactiveImages(p.interactive).map(image=>({image})):p.kind==='image'&&p.image?[{image:p.image}]:[]);const cover=record.family==='journey'?record.projectCover:null;if(!parts.length&&!cover)return record;
  const ids=[...new Set([...parts.map(p=>p.image!.assetId),...(cover?[cover.assetId]:[])])];const eligible=new Map<string,ImageMetadata>();
  for(const id of ids){const image=await readImageMetadata(env,owner,id);if(!record.trashedAt&&image&&(image.state==='attached'||(allowStaged&&image.state==='staged'&&!!image.expiresAt&&image.expiresAt>new Date().toISOString())))eligible.set(id,image);}
- return {...record,...(cover&&!eligible.has(cover.assetId)?{projectCover:null}:{}),sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>part.kind==='image'&&part.image&&!eligible.has(part.image.assetId)?{id:part.id,kind:'image',text:'',unavailable:true}:part.kind==='image'&&part.image&&eligible.has(part.image.assetId)?{...part,imageDisplay:{width:eligible.get(part.image.assetId)!.width,height:eligible.get(part.image.assetId)!.height,mime:eligible.get(part.image.assetId)!.mime}}:part)}))};
+ return {...record,...(cover&&!eligible.has(cover.assetId)?{projectCover:null}:{}),sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>part.interactive?.type==='flashcards'?{...part,interactive:{...part.interactive,cards:part.interactive.cards.map(c=>({...c,front:{...c.front,...(c.front.image&&!eligible.has(c.front.image.assetId)?{image:undefined}:{})},back:{...c.back,...(c.back.image&&!eligible.has(c.back.image.assetId)?{image:undefined}:{})}}))}}:part.kind==='image'&&part.image&&!eligible.has(part.image.assetId)?{id:part.id,kind:'image',text:'',unavailable:true}:part.kind==='image'&&part.image&&eligible.has(part.image.assetId)?{...part,imageDisplay:{width:eligible.get(part.image.assetId)!.width,height:eligible.get(part.image.assetId)!.height,mime:eligible.get(part.image.assetId)!.mime}}:part)}))};
 }
 async function projectMedia(env:Cloudflare.Env,owner:string,record:WorkspaceRecord,allowStaged=false):Promise<WorkspaceRecord>{
- const parts=(record.sections??[]).flatMap(section=>section.parts).filter(part=>part.kind==='media'&&part.media);if(!parts.length)return record;
+ const parts=(record.sections??[]).flatMap(section=>section.parts).flatMap(part=>part.kind==='media'&&part.media?[{media:part.media}]:part.interactive?.type==='pygbag'?[{media:{assetId:part.interactive.assetId,kind:'document' as const,description:'Packaged pygame-ce artefact'}}]:[]);if(!parts.length)return record;
  const admitted=new Map<string,MediaMetadata>();for(const id of new Set(parts.map(part=>part.media!.assetId))){const meta=await readMediaMetadata(env,owner,id);if(!record.trashedAt&&meta&&(meta.state==='attached'||(allowStaged&&meta.state==='staged'&&!!meta.expiresAt&&meta.expiresAt>new Date().toISOString())))admitted.set(id,meta);}
- return {...record,sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>{if(part.kind!=='media'||!part.media)return part;const meta=admitted.get(part.media.assetId);if(!meta||meta.kind!==part.media.kind)return{id:part.id,kind:'media' as const,text:'',unavailable:true as const};return{...part,mediaDisplay:{mime:meta.mime,kind:meta.kind,bytes:meta.bytes,details:meta.details}};})}))};
+ return {...record,sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>{if(part.interactive?.type==='pygbag'){const meta=admitted.get(part.interactive.assetId);return meta&&meta.mime===PYGBAG_MIME&&meta.digest===part.interactive.digest?part:{id:part.id,kind:'interactive' as const,text:part.text,unavailable:true as const};}if(part.kind!=='media'||!part.media)return part;const meta=admitted.get(part.media.assetId);if(!meta||meta.kind!==part.media.kind)return{id:part.id,kind:'media' as const,text:'',unavailable:true as const};return{...part,mediaDisplay:{mime:meta.mime,kind:meta.kind,bytes:meta.bytes,details:meta.details}};})}))};
 }
 async function projectRecord(env:Cloudflare.Env,owner:string,record:WorkspaceRecord|null,allowStaged=false,historical=false,reads?:ProjectionReadCache,catalogueProvidedByCaller=false):Promise<WorkspaceRecord|null>{
  if(!record)return null;record=await projectLearningScope(env,owner,record);let projected=await projectExcerpts(env,owner,await projectMedia(env,owner,await projectImages(env,owner,record,allowStaged),allowStaged),reads);
@@ -344,7 +348,7 @@ function patchedData(input:unknown,existing:WorkspaceRecord|null,action:Workspac
     if(entry.op==='removeBlock'){allowedKeys(entry,['op','sectionId','partId']);section.parts.splice(index,1);}
     else{
      allowedKeys(entry,['op','sectionId','partId','changes']);if(!object(entry.changes)||!Object.keys(entry.changes).length)fail(400,'invalid_patch','Supply explicit changed block fields.');
-     allowedKeys(entry.changes,['text','language','joinBefore','table','callout','reference','image','media','diagram','excerpt','inline','semantic']);
+     allowedKeys(entry.changes,['text','language','joinBefore','table','callout','reference','image','media','diagram','excerpt','inline','semantic','interactive']);
  const before=section.parts[index];const next:any={...before,...entry.changes};
      for(const key of ['table','callout','reference','image','media'] as const)if(entry.changes[key]!==undefined){if(!object(entry.changes[key]))fail(400,'invalid_patch','Rich block metadata must be an object.');next[key]={...before[key],...entry.changes[key]};}
      if(before.kind==='table'&&object(entry.changes.table)&&('headers' in entry.changes.table||'rows' in entry.changes.table)&&entry.changes.text===undefined&&Array.isArray(next.table?.headers)&&Array.isArray(next.table?.rows)&&next.table.rows.every((r:unknown)=>Array.isArray(r)))next.text=tableCanonicalText(next.table);
@@ -434,6 +438,11 @@ async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor
   if(!current||!target||ref.sectionId&&!target.sections?.some(s=>s.id===ref.sectionId)||ref.partId&&!canonicalReadingParts(target).some(p=>(!ref.sectionId||p.sectionId===ref.sectionId)&&p.part.id===ref.partId))fail(409,'project_reference_unavailable','An exact Project or Note destination is unavailable.');
   if(!internal)checks.guardedTargets.push({family:current.family,id:current.id,rev:current.rev});
  }
+ for(const section of record.sections??[])for(const part of section.parts)if(part.interactive?.type==='drawing'){
+  const id=part.interactive.noteId,target=internalTargets?.get('note:'+id)??await rawReadRecord(env,owner,'note',id);
+  if(!target||target.trashedAt)fail(409,'drawing_note_unavailable','A drawing needs an existing ordinary state Note or a Note in this atomic Project update.');
+  if(!internalTargets?.has('note:'+id))checks.guardedTargets.push({family:'note',id,rev:target.rev});
+ }
  if(actor==='gpt'&&record.family==='run'&&record.evidence==='observed'&&!record.synthetic)fail(400,'unattested_execution','GPT cannot author or alter genuine observed execution evidence. Save an illustrative or explicitly synthetic record instead.');
  if(record.outputBundle){try{await validateTypedOutputBinding(record.outputBundle,record.code??'',record.sections);for(const output of record.outputBundle.outputs)if(output.kind==='image'){const part=record.sections?.find(section=>section.id===output.sectionId)?.parts.find(part=>part.id===output.partId);const meta=part?.image&&await readImageMetadata(env,owner,part.image.assetId);if(!meta||meta.mime!=='image/png')throw Error('Scientific PNG output requires an owned image/png attachment.');}}catch(error){fail(400,'invalid_output_bundle',(error as Error).message);}if(record.evidence==='observed')fail(400,'unattested_execution','Transported output is not server-observed execution.');}
  if(record.family==='note'&&record.bodyFormat==='markdown-v1'){try{validateNoteImagePlacements(record.body,record.sections??[])}catch(error){fail(400,'invalid_note_image_placement',error instanceof Error?error.message:'Invalid image placement.');}}
@@ -451,7 +460,27 @@ async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor
    if(!previous||previous.kind!=='image'||stable(previous.image)!==stable(part.image))images.push(await prepareImageAttachment(env,owner,part.image.assetId));
   }
  }
+ for(const section of record.sections??[])for(const part of section.parts)for(const image of interactiveImages(part.interactive)){
+  if(!existing?.sections?.some(s=>s.parts.some(p=>interactiveImages(p.interactive).some(i=>stable(i)===stable(image)))))images.push(await prepareImageAttachment(env,owner,image.assetId));
+ }
+ if(new Set([...images.map(i=>i.assetId),...(record.sections??[]).flatMap(s=>s.parts).flatMap(p=>p.image?[p.image.assetId]:[])]).size>16)fail(400,'image_budget','At most 16 private images per record.');
  const media:MediaMetadata[]=[];if(c.action==='create'||c.action==='update')for(const section of record.sections??[])for(const part of section.parts)if(part.kind==='media'&&part.media){const previous=existing?.sections?.find(s=>s.id===section.id)?.parts.find(p=>p.id===part.id);if(previous?.kind==='media'&&stable(previous.media)===stable(part.media))continue;const meta=await prepareMediaAttachment(env,owner,part.media.assetId);if(meta.kind!==part.media.kind)fail(400,'media_kind_mismatch','The media kind must match its admitted original file.');media.push(meta);}
+ for(const section of record.sections??[])for(const part of section.parts){
+  if(part.interactive?.type==='pygbag'){
+   const meta=await prepareMediaAttachment(env,owner,part.interactive.assetId);
+   if(meta.mime!==PYGBAG_MIME||meta.digest!==part.interactive.digest||part.interactive.runtime!==PYGBAG_RUNTIME)fail(400,'invalid_package_reference','Package identity, digest and supported runtime must match admitted bytes.');
+   media.push(meta);
+  }
+  if(!part.media)continue;
+  const meta=media.find(m=>m.assetId===part.media!.assetId)??await prepareMediaAttachment(env,owner,part.media.assetId);
+  if(meta.mime!==DRAWING_MIME)continue;
+  const admitted=await admittedMediaBytes(env,owner,meta.assetId),document=drawingDocument(JSON.parse(new TextDecoder().decode(admitted.bytes)));
+  const inventory=new Set(record.sections?.flatMap(s=>s.parts).flatMap(p=>p.image?[p.image.assetId]:[])??[]);
+  for(const id of drawingImageIds(document)){
+   if(!inventory.has(id))fail(400,'drawing_asset_inventory','Every drawing image must also be an admitted image part in the state Note.');
+   images.push(await prepareImageAttachment(env,owner,id));
+  }
+ }
  const extraMedia:MediaMetadata[]=[...listeningMediaGuards];for(const concept of record.concepts??[]){const previous=existing?.concepts?.find(c=>c.id===concept.id);if(stable(previous)!==stable(concept)&&concept.partId){const part=record.sections?.find(s=>s.id===concept.sectionId)?.parts.find(p=>p.id===concept.partId);if(part?.kind==='media'&&part.media)extraMedia.push(await prepareMediaAttachment(env,owner,part.media.assetId));}}
  const conceptImages:ImageMetadata[]=[];for(const concept of record.concepts??[]){const previous=existing?.concepts?.find(c=>c.id===concept.id);if(stable(previous)!==stable(concept)&&concept.partId){const part=record.sections?.find(s=>s.id===concept.sectionId)?.parts.find(p=>p.id===concept.partId);if(part?.kind==='image'&&part.image)conceptImages.push(await prepareImageAttachment(env,owner,part.image.assetId));}}
  const sourceGuards:{family:'source';id:string;rev:number}[]=[];

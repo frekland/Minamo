@@ -2,25 +2,29 @@ import type {WorkspaceRecord} from './contracts';
 import {DomainError} from './domain-error';
 import {generationContext,generationGuard,requireGeneration,assertGenerationCurrent} from './generations';
 import {FAMILIES,type Family} from './contracts';
+import {canonicalLanguageTag} from './language-tags';
+export {canonicalLanguageTag} from './language-tags';
 
 export const LEARNING_SPACES=['computing','languages'] as const;
 export const LEARNING_LANGUAGES=['ja','zh-Hans','zh-Hant','fr','es','el','de','sv'] as const;
 export type LearningSpace=typeof LEARNING_SPACES[number];
-export type SupportedLanguage=typeof LEARNING_LANGUAGES[number];
+/** Classification accepts any canonical BCP 47 language tag; this array is only a list of suggestions. */
+export type SupportedLanguage=string;
 export type LearningScope={version:1;spaces:LearningSpace[];languages?:SupportedLanguage[];provenance:'authored'|'classification'};
 export type LearningScopeQuery={learningSpace?:LearningSpace|'all'|'unclassified';language?:SupportedLanguage};
 const object=(x:unknown):x is Record<string,unknown>=>!!x&&typeof x==='object'&&!Array.isArray(x);
 export function validateLearningScope(value:unknown):LearningScope{
  if(!object(value)||Object.keys(value).some(k=>!['version','spaces','languages','provenance'].includes(k))||value.version!==1||!Array.isArray(value.spaces)||value.spaces.length<1||value.spaces.length>2||new Set(value.spaces).size!==value.spaces.length||!value.spaces.every(s=>(LEARNING_SPACES as readonly unknown[]).includes(s))||(typeof value.provenance!=='string'||!['authored','classification'].includes(value.provenance)))throw new DomainError(400,'invalid_learning_scope','Use learningScope {version:1,spaces:["computing" or "languages"],provenance:"authored" or "classification"}.','data.learningScope');
- if(value.languages!==undefined&&(!Array.isArray(value.languages)||!value.languages.length||value.languages.length>8||new Set(value.languages).size!==value.languages.length||!value.languages.every(l=>(LEARNING_LANGUAGES as readonly unknown[]).includes(l))||!value.spaces.includes('languages')))throw new DomainError(400,'invalid_learning_language','Use supported BCP-47 source tags ja, zh-Hans, zh-Hant, fr, es, el, de, sv with the Languages space. These are subject tags, not UI locale.','data.learningScope.languages');
- return {version:1,spaces:[...value.spaces] as LearningSpace[],...(value.languages?{languages:[...(value.languages as SupportedLanguage[])]}:{}),provenance:value.provenance as LearningScope['provenance']};
+ if(value.languages!==undefined&&(!Array.isArray(value.languages)||!value.languages.length||value.languages.length>8||!value.spaces.includes('languages')))throw new DomainError(400,'invalid_learning_language','Use 1–8 BCP 47 source-language tags with the Languages space.','data.learningScope.languages');
+ const languages=value.languages?.map(canonicalLanguageTag);if(languages&&new Set(languages).size!==languages.length)throw new DomainError(400,'invalid_learning_language','Source-language tags must be unique after normalisation.','data.learningScope.languages');
+ return {version:1,spaces:[...value.spaces] as LearningSpace[],...(languages?{languages}:{}),provenance:value.provenance as LearningScope['provenance']};
 }
 export function parseLearningScopeQuery(input:LearningScopeQuery|Record<string,unknown>={}):LearningScopeQuery{
  const {learningSpace,language}=input;
  if(learningSpace!==undefined&&(typeof learningSpace!=='string'||!['all','computing','languages','unclassified'].includes(learningSpace)))throw new DomainError(400,'invalid_learning_space','Choose learningSpace all, computing, languages or unclassified.');
- if(language!==undefined&&!(LEARNING_LANGUAGES as readonly unknown[]).includes(language))throw new DomainError(400,'invalid_learning_language','Choose source language ja, zh-Hans, zh-Hant, fr, es, el, de or sv.');
+ const tag=language===undefined?undefined:canonicalLanguageTag(language);
  if(language!==undefined&&learningSpace!==undefined&&!['all','languages'].includes(String(learningSpace)))throw new DomainError(400,'incompatible_learning_scope','A language filter requires learningSpace languages or all.');
- return {learningSpace:(learningSpace??(language?'languages':'all')) as LearningScopeQuery['learningSpace'],...(language?{language:language as SupportedLanguage}:{})};
+ return {learningSpace:(learningSpace??(tag?'languages':'all')) as LearningScopeQuery['learningSpace'],...(tag?{language:tag}:{})};
 }
 /** Only explicit metadata is classified. Older records remain discoverable under All/Unclassified; no title guessing. */
 export function effectiveLearningScope(record:Pick<WorkspaceRecord,'learningScope'>):LearningScope|undefined{return record.learningScope;}
@@ -43,7 +47,7 @@ export function learningScopeSql(alias:string,input:LearningScopeQuery={},option
  if(!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(alias))throw new Error('Invalid internal SQL alias.');
  const q=parseLearningScopeQuery(input),direct=directSql(alias,q);if(q.learningSpace==='all'&&!q.language||options.inheritPersonal===false)return direct;
  const target=directSql('scope_target',q),refs=`SELECT json_extract(link.value,'$.family') family,json_extract(link.value,'$.id') id FROM json_each(${alias}.data,'$.links') link UNION SELECT coalesce(json_extract(${alias}.data,'$.anchor.recordFamily'),'article'),json_extract(${alias}.data,'$.anchor.articleId') UNION SELECT json_extract(${alias}.data,'$.anchor.displayReturn.recordFamily'),json_extract(${alias}.data,'$.anchor.displayReturn.id') UNION SELECT json_extract(${alias}.data,'$.flagTarget.family'),json_extract(${alias}.data,'$.flagTarget.id') WHERE json_extract(${alias}.data,'$.flagTarget.kind')='record' UNION SELECT 'experiment',json_extract(${alias}.data,'$.attempt.activity.id')`;
- const inherited=`EXISTS(SELECT 1 FROM v2_records scope_target WHERE scope_target.owner=${alias}.owner AND scope_target.trashed_at IS NULL AND scope_target.family IN ('journey','investigation','article','area','experiment','source') AND EXISTS(SELECT 1 FROM (${refs}) scope_ref WHERE scope_ref.family=scope_target.family AND scope_ref.id=scope_target.id) AND ${target.sql})`;
+ const inherited=`EXISTS(SELECT 1 FROM v2_records scope_target WHERE scope_target.owner=${alias}.owner AND scope_target.trashed_at IS NULL AND scope_target.family IN ('journey','work','investigation','article','area','experiment','source') AND EXISTS(SELECT 1 FROM (${refs}) scope_ref WHERE scope_ref.family=scope_target.family AND scope_ref.id=scope_target.id) AND ${target.sql})`;
  // A personal record's own classification wins. No recursive or lexical relationships are invented.
  if(q.learningSpace==='unclassified'){
   const classified=`EXISTS(SELECT 1 FROM v2_records scope_target WHERE scope_target.owner=${alias}.owner AND scope_target.trashed_at IS NULL AND ${scopeJson('scope_target')} IS NOT NULL AND EXISTS(SELECT 1 FROM (${refs}) scope_ref WHERE scope_ref.family=scope_target.family AND scope_ref.id=scope_target.id))`;
