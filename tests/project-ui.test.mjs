@@ -42,9 +42,11 @@ test('map uses one underlying multi-linked Question, honest edges, readable posi
  const spine=geometry.points.filter(point=>point.kind==='step');for(let i=1;i<spine.length;i++)assert.ok(spine[i].y-spine[i-1].y>150);assert.ok(spine.every(point=>point.x===24));const deferred=ui.projectMapGeometry(outline,[{...resource,provenance:[{...provenance,questionId:'not-loaded'}]}]);assert.equal(deferred.omittedResources,1);assert.equal(deferred.edges.some(edge=>edge.kind==='resource'),false,'A missing question must never be replaced by a fabricated Project edge');
  const html=ui.render(ui.ProjectMapOutline,{outline:many,resources:[resource],onClose:()=>{}});assert.match(html,/Project map outline/);assert.match(html,/whole-project/);assert.match(html,/Open in Library/);assert.match(html,/section=streams/);assert.equal((html.match(/stable-23/g)||[]).length>0,true);
 });
-test('Project overview keeps map and resource payloads closed and does not claim saved progress before read',()=>{
+test('Project reading shows canonical sections without pretending to have saved progress or loading unused overlays',()=>{
  const html=ui.render(ui.JourneyRoute,{article:record,records:[record],draftScope:'synthetic-project-ui',onCommand:async()=>{throw Error('No SSR writes');},onStage:()=>{}});
- assert.match(html,/Checking saved work/);assert.match(html,/>Steps</);assert.match(html,/>Resources</);assert.match(html,/>Project map</);assert.doesNotMatch(html,/react-flow|Project resources|Journey recent thinking|<details|completed|mastered/);assert.match(html,/Original reading|Read and inspect/);
+ assert.match(html,/class="pc-project"/);assert.match(html,/class="pc-composition"/);assert.match(html,/id="section-source-one"/);
+ assert.match(html,/Original reading/);assert.match(html,/Read and inspect/);
+ assert.doesNotMatch(html,/react-flow|Project resources|Journey recent thinking|Checking saved work|Project map|completed|mastered/);
 });
 
 test('full Project introduction renders exact canonical body after overview excerpt and only genuine opening sections',()=>{
