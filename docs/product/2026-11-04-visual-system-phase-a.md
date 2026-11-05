@@ -1,5 +1,8 @@
 # Minamo visual system — Phase A acceptance brief (4 November 2026)
 
+> **5 November 2026 continuation — V6 native-fidelity commission groundwork.** The owner has agreed to replace the V5 static imitation with a realistic, isolated lab that reuses actual Minamo frontend/components and essential interaction contracts, **warts and all**, before comparing style changes. Read the [V6 native-fidelity plan and source preflight](2026-11-05-visual-lab-v6-native-fidelity-plan.md) first. The V2/V5 receipts below remain historical evidence, and the binding privacy/product constraints remain. No V6 implementation or production Phase B is authorised by this document update.
+
+
 > **Status:** Design study and implementation of a separate Visual Lab; this is NOT approval to change production Minamo. A draft documentation PR only. Phase A is a controlled, interactive visual prototype; Phase B (native app integration) requires a fresh commission and reconciliation against the then-current production source.
 
 ## Why this exists
