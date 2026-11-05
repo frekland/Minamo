@@ -1,0 +1,698 @@
+diff --git a/app/project-interactive.tsx b/app/project-interactive.tsx
+index dea8bf5..7b3e4be 100644
+--- a/app/project-interactive.tsx
++++ b/app/project-interactive.tsx
+@@ -8,6 +8,7 @@ import {stageMedia} from '../lib/media-client';
+ import {PYGBAG_MIME,PYGBAG_RUNTIME} from '../lib/pygbag-package';
+ import {clientId} from '../lib/client-id';
+ import {LanguageReveal,LanguagePattern,LanguageDialogue} from './project-language';
++import {ProjectSpeech} from './project-speech';
+ const Drawing=lazy(()=>import('./project-drawing')),Canvas=lazy(()=>import('./project-canvas')),Pygbag=lazy(()=>import('./project-pygbag'));
+ export function ProjectInteractive({definition,scope,identity,projectTarget}:{definition:Interactive;scope:string;identity:string;projectTarget?:{projectId:string;sectionId:string;partId:string}}){const [mounted,setMounted]=useState(false);useEffect(()=>setMounted(true),[]);if(!mounted)return <p>Loading interactive material…</p>;return <div className="pi-host" data-reading-exclude="true"><Suspense fallback={<p>Loading interactive material…</p>}>{definition.type==='flashcards'?<Flashcards d={definition} scope={scope}/>:definition.type==='language-reveal'?<LanguageReveal definition={definition}/>:definition.type==='language-pattern'?<LanguagePattern definition={definition}/>:definition.type==='language-dialogue'?<LanguageDialogue definition={definition}/>:definition.type==='drawing'?<Drawing key={scope+definition.noteId} noteId={definition.noteId} scope={scope}/>:definition.type==='pygbag'?<Pygbag key={definition.assetId+definition.digest} assetId={definition.assetId} digest={definition.digest} scope={scope}/>:<Canvas definition={definition} scope={scope} identity={identity} projectTarget={projectTarget}/>}</Suspense></div>;}
+ function Flashcards({d,scope}:{d:Extract<Interactive,{type:'flashcards'}>;scope:string}){
+@@ -18,6 +19,7 @@ function Flashcards({d,scope}:{d:Extract<Interactive,{type:'flashcards'}>;scope:
+  function move(n:number){setAt((at+n+order.length)%order.length);setBack(false);}
+  return <div className="pi-flashcards" tabIndex={0} aria-label="Flashcards" onKeyDown={e=>{if(e.target!==e.currentTarget)return;if(e.key==='ArrowRight'){e.preventDefault();move(1);}if(e.key==='ArrowLeft'){e.preventDefault();move(-1);}if(e.key===' '){e.preventDefault();setBack(v=>!v);}}}>
+  <p aria-live="polite">Card {at+1} of {order.length} · {back?'Answer':'Question'}{isCloze?' · Complete the sentence':''}</p>
++ <ProjectSpeech text={face.text} language={card.language}/>
+  <button type="button" className={'pi-card '+(back?'pi-card-answer':'')} aria-label={(back?'Answer. ':'Question. ')+face.text+'. '+(back?'Show question':'Reveal answer')} aria-pressed={back} onClick={()=>setBack(v=>!v)}><span className="pi-card-face">{back?'Answer':isCloze?'Fill the blank':'Question'}</span><span className="pi-card-text" lang={card.language} dir="auto">{face.text}</span>{'image' in face&&face.image&&<CardImage key={card.id+String(back)+face.image.assetId} image={face.image} scope={scope}/>}<span className="pi-card-hint">Tap to {back?'see the question':'reveal'}</span></button>
+  <div className="pi-toolbar"><button type="button" onClick={()=>move(-1)}>Previous</button><button type="button" aria-pressed={back} onClick={()=>setBack(v=>!v)}>{back?'Show question':'Reveal answer'}</button><button type="button" onClick={()=>move(1)}>Next</button>{d.reversible&&<button type="button" aria-pressed={reverse} onClick={()=>{setReverse(v=>!v);setBack(false);}}>Reverse sides {reverse?'✓':''}</button>}{canCloze&&<button type="button" aria-pressed={clozeMode} onClick={()=>{setClozeMode(v=>!v);setBack(false);}}>Cloze mode {clozeMode?'✓':''}</button>}<button type="button" onClick={()=>{const next=[...order];for(let i=next.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[next[i],next[j]]=[next[j],next[i]];}setOrder(next);setAt(0);setBack(false);}}>Shuffle</button><button type="button" onClick={()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);setReverse(false);setClozeMode(false);}}>Reset</button></div></div>;
+ }
+diff --git a/app/project-language.tsx b/app/project-language.tsx
+index e18d592..8f97cd9 100644
+--- a/app/project-language.tsx
++++ b/app/project-language.tsx
+@@ -1,6 +1,7 @@
+ 'use client';
+ import {useEffect,useState} from 'react';
+ import type {Interactive} from '../lib/project-interactive';
++import {ProjectSpeech} from './project-speech';
+ 
+ type Reveal=Extract<Interactive,{type:'language-reveal'}>;
+ type Pattern=Extract<Interactive,{type:'language-pattern'}>;
+@@ -10,19 +11,53 @@ type Dialogue=Extract<Interactive,{type:'language-dialogue'}>;
+ export function LanguageReveal({definition:d}:{definition:Reveal}){
+  const [show,setShow]=useState({translation:false,gloss:false,note:false});
+  useEffect(()=>setShow({translation:false,gloss:false,note:false}),[JSON.stringify(d)]);
+- return <section className="pi-language" aria-label="Layered language reading"><p className="pi-language-source" lang={d.language} dir="auto">{d.source.text}</p><div className="pi-toolbar">{d.source.translation&&<button type="button" aria-expanded={show.translation} onClick={()=>setShow(v=>({...v,translation:!v.translation}))}>{show.translation?'Hide':'Show'} translation</button>}{d.gloss&&<button type="button" aria-expanded={show.gloss} onClick={()=>setShow(v=>({...v,gloss:!v.gloss}))}>{show.gloss?'Hide':'Show'} word glosses</button>}{(d.explanation||d.source.note)&&<button type="button" aria-expanded={show.note} onClick={()=>setShow(v=>({...v,note:!v.note}))}>{show.note?'Hide':'Show'} explanation</button>}</div>{show.translation&&d.source.translation&&<p className="pi-language-detail" dir="auto"><strong>Translation</strong> {d.source.translation}</p>}{show.gloss&&d.gloss&&<p className="pi-language-detail" dir="auto"><strong>Glosses</strong> {d.gloss}</p>}{show.note&&(d.explanation||d.source.note)&&<p className="pi-language-detail" dir="auto"><strong>Context</strong> {[d.explanation,d.source.note].filter(Boolean).join('\n')}</p>}</section>;
++ return <section className="pi-language" aria-label="Layered language reading">
++  <p className="pi-language-source" lang={d.source.language??d.language} dir="auto">{d.source.text}</p>
++  <ProjectSpeech text={d.source.text} language={d.source.language??d.language}/>
++  <div className="pi-toolbar">
++   {d.source.translation&&<button type="button" aria-expanded={show.translation} onClick={()=>setShow(v=>({...v,translation:!v.translation}))}>{show.translation?'Hide':'Show'} translation</button>}
++   {d.gloss&&<button type="button" aria-expanded={show.gloss} onClick={()=>setShow(v=>({...v,gloss:!v.gloss}))}>{show.gloss?'Hide':'Show'} word glosses</button>}
++   {(d.explanation||d.source.note)&&<button type="button" aria-expanded={show.note} onClick={()=>setShow(v=>({...v,note:!v.note}))}>{show.note?'Hide':'Show'} explanation</button>}
++  </div>
++  {show.translation&&d.source.translation&&<p className="pi-language-detail" dir="auto"><strong>Translation</strong> {d.source.translation}</p>}
++  {show.gloss&&d.gloss&&<p className="pi-language-detail" dir="auto"><strong>Glosses</strong> {d.gloss}</p>}
++  {show.note&&(d.explanation||d.source.note)&&<p className="pi-language-detail" dir="auto"><strong>Context</strong> {[d.explanation,d.source.note].filter(Boolean).join('\n')}</p>}
++ </section>;
+ }
+ 
+ export function LanguagePattern({definition:d}:{definition:Pattern}){
+  const [chosen,setChosen]=useState<Record<string,string>>(()=>d.examples[0]?.choices??{}),[notes,setNotes]=useState(false);
+  useEffect(()=>{setChosen(d.examples[0]?.choices??{});setNotes(false);},[JSON.stringify(d)]);
+  const result=d.examples.find(example=>d.slots.every(slot=>example.choices[slot.id]===chosen[slot.id]));
+- return <section className="pi-language" aria-label="Authored sentence explorer"><div className="pi-language-slots">{d.slots.map(slot=><label key={slot.id}>{slot.label}<select value={chosen[slot.id]??''} onChange={event=>{setChosen(v=>({...v,[slot.id]:event.target.value}));setNotes(false);}}>{slot.choices.map(choice=><option key={choice.id} value={choice.id}>{choice.label}</option>)}</select></label>)}</div>{result?<><p className="pi-language-source" lang={result.source.language??d.language} dir="auto" aria-live="polite">{result.source.text}</p>{result.source.translation&&<p className="pi-language-detail" dir="auto">{result.source.translation}</p>}{result.source.note&&<><button type="button" aria-expanded={notes} onClick={()=>setNotes(v=>!v)}>{notes?'Hide':'Show'} explanation</button>{notes&&<p className="pi-language-detail" dir="auto">{result.source.note}</p>}</>}</>:<p role="status">No authored example for this combination. Choose another option.</p>}<div className="pi-toolbar"><button type="button" onClick={()=>{setChosen(d.examples[0]?.choices??{});setNotes(false);}}>Reset</button></div></section>;
++ return <section className="pi-language" aria-label="Authored sentence explorer">
++  <div className="pi-language-slots">{d.slots.map(slot=><label key={slot.id}>{slot.label}<select value={chosen[slot.id]??''} onChange={event=>{setChosen(v=>({...v,[slot.id]:event.target.value}));setNotes(false);}}>{slot.choices.map(choice=><option key={choice.id} value={choice.id}>{choice.label}</option>)}</select></label>)}</div>
++  {result?<>
++   <p className="pi-language-source" lang={result.source.language??d.language} dir="auto" aria-live="polite">{result.source.text}</p>
++   <ProjectSpeech text={result.source.text} language={result.source.language??d.language}/>
++   {result.source.translation&&<p className="pi-language-detail" dir="auto">{result.source.translation}</p>}
++   {result.source.note&&<><button type="button" aria-expanded={notes} onClick={()=>setNotes(v=>!v)}>{notes?'Hide':'Show'} explanation</button>{notes&&<p className="pi-language-detail" dir="auto">{result.source.note}</p>}</>}
++  </>:<p role="status">No authored example for this combination. Choose another option.</p>}
++  <div className="pi-toolbar"><button type="button" onClick={()=>{setChosen(d.examples[0]?.choices??{});setNotes(false);}}>Reset</button></div>
++ </section>;
+ }
+ 
+ export function LanguageDialogue({definition:d}:{definition:Dialogue}){
+  const [count,setCount]=useState(1),[translations,setTranslations]=useState<string[]>([]),[notes,setNotes]=useState<string[]>([]);
+  useEffect(()=>{setCount(1);setTranslations([]);setNotes([]);},[JSON.stringify(d)]);
+  function toggle(id:string,kind:'translation'|'note'){const setter=kind==='translation'?setTranslations:setNotes;setter(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);}
+- return <section className="pi-language" aria-label="Dialogue rehearsal"><ol className="pi-dialogue">{d.turns.slice(0,count).map(turn=><li key={turn.id}><strong>{turn.speaker}</strong><p className="pi-language-source" lang={turn.source.language??d.language} dir="auto">{turn.source.text}</p><div className="pi-toolbar">{turn.source.translation&&<button type="button" aria-expanded={translations.includes(turn.id)} onClick={()=>toggle(turn.id,'translation')}>{translations.includes(turn.id)?'Hide':'Show'} translation</button>}{(turn.source.note||turn.alternatives?.length)&&<button type="button" aria-expanded={notes.includes(turn.id)} onClick={()=>toggle(turn.id,'note')}>{notes.includes(turn.id)?'Hide':'Show'} context</button>}</div>{translations.includes(turn.id)&&turn.source.translation&&<p className="pi-language-detail" dir="auto">{turn.source.translation}</p>}{notes.includes(turn.id)&&<div className="pi-language-detail">{turn.source.note&&<p>{turn.source.note}</p>}{turn.alternatives?.map((alternative,i)=><p key={i} lang={d.language} dir="auto">Alternative: {alternative}</p>)}</div>}</li>)}</ol><div className="pi-toolbar"><button type="button" disabled={count>=d.turns.length} onClick={()=>setCount(n=>Math.min(d.turns.length,n+1))}>Reveal next turn</button><button type="button" onClick={()=>{setCount(1);setTranslations([]);setNotes([]);}}>Restart</button></div><p aria-live="polite" className="pi-card-details">{count} of {d.turns.length} turns visible</p></section>;
++ return <section className="pi-language" aria-label="Dialogue rehearsal">
++  <ol className="pi-dialogue">{d.turns.slice(0,count).map(turn=><li key={turn.id}>
++   <strong>{turn.speaker}</strong>
++   <p className="pi-language-source" lang={turn.source.language??d.language} dir="auto">{turn.source.text}</p>
++   <ProjectSpeech text={turn.source.text} language={turn.source.language??d.language}/>
++   <div className="pi-toolbar">
++    {turn.source.translation&&<button type="button" aria-expanded={translations.includes(turn.id)} onClick={()=>toggle(turn.id,'translation')}>{translations.includes(turn.id)?'Hide':'Show'} translation</button>}
++    {(turn.source.note||turn.alternatives?.length)&&<button type="button" aria-expanded={notes.includes(turn.id)} onClick={()=>toggle(turn.id,'note')}>{notes.includes(turn.id)?'Hide':'Show'} context</button>}
++   </div>
++   {translations.includes(turn.id)&&turn.source.translation&&<p className="pi-language-detail" dir="auto">{turn.source.translation}</p>}
++   {notes.includes(turn.id)&&<div className="pi-language-detail">{turn.source.note&&<p>{turn.source.note}</p>}{turn.alternatives?.map((alternative,i)=><p key={i} lang={d.language} dir="auto">Alternative: {alternative}</p>)}</div>}
++  </li>)}</ol>
++  <div className="pi-toolbar"><button type="button" disabled={count>=d.turns.length} onClick={()=>setCount(n=>Math.min(d.turns.length,n+1))}>Reveal next turn</button><button type="button" onClick={()=>{setCount(1);setTranslations([]);setNotes([]);}}>Restart</button></div>
++  <p aria-live="polite" className="pi-card-details">{count} of {d.turns.length} turns visible</p>
++ </section>;
+ }
+diff --git a/app/project-sections.css b/app/project-sections.css
+index 253fb25..0eb5e9b 100644
+--- a/app/project-sections.css
++++ b/app/project-sections.css
+@@ -84,6 +84,14 @@
+ .pi-language-detail{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;background:var(--mn-surface-secondary,var(--background));border-radius:10px;padding:.7rem 1rem;margin:.6rem 0}
+ .pi-language-detail strong{display:block;font-size:.75rem;letter-spacing:.05em;opacity:.8}
+ .pi-language .pi-toolbar button,.pi-language>button{min-height:40px;border:1px solid var(--mn-border-control);background:var(--mn-surface-secondary,var(--background));border-radius:9px;padding:.4rem .8rem;color:inherit}
++.pi-speech{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.45rem 0 .65rem;max-width:100%}
++.pi-speech button,.pi-speech select{font:inherit;font-size:.82rem;min-height:36px;padding:.3rem .65rem;border:1px solid var(--mn-border-control);border-radius:9px;background:var(--mn-surface-secondary,var(--background));color:var(--mn-text,inherit)}
++.pi-speech button:hover{border-color:var(--mn-interactive)}
++.pi-speech button:focus-visible,.pi-speech select:focus-visible{outline:2px solid var(--mn-interactive);outline-offset:2px}
++.pi-speech button:disabled{opacity:.7;cursor:wait}
++.pi-speech-status{font-size:.77rem;line-height:1.45;max-width:32ch;opacity:.85;overflow-wrap:anywhere}
++.pi-speech-credit{font-size:.75rem;text-decoration:underline;text-underline-offset:2px;opacity:.72}
++.pi-flashcards>.pi-speech{justify-content:center}
+ .pi-language-slots{display:flex;flex-wrap:wrap;gap:1rem}.pi-language-slots label{display:grid;gap:.4rem;min-width:min(100%,155px);flex:1}.pi-language-slots select{min-height:40px;max-width:100%;border-radius:8px}
+ .pi-dialogue{list-style:none;padding:0;margin:0;display:grid;gap:.8rem}.pi-dialogue li{border-inline-start:3px solid var(--mn-border-control);padding:.5rem .8rem;background:var(--mn-surface-secondary,var(--background));border-radius:0 9px 9px 0;min-width:0}
+ .pi-drawing-fullscreen>.pi-drawing-editor{flex:1;min-height:0;height:auto!important;max-height:none!important}
+diff --git a/app/project-speech.tsx b/app/project-speech.tsx
+new file mode 100644
+index 0000000..3fffead
+--- /dev/null
++++ b/app/project-speech.tsx
+@@ -0,0 +1,65 @@
++'use client';
++import {useEffect,useRef,useState} from 'react';
++import {localVoiceFor, type SpeechPace} from '../lib/language-speech';
++
++/** Text and generated audio never leave the browser; only published voice files are fetched. */
++export function ProjectSpeech({text,language}:{text:string;language?:string}) {
++  const voice = localVoiceFor(language);
++  const [pace,setPace] = useState<SpeechPace>('normal');
++  const [status,setStatus] = useState('');
++  const [busy,setBusy] = useState(false);
++  const [ready,setReady] = useState(false);
++  const [playing,setPlaying] = useState(false);
++  const audio = useRef<HTMLAudioElement>(null);
++  const url = useRef<string | null>(null);
++  const generation = useRef(0);
++
++  useEffect(() => {
++    generation.current++;
++    audio.current?.pause();
++    audio.current?.removeAttribute('src');
++    if (url.current) URL.revokeObjectURL(url.current);
++    url.current=null;
++    setReady(false);setPlaying(false);setStatus('');setBusy(false);
++    return () => {
++      generation.current++;
++      audio.current?.pause();
++      if (url.current) URL.revokeObjectURL(url.current);
++      url.current=null;
++    };
++  },[text,language,pace]);
++
++  if (!voice || !text.trim()) return null;
++  async function play() {
++    if (busy || !voice) return;
++    if (ready && audio.current?.src) {
++      audio.current.currentTime=0;
++      try {await audio.current.play();setPlaying(true);setStatus('');}
++      catch {setStatus('Audio ready. Tap Listen again to play.');}
++      return;
++    }
++    const revision=++generation.current;
++    setBusy(true);setStatus('Preparing local speech…');
++    try {
++      const {synthesizeLocalSpeech}=await import('../lib/language-speech-browser');
++      const blob=await synthesizeLocalSpeech(voice,text,pace,message=>{if(generation.current===revision)setStatus(message);});
++      if(generation.current!==revision)return;
++      if(url.current)URL.revokeObjectURL(url.current);
++      url.current=URL.createObjectURL(blob);
++      if(audio.current){audio.current.src=url.current;audio.current.load();}
++      setReady(true);setStatus('Audio ready.');
++      try {await audio.current?.play();setPlaying(true);setStatus('');}
++      catch {setStatus('Audio ready. Tap Listen again to play.');}
++    } catch(error) {
++      if(generation.current===revision)setStatus(`Speech unavailable: ${error instanceof Error?error.message:'Voice could not be loaded.'}`);
++    } finally {if(generation.current===revision)setBusy(false);}
++  }
++  return <div className="pi-speech" aria-label={`Local speech · ${voice.label}`}>
++    <button type="button" disabled={busy} onClick={()=>void play()} aria-label={`${ready?'Replay':'Listen to'} ${voice.label} speech`}>{busy?'Preparing…':ready?'↻ Replay':'▶ Listen'}</button>
++    {voice.engine==='piper-plus'&&<select aria-label="Japanese speech speed" value={pace} onChange={event=>setPace(event.target.value as SpeechPace)} disabled={busy}><option value="normal">Normal</option><option value="slow">Slow</option></select>}
++    {playing&&<button type="button" onClick={()=>{audio.current?.pause();setPlaying(false);}} aria-label="Stop speech">Stop</button>}
++    <a href={voice.sourceUrl} className="pi-speech-credit" target="_blank" rel="noopener noreferrer" title="Voice source, model and dataset information">Voice info</a>
++    <audio ref={audio} hidden preload="none" onEnded={()=>setPlaying(false)} onPause={()=>setPlaying(false)}/>
++    {status&&<span role="status" className="pi-speech-status">{status}</span>}
++  </div>;
++}
+diff --git a/docs/implementation/2026-11-05-pr85-browser-tts.md b/docs/implementation/2026-11-05-pr85-browser-tts.md
+new file mode 100644
+index 0000000..3267def
+--- /dev/null
++++ b/docs/implementation/2026-11-05-pr85-browser-tts.md
+@@ -0,0 +1,53 @@
++# PR #85 browser-local speech checkpoint — 5 November 2026
++
++This change integrates the already owner-tested Minamo TTS Lab approach into the **existing Minamo Project interactions**. It does not enable a hosted speech API, transcription, native Web Speech, Kokoro, or automatic learner-data writes.
++
++## Learner experience
++
++- Small, optional **Listen / Replay / Stop** controls are attached to authored language-reveal text, exact sentence-pattern results, each revealed dialogue turn, and explicitly language-tagged flashcards.
++- The target utterance stays in the browser. On first use, the visitor downloads public voice models from Hugging Face and the relevant WASM runtime into their browser, and inference occurs locally. The models are reused by later plays. No audio data is stored in Minamo D1/R2 or shared with GPT/MCP.
++- **Japanese:** Piper Plus CSS10, with tested normal (`lengthScale=1.6`, `noiseW=0.2`) and slow (`2.4`, `0.2`) synthesis presets. These generate new audio; they do not distort `audio.playbackRate`.
++- **English (UK), German, French, Spanish, Arabic (Jordan), Mandarin (Mainland), Greek and Swedish:** corresponding individual original Piper voices from the TTS Lab, at voice-native speed. The selected `@mintplex-labs/piper-tts-web@1.0.5` wrapper **does not honour a `lengthScale` argument on `predict`**. Do not claim a slow mode exists for those voices until a separately verified synthesis-time implementation is available.
++- Unsupported BCP 47 languages (e.g. Tetum) remain fully valid learning content. They simply have no synthetic voice button. No unexpected fallback voice or language substitution.
++- Voice loading/generation failures leave the authored text and all existing Project controls operational. First-download and offline/reload/mobile outcomes need device acceptance below.
++
++## Runtime and dependency boundaries
++
++- Exact package versions: `@mintplex-labs/piper-tts-web@1.0.5`, `piper-plus@0.8.2`, `onnxruntime-web@1.30.0`; dynamic browser imports only on a deliberate Listen action.
++- Six runtime assets were copied unchanged from the separately deployed TTS Lab into Minamo's `public/piper-runtime/` and `public/piper-plus-runtime/`. Each is smaller than the Sites single-static-asset limit. These are executable/runtime assets, **not bundled voice ONNX weights**.
++- Japanese G2P JS still loads from pinned `https://unpkg.com/piper-plus@0.8.2/dist/rust-wasm/piper_plus_wasm.js`, as in the lab; the large upstream Japanese dictionary WASM is not included in Minamo. The CSS10 model is selected by Piper Plus's `css10` registry alias, currently resolved through Hugging Face's `main` branch; therefore a model revision is not cryptographically pinned yet.
++- Original Piper wrapper resolves model and voice config files from the published `diffusionstudio/piper-voices` Hugging Face mirror (`resolve/main`) and stores the files with its browser OPFS mechanism. Inference stays on-device, but remote voice availability and CORS are dependencies.
++- Full browser runtime asset SHA-256 values:
++
++  | Asset | SHA-256 |
++  | --- | --- |
++  | `piper-runtime/ort/ort-wasm-simd-threaded.mjs` | `30ed0b5cd1182ede931fea448afb567d4dc705ec957af09f108a2be5f770dac3` |
++  | `piper-runtime/ort/ort-wasm-simd-threaded.wasm` | `4b884c203b0fa48d057be3332c65513ff85aa3c5bddd6946acc0fab7ecda001d` |
++  | `piper-runtime/phonemize/piper_phonemize.data` | `29f1025eb23a5b5c192cd14a6efbce4509402ff265405072ee6f7d1a09b78f8c` |
++  | `piper-runtime/phonemize/piper_phonemize.wasm` | `b777cd107a91d2bcc6a1ea46f2c26a662a7407394fe84589198aeaa83dd7a9d6` |
++  | `piper-plus-runtime/ort/ort-wasm-simd-threaded.mjs` | `e13f7f94fc51b4ca72b12faeb1ee95f4ace6dfbc8939bc718aabdc0a27c4299b` |
++  | `piper-plus-runtime/ort/ort-wasm-simd-threaded.wasm` | `3398c10d07d229bd91b364548e130e0e51a8e5704b88c7c083ebbeb78842dee2` |
++
++## Source and licence provenance
++
++Package manifests identify the two JS engines and ONNX Runtime as MIT. **That does not automatically cover model weights, phonemizer data, or the datasets behind individual voices.** Relevant upstream model cards:
++
++| Voice | Upstream training-data declaration |
++| --- | --- |
++| Piper Plus CSS10 Japanese | [CSS10 model](https://huggingface.co/ayousanz/piper-plus-css10-ja-6lang) labelled CSS10 public domain; derived from a separate multilingual base. |
++| English Alan | [Alan model](https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_GB/alan/medium); inspect its MODEL_CARD. |
++| German Thorsten | [Thorsten card](https://huggingface.co/rhasspy/piper-voices/blob/main/de/de_DE/thorsten/medium/MODEL_CARD): CC0. |
++| French Siwis | [Siwis card](https://huggingface.co/rhasspy/piper-voices/blob/main/fr/fr_FR/siwis/medium/MODEL_CARD): CC-BY 4.0. |
++| Spanish Sharvard | [Sharvard card](https://huggingface.co/rhasspy/piper-voices/blob/main/es/es_ES/sharvard/medium/MODEL_CARD): CC-BY 3.0. |
++| Arabic Kareem | [Kareem card](https://huggingface.co/rhasspy/piper-voices/blob/main/ar/ar_JO/kareem/medium/MODEL_CARD): points to external dataset source, not a declared licence. |
++| Mandarin Huayan | [Huayan card](https://huggingface.co/rhasspy/piper-voices/blob/main/zh/zh_CN/huayan/medium/MODEL_CARD): dataset licence explicitly *unknown*. |
++| Greek Rapunzelina | [Rapunzelina card](https://huggingface.co/rhasspy/piper-voices/blob/main/el/el_GR/rapunzelina/low/MODEL_CARD): CC0. |
++| Swedish NST | [NST card](https://huggingface.co/rhasspy/piper-voices/blob/main/sv/sv_SE/nst/medium/MODEL_CARD): CC0. |
++
++No model ONNX weights are copied to the Git repository or hosted by Minamo. Licence review remains an explicit publication/redistribution diligence item, especially for Arabic and Mandarin, and attribution must be retained for CC-BY datasets. A licensed alternative may be preferable to a voice whose provenance remains unclear.
++
++## Verification and limits
++
++The TypeScript check and production build pass. The focused PR #85 tests cover voice selection/presets and text-only fallback in addition to V113 language validation and interactive definitions. The full regression suite is run separately.
++
++Not yet demonstrated by these source tests: actual audio and voice/model downloads on the live Minamo origin, Piper↔Piper Plus session switching on a physical device, browser cache/reload/offline failure, TalkBack, 320/375px, the user's Pixel 8a Japanese sample (including the previously compressed clause), the full voice-licence attribution path, and a host-visible MCP continuity run. Those must not be claimed passed solely from the TTS Lab results.
+diff --git a/lib/language-speech-browser.ts b/lib/language-speech-browser.ts
+new file mode 100644
+index 0000000..5162e1c
+--- /dev/null
++++ b/lib/language-speech-browser.ts
+@@ -0,0 +1,55 @@
++/** Browser-only, lazy-loaded speech inference. Never imports into a Worker request. */
++import {localSynthesisOptions, type LocalVoice, type SpeechPace} from './language-speech';
++
++type Progress = (message: string) => void;
++let piperSession: Awaited<ReturnType<typeof import('@mintplex-labs/piper-tts-web')['TtsSession']['create']>> | null = null;
++let piperVoice = '';
++let plusSession: Awaited<ReturnType<typeof import('piper-plus')['PiperPlus']['initialize']>> | null = null;
++let serial: Promise<unknown> = Promise.resolve();
++
++async function synthesize(voice: LocalVoice, text: string, pace: SpeechPace, progress: Progress): Promise<Blob> {
++  if (typeof window === 'undefined' || typeof WebAssembly === 'undefined') throw Error('This browser cannot run local neural speech.');
++  if (voice.engine === 'piper') {
++    const piper = await import('@mintplex-labs/piper-tts-web');
++    if (!piperSession || piperVoice !== voice.id) {
++      progress('Downloading or opening voice…');
++      // The pinned wrapper has one process-wide session. Switching voices must reset it.
++      piper.TtsSession._instance = null;
++      piperSession = null;
++      piperSession = await piper.TtsSession.create({
++        voiceId: voice.id as Parameters<typeof piper.TtsSession.create>[0]['voiceId'],
++        wasmPaths: {
++          onnxWasm: '/piper-runtime/ort/',
++          piperWasm: '/piper-runtime/phonemize/piper_phonemize.wasm',
++          piperData: '/piper-runtime/phonemize/piper_phonemize.data',
++        },
++      });
++      piperVoice = voice.id;
++    }
++    progress('Generating speech on your device…');
++    // Piper 1.0.5 does not expose synthesis pacing. Do not distort by playbackRate.
++    return piperSession.predict(text);
++  }
++
++  if (!plusSession) {
++    progress('Downloading or opening Japanese voice…');
++    const [{PiperPlus}, ort] = await Promise.all([import('piper-plus'), import('onnxruntime-web/wasm')]);
++    ort.env.wasm.wasmPaths = '/piper-plus-runtime/ort/';
++    plusSession = await PiperPlus.initialize({
++      model: 'css10',
++      ort,
++      // The 58 MB dictionary is hosted by the published upstream package.
++      wasmG2pUrl: 'https://unpkg.com/piper-plus@0.8.2/dist/rust-wasm/piper_plus_wasm.js',
++      onProgress: info => {if (info.stage === 'model') progress('Loading Japanese voice model…');},
++    });
++  }
++  progress('Generating Japanese speech on your device…');
++  return (await plusSession.synthesize(text, {language: 'ja', ...localSynthesisOptions(voice, pace)})).toBlob();
++}
++
++/** Serialise to avoid changing the shared Piper singleton during another synthesis. */
++export function synthesizeLocalSpeech(voice: LocalVoice, text: string, pace: SpeechPace, progress: Progress): Promise<Blob> {
++  const job = serial.then(() => synthesize(voice, text, pace, progress));
++  serial = job.then(() => undefined, () => undefined);
++  return job;
++}
+diff --git a/lib/language-speech.ts b/lib/language-speech.ts
+new file mode 100644
+index 0000000..b6366ce
+--- /dev/null
++++ b/lib/language-speech.ts
+@@ -0,0 +1,34 @@
++/** Only voices actually exercised in the separate Minamo TTS Lab are offered. */
++export type LocalVoice = {
++  engine: 'piper' | 'piper-plus';
++  id: string;
++  label: string;
++  language: string;
++  sourceUrl: string;
++};
++
++const voices: Readonly<Record<string, LocalVoice>> = {
++  ja: {engine: 'piper-plus', id: 'css10', label: 'Japanese · CSS10', language: 'ja', sourceUrl:'https://huggingface.co/ayousanz/piper-plus-css10-ja-6lang'},
++  en: {engine: 'piper', id: 'en_GB-alan-medium', label: 'English · UK Alan', language: 'en-GB', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_GB/alan/medium'},
++  de: {engine: 'piper', id: 'de_DE-thorsten-medium', label: 'German · Thorsten', language: 'de-DE', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/de/de_DE/thorsten/medium/MODEL_CARD'},
++  fr: {engine: 'piper', id: 'fr_FR-siwis-medium', label: 'French · Siwis', language: 'fr-FR', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/fr/fr_FR/siwis/medium/MODEL_CARD'},
++  es: {engine: 'piper', id: 'es_ES-sharvard-medium', label: 'Spanish · Spain Sharvard', language: 'es-ES', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/es/es_ES/sharvard/medium/MODEL_CARD'},
++  ar: {engine: 'piper', id: 'ar_JO-kareem-medium', label: 'Arabic · Jordan Kareem', language: 'ar-JO', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/ar/ar_JO/kareem/medium/MODEL_CARD'},
++  zh: {engine: 'piper', id: 'zh_CN-huayan-medium', label: 'Mandarin · Huayan', language: 'zh-CN', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/zh/zh_CN/huayan/medium/MODEL_CARD'},
++  el: {engine: 'piper', id: 'el_GR-rapunzelina-low', label: 'Greek · Rapunzelina', language: 'el-GR', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/el/el_GR/rapunzelina/low/MODEL_CARD'},
++  sv: {engine: 'piper', id: 'sv_SE-nst-medium', label: 'Swedish · NST', language: 'sv-SE', sourceUrl:'https://huggingface.co/rhasspy/piper-voices/blob/main/sv/sv_SE/nst/medium/MODEL_CARD'},
++};
++
++/** Unknown tags remain valid learning languages; they simply have no verified voice. */
++export function localVoiceFor(language: string | undefined): LocalVoice | null {
++  if (!language || !/^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/.test(language)) return null;
++  return voices[language.split('-')[0].toLowerCase()] ?? null;
++}
++
++export type SpeechPace = 'normal' | 'slow';
++/** Slower synthesis was tested specifically for the Japanese CSS10 voice. */
++export function localSynthesisOptions(voice: LocalVoice, pace: SpeechPace) {
++  return voice.engine === 'piper-plus'
++    ? {lengthScale: pace === 'slow' ? 2.4 : 1.6, noiseW: 0.2}
++    : null;
++}
+diff --git a/package.json b/package.json
+index d8b3b1a..b1163f0 100644
+--- a/package.json
++++ b/package.json
+@@ -26,6 +26,7 @@
+     "@codemirror/view": "6.43.14",
+     "@hookform/resolvers": "^5.7.1",
+     "@lezer/highlight": "1.2.5",
++    "@mintplex-labs/piper-tts-web": "1.0.5",
+     "@noble/hashes": "2.4.0",
+     "@shadcn/react": "^0.3.0",
+     "@xyflow/react": "12.12.0",
+@@ -41,6 +42,8 @@
+     "lucide-react": "^1.31.0",
+     "next": "16.3.8",
+     "next-themes": "^0.4.6",
++    "onnxruntime-web": "1.30.0",
++    "piper-plus": "0.8.2",
+     "prosemirror-commands": "^1.7.2",
+     "prosemirror-history": "^1.5.1",
+     "prosemirror-inputrules": "^1.5.1",
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index bb35ae3..dd4da0d 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -48,6 +48,9 @@ importers:
+       '@lezer/highlight':
+         specifier: 1.2.5
+         version: 1.2.5
++      '@mintplex-labs/piper-tts-web':
++        specifier: 1.0.5
++        version: 1.0.5(onnxruntime-web@1.30.0)
+       '@noble/hashes':
+         specifier: 2.4.0
+         version: 2.4.0
+@@ -93,6 +96,12 @@ importers:
+       next-themes:
+         specifier: ^0.4.6
+         version: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
++      onnxruntime-web:
++        specifier: 1.30.0
++        version: 1.30.0
++      piper-plus:
++        specifier: 0.8.2
++        version: 0.8.2(onnxruntime-web@1.30.0)
+       prosemirror-commands:
+         specifier: ^1.7.2
+         version: 1.7.2
+@@ -1443,6 +1452,11 @@ packages:
+   '@marijn/find-cluster-break@1.0.4':
+     resolution: {integrity: sha512-Wy0V7+SGUjnF9/TkiM1hKVDPj7jKXduPNboMVtHTA8dySMURWqfg/JZ9E2Sq8JgSJmkl7k7Qe9FLeMSrSraWmQ==}
+ 
++  '@mintplex-labs/piper-tts-web@1.0.5':
++    resolution: {integrity: sha512-1TtpoY562U7isDJdCBVcVNQjsyryWLRZYuUxyCNswsbPkaN3hMScJeG4d8AAwMkoCrkmrskSuD+5AsXpa16TUg==}
++    peerDependencies:
++      onnxruntime-web: ^1.18.0
++
+   '@napi-rs/wasm-runtime@0.2.12':
+     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
+ 
+@@ -1533,6 +1547,10 @@ packages:
+   '@oxc-project/types@0.130.0':
+     resolution: {integrity: sha512-ibD2usx9JRu7f5pu2tMKMI4cpA4NgXJQoYRP4pQ7Pxmn1l6k/53qWtQWZayhYy3X4QZkt90Ot+mJEaeXouio6Q==}
+ 
++  '@piper-plus/g2p@0.4.2':
++    resolution: {integrity: sha512-iEuynnOXOmZw88dUfyLrolRO0U3gIviIAqJR0N8SbFvoKq/dFtmZkBFtgpThk8Lk+r+rcfW0se+PkJqMPJgE4g==}
++    engines: {node: '>=24.0.0'}
++
+   '@playwright/test@1.58.2':
+     resolution: {integrity: sha512-akea+6bHYBBfA9uQqSYmlJXn61cTa+jbO87xVLCWbTqbWadRVmhxlXATaOjOgcBaWU4ePo0wB41KMFv3o35IXA==}
+     engines: {node: '>=18'}
+@@ -1547,6 +1565,33 @@ packages:
+   '@poppinss/exception@1.2.3':
+     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
+ 
++  '@protobufjs/aspromise@1.1.2':
++    resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
++
++  '@protobufjs/base64@1.1.2':
++    resolution: {integrity: sha512-AZkcAA5vnN/v4PDqKyMR5lx7hZttPDgClv83E//FMNhR2TMcLUhfRUBHCmSl0oi9zMgDDqRUJkSxO3wm85+XLg==}
++
++  '@protobufjs/codegen@2.0.5':
++    resolution: {integrity: sha512-zgXFLzW3Ap33e6d0Wlj4MGIm6Ce8O89n/apUaGNB/jx+hw+ruWEp7EwGUshdLKVRCxZW12fp9r40E1mQrf/34g==}
++
++  '@protobufjs/eventemitter@1.1.1':
++    resolution: {integrity: sha512-vW1GmwMZNnL+gMRaovlh9yZX74kc+TTU3FObkkurpMaRtBfLP3ldjS9KQWlwZgraRE0+dheEEoAxdzcJQ8eXZg==}
++
++  '@protobufjs/fetch@1.1.1':
++    resolution: {integrity: sha512-GpptLrs57adMSuHi3VNj0mAF8dwh36LMaYF6XyJ6JMWlVsc+t42tm1HSEDmOs3A8fC9yyeisgLhsTVQokOZ0zw==}
++
++  '@protobufjs/float@1.0.2':
++    resolution: {integrity: sha512-Ddb+kVXlXst9d+R9PfTIxh1EdNkgoRe5tOX6t01f1lYWOvJnSPDBlG241QLzcyPdoNTsblLUdujGSE4RzrTZGQ==}
++
++  '@protobufjs/path@1.1.2':
++    resolution: {integrity: sha512-6JOcJ5Tm08dOHAbdR3GrvP+yUUfkjG5ePsHYczMFLq3ZmMkAD98cDgcT2iA1lJ9NVwFd4tH/iSSoe44YWkltEA==}
++
++  '@protobufjs/pool@1.1.0':
++    resolution: {integrity: sha512-0kELaGSIDBKvcgS4zkjz1PeddatrjYcmMWOlAuAPwAeccUrPHdUqo/J6LiymHHEiJT5NrF1UVwxY14f+fy4WQw==}
++
++  '@protobufjs/utf8@1.1.2':
++    resolution: {integrity: sha512-b1UQwcEZ4yCnMCD8DAL1VlbvBJE9/IX4FTIp7BG1xYpf29SLazLSrqUkj4w7Y5y7cCVP6E5tcqqcI0xemPkHug==}
++
+   '@radix-ui/number@1.1.3':
+     resolution: {integrity: sha512-Road2bidD0uu/1BGDOWNdPI06g0lIRy6IF9GZcIrDK2KGItfor8IQwQa+yM2ERgHM1MmHxaxpTzk0/Jp42lNfA==}
+ 
+@@ -3886,6 +3931,9 @@ packages:
+     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
+     engines: {node: '>=16'}
+ 
++  flatbuffers@25.9.23:
++    resolution: {integrity: sha512-MI1qs7Lo4Syw0EOzUl0xjs2lsoeqFku44KpngfIduHBYvzm8h2+7K8YMQh1JtVVVrUvhLpNwqVi4DERegUJhPQ==}
++
+   flatted@3.4.2:
+     resolution: {integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==}
+ 
+@@ -3970,6 +4018,9 @@ packages:
+   graceful-fs@4.2.11:
+     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+ 
++  guid-typescript@1.0.9:
++    resolution: {integrity: sha512-Y8T4vYhEfwJOTbouREvG+3XDsjr8E3kIr7uf+JZ0BYloFsttiHU0WfvANVsR7TxNUJa/WpCnw/Ino/p+DeBhBQ==}
++
+   has-bigints@1.1.0:
+     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
+     engines: {node: '>= 0.4'}
+@@ -4441,6 +4492,9 @@ packages:
+   lodash.uniq@4.5.0:
+     resolution: {integrity: sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==}
+ 
++  long@5.3.2:
++    resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
++
+   longest-streak@3.1.0:
+     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
+ 
+@@ -4716,6 +4770,12 @@ packages:
+     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
+     engines: {node: '>= 0.4'}
+ 
++  onnxruntime-common@1.30.0:
++    resolution: {integrity: sha512-7fdVWjAID1dVhH/G8qK3APARunV4VkBFoCQAP7qp4Wkab0mrorvmc+sqiT+mKXOzDqdjN5j+/Z9nb4gzNPWcyA==}
++
++  onnxruntime-web@1.30.0:
++    resolution: {integrity: sha512-q0y+JrrtukXSzsBWEMccVfqX25LRmosXHF+CaRJmg8pZClzcV7svNc4rKY3jL02Vb7QmRMDs1SigqR4CXAfKYQ==}
++
+   optionator@0.9.4:
+     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
+     engines: {node: '>= 0.8.0'}
+@@ -4773,6 +4833,16 @@ packages:
+     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+     engines: {node: '>=12'}
+ 
++  piper-plus@0.8.2:
++    resolution: {integrity: sha512-9ZfUEqkF3s1NX5fBJzqfSHSQHnnKJ06OXiwmlY6E9FnapmVcwJ7UmqBAMJjwhPWpn2c/QzREWgGG78L9xfYoTA==}
++    engines: {node: '>=24.0.0'}
++    hasBin: true
++    peerDependencies:
++      onnxruntime-web: '>=1.22.0'
++
++  platform@1.3.6:
++    resolution: {integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==}
++
+   playwright-core@1.58.2:
+     resolution: {integrity: sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==}
+     engines: {node: '>=18'}
+@@ -4843,6 +4913,10 @@ packages:
+   prosemirror-view@1.42.6:
+     resolution: {integrity: sha512-3g25f6hKV2bBxo3puH3EcYWmmVNSH0iWmNsMVT7sugDSpA025jgpOLarcDWr39SdzPjYMaiYtRdNtXialPSjEQ==}
+ 
++  protobufjs@7.6.6:
++    resolution: {integrity: sha512-dYDWdjSl5RNb7SgPxGQcRU+GtvP7s2fpkrY0r432PcOIaZ0/rBcxEZnQN67iJhFuQiVw754JDoPruPCNdGsbjg==}
++    engines: {node: '>=12.0.0'}
++
+   punycode.js@2.3.1:
+     resolution: {integrity: sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==}
+     engines: {node: '>=6'}
+@@ -6517,6 +6591,10 @@ snapshots:
+ 
+   '@marijn/find-cluster-break@1.0.4': {}
+ 
++  '@mintplex-labs/piper-tts-web@1.0.5(onnxruntime-web@1.30.0)':
++    dependencies:
++      onnxruntime-web: 1.30.0
++
+   '@napi-rs/wasm-runtime@0.2.12':
+     dependencies:
+       '@emnapi/core': 1.10.0
+@@ -6582,6 +6660,8 @@ snapshots:
+ 
+   '@oxc-project/types@0.130.0': {}
+ 
++  '@piper-plus/g2p@0.4.2': {}
++
+   '@playwright/test@1.58.2':
+     dependencies:
+       playwright: 1.58.2
+@@ -6598,6 +6678,26 @@ snapshots:
+ 
+   '@poppinss/exception@1.2.3': {}
+ 
++  '@protobufjs/aspromise@1.1.2': {}
++
++  '@protobufjs/base64@1.1.2': {}
++
++  '@protobufjs/codegen@2.0.5': {}
++
++  '@protobufjs/eventemitter@1.1.1': {}
++
++  '@protobufjs/fetch@1.1.1':
++    dependencies:
++      '@protobufjs/aspromise': 1.1.2
++
++  '@protobufjs/float@1.0.2': {}
++
++  '@protobufjs/path@1.1.2': {}
++
++  '@protobufjs/pool@1.1.0': {}
++
++  '@protobufjs/utf8@1.1.2': {}
++
+   '@radix-ui/number@1.1.3': {}
+ 
+   '@radix-ui/primitive@1.1.7': {}
+@@ -9127,6 +9227,8 @@ snapshots:
+       flatted: 3.4.2
+       keyv: 4.5.4
+ 
++  flatbuffers@25.9.23: {}
++
+   flatted@3.4.2: {}
+ 
+   for-each@0.3.5:
+@@ -9209,6 +9311,8 @@ snapshots:
+ 
+   graceful-fs@4.2.11: {}
+ 
++  guid-typescript@1.0.9: {}
++
+   has-bigints@1.1.0: {}
+ 
+   has-flag@4.0.0: {}
+@@ -9603,6 +9707,8 @@ snapshots:
+ 
+   lodash.uniq@4.5.0: {}
+ 
++  long@5.3.2: {}
++
+   longest-streak@3.1.0: {}
+ 
+   loose-envify@1.4.0:
+@@ -10067,6 +10173,17 @@ snapshots:
+       define-properties: 1.2.1
+       es-object-atoms: 1.1.1
+ 
++  onnxruntime-common@1.30.0: {}
++
++  onnxruntime-web@1.30.0:
++    dependencies:
++      flatbuffers: 25.9.23
++      guid-typescript: 1.0.9
++      long: 5.3.2
++      onnxruntime-common: 1.30.0
++      platform: 1.3.6
++      protobufjs: 7.6.6
++
+   optionator@0.9.4:
+     dependencies:
+       deep-is: 0.1.4
+@@ -10119,6 +10236,13 @@ snapshots:
+ 
+   picomatch@4.0.4: {}
+ 
++  piper-plus@0.8.2(onnxruntime-web@1.30.0):
++    dependencies:
++      '@piper-plus/g2p': 0.4.2
++      onnxruntime-web: 1.30.0
++
++  platform@1.3.6: {}
++
+   playwright-core@1.58.2: {}
+ 
+   playwright@1.58.2:
+@@ -10225,6 +10349,20 @@ snapshots:
+       prosemirror-state: 1.4.4
+       prosemirror-transform: 1.12.2
+ 
++  protobufjs@7.6.6:
++    dependencies:
++      '@protobufjs/aspromise': 1.1.2
++      '@protobufjs/base64': 1.1.2
++      '@protobufjs/codegen': 2.0.5
++      '@protobufjs/eventemitter': 1.1.1
++      '@protobufjs/fetch': 1.1.1
++      '@protobufjs/float': 1.0.2
++      '@protobufjs/path': 1.1.2
++      '@protobufjs/pool': 1.1.0
++      '@protobufjs/utf8': 1.1.2
++      '@types/node': 22.19.19
++      long: 5.3.2
++
+   punycode.js@2.3.1: {}
+ 
+   punycode@2.3.1: {}
+diff --git a/pnpm-workspace.yaml b/pnpm-workspace.yaml
+index ade9c8c..971c707 100644
+--- a/pnpm-workspace.yaml
++++ b/pnpm-workspace.yaml
+@@ -6,6 +6,7 @@ strictDepBuilds: true
+ allowBuilds:
+   esbuild: true
+   fsevents: true
++  protobufjs: false
+   sharp: true
+   unrs-resolver: true
+   workerd: true
+diff --git a/tests/pr85-speech.test.mjs b/tests/pr85-speech.test.mjs
+new file mode 100644
+index 0000000..18f852b
+--- /dev/null
++++ b/tests/pr85-speech.test.mjs
+@@ -0,0 +1,38 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {createRequire} from 'node:module';
++import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
++import {tmpdir} from 'node:os';
++import {join} from 'node:path';
++
++const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
++const result=await wr('esbuild').build({stdin:{contents:"export {localVoiceFor,localSynthesisOptions} from './lib/language-speech.ts';",resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false});
++const dir=mkdtempSync(join(tmpdir(),'pr85-speech-')),file=join(dir,'module.cjs');
++writeFileSync(file,result.outputFiles[0].text);
++const {localVoiceFor,localSynthesisOptions}=require(file);
++rmSync(dir,{recursive:true,force:true});
++
++test('Japanese uses only Piper Plus and the two owner-tested synthesis presets',()=>{
++ const voice=localVoiceFor('ja-JP');
++ assert.equal(voice.engine,'piper-plus');
++ assert.equal(voice.id,'css10');
++ assert.deepEqual(localSynthesisOptions(voice,'normal'),{lengthScale:1.6,noiseW:0.2});
++ assert.deepEqual(localSynthesisOptions(voice,'slow'),{lengthScale:2.4,noiseW:0.2});
++});
++
++test('known non-Japanese voices are original Piper, not multi-language CSS10',()=>{
++ const known={en:'en_GB-alan-medium',de:'de_DE-thorsten-medium',fr:'fr_FR-siwis-medium',es:'es_ES-sharvard-medium',ar:'ar_JO-kareem-medium',zh:'zh_CN-huayan-medium',el:'el_GR-rapunzelina-low',sv:'sv_SE-nst-medium'};
++ for(const [language,id] of Object.entries(known)){
++  const voice=localVoiceFor(`${language}-XX`);
++  assert.equal(voice.engine,'piper');
++  assert.equal(voice.id,id);
++  assert.equal(localSynthesisOptions(voice,'slow'),null);
++ }
++});
++
++test('valid but unsupported language tags retain text-only Projects',()=>{
++ assert.equal(localVoiceFor('tet'),null);
++ assert.equal(localVoiceFor('ko-KR'),null);
++ assert.equal(localVoiceFor(''),null);
++ assert.equal(localVoiceFor('ja<script>'),null);
++});

@@ -1,0 +1,387 @@
+diff --git a/app/learning-space-ui.tsx b/app/learning-space-ui.tsx
+index 659745f..61ebdbf 100644
+--- a/app/learning-space-ui.tsx
++++ b/app/learning-space-ui.tsx
+@@ -1,9 +1,14 @@
+ 'use client';
+-import {createContext,useContext} from 'react';
++import {createContext,useContext,useEffect,useState} from 'react';
+ import {LEARNING_SPACE_OPTIONS,STUDY_LANGUAGE_OPTIONS,type LearningSpaceSelection} from '../lib/learning-space-navigation';
++import {tryLanguageTag} from '../lib/language-tags';
+ import './learning-spaces.css';
+ export const LearningSpaceContext=createContext<LearningSpaceSelection>({learningSpace:'all'});
+ export const useLearningSpace=()=>useContext(LearningSpaceContext);
+ export function LearningSpaceSelector({value,onChange,compact=false}:{value:LearningSpaceSelection;onChange:(selection:LearningSpaceSelection)=>void;compact?:boolean}){
+- return <section className={`learning-space-selector${compact?' learning-space-selector-header':''}`} aria-label="Learning space"><label><span>Learning space</span><select aria-label="Learning space" value={value.learningSpace} onChange={event=>onChange({learningSpace:event.target.value as LearningSpaceSelection['learningSpace']})}>{LEARNING_SPACE_OPTIONS.map(([key,label])=><option value={key} key={key}>{label}</option>)}</select></label>{value.learningSpace==='languages'&&<label><span>Study language</span><select aria-label="Study language" value={value.language??''} onChange={event=>onChange({learningSpace:'languages',...(event.target.value?{language:event.target.value as LearningSpaceSelection['language']}:{})})}><option value="">All languages</option>{STUDY_LANGUAGE_OPTIONS.map(([tag,label])=><option value={tag} key={tag}>{label}</option>)}</select></label>}</section>;
++ const [custom,setCustom]=useState(value.language??''),[error,setError]=useState('');
++ const other=!!value.language&&!STUDY_LANGUAGE_OPTIONS.some(([key])=>key===value.language);
++ useEffect(()=>{setCustom(value.language??'');setError('');},[value.language]);
++ function applyCustom(){if(!custom.trim()){onChange({learningSpace:'languages'});setError('');return;}const language=tryLanguageTag(custom.trim());if(!language){setError('Enter a valid BCP 47 tag, such as tet or ar.');return;}onChange({learningSpace:'languages',language});setError('');}
++ return <section className={`learning-space-selector${compact?' learning-space-selector-header':''}`} aria-label="Learning space"><label><span>Learning space</span><select aria-label="Learning space" value={value.learningSpace} onChange={event=>onChange({learningSpace:event.target.value as LearningSpaceSelection['learningSpace']})}>{LEARNING_SPACE_OPTIONS.map(([key,label])=><option value={key} key={key}>{label}</option>)}</select></label>{value.learningSpace==='languages'&&<><label><span>Study language</span><select aria-label="Study language" value={other?'other':value.language??''} onChange={event=>{if(event.target.value==='other')return;onChange({learningSpace:'languages',...(event.target.value?{language:event.target.value}:{})});}}><option value="">All languages</option>{STUDY_LANGUAGE_OPTIONS.map(([tag,label])=><option value={tag} key={tag}>{label}</option>)}<option value="other">Other language…</option></select></label><label><span>Other language tag</span><input aria-label="Other study language tag" placeholder="e.g. tet, ar, ko" value={custom} onChange={event=>setCustom(event.target.value)} onKeyDown={event=>{if(event.key==='Enter'){event.preventDefault();applyCustom();}}}/></label><button type="button" onClick={applyCustom}>Apply tag</button>{error&&<small role="alert">{error}</small>}</>}</section>;
+ }
+diff --git a/app/project-interactive.tsx b/app/project-interactive.tsx
+index 7f6a904..dea8bf5 100644
+--- a/app/project-interactive.tsx
++++ b/app/project-interactive.tsx
+@@ -7,12 +7,32 @@ import {stageImage} from '../lib/asset-client';
+ import {stageMedia} from '../lib/media-client';
+ import {PYGBAG_MIME,PYGBAG_RUNTIME} from '../lib/pygbag-package';
+ import {clientId} from '../lib/client-id';
++import {LanguageReveal,LanguagePattern,LanguageDialogue} from './project-language';
+ const Drawing=lazy(()=>import('./project-drawing')),Canvas=lazy(()=>import('./project-canvas')),Pygbag=lazy(()=>import('./project-pygbag'));
+-export function ProjectInteractive({definition,scope,identity,projectTarget}:{definition:Interactive;scope:string;identity:string;projectTarget?:{projectId:string;sectionId:string;partId:string}}){const [mounted,setMounted]=useState(false);useEffect(()=>setMounted(true),[]);if(!mounted)return <p>Loading interactive material…</p>;return <div className="pi-host" data-reading-exclude="true"><Suspense fallback={<p>Loading interactive material…</p>}>{definition.type==='flashcards'?<Flashcards d={definition} scope={scope}/>:definition.type==='drawing'?<Drawing key={scope+definition.noteId} noteId={definition.noteId} scope={scope}/>:definition.type==='pygbag'?<Pygbag key={definition.assetId+definition.digest} assetId={definition.assetId} digest={definition.digest} scope={scope}/>:<Canvas definition={definition} scope={scope} identity={identity} projectTarget={projectTarget}/>}</Suspense></div>;}
+-function Flashcards({d,scope}:{d:Extract<Interactive,{type:'flashcards'}>;scope:string}){const [order,setOrder]=useState(()=>d.cards.map(c=>c.id)),[at,setAt]=useState(0),[back,setBack]=useState(false);useEffect(()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);},[JSON.stringify(d)]);const card=d.cards.find(c=>c.id===order[at])??d.cards[0],face=back?card.back:card.front;function move(n:number){setAt((at+n+order.length)%order.length);setBack(false);}return <div className="pi-flashcards" tabIndex={0} aria-label="Flashcards" onKeyDown={e=>{if(e.target!==e.currentTarget)return;if(e.key==='ArrowRight'){e.preventDefault();move(1);}if(e.key==='ArrowLeft'){e.preventDefault();move(-1);}if(e.key===' '){e.preventDefault();setBack(v=>!v);}}}><p aria-live="polite">Card {at+1} of {order.length} · {back?'Answer':'Question'}</p><button type="button" className={'pi-card '+(back?'pi-card-answer':'')} aria-label={(back?'Answer. ':'Question. ')+face.text+'. '+(back?'Show question':'Reveal answer')} aria-pressed={back} onClick={()=>setBack(v=>!v)}><span className="pi-card-face">{back?'Answer':'Question'}</span><span className="pi-card-text">{face.text}</span>{face.image&&<CardImage key={card.id+String(back)+face.image.assetId} image={face.image} scope={scope}/>}<span className="pi-card-hint">Tap to {back?'see the question':'reveal'}</span></button><div className="pi-toolbar"><button type="button" onClick={()=>move(-1)}>Previous</button><button type="button" aria-pressed={back} onClick={()=>setBack(v=>!v)}>{back?'Show question':'Reveal answer'}</button><button type="button" onClick={()=>move(1)}>Next</button><button type="button" onClick={()=>{const next=[...order];for(let i=next.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[next[i],next[j]]=[next[j],next[i]];}setOrder(next);setAt(0);setBack(false);}}>Shuffle</button><button type="button" onClick={()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);}}>Reset</button></div></div>;}
++export function ProjectInteractive({definition,scope,identity,projectTarget}:{definition:Interactive;scope:string;identity:string;projectTarget?:{projectId:string;sectionId:string;partId:string}}){const [mounted,setMounted]=useState(false);useEffect(()=>setMounted(true),[]);if(!mounted)return <p>Loading interactive material…</p>;return <div className="pi-host" data-reading-exclude="true"><Suspense fallback={<p>Loading interactive material…</p>}>{definition.type==='flashcards'?<Flashcards d={definition} scope={scope}/>:definition.type==='language-reveal'?<LanguageReveal definition={definition}/>:definition.type==='language-pattern'?<LanguagePattern definition={definition}/>:definition.type==='language-dialogue'?<LanguageDialogue definition={definition}/>:definition.type==='drawing'?<Drawing key={scope+definition.noteId} noteId={definition.noteId} scope={scope}/>:definition.type==='pygbag'?<Pygbag key={definition.assetId+definition.digest} assetId={definition.assetId} digest={definition.digest} scope={scope}/>:<Canvas definition={definition} scope={scope} identity={identity} projectTarget={projectTarget}/>}</Suspense></div>;}
++function Flashcards({d,scope}:{d:Extract<Interactive,{type:'flashcards'}>;scope:string}){
++ const [order,setOrder]=useState(()=>d.cards.map(c=>c.id)),[at,setAt]=useState(0),[back,setBack]=useState(false),[reverse,setReverse]=useState(false),[clozeMode,setClozeMode]=useState(false);
++ useEffect(()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);setReverse(false);setClozeMode(false);},[JSON.stringify(d)]);
++ const card=d.cards.find(c=>c.id===order[at])??d.cards[0],canCloze=d.cards.some(c=>!!c.cloze),isCloze=clozeMode&&!!card.cloze;
++ const face=isCloze?(back?{text:card.cloze!.before+card.cloze!.missing+card.cloze!.after}: {text:card.cloze!.before+'______'+card.cloze!.after}):back?(reverse?card.front:card.back):(reverse?card.back:card.front);
++ function move(n:number){setAt((at+n+order.length)%order.length);setBack(false);}
++ return <div className="pi-flashcards" tabIndex={0} aria-label="Flashcards" onKeyDown={e=>{if(e.target!==e.currentTarget)return;if(e.key==='ArrowRight'){e.preventDefault();move(1);}if(e.key==='ArrowLeft'){e.preventDefault();move(-1);}if(e.key===' '){e.preventDefault();setBack(v=>!v);}}}>
++ <p aria-live="polite">Card {at+1} of {order.length} · {back?'Answer':'Question'}{isCloze?' · Complete the sentence':''}</p>
++ <button type="button" className={'pi-card '+(back?'pi-card-answer':'')} aria-label={(back?'Answer. ':'Question. ')+face.text+'. '+(back?'Show question':'Reveal answer')} aria-pressed={back} onClick={()=>setBack(v=>!v)}><span className="pi-card-face">{back?'Answer':isCloze?'Fill the blank':'Question'}</span><span className="pi-card-text" lang={card.language} dir="auto">{face.text}</span>{'image' in face&&face.image&&<CardImage key={card.id+String(back)+face.image.assetId} image={face.image} scope={scope}/>}<span className="pi-card-hint">Tap to {back?'see the question':'reveal'}</span></button>
++ <div className="pi-toolbar"><button type="button" onClick={()=>move(-1)}>Previous</button><button type="button" aria-pressed={back} onClick={()=>setBack(v=>!v)}>{back?'Show question':'Reveal answer'}</button><button type="button" onClick={()=>move(1)}>Next</button>{d.reversible&&<button type="button" aria-pressed={reverse} onClick={()=>{setReverse(v=>!v);setBack(false);}}>Reverse sides {reverse?'✓':''}</button>}{canCloze&&<button type="button" aria-pressed={clozeMode} onClick={()=>{setClozeMode(v=>!v);setBack(false);}}>Cloze mode {clozeMode?'✓':''}</button>}<button type="button" onClick={()=>{const next=[...order];for(let i=next.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[next[i],next[j]]=[next[j],next[i]];}setOrder(next);setAt(0);setBack(false);}}>Shuffle</button><button type="button" onClick={()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);setReverse(false);setClozeMode(false);}}>Reset</button></div></div>;
++}
+ function CardImage({image,scope}:{image:{assetId:string;alt:string;caption?:string};scope:string}){const [failed,setFailed]=useState(false);useEffect(()=>{const receive=(event:Event)=>{const d=(event as CustomEvent).detail;if(d?.ownerScope===scope&&d.assetId===image.assetId)setFailed(true);};window.addEventListener('minamo-image-unavailable',receive);return()=>window.removeEventListener('minamo-image-unavailable',receive);},[scope,image.assetId]);return failed?<span className="pi-card-media-fallback">Image unavailable</span>:<img className="pi-card-image" src={'/api/assets/'+encodeURIComponent(image.assetId)+'?generation='+encodeURIComponent(workspaceGenerationFromScope(scope))} alt={image.alt} onError={()=>setFailed(true)}/>;}
+ export function InteractiveEditor({part,scope,onChange}:{part:PassagePart;scope:string;onChange:(p:PassagePart)=>void}){const d=part.interactive!,[raw,setRaw]=useState(()=>JSON.stringify(d,null,2)),[error,setError]=useState('');useEffect(()=>setRaw(JSON.stringify(d,null,2)),[JSON.stringify(d)]);function replace(value:unknown){try{const next=validateInteractive(value);onChange({...part,interactive:next});setError('');}catch(e){setError((e as Error).message);}}
+  async function image(cardId:string,side:'front'|'back',file:File|undefined){if(!file||d.type!=='flashcards')return;try{const a=await stageImage(file,clientId(),undefined,scope);replace({...d,cards:d.cards.map(c=>c.id===cardId?{...c,[side]:{...c[side],image:{assetId:a.assetId,alt:'Card image'}}}:c)});}catch(e){setError((e as Error).message);}}
+  async function packageFile(file:File|undefined){if(!file||d.type!=='pygbag')return;try{const a=await stageMedia(new Blob([await file.arrayBuffer()],{type:PYGBAG_MIME}),clientId(),new AbortController().signal,scope);replace({...d,assetId:a.assetId,digest:a.digest,runtime:PYGBAG_RUNTIME});}catch(e){setError((e as Error).message);}}
+  return <div className="pi-editor"><label>Explanation / accessible fallback<textarea value={part.text} onChange={e=>onChange({...part,text:e.target.value})}/></label>{d.type==='flashcards'&&<>{d.cards.map(card=><fieldset key={card.id}><legend>Card</legend>{(['front','back'] as const).map(side=><div key={side}><label>{side==='front'?'Question':'Answer'}<textarea value={card[side].text} onChange={e=>replace({...d,cards:d.cards.map(c=>c.id===card.id?{...c,[side]:{...c[side],text:e.target.value}}:c)})}/></label><label>Image<input type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>void image(card.id,side,e.target.files?.[0])}/></label>{card[side].image&&<><label>Image description<input value={card[side].image!.alt} onChange={e=>replace({...d,cards:d.cards.map(c=>c.id===card.id?{...c,[side]:{...c[side],image:{...c[side].image!,alt:e.target.value}}}:c)})}/></label><button type="button" onClick={()=>replace({...d,cards:d.cards.map(c=>c.id===card.id?{...c,[side]:{text:c[side].text}}:c)})}>Remove image</button></>}</div>)}<button type="button" disabled={d.cards.length===1} onClick={()=>replace({...d,cards:d.cards.filter(c=>c.id!==card.id)})}>Remove card</button></fieldset>)}<button type="button" onClick={()=>replace({...d,cards:[...d.cards,{id:clientId(),front:{text:'Question'},back:{text:'Answer'}}]})}>Add card</button></>}{d.type==='drawing'&&<label>Saved drawing Note ID<input value={d.noteId} onChange={e=>onChange({...part,interactive:{...d,noteId:e.target.value}})}/></label>}{d.type==='python-canvas'&&<label>Python<textarea rows={12} value={d.code} onChange={e=>onChange({...part,interactive:{...d,code:e.target.value}})}/></label>}{d.type==='pygbag'&&<label>Standalone Pygbag HTML<input type="file" accept=".html" onChange={e=>void packageFile(e.target.files?.[0])}/></label>}<details><summary>Definition settings</summary><textarea aria-label="Interactive definition JSON" rows={12} value={raw} onChange={e=>setRaw(e.target.value)}/><button type="button" onClick={()=>{try{replace(JSON.parse(raw));}catch(e){setError((e as Error).message);}}}>Apply definition settings</button></details>{error&&<p role="alert">{error}</p>}</div>;}
+-export function newInteractive(type:Interactive['type']):Interactive{if(type==='flashcards')return{version:1,type,cards:[{id:clientId(),front:{text:'Question'},back:{text:'Answer'}}]};if(type==='drawing')return{version:1,type,noteId:'choose-state-note'};if(type==='python-canvas')return{version:1,type,width:640,height:360,seed:1,code:'from minamo_canvas import clear, frame\nclear()\nframe()'};if(type==='parameter-explorer')return{version:1,type,controls:[{id:'amplitude',kind:'slider',label:'Amplitude',min:0,max:160,step:1,value:80},{id:'frequency',kind:'slider',label:'Frequency',min:1,max:10,step:1,value:2}],target:{type:'wave',amplitude:'amplitude',frequency:'frequency'}};return{version:1,type,assetId:'choose-package',digest:'0'.repeat(64),profile:'standalone-html-v1',runtime:PYGBAG_RUNTIME};}
++export function newInteractive(type:Interactive['type']):Interactive{
++ if(type==='flashcards')return{version:1,type,reversible:true,cards:[{id:clientId(),front:{text:'Question'},back:{text:'Answer'}}]};
++ if(type==='language-reveal')return{version:1,type,language:'ja',source:{text:'今日はいい天気です。',translation:'The weather is nice today.'},gloss:'今日 = today',explanation:'Replace this example with your own authored material.'};
++ if(type==='language-pattern')return{version:1,type,language:'ja',slots:[{id:'speaker',label:'Subject',choices:[{id:'a',label:'I'},{id:'b',label:'You'}]}],examples:[{id:'a',choices:{speaker:'a'},source:{text:'私は勉強します。',translation:'I study.'}},{id:'b',choices:{speaker:'b'},source:{text:'あなたは勉強します。',translation:'You study.'}}]};
++ if(type==='language-dialogue')return{version:1,type,language:'ja',turns:[{id:'one',speaker:'A',source:{text:'こんにちは。',translation:'Hello.'}},{id:'two',speaker:'B',source:{text:'こんにちは。お元気ですか。',translation:'Hello. How are you?'}}]};
++ if(type==='drawing')return{version:1,type,noteId:'choose-state-note'};
++ if(type==='python-canvas')return{version:1,type,width:640,height:360,seed:1,code:'from minamo_canvas import clear, frame\nclear()\nframe()'};
++ if(type==='parameter-explorer')return{version:1,type,controls:[{id:'amplitude',kind:'slider',label:'Amplitude',min:0,max:160,step:1,value:80},{id:'frequency',kind:'slider',label:'Frequency',min:1,max:10,step:1,value:2}],target:{type:'wave',amplitude:'amplitude',frequency:'frequency'}};
++ return{version:1,type,assetId:'choose-package',digest:'0'.repeat(64),profile:'standalone-html-v1',runtime:PYGBAG_RUNTIME};
++}
+diff --git a/app/project-language.tsx b/app/project-language.tsx
+new file mode 100644
+index 0000000..e18d592
+--- /dev/null
++++ b/app/project-language.tsx
+@@ -0,0 +1,28 @@
++'use client';
++import {useEffect,useState} from 'react';
++import type {Interactive} from '../lib/project-interactive';
++
++type Reveal=Extract<Interactive,{type:'language-reveal'}>;
++type Pattern=Extract<Interactive,{type:'language-pattern'}>;
++type Dialogue=Extract<Interactive,{type:'language-dialogue'}>;
++
++/** These views only reveal explicitly authored text. No translation, scores or learner records are generated. */
++export function LanguageReveal({definition:d}:{definition:Reveal}){
++ const [show,setShow]=useState({translation:false,gloss:false,note:false});
++ useEffect(()=>setShow({translation:false,gloss:false,note:false}),[JSON.stringify(d)]);
++ return <section className="pi-language" aria-label="Layered language reading"><p className="pi-language-source" lang={d.language} dir="auto">{d.source.text}</p><div className="pi-toolbar">{d.source.translation&&<button type="button" aria-expanded={show.translation} onClick={()=>setShow(v=>({...v,translation:!v.translation}))}>{show.translation?'Hide':'Show'} translation</button>}{d.gloss&&<button type="button" aria-expanded={show.gloss} onClick={()=>setShow(v=>({...v,gloss:!v.gloss}))}>{show.gloss?'Hide':'Show'} word glosses</button>}{(d.explanation||d.source.note)&&<button type="button" aria-expanded={show.note} onClick={()=>setShow(v=>({...v,note:!v.note}))}>{show.note?'Hide':'Show'} explanation</button>}</div>{show.translation&&d.source.translation&&<p className="pi-language-detail" dir="auto"><strong>Translation</strong> {d.source.translation}</p>}{show.gloss&&d.gloss&&<p className="pi-language-detail" dir="auto"><strong>Glosses</strong> {d.gloss}</p>}{show.note&&(d.explanation||d.source.note)&&<p className="pi-language-detail" dir="auto"><strong>Context</strong> {[d.explanation,d.source.note].filter(Boolean).join('\n')}</p>}</section>;
++}
++
++export function LanguagePattern({definition:d}:{definition:Pattern}){
++ const [chosen,setChosen]=useState<Record<string,string>>(()=>d.examples[0]?.choices??{}),[notes,setNotes]=useState(false);
++ useEffect(()=>{setChosen(d.examples[0]?.choices??{});setNotes(false);},[JSON.stringify(d)]);
++ const result=d.examples.find(example=>d.slots.every(slot=>example.choices[slot.id]===chosen[slot.id]));
++ return <section className="pi-language" aria-label="Authored sentence explorer"><div className="pi-language-slots">{d.slots.map(slot=><label key={slot.id}>{slot.label}<select value={chosen[slot.id]??''} onChange={event=>{setChosen(v=>({...v,[slot.id]:event.target.value}));setNotes(false);}}>{slot.choices.map(choice=><option key={choice.id} value={choice.id}>{choice.label}</option>)}</select></label>)}</div>{result?<><p className="pi-language-source" lang={result.source.language??d.language} dir="auto" aria-live="polite">{result.source.text}</p>{result.source.translation&&<p className="pi-language-detail" dir="auto">{result.source.translation}</p>}{result.source.note&&<><button type="button" aria-expanded={notes} onClick={()=>setNotes(v=>!v)}>{notes?'Hide':'Show'} explanation</button>{notes&&<p className="pi-language-detail" dir="auto">{result.source.note}</p>}</>}</>:<p role="status">No authored example for this combination. Choose another option.</p>}<div className="pi-toolbar"><button type="button" onClick={()=>{setChosen(d.examples[0]?.choices??{});setNotes(false);}}>Reset</button></div></section>;
++}
++
++export function LanguageDialogue({definition:d}:{definition:Dialogue}){
++ const [count,setCount]=useState(1),[translations,setTranslations]=useState<string[]>([]),[notes,setNotes]=useState<string[]>([]);
++ useEffect(()=>{setCount(1);setTranslations([]);setNotes([]);},[JSON.stringify(d)]);
++ function toggle(id:string,kind:'translation'|'note'){const setter=kind==='translation'?setTranslations:setNotes;setter(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);}
++ return <section className="pi-language" aria-label="Dialogue rehearsal"><ol className="pi-dialogue">{d.turns.slice(0,count).map(turn=><li key={turn.id}><strong>{turn.speaker}</strong><p className="pi-language-source" lang={turn.source.language??d.language} dir="auto">{turn.source.text}</p><div className="pi-toolbar">{turn.source.translation&&<button type="button" aria-expanded={translations.includes(turn.id)} onClick={()=>toggle(turn.id,'translation')}>{translations.includes(turn.id)?'Hide':'Show'} translation</button>}{(turn.source.note||turn.alternatives?.length)&&<button type="button" aria-expanded={notes.includes(turn.id)} onClick={()=>toggle(turn.id,'note')}>{notes.includes(turn.id)?'Hide':'Show'} context</button>}</div>{translations.includes(turn.id)&&turn.source.translation&&<p className="pi-language-detail" dir="auto">{turn.source.translation}</p>}{notes.includes(turn.id)&&<div className="pi-language-detail">{turn.source.note&&<p>{turn.source.note}</p>}{turn.alternatives?.map((alternative,i)=><p key={i} lang={d.language} dir="auto">Alternative: {alternative}</p>)}</div>}</li>)}</ol><div className="pi-toolbar"><button type="button" disabled={count>=d.turns.length} onClick={()=>setCount(n=>Math.min(d.turns.length,n+1))}>Reveal next turn</button><button type="button" onClick={()=>{setCount(1);setTranslations([]);setNotes([]);}}>Restart</button></div><p aria-live="polite" className="pi-card-details">{count} of {d.turns.length} turns visible</p></section>;
++}
+diff --git a/app/project-sections.css b/app/project-sections.css
+index 9b9770d..253fb25 100644
+--- a/app/project-sections.css
++++ b/app/project-sections.css
+@@ -79,6 +79,13 @@
+ .pi-drawing .pi-drawing-fullscreen-toggle{margin-left:auto}
+ .pi-drawing.pi-drawing-fullscreen{position:fixed!important;inset:0!important;z-index:2147483000!important;display:flex;flex-direction:column;width:100vw;height:100dvh;max-width:none;max-height:none;overflow:hidden;border:0;border-radius:0;background:var(--mn-canvas,#fff);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+ .pi-drawing-fullscreen>.pi-toolbar{flex:none;margin:0;padding:.4rem .65rem;align-items:center;background:var(--mn-surface,#fff);color:var(--mn-text,#111)}
++.pi-language{padding:clamp(.85rem,2.5vw,1.5rem);border:1px solid var(--mn-border-control);border-radius:14px;background:var(--mn-surface,var(--background));min-width:0}
++.pi-language-source{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;font-size:clamp(1.08rem,2.3vw,1.45rem);margin:.6rem 0}
++.pi-language-detail{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;background:var(--mn-surface-secondary,var(--background));border-radius:10px;padding:.7rem 1rem;margin:.6rem 0}
++.pi-language-detail strong{display:block;font-size:.75rem;letter-spacing:.05em;opacity:.8}
++.pi-language .pi-toolbar button,.pi-language>button{min-height:40px;border:1px solid var(--mn-border-control);background:var(--mn-surface-secondary,var(--background));border-radius:9px;padding:.4rem .8rem;color:inherit}
++.pi-language-slots{display:flex;flex-wrap:wrap;gap:1rem}.pi-language-slots label{display:grid;gap:.4rem;min-width:min(100%,155px);flex:1}.pi-language-slots select{min-height:40px;max-width:100%;border-radius:8px}
++.pi-dialogue{list-style:none;padding:0;margin:0;display:grid;gap:.8rem}.pi-dialogue li{border-inline-start:3px solid var(--mn-border-control);padding:.5rem .8rem;background:var(--mn-surface-secondary,var(--background));border-radius:0 9px 9px 0;min-width:0}
+ .pi-drawing-fullscreen>.pi-drawing-editor{flex:1;min-height:0;height:auto!important;max-height:none!important}
+ .pc-expanded .pi-drawing-fullscreen>.pi-drawing-editor{height:auto!important}
+ .pi-drawing-fullscreen .tl-container{height:100%!important}
+diff --git a/app/project-sections.tsx b/app/project-sections.tsx
+index d4ce16a..cd591ec 100644
+--- a/app/project-sections.tsx
++++ b/app/project-sections.tsx
+@@ -44,7 +44,7 @@ export default function ProjectSections(props:ReaderProps){
+  for(const section of composition.sections){const folded=!editing&&!!(folds[section.id]??section.collapsed),sectionHidden=!editing&&!!section.hidden;
+  items.push(<section className={'pc-layout-heading pc-'+section.pattern} key={'heading:'+section.id} id={'pc-layout-'+section.id} hidden={sectionHidden} aria-label={section.title||section.pattern}><div className="pc-section-heading">{section.title&&<h2>{section.title}</h2>}<div className="pc-heading-tools"><button type="button" className="rn-subtle pc-icon-action" aria-label={expanded.has('section:'+section.id)?'Restore section width':'Expand section width'} title={expanded.has('section:'+section.id)?'Restore section width':'Expand section width'} aria-pressed={expanded.has('section:'+section.id)} onClick={()=>expand('section:'+section.id)}>{expanded.has('section:'+section.id)?<Minimize2 size={16}/>:<Maximize2 size={16}/>}</button><button type="button" className="rn-subtle pc-icon-action" aria-label={(folds[section.id]??section.collapsed)?'Show section':'Collapse section'} title={(folds[section.id]??section.collapsed)?'Show section':'Collapse section'} aria-expanded={!(folds[section.id]??section.collapsed)} onClick={()=>setFolds(v=>({...v,[section.id]:!(v[section.id]??section.collapsed)}))}>{(folds[section.id]??section.collapsed)?<ChevronDown size={17}/>:<ChevronUp size={17}/>}</button></div></div>{editing&&arranging&&<details className="pc-arrange-controls"><summary>Arrange section{section.hidden?' · hidden':''}</summary><div><label>Heading<input value={section.title} maxLength={180} onChange={e=>editComposition(c=>{c.sections.find(v=>v.id===section.id)!.title=e.target.value;})}/></label><button type="button" onClick={()=>moveSection(section.id,-1)}>Move up</button><button type="button" onClick={()=>moveSection(section.id,1)}>Move down</button><button type="button" onClick={()=>editComposition(c=>{c.sections.find(v=>v.id===section.id)!.hidden=!section.hidden;})}>{section.hidden?'Show':'Hide'}</button><button type="button" onClick={()=>editComposition(c=>{c.sections.find(v=>v.id===section.id)!.collapsed=!section.collapsed;})}>{section.collapsed?'Expand by default':'Collapse by default'}</button><button type="button" onClick={()=>favourite(section.id)}>Favourite</button></div></details>}</section>);
+  for(const slot of section.slots){if(section.pattern==='board')items.push(<h3 className="pc-group-heading pc-layout-heading" hidden={sectionHidden||folded} key={'slot:'+section.id+':'+slot.id}>{slot.id.replace(/[-_]/g,' ')}</h3>);
+- for(const id of [...slot.blockIds].sort((a,b)=>Number(!!composition.blocks.find(v=>v.id===b)?.pinned)-Number(!!composition.blocks.find(v=>v.id===a)?.pinned))){const block=composition.blocks.find(b=>b.id===id);if(!block)continue;const content=current.sections?.find(s=>s.id===block.sectionId),blockEditing=editing&&editingBlock===id,wide=expanded.has(id)||expanded.has('section:'+section.id),rich=block.ref||content?.parts.some(p=>['code','table','diagram','image','interactive'].includes(p.kind));items.push(<div className={'pc-block pc-section pc-'+section.pattern+' pc-role-'+slot.role+' pc-width-'+(block.width??'auto')+(block.hidden?' pc-hidden':'')+(block.pinned?' pc-highlight':'')+(wide?' pc-expanded':'')} key={'block:'+id} id={'pc-block-'+id} onKeyDown={e=>{if(e.key==='Escape'&&wide){e.preventDefault();e.stopPropagation();setExpanded(v=>{const n=new Set(v);n.delete(id);n.delete('section:'+section.id);return n;});expandTriggers.current.get(id)?.focus();}}} hidden={sectionHidden||folded||(!editing&&!!block.hidden)}><div className="pc-block-tools">{rich&&<button ref={el=>{if(el)expandTriggers.current.set(id,el);else expandTriggers.current.delete(id);}} className="rn-subtle pc-icon-action" type="button" aria-pressed={wide} aria-label={(wide?'Restore width of ':'Expand ')+(content?.title||'block')} title={(wide?'Restore width of ':'Expand ')+(content?.title||'block')} onClick={()=>expand(id,section.id)}>{wide?<Minimize2 size={16} aria-hidden="true"/>:<Maximize2 size={16} aria-hidden="true"/>}</button>}{content&&<button className="rn-subtle pc-icon-action" type="button" aria-label={blockEditing?'Close block editor':'Edit '+(content.title||'block')} title={blockEditing?'Close block editor':'Edit '+(content.title||'block')} disabled={busy} onClick={()=>{if(editing)setEditingBlock(blockEditing?null:id);else begin(id);}}>{blockEditing?<X size={16} aria-hidden="true"/>:<Pencil size={16} aria-hidden="true"/>}</button>}</div>{editing&&arranging&&blockControls(block,section,slot)}<div hidden={!blockEditing}>{content?<div className="pc-inline-editor"><label>Section title<input value={content.title} maxLength={180} onChange={e=>changeSection({...content,title:e.target.value})}/></label>{content.parts.map(part=><div className="pc-part-editor" key={part.id}>{part.kind==='code'?'Code':part.kind==='paragraph'?'Text':part.kind}{part.kind==='interactive'&&part.interactive?<InteractiveEditor part={part} scope={scope} onChange={p=>changeSection({...content,parts:content.parts.map(old=>old.id===p.id?p:old)})}/>:['paragraph','code','callout','reference'].includes(part.kind)&&!part.semantic?<textarea value={part.text} rows={part.kind==='code'?10:5} onChange={e=>changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,text:e.target.value}:p)})}/> :part.kind==='table'&&part.table?<div className="pc-table-editor"><input aria-label="Table columns, separated by tabs" value={part.table.headers.join('\t')} onChange={e=>{const table={...part.table!,headers:e.target.value.split('\t')};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,table,text:tableCanonicalText(table)}:p)});}}/><textarea aria-label="Table rows, cells separated by tabs" value={part.table.rows.map(row=>row.join('\t')).join('\n')} onChange={e=>{const table={...part.table!,rows:e.target.value.split('\n').map(row=>row.split('\t'))};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,table,text:tableCanonicalText(table)}:p)});}}/></div>:part.kind==='image'&&part.image?<div><RichReadingPart part={part} sectionId={content.id} article={current} captures={[]} ownerScope={scope}/><textarea aria-label="Image description" value={part.image.alt} onChange={e=>{const image={...part.image!,alt:e.target.value};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,image,text:imageCanonicalText(image)}:p)});}}/><input aria-label="Image caption" value={part.image.caption??''} onChange={e=>{const image={...part.image!,caption:e.target.value};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,image,text:imageCanonicalText(image)}:p)});}}/></div>:<><RichReadingPart part={part} sectionId={content.id} article={current} captures={[]} ownerScope={scope}/><small>Use its source editor or ask for a specific revision.</small></>}</div>)}<details><summary>Add interactive material</summary>{(['flashcards','drawing','python-canvas','parameter-explorer','pygbag'] as const).map(type=><button type="button" disabled={busy} key={type} onClick={()=>void addInteractive(content,type)}>{type.replaceAll('-',' ')}</button>)}</details><label className="pc-add-image">Add image<input type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={e=>void addImage(content,e.target.files?.[0])}/></label></div>:block.ref?reference(block):null}</div><div hidden={blockEditing}>{block.ref?reference(block):content?byId.get(content.id):null}</div></div>);}
++ for(const id of [...slot.blockIds].sort((a,b)=>Number(!!composition.blocks.find(v=>v.id===b)?.pinned)-Number(!!composition.blocks.find(v=>v.id===a)?.pinned))){const block=composition.blocks.find(b=>b.id===id);if(!block)continue;const content=current.sections?.find(s=>s.id===block.sectionId),blockEditing=editing&&editingBlock===id,wide=expanded.has(id)||expanded.has('section:'+section.id),rich=block.ref||content?.parts.some(p=>['code','table','diagram','image','interactive'].includes(p.kind));items.push(<div className={'pc-block pc-section pc-'+section.pattern+' pc-role-'+slot.role+' pc-width-'+(block.width??'auto')+(block.hidden?' pc-hidden':'')+(block.pinned?' pc-highlight':'')+(wide?' pc-expanded':'')} key={'block:'+id} id={'pc-block-'+id} onKeyDown={e=>{if(e.key==='Escape'&&wide){e.preventDefault();e.stopPropagation();setExpanded(v=>{const n=new Set(v);n.delete(id);n.delete('section:'+section.id);return n;});expandTriggers.current.get(id)?.focus();}}} hidden={sectionHidden||folded||(!editing&&!!block.hidden)}><div className="pc-block-tools">{rich&&<button ref={el=>{if(el)expandTriggers.current.set(id,el);else expandTriggers.current.delete(id);}} className="rn-subtle pc-icon-action" type="button" aria-pressed={wide} aria-label={(wide?'Restore width of ':'Expand ')+(content?.title||'block')} title={(wide?'Restore width of ':'Expand ')+(content?.title||'block')} onClick={()=>expand(id,section.id)}>{wide?<Minimize2 size={16} aria-hidden="true"/>:<Maximize2 size={16} aria-hidden="true"/>}</button>}{content&&<button className="rn-subtle pc-icon-action" type="button" aria-label={blockEditing?'Close block editor':'Edit '+(content.title||'block')} title={blockEditing?'Close block editor':'Edit '+(content.title||'block')} disabled={busy} onClick={()=>{if(editing)setEditingBlock(blockEditing?null:id);else begin(id);}}>{blockEditing?<X size={16} aria-hidden="true"/>:<Pencil size={16} aria-hidden="true"/>}</button>}</div>{editing&&arranging&&blockControls(block,section,slot)}<div hidden={!blockEditing}>{content?<div className="pc-inline-editor"><label>Section title<input value={content.title} maxLength={180} onChange={e=>changeSection({...content,title:e.target.value})}/></label>{content.parts.map(part=><div className="pc-part-editor" key={part.id}>{part.kind==='code'?'Code':part.kind==='paragraph'?'Text':part.kind}{part.kind==='interactive'&&part.interactive?<InteractiveEditor part={part} scope={scope} onChange={p=>changeSection({...content,parts:content.parts.map(old=>old.id===p.id?p:old)})}/>:['paragraph','code','callout','reference'].includes(part.kind)&&!part.semantic?<textarea value={part.text} rows={part.kind==='code'?10:5} onChange={e=>changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,text:e.target.value}:p)})}/> :part.kind==='table'&&part.table?<div className="pc-table-editor"><input aria-label="Table columns, separated by tabs" value={part.table.headers.join('\t')} onChange={e=>{const table={...part.table!,headers:e.target.value.split('\t')};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,table,text:tableCanonicalText(table)}:p)});}}/><textarea aria-label="Table rows, cells separated by tabs" value={part.table.rows.map(row=>row.join('\t')).join('\n')} onChange={e=>{const table={...part.table!,rows:e.target.value.split('\n').map(row=>row.split('\t'))};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,table,text:tableCanonicalText(table)}:p)});}}/></div>:part.kind==='image'&&part.image?<div><RichReadingPart part={part} sectionId={content.id} article={current} captures={[]} ownerScope={scope}/><textarea aria-label="Image description" value={part.image.alt} onChange={e=>{const image={...part.image!,alt:e.target.value};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,image,text:imageCanonicalText(image)}:p)});}}/><input aria-label="Image caption" value={part.image.caption??''} onChange={e=>{const image={...part.image!,caption:e.target.value};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,image,text:imageCanonicalText(image)}:p)});}}/></div>:<><RichReadingPart part={part} sectionId={content.id} article={current} captures={[]} ownerScope={scope}/><small>Use its source editor or ask for a specific revision.</small></>}</div>)}<details><summary>Add interactive material</summary>{(['flashcards','language-reveal','language-pattern','language-dialogue','drawing','python-canvas','parameter-explorer','pygbag'] as const).map(type=><button type="button" disabled={busy} key={type} onClick={()=>void addInteractive(content,type)}>{type.replaceAll('-',' ')}</button>)}</details><label className="pc-add-image">Add image<input type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={e=>void addImage(content,e.target.files?.[0])}/></label></div>:block.ref?reference(block):null}</div><div hidden={blockEditing}>{block.ref?reference(block):content?byId.get(content.id):null}</div></div>);}
+  }}return <div className="pc-sections pc-stable-layout">{items}</div>;}
+ 
+  return <div className="pc-project"><header className="pc-heading">{editing?<div className="pc-title-editor"><label>Project title<input value={draft.title} maxLength={180} onChange={e=>update({...draft,title:e.target.value})}/></label><label>Short description<textarea value={draft.projectDescription??''} maxLength={600} rows={2} onChange={e=>update({...draft,projectDescription:e.target.value})}/></label><label>Introduction<textarea value={draft.body} maxLength={24000} rows={3} onChange={e=>update({...draft,body:e.target.value})}/></label></div>:<div><h1>{record.title}</h1>{record.projectDescription&&<p className="pc-description">{record.projectDescription}</p>}</div>}<div className="pc-actions">{editing?<><button className="v2-primary" disabled={busy} onClick={()=>void save()}><Check size={16}/>{busy?'Saving…':'Save'}</button><button className="v2-text-button" disabled={busy||!!pending.current} onClick={()=>{setEditing(false);setDraft(record);try{localStorage.removeItem(key);localStorage.removeItem(key+':operation');}catch{}}}><X size={16}/>Cancel</button></>:<button className="v2-text-button" onClick={()=>begin()}><Pencil size={15}/>Edit</button>}</div></header>{(editing||record.projectCover)&&<div className={editing?'':'pc-cover-view'}><ProjectCover record={record} scope={scope} onCommand={async command=>{const receipt=await props.onCommand(command);if(receipt.record){setRecord(receipt.record);if(!editing)setDraft(receipt.record);else setMessage('The cover changed. Your content draft is retained against its original revision; refresh before combining changes.');}return receipt;}}/></div>}{message&&<p role={message==='Saved.'?'status':'alert'}>{message}</p>}
+diff --git a/lib/activity/domain.ts b/lib/activity/domain.ts
+index 7ce5bf7..16c842b 100644
+--- a/lib/activity/domain.ts
++++ b/lib/activity/domain.ts
+@@ -17,8 +17,9 @@ import {PROJECT_LIMITS,PROJECT_RUNTIMES,projectCommands} from '../challenge-exch
+ import {compactTerminalSource,terminalCaptureSummaries} from '../note-terminal';
+ import {buildRecordLink} from '../reading-links';
+ const id=z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/),purpose=z.string().min(1).max(500),ref=z.object({family:z.enum(['journey','investigation','article','area','note','source','experiment','run']),id,relation:z.enum(['related','explains','applies','contrasts','supports','extends','source','next']).optional(),reason:z.string().max(500).optional()}).strict();
+-const scopeFields={learningSpace:z.enum(['all','computing','languages','unclassified']).optional(),language:z.enum(['ja','zh-Hans','zh-Hant','fr','es','el','de','sv']).optional()};
+-const learningScopeSchema=z.object({version:z.literal(1),spaces:z.array(z.enum(['computing','languages'])).min(1).max(2),languages:z.array(z.enum(['ja','zh-Hans','zh-Hant','fr','es','el','de','sv'])).min(1).max(8).optional(),provenance:z.enum(['authored','classification'])}).strict();
++const languageTag=z.string().min(2).max(48).regex(/^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/);
++const scopeFields={learningSpace:z.enum(['all','computing','languages','unclassified']).optional(),language:languageTag.optional()};
++const learningScopeSchema=z.object({version:z.literal(1),spaces:z.array(z.enum(['computing','languages'])).min(1).max(2),languages:z.array(languageTag).min(1).max(8).optional(),provenance:z.enum(['authored','classification'])}).strict();
+ export const publishActivitySchema=z.object({purpose,learningScope:learningScopeSchema.optional(),operationId:id,id,expectedRev:z.number().int().min(1).optional(),expectedGeneration:z.string().max(160).optional(),title:z.string().min(1).max(180),body:z.string().max(12000).default(''),links:z.array(ref).max(24).default([]),synthetic:z.boolean().default(false),activity:activityCartridgeSchema}).strict();
+ export const recordAttemptSchema=z.object({purpose,operationId:id,id,expectedRev:z.number().int().min(1).optional(),expectedGeneration:z.string().max(160).optional(),title:z.string().min(1).max(180).default('Activity attempt'),synthetic:z.boolean().default(false),attempt:activityAttemptSchema}).strict();
+ export const readActivitySchema=z.object({purpose:purpose.optional(),id,rendition:z.string().max(240).optional(),check:z.object({blockId:id,input:practiceInputSchema}).strict().optional()}).strict();
+@@ -42,7 +43,7 @@ export async function getActivityContext(env:Cloudflare.Env,owner:string,input:u
+  const value=parse(z.object({purpose,...scopeFields,query:z.string().min(1).max(200),limit:z.number().int().min(1).max(20).default(8),includeSynthetic:z.boolean().default(false),cursor:z.string().max(1200).optional()}).strict(),input);
+  return freshFirstPageRead(value.cursor,()=>composeActivityContext(env,owner,value));
+ }
+-async function composeActivityContext(env:Cloudflare.Env,owner:string,value:{purpose:string;learningSpace?:'all'|'computing'|'languages'|'unclassified';language?:'ja'|'zh-Hans'|'zh-Hant'|'fr'|'es'|'el'|'de'|'sv';query:string;limit:number;includeSynthetic:boolean;cursor?:string}){
++async function composeActivityContext(env:Cloudflare.Env,owner:string,value:{purpose:string;learningSpace?:'all'|'computing'|'languages'|'unclassified';language?:string;query:string;limit:number;includeSynthetic:boolean;cursor?:string}){
+  const namespaceVersion=async()=>Number((await env.DB!.prepare('SELECT version FROM v2_namespace_versions WHERE owner=?').bind(owner).first<{version:number}>())?.version??0);
+  const learningScope=parseLearningScopeQuery(value);
+  const startVersion=await namespaceVersion(),page=await queryRecordPage(env,owner,{...learningScope,query:value.query,limit:value.limit,cursor:value.cursor});
+diff --git a/lib/atlas/service.ts b/lib/atlas/service.ts
+index 2291bc4..8f3facb 100644
+--- a/lib/atlas/service.ts
++++ b/lib/atlas/service.ts
+@@ -13,7 +13,7 @@ import {atlasRecordEligible,atlasRecordLinks,projectLearningGraph,recordNodeId}
+ const identity=z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/);
+ const refSchema=z.object({family:z.enum(FAMILIES),id:identity}).strict();
+ export const atlasProposalSchema=z.object({id:identity,from:refSchema,to:refSchema,reason:z.string().min(1).max(500),basis:z.literal('gpt-proposal'),evidence:z.array(refSchema.extend({rev:z.number().int().min(1)})).min(1).max(4)}).strict();
+-export const atlasQuerySchema=z.object({learningSpace:z.enum(['all','computing','languages','unclassified']).optional(),language:z.enum(['ja','zh-Hans','zh-Hant','fr','es','el','de','sv']).optional(),proposals:z.array(atlasProposalSchema).max(16).refine(values=>new Set(values.map(v=>v.id)).size===values.length,'Proposal IDs must be unique.').optional(),lens:z.enum(ATLAS_LENSES).default('route'),focus:z.object({family:z.enum(FAMILIES),id:identity}).strict().optional(),limit:z.number().int().min(1).max(60).default(24),cursor:z.string().max(1200).optional(),includeSynthetic:z.boolean().default(false)}).strict();
++export const atlasQuerySchema=z.object({learningSpace:z.enum(['all','computing','languages','unclassified']).optional(),language:z.string().min(2).max(48).regex(/^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/).optional(),proposals:z.array(atlasProposalSchema).max(16).refine(values=>new Set(values.map(v=>v.id)).size===values.length,'Proposal IDs must be unique.').optional(),lens:z.enum(ATLAS_LENSES).default('route'),focus:z.object({family:z.enum(FAMILIES),id:identity}).strict().optional(),limit:z.number().int().min(1).max(60).default(24),cursor:z.string().max(1200).optional(),includeSynthetic:z.boolean().default(false)}).strict();
+ const cursorSchema=z.object({v:z.literal(1),scope:z.string().regex(/^[a-f0-9]{64}$/),family:z.enum(FAMILIES),id:identity}).strict();
+ const fail=(status:number,code:string,message:string):never=>{throw new DomainError(status,code,message);};
+ const encode=(v:unknown)=>btoa(JSON.stringify(v)).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
+diff --git a/lib/domain-handler.ts b/lib/domain-handler.ts
+index bd281d0..1f23be8 100644
+--- a/lib/domain-handler.ts
++++ b/lib/domain-handler.ts
+@@ -46,8 +46,9 @@ import {readLab} from './lab';
+ const queryRef=(value:string|null)=>{if(value===null)return undefined;const ref=workRefFromKey(value);if(!ref)throw new DomainError(400,'invalid_query','Choose an exact family:id context.');return ref;};
+ const reply=(value:unknown,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Vary':'oai-authenticated-user-id'}});
+ const str={type:'string'};
+-const learningScopeSchema={type:'object',properties:{version:{const:1},spaces:{type:'array',minItems:1,maxItems:2,uniqueItems:true,items:{enum:['computing','languages']}},languages:{type:'array',minItems:1,maxItems:8,uniqueItems:true,items:{enum:['ja','zh-Hans','zh-Hant','fr','es','el','de','sv']}},provenance:{enum:['authored','classification']}},required:['version','spaces','provenance'],additionalProperties:false};
+-const learningScopeProperties={learningSpace:{enum:['all','computing','languages','unclassified'],description:'Organisational learning scope; current owner/source rights remain independently enforced. Omitted is all.'},language:{enum:['ja','zh-Hans','zh-Hant','fr','es','el','de','sv'],description:'Source study language, not UI locale. Implies Languages unless an incompatible space is explicitly supplied.'}};
++const languageTagSchema={type:'string',minLength:2,maxLength:48,pattern:'^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$'};
++const learningScopeSchema={type:'object',properties:{version:{const:1},spaces:{type:'array',minItems:1,maxItems:2,uniqueItems:true,items:{enum:['computing','languages']}},languages:{type:'array',minItems:1,maxItems:8,uniqueItems:true,items:languageTagSchema},provenance:{enum:['authored','classification']}},required:['version','spaces','provenance'],additionalProperties:false};
++const learningScopeProperties={learningSpace:{enum:['all','computing','languages','unclassified'],description:'Organisational learning scope; current owner/source rights remain independently enforced. Omitted is all.'},language:{...languageTagSchema,description:'Any canonical BCP 47 source-language tag (e.g. ja, tet, ar, zh-Hans), not UI locale. Implies Languages unless incompatible space explicitly supplied.'}};
+ const scopeFromUrl=(url:URL)=>parseLearningScopeQuery({...url.searchParams.has('learningSpace')?{learningSpace:url.searchParams.get('learningSpace')}:{},...url.searchParams.has('language')?{language:url.searchParams.get('language')}:{}});
+ const familySchema={type:'string',enum:[...FAMILIES]};
+ const readingFamilySchema={type:'string',enum:[...READING_FAMILIES]};
+diff --git a/lib/language-tags.ts b/lib/language-tags.ts
+new file mode 100644
+index 0000000..e900318
+--- /dev/null
++++ b/lib/language-tags.ts
+@@ -0,0 +1,12 @@
++import {DomainError} from './domain-error';
++
++/** Canonical organisation tags, not proof that any voice or curriculum exists. */
++export function canonicalLanguageTag(value:unknown):string{
++ if(typeof value!=='string'||value.length<2||value.length>48||!/^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/.test(value))throw new DomainError(400,'invalid_learning_language','Use a valid BCP 47 source-language tag (for example ja, fr, tet, ar or zh-Hans).');
++ try{const tags=Intl.getCanonicalLocales(value);if(tags.length===1)return tags[0];}catch{}
++ throw new DomainError(400,'invalid_learning_language','Use a valid BCP 47 source-language tag (for example ja, fr, tet, ar or zh-Hans).');
++}
++export function tryLanguageTag(value:unknown):string|undefined{try{return canonicalLanguageTag(value);}catch{return undefined;}}
++export function languageName(tag:string):string{
++ try{return new Intl.DisplayNames(['en'],{type:'language'}).of(tag)??tag;}catch{return tag;}
++}
+diff --git a/lib/learning-space-navigation.ts b/lib/learning-space-navigation.ts
+index a9b1911..d42c274 100644
+--- a/lib/learning-space-navigation.ts
++++ b/lib/learning-space-navigation.ts
+@@ -1,18 +1,19 @@
+ /** Organisational navigation state. Authority always remains server-side. */
++import {tryLanguageTag,languageName} from './language-tags';
+ export const LEARNING_SPACE_OPTIONS=[['all','All learning'],['computing','Computing'],['languages','Languages'],['unclassified','Unclassified']] as const;
+ export const STUDY_LANGUAGE_OPTIONS=[['ja','Japanese'],['zh-Hans','Mandarin · Simplified'],['zh-Hant','Mandarin · Traditional'],['fr','French'],['es','Spanish'],['el','Modern Greek'],['de','German'],['sv','Swedish']] as const;
+-export type LearningSpaceSelection={learningSpace:'all'|'computing'|'languages'|'unclassified';language?:typeof STUDY_LANGUAGE_OPTIONS[number][0]};
++export type LearningSpaceSelection={learningSpace:'all'|'computing'|'languages'|'unclassified';language?:string};
+ export function learningSpaceSelection(value:unknown):LearningSpaceSelection{
+  const data=value&&typeof value==='object'?value as Record<string,unknown>:{};
+  const learningSpace=LEARNING_SPACE_OPTIONS.some(([key])=>key===data.learningSpace)?data.learningSpace as LearningSpaceSelection['learningSpace']:'all';
+- const language=learningSpace==='languages'&&STUDY_LANGUAGE_OPTIONS.some(([key])=>key===data.language)?data.language as LearningSpaceSelection['language']:undefined;
++ const language=learningSpace==='languages'?tryLanguageTag(data.language):undefined;
+  return {learningSpace,...(language?{language}:{})};
+ }
+ export function learningSpaceFromParams(params:URLSearchParams){return learningSpaceSelection({learningSpace:params.get('learningSpace'),language:params.get('language')});}
+ export function learningSpaceKey(selection:LearningSpaceSelection){return selection.learningSpace+':'+(selection.language??'');}
+ export function learningSpaceParams(selection:LearningSpaceSelection){return {learningSpace:selection.learningSpace,...(selection.language?{language:selection.language}:{})};}
+ export function appendLearningSpace(params:URLSearchParams,selection:LearningSpaceSelection){params.set('learningSpace',selection.learningSpace);if(selection.language)params.set('language',selection.language);else params.delete('language');return params;}
+-export function learningSpaceLabel(selection:LearningSpaceSelection){return STUDY_LANGUAGE_OPTIONS.find(([key])=>key===selection.language)?.[1]??LEARNING_SPACE_OPTIONS.find(([key])=>key===selection.learningSpace)?.[1]??'All learning';}
++export function learningSpaceLabel(selection:LearningSpaceSelection){return STUDY_LANGUAGE_OPTIONS.find(([key])=>key===selection.language)?.[1]??(selection.language?languageName(selection.language):undefined)??LEARNING_SPACE_OPTIONS.find(([key])=>key===selection.learningSpace)?.[1]??'All learning';}
+ export function learningSpacePreferenceKey(ownerScope:string){return 'minamo-learning-space-v1:'+ownerScope;}
+ 
+ /** Keep explicit scope in copied/new-tab local navigation; exact source coordinates remain unchanged. */
+diff --git a/lib/learning-spaces.ts b/lib/learning-spaces.ts
+index 9f5da8d..698a1ab 100644
+--- a/lib/learning-spaces.ts
++++ b/lib/learning-spaces.ts
+@@ -2,25 +2,29 @@ import type {WorkspaceRecord} from './contracts';
+ import {DomainError} from './domain-error';
+ import {generationContext,generationGuard,requireGeneration,assertGenerationCurrent} from './generations';
+ import {FAMILIES,type Family} from './contracts';
++import {canonicalLanguageTag} from './language-tags';
++export {canonicalLanguageTag} from './language-tags';
+ 
+ export const LEARNING_SPACES=['computing','languages'] as const;
+ export const LEARNING_LANGUAGES=['ja','zh-Hans','zh-Hant','fr','es','el','de','sv'] as const;
+ export type LearningSpace=typeof LEARNING_SPACES[number];
+-export type SupportedLanguage=typeof LEARNING_LANGUAGES[number];
++/** Classification accepts any canonical BCP 47 language tag; this array is only a list of suggestions. */
++export type SupportedLanguage=string;
+ export type LearningScope={version:1;spaces:LearningSpace[];languages?:SupportedLanguage[];provenance:'authored'|'classification'};
+ export type LearningScopeQuery={learningSpace?:LearningSpace|'all'|'unclassified';language?:SupportedLanguage};
+ const object=(x:unknown):x is Record<string,unknown>=>!!x&&typeof x==='object'&&!Array.isArray(x);
+ export function validateLearningScope(value:unknown):LearningScope{
+  if(!object(value)||Object.keys(value).some(k=>!['version','spaces','languages','provenance'].includes(k))||value.version!==1||!Array.isArray(value.spaces)||value.spaces.length<1||value.spaces.length>2||new Set(value.spaces).size!==value.spaces.length||!value.spaces.every(s=>(LEARNING_SPACES as readonly unknown[]).includes(s))||(typeof value.provenance!=='string'||!['authored','classification'].includes(value.provenance)))throw new DomainError(400,'invalid_learning_scope','Use learningScope {version:1,spaces:["computing" or "languages"],provenance:"authored" or "classification"}.','data.learningScope');
+- if(value.languages!==undefined&&(!Array.isArray(value.languages)||!value.languages.length||value.languages.length>8||new Set(value.languages).size!==value.languages.length||!value.languages.every(l=>(LEARNING_LANGUAGES as readonly unknown[]).includes(l))||!value.spaces.includes('languages')))throw new DomainError(400,'invalid_learning_language','Use supported BCP-47 source tags ja, zh-Hans, zh-Hant, fr, es, el, de, sv with the Languages space. These are subject tags, not UI locale.','data.learningScope.languages');
+- return {version:1,spaces:[...value.spaces] as LearningSpace[],...(value.languages?{languages:[...(value.languages as SupportedLanguage[])]}:{}),provenance:value.provenance as LearningScope['provenance']};
++ if(value.languages!==undefined&&(!Array.isArray(value.languages)||!value.languages.length||value.languages.length>8||!value.spaces.includes('languages')))throw new DomainError(400,'invalid_learning_language','Use 1–8 BCP 47 source-language tags with the Languages space.','data.learningScope.languages');
++ const languages=value.languages?.map(canonicalLanguageTag);if(languages&&new Set(languages).size!==languages.length)throw new DomainError(400,'invalid_learning_language','Source-language tags must be unique after normalisation.','data.learningScope.languages');
++ return {version:1,spaces:[...value.spaces] as LearningSpace[],...(languages?{languages}:{}),provenance:value.provenance as LearningScope['provenance']};
+ }
+ export function parseLearningScopeQuery(input:LearningScopeQuery|Record<string,unknown>={}):LearningScopeQuery{
+  const {learningSpace,language}=input;
+  if(learningSpace!==undefined&&(typeof learningSpace!=='string'||!['all','computing','languages','unclassified'].includes(learningSpace)))throw new DomainError(400,'invalid_learning_space','Choose learningSpace all, computing, languages or unclassified.');
+- if(language!==undefined&&!(LEARNING_LANGUAGES as readonly unknown[]).includes(language))throw new DomainError(400,'invalid_learning_language','Choose source language ja, zh-Hans, zh-Hant, fr, es, el, de or sv.');
++ const tag=language===undefined?undefined:canonicalLanguageTag(language);
+  if(language!==undefined&&learningSpace!==undefined&&!['all','languages'].includes(String(learningSpace)))throw new DomainError(400,'incompatible_learning_scope','A language filter requires learningSpace languages or all.');
+- return {learningSpace:(learningSpace??(language?'languages':'all')) as LearningScopeQuery['learningSpace'],...(language?{language:language as SupportedLanguage}:{})};
++ return {learningSpace:(learningSpace??(tag?'languages':'all')) as LearningScopeQuery['learningSpace'],...(tag?{language:tag}:{})};
+ }
+ /** Only explicit metadata is classified. Older records remain discoverable under All/Unclassified; no title guessing. */
+ export function effectiveLearningScope(record:Pick<WorkspaceRecord,'learningScope'>):LearningScope|undefined{return record.learningScope;}
+diff --git a/lib/library-return.ts b/lib/library-return.ts
+index d686d29..de866a4 100644
+--- a/lib/library-return.ts
++++ b/lib/library-return.ts
+@@ -1,16 +1,17 @@
+ import type {WorkspaceRecord} from './contracts';
+ import {learningSpaceFromParams,type LearningSpaceSelection} from './learning-space-navigation';
++import {tryLanguageTag} from './language-tags';
+ export type LibraryReturn={query:string;href:string;subjectId?:string;selection:LearningSpaceSelection};
+ const identifier=(value:unknown):value is string=>typeof value==='string'&&/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/.test(value);
+ const facets=['search','areas','topics','references'],kinds=['','concept','python-function','shell-command','api','language-syntax','functions'],sorts=['title','updated','authored'];
+-const spaces=['all','computing','languages','unclassified'],languages=['ja','zh-Hans','zh-Hant','fr','es','el','de','sv'];
++const spaces=['all','computing','languages','unclassified'];
+ const allowed=new Set(['view','family','id','libraryFacet','libraryQuery','libraryKind','librarySort','learningSpace','language','returnJourney','returnStage']);
+ const text=(value:unknown):value is string=>typeof value==='string'&&value.length<=200&&value.isWellFormed()&&!/[\u0000-\u001f\u007f]/.test(value);
+ function canonical(params:URLSearchParams):LibraryReturn|null{
+  if(params.get('view')!=='library')return null;const family=params.get('family'),id=params.get('id');
+  if(family!==null&&family!=='area'||id!==null&&(family!=='area'||!identifier(id))||family==='area'&&!id)return null;
+  const facet=params.get('libraryFacet'),query=params.get('libraryQuery'),kind=params.get('libraryKind'),sort=params.get('librarySort'),space=params.get('learningSpace'),language=params.get('language'),project=params.get('returnJourney'),step=params.get('returnStage');
+- if(facet!==null&&!facets.includes(facet)||query!==null&&!text(query)||kind!==null&&!kinds.includes(kind)||sort!==null&&!sorts.includes(sort)||space!==null&&!spaces.includes(space)||language!==null&&(!languages.includes(language)||space!==null&&space!=='languages'&&space!=='all')||project!==null&&!identifier(project)||step!==null&&(!identifier(step)||!project))return null;
++ if(facet!==null&&!facets.includes(facet)||query!==null&&!text(query)||kind!==null&&!kinds.includes(kind)||sort!==null&&!sorts.includes(sort)||space!==null&&!spaces.includes(space)||language!==null&&(!tryLanguageTag(language)||space!==null&&space!=='languages'&&space!=='all')||project!==null&&!identifier(project)||step!==null&&(!identifier(step)||!project))return null;
+  const p=new URLSearchParams({view:'library'});if(id){p.set('family','area');p.set('id',id);}for(const key of ['libraryFacet','libraryQuery','libraryKind','librarySort','learningSpace','language','returnJourney','returnStage']){const value=params.get(key);if(value!==null)p.set(key,value);}
+  if(language!==null&&space===null)p.set('learningSpace','languages');const value=p.toString();return {query:value,href:'/?'+value,...(id?{subjectId:id}:{}),selection:learningSpaceFromParams(p)};
+ }
+diff --git a/lib/project-composition.ts b/lib/project-composition.ts
+index e94986c..37b9322 100644
+--- a/lib/project-composition.ts
++++ b/lib/project-composition.ts
+@@ -36,4 +36,4 @@ export function protectedSnapshot(r:WorkspaceRecord,c:ProjectComposition,key:str
+  // Relative order only among existing protected blocks: harmless insertions remain possible.
+  return {block:b,content:b.sectionId?r.sections?.find(s=>s.id===b.sectionId):undefined,place:place&&{section:place.s,slot:place.slot,peers:place.ids.filter(v=>(c.protectedIds??[]).includes(v))}};
+ }
+-export const layoutCapabilities={imageUpload:{tool:'upload_minamo_project_image',maxBytes:120000,transport:'standard base64 in bounded JSON; larger original images use authenticated Site upload',association:'apply_project_update with current expectedProjectRev'},observations:{storage:'Ordinary adjacent callout and typed JSON parts in the same Project; no Note required',classification:'browser-reported; not server-observed execution'},version:1,patterns,slots:['primary','secondary','sidebar','history','freeform'],limits:{sections:32,blocks:128,layoutBytes:64000,updateBytes:220000},interactive:{version:1,types:['flashcards','drawing','python-canvas','parameter-explorer','pygbag'],drawing:'Ordinary state Note plus immutable snapshot/image attachments; noteChanges may create state Note atomically.',python:'Explicit Run in existing opaque iframe and terminable Worker; minamo_canvas finite drawing API, 120 frames/600 commands/20s. Controls do not execute Python until Run.',pygbag:'Owner-supplied standalone-html-v1 only; archive 0.9, explicit CPython 3.12 and stdout,gui loader attributes. Authenticated upload MIME application/vnd.minamo.pygbag+html; retain digest; no arbitrary ZIP/directory host.'},compositionFields:{sections:['hidden','collapsed'],blocks:['hidden','pinned','width'],widths:['full','split','compact'],favourites:'Project-local exact section/block shortcuts, never progress.'},testRuns:'manage_minamo_test_run creates immutable synthetic membership; no fixture matrix or automatic deletion.',content:'Canonical sections with rich paragraph/code/table/diagram/image/media parts; exact admitted record references render inline. No executable HTML.',images:{cover:'wide, calm composition; no text or progress claims',formats:['image/png','image/jpeg','image/webp'],maxBytes:8388608,transport:'Existing authenticated Site upload; no MCP file-byte upload is available.'},continuity:'Read exact current Project, use expectedProjectRev and a retry-stable operationId. Ordinary explicit Update Minamo applies directly. Preserve direct edits; explicitOverrideIds requires a specific owner request. Never infer execution or achievement.'};
++export const layoutCapabilities={imageUpload:{tool:'upload_minamo_project_image',maxBytes:120000,transport:'standard base64 in bounded JSON; larger original images use authenticated Site upload',association:'apply_project_update with current expectedProjectRev'},observations:{storage:'Ordinary adjacent callout and typed JSON parts in the same Project; no Note required',classification:'browser-reported; not server-observed execution'},version:1,patterns,slots:['primary','secondary','sidebar','history','freeform'],limits:{sections:32,blocks:128,layoutBytes:64000,updateBytes:220000},interactive:{version:1,types:['flashcards','language-reveal','language-pattern','language-dialogue','drawing','python-canvas','parameter-explorer','pygbag'],languagePractice:'Inert authored examples, optional translation/gloss disclosure, finite complete sentence variants, dialogue turns and reversible/cloze cards. Views never create learning evidence.',drawing:'Ordinary state Note plus immutable snapshot/image attachments; noteChanges may create state Note atomically.',python:'Explicit Run in existing opaque iframe and terminable Worker; minamo_canvas finite drawing API, 120 frames/600 commands/20s. Controls do not execute Python until Run.',pygbag:'Owner-supplied standalone-html-v1 only; archive 0.9, explicit CPython 3.12 and stdout,gui loader attributes. Authenticated upload MIME application/vnd.minamo.pygbag+html; retain digest; no arbitrary ZIP/directory host.'},compositionFields:{sections:['hidden','collapsed'],blocks:['hidden','pinned','width'],widths:['full','split','compact'],favourites:'Project-local exact section/block shortcuts, never progress.'},testRuns:'manage_minamo_test_run creates immutable synthetic membership; no fixture matrix or automatic deletion.',content:'Canonical sections with rich paragraph/code/table/diagram/image/media parts; exact admitted record references render inline. No executable HTML.',images:{cover:'wide, calm composition; no text or progress claims',formats:['image/png','image/jpeg','image/webp'],maxBytes:8388608,transport:'Existing authenticated Site upload; no MCP file-byte upload is available.'},continuity:'Read exact current Project, use expectedProjectRev and a retry-stable operationId. Ordinary explicit Update Minamo applies directly. Preserve direct edits; explicitOverrideIds requires a specific owner request. Never infer execution or achievement.'};
+diff --git a/lib/project-interactive.ts b/lib/project-interactive.ts
+index 2db52a8..417ef3d 100644
+--- a/lib/project-interactive.ts
++++ b/lib/project-interactive.ts
+@@ -3,6 +3,9 @@ const id=z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/);
+ const finite=z.number().finite();
+ const image=z.object({assetId:id,alt:z.string().min(1).max(2000),caption:z.string().max(1000).optional()}).strict();
+ const face=z.object({text:z.string().max(4000),image:image.optional()}).strict();
++const languageTag=z.string().min(2).max(48).regex(/^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$/);
++const utterance=z.object({text:z.string().min(1).max(4000),translation:z.string().max(4000).optional(),note:z.string().max(4000).optional(),language:languageTag.optional()}).strict();
++const cloze=z.object({before:z.string().max(4000),missing:z.string().min(1).max(1000),after:z.string().max(4000)}).strict();
+ export const parameterSchema=z.discriminatedUnion('kind',[
+  z.object({kind:z.literal('slider'),id,label:z.string().min(1).max(100),unit:z.string().max(30).optional(),min:finite,max:finite,step:finite.positive(),value:finite}).strict(),
+  z.object({kind:z.literal('toggle'),id,label:z.string().min(1).max(100),value:z.boolean()}).strict(),
+@@ -11,7 +14,10 @@ export const parameterSchema=z.discriminatedUnion('kind',[
+ const controls=z.array(parameterSchema).max(8);
+ const canvas={width:z.number().int().min(120).max(1200),height:z.number().int().min(100).max(900),seed:z.number().int().min(0).max(2147483647),code:z.string().min(1).max(20000)};
+ export const interactiveSchema=z.discriminatedUnion('type',[
+- z.object({version:z.literal(1),type:z.literal('flashcards'),cards:z.array(z.object({id,front:face,back:face}).strict()).min(1).max(80)}).strict(),
++ z.object({version:z.literal(1),type:z.literal('flashcards'),reversible:z.boolean().optional(),cards:z.array(z.object({id,front:face,back:face,cloze:cloze.optional(),language:languageTag.optional()}).strict()).min(1).max(80)}).strict(),
++ z.object({version:z.literal(1),type:z.literal('language-reveal'),language:languageTag,source:utterance,gloss:z.string().max(4000).optional(),explanation:z.string().max(4000).optional()}).strict(),
++ z.object({version:z.literal(1),type:z.literal('language-pattern'),language:languageTag,slots:z.array(z.object({id,label:z.string().min(1).max(100),choices:z.array(z.object({id,label:z.string().min(1).max(100)}).strict()).min(1).max(12)}).strict()).min(1).max(5),examples:z.array(z.object({id,choices:z.record(id),source:utterance}).strict()).min(1).max(120)}).strict(),
++ z.object({version:z.literal(1),type:z.literal('language-dialogue'),language:languageTag,turns:z.array(z.object({id,speaker:z.string().min(1).max(120),source:utterance,alternatives:z.array(z.string().min(1).max(2000)).max(4).optional()}).strict()).min(1).max(40)}).strict(),
+  z.object({version:z.literal(1),type:z.literal('drawing'),noteId:id}).strict(),
+  z.object({version:z.literal(1),type:z.literal('python-canvas'),...canvas,controls:controls.optional()}).strict(),
+  z.object({version:z.literal(1),type:z.literal('parameter-explorer'),controls,target:z.discriminatedUnion('type',[
+@@ -27,6 +33,12 @@ export function validateInteractive(value:unknown):Interactive{
+  const cs='controls' in d?d.controls??[]:[];if(new Set(cs.map(p=>p.id)).size!==cs.length)throw Error('Parameter IDs must be unique.');
+  for(const p of cs){if(p.kind==='slider'&&(p.max<=p.min||p.value<p.min||p.value>p.max||p.step>p.max-p.min))throw Error('Slider bounds/default are invalid.');if(p.kind==='select'&&!p.options.includes(p.value))throw Error('Select default must be an option.');}
+  if(d.type==='flashcards'&&new Set(d.cards.map(c=>c.id)).size!==d.cards.length)throw Error('Card IDs must be unique.');
++ if(d.type==='language-pattern'){
++  if(new Set(d.slots.map(s=>s.id)).size!==d.slots.length||d.slots.some(s=>new Set(s.choices.map(c=>c.id)).size!==s.choices.length))throw Error('Sentence slot/choice IDs must be unique.');
++  const combinations=new Set<string>();for(const example of d.examples){const keys=Object.keys(example.choices);if(keys.length!==d.slots.length||d.slots.some(slot=>!slot.choices.some(choice=>choice.id===example.choices[slot.id])))throw Error('Each sentence must reference one known choice in every slot.');const key=d.slots.map(slot=>example.choices[slot.id]).join('\0');if(combinations.has(key))throw Error('Only one authored output is allowed for each choice combination.');combinations.add(key);}
++  if(new Set(d.examples.map(e=>e.id)).size!==d.examples.length)throw Error('Sentence IDs must be unique.');
++ }
++ if(d.type==='language-dialogue'&&new Set(d.turns.map(t=>t.id)).size!==d.turns.length)throw Error('Dialogue turn IDs must be unique.');
+  if(d.type==='parameter-explorer'&&d.target.type!=='python-canvas')for(const k of (d.target.type==='wave'?[d.target.amplitude,d.target.frequency]:[d.target.speed,d.target.gravity]))if(!cs.some(c=>c.id===k&&c.kind==='slider'))throw Error('Native graph inputs must name numeric slider parameters.');
+  return d;
+ }
+diff --git a/tests/learning-spaces.test.mjs b/tests/learning-spaces.test.mjs
+index e6a05fb..ee455c1 100644
+--- a/tests/learning-spaces.test.mjs
++++ b/tests/learning-spaces.test.mjs
+@@ -35,7 +35,7 @@ test('space and language eligibility precedes pagination, cursor lookahead, inhe
+  const personal=ok(await query(c,{learningSpace:'languages',language:'ja',personal:'1'}));assert.deepEqual(personal.records.map(r=>r.id),['linked-note']);assert.equal(personal.records[0].learningScopeInherited,true);
+  assert.deepEqual(ok(await query(c,{learningSpace:'unclassified'})).records.map(r=>r.id),['unclassified']);
+  const ws=ok(await c.request('/api/workspace?'+new URLSearchParams({learningSpace:'languages',language:'ja',limit:'2'})));assert.equal(ws.records.length,2);assert.ok(ws.activity.every(a=>['ja-1','ja-2','ja-3','linked-note'].includes(a.recordId)));
+- assert.equal((await query(c,{learningSpace:'computing',language:'ja'})).status,400);assert.equal((await query(c,{language:'en'})).status,400);
++ assert.equal((await query(c,{learningSpace:'computing',language:'ja'})).status,400);assert.equal((await query(c,{language:'not--a-valid-language-tag'})).status,400);
+  }finally{await f.dispose();}
+ });
+ 
+diff --git a/tests/pr85-language.test.mjs b/tests/pr85-language.test.mjs
+new file mode 100644
+index 0000000..043c642
+--- /dev/null
++++ b/tests/pr85-language.test.mjs
+@@ -0,0 +1,31 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {createRequire} from 'node:module';
++import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
++import {tmpdir} from 'node:os';
++import {join} from 'node:path';
++const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
++const result=await wr('esbuild').build({stdin:{contents:`export {canonicalLanguageTag,validateLearningScope,parseLearningScopeQuery} from './lib/learning-spaces.ts';export {validateInteractive} from './lib/project-interactive.ts';`,resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false});
++const dir=mkdtempSync(join(tmpdir(),'pr85-language-')),file=join(dir,'test.cjs');writeFileSync(file,result.outputFiles[0].text);
++const {canonicalLanguageTag,validateLearningScope,parseLearningScopeQuery,validateInteractive}=require(file);rmSync(dir,{recursive:true,force:true});
++
++const scope=languages=>({version:1,spaces:['languages'],languages,provenance:'authored'});
++test('open BCP 47 classification accepts Tetum and canonicalises script/region without changing source',()=>{
++ assert.equal(canonicalLanguageTag('TET'),'tet');
++ assert.deepEqual(validateLearningScope(scope(['TET','zh-hans','ar-EG'])).languages,['tet','zh-Hans','ar-EG']);
++ assert.deepEqual(parseLearningScopeQuery({language:'TET'}),{learningSpace:'languages',language:'tet'});
++ assert.throws(()=>validateLearningScope(scope(['tet','TET'])),/unique/);
++ for(const value of ['not--a-valid-language-tag','<script>','en--GB','f'.repeat(49)])assert.throws(()=>canonicalLanguageTag(value));
++ assert.throws(()=>validateLearningScope({...scope(['tet']),spaces:['computing']}));
++ assert.throws(()=>validateLearningScope(scope(Array.from({length:9},(_,i)=>`x${i}`))));
++});
++
++test('finite authored sentence choices, layered reading, dialogue and cloze cards retain strict inert definitions',()=>{
++ const sentence={version:1,type:'language-pattern',language:'tet',slots:[{id:'subject',label:'Subject',choices:[{id:'hau',label:'Hau'},{id:'nia',label:'Nia'}]}],examples:[{id:'first',choices:{subject:'hau'},source:{text:'Hau aprende Tetun.',translation:'I learn Tetum.'}},{id:'second',choices:{subject:'nia'},source:{text:'Nia aprende Tetun.',translation:'They learn Tetum.'}}]};
++ assert.equal(validateInteractive(sentence).examples.length,2);
++ assert.throws(()=>validateInteractive({...sentence,examples:[...sentence.examples,{id:'bad',choices:{subject:'invented'},source:{text:'INVALID'}}]}),/known choice/);
++ assert.throws(()=>validateInteractive({...sentence,examples:[...sentence.examples,{...sentence.examples[0],id:'repeat'}]}),/one authored/);
++ assert.equal(validateInteractive({version:1,type:'language-reveal',language:'ar',source:{text:'مرحبا',translation:'Hello'},gloss:'Greeting'}).type,'language-reveal');
++ assert.equal(validateInteractive({version:1,type:'language-dialogue',language:'tet',turns:[{id:'first',speaker:'A',source:{text:'Bondia!',translation:'Good morning.'}}]}).type,'language-dialogue');
++ assert.equal(validateInteractive({version:1,type:'flashcards',reversible:true,cards:[{id:'one',front:{text:'English'},back:{text:'Tetun'},cloze:{before:'Hau ',missing:'aprende',after:' Tetun.'}}]}).cards.length,1);
++});

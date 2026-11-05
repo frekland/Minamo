@@ -1,0 +1,98 @@
+diff --git a/app/project-interactive.tsx b/app/project-interactive.tsx
+index 7b3e4be..88c620b 100644
+--- a/app/project-interactive.tsx
++++ b/app/project-interactive.tsx
+@@ -9,6 +9,7 @@ import {PYGBAG_MIME,PYGBAG_RUNTIME} from '../lib/pygbag-package';
+ import {clientId} from '../lib/client-id';
+ import {LanguageReveal,LanguagePattern,LanguageDialogue} from './project-language';
+ import {ProjectSpeech} from './project-speech';
++import {isTargetFlashcardFace} from '../lib/language-speech';
+ const Drawing=lazy(()=>import('./project-drawing')),Canvas=lazy(()=>import('./project-canvas')),Pygbag=lazy(()=>import('./project-pygbag'));
+ export function ProjectInteractive({definition,scope,identity,projectTarget}:{definition:Interactive;scope:string;identity:string;projectTarget?:{projectId:string;sectionId:string;partId:string}}){const [mounted,setMounted]=useState(false);useEffect(()=>setMounted(true),[]);if(!mounted)return <p>Loading interactive material…</p>;return <div className="pi-host" data-reading-exclude="true"><Suspense fallback={<p>Loading interactive material…</p>}>{definition.type==='flashcards'?<Flashcards d={definition} scope={scope}/>:definition.type==='language-reveal'?<LanguageReveal definition={definition}/>:definition.type==='language-pattern'?<LanguagePattern definition={definition}/>:definition.type==='language-dialogue'?<LanguageDialogue definition={definition}/>:definition.type==='drawing'?<Drawing key={scope+definition.noteId} noteId={definition.noteId} scope={scope}/>:definition.type==='pygbag'?<Pygbag key={definition.assetId+definition.digest} assetId={definition.assetId} digest={definition.digest} scope={scope}/>:<Canvas definition={definition} scope={scope} identity={identity} projectTarget={projectTarget}/>}</Suspense></div>;}
+ function Flashcards({d,scope}:{d:Extract<Interactive,{type:'flashcards'}>;scope:string}){
+@@ -16,11 +17,14 @@ function Flashcards({d,scope}:{d:Extract<Interactive,{type:'flashcards'}>;scope:
+  useEffect(()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);setReverse(false);setClozeMode(false);},[JSON.stringify(d)]);
+  const card=d.cards.find(c=>c.id===order[at])??d.cards[0],canCloze=d.cards.some(c=>!!c.cloze),isCloze=clozeMode&&!!card.cloze;
+  const face=isCloze?(back?{text:card.cloze!.before+card.cloze!.missing+card.cloze!.after}: {text:card.cloze!.before+'______'+card.cloze!.after}):back?(reverse?card.front:card.back):(reverse?card.back:card.front);
++ // A card's language tag belongs to its authored front, not a translation on
++ // the back or a cloze prompt containing blanks. Speak only complete target text.
++ const targetLanguageVisible=!!card.language&&isTargetFlashcardFace(isCloze,back,reverse);
+  function move(n:number){setAt((at+n+order.length)%order.length);setBack(false);}
+  return <div className="pi-flashcards" tabIndex={0} aria-label="Flashcards" onKeyDown={e=>{if(e.target!==e.currentTarget)return;if(e.key==='ArrowRight'){e.preventDefault();move(1);}if(e.key==='ArrowLeft'){e.preventDefault();move(-1);}if(e.key===' '){e.preventDefault();setBack(v=>!v);}}}>
+  <p aria-live="polite">Card {at+1} of {order.length} · {back?'Answer':'Question'}{isCloze?' · Complete the sentence':''}</p>
+- <ProjectSpeech text={face.text} language={card.language}/>
+- <button type="button" className={'pi-card '+(back?'pi-card-answer':'')} aria-label={(back?'Answer. ':'Question. ')+face.text+'. '+(back?'Show question':'Reveal answer')} aria-pressed={back} onClick={()=>setBack(v=>!v)}><span className="pi-card-face">{back?'Answer':isCloze?'Fill the blank':'Question'}</span><span className="pi-card-text" lang={card.language} dir="auto">{face.text}</span>{'image' in face&&face.image&&<CardImage key={card.id+String(back)+face.image.assetId} image={face.image} scope={scope}/>}<span className="pi-card-hint">Tap to {back?'see the question':'reveal'}</span></button>
++ {targetLanguageVisible&&<ProjectSpeech text={face.text} language={card.language}/>}
++ <button type="button" className={'pi-card '+(back?'pi-card-answer':'')} aria-label={(back?'Answer. ':'Question. ')+face.text+'. '+(back?'Show question':'Reveal answer')} aria-pressed={back} onClick={()=>setBack(v=>!v)}><span className="pi-card-face">{back?'Answer':isCloze?'Fill the blank':'Question'}</span><span className="pi-card-text" lang={targetLanguageVisible?card.language:undefined} dir="auto">{face.text}</span>{'image' in face&&face.image&&<CardImage key={card.id+String(back)+face.image.assetId} image={face.image} scope={scope}/>}<span className="pi-card-hint">Tap to {back?'see the question':'reveal'}</span></button>
+  <div className="pi-toolbar"><button type="button" onClick={()=>move(-1)}>Previous</button><button type="button" aria-pressed={back} onClick={()=>setBack(v=>!v)}>{back?'Show question':'Reveal answer'}</button><button type="button" onClick={()=>move(1)}>Next</button>{d.reversible&&<button type="button" aria-pressed={reverse} onClick={()=>{setReverse(v=>!v);setBack(false);}}>Reverse sides {reverse?'✓':''}</button>}{canCloze&&<button type="button" aria-pressed={clozeMode} onClick={()=>{setClozeMode(v=>!v);setBack(false);}}>Cloze mode {clozeMode?'✓':''}</button>}<button type="button" onClick={()=>{const next=[...order];for(let i=next.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[next[i],next[j]]=[next[j],next[i]];}setOrder(next);setAt(0);setBack(false);}}>Shuffle</button><button type="button" onClick={()=>{setOrder(d.cards.map(c=>c.id));setAt(0);setBack(false);setReverse(false);setClozeMode(false);}}>Reset</button></div></div>;
+ }
+ function CardImage({image,scope}:{image:{assetId:string;alt:string;caption?:string};scope:string}){const [failed,setFailed]=useState(false);useEffect(()=>{const receive=(event:Event)=>{const d=(event as CustomEvent).detail;if(d?.ownerScope===scope&&d.assetId===image.assetId)setFailed(true);};window.addEventListener('minamo-image-unavailable',receive);return()=>window.removeEventListener('minamo-image-unavailable',receive);},[scope,image.assetId]);return failed?<span className="pi-card-media-fallback">Image unavailable</span>:<img className="pi-card-image" src={'/api/assets/'+encodeURIComponent(image.assetId)+'?generation='+encodeURIComponent(workspaceGenerationFromScope(scope))} alt={image.alt} onError={()=>setFailed(true)}/>;}
+diff --git a/lib/language-speech-browser.ts b/lib/language-speech-browser.ts
+index 5162e1c..5676063 100644
+--- a/lib/language-speech-browser.ts
++++ b/lib/language-speech-browser.ts
+@@ -38,8 +38,15 @@ async function synthesize(voice: LocalVoice, text: string, pace: SpeechPace, pro
+     plusSession = await PiperPlus.initialize({
+       model: 'css10',
+       ort,
+-      // The 58 MB dictionary is hosted by the published upstream package.
+-      wasmG2pUrl: 'https://unpkg.com/piper-plus@0.8.2/dist/rust-wasm/piper_plus_wasm.js',
++      // The upstream adapter calls import(wasmG2pUrl), which the production
++      // bundler cannot resolve from an arbitrary URL. Use a same-origin copy
++      // of the package's small generated JS glue (no 58 MB binary in Sites).
++      wasmLoader: async () => {
++        const glueUrl = '/piper-plus-runtime/g2p/piper_plus_wasm.js';
++        const wasm = await import(/* @vite-ignore */ glueUrl);
++        await wasm.default('https://unpkg.com/piper-plus@0.8.2/dist/rust-wasm/piper_plus_wasm_bg.wasm');
++        return wasm;
++      },
+       onProgress: info => {if (info.stage === 'model') progress('Loading Japanese voice model…');},
+     });
+   }
+diff --git a/lib/language-speech.ts b/lib/language-speech.ts
+index b6366ce..159005e 100644
+--- a/lib/language-speech.ts
++++ b/lib/language-speech.ts
+@@ -26,6 +26,10 @@ export function localVoiceFor(language: string | undefined): LocalVoice | null {
+ }
+ 
+ export type SpeechPace = 'normal' | 'slow';
++/** A flashcard's optional language tag identifies its authored front, not its translation. */
++export function isTargetFlashcardFace(clozeMode: boolean, answerVisible: boolean, reversed: boolean) {
++  return clozeMode ? answerVisible : answerVisible === reversed;
++}
+ /** Slower synthesis was tested specifically for the Japanese CSS10 voice. */
+ export function localSynthesisOptions(voice: LocalVoice, pace: SpeechPace) {
+   return voice.engine === 'piper-plus'
+diff --git a/tests/pr85-speech.test.mjs b/tests/pr85-speech.test.mjs
+index 18f852b..917ac57 100644
+--- a/tests/pr85-speech.test.mjs
++++ b/tests/pr85-speech.test.mjs
+@@ -6,10 +6,10 @@ import {tmpdir} from 'node:os';
+ import {join} from 'node:path';
+ 
+ const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
+-const result=await wr('esbuild').build({stdin:{contents:"export {localVoiceFor,localSynthesisOptions} from './lib/language-speech.ts';",resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false});
++const result=await wr('esbuild').build({stdin:{contents:"export {localVoiceFor,localSynthesisOptions,isTargetFlashcardFace} from './lib/language-speech.ts';",resolveDir:process.cwd()},bundle:true,format:'cjs',platform:'node',write:false});
+ const dir=mkdtempSync(join(tmpdir(),'pr85-speech-')),file=join(dir,'module.cjs');
+ writeFileSync(file,result.outputFiles[0].text);
+-const {localVoiceFor,localSynthesisOptions}=require(file);
++const {localVoiceFor,localSynthesisOptions,isTargetFlashcardFace}=require(file);
+ rmSync(dir,{recursive:true,force:true});
+ 
+ test('Japanese uses only Piper Plus and the two owner-tested synthesis presets',()=>{
+@@ -36,3 +36,14 @@ test('valid but unsupported language tags retain text-only Projects',()=>{
+  assert.equal(localVoiceFor(''),null);
+  assert.equal(localVoiceFor('ja<script>'),null);
+ });
++
++test('flashcards speak complete target-language text only, never translated answers or cloze blanks',()=>{
++ assert.equal(isTargetFlashcardFace(false,false,false),true); // original target-language front
++ assert.equal(isTargetFlashcardFace(false,true,false),false); // translated back
++ assert.equal(isTargetFlashcardFace(false,false,true),false); // reverse: translation shown first
++ assert.equal(isTargetFlashcardFace(false,true,true),true); // reverse: target text revealed
++ assert.equal(isTargetFlashcardFace(true,false,false),false); // unfinished cloze prompt
++ assert.equal(isTargetFlashcardFace(true,true,false),true); // complete cloze answer
++ assert.equal(isTargetFlashcardFace(true,false,true),false); // cloze always starts with a blank
++ assert.equal(isTargetFlashcardFace(true,true,true),true);
++});
