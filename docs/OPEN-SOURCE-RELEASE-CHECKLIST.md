@@ -2,6 +2,8 @@
 
 The repository is public. PR #2, “Prepare Minamo's MIT-licensed community release,” was merged to `main` on 28 October 2026.
 
+**Historical record:** the checkbox and validation entries below document the original **MIT** release only. The repository's **current licence is AGPL-3.0-only**; see [LICENSE](../LICENSE) and [Contributing](../CONTRIBUTING.md). Do not reuse the MIT wording for new contributions or distributions.
+
 - [x] Start a fresh repository without private source history.
 - [x] Copy application source, relevant synthetic fixtures and development tooling.
 - [x] Exclude historical commission/evidence archives and private learner records.

@@ -1,4 +1,4 @@
-> **Owner release-policy override — 3 November 2026:** For owner-authorised iterative ChatGPT Sites deployments, [the focused Sites workflow](SITES-RELEASE-WORKFLOW.md) controls: build, directly relevant tests and brief Site smoke, with no mandatory full regression/browser/3×3 suite. The detailed acceptance/fixture/CI gates below are historical or apply only when those particular testing exercises are commissioned; they must not be imposed as universal production-build blockers. Auth/schema/recovery/rights changes still need focused safety verification.
+> **Current CI/release policy — 5 November 2026:** For owner-authorised iterative ChatGPT Sites deployments, [the focused Sites workflow](SITES-RELEASE-WORKFLOW.md) controls: build, directly relevant tests and brief Site smoke. The full `pnpm test` and historical browser campaign must **not** run from PR state changes, merges, `main` pushes or publication; they require the owner's explicit request and manual workflow-dispatch opt-in. The detailed acceptance/fixture/CI gates below are historical or apply only when separately commissioned. Auth/schema/recovery/rights changes still need focused safety verification.
 
 # Testing and evidence
 
@@ -25,17 +25,20 @@ Mood-to-Music V3 **S01–S06** finished with a bounded independent conversationa
 
 Next research and test development: (1) owner-only synthetic-continuation fidelity plus server-observed MCP calls/errors/timing and canonical pre/post state diffs; (2) evidence-backed diagnosis of Project/learning-context projections and MCP efficiency on the same fixture; (3) a focused Minamo improvement and comparative replay. The **larger learner-visible experience redesign** requires its own [recovered product-research and UX strategy](LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), including a still-unperformed comparative interaction study; a better GPT context payload is not UI acceptance. Additional scenario subjects and optional visual-agent acceptance are later steps. The fictional React app's imperfect storage/consent behaviour is learner-progress evidence, not an automatic product repair task. Preserve all historical reports.
 
-## Basic checks
+## Available checks (select what is relevant)
 
 ~~~bash
 pnpm run typecheck
 pnpm run build
-pnpm test
 ~~~
+
+`pnpm test` is available **only for an owner-requested comprehensive run**; it is not part of the routine checklist. For ordinary contributions, run the relevant individual `node --test ...` files or the changed-path focused selector.
 
 The test command runs `tests/*.test.mjs` with bounded concurrency. Synthetic records, identities and outputs are marked as fixtures. Tests target domain rules, API/MCP paths, source admission, content anchors, writing/recovery, tools, learning interfaces and related navigation.
 
-## Fast, gated development of the 3×3 fictional corpus (owner decision, 31 October 2026)
+## Historical: 3×3 fictional corpus development (31 October 2026; superseded automatic CI gates)
+
+The table and working loop below describe the **then-current** corpus milestone contract. In particular, their full-suite-on-ready and full-suite-before-merge instructions no longer apply. The 5 November owner-opt-in restriction above is controlling; hosted corpus acceptance must be separately commissioned.
 
 **Use one draft PR per Project subject, with small separately reviewable persona commits, not a new full CI cycle after every persona.** The existing [focused-test selector](../scripts/ci-focused-tests.mjs) and [Source checks workflow](../.github/workflows/check.yml) provide this path. This is a faster development cadence, **not** a waiver of the final acceptance or a new infrastructure layer.
 

@@ -14,16 +14,16 @@ This does **not** make a GitHub commit an automatic ChatGPT Sites release, nor d
 ## Promotion procedure
 
 1. Start a public draft PR for reusable source and fictional test data. Confirm no owner records, private URLs, credentials, deployment bindings or personal information entered the diff.
-2. Run full tests against that exact public commit; track blocked checks separately, including browser acceptance where possible. Keep development in small incremental PRs.
+2. Run build/typecheck and directly relevant focused tests against the exact public change as appropriate; document skipped or blocked checks. Reserve full `pnpm test` and historical browser acceptance for explicit owner-requested manual opt-in. Keep development in small incremental PRs.
 3. Review compatibility with the target runtime and identify the changed files, migrations, APIs, feature flags and expected test-only namespaces. Record an explicit source SHA/file mapping; do not silently overwrite unrelated native Sites changes.
 4. Prepare a narrow, separately authorised **direct public GitHub → native Sites Git** source transfer/release. Preserve the current Site-specific overlay, bindings and audience. Use the [Sites release workflow](SITES-RELEASE-WORKFLOW.md), verify selected source files and the actual native commit, then confirm the deployed version.
 5. After release, use ordinary ChatGPT with Minamo MCP and Cloud Browser for most live verification; use GPT Work for the necessary native Sites delivery step, not recurring test execution.
 
 ## CI feedback cadence
 
-- **Draft pull requests:** typecheck plus directly changed tests and a small, explicitly mapped set of affected feature tests. See `scripts/ci-focused-tests.mjs`; it is deliberately conservative and **not a guarantee of regression coverage**. When a test is not automatically selected, run the relevant test command manually during development.
-- **Ready-for-review pull requests:** full typecheck/build/test suite plus relevant browser/example checks. Each subsequent push to a non-draft PR reruns the full gate.
-- **`main` pushes and manual dispatch:** full regression. Converting a draft to ready-for-review triggers the full suite. Keep PRs as drafts during rapid iteration, then mark ready only after the targeted work is complete.
+- **Pull requests, draft or ready:** typecheck/build where applicable, directly changed tests and a small explicitly mapped set of affected feature tests. See `scripts/ci-focused-tests.mjs`; it is conservative and **not a guarantee of regression coverage**. Run any missing relevant checks explicitly.
+- **`main` pushes:** routine focused source checks, **not** a complete regression. Changing PR readiness, merging and publishing a Site do not trigger comprehensive campaigns.
+- **Manual dispatch:** `full_regression` and `browser_acceptance` are opt-in only after the owner explicitly requests comprehensive verification. A focused failing critical check cannot be dismissed by this restriction.
 - Public CI is source evidence. Hosted GPT Sites functionality still requires a separately reviewed deployment and live MCP/browser acceptance.
 
 ## Test and release boundaries
