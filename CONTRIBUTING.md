@@ -14,7 +14,7 @@ You do not need to be an expert. Useful contributions include accessibility fixe
 ## What a useful pull request includes
 
 - A concise description and, for UI work, before/after screenshots using synthetic fixtures.
-- Relevant tests and results: `pnpm run typecheck`, `pnpm run build` and `pnpm test`.
+- Relevant checks and their results: typecheck/build where applicable, plus focused tests for the touched behaviour and its safety boundaries. The full `pnpm test` and historical browser campaigns are owner-opt-in only; they are not required for every contribution or release.
 - Any limitations, manual steps and affected data or security boundaries.
 - Appropriate source and licence attribution for third-party material.
 - A note if AI tools materially generated or changed the code, with your own review of its behaviour.
@@ -27,7 +27,7 @@ Minamo should stay comfortable for everyday learners. Prefer clear interfaces, m
 
 ## Contribution licensing
 
-Minamo's original code is [MIT-licensed](LICENSE), so contributions to the core application should be suitable for inclusion under MIT. By submitting a pull request, you confirm that you have the right to contribute the material under those terms and that you have disclosed any third-party material and its separate licence. You retain copyright to your own contributions; the project does not require copyright assignment.
+Minamo's original code and documentation are released under the [GNU Affero General Public License v3.0 only (AGPL-3.0-only)](LICENSE). Contributions to the core application must be compatible with that licence. By submitting a pull request, you confirm that you have the right to contribute the material under those terms and that you have disclosed any third-party material and its separate licence. You retain copyright to your own contributions; the project does not require copyright assignment.
 
 The **Minamo name and logo artwork are not generally licensed for rebranding other projects**. See [Notices](NOTICE.md). For imported artwork, character datasets, audio or vendored code, preserve the upstream authors' terms and attribution in [Third-party notices](docs/THIRD-PARTY.md).
 

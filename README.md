@@ -1,6 +1,6 @@
 # Minamo
 
-> **Forward development direction · 3 November 2026:** [GPT-composed Projects and flexible layouts](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md), with an [editable implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md) in a new draft PR. The owner has rejected the learner-facing contextual workspace (#78) and Work/Study/Find reset (#79) as product directions. They remain historical evidence and experimental code, not the next implementation. **V91 is the restored live baseline.**
+> **Current development · 5 November 2026:** The owner-private ChatGPT Site is at **V116** (last verified); the public `main` code is **not yet identical** to the deployed native source. The [Project composition brief](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md) and [implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md) led to merged PR #80 and later production work, not an unimplemented planning-only PR. [Source-reconciliation inventory](docs/V116-PUBLIC-SOURCE-RECONCILIATION-2026-11-05.md) explains the outstanding divergence. The superseded contextual workspace (#78) and Work/Study/Find reset (#79) remain historical evidence, not current product directions.
 >
 > The new concept: natural GPT chats drive bounded user-requested Minamo updates; a versioned Project composition selects content and flexible layouts rendered by Minamo. Projects can start freeform; Stages are optional. Prioritise six thorough responsive templates and a small shared content block library. Remove learner-facing "Checkpoint"/"Saved Learning" concepts, while retaining canonical history.
 >
@@ -8,7 +8,7 @@
 
 ---
 
-## Existing V91 application (historical implementation description)
+## Application overview (some historical terminology)
 
 A personal workspace for learning that develops over time.
 
@@ -45,11 +45,11 @@ Minamo is **not a chatbot wrapper or a passive notes archive**. The website is a
 
 ## Project status
 
-This repository is a **clean-source preparation**, assembled from the working private Minamo V2 codebase in October 2026. Its Git history deliberately starts fresh; it does not contain the original private engineering history or personal learning database. The current application has been used and tested in an owner-private ChatGPT Site. Independent, third-party installation and multi-user acceptance remain work to do.
+This repository began as a **clean-source preparation** assembled from the private Minamo V2 codebase in October 2026. Its Git history deliberately starts fresh; it does not contain the original private engineering history or personal learning database. It now also records subsequent public engineering, PRs and release evidence. The current application has been used in an owner-private ChatGPT Site; independent third-party installation and multi-user acceptance remain work to do.
 
 The code uses React, TypeScript, Vinext and Cloudflare Workers with D1/R2 persistence. Authentication and MCP publication currently depend on **ChatGPT Sites-specific capabilities**. It is not yet a documented, one-click general-purpose self-hosted application.
 
-**For a fresh development chat:** begin with the [learner-experience redesign strategy and recovered decision trail](docs/LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), then [product context and prior-art lessons](docs/PRODUCT-CONTEXT-AND-PRIOR-ART.md) and the [V3 longitudinal closeout / learner-context test roadmap](docs/acceptance/2026-10-30-m2m-v3-closeout-and-learner-context-roadmap.md). Together these distinguish the immediate synthetic architecture tasks from the larger, still-unsolved Project UX problem, including what earlier research decided and what it did **not** establish.
+**For a fresh development chat:** start with [AGENTS.md](AGENTS.md), the [focused release workflow](docs/SITES-RELEASE-WORKFLOW.md) and the relevant open PR. For historical context, consult the [learner-experience redesign strategy](docs/LEARNER-EXPERIENCE-REDESIGN-STRATEGY.md), [prior-art lessons](docs/PRODUCT-CONTEXT-AND-PRIOR-ART.md) and the [V3 longitudinal closeout](docs/acceptance/2026-10-30-m2m-v3-closeout-and-learner-context-roadmap.md); those are evidence, not a current development mandate.
 
 **Current UI/UX evidence (31 October 2026):** The [live Cloud Browser audit](docs/ux/2026-10-31-LIVE-AUDIT.md) and [canonical findings register](docs/ux/REGISTER.md) distinguish reproduced current Site behaviour from design interpretations and historical unverified claims. The [60-finding V70/V72 reconciliation](docs/ux/V70-V72-CROSSWALK.md) and [evidence-led roadmap](docs/ux/ROADMAP.md) preserve the earlier record without treating it as a fresh 60/60 pass. These documents are read-only audit outputs, not approval for app changes.
 
@@ -67,8 +67,9 @@ cp .dev.vars.example .dev.vars
 pnpm dev
 pnpm run typecheck
 pnpm run build
-pnpm test
 ~~~
+
+Use focused tests relevant to your changes. The complete `pnpm test` suite and historical browser campaign are **not routine CI or release gates**; run them only on explicit owner request via the manual opt-in workflow. See [Testing](docs/TESTING.md).
 
 The local sign-in simulation is **development-only** and must not be exposed to the internet as authentication. See [Getting started](docs/GETTING-STARTED.md) for the current limitations.
 

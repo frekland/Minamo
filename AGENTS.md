@@ -1,12 +1,20 @@
 # Minamo contributor and coding-agent guidance
 
-## CURRENT OWNER DECISION — 3 November 2026
+## CURRENT STATE — 5 November 2026
+
+**Live owner-private Site:** V116 is the currently verified deployment; native source pin `fc93ce4bbcffa4298097b8c7fe50fae75555d072`. The public `main` tree is **not yet source-identical** to V116: Project/drawing/language modules and other shared files have newer native implementations. Inspect the current native source and deployment again before any new release. Never silently promote stale public code over newer native work. See [the source-reconciliation inventory](docs/V116-PUBLIC-SOURCE-RECONCILIATION-2026-11-05.md).
+
+**Current development:** PR #80 was merged and its GPT-composed Projects work has since been implemented in the native Site. Draft PR #83 tracks remaining Project/drawing follow-ups; #85 tracks language/TTS with device checks pending; #86 is an isolated visual-redesign lab; #84 remains an external-integration proposal. These are separate scopes. The owner has not authorised a general redesign production deployment as part of this housekeeping.
+
+**Verification policy:** the full test/browser campaigns are owner-opt-in only, as specified below and in [the focused release workflow](docs/SITES-RELEASE-WORKFLOW.md). Docs-only maintenance needs link/diff checks, not a build or Site publication.
+
+## Historical owner decision — 3 November 2026
 
 PR #80 has now been commissioned for implementation and production deployment. See [implementation progress](docs/PR80-IMPLEMENTATION-PROGRESS.md) and [candidate release receipt](docs/releases/2026-11-03-pr80-candidate.md). Earlier planning-only limitations describe the original specification stage and are superseded by this owner commission. Issue #81 remains deferred. Personal-plugin reinstallation and refreshed host capabilities are required after the first new-tool deployment; do not claim GPT/MCP acceptance before that check.
 
-**Forward product direction:** [GPT-composed Projects and flexible layouts](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md), with its editable [implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md). Both are part of a **draft planning PR**, not an implementation/merge/deploy commission. Read these first for any learner-facing design, Project/Stage, MCP authoring or Project presentation work.
+**Then-current product direction:** [GPT-composed Projects and flexible layouts](docs/PROJECT-COMPOSITION-DESIGN-BRIEF-2026-11-03.md), with its [implementation blueprint](docs/PROJECT-COMPOSITION-IMPLEMENTATION-BLUEPRINT.md). Both originated in PR #80 and remain useful design/implementation references, but PR #80 is merged and these are no longer uncommissioned draft proposals. Read these alongside newer deployed behaviour and relevant open PRs.
 
-**Live Site:** V91 restored as the everyday learner-facing baseline. Later V92–V98 experimental versions and their native source history are retained. Do not accidentally redeploy V98 or assume that source/version history equals the public GitHub default branch.
+**Historical Site snapshot:** V91 was restored before later V100–V116 production work. Do not mistake this dated V91 snapshot for the current live deployment or assume public `main` matches native Sites source.
 
 **Superseded proposed product directions:** draft PR #78 (contextual workspace) and #79 (independent Work/Study/Find). Their evidence and reusable code can be consulted but their interface architectures are **not current product authority**. Earlier broad discovery, 1B/2A design, Project Workbench, synthetic 3×3 and owner UX audits are historical evidence; do not promote dated AGENTS/README/strategy wording into a current commission.
 
@@ -33,7 +41,7 @@ PR #80 has now been commissioned for implementation and production deployment. S
 
 frekland/Minamo (public) is the shared engineering/design source. The historical private Minamo repo is reference only. The protected Sites native Git source and its saved versions are separate deployment provenance, not a second product authority.
 
-**V91 native-source rule:** start from live V91 learner behaviour, reconcile relevant descendant native changes deliberately; do not deploy untouched V98 or replace protected native-only source files wholesale. **Personal plugin MCP rule:** when published Site tools/schema change, expect the owner to quickly reinstall the existing ChatGPT plugin (historically required), then verify the new host-visible tool list; a Sites republish by itself may not update the installed personal plugin.
+**Current native-source rule:** start from the actually deployed Sites version (V116 as last verified), reconcile only explicitly selected shared changes, and do not replace protected native-only source files wholesale. **Personal plugin MCP rule:** when published Site tools/schema change, expect the owner to quickly reinstall the existing ChatGPT plugin (historically required), then verify the new host-visible tool list; a Sites republish by itself may not update the installed personal plugin.
 
 **Full-suite trigger restriction (5 November):** Neither a routine agent workflow nor GitHub CI may run `pnpm test` or the historical browser campaign automatically on PR opening, draft/ready transitions, merges, `main` pushes or Sites publication. Run them **only when the owner explicitly requests comprehensive verification**, using the manual workflow-dispatch opt-in. Ordinary changes use the production build and focused tests; high-risk changes still require their directly affected safety checks. An actual failing critical check is never waived by this restriction.
 
