@@ -1,3 +1,4 @@
+import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {imageAdmissionGuard,imageAttachmentStatements} from './assets';
 import {mediaAdmissionGuard,mediaAttachmentStatements} from './media';
 import {z} from 'zod';
@@ -9,9 +10,12 @@ const id=z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/);
 const block=compositionSchema.shape.blocks.element;
 const section=compositionSchema.shape.sections.element;
 const content=z.object({id,title:z.string().max(180),parts:z.array(z.record(z.unknown())).max(40)}).strict();
-export const updateSchema=z.object({operationId:id,expectedGeneration:z.string().max(160),projectId:id,expectedProjectRev:z.number().int().min(0),title:z.string().min(1).max(180).optional(),description:z.string().max(600).optional(),body:z.string().max(24000).optional(),learningScope:z.unknown().optional(),projectCover:z.unknown().optional(),contentSections:z.array(content).max(64).optional(),noteChanges:z.array(z.object({id,expectedRev:z.number().int().min(0),title:z.string().min(1).max(180),body:z.string().max(24000)}).strict()).max(8).optional(),composition:compositionSchema.optional(),changes:z.array(z.discriminatedUnion('op',[
+export const updateSchema=z.object({operationId:id,expectedGeneration:z.string().max(160),projectId:id,expectedProjectRev:z.number().int().min(0),title:z.string().min(1).max(180).optional(),description:z.string().max(600).optional(),body:z.string().max(24000).optional(),synthetic:z.boolean().optional(),testRunId:id.optional(),testRun:testRunDescriptor.optional(),fictionalEvent:fictionalEventSchema.optional(),learningScope:z.unknown().optional(),projectCover:z.unknown().optional(),contentSections:z.array(content).max(30).optional(),noteChanges:z.array(z.object({id,expectedRev:z.number().int().min(0),title:z.string().min(1).max(180),body:z.string().max(24000),sections:z.array(content).max(30).optional()}).strict()).max(8).optional(),composition:compositionSchema.optional(),changes:z.array(z.discriminatedUnion('op',[
  z.object({op:z.literal('upsertSection'),section}).strict(),z.object({op:z.literal('upsertBlock'),sectionId:id,slotId:id,block,content:content.optional()}).strict(),
  z.object({op:z.literal('moveBlock'),id,sectionId:id,slotId:id,index:z.number().int().min(0).max(128)}).strict(),
+ z.object({op:z.literal('setSection'),id,title:z.string().max(180).optional(),hidden:z.boolean().optional(),collapsed:z.boolean().optional(),index:z.number().int().min(0).max(31).optional()}).strict(),
+ z.object({op:z.literal('setBlockPresentation'),id,pinned:z.boolean().optional(),width:z.enum(['full','split','compact']).optional()}).strict(),
+ z.object({op:z.literal('setFavourite'),id,favourite:z.boolean()}).strict(),
  z.object({op:z.literal('setBlockVisibility'),id,hidden:z.boolean()}).strict(),z.object({op:z.literal('setLayoutLock'),id,lock:z.enum(['position','content','both']).optional()}).strict()
 ])).max(64).optional(),restoreRevision:z.number().int().min(1).optional(),explicitOverrideIds:z.array(z.string().max(180)).max(160).optional()}).strict();
 export {layoutCapabilities};
@@ -27,7 +31,7 @@ export async function getProjectComposition(env:Cloudflare.Env,owner:string,proj
 }
 async function projectCommand(env:Cloudflare.Env,owner:string,input:unknown){
  let request:z.infer<typeof updateSchema>;try{request=updateSchema.parse(input);}catch(e){throw new DomainError(400,'invalid_project_update',(e as Error).message);}
- if(JSON.stringify(request).length>220000)throw new DomainError(413,'project_update_too_large','Use a bounded update under 220 KB.');
+ if(new TextEncoder().encode(JSON.stringify(request)).byteLength>220000)throw new DomainError(413,'project_update_too_large','Use a bounded update under 220 KB.');
  const ctx=generationContext(env);if(ctx)requireGeneration(ctx,request.expectedGeneration);
  const existing=await authoringDomain.rawReadRecord(env,owner,'journey',request.projectId);if(request.expectedProjectRev===0?!!existing:!existing||existing.rev!==request.expectedProjectRev)throw new DomainError(409,'revision_conflict','Read the current Project before updating it.');
  let composition=structuredClone(request.composition??(existing?adaptedComposition(existing):{version:1 as const,sections:[],blocks:[]}));
@@ -35,18 +39,21 @@ async function projectCommand(env:Cloudflare.Env,owner:string,input:unknown){
  let contents=[...(existing?.sections??[])];
  for(const s of request.contentSections??[]){const i=contents.findIndex(v=>v.id===s.id);if(i<0)contents.push(s as ArticleSection);else contents[i]=s as ArticleSection;}
  for(const change of request.changes??[]){
+  if(change.op==='setSection'){const at=composition.sections.findIndex(s=>s.id===change.id);if(at<0)throw new DomainError(400,'section_unavailable','Unknown section.');const target=composition.sections[at];for(const key of ['title','hidden','collapsed'] as const)if(change[key]!==undefined)(target as any)[key]=change[key];if(change.index!==undefined){composition.sections.splice(at,1);composition.sections.splice(change.index,0,target);}continue;}
+  if(change.op==='setFavourite'){if(!composition.blocks.some(b=>b.id===change.id)&&!composition.sections.some(s=>s.id===change.id))throw new DomainError(400,'shortcut_unavailable','Unknown shortcut destination.');composition.favourites=(composition.favourites??[]).filter(v=>v!==change.id);if(change.favourite)composition.favourites.push(change.id);continue;}
   if(change.op==='upsertSection'){const at=composition.sections.findIndex(s=>s.id===change.section.id);if(at<0)composition.sections.push(change.section);else composition.sections[at]=change.section;continue;}
   if(change.op==='upsertBlock'){
    if(change.content){const at=contents.findIndex(s=>s.id===change.content!.id);if(at<0)contents.push(change.content as ArticleSection);else contents[at]=change.content as ArticleSection;}
    const old=composition.blocks.findIndex(b=>b.id===change.block.id);if(old<0)composition.blocks.push(change.block);else composition.blocks[old]=change.block;
   }
   const blockId=change.op==='upsertBlock'?change.block.id:change.id,b=composition.blocks.find(b=>b.id===blockId);if(!b)throw new DomainError(400,'block_unavailable','Unknown Project block.');
-  if(change.op==='setBlockVisibility')b.hidden=change.hidden;
+  if(change.op==='setBlockPresentation'){if(change.pinned!==undefined)b.pinned=change.pinned;if(change.width!==undefined)b.width=change.width;}
+  else if(change.op==='setBlockVisibility')b.hidden=change.hidden;
   else if(change.op==='setLayoutLock')b.layoutLock=change.lock;
   else {const slot=composition.sections.find(s=>s.id===change.sectionId)?.slots.find(s=>s.id===change.slotId);if(!slot)throw new DomainError(400,'slot_unavailable','Unknown section/slot destination.');const keep=change.op==='upsertBlock'&&slot.blockIds.includes(blockId);if(!keep){for(const s of composition.sections)for(const slot of s.slots)slot.blockIds=slot.blockIds.filter(v=>v!==blockId);slot.blockIds.splice(change.op==='moveBlock'?change.index:slot.blockIds.length,0,blockId);}}
  }
- const data:Record<string,unknown>={projectComposition:composition,...(!existing?{body:request.body??'',title:request.title??request.projectId}:{})};
- for(const [key,value] of Object.entries({title:request.title,body:request.body,projectDescription:request.description,learningScope:request.learningScope,projectCover:request.projectCover}))if(value!==undefined)data[key]=value;
+ const data:Record<string,unknown>={projectComposition:composition,...(existing?.testRunId?{testRunId:existing.testRunId}:{}),...(!existing?{body:request.body??'',title:request.title??request.projectId}:{})};
+ for(const [key,value] of Object.entries({title:request.title,body:request.body,synthetic:request.synthetic,testRunId:request.testRunId,testRun:request.testRun,fictionalEvent:request.fictionalEvent,projectDescription:request.description,learningScope:request.learningScope,projectCover:request.projectCover}))if(value!==undefined)data[key]=value;
  if(request.contentSections||request.changes?.some(c=>c.op==='upsertBlock'&&c.content))data.sections=contents;
  return {request,command:{operationId:request.operationId,expectedGeneration:request.expectedGeneration,action:existing?'update' as const:'create' as const,family:'journey' as const,id:request.projectId,expectedRev:request.expectedProjectRev,data},existing};
 }
@@ -78,8 +85,8 @@ export async function listPagePins(env:Cloudflare.Env,owner:string,target:unknow
 /** One nonce-owned D1 batch for a Project and explicitly requested canonical Notes. */
 async function applyProjectBatch(env:Cloudflare.Env,owner:string,command:any,request:z.infer<typeof updateSchema>,actor:Actor,digest:string,preview:boolean){
  const notes=request.noteChanges??[];if(new Set(notes.map(n=>n.id)).size!==notes.length)throw new DomainError(400,'duplicate_note','Each changed Note must appear once.');
- const proposals=[],internal=new Map<string,WorkspaceRecord>();
- for(const note of notes){const c={operationId:request.operationId,action:note.expectedRev?'update' as const:'create' as const,family:'note' as const,id:note.id,expectedRev:note.expectedRev,data:{title:note.title,body:note.body}};const p=await authoringDomain.prepared(env,owner,c,actor);if(note.expectedRev?p.existing?.rev!==note.expectedRev:await authoringDomain.rawReadRecord(env,owner,'note',note.id,true))throw new DomainError(409,'revision_conflict','A changed Note is unavailable or its revision changed.');proposals.push({command:c,...p});internal.set('note:'+note.id,p.record);}
+ const proposals=[],internal=new Map<string,WorkspaceRecord>();if(command.action==='create'&&command.data.testRun)internal.set('journey:'+command.id,{...command.data,id:command.id,family:'journey',rev:1,trashedAt:null} as WorkspaceRecord);
+ for(const note of notes){const c={operationId:request.operationId,action:note.expectedRev?'update' as const:'create' as const,family:'note' as const,id:note.id,expectedRev:note.expectedRev,data:{title:note.title,body:note.body,...(!note.expectedRev&&(request.testRunId??command.data.testRunId)?{synthetic:true,testRunId:request.testRunId??command.data.testRunId}:{}),...(note.sections?{sections:note.sections as ArticleSection[]}:{})}};const p=await authoringDomain.prepared(env,owner,c,actor,internal);if(note.expectedRev?p.existing?.rev!==note.expectedRev:await authoringDomain.rawReadRecord(env,owner,'note',note.id,true))throw new DomainError(409,'revision_conflict','A changed Note is unavailable or its revision changed.');proposals.push({command:c,...p});internal.set('note:'+note.id,p.record);}
  const p=await authoringDomain.prepared(env,owner,command,actor,internal,{projectAuthoring:true,overrideIds:request.explicitOverrideIds});proposals.push({command,...p});
  if(preview)return {valid:true,records:await Promise.all(proposals.map(p=>authoringDomain.projectRecord(env,owner,p.record,true))),summary:'Read-only atomic Project and Note proposal.'};
  const db=env.DB!,nonce=crypto.randomUUID(),win='EXISTS(SELECT 1 FROM v2_operations WHERE owner=? AND id=? AND nonce=?)',winArgs=[owner,request.operationId,nonce];

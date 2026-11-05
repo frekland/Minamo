@@ -1,0 +1,8 @@
+import {z} from 'zod';
+import {stageImage} from './assets';
+import {generationContext,requireGeneration} from './generations';
+import {DomainError} from './domain';
+export const MCP_IMAGE_MAX_BYTES=120000;
+export const mcpImageSchema=z.object({uploadId:z.string().regex(/^[A-Za-z0-9_-]{8,128}$/),expectedGeneration:z.string().max(160),mime:z.enum(['image/png','image/jpeg','image/webp']),base64:z.string().min(4).max(160000)}).strict();
+/** JSON transport fits the unchanged 220 KB HTTP/MCP envelope. No remote URLs. */
+export async function uploadMcpImage(env:Cloudflare.Env,owner:string,input:unknown){let r:z.infer<typeof mcpImageSchema>;try{r=mcpImageSchema.parse(input);}catch(e){throw new DomainError(400,'invalid_image_upload',(e as Error).message);}const ctx=generationContext(env);if(ctx)requireGeneration(ctx,r.expectedGeneration);if(!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(r.base64))throw new DomainError(400,'invalid_image_base64','Use canonical standard base64 without a data URL prefix.');let binary:string;try{binary=atob(r.base64);if(btoa(binary)!==r.base64)throw Error();}catch{throw new DomainError(400,'invalid_image_base64','Use canonical standard base64.');}if(binary.length>MCP_IMAGE_MAX_BYTES)throw new DomainError(413,'mcp_image_size','MCP images are limited to 120,000 bytes. Larger images use the existing authenticated browser upload (8 MiB).');const asset=await stageImage(env,owner,r.uploadId,Uint8Array.from(binary,c=>c.charCodeAt(0)),r.mime);return{asset,attached:false,transportLimitBytes:MCP_IMAGE_MAX_BYTES,next:'Attach assetId with the current expectedProjectRev using apply_project_update. A staged upload alone does not change a Project.'};}

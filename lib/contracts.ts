@@ -28,7 +28,7 @@ export type ReadingExcerpt={sourceId:string;rendition:string;start:number;end:nu
 export type ExcerptDisplay={sourceTitle:string;url:string;attribution:string;locator:string;edition:string;basis:SourceExcerpt['basis'];permissionNote:string;exportAllowed:boolean;sourceExcerptId:string};
 export type PassageDisplayReturn={recordFamily:Family;id:string;rendition:string;sectionId:string;partId:string;start:number;end:number};
 export type SourceUpdate={excerpt:{state?:'revoked';exportAllowed?:false}};
-export type PassagePart = { semantic?:import('./semantic-content').SemanticContent; inline?:ReadingInline[]; id:string; kind:'paragraph'|'code'|'diagram'|'table'|'callout'|'reference'|'image'|'excerpt'|'media'; text:string; language?:string; joinBefore?:''|'\n';table?:ReadingTable;callout?:ReadingCallout;reference?:ReadingReference;image?:ReadingImage;media?:ReadingMedia;mediaDisplay?:MediaDisplay;diagram?:AuthoredDiagram;excerpt?:ReadingExcerpt;excerptDisplay?:ExcerptDisplay;unavailable?:true;imageDisplay?:{width:number;height:number;mime:string} };
+export type PassagePart = { semantic?:import('./semantic-content').SemanticContent; inline?:ReadingInline[]; id:string; kind:'paragraph'|'code'|'diagram'|'table'|'callout'|'reference'|'image'|'excerpt'|'media'|'interactive'; interactive?:import('./project-interactive').Interactive; text:string; language?:string; joinBefore?:''|'\n';table?:ReadingTable;callout?:ReadingCallout;reference?:ReadingReference;image?:ReadingImage;media?:ReadingMedia;mediaDisplay?:MediaDisplay;diagram?:AuthoredDiagram;excerpt?:ReadingExcerpt;excerptDisplay?:ExcerptDisplay;unavailable?:true;imageDisplay?:{width:number;height:number;mime:string} };
 export type ArticleSection = { id:string; title:string; parts:PassagePart[] };
 export const MAX_PASSAGE_SEGMENTS=40;
 export const MAX_PASSAGE_QUOTE=12000;
@@ -55,12 +55,13 @@ export type WorkspaceRecord = {
  id:string;family:Family;title:string;body:string;bodyFormat?:'markdown-v1';flagTarget?:FlagTarget;bookmark?:FlagBookmark;status?:string;links:RecordLink[];
  learningScope?:import('./learning-spaces').LearningScope;learningScopeRev?:number;learningScopeInherited?:boolean;learningShape?:LearningShape;sections?:ArticleSection[]; concepts?:ConceptEntry[]; anchor?:PassageAnchor; rendition?:string; source?:SourceInfo;
  projectComposition?:import('./project-composition').ProjectComposition;projectDescription?:string;pagePins?:import('./project-composition').ProjectRef[];
+ testRunId?:string;testRun?:import('./test-run-contract').TestRunDescriptor;fictionalEvent?:{date:string;description?:string};
  projectCover?:ProjectCover|null;
  outputBundle?:import('./typed-outputs').TypedOutputBundle; activity?:ActivityCartridge;attempt?:ActivityAttempt;
  engine?:'regex'|'unicode'|'sql'|'python'|'web'; code?:string; output?:string; evidence?:'observed'|'illustrative';
  rev:number;createdAt:string;updatedAt:string;trashedAt:string|null;actor:Actor;synthetic:boolean;
 };
-export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'|'projectComposition'|'projectDescription'|'pagePins'>> & {source?:SourceInfo|SourceUpdate};
+export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'|'projectComposition'|'projectDescription'|'pagePins'|'testRunId'|'testRun'|'fictionalEvent'>> & {source?:SourceInfo|SourceUpdate};
 export type BlockChanges=Partial<Omit<PassagePart,'id'|'kind'|'table'|'callout'|'reference'|'image'|'media'|'unavailable'|'imageDisplay'|'mediaDisplay'|'excerptDisplay'>> & {table?:Partial<ReadingTable>;callout?:Partial<ReadingCallout>;reference?:Partial<ReadingReference>;image?:Partial<ReadingImage>;media?:Partial<ReadingMedia>};
 /** Ordered, bounded edits against one exact record revision. No patch data is persisted. */
 export type ContentPatch=

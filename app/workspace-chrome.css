@@ -85,3 +85,25 @@
 .le-library-management>.v2-text-button{min-height:44px;padding:8px 10px;border-radius:10px}
 .le-library-management>.v2-text-button:hover{background:var(--mn-surface-secondary)}
 .wp-workspace .v2-library-main .le-library-management{flex:1 0 100%;width:100%;justify-content:flex-end}
+
+/* Keep Tools adjacent to Your work instead of spending a viewport on an auto-spacer. */
+.wp-workspace.v2-app .v2-sidebar .v2-side-divider{flex:0 0 1px;margin:12px 9px 9px}
+.wp-workspace.v2-app .v2-sidebar .v2-sidebar-bottom{margin-top:0;padding:0 9px 8px}
+.wp-workspace.v2-app .v2-sidebar .v2-support-nav>.v2-eyebrow{margin-bottom:5px}
+.wp-workspace.v2-app .v2-sidebar .v2-support-nav>a{display:flex;align-items:center;gap:9px;min-height:38px;padding:5px 0}
+@media(min-width:701px){
+ .wp-workspace.v2-app .v2-sidebar .v2-navigation-brand{margin-bottom:16px}
+ .wp-workspace.v2-app .v2-sidebar nav{gap:2px}
+ .wp-workspace.v2-app .v2-sidebar nav a{min-height:40px;padding-block:7px}
+}
+
+/* V108: a space-switch notice must remain readable even at 320px. */
+.wp-workspace.v2-app .v2-space-return{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:10px 14px}
+.wp-workspace.v2-app .v2-space-return>span{flex:1 0 100%}
+.wp-workspace.v2-app .v2-space-return>.v2-secondary{white-space:normal;min-width:0;text-align:center;overflow-wrap:anywhere}
+@media(max-width:700px){
+ .wp-workspace.v2-app .v2-space-return{flex-direction:column;align-items:stretch;gap:12px}
+ .wp-workspace.v2-app .v2-space-return>span{flex:auto}
+ .wp-workspace.v2-app .v2-space-return>.v2-secondary{width:100%;min-height:44px}
+ .wp-workspace.v2-app .v2-space-return>.v2-text-button{align-self:flex-start;min-height:38px}
+}
