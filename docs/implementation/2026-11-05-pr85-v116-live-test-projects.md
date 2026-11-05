@@ -46,7 +46,7 @@ On live **V116** after reload:
 - `pnpm typecheck` passed.
 - `pnpm build` passed for the final V116 source; audit of `dist` confirmed **zero files over 25 MB**.
 - Focused `tests/pr85-speech.test.mjs`: 4/4 passed, including eight cases for flashcard target-language visibility.
-- The long full legacy `pnpm test` run was started separately; do not claim the entire suite passed unless its actual terminal summary is captured. Prior V114 broad runs contained failures in older non-language UI expectations.
+- The long full legacy `pnpm test` run **finished with exit code 1**. The extremely verbose output was truncated; a directly observed unrelated failure was `tests/ux-library-search.test.mjs` expecting an old `>Open` action when the current Library renders an inline title link instead. This is not a full-suite pass, and no precise aggregate count is claimed. Prior V114 broad runs also contained unrelated older UI expectations.
 - Browser state proves on-device synthesis was reached; it does not prove acoustic clarity, perceptual difference between speeds or actual speaker output on the owner's Pixel 8a.
 - Pending owner device checks: Japanese Normal `1.6/0.2` versus Slow `2.4/0.2`, especially the long clause; first/repeat downloads, switching between original Piper and Plus on one device, offline/reload, mobile 320/375px, TalkBack, and model-licence diligence.
 - Human-recording source references are external links, not licensed audio byte uploads; their Minamo link cards say `Link only · unverified`. The authoring makes no claim they are already integrated media transcripts.
