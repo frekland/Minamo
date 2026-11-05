@@ -1,0 +1,28 @@
+/** Bounded editable tldraw document envelope. Session/camera never enter canonical storage. */
+export const DRAWING_MIME='application/vnd.minamo.tldraw+json' as const;
+/** tldraw's T.srcUrl explicitly accepts the asset: protocol. This is a canonical
+ * private reference, not an external URL. The custom tldraw asset store resolves
+ * it to authenticated private bytes or an in-memory staged image preview.
+ */
+const DRAWING_ASSET_PREFIX='asset:minamo-image:';
+const IMAGE_ID=/^image-[a-f0-9]{64}$/;
+export function drawingAssetUrl(assetId:string):string{if(!IMAGE_ID.test(assetId))throw Error('A valid private drawing image is required.');return DRAWING_ASSET_PREFIX+assetId;}
+export function drawingAssetId(src:unknown):string|null{if(typeof src!=='string'||!src.startsWith(DRAWING_ASSET_PREFIX))return null;const id=src.slice(DRAWING_ASSET_PREFIX.length);return IMAGE_ID.test(id)?id:null;}
+/** Normalize exact historical non-URL markers on local/server snapshot read. */
+export function legacyDrawingAssetId(src:unknown):string|null{if(typeof src!=='string'||!src.startsWith('minamo-image:'))return null;const id=src.slice('minamo-image:'.length);return IMAGE_ID.test(id)?id:null;}
+export function drawingDocument(value:unknown){
+ if(!value||typeof value!=='object'||Array.isArray(value))throw Error('A drawing document is required.');
+ const d=value as Record<string,unknown>;if(Object.keys(d).some(k=>!['store','schema'].includes(k))||!d.store||typeof d.store!=='object'||Array.isArray(d.store)||!d.schema||typeof d.schema!=='object')throw Error('Use a tldraw document snapshot, without session state.');
+ if(new TextEncoder().encode(JSON.stringify(d)).byteLength>4*1024*1024||Object.keys(d.store).length>4000)throw Error('Drawing exceeds 4 MiB or 4,000 records.');
+ let count=0;function visit(v:unknown,depth:number){if(++count>160000||depth>40)throw Error('Drawing document exceeds its structural budget.');if(typeof v==='number'&&(!Number.isFinite(v)||Math.abs(v)>1e9))throw Error('Drawing contains an invalid coordinate.');if(typeof v==='string'&&v.length>20000)throw Error('Drawing text exceeds its limit.');if(v&&typeof v==='object'){for(const [k,x] of Object.entries(v)){if(['__proto__','prototype','constructor'].includes(k))throw Error('Invalid document key.');visit(x,depth+1);}}}visit(d,0);
+ // Since tldraw 5.5, shape attribution adds document-scoped user records.
+ // They must survive a save/reload, but session/camera records remain forbidden.
+ const migrated:Record<string,unknown>={};
+ for(const v of Object.values(d.store) as any[]){if(!v||typeof v!=='object'||typeof v.id!=='string'||!['shape','asset','page','binding','document','user'].includes(v.typeName))throw Error('Unsupported drawing record.');if(v.typeName==='user'&&( !v.id.startsWith('user:')||typeof v.name!=='string'||typeof v.color!=='string'||typeof v.imageUrl!=='string'||!v.meta||typeof v.meta!=='object'||Array.isArray(v.meta)))throw Error('Unsupported drawing attribution.');if(v.typeName==='shape'&&!['geo','draw','arrow','text','image','line','note','highlight','frame','group'].includes(v.type))throw Error('Unsupported drawing shape.');if(v.typeName==='asset'){
+  const valid=v.type==='image'&&drawingAssetId(v.props?.src),legacy=v.type==='image'&&legacyDrawingAssetId(v.props?.src);
+  if(!valid&&!legacy)throw Error('Drawing assets must be admitted Minamo raster images.');
+  if(legacy)migrated[v.id]={...v,props:{...v.props,src:drawingAssetUrl(legacy)}};
+ }if(v.typeName==='shape'&&['video','embed','bookmark'].includes(v.type))throw Error('Video, embeds and URL previews are unavailable.');}
+ return Object.keys(migrated).length?{...d,store:{...(d.store as Record<string,unknown>),...migrated}}:d;
+}
+export function drawingImageIds(document:ReturnType<typeof drawingDocument>){return [...new Set((Object.values(document.store as object) as any[]).filter(v=>v.typeName==='asset').map(v=>drawingAssetId(v.props.src)!).filter(Boolean))];}
