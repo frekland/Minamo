@@ -1,6 +1,7 @@
 import {getProjectComposition,applyProjectUpdate,layoutCapabilities,setNotePagePin,listPagePins} from './project-service';
 import {getProjectDrawing} from './project-drawing-collab';
 import {mcpImageSchema,uploadMcpImage} from './mcp-image-upload';
+import {saveProjectObservation} from './project-observation';
 import {interactiveSchema} from './project-interactive';
 import {activityJsonSchema as toJsonSchema} from './activity/mcp';
 import {updateSchema} from './project-service';
@@ -289,6 +290,7 @@ export async function domainHandler(request:Request,env:Cloudflare.Env):Promise<
  case '/api/trash/empty':return respond(await emptyTrash(env,owner,input));
  case '/api/projects/composition':return respond(await getProjectComposition(env,owner,url.searchParams.get('projectId')??input.projectId,input.revision));
  case '/api/projects/update':return respond(receiptWithLinks(await applyProjectUpdate(env,owner,input,'user')));
+ case '/api/projects/observation':return respond(await saveProjectObservation(env,owner,input));
  case '/api/notes/pin':return respond(receiptWithLinks(await setNotePagePin(env,owner,input,'user')));
  case '/api/notes/pins':return respond(await listPagePins(env,owner,input.target??{family:url.searchParams.get('family'),id:url.searchParams.get('id')}));
  case '/api/commands':{const result=await executeCommand(env,owner,input,'user');return respond(receiptWithLinks(result),result.status==='conflict'?409:200)};
