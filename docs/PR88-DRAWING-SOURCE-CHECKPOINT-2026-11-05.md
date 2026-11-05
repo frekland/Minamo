@@ -16,11 +16,17 @@
 
 This is a **foundation**, not a claim that drawings render or that GPT can yet read/edit them on the public branch.
 
+## Media admission and rights follow-up
+
+The next commit also introduces the native V116 drawing MIME in the existing media stage validator and a private read projection. Server admission validates the actual tldraw envelope and rejects remote image URLs; no HTML, scripts or session records are accepted. Reading a drawing document first checks the existing **owner-scoped attached-media eligibility**. For every nested image, the server checks current same-owner asset metadata, removes disallowed image assets, and disconnects affected shapes in the returned copy. Original Note text, revision and original document bytes are not modified by that read.
+
+`tests/pr88-drawing-media.test.mjs` exercises actual D1/R2 stage, commit, cross-owner 404, valid read, image revocation, redacted reread and Note preservation. Targeted local checks: **1/1 new drawing-media**, **19/19 drawing attribution plus existing media safety**, typecheck and build passed. No Site deployment or full regression/browser campaign.
+
 ## Dependency boundary for the next drawing slice
 
 Native V116's `app/project-drawing.tsx` and `app/project-canvas.tsx` match PR #83, but the public branch still lacks their interactive host and typed content contract. Native `app/project-interactive.tsx` and `lib/project-interactive.ts` have since acquired language/TTS and Python/Pygbag dependencies absent from public source. Do not copy that pair or native `lib/contracts.ts` wholesale.
 
-Before wiring the drawing UI or `get_project_drawing`, reconcile the exact typed `interactive:drawing` part, media MIME admission and private document-image redaction, owner/Project/Note identity checks, asset upload and read paths, preview persistence, and original Note revision/CAS rules. `lib/project-drawing-collab.ts` in PR #83/native provides the existing read/shape pagination implementation, but is intentionally **not exposed** until the enclosing rights and media paths are present and tested. No `apply_project_drawing` edit tool was found in the inspected native V116 handler; don't falsely claim one.
+Before wiring the drawing UI or `get_project_drawing`, reconcile the exact typed `interactive:drawing` part, owner/Project/Note identity checks, asset upload from the editor, preview persistence, and Note revision/CAS rules. Media MIME admission and private document-image read redaction now have focused tests; they do not independently prove the full interactive flow. `lib/project-drawing-collab.ts` in PR #83/native provides the existing read/shape pagination implementation, but is intentionally **not exposed** until the enclosing Project rights and interactive paths are present and tested. No `apply_project_drawing` edit tool was found in the inspected native V116 handler; don't falsely claim one.
 
 ## Focused local verification
 
