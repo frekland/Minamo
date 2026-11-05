@@ -1,7 +1,7 @@
 /**
- * Draft-PR feedback only: run directly changed test files and a few explicit
+ * Routine CI feedback: run directly changed test files and a few explicit
  * source-to-test mappings. Not an impact-analysis proof or a replacement for
- * the full regression gate when the PR is ready for review.
+ * risk-specific safety checks. The full suite is opt-in, never a default CI gate.
  */
 import {execFileSync,spawnSync} from 'node:child_process';
 import {existsSync,readdirSync} from 'node:fs';
@@ -15,7 +15,14 @@ const mapped={
   'lib/test-transcript.ts':['tests/test-transcript.test.mjs'],
   'lib/test-observation.ts':['tests/test-observation.test.mjs','tests/test-observation-adversarial.test.mjs'],
   'lib/project-context.ts':['tests/project-context.test.mjs','tests/unified-projects-acceptance.test.mjs'],
-  'lib/learning-work.ts':['tests/learning-work.test.mjs','tests/journey-resume.test.mjs']
+  'lib/learning-work.ts':['tests/learning-work.test.mjs','tests/journey-resume.test.mjs'],
+  'app/library-browser.tsx':['tests/ux-library-search.test.mjs'],
+  'app/library-browser.css':['tests/ux-library-search.test.mjs'],
+  'lib/language-tags.ts':['tests/pr85-language.test.mjs'],
+  'lib/language-speech.ts':['tests/pr85-speech.test.mjs'],
+  'lib/language-speech-browser.ts':['tests/pr85-speech.test.mjs'],
+  'app/project-language.tsx':['tests/pr85-language.test.mjs','tests/pr85-speech.test.mjs'],
+  'app/project-speech.tsx':['tests/pr85-speech.test.mjs']
 };
 
 export function selectFocusedTests(changed,exists=existsSync,listTests=()=>readdirSync('tests')){
@@ -72,7 +79,7 @@ if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
   const selected=selectFocusedTests(changed);
   console.log('Draft PR changed files:',changed.length,'; selected focused tests:',selected.length);
   if(selected.length===0){
-    console.log('No directly mapped tests; typecheck still runs. Full suite is required when the PR leaves draft.');
+    console.log('No directly mapped tests; check affected safety invariants explicitly when relevant. Full suite is manual-only.');
   }else{
     console.log(selected.join('\n'));
     // Disposable Miniflare/Workerd fixtures can retain idle process handles

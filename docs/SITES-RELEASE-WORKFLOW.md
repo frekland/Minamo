@@ -1,5 +1,7 @@
 # Minamo Sites publishing — focused, owner-authorised iterations
 
+**Full-suite restriction (5 November 2026):** The complete `pnpm test` suite and historical browser acceptance must **not** run by default on any PR state, merge, `main` push or Sites deployment. They are available only through an explicitly requested manual workflow dispatch (`full_regression` / `browser_acceptance`). Risk-specific privacy, authentication, CAS, rights and recovery tests remain required for changes that touch them. Do not quietly broaden an ordinary change into a full regression campaign.
+
 **Current owner release policy: 3 November 2026.** The existing owner-private ChatGPT Site is the release target. The user wants rapid, reversible Sites deployments with minimal unrelated checks. This policy replaces the previous **full-regression-before-functional-release** requirement in older documents, AGENTS guidance and draft PRs. It does not relax privacy, auth, rights, canonical write correctness, access policy or rollback.
 
 ## Default: fast Sites gate, not a 30-minute suite

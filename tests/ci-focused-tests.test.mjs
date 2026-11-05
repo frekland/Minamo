@@ -22,6 +22,12 @@ test('documentation-only changes select no tests; deleted files are excluded',()
 test('changing the selector tests its own behaviour',()=>{
   assert.deepEqual(selectFocusedTests(['scripts/ci-focused-tests.mjs'],present),['tests/ci-focused-tests.test.mjs']);
 });
+test('routine Library and language edits select the relevant modern tests',()=>{
+  const known=path=>['tests/ux-library-search.test.mjs','tests/pr85-speech.test.mjs','tests/pr85-language.test.mjs'].includes(path);
+  assert.deepEqual(selectFocusedTests(['app/library-browser.tsx'],known),['tests/ux-library-search.test.mjs']);
+  assert.deepEqual(selectFocusedTests(['lib/language-speech.ts','app/project-speech.tsx'],known),['tests/pr85-speech.test.mjs']);
+  assert.deepEqual(selectFocusedTests(['lib/language-tags.ts','app/project-language.tsx'],known),['tests/pr85-language.test.mjs','tests/pr85-speech.test.mjs']);
+});
 test('scenario controller and its D1 migration select the synthetic MCP tests',()=>{
   assert.deepEqual(selectFocusedTests(['lib/scenario-control.ts','drizzle/0013_wide_robbie_robertson.sql']),[
     'tests/scenario-controller.test.mjs','tests/test-observation-adversarial.test.mjs',

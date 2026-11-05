@@ -24,7 +24,12 @@ test('Library distinguishes loaded match counts, incomplete scans, and truly emp
 test('canonical match cards expose highlighted evidence and exact independently usable reading links',()=>{
  const match={record:{family:'article',id:'git-guide',rev:1,rendition:'retained-edition'},query:'"git"',matchedTerm:'git',field:'concept-term',kind:'exact-term',excerpt:'git',excerptStart:0,excerptEnd:3,matchStart:0,matchEnd:3,partial:false,complete:true,sectionId:'basics',partId:'first',destination:{family:'article',id:'git-guide',rendition:'retained-edition',sectionId:'basics',partId:'first'},href:'/?view=library&family=article&id=git-guide&rendition=retained-edition&section=basics&part=first'};
  const item={family:'article',id:'git-guide',title:'Version control foundations',rendition:'retained-edition',matchEvidence:match,reference:{id:'git',term:'git',aliases:[],kind:'shell-command',definition:'Track snapshots and inspect changes.',target:{rendition:'retained-edition',sectionId:'basics',partId:'first'}}};
- const html=ui.results([item]);assert.match(html,/<mark>git<\/mark>/);assert.match(html,/Command/);assert.match(html,/Track snapshots/);assert.match(html,/rendition=retained-edition&amp;section=basics&amp;part=first/);assert.match(html,/In Version control foundations/);assert.match(html,/>Open</);assert.deepEqual(ui.libraryItemDestination(item),match.destination);
+ const html=ui.results([item]);assert.match(html,/<mark>git<\/mark>/);assert.match(html,/Command/);assert.match(html,/Track snapshots/);assert.match(html,/rendition=retained-edition&amp;section=basics&amp;part=first/);assert.match(html,/In Version control foundations/);
+ // The accessible title link replaced the redundant "Open" button; preserve
+ // the exact independently usable destination instead of an obsolete label.
+ assert.match(html,/<h2><a class="pc-library-row-link" href="[^\"]+">git<\/a><\/h2>/);
+ assert.doesNotMatch(html,/>Open<\/a>/);
+ assert.deepEqual(ui.libraryItemDestination(item),match.destination);
 });
 test('ordinary NC, ss, git and quoted git produce visible canonical entries ahead of incidental prose in the local acceptance corpus',()=>{
  const base={rev:1,actor:'gpt',synthetic:true,createdAt:'2026-10-26T10:00:00Z',updatedAt:'2026-10-26T10:00:00Z',trashedAt:null,body:'',links:[],rendition:'test-edition'};
