@@ -59,3 +59,11 @@ The Project transaction now checks the **same-owner staged/attached** media file
 - Full `pnpm test`, historical browser campaign and hosted acceptance: **not run** under the owner opt-in rule.
 
 Keep PR #89 in draft. The next source closure should audit the remaining native/public deltas, plus targeted browser/device checks when the owner commissions them. Native V116 remains the deployment source of truth.
+
+## Private GPT/MCP image upload parity (eleventh source checkpoint)
+
+The native V116 `upload_minamo_project_image` tool is now present in the **public draft source only**. This uses the existing authenticated MCP handler and generation context, accepts only explicit owner-requested standard base64 PNG/JPEG/WebP up to 120,000 decoded bytes, validates strict MIME/container/dimensions through the existing private image staging layer, and returns an owner-scoped `assetId` without attaching it. A stable `uploadId` admits identical retries but rejects different bytes. No URL fetching, SVG, arbitrary file reads, inferred pixel interpretation or automatic Project writes were introduced. A separate `apply_project_update` call with the current Project revision remains necessary to attach a staged image, preserving ownership and CAS/recovery semantics. Larger images still use the authenticated browser upload.
+
+The new `tests/pr88-mcp-image-source.test.mjs` uses real local D1/R2 and the actual MCP handler to cover staged image invisibility, identical retry, MIME/base64/size/remote-field rejection, generation mismatch, owner isolation, successful Project cover attachment, stale Project revision refusal and content/rendition preservation. Together with `tests/assets.test.mjs`, `tests/pr88-drawing-read.test.mjs` and `tests/pr88-pygbag-source.test.mjs`, **23/23 focused checks passed**. TypeScript and production build passed; browser-only warning output from bundled Piper and the ordinary large-chunk warning remain. No full suite, live Site update, database migration, plugin reinstallation or browser acceptance was performed.
+
+The next genuinely separate sources to classify include TEST histories/observation tools, older continuity and workspace modules, and remaining layout/navigation differences. Do not blindly copy all native-only modules into the public repository, or claim that draft parity implies a production deployment.
