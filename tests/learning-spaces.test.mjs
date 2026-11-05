@@ -35,7 +35,9 @@ test('space and language eligibility precedes pagination, cursor lookahead, inhe
  const personal=ok(await query(c,{learningSpace:'languages',language:'ja',personal:'1'}));assert.deepEqual(personal.records.map(r=>r.id),['linked-note']);assert.equal(personal.records[0].learningScopeInherited,true);
  assert.deepEqual(ok(await query(c,{learningSpace:'unclassified'})).records.map(r=>r.id),['unclassified']);
  const ws=ok(await c.request('/api/workspace?'+new URLSearchParams({learningSpace:'languages',language:'ja',limit:'2'})));assert.equal(ws.records.length,2);assert.ok(ws.activity.every(a=>['ja-1','ja-2','ja-3','linked-note'].includes(a.recordId)));
- assert.equal((await query(c,{learningSpace:'computing',language:'ja'})).status,400);assert.equal((await query(c,{language:'en'})).status,400);
+ assert.equal((await query(c,{learningSpace:'computing',language:'ja'})).status,400);
+ assert.deepEqual(ok(await query(c,{language:'en'})).records,[],'valid but unsuggested BCP 47 tags are searchable');
+ assert.equal((await query(c,{language:'en--GB'})).status,400);
  }finally{await f.dispose();}
 });
 

@@ -10,6 +10,7 @@ import {clientId} from '../lib/client-id';
 import Reader,{RichReadingPart,type ReaderProps} from './reader';
 import NoteMarkdownView from './note-markdown-view';
 import ProjectCover from './project-cover';
+import {InteractiveEditor} from './project-interactive';
 import './project-sections.css';
 export default function ProjectSections(props:ReaderProps){
  const [folds,setFolds]=useState<Record<string,boolean>>({}),[arranging,setArranging]=useState(false);
@@ -53,6 +54,7 @@ export default function ProjectSections(props:ReaderProps){
     {['paragraph','code','callout','reference'].includes(part.kind)&&!part.semantic?<textarea value={part.text} rows={part.kind==='code'?10:5} onChange={e=>changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,text:e.target.value}:p)})}/>
      :part.kind==='table'&&part.table?<div className="pc-table-editor"><input aria-label="Table columns, separated by tabs" value={part.table.headers.join('\t')} onChange={e=>{const table={...part.table!,headers:e.target.value.split('\t')};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,table,text:tableCanonicalText(table)}:p)});}}/><textarea aria-label="Table rows, cells separated by tabs" value={part.table.rows.map(row=>row.join('\t')).join('\n')} onChange={e=>{const table={...part.table!,rows:e.target.value.split('\n').map(row=>row.split('\t'))};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,table,text:tableCanonicalText(table)}:p)});}}/></div>
      :part.kind==='image'&&part.image?<div><RichReadingPart part={part} sectionId={content.id} article={current} captures={[]} ownerScope={scope}/><textarea aria-label="Image description" value={part.image.alt} onChange={e=>{const image={...part.image!,alt:e.target.value};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,image,text:imageCanonicalText(image)}:p)});}}/><input aria-label="Image caption" value={part.image.caption??''} onChange={e=>{const image={...part.image!,caption:e.target.value};changeSection({...content,parts:content.parts.map(p=>p.id===part.id?{...p,image,text:imageCanonicalText(image)}:p)});}}/></div>
+     :part.kind==='interactive'&&part.interactive?<InteractiveEditor part={part} scope={scope} onChange={next=>changeSection({...content,parts:content.parts.map(p=>p.id===part.id?next:p)})}/>
      :<><RichReadingPart part={part} sectionId={content.id} article={current} captures={[]} ownerScope={scope}/><small>Use its source editor or ask for a specific revision.</small></>}
    </label>)}
    <label className="pc-add-image">Add image<input type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={e=>void addImage(content,e.target.files?.[0])}/></label>

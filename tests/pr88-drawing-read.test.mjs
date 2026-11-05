@@ -12,6 +12,15 @@ function request(c,projectId,parts,notes=[]){return{operationId:'make-'+projectI
 async function mcp(c,name,args){const result=await c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name,arguments:{purpose:'Scoped PR88 drawing reconciliation',...args}}});assert.equal(result.status,200);return result.data.result;}
 function document(shapes=[],assets=[]){return{schema:{schemaVersion:2,sequences:{}},store:{'page:one':{id:'page:one',typeName:'page',name:'A page',index:'a1'},...Object.fromEntries(shapes.map(shape=>[shape.id,shape])),...Object.fromEntries(assets.map(asset=>[asset.id,asset]))}};}
 
+test('PR88 drawing editor runtime configuration is generation-scoped and GET-only',async()=>{
+ const f=await privateStorageFixture(worker,{bindings:{...bindings,TLDRAW_LICENSE_KEY:'test-only-license'}}),c=f.client('owner');try{
+  const read=await c.request('/api/projects/runtime-config');assert.equal(read.status,200,JSON.stringify(read.data));assert.equal(read.data.tldrawLicenseKey,'test-only-license');
+  assert.equal(read.data.generation,c.generation);
+  const forbidden=await c.request('/api/projects/runtime-config',{});assert.equal(forbidden.status,405);
+  const stale=await c.request('/api/projects/runtime-config',undefined,{headers:{'x-minamo-generation':'outdated-generation'}});assert.equal(stale.status,409);
+ }finally{await f.dispose();}
+});
+
 test('PR88 typed Project drawing and nested flashcard images are admitted and redacted under current owner rights',async()=>{
  const f=await privateStorageFixture(worker,{bindings}),c=f.client('owner');try{
   const upload=await c.request('/api/assets/stage?uploadId=pr88-card',png,{raw:true,headers:{'Content-Type':'image/png'}});assert.equal(upload.status,200,JSON.stringify(upload.data));const image=upload.data.asset;

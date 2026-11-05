@@ -241,6 +241,7 @@ export async function domainHandler(request:Request,env:Cloudflare.Env):Promise<
  const rootOwner=requireIdentity(request);const generation=await resolveGeneration(env,rootOwner);generationToken=generation.generation;env=withGeneration(env,generation);const owner=generation.namespace;
  if(request.method==='GET'){requireGeneration(generation,request.headers.get('x-minamo-generation'));
   switch(url.pathname){
+  case '/api/projects/runtime-config':return respond({tldrawLicenseKey:env.TLDRAW_LICENSE_KEY??null});
   case '/api/projects/composition':return respond(await getProjectComposition(env,owner,url.searchParams.get('projectId')??'',url.searchParams.has('revision')?Number(url.searchParams.get('revision')):undefined));
   case '/api/notes/pins':return respond(await listPagePins(env,owner,{family:url.searchParams.get('family'),id:url.searchParams.get('id')}));
   case '/api/activities/capabilities':return respond(activityCapabilities(env));
