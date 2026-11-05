@@ -1,4 +1,5 @@
 import {drawingDocument,drawingImageIds,DRAWING_MIME} from './drawing-document';
+import {PYGBAG_MIME,PYGBAG_RUNTIME} from './pygbag-package';
 import {validateInteractive,interactiveImages} from './project-interactive';
 import {validateComposition,adaptedComposition,protectedSnapshot,projectRefSchema} from './project-composition';
 import {validateProjectCover} from './project-cover';
@@ -179,9 +180,9 @@ async function projectImages(env:Cloudflare.Env,owner:string,record:WorkspaceRec
  return {...record,...(cover&&!eligible.has(cover.assetId)?{projectCover:null}:{}),sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>part.interactive?.type==='flashcards'?{...part,interactive:{...part.interactive,cards:part.interactive.cards.map(c=>({...c,front:{...c.front,...(c.front.image&&!eligible.has(c.front.image.assetId)?{image:undefined}:{})},back:{...c.back,...(c.back.image&&!eligible.has(c.back.image.assetId)?{image:undefined}:{})}}))}}:part.kind==='image'&&part.image&&!eligible.has(part.image.assetId)?{id:part.id,kind:'image',text:'',unavailable:true}:part.kind==='image'&&part.image&&eligible.has(part.image.assetId)?{...part,imageDisplay:{width:eligible.get(part.image.assetId)!.width,height:eligible.get(part.image.assetId)!.height,mime:eligible.get(part.image.assetId)!.mime}}:part)}))};
 }
 async function projectMedia(env:Cloudflare.Env,owner:string,record:WorkspaceRecord,allowStaged=false):Promise<WorkspaceRecord>{
- const parts=(record.sections??[]).flatMap(section=>section.parts).filter(part=>part.kind==='media'&&part.media);if(!parts.length)return record;
+ const parts=(record.sections??[]).flatMap(section=>section.parts).flatMap(part=>part.kind==='media'&&part.media?[{media:part.media}]:part.interactive?.type==='pygbag'?[{media:{assetId:part.interactive.assetId,kind:'document' as const,description:'Packaged pygame-ce artefact'}}]:[]);if(!parts.length)return record;
  const admitted=new Map<string,MediaMetadata>();for(const id of new Set(parts.map(part=>part.media!.assetId))){const meta=await readMediaMetadata(env,owner,id);if(!record.trashedAt&&meta&&(meta.state==='attached'||(allowStaged&&meta.state==='staged'&&!!meta.expiresAt&&meta.expiresAt>new Date().toISOString())))admitted.set(id,meta);}
- return {...record,sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>{if(part.kind!=='media'||!part.media)return part;const meta=admitted.get(part.media.assetId);if(!meta||meta.kind!==part.media.kind)return{id:part.id,kind:'media' as const,text:'',unavailable:true as const};return{...part,mediaDisplay:{mime:meta.mime,kind:meta.kind,bytes:meta.bytes,details:meta.details}};})}))};
+ return {...record,sections:record.sections?.map(section=>({...section,parts:section.parts.map(part=>{if(part.interactive?.type==='pygbag'){const meta=admitted.get(part.interactive.assetId);return meta&&meta.mime===PYGBAG_MIME&&meta.digest===part.interactive.digest?part:{id:part.id,kind:'interactive' as const,text:part.text,unavailable:true as const};}if(part.kind!=='media'||!part.media)return part;const meta=admitted.get(part.media.assetId);if(!meta||meta.kind!==part.media.kind)return{id:part.id,kind:'media' as const,text:'',unavailable:true as const};return{...part,mediaDisplay:{mime:meta.mime,kind:meta.kind,bytes:meta.bytes,details:meta.details}};})}))};
 }
 async function projectRecord(env:Cloudflare.Env,owner:string,record:WorkspaceRecord|null,allowStaged=false,historical=false,reads?:ProjectionReadCache,catalogueProvidedByCaller=false):Promise<WorkspaceRecord|null>{
  if(!record)return null;record=await projectLearningScope(env,owner,record);let projected=await projectExcerpts(env,owner,await projectMedia(env,owner,await projectImages(env,owner,record,allowStaged),allowStaged),reads);
@@ -465,7 +466,11 @@ async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor
  if(new Set([...images.map(i=>i.assetId),...(record.sections??[]).flatMap(s=>s.parts).flatMap(p=>p.image?[p.image.assetId]:[])]).size>16)fail(400,'image_budget','At most 16 private images per record.');
  const media:MediaMetadata[]=[];if(c.action==='create'||c.action==='update')for(const section of record.sections??[])for(const part of section.parts)if(part.kind==='media'&&part.media){const previous=existing?.sections?.find(s=>s.id===section.id)?.parts.find(p=>p.id===part.id);if(previous?.kind==='media'&&stable(previous.media)===stable(part.media))continue;const meta=await prepareMediaAttachment(env,owner,part.media.assetId);if(meta.kind!==part.media.kind)fail(400,'media_kind_mismatch','The media kind must match its admitted original file.');media.push(meta);}
  for(const section of record.sections??[])for(const part of section.parts){
-  if(part.interactive?.type==='pygbag')fail(400,'package_not_yet_admitted','Packaged pygame content is not admitted until its independent media profile is reconciled.');
+  if(part.interactive?.type==='pygbag'){
+   const meta=await prepareMediaAttachment(env,owner,part.interactive.assetId);
+   if(meta.mime!==PYGBAG_MIME||meta.digest!==part.interactive.digest||part.interactive.runtime!==PYGBAG_RUNTIME)fail(400,'invalid_package_reference','Package identity, digest and supported runtime must match admitted bytes.');
+   media.push(meta);
+  }
   if(!part.media)continue;
   const meta=media.find(m=>m.assetId===part.media!.assetId)??await prepareMediaAttachment(env,owner,part.media.assetId);
   if(meta.mime!==DRAWING_MIME)continue;
