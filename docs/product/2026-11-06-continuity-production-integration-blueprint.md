@@ -24,7 +24,7 @@ A4’s Lab selector allows comparison with old modes. That is not permission to 
 
 - Finish A4/A5 visual/interaction feedback on Japanese and coding, at 1080p and 4K, with responsive/mobile and accessible interaction checks.
 - Record which specific A4 choices are accepted, optional, or rejected; especially left/right panel behavior, part-level history, topic grouping, controls, and whether any production view toggle is exposed.
-- Capture exact live Lab source/deployment, protected native Minamo version, public main SHA and current tool schemas. The latest **deployed A5** private source commit was **62c1c149c2bbad1735aaf2a0233d9b5abe1d2d86** on 6 November; the preserved pre-A5 **A4** source is **2943b0e0998103be11bdc1c8c66878fbe58c6de7**. Recheck.
+- Capture exact live Lab source/deployment, protected native Minamo version, public main SHA and current tool schemas. The latest **deployed A5** private source commit was **30bdcd57b037bcf54433caa17f530d7d7a64e9fb** on 6 November; the preserved pre-A5 **A4** source is **2943b0e0998103be11bdc1c8c66878fbe58c6de7**. Recheck.
 - Identify the real current server stores, Project revision and edit/CAS paths before proposing schema migration.
 
 **Exit:** a bounded scope and reversible behavior contract. No writes to production learner data.
