@@ -11,7 +11,7 @@
 - **Baseline and workflow:** root [AGENTS.md](../../AGENTS.md), [V116 public/native reconciliation](../V116-PUBLIC-SOURCE-RECONCILIATION-2026-11-05.md), and [Sites release workflow](../SITES-RELEASE-WORKFLOW.md).
 - **Architecture and proposed delivery:** [continuity production integration blueprint](2026-11-06-continuity-production-integration-blueprint.md).
 
-The private Lab’s latest reported A4 source commit is **198039c71253914cdce8929685acdfd798cbc28e**, Site deployment **appgdep_6aedd7a55df48191b54304c10c6e9453** (deployed 6 November). The pre-polish A4 baseline is **1a1edd1dc9697dc7f04481e4390443a48bcfb4b2**. These identify the **Lab only**, not a public Minamo revision, branch, or production deploy. Confirm the live Lab version and access before using it as a reference.
+The private Lab’s latest reported A4 source commit is **2943b0e0998103be11bdc1c8c66878fbe58c6de7**, Site deployment **appgdep_6aeddd72f45c8191bec811bfe1725a12** (deployed 6 November). Earlier in-place A4 polish was **198039c71253914cdce8929685acdfd798cbc28e**; the pre-polish A4 baseline is **1a1edd1dc9697dc7f04481e4390443a48bcfb4b2**. These identify the **Lab only**, not a public Minamo revision, branch, or production deploy. Confirm the live Lab version and access before using it as a reference.
 
 ## Problem and owner intent
 
@@ -72,6 +72,18 @@ The **existing A4 mode** was polished and privately redeployed. **No A5** was cr
 - **Latest private Lab source:** 198039c71253914cdce8929685acdfd798cbc28e. **Latest reported deployment:** appgdep_6aedd7a55df48191b54304c10c6e9453. Site: https://minamo-visual-lab.jscymru.chatgpt.site/.
 
 **Owner feedback parked for later, not silently implemented here:** a real Home beyond Project index, content-category navigation, top-bar icon destinations and Settings; Project thumbnails; a rethink of Library and Your Work; an approachable way for learners to add examples or edit Project content and have GPT/MCP pick them up. These need their own UX discussion and backend/contracts review rather than being swept into A4 polish.
+
+## A4 follow-up polish — owner's post-deploy observations (6 November)
+
+This is another **in-place A4** update, preserving the other Lab modes, TEST histories and production boundary:
+
+- **Tab-change shaking:** owner saw a brief “Loading interactive material…” flash on flashcard topic switches and the side rails moved. The immediate cause was the shared interactive component's transient mount placeholder. A4 now renders **lightweight** language interactions and flashcards immediately on topic change, with a modest minimum content panel height. Lazy canvas/drawing/Pygbag loading boundaries remain guarded.
+- **Conversation reveal:** the owner confirmed that the gentle animation worked when Windows animations were enabled, but the following **Reveal next turn** button was falling below the viewport. Controls now travel with the final revealed turn; after the new turn appears, the component scrolls only enough to make that control accessible. Playback's play icon sits next to Japanese text to reduce stacked vertical chrome.
+- **Header:** A4's More dropdown was replaced by compact **Library, Practical tools, Trash, Settings** icons. They are functional links to existing Lab routes, and Settings opens the existing workspace Settings dialog. This does not constitute the later Home/Library/Your Work/settings redesign.
+- **Topic overflow:** the tab strip remains one line and scrolls horizontally when more topics fit than the available width, also navigable by keyboard. Do not truncate silently or wrap topic buttons into another block of chrome.
+- **Live validation:** typecheck/build passed; on the deployed Lab, repeated **All cards → Events and states → Connecting ideas → Events and states** transitions showed no loading placeholder and the measured left/right rail top positions stayed at 86px. Revealing turn 2/4 left the next-turn button within the viewport; Japanese play and text shared a row. Settings opened and closed, restoring focus to the header Settings trigger.
+- **Limit:** this is a focused Chrome sequence, **not** proof that every intermittent scroll jump on the owner's monitor is gone. Recheck full-motion interactions at 1080p and 4K before accepting. The generic higher-cost canvas placeholders are outside this narrow fix.
+- **Latest private Lab commit:** 2943b0e0998103be11bdc1c8c66878fbe58c6de7. **Latest deployed version:** appgdep_6aeddd72f45c8191bec811bfe1725a12.
 
 ## Next-chat orientation: a concrete start sequence
 
