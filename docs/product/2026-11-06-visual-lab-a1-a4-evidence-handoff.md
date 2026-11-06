@@ -11,7 +11,7 @@
 - **Baseline and workflow:** root [AGENTS.md](../../AGENTS.md), [V116 public/native reconciliation](../V116-PUBLIC-SOURCE-RECONCILIATION-2026-11-05.md), and [Sites release workflow](../SITES-RELEASE-WORKFLOW.md).
 - **Architecture and proposed delivery:** [continuity production integration blueprint](2026-11-06-continuity-production-integration-blueprint.md).
 
-The private Lab’s latest reported A4 source commit is **1a1edd1dc9697dc7f04481e4390443a48bcfb4b2**, Site deployment **appgdep_6aedcc4079748191aeade7dfee7f2568** (deployed 6 November). These identify the **Lab only**, not a public Minamo revision, branch, or production deploy. Confirm the live Lab version and access before using it as a reference.
+The private Lab’s latest reported A4 source commit is **198039c71253914cdce8929685acdfd798cbc28e**, Site deployment **appgdep_6aedd7a55df48191b54304c10c6e9453** (deployed 6 November). The pre-polish A4 baseline is **1a1edd1dc9697dc7f04481e4390443a48bcfb4b2**. These identify the **Lab only**, not a public Minamo revision, branch, or production deploy. Confirm the live Lab version and access before using it as a reference.
 
 ## Problem and owner intent
 
@@ -57,6 +57,21 @@ These are owner-reviewed design directions, not a declaration of production acce
 - That changing the public GitHub branch will change the protected production Site. Public repository and native Site sources differ substantially, including important Project/language/drawing files.
 
 **Safety of fixtures:** A3 and A4 seeding was guarded by TEST-only identity, synthetic/system actor, expected revision and known parts; owner-edited data should not be overwritten. Retain this principle for future tests.
+
+## A4 in-place polish after owner walkthrough — 6 November 2026
+
+The **existing A4 mode** was polished and privately redeployed. **No A5** was created; A3 and other selectable Lab modes were preserved. This work remained entirely in the owner-private Lab; PR #90 itself is still documentation-only.
+
+- Reduced vertical chrome in A4 Projects: compact breadcrumbs/section title; removed redundant “section X of Y”, “organised current material / N focus topics” instructions and the repeated selected-topic heading. The learner reaches the actual material sooner.
+- Preserved useful topic organisation but changed the chunky tab buttons to an understated, underlined, single-row tab strip. Shorter conversation labels fit on desktop. Keyboard Arrow/Home/End navigation, ARIA tab semantics and horizontal overflow remain.
+- Removed confusing “Next topic” cycling. Bottom navigation now says **Previous section** and **Next section**, which act on Project sections rather than topics.
+- Mitigated tab-switch screen shaking by controlling layout/scroll anchoring. Added a restrained ~210 ms expand/fade for newly revealed conversation turns, with delayed minimal focus/scroll, while respecting reduced-motion preferences.
+- Focused typecheck and production build passed. After the final deployment, Chrome testing verified eight conversation tabs on one desktop row, keyboard movement between tabs, stable scroll position in the tested tab-switch sequence, and revealing a new turn.
+- At a simulated **390 × 844** viewport, the document width and client width both measured **390 px** (no page-wide horizontal overflow); the topic tab strip scrolls internally as intended. The viewport override was reset afterwards.
+- **Verification limit:** the connected Chrome session reported reduced motion enabled, so the new animated transition was suppressed as designed; the full-motion appearance has not yet been visually accepted. The reported screen-shake defect was mitigated and not observed in the tested sequence, but should be rechecked on the owner's monitor and scroll position.
+- **Latest private Lab source:** 198039c71253914cdce8929685acdfd798cbc28e. **Latest reported deployment:** appgdep_6aedd7a55df48191b54304c10c6e9453. Site: https://minamo-visual-lab.jscymru.chatgpt.site/.
+
+**Owner feedback parked for later, not silently implemented here:** a real Home beyond Project index, content-category navigation, top-bar icon destinations and Settings; Project thumbnails; a rethink of Library and Your Work; an approachable way for learners to add examples or edit Project content and have GPT/MCP pick them up. These need their own UX discussion and backend/contracts review rather than being swept into A4 polish.
 
 ## Next-chat orientation: a concrete start sequence
 
