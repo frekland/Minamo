@@ -1,6 +1,6 @@
-# Minamo Lab Integration — A1–A4 evidence and new-chat handoff
+# Minamo Lab Integration — A1–A5 evidence and new-chat handoff
 
-**Status:** Documentation-only integration orientation, 6 November 2026. **No production code, Site, data, or MCP tools changed by this PR.**
+**Status:** Documentation-only integration orientation, updated 6 November 2026 for A5. **No production code, Site, data, or MCP tools changed by this PR.**
 
 ## Read this first
 
@@ -26,6 +26,7 @@ Earlier native Project layouts offered useful rich content but often felt like a
 | **A2** | Can a 3–4-session Project feel like readable current material? | Persistent left navigation, central content, right continuity rail; richer Japanese and Python-ball simulations, interaction cards and corrected kanji-only ruby. Owner flagged whitespace, left padding, header/edit overlap, and small/duplicated furigana. |
 | **A3** | Does ten-session accretion overwhelm the UI? | Ten *saved Lab revisions* and six stable sections for a synthetic Japanese conversation, with meaningful revisions to older explanations, dialogues, reveal cards and flashcards. Browser evidence showed a very long grammar section, repeated prompt types and multiple flashcard decks: preserving history alone did not prevent present-day clutter. |
 | **A4** | Can current content be curated while preserving exact edits? | Same underlying ten-version Japanese record, presented as four grammar groups, four practice groups, selected dialogue and one 32-card filterable deck; added an independent ten-revision Python-ball record, part-level change links, smaller latest-change surface, and responsive/control polish. Prior modes and records preserved. |
+| **A5** | Can learners contribute without undermining A4's quiet reading interface? | A separate selectable A4-based UX prototype adds small, contextual learner examples, dialogue responses and Python code/observations. Collapsed person-icon groups, optional local Japanese TTS and clearly **simulated** review badges; browser-only storage, **not** real MCP or AI. |
 
 A3→A4 is primarily a **presentation change** over unchanged Japanese revisions. It does not demonstrate an autonomous GPT content curator; A4’s grouping logic uses fixture-specific A3 IDs and must become domain-neutral before integration.
 
@@ -85,12 +86,38 @@ This is another **in-place A4** update, preserving the other Lab modes, TEST his
 - **Limit:** this is a focused Chrome sequence, **not** proof that every intermittent scroll jump on the owner's monitor is gone. Recheck full-motion interactions at 1080p and 4K before accepting. The generic higher-cost canvas placeholders are outside this narrow fix.
 - **Latest private Lab commit:** 2943b0e0998103be11bdc1c8c66878fbe58c6de7. **Latest deployed version:** appgdep_6aeddd72f45c8191bec811bfe1725a12.
 
+## A5 — direct learner contributions, privately deployed 6 November 2026
+
+**Owner instruction:** Keep A4 completely selectable as the comparison baseline; do not clutter the learning page. The owner explicitly authorized iteration after deployment and browser comparison. The A5 work is wholly within the **owner-private Visual Lab**, not this public GitHub branch or protected production Minamo.
+
+**Final A5 Lab source:** `62c1c149c2bbad1735aaf2a0233d9b5abe1d2d86`. **Final private deployment:** `appgdep_6aedec9bdca8819192a98fa049639e13`, at https://minamo-visual-lab.jscymru.chatgpt.site/. This succeeded after an initial A5 deployment `appgdep_6aedeb2d574481918dcfd140f3a44acb`; the second deploy repaired the mobile code/observation column. A4's last pre-A5 source remains `2943b0e0998103be11bdc1c8c66878fbe58c6de7`. **A5 and A4 render the same underlying TEST Project histories; A4 has no contributions UI.**
+
+**Exactly what the A5 UI proves:**
+- Japanese ten-session Project: discreet **+ Add example** below native grammar tables. Learner text, grammar focus and English meaning are individually editable; fields may remain blank. An expandable `Your examples (n)` row uses a small person icon and keeps additions closed by default. Local Japanese TTS is available on written Japanese.
+- Conversational practice: **+ Add response** underneath the latest authored dialogue, with Japanese plus optional English; the original reveal/translation/speech controls remain. A seeded example demonstrates contextual explanation.
+- Python-ball ten-session Project: **+ Add experiment** after code parts, storing a code variation and an optional observation. This is written material **only**; the underlying Python Canvas's execution controls and authored code remain separate.
+- Two sample Japanese grammar entries and one dialogue entry demonstrate a green check or amber warning. Warnings reveal a short explanation explicitly labelled **Illustrative GPT-style feedback · TEST ONLY**. **No in-site AI analysis is performed**; the badges are prewritten examples, never an assertion that a real GPT checked a sentence. An edited entry increments its revision and no longer displays feedback from the previous revision.
+- Contributions are keyed to exact Project/section/part identities under `minamo-visual-lab-a5-contributions-v1` in that browser's `localStorage`. They are **not** D1 Project writes, cross-device sync, an MCP inbox, a real server receipt, or genuinely reviewed grammar. Neither existing Project records nor prior Lab presentations were modified.
+
+**Observed Chrome checks on the hosted Site:**
+- Selected A4 then A5 in the same ten-session Japanese Project; A4 displayed no contribution controls, A5 exposed contextual rows.
+- Expanded two prewritten grammar examples and inspected the explanatory warning; the compact entry design left authored table columns legible.
+- Added Japanese `週末は本を読みました。` with an English translation and an empty grammar-focus field. The group increased from two to three; **reload preserved the entry**; switching back to A4 showed **zero** A5 contribution regions.
+- Opened and expanded the latest dialogue's response group, revealed another authored turn, and confirmed the action remained available.
+- Created a Python test code variation (`dt = 1 / 60`) with an observation beside an authored code block; the original code remained visible and unchanged. The entry survived a page reload.
+- At **390 × 844**, the first A5 mobile comparison exposed cramped side-by-side code/observations. A focused CSS correction was deployed and the computed grid became **one 239px-wide column**. Document/client width both measured **390px**, without overall horizontal overflow. Browser viewport was reset after testing.
+- Private Lab `pnpm run typecheck` and `pnpm run build` passed for both published A5 source states. The managed local preview timed out, so the visual acceptance above used the **deployed owner-private Lab**; the timeout is not evidence of a production defect.
+
+**Not yet verified:** independent mobile device and 4K monitor, screen-reader/keyboard-only regression, TTS audio synthesis success for newly typed Japanese, per-entry conflict behavior with simultaneous browser tabs, error/rollback handling, and true GPT/MCP across chats. The user still needs to judge whether the tiny contextual action is unobtrusive enough in dense grammar/Python pages.
+
+**Production implication:** A5 is **only a UX prototype**. Extend existing native server/MCP with owner-authorized, stable-ID, per-part learner contributions; source actor, latest revisions and acknowledgements; read/list changes since cursor; assistant review outcomes with status + explanation + expected learner revision; and a reversible merge/supersede workflow. Preserve raw learner text separately from assistant suggestions and withdraw stale badges on edits. TTS is not grammar validation. This is a planning direction; no production implementation is commissioned by this PR.
+
 ## Next-chat orientation: a concrete start sequence
 
 1. Read root AGENTS.md, **this evidence handoff**, the [integration blueprint](2026-11-06-continuity-production-integration-blueprint.md), relevant parts of PRs #86/#83/#85, and the current source-reconciliation and Sites-workflow docs.
-2. Open the private Lab; visually compare A3 and A4, both Japanese and Python. Record the actual selected mode, Site version, viewport and any accessibility/function defects. Do not assume the Lab is public GitHub code.
+2. Open the private Lab; visually compare A3, A4 and A5, both Japanese and Python. Record the actual selected mode, Site version, viewport and any accessibility/function defects. Do not assume the Lab is public GitHub code.
 3. Read the current protected **native** production source and deployed version; compare to public main and the Lab. Verify the real MCP tool signatures, Project section/part schema, atomic update path, revision history and permissions rather than guessing them from this plan.
-4. Decide with the owner whether A4 is accepted as an *opt-in production candidate*, and pin an exact source/feature boundary before coding.
+4. Decide with the owner which A4/A5 elements are accepted as *opt-in production candidates*, and pin an exact source/feature boundary before coding.
 5. Use the integration blueprint for a bounded PR implementation and testing commission. Keep Classic, data, other layouts and owner content intact.
 
 ## Handoff discipline
