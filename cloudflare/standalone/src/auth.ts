@@ -1,0 +1,566 @@
+const SESSION_COOKIE = "__Host-minamo-session";
+const LOGIN_COOKIE = "__Host-minamo-login";
+const SESSION_TTL_SECONDS = 8 * 60 * 60;
+const LOGIN_TTL_SECONDS = 10 * 60;
+const REQUIRED_MCP_SCOPE = "notes:read";
+
+declare global {
+  interface Env {
+    AUTH0_DOMAIN?: string;
+    AUTH0_CLIENT_ID?: string;
+    AUTH0_CLIENT_SECRET?: string;
+    AUTH0_MCP_AUDIENCE?: string;
+    AUTH0_CALLBACK_URL?: string;
+    AUTH0_LOGOUT_RETURN_URL?: string;
+    MCP_ACCEPTANCE_CLIENT?: { fetch(request: Request): Promise<Response> };
+  }
+}
+
+export class AuthError extends Error {
+  readonly status: 401 | 503;
+  readonly code: string;
+  constructor(status: 401 | 503, code: string) {
+    super(code);
+    this.name = "AuthError";
+    this.status = status;
+    this.code = code;
+  }
+}
+
+export interface Principal {
+  issuer: string;
+  subject: string;
+  ownerKey: string;
+}
+
+interface Discovery {
+  issuer: string;
+  authorization_endpoint: string;
+  token_endpoint: string;
+  jwks_uri: string;
+  end_session_endpoint?: string;
+}
+
+interface JwtClaims {
+  iss?: unknown;
+  sub?: unknown;
+  aud?: unknown;
+  exp?: unknown;
+  nbf?: unknown;
+  iat?: unknown;
+  nonce?: unknown;
+  azp?: unknown;
+  scope?: unknown;
+  scp?: unknown;
+}
+
+function normalizedDomain(env: Env): URL {
+  const raw = env.AUTH0_DOMAIN?.trim();
+  if (!raw || raw.includes("/") || raw.includes("@")) throw new AuthError(503, "auth_not_configured");
+  let url: URL;
+  try { url = new URL(`https://${raw}`); } catch { throw new AuthError(503, "auth_not_configured"); }
+  if (url.protocol !== "https:" || url.hostname !== raw.toLowerCase() || url.port || url.username || url.password) {
+    throw new AuthError(503, "auth_not_configured");
+  }
+  return url;
+}
+
+export function authConfigured(env: Env): boolean {
+  try {
+    normalizedDomain(env);
+    const callback = new URL(env.AUTH0_CALLBACK_URL ?? "");
+    const logout = new URL(env.AUTH0_LOGOUT_RETURN_URL ?? "");
+    const audience = new URL(env.AUTH0_MCP_AUDIENCE ?? "");
+    const placeholders = [env.AUTH0_DOMAIN, env.AUTH0_CLIENT_ID, env.AUTH0_CLIENT_SECRET, env.AUTH0_MCP_AUDIENCE,
+      env.AUTH0_CALLBACK_URL, env.AUTH0_LOGOUT_RETURN_URL].some((value) => !value || /your-tenant|replace-with|placeholder/i.test(value));
+    return Boolean(!placeholders && env.AUTH0_CLIENT_ID?.trim() && env.AUTH0_CLIENT_SECRET?.trim() &&
+      callback.protocol === "https:" && !callback.username && !callback.password && !callback.search && !callback.hash &&
+      logout.protocol === "https:" && !logout.username && !logout.password && !logout.search && !logout.hash &&
+      audience.protocol === "https:" && !audience.username && !audience.password && !audience.search && !audience.hash &&
+      callback.pathname === "/auth/callback" && callback.origin === logout.origin);
+  } catch { return false; }
+}
+
+function requireConfiguration(env: Env): { domain: URL; clientId: string; clientSecret: string; callback: string; audience: string; logoutReturn: string } {
+  if (!authConfigured(env)) throw new AuthError(503, "auth_not_configured");
+  return {
+    domain: normalizedDomain(env),
+    clientId: env.AUTH0_CLIENT_ID!,
+    clientSecret: env.AUTH0_CLIENT_SECRET!,
+    callback: env.AUTH0_CALLBACK_URL!,
+    audience: env.AUTH0_MCP_AUDIENCE!,
+    logoutReturn: env.AUTH0_LOGOUT_RETURN_URL!,
+  };
+}
+
+function encodeBase64Url(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+}
+
+function decodeBase64Url(value: string): Uint8Array {
+  const base64 = value.replace(/-/g, "+").replace(/_/g, "/");
+  const binary = atob(base64 + "=".repeat((4 - base64.length % 4) % 4));
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
+}
+
+function decodeJsonPart<T>(value: string): T {
+  return JSON.parse(new TextDecoder().decode(decodeBase64Url(value))) as T;
+}
+
+function randomToken(bytes = 32): string {
+  const value = new Uint8Array(bytes);
+  crypto.getRandomValues(value);
+  return encodeBase64Url(value);
+}
+
+async function sha256(value: string): Promise<Uint8Array> {
+  return new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value)));
+}
+
+async function hashHex(value: string): Promise<string> {
+  return [...await sha256(value)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+export async function ownerKeyForPrincipal(issuer: string, subject: string): Promise<string> {
+  if (!issuer.startsWith("https://") || !subject || subject.length > 255) throw new TypeError("Invalid principal");
+  return `oidc:${await hashHex(`${issuer}\n${subject}`)}`;
+}
+
+function parseCookies(request: Request): Map<string, string> {
+  const values = new Map<string, string>();
+  for (const part of (request.headers.get("Cookie") ?? "").split(";")) {
+    const index = part.indexOf("=");
+    if (index <= 0) continue;
+    const name = part.slice(0, index).trim();
+    const value = part.slice(index + 1).trim();
+    if (!values.has(name)) values.set(name, value);
+  }
+  return values;
+}
+
+function cookie(name: string, value: string, maxAge: number): string {
+  return `${name}=${value}; Path=/; Max-Age=${maxAge}; Secure; HttpOnly; SameSite=Lax`;
+}
+
+function expiredCookie(name: string): string {
+  return cookie(name, "", 0);
+}
+
+function sameOrigin(request: Request, env: Env): boolean {
+  try {
+    const expected = new URL(env.AUTH0_CALLBACK_URL ?? "").origin;
+    if (new URL(request.url).origin !== expected) return false;
+    const origin = request.headers.get("Origin");
+    if (origin !== null) return origin === expected;
+    // Some same-origin browser form submissions omit Origin. Fetch Metadata
+    // provides a browser-generated CSRF signal for that case.
+    return request.headers.get("Sec-Fetch-Site") === "same-origin";
+  } catch { return false; }
+}
+
+async function discovery(env: Env): Promise<Discovery> {
+  const config = requireConfiguration(env);
+  let response: Response;
+  try { response = await fetch(new URL(".well-known/openid-configuration", config.domain), { signal: AbortSignal.timeout(10_000), redirect: "manual" }); }
+  catch { throw new AuthError(503, "identity_provider_unavailable"); }
+  if (!response.ok) throw new AuthError(503, "identity_provider_unavailable");
+  const document = await response.json() as Discovery;
+  const expectedIssuer = `${config.domain.origin}/`;
+  if (document.issuer !== expectedIssuer || !providerEndpoint(document.authorization_endpoint, config.domain.origin) ||
+      !providerEndpoint(document.token_endpoint, config.domain.origin) || !providerEndpoint(document.jwks_uri, config.domain.origin)) {
+    throw new AuthError(503, "identity_provider_metadata_invalid");
+  }
+  return document;
+}
+
+function safeHttpsUrl(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  try { const parsed = new URL(value); return parsed.protocol === "https:" && !parsed.username && !parsed.password; }
+  catch { return false; }
+}
+
+function providerEndpoint(value: unknown, origin: string): value is string {
+  if (!safeHttpsUrl(value)) return false;
+  return new URL(value).origin === origin;
+}
+
+async function readVerifiedJwt(env: Env, token: string): Promise<{ claims: JwtClaims; discovery: Discovery }> {
+  const config = requireConfiguration(env);
+  const parts = token.split(".");
+  if (parts.length !== 3 || token.length > 16_384) throw new AuthError(401, "invalid_token");
+  const [headerPart, claimsPart, signaturePart] = parts as [string, string, string];
+  let header: { alg?: unknown; kid?: unknown; typ?: unknown; crit?: unknown };
+  let claims: JwtClaims;
+  try { header = decodeJsonPart(headerPart); claims = decodeJsonPart(claimsPart); }
+  catch { throw new AuthError(401, "invalid_token"); }
+  if (header.alg !== "RS256" || typeof header.kid !== "string" || !header.kid || header.crit !== undefined ||
+      (header.typ !== undefined && header.typ !== "JWT")) throw new AuthError(401, "invalid_token");
+
+  const metadata = await discovery(env);
+  let jwksResponse: Response;
+  try { jwksResponse = await fetch(metadata.jwks_uri, { signal: AbortSignal.timeout(10_000), redirect: "manual" }); }
+  catch { throw new AuthError(503, "identity_provider_unavailable"); }
+  if (!jwksResponse.ok) throw new AuthError(503, "identity_provider_unavailable");
+  const jwks = await jwksResponse.json() as { keys?: JsonWebKey[] };
+  const jwk = jwks.keys?.find((key) => (key as JsonWebKey & { kid?: string; alg?: string; use?: string }).kid === header.kid &&
+    key.kty === "RSA" && (!((key as JsonWebKey & { alg?: string }).alg) || (key as JsonWebKey & { alg?: string }).alg === "RS256") &&
+    (!((key as JsonWebKey & { use?: string }).use) || (key as JsonWebKey & { use?: string }).use === "sig"));
+  if (!jwk) throw new AuthError(401, "invalid_token");
+  let signatureValid = false;
+  try {
+    const key = await crypto.subtle.importKey("jwk", jwk, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["verify"]);
+    const signature = decodeBase64Url(signaturePart).buffer as ArrayBuffer;
+    const signedData = new TextEncoder().encode(`${headerPart}.${claimsPart}`).buffer as ArrayBuffer;
+    signatureValid = await crypto.subtle.verify("RSASSA-PKCS1-v1_5", key, signature, signedData);
+  } catch { throw new AuthError(401, "invalid_token"); }
+  const now = Math.floor(Date.now() / 1000);
+  if (!signatureValid || claims.iss !== metadata.issuer || typeof claims.sub !== "string" || !claims.sub || claims.sub.length > 255 ||
+      typeof claims.exp !== "number" || claims.exp <= now || (claims.nbf !== undefined && (typeof claims.nbf !== "number" || claims.nbf > now + 60)) ||
+      (claims.iat !== undefined && (typeof claims.iat !== "number" || claims.iat > now + 60))) throw new AuthError(401, "invalid_token");
+  return { claims, discovery: metadata };
+}
+
+function audienceIncludes(claim: unknown, expected: string): boolean {
+  return claim === expected || (Array.isArray(claim) && claim.includes(expected));
+}
+
+export async function verifyMcpBearer(env: Env, request: Request): Promise<Principal> {
+  const authorization = request.headers.get("Authorization") ?? "";
+  const match = /^Bearer ([A-Za-z0-9._~-]+)$/i.exec(authorization);
+  if (!match) throw new AuthError(401, "missing_bearer_token");
+  const { claims } = await readVerifiedJwt(env, match[1]!);
+  const config = requireConfiguration(env);
+  const authorizedParty = claims.azp;
+  if (!audienceIncludes(claims.aud, config.audience) ||
+      (Array.isArray(claims.aud) && claims.aud.length > 1 && authorizedParty !== config.clientId)) {
+    throw new AuthError(401, "invalid_token");
+  }
+  const scopes = typeof claims.scope === "string" ? claims.scope.split(/\s+/) : Array.isArray(claims.scp) ? claims.scp : [];
+  if (!scopes.includes(REQUIRED_MCP_SCOPE)) throw new AuthError(401, "insufficient_scope");
+  return { issuer: claims.iss as string, subject: claims.sub as string, ownerKey: await ownerKeyForPrincipal(claims.iss as string, claims.sub as string) };
+}
+
+export async function sessionPrincipal(env: Env, request: Request): Promise<Principal | null> {
+  if (!authConfigured(env)) return null;
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) return null;
+  const session = await env.DB.prepare(
+    "SELECT issuer, subject, expires_at FROM web_sessions WHERE session_hash = ?",
+  ).bind(await hashHex(token)).first<{ issuer: string; subject: string; expires_at: number }>();
+  const now = Math.floor(Date.now() / 1000);
+  if (!session || session.expires_at <= now || session.issuer !== `${normalizedDomain(env).origin}/`) {
+    if (session) await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(await hashHex(token)).run();
+    return null;
+  }
+  return { issuer: session.issuer, subject: session.subject, ownerKey: await ownerKeyForPrincipal(session.issuer, session.subject) };
+}
+
+async function signLogoutTicket(secret: string, sessionHash: string): Promise<string> {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`minamo-logout:${sessionHash}`));
+  return encodeBase64Url(new Uint8Array(mac));
+}
+
+export async function logoutCsrfToken(env: Env, request: Request): Promise<string | null> {
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (!token || !/^[A-Za-z0-9_-]{32,64}$/.test(token)) return null;
+  const sessionHash = await hashHex(token);
+  return `${sessionHash}.${await signLogoutTicket(env.AUTH0_CLIENT_SECRET!, sessionHash)}`;
+}
+
+export function mcpUnauthorized(env: Env, request: Request, code = "missing_bearer_token"): Response {
+  const metadata = `${new URL(request.url).origin}/.well-known/oauth-protected-resource/mcp`;
+  const challengeError = code === "missing_bearer_token" ? "" : `, error="${code === "insufficient_scope" ? "insufficient_scope" : "invalid_token"}"`;
+  return Response.json({ error: code }, {
+    status: code === "insufficient_scope" ? 403 : 401,
+    headers: {
+      ...securityHeaders,
+      "WWW-Authenticate": `Bearer resource_metadata="${metadata}", scope="${REQUIRED_MCP_SCOPE}"${challengeError}`,
+    },
+  });
+}
+
+export function protectedResourceMetadata(env: Env, request: Request): Response {
+  if (!authConfigured(env)) return Response.json({ error: "auth_not_configured" }, { status: 503, headers: securityHeaders });
+  const config = requireConfiguration(env);
+  return Response.json({
+    resource: config.audience,
+    authorization_servers: [`${config.domain.origin}/`],
+    scopes_supported: [REQUIRED_MCP_SCOPE],
+    bearer_methods_supported: ["header"],
+  }, { headers: { ...securityHeaders, "Content-Type": "application/json; charset=utf-8" } });
+}
+
+export async function startLogin(env: Env, request: Request): Promise<Response> {
+  const config = requireConfiguration(env);
+  if (request.method !== "GET") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
+  const metadata = await discovery(env);
+  const acceptancePath = new URL(request.url).pathname;
+  const mcpAcceptance = acceptancePath === "/auth/acceptance/mcp";
+  const refreshAcceptance = acceptancePath === "/auth/acceptance/refresh";
+  const state = (refreshAcceptance ? "r_" : mcpAcceptance ? "m_" : "w_") + randomToken();
+  const nonce = randomToken();
+  const verifier = randomToken(48);
+  const challenge = encodeBase64Url(await sha256(verifier));
+  const now = Math.floor(Date.now() / 1000);
+  await env.DB.prepare("DELETE FROM auth_transactions WHERE expires_at <= ?").bind(now).run();
+  await env.DB.prepare("DELETE FROM web_sessions WHERE expires_at <= ?").bind(now).run();
+  await env.DB.prepare("INSERT INTO auth_transactions (state_hash, nonce, verifier, expires_at) VALUES (?, ?, ?, ?)")
+    .bind(await hashHex(state), nonce, verifier, now + LOGIN_TTL_SECONDS).run();
+  const authorize = new URL(metadata.authorization_endpoint);
+  authorize.searchParams.set("response_type", "code");
+  authorize.searchParams.set("client_id", config.clientId);
+  authorize.searchParams.set("redirect_uri", config.callback);
+  authorize.searchParams.set("scope", refreshAcceptance ? "openid notes:read offline_access" :
+    mcpAcceptance ? "openid notes:read" : "openid");
+  // Only the explicit acceptance routes request an MCP access token.
+  if (mcpAcceptance || refreshAcceptance) authorize.searchParams.set("audience", config.audience);
+  authorize.searchParams.set("state", state);
+  authorize.searchParams.set("nonce", nonce);
+  authorize.searchParams.set("code_challenge", challenge);
+  authorize.searchParams.set("code_challenge_method", "S256");
+  return new Response(null, { status: 302, headers: { ...securityHeaders, Location: authorize.toString(), "Set-Cookie": cookie(LOGIN_COOKIE, state, LOGIN_TTL_SECONDS) } });
+}
+
+export async function finishLogin(env: Env, request: Request): Promise<Response> {
+  const config = requireConfiguration(env);
+  if (request.method !== "GET") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
+  const url = new URL(request.url);
+  const state = url.searchParams.get("state");
+  const code = url.searchParams.get("code");
+  const providerError = url.searchParams.get("error");
+  const loginCookie = parseCookies(request).get(LOGIN_COOKIE);
+  if (providerError) {
+    if (!state || !loginCookie || state !== loginCookie) throw new AuthError(401, "invalid_login_transaction");
+    const transaction = await env.DB.prepare(
+      "DELETE FROM auth_transactions WHERE state_hash = ? AND expires_at > ? RETURNING state_hash",
+    ).bind(await hashHex(state), Math.floor(Date.now() / 1000)).first<{ state_hash: string }>();
+    if (!transaction) throw new AuthError(401, "invalid_login_transaction");
+    throw new AuthError(401, providerError === "access_denied" ? "login_denied" : "identity_provider_error");
+  }
+  if (!state || !code || code.length > 4096 || !loginCookie || state !== loginCookie) throw new AuthError(401, "invalid_login_transaction");
+  const transaction = await env.DB.prepare(
+    "DELETE FROM auth_transactions WHERE state_hash = ? AND expires_at > ? RETURNING nonce, verifier",
+  ).bind(await hashHex(state), Math.floor(Date.now() / 1000)).first<{ nonce: string; verifier: string }>();
+  if (!transaction) throw new AuthError(401, "invalid_login_transaction");
+
+  const metadata = await discovery(env);
+  let tokenResponse: Response;
+  try {
+    tokenResponse = await fetch(metadata.token_endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+      signal: AbortSignal.timeout(10_000),
+      redirect: "manual",
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        client_id: config.clientId,
+        client_secret: config.clientSecret,
+        code,
+        redirect_uri: config.callback,
+        code_verifier: transaction.verifier,
+      }),
+    });
+  } catch { throw new AuthError(503, "identity_provider_unavailable"); }
+  if (!tokenResponse.ok) throw new AuthError(401, "login_exchange_failed");
+  const tokens = await tokenResponse.json() as { id_token?: unknown; access_token?: unknown; refresh_token?: unknown };
+  if (typeof tokens.id_token !== "string") throw new AuthError(401, "login_exchange_failed");
+  const { claims } = await readVerifiedJwt(env, tokens.id_token);
+  if (claims.iss !== metadata.issuer || !audienceIncludes(claims.aud, config.clientId) || claims.nonce !== transaction.nonce ||
+      (Array.isArray(claims.aud) && claims.aud.length > 1 && claims.azp !== config.clientId)) {
+    throw new AuthError(401, "invalid_id_token");
+  }
+
+  let mcpEvidence: Record<string, string> | null = null;
+  if (state.startsWith("m_") || state.startsWith("r_")) {
+    if (typeof tokens.access_token !== "string") throw new AuthError(401, "missing_mcp_access_token");
+    const verified = await verifyMcpBearer(env, new Request(config.audience, {
+      headers: { Authorization: "Bearer " + tokens.access_token },
+    }));
+    if (verified.issuer !== claims.iss || verified.subject !== claims.sub) {
+      throw new AuthError(401, "mcp_identity_mismatch");
+    }
+    // Exercise the *hosted* MCP HTTP boundary without persisting or returning
+    // the token. Any unavailable operation remains unpassed.
+    const probe = async (method: string, params: unknown, session?: string) => {
+      const headers = new Headers({
+        Authorization: "Bearer " + tokens.access_token,
+        "Content-Type": "application/json",
+        Accept: "application/json, text/event-stream",
+      });
+      if (session) headers.set("Mcp-Session-Id", session);
+      try {
+        const response = await fetch(config.audience, {
+          method: "POST", headers,
+          body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
+          signal: AbortSignal.timeout(10_000),
+          redirect: "manual",
+        });
+        return { status: response.status, body: (await response.text()).slice(0, 100_000),
+          session: response.headers.get("mcp-session-id") ?? undefined };
+      } catch {
+        return { status: 0, body: "", session: undefined };
+      }
+    };
+    const init = await probe("initialize", {
+      protocolVersion: "2025-06-18", capabilities: {},
+      clientInfo: { name: "minamo-hosted-acceptance", version: "1.0.0" },
+    });
+    const initPass = init.status === 200 && init.body.includes("Minamo Cloudflare Staging");
+    const tools = initPass ? await probe("tools/list", {}, init.session) : null;
+    const toolsPass = Boolean(tools?.status === 200 && tools.body.includes("list_my_notes"));
+    const own = await env.DB.prepare(
+      "SELECT id FROM notes WHERE owner_key = ? AND id LIKE 'acceptance-%' LIMIT 1",
+    ).bind(verified.ownerKey).first<{ id: string }>();
+    const foreign = await env.DB.prepare(
+      "SELECT id FROM notes WHERE owner_key <> ? AND id LIKE 'acceptance-%' LIMIT 1",
+    ).bind(verified.ownerKey).first<{ id: string }>();
+    const read = async (id: string) => probe("tools/call", {
+      name: "read_my_note", arguments: { id },
+    }, init.session);
+    const ownResult = toolsPass && own ? await read(own.id) : null;
+    const foreignResult = toolsPass && foreign ? await read(foreign.id) : null;
+    mcpEvidence = {
+      auth0_mcp_access_token: "verified",
+      hosted_mcp_initialize: initPass ? "pass" : "failed",
+      hosted_mcp_tool_discovery: toolsPass ? "pass" : "failed",
+      own_fixture_read: !own ? "not_tested" : ownResult?.status === 200 &&
+        ownResult.body.includes(own.id) ? "pass" : "failed",
+      foreign_fixture_denial: !foreign ? "not_tested" : foreignResult?.status === 200 &&
+        foreignResult.body.includes("record_unavailable") ? "pass" : "failed",
+    };
+    // Delegate this same genuine bearer to a separately deployed, non-public
+    // Worker which performs its own independent MCP HTTP client calls.
+    // No token is returned, logged or persisted by either Worker.
+    if (env.MCP_ACCEPTANCE_CLIENT) {
+      try {
+        const external = await env.MCP_ACCEPTANCE_CLIENT.fetch(new Request("https://acceptance-client.internal/run", {
+          method: "POST", headers: { Authorization: "Bearer " + tokens.access_token },
+        }));
+        const evidence = await external.json() as Record<string, unknown>;
+        mcpEvidence.independent_client_worker = external.ok && evidence.separate_worker_client === true ? "verified" : "failed";
+        for (const key of [
+          "external_http_mcp_initialize", "external_http_tool_discovery", "external_http_scoped_list",
+          "external_http_sample_read", "external_http_missing_token_denial",
+          "external_http_modified_signature_denial",
+        ]) {
+          mcpEvidence[key] = evidence[key] === "pass" ? "pass" : "failed";
+        }
+      } catch { mcpEvidence.independent_client_worker = "failed"; }
+    } else {
+      mcpEvidence.independent_client_worker = "not_configured";
+    }
+    if (state.startsWith("r_")) {
+      mcpEvidence.refresh_token_issued = typeof tokens.refresh_token === "string" ? "pass" : "not_issued";
+      mcpEvidence.refresh_exchange = "not_tested";
+      mcpEvidence.refreshed_mcp_token = "not_tested";
+      mcpEvidence.refreshed_independent_client = "not_tested";
+      if (typeof tokens.refresh_token === "string") {
+        try {
+          const refreshResponse = await fetch(metadata.token_endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+            redirect: "manual", signal: AbortSignal.timeout(10_000),
+            body: new URLSearchParams({
+              grant_type: "refresh_token", client_id: config.clientId,
+              client_secret: config.clientSecret, refresh_token: tokens.refresh_token,
+            }),
+          });
+          if (refreshResponse.ok) {
+            const refreshed = await refreshResponse.json() as { access_token?: unknown; refresh_token?: unknown };
+            mcpEvidence.refresh_exchange = "pass";
+            if (typeof refreshed.access_token === "string") {
+              const renewedPrincipal = await verifyMcpBearer(env, new Request(config.audience, {
+                headers: { Authorization: "Bearer " + refreshed.access_token },
+              }));
+              if (renewedPrincipal.issuer === verified.issuer && renewedPrincipal.subject === verified.subject) {
+                mcpEvidence.refreshed_mcp_token = "verified";
+                if (env.MCP_ACCEPTANCE_CLIENT) {
+                  const external = await env.MCP_ACCEPTANCE_CLIENT.fetch(new Request("https://acceptance-client.internal/run", {
+                    method: "POST", headers: { Authorization: "Bearer " + refreshed.access_token },
+                  }));
+                  const evidence = await external.json() as Record<string, unknown>;
+                  mcpEvidence.refreshed_independent_client = external.ok &&
+                    evidence.external_http_mcp_initialize === "pass" && evidence.external_http_scoped_list === "pass" ?
+                    "pass" : "failed";
+                }
+              } else { mcpEvidence.refreshed_mcp_token = "identity_mismatch"; }
+            }
+          } else { mcpEvidence.refresh_exchange = "failed"; }
+        } catch { mcpEvidence.refresh_exchange = "failed"; }
+      }
+    }
+  }
+
+  const oldToken = parseCookies(request).get(SESSION_COOKIE);
+  if (oldToken) await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(await hashHex(oldToken)).run();
+  const sessionToken = randomToken();
+  const expires = Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS;
+  await env.DB.prepare("INSERT INTO web_sessions (session_hash, issuer, subject, expires_at) VALUES (?, ?, ?, ?)")
+    .bind(await hashHex(sessionToken), claims.iss, claims.sub, expires).run();
+  const headers = new Headers(securityHeaders);
+  headers.append("Set-Cookie", cookie(SESSION_COOKIE, sessionToken, SESSION_TTL_SECONDS));
+  headers.append("Set-Cookie", expiredCookie(LOGIN_COOKIE));
+  if (mcpEvidence) return Response.json({ synthetic_staging_only: true, ...mcpEvidence }, { headers });
+  headers.set("Location", "/account");
+  return new Response(null, { status: 303, headers });
+}
+
+export async function endSession(env: Env, request: Request): Promise<Response> {
+  const config = requireConfiguration(env);
+  if (request.method !== "POST") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
+  let submittedCsrf: FormDataEntryValue | null = null;
+  try { submittedCsrf = (await request.formData()).get("csrf_token"); } catch { /* reject malformed form data below */ }
+  const match = typeof submittedCsrf === "string" ? /^([a-f0-9]{64})\.([A-Za-z0-9_-]{43})$/.exec(submittedCsrf) : null;
+  const sessionHash = match?.[1];
+  const csrfValid = Boolean(sessionHash && match?.[2] === await signLogoutTicket(config.clientSecret, sessionHash));
+  if (!sameOrigin(request, env) && !csrfValid) {
+    return Response.json({ error: "origin_denied" }, { status: 403, headers: securityHeaders });
+  }
+  if (!csrfValid) return Response.json({ error: "csrf_denied" }, { status: 403, headers: securityHeaders });
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (token && await hashHex(token) !== sessionHash) return Response.json({ error: "csrf_denied" }, { status: 403, headers: securityHeaders });
+  const session = await env.DB.prepare("SELECT issuer, expires_at FROM web_sessions WHERE session_hash = ?")
+    .bind(sessionHash).first<{ issuer: string; expires_at: number }>();
+  // A valid signed ticket proves this logout form was issued for a session.
+  // Treat a missing or expired row as an already-completed local logout, then
+  // continue to Auth0 so its SSO cookie is cleared too.
+  if (session && session.issuer !== `${config.domain.origin}/`) {
+    return Response.json({ error: "unauthenticated" }, { status: 401, headers: securityHeaders });
+  }
+  await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(sessionHash).run();
+  const logout = new URL("/v2/logout", config.domain);
+  logout.searchParams.set("client_id", config.clientId);
+  logout.searchParams.set("returnTo", config.logoutReturn);
+  const headers = new Headers(securityHeaders);
+  headers.append("Set-Cookie", expiredCookie(SESSION_COOKIE));
+  headers.set("Location", logout.toString());
+  return new Response(null, { status: 303, headers });
+}
+
+export async function logoutLocally(env: Env, request: Request): Promise<Response> {
+  if (request.method !== "POST") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
+  if (!sameOrigin(request, env)) return Response.json({ error: "origin_denied" }, { status: 403, headers: securityHeaders });
+  const token = parseCookies(request).get(SESSION_COOKIE);
+  if (token && /^[A-Za-z0-9_-]{32,64}$/.test(token)) {
+    await env.DB.prepare("DELETE FROM web_sessions WHERE session_hash = ?").bind(await hashHex(token)).run();
+  }
+  return new Response(null, { status: 303, headers: { ...securityHeaders, Location: "/account", "Set-Cookie": expiredCookie(SESSION_COOKIE) } });
+}
+
+export async function sessionResponse(env: Env, request: Request): Promise<Response> {
+  if (request.method !== "GET") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: securityHeaders });
+  const principal = await sessionPrincipal(env, request);
+  if (!principal) return Response.json({ authenticated: false }, { headers: securityHeaders });
+  return Response.json({ authenticated: true }, { headers: securityHeaders });
+}
+
+export const securityHeaders = {
+  "Cache-Control": "no-store",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "no-referrer",
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+};
+

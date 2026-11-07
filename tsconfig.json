@@ -42,6 +42,7 @@
   ],
   "exclude": [
     "node_modules",
+    "cloudflare/standalone",
     "examples",
     "dist",
     ".vinext",
