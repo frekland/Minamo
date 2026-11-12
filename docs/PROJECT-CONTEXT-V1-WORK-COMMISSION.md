@@ -54,6 +54,47 @@ This draft source change is a bounded vertical slice of the three proposed incre
 - Strong permission, provenance, source-identity and historical-edition coverage.
 - Comparative acceptance must be observed in browser and actual MCP, not inferred from unit tests.
 
+## Legacy PR #99 integration requirements — mandatory for this same Work task
+
+These requirements come from the owner-approved findings in [legacy PR #99](https://github.com/frekland/Minamo-legacy-2/pull/99), especially `docs/PR99-MCP-AUTHORING-BOUNDARIES-ROUTING-AND-ACCEPTANCE-2026-11-12.md`, `docs/CONNECTED-WORKSPACES-ARCHITECTURE-2026-11-10.md`, and `docs/PR99-MAKING-FRIENDS-UX-AND-LOW-USAGE-PRODUCTION-MIGRATION-2026-11-12.md`. **Implement or independently verify these within PR #9, not as a separate commission.** Do not assume the private Lab V165 and deployed V175 share identical source contracts; reuse existing working capabilities rather than duplicating them.
+
+### P0 — enforce GPT/learner authoring ownership at the server
+
+- **Notes are learner-authored.** GPT may retrieve/cite authorised Notes, but must not create, change, trash, restore, reattribute or silently populate them, or use a Note as fallback when Project authoring fails. Normal learner/browser Notes operations remain available. Protect all existing Note history and references; no retroactive deletion.
+- Audit the complete MCP and indirect authoring surface: `apply_minamo_command`, `record_minamo_learning_update`, `apply_project_update.noteChanges`, `set_note_page_pin`, manuscripts, authoring packages, any command wrappers and the new PR #9 writer. Check GPT-actor boundaries in the shared command/service layer, not only tool descriptions, tool-list filtering or client-side UI. For any exception proposed for truly user-supplied Note text/metadata, require an explicit, separately tested policy rather than assuming permission.
+- Positive tests: owner-authored Notes still work from the website; GPT can read permitted Notes; requested GPT Project/Question/Library authoring under current rights works. Negative tests: every GPT Note mutation path rejects atomically with no partial changes; failed Project writes do not create fallback Notes; permission and stale-revision denials are truthful.
+
+### P0 — extend existing contexts, not just append new blocks
+
+- PR #9 currently supplies a new-block `append_project_learning_material` operation. **That alone is insufficient:** add a bounded, owner-requested way for GPT to enrich/revise a suitable **existing context, page, section or block**, without automatically adding a new section or reconstructing every unrelated Project block.
+- First inspect the already working `apply_project_update` / `apply_minamo_command` targeted writers. Improve their discoverability/validation or provide a small safe wrapper, rather than creating a second persistence path. Preserve stable existing part IDs, learner edits, revisions, interactive data, source/translation adjacency, CAS and retry receipts.
+- Explicitly distinguish a relation's **source context** from the **destination record/passage address**; do not use the original Project `sectionId/partId` as though it names an external Library target. Missing/incorrect destinations must fail with actionable but rights-safe field errors.
+- Acceptance: a new chat reads an existing subject, adds new examples and a contextual interactive activity **inside that subject**, links source passages exactly, and readback proves previous content unchanged. Also verify valid compound edits (text + block + exact Library reference) where already supported. Avoid automatic duplication of grammar/reference material.
+
+### P1 — useful, itemised changes and evidence-aware continuity
+
+- Audit `read_project_changes` and other relevant revision diffs. Metadata-only changes to Project cover, favourites, visibility, arrangement, layout locks, linked source editions/locations and meaningful relationships must appear as exact itemised changes, not merely `arrangementChanged: true` with no explanation. Do not confuse a saved revision with a learning session or a claim of progress.
+- The compact Project outline should distinguish **explicit saved continuation** from **recent changes**, **last opened/read** and **learner-supplied evidence**. If a fact is unknown, leave it unknown; never infer understanding, effort, successful code execution or intended next steps from GPT prose or browsing history.
+- Preserve historical source editions and ambiguous/unavailable relationships visibly; no silent rebinding from old source IDs to apparently similar new ones. No auto-promotion of suggested matches into verified links.
+- Acceptance: an exact metadata-only change is visible in bounded history; a learner correction and a GPT explanation remain attributable and retrievable; conflicting research or superseded computing approaches are presented as evidence and interpretations, not flattened into the newest GPT summary.
+
+### P1 — presentation-aware GPT authoring and acceptance
+
+- PR #99 established that a correct `get_project_composition` result can coexist with **visibly broken** text (literal Markdown markers, wrong/double furigana, separated Japanese/English translations, giant disclaimers), or unverified audio/interactive behaviour.
+- Conduct an **actual rendered frontend/browser pass** after substantial authoring, comparing page purpose, original/translation adjacency, labels, responsive density, font/line wrapping, semantics and interactive controls. Use the existing browser/Sites access or a suitable isolated preview—**not an invented preview renderer**. Report browser/interaction access limitations explicitly.
+- Consider the smallest presentation-feedback contract only if browser acceptance demonstrates a repeatable gap; do not add a large screenshot/HTML ingestion system by default. No compulsory visual pass for each trivial edit.
+- Acceptance: new learner-facing material looks coherent, readable and properly situated in the Project; GPT's compact structural account agrees with visible navigation; the same test works for Japanese, computing and non-computing subjects.
+
+### P1 — clear authoring routing and failure recovery
+
+- Provide concise, discoverable MCP guidance that distinguishes **Project evolution**, **reusable Library resources**, **Questions**, **learner Notes**, **source references**, and **learner contributions**. Routine requested edits can be direct; previews are useful for uncertainty/large restructuring, not mandatory bureaucracy.
+- Return specific, non-leaking errors for wrong destination, missing part, read-only/preview-only preferences, revision conflicts and uncertain receipts. Recover an uncertain save by checking its existing operation ID and retrying **only the same exact payload**, rather than inventing a replacement operation or saving elsewhere.
+- Acceptance: fresh-chat authoring chooses the correct destination on the first reasonable attempt and truthfully acknowledges when the requested write cannot be completed.
+
+### Explicit limits / sequencing
+
+Prioritise the P0 authoring-rights and existing-context editing alongside the A–C implementation; implement P1 history/routing/presentation work where it directly closes this Project-experience slice. Track larger changes separately with evidence and owner review; **do not port all of legacy PR #99**. In particular, no mandatory Work threads, checkpoint/achievement tracker, parallel graph/database, unrequested Notes, blanket private-Lab source migration, synthetic data reset, extra personalisation dashboards, drawing licence change, packaged-game redevelopment, or production deployment. Keep one Work task and one draft PR #9, with explicit verified/unverified claims.
+
 ## Critical design risks to resolve, not conceal
 
 - The V175 base PR #7 is deployed to the main private Site but **unmerged** publicly, and Lab V165 is an independently evolved source/data branch. Deploying this feature over Lab without reconciliation is unsafe.
