@@ -51,22 +51,45 @@ The owner ran a **fresh conversation** that read an existing Japanese learning P
 
 Priorities are preliminary. None is a directive to build every item, alter stored learning data automatically, or replace the existing approach with a universal learning template.
 
-## Next test — second fresh-chat resumption (pending owner evidence)
+## Second fresh-chat resumption test — owner supplied response (12 November 2026)
 
-The owner will perform a **read-only fresh-chat test** and bring its response back. Suggested minimal request:
+**Outcome: successful read-only resumption at the saved handoff question.** The owner started another fresh chat with the short, topic-unspecified request to open Making Friends, locate the most recent Japanese speaking practice, resume naturally, and leave the Project unchanged. The owner then pasted the resulting answer here for evaluation; they deliberately **did not continue the lesson**.
 
-> Open my Making Friends Project in Minamo. Find my most recent Japanese speaking practice, understand what we covered and where we stopped, and continue teaching me naturally from there. Don't modify the Project.
+### Observed from the new chat's pasted answer
 
-**Assess before further design or implementation:**
+- It named the latest saved material, **Music, hobbies and spontaneous Japanese**, dated 12 November, without the prompt providing the topic.
+- It identified the core music context and relevant constructions: `〜たり〜たりする`, `〜のが好き`, `〜から`, `〜と思います` and `〜やすい`.
+- It explicitly distinguished a carefully composed extended Japanese response from spontaneous speaking ability, and proposed shorter spoken practice.
+- It retained the corrected conversational interpretation: the learner's affirmative `はい` was already an adequate answer. It also remembered the difference between playing an instrument and listening to music.
+- **It asked the exact saved continuation question:** `ピアノを弾くとき、どんな気持ちになりますか？` and waited for one or two short sentences. The prompt did not contain this question.
+- It explicitly said it had not changed Minamo. Its response used a friendly conversational format, with one Japanese question, an English translation and no achievement grading or quiz.
+- The owner reported **31 seconds** to obtain the response; this is an owner-observed value, **not an independently measured MCP execution time**.
 
-1. Did the fresh chat actually read the current Project and identify the latest music material, not guess it from the prompt?
-2. Did it locate the saved continuation question **without the owner restating it**?
-3. Did it distinguish carefully composed writing from spontaneous fluency and understand the previously corrected affirmative response?
-4. Did it ask only one appropriate new Japanese question and adapt its feedback appropriately, without imposing a test/score?
-5. What exact tools and amount of material were necessary? Was the context projection useful or too big/sparse?
-6. Did it avoid changing the Project in read-only test mode?
+### Independently cross-checked against the live Project
 
-Append the observed outcome and any contrary evidence here once received. Do not invent pass/fail results, and keep learner correspondence private.
+A separate read-only Minamo MCP call after receipt of the new-chat answer returned **revision 11**, unchanged since the first save. The section `music-conversation-20261112`, exact resumption question (`music-resume`) and correction about `はい` (`music-followup`) were present. This verifies consistency with the saved material and confirms **no Project revision was written** during the test.
+
+**Evidence boundary:** The pasted response is convincing evidence of successful source-specific retrieval and appropriate initial continuation, but is **not an authenticated tool trace**. The reviewer cannot establish which MCP actions were invoked, amount of content retrieved, any internal intermediate steps, actual server latency, or that no unpublished actions occurred. The saved unchanged Project revision supports the narrower no-write claim.
+
+### Acceptance against planned checks
+
+| Check | Outcome | Evidence / limit |
+|---|---|---|
+| Correct latest Project material identified | **Pass (response-supported)** | It named the saved music session and relevant contents |
+| Resume without owner specifying question | **Pass (response-supported, exact-match)** | It asked the exact saved Japanese question |
+| Preserve prepared-vs-spontaneous distinction and prior correction | **Pass (response-supported)** | Both appeared, without introducing new erroneous conclusions |
+| Ask a suitable question rather than a quiz | **Pass for initial turn** | One Japanese question with concise English scaffold; adaptive follow-up not exercised |
+| MCP efficiency and selected reads | **Not assessed** | No tool trace, token counts or precise timings available; 31 seconds user-reported |
+| Do not modify the Project | **Pass for saved revision** | Live MCP confirmed same revision 11; no new Project revision |
+
+### Implications for candidate backlog
+
+1. The basic **read prior Project → recover exact resumption point → start an appropriate fresh-chat lesson** workflow is now demonstrated twice in different ways, including the previously missing second fresh-chat handoff. Do not classify the core flow as broken.
+2. **Compact orientation / selective exact reads** remains a scalability optimisation, not a demonstrated blocker in this test. Avoid over-prioritising it solely from the large first composition read reported in the export.
+3. **Separating GPT guidance from learner-facing material, richer interactive authoring, explicit source relationships and simpler write contracts** remain candidates based on the saved content and prior authoring evidence. They were not exercised by this read-only test.
+4. Future acceptance should focus on the true remaining gaps: adaptive teaching across multiple answers, browser/mobile presentation of the saved lesson, cross-view discovery, and authoring without excessive metadata. No additional session is required from the owner tonight.
+
+**No changes to Project content, application code or deployment were made during this test review.**
 
 ## Scope and safety of follow-ups
 
