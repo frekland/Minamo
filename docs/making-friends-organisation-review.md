@@ -2,7 +2,7 @@
 
 ## Scope and evidence
 
-Reviewed the current saved Making Friends Project, revision 7, through Minamo's read-only Project composition and content tools on 12 November 2026. This report describes structural findings without reproducing private messages or identifying the other participant. It does not claim a fresh browser or interaction test. The project was not changed.
+Reviewed the current saved Making Friends Project, revision 7, through Minamo's read-only Project composition and content tools on 12 November 2026. This report describes structural findings without reproducing private messages or identifying the other participant. The structural findings below are based on that earlier connector inspection. A separate, clearly labelled browser review follows. The project was not changed.
 
 The review concerns a Japanese conversation-learning project built through natural GPT use and subsequently reorganised once. The owner's experience of continued confusion is the starting point; structural analysis below gives plausible explanations rather than claiming to measure the owner's attention or learning.
 
@@ -57,9 +57,31 @@ A single content block accommodates many types of material, so a GPT can append 
 
 This is a proposal for review, not an instruction to reorder or split the owner's Project. Any future reorganisation should preserve source texts, actual/suggested/hypothetical labels, existing editions, favourites, attached Notes, citations and stable destinations. It should preview the effects on existing links and provide a reversible path; no automatic data migration is recommended here.
 
+## Current browser review — 12 November 2026
+
+**Evidence and limits:** Inspected the signed-in production Project in the connected Chrome browser at revision 7 on a desktop viewport. Navigated the three Project sections, the first conversation's introduction and reply topics, both speaking-practice topics, and all five numbered pages of the longer exchange. Tested a translation disclosure, a flashcard answer reveal and next control, dialogue progression, and a sentence-explorer selection. No Project content or saved data was edited. This was a targeted inspection, not exhaustive accessibility, mobile, audio, persistence or authoring acceptance.
+
+### Observed navigation and organisation
+
+- The desktop view presents the three Project sections in a left rail and the selected section's topics across the content area. The first conversation has four meaningfully named topics; the inspected introduction places its translation immediately after the original, and the reply topic similarly places its translation after the Japanese reply. This qualifies finding 3 above: separation is not universal, and a future design should retain these useful pairings.
+- The longer exchange is **not one uninterrupted screen**: its 33-part block is presented as five selectable numbered topic pages. Page 1 places the original, translation, response and its English meaning in sequence, followed by analysis; subsequent pages include grammar, examples and practice, and page 5 includes an expression bank. This qualifies finding 1: pagination reduces the amount shown at once, but the pages repeat the same long topic name with only a number distinguishing them. In the desktop screenshot the labels were truncated, making their differences and destinations difficult to predict. Page 3 itself contained several substantial grammar explanations and example tables. Named, content-specific destinations or a compact contents list could make the existing pagination more useful.
+- The two speaking-practice topics are clearly named. One includes a dialogue rehearsal and the other combines flashcards, an adjustable sentence and a speaking challenge. Practice also appears within the longer exchange, confirming dispersed placement in this view; this does not establish duplication or prove that a single central practice area is the preferred solution.
+- The bottom Previous/Next controls identify the position among the **three Project sections** rather than the five numbered pages. This distinction is visible in the labelled controls but may be worth checking with users when navigating a long section.
+
+### Observed interactions and rendering
+
+- A reading exercise's translation disclosure opened and displayed its translation. A flashcard reveal changed the question to its answer; the Next control was activated, but its resulting card was not separately inspected before navigating away.
+- Reveal next turn added a second dialogue turn and changed the counter from 1 of 8 to 2 of 8. Changing one sentence-explorer selection with the keyboard updated both the Japanese sentence and English meaning. Speech controls and slow-speech toggles were present; audio playback was not assessed.
+- The current desktop rendering visibly displayed literal Markdown bold markers around a translation heading, corroborating that specific class of the historical PR #99 rendering concern in this view. This is an observation of the displayed content, not a diagnosis of the renderer or evidence that all Markdown is affected.
+- Furigana was enabled in the inspected view and the global control was visible. Reading quality, alignment across examples, toggle behaviour and mobile layout were not systematically tested. The Notes strip and navigation rail were visible; this review does not establish that they are cluttered.
+
+### Implications for future work
+
+Keep the existing original/translation pairings and working practice interactions while making long content destinations identifiable by purpose, not just page number. Consider source-linked navigation between explanations and exercises as a testable design option rather than adding a new mandatory workflow. For PR #99 continuity and authoring work, test whether naturally added material can acquire a clear destination and retain stable links and editions; this browser review did not verify the underlying link model or persistence. Reproduce the literal formatting issue with representative content before choosing a fix.
+
 ## Relationship to legacy PR #99
 
-[Legacy PR #99](https://github.com/frekland/Minamo-legacy-2/pull/99) covers connected workspaces, continuity and GPT authoring. Its prior browser review reported issues in an earlier Making Friends arrangement, including contextual reading aids, displayed Markdown and distance between a reply and its translation. Those are historical observations from a different inspection; this review did not reproduce or verify them on the current Project. PR #99 also notes that its navigation rail and Notes strip worked better than an earlier text-only report suggested: do not treat those as confirmed clutter.
+[Legacy PR #99](https://github.com/frekland/Minamo-legacy-2/pull/99) covers connected workspaces, continuity and GPT authoring. Its prior browser review reported issues in an earlier Making Friends arrangement, including contextual reading aids, displayed Markdown and distance between a reply and its translation. Those are historical observations from a different inspection. The current browser review above separately reproduces literal bold markers in one heading; it does not establish the other historical defects. PR #99 also notes that its navigation rail and Notes strip worked better than an earlier text-only report suggested: do not treat those as confirmed clutter.
 
 This current revision adds evidence for the PR's future authoring and continuity work: a Project needs discoverable, granular destinations; source-linked practice; safe structural edits; and exact-edition continuity. Consider these as acceptance scenarios, not as a mandate to import the legacy Lab or to add mandatory checkpoints, progress dashboards or another persistence layer.
 
@@ -71,4 +93,4 @@ This current revision adds evidence for the PR's future authoring and continuity
 4. Use the same exercise from its exchange and the practice index without duplicating the saved material.
 5. Check current desktop and mobile rendering, keyboard navigation and reading aids separately; reproduce any PR #99 visual defect before calling it current.
 
-No product changes, browser acceptance or Project edits are included in this report.
+No product changes or Project edits are included in this report. The targeted browser review above is not full browser acceptance.
