@@ -13,7 +13,8 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-concurrency=2 tests/*.test.mjs"
+    "test": "node --test --test-concurrency=2 tests/*.test.mjs",
+    "backup:snippet": "node scripts/build-legacy-library-backup-snippet.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
