@@ -65,7 +65,7 @@ export async function inspectLibraryArchive(file:File,fetcher:typeof fetch,scope
  // independent family requests. A route denial remains an ordinary preview
  // error; the page-level guard separately checks explicit identity evidence.
  const existing=new Set<string>();let cursor='';for(let p=0;p<500;p++){
-  const params=new URLSearchParams({limit:'100',...(cursor?{cursor}:{})});
+  const params=new URLSearchParams({limit:'60',...(cursor?{cursor}:{})});
   const res=await fetcher('/api/query?'+params,{credentials:'same-origin',cache:'no-store',headers:{'x-minamo-generation':scope}});
   if(!res.ok)throw Error(`Current workspace inventory is unavailable (HTTP ${res.status}). No import was started.`);
   const data=await res.json() as {records?:Array<{family:string;id:string}>;nextCursor?:string|null};
