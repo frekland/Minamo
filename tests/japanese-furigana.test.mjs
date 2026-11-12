@@ -15,3 +15,9 @@ test('C3: ruby annotates kanji rather than kana and retains literal source',()=>
  assert.deepEqual(alignedJapaneseRuns('食べる','ちがいます'),[{text:'食べる'}]);
  assert.deepEqual(japaneseFuriganaRuns('未知の単語'),[{text:'未知の単語'}]);
 });
+
+test('contextual compounds and explicit readings never receive conflicting partial readings',()=>{
+ assert.deepEqual(japaneseFuriganaRuns('今朝'),[{text:'今朝',reading:'けさ'}]);
+ assert.deepEqual(japaneseFuriganaRuns('何時'),[{text:'何時',reading:'なんじ'}]);
+ for(const text of ['日本語（にほんご）','今朝（けさ）','何時(なんじ)','朝日'])assert.equal(japaneseFuriganaRuns(text).some(run=>run.reading),false);
+});
