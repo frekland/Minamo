@@ -32,7 +32,7 @@ Adapt the roles for different subjects. Omit empty categories; do not manufactur
 
 Synthetic tests cover actual browser-worker bundle/dictionary loading, representative compound and inflected readings, exact text preservation, irregular-word handling, unknown/explicit-reading behaviour, cross-section routing, hidden targets, global-edit preview, ownership, CAS and retries. The worker test uses a local VM/XHR harness; it is not a claim of browser visual or mobile acceptance. Browser control still failed to initialise during this work. Current screenshots supplied by the owner identified the clipping/overlap; CSS changes require a user/browser smoke check after release.
 
-Making Friends is reorganised through the revisioned global-edit tool after release, with complete part coverage and source text preservation checked by readback. No private correspondence is included in this engineering document.
+The owner will reorganise Making Friends in a separate normal GPT chat after release. That chat should use the revisioned global-edit tool and verify complete part coverage and source-text preservation by readback. No saved Project was changed in this implementation task. No private correspondence is included in this engineering document.
 
 ## Release checks
 
