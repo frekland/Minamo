@@ -13,7 +13,8 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --test-concurrency=2 tests/*.test.mjs"
+    "test": "node --test --test-concurrency=2 tests/*.test.mjs",
+    "backup:snippet": "node scripts/build-legacy-library-backup-snippet.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -71,7 +72,8 @@
     "tldraw": "5.5.2",
     "unified": "^11.0.5",
     "vaul": "^1.1.2",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "fflate": "^0.8.3"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",

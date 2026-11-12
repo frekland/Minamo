@@ -20,16 +20,25 @@ test('focus, visibility and polling share one session request; confirmed loss fe
  const late=deferred(),disposed=ui.createSessionMonitor({expectedScope:identity.scope,expectedGeneration:identity.generation,read:()=>late.promise,onValid:()=>assert.fail('late identity must not publish'),onFence:()=>assert.fail('disposed session cannot redirect a new page')});const result=disposed.check();disposed.dispose();late.resolve(response({...identity,generation:'restored@1'}));assert.equal(await result,'disposed');
 });
 
+test('returning from the file picker revalidates a valid owner without fencing the page',async()=>{
+ let clock=0,calls=0,fences=0,valid=0,next=0;const target=new EventTarget(),visibilityTarget=new EventTarget(),timers=new Map();
+ const coordinator=ui.createForegroundCoordinator({target,visibilityTarget,isVisible:()=>true,now:()=>clock,setTimer:fn=>{timers.set(++next,fn);return next;},clearTimer:id=>timers.delete(id)});
+ const monitor=ui.createSessionMonitor({expectedScope:identity.scope,expectedGeneration:identity.generation,now:()=>clock,cooldownMs:0,read:async()=>{calls++;return response(identity,200,identity.scope);},onValid:()=>valid++,onFence:()=>fences++});
+ const unsubscribe=coordinator.subscribe(()=>void monitor.check());clock=16000;target.dispatchEvent(new Event('focus'));visibilityTarget.dispatchEvent(new Event('visibilitychange'));for(const fn of [...timers.values()])fn();timers.clear();await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(calls,1);assert.equal(valid,1);assert.equal(fences,0);monitor.dispose();unsubscribe();coordinator.dispose();
+});
+
 test('explicit principal/generation/auth loss fences, malformed and503 session replies remain transient',async()=>{
  for(const reply of [response(identity,200,'scope-B'),response({...identity,scope:'scope-B'}),response({...identity,generation:'restored@1'}),response({},401,null),response({},403,'scope-A'),response({code:'generation_conflict'},409),new Response('{}',{status:200,headers:{'X-Minamo-Generation':'restored@1'}})])assert.equal((await ui.sessionResponseDecision(reply,'scope-A','legacy@0')).state,'fenced');
  for(const reply of [response({},503),response({scope:'scope-A'}),new Response('<html>Unavailable</html>',{status:200})])assert.equal((await ui.sessionResponseDecision(reply,'scope-A','legacy@0')).state,'transient');
  assert.equal((await ui.sessionResponseDecision(response(identity),'scope-A','legacy@0')).state,'valid');
 });
 
-test('ordinary denied material does not discard the session; exact generation conflicts and wrong principals fence immediately',async()=>{
+test('ordinary denied routes do not discard the session; exact generation conflicts and wrong principals fence immediately',async()=>{
  assert.equal(await ui.workspaceResponseInvalidatesSession(response({error:'Material unavailable'},403),'scope-A','legacy@0'),false);
  assert.equal(await ui.workspaceResponseInvalidatesSession(response({error:'Storage offline'},503),'scope-A','legacy@0'),false);
- for(const reply of [response({},401,null),response({},403,null),response({},200,'scope-B'),response({code:'generation_conflict'},409),response({code:'principal_changed'},409)])assert.equal(await ui.workspaceResponseInvalidatesSession(reply,'scope-A','legacy@0'),true);
+ assert.equal(await ui.workspaceResponseInvalidatesSession(new Response(JSON.stringify({code:'family_denied'}),{status:403,headers:{'X-Minamo-Generation':'legacy@0'}}),'scope-A','legacy@0'),false,'ordinary API 403 without principal metadata is not identity evidence');
+ for(const reply of [response({},401,null),response({},200,'scope-B'),response({code:'generation_conflict'},409),response({code:'principal_changed'},409),new Response('{}',{status:403,headers:{'X-Minamo-Principal':'scope-B'}})])assert.equal(await ui.workspaceResponseInvalidatesSession(reply,'scope-A','legacy@0'),true);
  const conflict=response({code:'revision_conflict'},409);assert.equal(await ui.workspaceResponseInvalidatesSession(conflict,'scope-A','legacy@0'),false);assert.deepEqual(await conflict.json(),{code:'revision_conflict'},'classification never consumes caller response body');
 });
 
