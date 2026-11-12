@@ -61,7 +61,18 @@ export async function inspectLibraryArchive(file:File,fetcher:typeof fetch,scope
  for(const a of manifest.assets){if(!a||typeof a.path!=='string'||!safePath(a.path)||!/^assets\/(image|media)\/(image|media)-[a-f0-9]{64}\.[a-z0-9]{2,5}$/.test(a.path)||!Number.isSafeInteger(a.bytes)||! /^[a-f0-9]{64}$/.test(a.sha256))throw Error('Malformed asset manifest entry.');expected.add(a.path);const b=files[a.path];if(!b||b.length!==a.bytes||await sha(b)!==a.sha256)throw Error('Asset size or digest mismatch.');}
  if(fileNames.length!==expected.size||fileNames.some(n=>!expected.has(n)))throw Error('Archive has unreferenced or unexpected entries.');
  if(records.length!==manifest.counts.records)throw Error('Current record count does not match manifest.');
- const existing=new Set<string>();for(const family of ['journey','work','investigation','article','area','note','annotation','flag','source','experiment','run']){let cursor='';for(let p=0;p<500;p++){const params=new URLSearchParams({family,limit:'100',...(cursor?{cursor}:{})});const res=await fetcher('/api/query?'+params,{credentials:'same-origin',cache:'no-store',headers:{'x-minamo-generation':scope}});if(!res.ok)throw Error('Current workspace could not be checked for collisions and relationships.');const data=await res.json() as {records?:Array<{family:string;id:string}>;nextCursor?:string|null};if(!Array.isArray(data.records))throw Error('Current workspace response is malformed.');for(const x of data.records)existing.add(`${x.family}:${x.id}`);if(!data.nextCursor)break;cursor=data.nextCursor;if(p===499)throw Error('Current workspace is too large to safely inventory.');}}
+ // One all-family query gives the same collision/link coverage without eleven
+ // independent family requests. A route denial remains an ordinary preview
+ // error; the page-level guard separately checks explicit identity evidence.
+ const existing=new Set<string>();let cursor='';for(let p=0;p<500;p++){
+  const params=new URLSearchParams({limit:'100',...(cursor?{cursor}:{})});
+  const res=await fetcher('/api/query?'+params,{credentials:'same-origin',cache:'no-store',headers:{'x-minamo-generation':scope}});
+  if(!res.ok)throw Error(`Current workspace inventory is unavailable (HTTP ${res.status}). No import was started.`);
+  const data=await res.json() as {records?:Array<{family:string;id:string}>;nextCursor?:string|null};
+  if(!Array.isArray(data.records))throw Error('Current workspace inventory response is malformed. No import was started.');
+  for(const x of data.records){if(typeof x?.family!=='string'||typeof x?.id!=='string')throw Error('Current workspace inventory contains an invalid record identity. No import was started.');existing.add(`${x.family}:${x.id}`);}
+  if(!data.nextCursor)break;cursor=data.nextCursor;if(p===499)throw Error('Current workspace is too large to safely inventory. No import was started.');
+ }
  const ids=new Set([...records.map(r=>`${r.family}:${r.id}`),...existing]);
  let unresolvedLinks=0;for(const r of records)for(const link of r.links as Array<{family?:string;id?:string}>){if(!link||typeof link.family!=='string'||typeof link.id!=='string')throw Error('Malformed record relationship.');if(!ids.has(`${link.family}:${link.id}`))unresolvedLinks++;}
  const collisions=records.filter(r=>existing.has(`${r.family}:${r.id}`)).map(r=>`${r.family}:${r.id}`),synthetic=records.filter(r=>r.synthetic===true).map(r=>`${r.family}:${r.id}`);
