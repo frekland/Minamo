@@ -74,7 +74,7 @@ function zip(files: Array<{name:string;data:Uint8Array}>): Blob {
  const end=new Uint8Array(22),e=new DataView(end.buffer);
  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);
  e.setUint32(12,dirSize,true);e.setUint32(16,dirOffset,true);
- return new Blob([...pieces,...directory,end],{type:'application/zip'});
+ return new Blob([...pieces,...directory,end].map(part=>part instanceof Uint8Array?new Uint8Array(part).buffer:part as BlobPart),{type:'application/zip'});
 }
 function assetIds(record:BackupRecord){const set=new Set<string>(),seen=new WeakSet<object>();
  const walk=(node:unknown)=>{if(!node||typeof node!=='object'||seen.has(node))return;seen.add(node);
@@ -94,8 +94,8 @@ export async function buildLibraryBackup(options:LibraryBackupOptions):Promise<L
  const url=(path:string,params:Record<string,string>)=>{const u=new URL(path,origin);for(const [key,value]of Object.entries(params))u.searchParams.set(key,value);return u.toString();};
  async function request(path:string,params:Record<string,string>={}):Promise<{data:any;response:Response}> {
   const response=await options.fetcher(url(path,params),{credentials:'same-origin',cache:'no-store',headers:generation?{'x-minamo-generation':generation}:{}});
-  if(!response.ok){const body=await response.json().catch(()=>({}));throw Error(`${path}: ${response.status} ${body?.error??body?.code??'Request failed'}`);}
-  const data=await response.json();if(data?.generation){if(generation&&data.generation!==generation)throw Error('Workspace generation changed during backup. No mixed-generation archive was downloaded.');generation=data.generation;}
+  if(!response.ok){const body=await response.json().catch(()=>({})) as Record<string,unknown>;throw Error(`${path}: ${response.status} ${body?.error??body?.code??'Request failed'}`);}
+  const data=await response.json() as Record<string,any>;if(data?.generation){if(generation&&data.generation!==generation)throw Error('Workspace generation changed during backup. No mixed-generation archive was downloaded.');generation=data.generation;}
   return {data,response};
  }
  async function inventory(family:typeof families[number]):Promise<BackupRecord[]> {
@@ -191,6 +191,6 @@ export async function buildLibraryBackup(options:LibraryBackupOptions):Promise<L
 /** Only call inside an owner-controlled authenticated Minamo page after user action. */
 export async function downloadLibraryBackup(options:LibraryBackupOptions):Promise<LibraryBackupResult>{
  const result=await buildLibraryBackup(options);const href=URL.createObjectURL(result.file);
- try{const anchor=document.createElement('a');anchor.href=href;anchor.download=result.filename;anchor.style.display='none';document.body.append(anchor);anchor.click();anchor.remove();}finally{setTimeout(()=>URL.revokeObjectURL(href),10000);}
+ try{const anchor=document.createElement('a');anchor.href=href;anchor.download=result.filename;anchor.style.display='none';document.body.appendChild(anchor);anchor.click();anchor.remove();}finally{setTimeout(()=>URL.revokeObjectURL(href),10000);}
  return result;
 }
