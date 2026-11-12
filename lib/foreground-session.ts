@@ -11,10 +11,12 @@ export async function sessionResponseDecision(response:Response,expectedScope:st
  if(!identityText(value?.scope)||!identityText(value?.generation)||!['owner','learner'].includes(value?.role))return {state:'transient'};
  return {state:'valid',identity:{scope:value.scope,generation:value.generation,role:value.role}};
 }
-/** An ordinary record permission failure is not an account change; explicit session fences remain immediate. */
+/** Ordinary route denials are not identity evidence. The session endpoint has
+ * its own stricter 403 rule in sessionResponseDecision; other routes fence only
+ * on explicit authentication, principal, or generation evidence. */
 export async function workspaceResponseInvalidatesSession(response:Response,expectedScope:string,expectedGeneration:string):Promise<boolean>{
  const principal=response.headers.get('X-Minamo-Principal'),generation=response.headers.get('X-Minamo-Generation');
- if(response.status===401||response.status===403&&principal===null||principal!==null&&principal!==expectedScope||generation!==null&&generation!==expectedGeneration)return true;
+ if(response.status===401||principal!==null&&principal!==expectedScope||generation!==null&&generation!==expectedGeneration)return true;
  if(response.status!==409)return false;
  try{const data=await response.clone().json() as {code?:string};return data.code==='principal_changed'||data.code==='generation_conflict';}catch{return false;}
 }
