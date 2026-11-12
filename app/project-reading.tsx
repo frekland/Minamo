@@ -4,6 +4,8 @@ import {ArrowLeft,ArrowRight,ChevronLeft,ChevronRight,Pencil,X} from 'lucide-rea
 import type {PassagePart,WorkspaceRecord} from '../lib/contracts';
 import type {ProjectComposition} from '../lib/project-composition';
 import {projectReadingTopics} from '../lib/project-reading-topics';
+import {projectLearningMap} from '../lib/project-learning-map';
+import ProjectContextOverview from './project-context-overview';
 import {isProjectObservationEvidencePart} from '../lib/project-observation-display';
 import Reader,{type ReaderProps} from './reader';
 import ProjectContributions from './project-contributions';
@@ -11,6 +13,8 @@ import './project-reading.css';
 
 export default function ProjectReading({reader,record,composition,onEdit,reference,referenceTitles,onVisibleTopic}:{reader:ReaderProps;record:WorkspaceRecord;composition:ProjectComposition;onEdit:(blockId:string)=>void;reference:(block:ProjectComposition['blocks'][number])=>ReactNode;referenceTitles?:Readonly<Record<string,string>>;onVisibleTopic?:(location:{rendition:string;sectionId?:string;partId?:string})=>void}){
  const topics=useMemo(()=>projectReadingTopics(composition,record.sections,referenceTitles),[composition,record.sections,referenceTitles]);
+ const learning=useMemo(()=>projectLearningMap(composition,record.sections,referenceTitles),[composition,record.sections,referenceTitles]);
+ const [exploring,setExploring]=useState(false);
  const layouts=composition.sections.filter(s=>!s.hidden&&topics.some(t=>t.layoutId===s.id));
  const anchor=reader.anchorTarget;
  const initial=topics.find(t=>t.sectionId===anchor?.sectionId&&(!anchor?.partId||t.partIds.includes(anchor.partId)));
@@ -46,8 +50,15 @@ export default function ProjectReading({reader,record,composition,onEdit,referen
   return <ProjectContributions key={record.id+':'+sectionId+':'+part.id} target={{projectId:record.id,sectionId,partId:part.id}} kind={kind} columns={columns} language={language} scope={reader.draftScope} projectRev={record.rev}/>;
  }
  if(!layout||!topic)return <section className="pc-reading-empty"><p>{record.body||'This Project is ready for its first section.'}</p><button type="button" onClick={()=>onEdit('')}>Edit Project content</button></section>;
+ const openTopic=(topicId:string)=>{const destination=topics.find(t=>t.id===topicId);if(!destination)return;setChosenLayout(destination.layoutId);setChosenTopic(destination.id);setExploring(false);};
+ if(exploring)return <div className="pc-native-reading pc-explore-reading">
+  <div className="pc-project-mode"><button type="button" onClick={()=>setExploring(false)}><ArrowLeft size={15} aria-hidden="true"/> Back to reading</button></div>
+  <ProjectContextOverview map={learning} onOpen={openTopic}/>
+ </div>;
  const block=composition.blocks.find(b=>b.id===topic.blockId);
+ const context=topic.contextId?learning.contexts.find(c=>c.id===topic.contextId):undefined;
  return <div className={'pc-native-reading pc-reading-'+layout.pattern}>
+  <div className="pc-project-mode"><button type="button" onClick={()=>setExploring(true)} aria-label="Explore subjects and learning material in this Project">Explore project</button></div>
   {lastOpened&&<div className="pc-last-opened"><span>Last opened: {lastOpened.title}</span><button type="button" onClick={()=>{setChosenLayout(lastOpened.layoutId);setChosenTopic(lastOpened.id);setLastOpened(null);}}>Return to section</button><button type="button" aria-label="Dismiss last opened section" onClick={()=>setLastOpened(null)}><X size={15}/></button></div>}
   <nav className="pc-reading-mobile-nav" aria-label="Project section navigation">
    <label className="pc-reading-mobile-label" htmlFor="pc-reading-mobile-section">Project section</label>
@@ -60,6 +71,7 @@ export default function ProjectReading({reader,record,composition,onEdit,referen
   <div className="pc-reading-body">
    {layoutTopics.length>1?<div className="pc-reading-topic-row"><nav className="pc-reading-topics" aria-label="Topics in this section" role="tablist">{layoutTopics.map(t=><button key={t.id} type="button" role="tab" aria-selected={topic.id===t.id} tabIndex={topic.id===t.id?0:-1} onKeyDown={event=>keys(event,layoutTopics.map(t=>t.id),topic.id,setChosenTopic)} onClick={()=>setChosenTopic(t.id)} title={t.title}>{t.title}</button>)}</nav><button className="pc-reading-topic-edit" type="button" aria-label="Edit this Project section" title="Edit section" onClick={()=>onEdit(topic.blockId)}><Pencil size={17} aria-hidden="true"/></button></div>:<div className="pc-reading-section-actions"><button type="button" aria-label="Edit this Project section" title="Edit section" onClick={()=>onEdit(topic.blockId)}><Pencil size={17} aria-hidden="true"/></button></div>}
    {(topic.provenance||topic.source)&&<div className="pc-reading-section-actions">{topic.provenance&&<small>{({'user-reported':'User-reported material','gpt-authored':'GPT-authored material','hypothetical':'Practice example','source-excerpt':'Source excerpt'} as Record<string,string>)[topic.provenance]}</small>}{topic.source&&topics.some(t=>t.sectionId===topic.source!.sectionId&&t.partIds.includes(topic.source!.partId))&&<button type="button" onClick={()=>{const source=topics.find(t=>t.sectionId===topic.source!.sectionId&&t.partIds.includes(topic.source!.partId));if(source){setChosenLayout(source.layoutId);setChosenTopic(source.id);}}}>Source passage</button>}</div>}
+   {context&&context.topicIds.length>1&&<details className="pc-context-related"><summary>Related material in {context.title}</summary><nav aria-label="Related Project material">{context.topicIds.filter(id=>id!==topic.id).map(id=>{const item=topics.find(x=>x.id===id);return item?<button key={id} type="button" onClick={()=>openTopic(id)}>{item.title}</button>:null;})}</nav></details>}
    <div className="pc-reading-material" role="tabpanel" aria-label={topic.title}>
     {topic.kind==='reference'&&block?.ref?reference(block):<Reader {...reader} article={record} compactHeader arrangeSections={nodes=>nodes} visibleSectionIds={[topic.sectionId]} visiblePartIds={topic.partIds} renderAfterPart={contribution}/>}
    </div>
