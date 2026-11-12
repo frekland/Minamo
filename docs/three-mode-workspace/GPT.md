@@ -1,0 +1,15 @@
+# Exact GPT intentions
+
+The two visible actions prepare clipboard requests only. They invoke no GPT connector, send no conversation, create no checkpoint and grant no write authority.
+
+**Continue this task with GPT** uses the exact Investigation or selected Journey stage and the existing focused tutor projection. A whole Journey or unavailable stage never guesses its first stage. Its return link independently retains the selected authored edition; current task eligibility and saved learning remain server-owned.
+
+**Discuss this reading with GPT** uses the resolved eligible displayed rendition. Saved capture and explicit section/part/range/multi-range destinations now feed its existing exact selector support through `readingDiscussionSelection`. The helper reuses the canonical Reader's capture/range validation. UTF-16 boundaries, contiguous ranges, current availability and source display/origin mapping must match that displayed edition. An invalid or unavailable explicit focus disables preparation with an explanation; it never silently falls back to the whole record or current edition. An unfocused ordinary reading remains a whole-record discussion. Native passage selection retains the familiar Flag / Annotate toolbar; opening an exact saved passage or explicit destination then using the reading action supplies its focus.
+
+At most eight related records remain deliberately selected in the existing dialog. No local resource shelf, unsaved Note text, pending image or unsaved conversation is automatically included. Quotes, titles and writing are not copied into tool coordinates or return URLs. The source permission check belongs to the existing context read when the owner later pastes the request into a conversation.
+
+The existing capture contract intentionally accepts a single Source excerpt at a time. An explicit section spanning a Source excerpt and independent prose asks the owner to choose an exact eligible passage, rather than inventing one capture origin. This is an explicit restriction, not a hidden broadening. Whole-reading discussion and deliberately selected related records remain available without such a passage focus.
+
+Stable reading-action/disclosure component identity retains an open dialog's selected related records and optional question when only its surrounding presentation changes. Closing the reading or task dialog now returns focus to a still-visible trigger or the visible enclosing disclosure summary, rather than focusing an obscured trigger after a device preference changes elsewhere. Exact record/focus changes intentionally clear an obsolete request.
+
+`tests/three-mode-gpt-focus.test.mjs` exercises retained Unicode/CRLF/path selectors, ordered ranges, invalid focus rejection and actual isolated Worker/D1 Source admission/display/revocation. The existing intent/navigation suites independently exercise exact task stages, retained/current differences, request economy and current-rights behavior. These tests do not execute a fresh ChatGPT conversation; browser clipboard/dialog evidence is recorded separately by the owning acceptance run.

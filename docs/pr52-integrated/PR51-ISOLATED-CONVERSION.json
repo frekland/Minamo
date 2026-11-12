@@ -1,0 +1,1128 @@
+{
+  "kind": "isolated-pr51-conversion-v1",
+  "sourceRef": "f8cb60dc1466e514df77cc2087e6c704a4a150e2",
+  "publication": false,
+  "units": 24,
+  "cues": 325,
+  "resolved": 291,
+  "diagnosed": 34,
+  "allCanonicalReadbacksExact": true,
+  "results": [
+    {
+      "path": "n5/01-kana-and-greetings.md",
+      "sourceSha256": "161ca7c4683faf3e3e982a3622b44441e47ec365dfa4066bfb692a65fb5e4ddb",
+      "canonicalSha256": "09b79feb182021afec32f1f28ab0e219780da906fa016d434e159434adc6142b",
+      "cueCount": 1,
+      "resolved": 0,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 2,
+              "before": "",
+              "after": "：おはようございます。\nエマ：おはようございます"
+            },
+            {
+              "start": 37,
+              "end": 39,
+              "before": "\nエマ：おはようございます。わたしはエマです。\n",
+              "after": "：エマさん、こんにちは。\nエマ：こんにちは。あり"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "先生"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/02-identity-and-possessions.md",
+      "sourceSha256": "5f969a88e5c40501f0f684d323096a406cdea39b33f31ae68fe6615e671f1acc",
+      "canonicalSha256": "4a2cc98abec6a92d968e6ab212c0ff6e367a4b88e4171143db0b3fae1fb89dad",
+      "cueCount": 7,
+      "resolved": 5,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 7,
+              "end": 10,
+              "before": "私はミナです。",
+              "after": "です。\n友達のリオさんも大学生です。\nこれは日本"
+            },
+            {
+              "start": 22,
+              "end": 25,
+              "before": "私はミナです。大学生です。\n友達のリオさんも",
+              "after": "です。\nこれは日本語の本です。\nあれは先生の辞書"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "大学生"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[4]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 33,
+              "end": 34,
+              "before": "生です。\n友達のリオさんも大学生です。\nこれは日",
+              "after": "語の本です。\nあれは先生の辞書です。"
+            },
+            {
+              "start": 36,
+              "end": 37,
+              "before": "。\n友達のリオさんも大学生です。\nこれは日本語の",
+              "after": "です。\nあれは先生の辞書です。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "本"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/03-time-and-schedules.md",
+      "sourceSha256": "597c77451c01505242b812f177ed3a7a6627cc93569405409167f086cfac53cf",
+      "canonicalSha256": "f8b227a7edb751aaab3bfbbcf71475597f3af27e34a29bd66b80afebc1604e39",
+      "cueCount": 11,
+      "resolved": 11,
+      "diagnostics": [],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/04-places-and-existence.md",
+      "sourceSha256": "99f10904a14a3289dab543e23bcdfde55107968130b17f7ce50b7dc6df427659",
+      "canonicalSha256": "386872c466433caf7dbb5eaa52f4e9676a02c94a744530941bbc2782709c3b28",
+      "cueCount": 10,
+      "resolved": 8,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 3,
+              "before": "",
+              "after": "は駅の隣です。\n図書館に学生がいます。\n机の上に"
+            },
+            {
+              "start": 11,
+              "end": 14,
+              "before": "図書館は駅の隣です。\n",
+              "after": "に学生がいます。\n机の上に日本語の本があります。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "図書館"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[7]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 28,
+              "end": 29,
+              "before": "駅の隣です。\n図書館に学生がいます。\n机の上に日",
+              "after": "語の本があります。\n先生は教室にいます。"
+            },
+            {
+              "start": 31,
+              "end": 32,
+              "before": "です。\n図書館に学生がいます。\n机の上に日本語の",
+              "after": "があります。\n先生は教室にいます。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "本"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/05-daily-routine-and-verbs.md",
+      "sourceSha256": "956610fe1f3edae7e9369281e88861be8fc0300f792f5bd86113ac01e506621d",
+      "canonicalSha256": "a34534569251e43a05aa377b0778b14b7800ed278d364ab6d41199b09a1a4c1e",
+      "cueCount": 14,
+      "resolved": 14,
+      "diagnostics": [],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/06-shopping-and-food.md",
+      "sourceSha256": "b5fae316eabb72e9b37e8a2f33868cfa90e5654c58b670a9f810d845a4cf2701",
+      "canonicalSha256": "3b72f6638f50c2cf4b5e14f019ccd3928476b84041bb44b83383004d901c8082",
+      "cueCount": 6,
+      "resolved": 4,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 1,
+              "before": "",
+              "after": "：すみません。このパンはいくらですか。\n店員：百"
+            },
+            {
+              "start": 30,
+              "end": 31,
+              "before": "ん。このパンはいくらですか。\n店員：百円です。\n",
+              "after": "：パンを二つと、お茶を一つください。\n店員：はい"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "客"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 21,
+              "end": 23,
+              "before": "客：すみません。このパンはいくらですか。\n",
+              "after": "：百円です。\n客：パンを二つと、お茶を一つくださ"
+            },
+            {
+              "start": 50,
+              "end": 52,
+              "before": "です。\n客：パンを二つと、お茶を一つください。\n",
+              "after": "：はい。ありがとうございます。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "店員"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/07-describing-things.md",
+      "sourceSha256": "bfbcf1bc2792a7c1b08615fb93d2e8d699f259779e65fb9dc060dc4fc8f4e52f",
+      "canonicalSha256": "cf4a3db0d5965982f14094a601bd0fe87b8ae9e0964fefa88bd50957e73eeda4",
+      "cueCount": 10,
+      "resolved": 7,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 1,
+              "before": "",
+              "after": "の町は小さいですが、便利です。\n駅の近くに新しい"
+            },
+            {
+              "start": 45,
+              "end": 46,
+              "before": "に新しい図書館があります。\n図書館は静かです。\n",
+              "after": "はこの町が好きです。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "私"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 2,
+              "end": 3,
+              "before": "私の",
+              "after": "は小さいですが、便利です。\n駅の近くに新しい図書"
+            },
+            {
+              "start": 49,
+              "end": 50,
+              "before": "図書館があります。\n図書館は静かです。\n私はこの",
+              "after": "が好きです。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "町"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[7]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 25,
+              "end": 28,
+              "before": "の町は小さいですが、便利です。\n駅の近くに新しい",
+              "after": "があります。\n図書館は静かです。\n私はこの町が好"
+            },
+            {
+              "start": 35,
+              "end": 38,
+              "before": "便利です。\n駅の近くに新しい図書館があります。\n",
+              "after": "は静かです。\n私はこの町が好きです。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "図書館"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 30,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/08-transport-and-directions.md",
+      "sourceSha256": "bcec0014d8ec5b0f4cbae5b9069dfb8b76c5ae941b58a53a80574a9ca3393e66",
+      "canonicalSha256": "363b67265f01d401caa9414b2ba38c2f145191f37a7a9ee8d9c42d9586b8e76d",
+      "cueCount": 11,
+      "resolved": 9,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 1,
+              "before": "",
+              "after": "から図書館まで歩いて行きます。\n駅の出口を出て、"
+            },
+            {
+              "start": 17,
+              "end": 18,
+              "before": "駅から図書館まで歩いて行きます。\n",
+              "after": "の出口を出て、まっすぐ歩きます。\n二つ目の交差点"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "駅"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 3,
+              "end": 6,
+              "before": "駅から",
+              "after": "まで歩いて行きます。\n駅の出口を出て、まっすぐ歩"
+            },
+            {
+              "start": 52,
+              "end": 55,
+              "before": "ぐ歩きます。\n二つ目の交差点で右に曲がります。\n",
+              "after": "は左にあります。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "図書館"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 30,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/09-te-form-and-requests.md",
+      "sourceSha256": "7e252a36c4f2fa89ecafe644ff27a35ba075ab3d30801a319cacf6057b4c7fb1",
+      "canonicalSha256": "60dfbed4a131655831fdfb771a2dfef05525134f0555f6daa5bc7e46e48ed109",
+      "cueCount": 7,
+      "resolved": 4,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 2,
+              "before": "",
+              "after": "：この文を読んでください。\n学生：すみません。も"
+            },
+            {
+              "start": 43,
+              "end": 45,
+              "before": "すみません。もう一度、ゆっくり話してください。\n",
+              "after": "：はい。読んでから、ノートに書いてください。\n学"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "先生"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[2]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 7,
+              "end": 10,
+              "before": "先生：この文を",
+              "after": "ください。\n学生：すみません。もう一度、ゆっくり"
+            },
+            {
+              "start": 49,
+              "end": 52,
+              "before": "もう一度、ゆっくり話してください。\n先生：はい。",
+              "after": "から、ノートに書いてください。\n学生：わかりまし"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "読んで"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[3]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 16,
+              "end": 18,
+              "before": "先生：この文を読んでください。\n",
+              "after": "：すみません。もう一度、ゆっくり話してください。"
+            },
+            {
+              "start": 68,
+              "end": 70,
+              "before": "生：はい。読んでから、ノートに書いてください。\n",
+              "after": "：わかりました。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "学生"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 30,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/10-past-events-and-invitations.md",
+      "sourceSha256": "1cc7a74eb4175d59b263ca7e3c8903bd60c1a398da029b7427bc8db4ad87b684",
+      "canonicalSha256": "d18aeabd71a707c5fc4d7f1c6876221e1492ba5554da86655b3862fbbf870070",
+      "cueCount": 12,
+      "resolved": 11,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[3]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 9,
+              "end": 11,
+              "before": "先週の週末に友達と",
+              "after": "を見ました。\n映画はとても面白かったです。\n今週"
+            },
+            {
+              "start": 18,
+              "end": 20,
+              "before": "先週の週末に友達と映画を見ました。\n",
+              "after": "はとても面白かったです。\n今週は忙しくありません"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "映画"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 30,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/11-wishes-and-simple-rules.md",
+      "sourceSha256": "153adc2095782334554dc7ba4d11a4615c738cc9fba1742c677dbb9289a1c49f",
+      "canonicalSha256": "e9e194c2afdd2fd871481c984dc7c796a4a1530dc56d1ec056a3a9a2cc4c441e",
+      "cueCount": 10,
+      "resolved": 9,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[2]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 4,
+              "end": 5,
+              "before": "私は夏に",
+              "after": "へ行きたいです。\nでも、この海では泳いではいけま"
+            },
+            {
+              "start": 19,
+              "end": 20,
+              "before": "私は夏に海へ行きたいです。\nでも、この",
+              "after": "では泳いではいけません。\n写真を撮ってもいいです"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "海"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 30,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n5/12-integrated-n5-reading.md",
+      "sourceSha256": "33753240f12c62e437e8bcff14f74d7535c1ca25f99d26933c5609cc7c88b491",
+      "canonicalSha256": "847d10349a7831cf59b4211672961e41d56d0985000e6da77efd819fe5d35cf3",
+      "cueCount": 19,
+      "resolved": 16,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 1,
+              "end": 4,
+              "before": "【",
+              "after": "のお知らせ】\n今週の金曜日と土曜日は午前九時から"
+            },
+            {
+              "start": 68,
+              "end": 71,
+              "before": "日は休みです。\n本は入口の箱に返してください。\n",
+              "after": "では静かにしてください。\n金曜日に友達と日本語を"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "図書館"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[2]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 14,
+              "end": 17,
+              "before": "【図書館のお知らせ】\n今週の",
+              "after": "と土曜日は午前九時から午後五時まで開いています。"
+            },
+            {
+              "start": 84,
+              "end": 87,
+              "before": "してください。\n図書館では静かにしてください。\n",
+              "after": "に友達と日本語を勉強したいです。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "金曜日"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[11]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 52,
+              "end": 53,
+              "before": "午後五時まで開いています。\n日曜日は休みです。\n",
+              "after": "は入口の箱に返してください。\n図書館では静かにし"
+            },
+            {
+              "start": 92,
+              "end": 93,
+              "before": "図書館では静かにしてください。\n金曜日に友達と日",
+              "after": "語を勉強したいです。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "本"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 32,
+      "warnings": [
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        },
+        {
+          "code": "unsupported_block",
+          "message": "Unsupported source remains visible as literal text."
+        }
+      ]
+    },
+    {
+      "path": "n4/01-plain-style-and-reporting.md",
+      "sourceSha256": "b5fe035cfb602baaa5383d531a96fbf76b4b6b7053486f9a277f504004f144b2",
+      "canonicalSha256": "c30576fc0694c3afaba4132712db7b567d45354a163a1c939091bec440a2319c",
+      "cueCount": 14,
+      "resolved": 12,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 1,
+              "before": "",
+              "after": "は先週、友達に会いました。\n友達は「来週から新し"
+            },
+            {
+              "start": 41,
+              "end": 42,
+              "before": "は「来週から新しい仕事を始める」と言いました。\n",
+              "after": "は「いいですね。忙しくなりますね」と答えました。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "私"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[2]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 5,
+              "end": 7,
+              "before": "私は先週、",
+              "after": "に会いました。\n友達は「来週から新しい仕事を始め"
+            },
+            {
+              "start": 15,
+              "end": 17,
+              "before": "私は先週、友達に会いました。\n",
+              "after": "は「来週から新しい仕事を始める」と言いました。\n"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "友達"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 29,
+      "warnings": []
+    },
+    {
+      "path": "n4/02-ongoing-and-resulting-states.md",
+      "sourceSha256": "b15186446b15a495282b5e94eadd3ccb8c7571ab5de77d014cc97b3950bb97a2",
+      "canonicalSha256": "68b606e7297d992e13e71d5b86c889f2a705d94097d84a0695e6026c72380d10",
+      "cueCount": 19,
+      "resolved": 19,
+      "diagnostics": [],
+      "canonicalReadbackExact": true,
+      "convertedParts": 29,
+      "warnings": []
+    },
+    {
+      "path": "n4/03-reasons-and-contrast.md",
+      "sourceSha256": "3dcbbe1d6c7d2848c74268aa1de67bcc3865158693f9717eac741d74c77f23b6",
+      "canonicalSha256": "7aaf11f43bf5de9157e70806a2ff95ea54359a6578daebc711985dc3e12399dd",
+      "cueCount": 18,
+      "resolved": 17,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[10]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 42,
+              "end": 44,
+              "before": "ました。\n早く家を出たのに、電車が遅れました。\n",
+              "after": "に間に合わないと思って、会社に連絡しました。\nで"
+            },
+            {
+              "start": 70,
+              "end": 72,
+              "before": "に合わないと思って、会社に連絡しました。\nでも、",
+              "after": "は予定より10分遅く始まったので、間に合いました"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "会議"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 29,
+      "warnings": []
+    },
+    {
+      "path": "n4/04-ability-and-nominalisation.md",
+      "sourceSha256": "72e4ee0d8b2d40184b1485bd07093b1e94683728050b46da95dfca64217982d4",
+      "canonicalSha256": "78f1eaff5a9ea59b253b7d93b957192f22faf87bc47524ee5b93056a7fadaf3d",
+      "cueCount": 18,
+      "resolved": 16,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 2,
+              "end": 3,
+              "before": "私の",
+              "after": "は漢字を少し読むことができます。\nでも、長い文章"
+            },
+            {
+              "start": 41,
+              "end": 42,
+              "before": "す。\nでも、長い文章を書くのはまだ難しいです。\n",
+              "after": "は料理をすることが好きで、和食も作れます。\n今は"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "妹"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[7]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 28,
+              "end": 30,
+              "before": "漢字を少し読むことができます。\nでも、長い文章を",
+              "after": "のはまだ難しいです。\n妹は料理をすることが好きで"
+            },
+            {
+              "start": 74,
+              "end": 76,
+              "before": "が好きで、和食も作れます。\n今は毎日、短い日記を",
+              "after": "練習をしています。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "書く"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/05-intentions-and-arrangements.md",
+      "sourceSha256": "2977f8c6f1ff1b70c659c2e08f9480db686b62da3b27ef3f4f8564d007aa44c0",
+      "canonicalSha256": "5f29d0ca7a063ccc4cdf70227a1b5135c303a55688f1f9c7473fa215197e9ef2",
+      "cueCount": 14,
+      "resolved": 14,
+      "diagnostics": [],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/06-conditions-and-concessions.md",
+      "sourceSha256": "4a05b66bf759d9c1dfa5aa9bda2ad58f15a0c0924edf78381f5ff3df48ed69db",
+      "canonicalSha256": "a831aa1dfe40902ef9c72b0e34cc6b43daae3d062043174fb26ddb1fec549632",
+      "cueCount": 15,
+      "resolved": 13,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[0]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 0,
+              "end": 3,
+              "before": "",
+              "after": "に公園で試合をする予定です。\n雨が降ったら、試合"
+            },
+            {
+              "start": 46,
+              "end": 49,
+              "before": "たら、試合は中止になります。\n天気予報を見ると、",
+              "after": "は晴れそうです。\n少し寒くても、私は見に行きます"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "土曜日"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[2]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 7,
+              "end": 9,
+              "before": "土曜日に公園で",
+              "after": "をする予定です。\n雨が降ったら、試合は中止になり"
+            },
+            {
+              "start": 25,
+              "end": 27,
+              "before": "曜日に公園で試合をする予定です。\n雨が降ったら、",
+              "after": "は中止になります。\n天気予報を見ると、土曜日は晴"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "試合"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 29,
+      "warnings": []
+    },
+    {
+      "path": "n4/07-obligation-and-permission.md",
+      "sourceSha256": "fb51432324891d9f235e4aa9d594d9283d4d760ee57acda957ca5248d077ac0c",
+      "canonicalSha256": "354522397c2b3840e8441317135dfe0c2abc54663bc7f5487e96489dcd91a876",
+      "cueCount": 15,
+      "resolved": 14,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[13]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 51,
+              "end": 52,
+              "before": "せん。\n今日は入場料を払わなくてもいいです。\n建",
+              "after": "の中でたばこを吸ってはいけません。\n帰るときは借"
+            },
+            {
+              "start": 78,
+              "end": 79,
+              "before": "でたばこを吸ってはいけません。\n帰るときは借りた",
+              "after": "を返してください。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "物"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/08-giving-and-receiving-help.md",
+      "sourceSha256": "6835d6962ffa35193c644813b722f83c6906ed32a3e2185a4d4e5daabf5d5bd2",
+      "canonicalSha256": "331b3a620e6275ea81b27420ba1ad84362879649b8cf825babda91eb0966baac",
+      "cueCount": 13,
+      "resolved": 12,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[4]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 14,
+              "end": 16,
+              "before": "駅で重い荷物を持っていたら、",
+              "after": "が手伝ってくれました。\n私は友達に「ありがとう」"
+            },
+            {
+              "start": 30,
+              "end": 32,
+              "before": "を持っていたら、友達が手伝ってくれました。\n私は",
+              "after": "に「ありがとう」と言いました。\nそのあと、友達に"
+            },
+            {
+              "start": 53,
+              "end": 55,
+              "before": "は友達に「ありがとう」と言いました。\nそのあと、",
+              "after": "に道を教えてあげました。\n帰る前に、友達から地図"
+            },
+            {
+              "start": 73,
+              "end": 75,
+              "before": "のあと、友達に道を教えてあげました。\n帰る前に、",
+              "after": "から地図をもらいました。"
+            }
+          ],
+          "candidateCount": 4,
+          "expression": "友達"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/09-experience-and-activity-lists.md",
+      "sourceSha256": "36bd4475815cdb687eb3825588486ddde91b4b20f81e4882bd89bbf87639b1e7",
+      "canonicalSha256": "87c5eefbc85480649d654cc739ca60f999fb9a7c11b572f135fa93e8b9e3d793",
+      "cueCount": 16,
+      "resolved": 16,
+      "diagnostics": [],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/10-preparation-and-result-states.md",
+      "sourceSha256": "42434421af3d68e0bb18e6e4c84728eda85e6872d34fc27289c21b69608f03bd",
+      "canonicalSha256": "4f20e3d85574885a1fa905c04d538ffe07fe45cc9fb454c82890a6237fb39c10",
+      "cueCount": 16,
+      "resolved": 14,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 3,
+              "end": 5,
+              "before": "明日の",
+              "after": "のために、昨日資料を印刷しておきました。\n会議室"
+            },
+            {
+              "start": 26,
+              "end": 28,
+              "before": "の会議のために、昨日資料を印刷しておきました。\n",
+              "after": "室の机には資料が置いてあります。\n窓は開いていま"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "会議"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[3]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 12,
+              "end": 14,
+              "before": "明日の会議のために、昨日",
+              "after": "を印刷しておきました。\n会議室の机には資料が置い"
+            },
+            {
+              "start": 33,
+              "end": 35,
+              "before": "、昨日資料を印刷しておきました。\n会議室の机には",
+              "after": "が置いてあります。\n窓は開いていますが、ドアは閉"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "資料"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/11-appearance-and-uncertainty.md",
+      "sourceSha256": "09bb8a63f42e120075b9b55002a868bc511d431e8b17365024f9803187d3f360",
+      "canonicalSha256": "4a8174a3feef673d4128e01914ca487cc8fcc977559cf63ea6c59c4bf59e533a",
+      "cueCount": 14,
+      "resolved": 14,
+      "diagnostics": [],
+      "canonicalReadbackExact": true,
+      "convertedParts": 31,
+      "warnings": []
+    },
+    {
+      "path": "n4/12-integrated-n4-reading.md",
+      "sourceSha256": "5b32bd33f931de9f4acf13fb8229ea14ecb8b138c1db76d17bba01c3b6652d82",
+      "canonicalSha256": "f809b67aa06947a90ec994774428829ef82aaa7e1940a1252de32ab159f644c8",
+      "cueCount": 35,
+      "resolved": 32,
+      "diagnostics": [
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[1]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 4,
+              "end": 7,
+              "before": "【日本語",
+              "after": "のお知らせ】\n来週の土曜日に公園で交流会を開く予"
+            },
+            {
+              "start": 24,
+              "end": 27,
+              "before": "【日本語交流会のお知らせ】\n来週の土曜日に公園で",
+              "after": "を開く予定です。\n集合時間は午前九時半で、開始は"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "交流会"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[19]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 91,
+              "end": 93,
+              "before": "市民会館で行います。\n参加する人は、金曜日までに",
+              "after": "に連絡しなければなりません。\n電車が遅れた場合も"
+            },
+            {
+              "start": 118,
+              "end": 120,
+              "before": "連絡しなければなりません。\n電車が遅れた場合も、",
+              "after": "に電話してください。\n飲み物は用意してありますが"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "受付"
+        },
+        {
+          "code": "cue_ambiguous",
+          "path": "cues[32]",
+          "message": "The expression occurs more than once. Supply 1-based occurrence within the matching context, or exact before/after text; no offset was guessed.",
+          "candidates": [
+            {
+              "start": 42,
+              "end": 43,
+              "before": "曜日に公園で交流会を開く予定です。\n集合時間は午",
+              "after": "九時半で、開始は十時です。\n雨が降ったら、近くの"
+            },
+            {
+              "start": 169,
+              "end": 170,
+              "before": "昼ご飯は自分で持ってきてください。\n会場への道は",
+              "after": "の日に確認しておくと安心です。"
+            }
+          ],
+          "candidateCount": 2,
+          "expression": "前"
+        }
+      ],
+      "canonicalReadbackExact": true,
+      "convertedParts": 33,
+      "warnings": []
+    }
+  ]
+}

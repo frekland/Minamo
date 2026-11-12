@@ -1,0 +1,15 @@
+# Complete private recovery files
+
+`POST /api/recovery/export` takes `{operationId,expectedGeneration,passphrase}` and returns an encrypted `application/vnd.minamo.recovery` attachment. Its original captured checkpoint is stable across same-operation retries. Current export restrictions are checked again for each download. The passphrase stays in request memory; operation receipts contain only an expensive PBKDF2-derived commitment, never the passphrase or a cheap verifier.
+
+`POST /api/recovery/import` takes `application/octet-stream`: a four-byte unsigned big-endian metadata length, UTF-8 JSON metadata, then the encrypted file. Metadata contains `{operationId,expectedGeneration,passphrase,restoreMediaAttested?:true}`. The response is `{archive,staged,generation}`. Import creates an inactive isolated namespace; it never activates automatically. Existing reviewed activation and automatic preactivation backup apply.
+
+The file includes all nine V2 product tables: records, retained revisions, operation receipts, activity, bookmark identities/tombstones, images/attachments, and media/attachments. Original permitted file bytes are native binary payloads, not base64. Foundation prototype tables and derived retrieval state are excluded.
+
+The file is bound to the same authenticated owner. Its encryption authenticates integrity, not imported permission claims. Every Source edition, reused excerpt, capture, nested Flag target and operation readback is filtered by current export rights. Denied admitted text, locator, edition, and permission note are withheld while independent personal writing survives. Missing Source permissions are never reconstructed from file assertions.
+
+An explicit checkbox may attest permission to restore missing image/document/audio/video files. This permits re-admission only for currently absent identities without a known permanent revocation floor. Existing conflicting identities and known revocations remain unavailable. Original bytes are re-inspected against MIME, container metadata and SHA-256 digest. No OCR, transcription or semantic interpretation occurs.
+
+Limits are explicit and fail closed: 20,000 product rows, 8 MiB manifest, 64 images and 64 media assets, 32 MiB image bytes, 64 MiB media bytes, 80 MiB total file assets and a 90 MiB encrypted file. Individual image limits remain 8 MiB; documents/audio 16 MiB; video 20 MiB. No truncation produces a supposedly complete checkpoint.
+
+Framing is `MINAMO1\0`, four-byte header length, bounded JSON header, then length-prefixed authenticated ciphertext frames. The header binds owner hash, PBKDF2 parameters, salt, nonce prefix, manifest length and total plaintext length. Each AES-GCM frame covers its header digest, frame index and exact plaintext length. Frames contain at most 65,536 plaintext bytes. The manifest comes first, followed by present assets in manifest order. Import rejects extra/truncated frames, malformed typed rows, duplicate identities and inventory omissions before making a restore candidate available. It reads one asset at a time, never a complete ciphertext/plaintext corpus in JavaScript memory.

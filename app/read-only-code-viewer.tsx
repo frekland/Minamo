@@ -1,0 +1,19 @@
+"use client";
+import {useEffect,useRef,useState,type ReactNode} from 'react';
+import {codeLines} from '../lib/reader-code-lines';
+import type {CodeToken} from '../lib/reader-code-syntax';
+import './read-only-code-viewer.css';
+/** CM6 supplies syntax only. The single visible native DOM remains the canonical capture surface. */
+export default function ReadOnlyCodeViewer({text,language,id,common,renderRange}:{text:string;language?:string;id:string;common:{'data-reading-part':string;'data-section-id':string};renderRange:(start:number,end:number)=>ReactNode}){
+ const host=useRef<HTMLDivElement>(null);
+ const [mounted,setMounted]=useState(false),[wrap,setWrap]=useState(false),[copyMessage,setCopyMessage]=useState(''),[syntax,setSyntax]=useState<{text:string;language?:string;tokens:CodeToken[]}|null>(null);
+ useEffect(()=>{setMounted(true);const root=host.current?.closest('.v2-app');setWrap(root?.getAttribute('data-code-wrap')==='true');const update=(event:Event)=>{const detail=(event as CustomEvent<{scope?:string;codeWrap?:boolean}>).detail;if(detail?.scope===root?.getAttribute('data-presentation-scope')&&typeof detail.codeWrap==='boolean')setWrap(detail.codeWrap)};const observer=new MutationObserver(()=>setWrap(root?.getAttribute('data-code-wrap')==='true'));if(root)observer.observe(root,{attributes:true,attributeFilter:['data-code-wrap']});window.addEventListener('minamo-presentation-changed',update);return()=>{observer.disconnect();window.removeEventListener('minamo-presentation-changed',update)}},[]);
+ useEffect(()=>{let live=true,pending:CodeToken[]|null=null;
+ const publish=()=>{const selection=window.getSelection();if(selection&&!selection.isCollapsed&&selection.rangeCount&&host.current&&selection.getRangeAt(0).intersectsNode(host.current))return;if(live&&pending){setSyntax({text,language,tokens:pending});pending=null;}};
+ document.addEventListener('selectionchange',publish);
+ import('../lib/reader-code-syntax').then(module=>module.codeTokens(text,language)).then(tokens=>{pending=tokens;publish()}).catch(()=>{/* Literal source remains visible and capturable. */});return()=>{live=false;document.removeEventListener('selectionchange',publish)}},[text,language]);
+ const tokens=syntax?.text===text&&syntax.language===language?syntax.tokens:[];
+ const lines=codeLines(text,tokens);
+ async function copy(){try{await navigator.clipboard.writeText(text);setCopyMessage('Code copied.');}catch{const source=host.current?.querySelector('code[data-reading-part]'),selection=window.getSelection();if(source&&selection){const range=document.createRange();range.selectNodeContents(source);selection.removeAllRanges();selection.addRange(range);setCopyMessage('Code selected. Use your browser’s Copy command.');}else setCopyMessage('Copy unavailable. Select the source and use your browser’s Copy command.');}}
+ return <div ref={host} className="rc-viewer" id={id} data-code-engine="codemirror6-syntax" data-canonical-ready={mounted} data-syntax-ready={syntax?.text===text&&syntax.language===language}><div className="rc-toolbar"><span>{language||'Plain text'}</span><div><button type="button" className="rn-subtle" aria-label="Copy code" onClick={()=>void copy()}>Copy</button><button type="button" className="rn-subtle" aria-label="Wrap lines" aria-pressed={wrap} onClick={()=>setWrap(value=>!value)}>Wrap</button></div></div>{copyMessage&&<p className="le-copy-status" role="status">{copyMessage}</p>}<pre className={'rn-code rc-source'+(wrap?' rc-wrap':'')} tabIndex={0} aria-label="Read-only code; scroll for long lines"><code key={mounted?'canonical-client':'server-literal'} {...common}>{lines.map((line,index)=><span className="rc-line" data-line={index+1} key={line.start}>{line.ranges.map(range=><span className={range.className} key={range.from}>{renderRange(range.from,range.to)}</span>)}</span>)}</code></pre></div>;
+}

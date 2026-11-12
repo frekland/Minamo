@@ -1,0 +1,36 @@
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+✔ independent production-compiled Worker refuses galleries, synthetic fixture proxy and disabled activity writes (1446.616019ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ single excerpt selection maps exact UTF16 occurrence to Source plus separate display return (2.17791ms)
+✔ mixed prose/source and multiple excerpt blocks reject without guessing a joined origin (0.534112ms)
+✔ highlight maps Source coordinates across multiple display contexts only on exact eligible edition (0.492479ms)
+✔ excerpt provenance is outside mapped text and revoked projection withholds text and metadata (9.134265ms)
+✔ Source capture persistence stores only selector, operation references and independent prose (0.51967ms)
+✔ exact Source action is a native canonical anchor with retained origin coordinates (3.579345ms)
+✔ native semantic metadata preserves exact base and TeX, rejects source drift, surrogate cuts, scripts and budgets (3.285032ms)
+✔ typed outputs prohibit forged observation and stale success on interrupted/error, validate code hash and owned image binding (4.854028ms)
+✔ explicit Python save preparation stages exact PNG bytes, carries actual captured source, and clears failed/interrupted figures (4.367218ms)
+✔ new explicit manuscript declarations compile to native semantic source; invalid declarations stay exact code (444.813956ms)
+▶ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation
+  ✔ publish canonical ruby/math in ordinary Article and Note; exact source identity survives MCP and Flag (234.003058ms)
+  ✔ private PNG and table save on a native Run; no forged observed evidence or foreign-owner read (71.231884ms)
+  ✔ encrypted export includes typed metadata and original R2 bytes, restore retains native semantic source (641.390315ms)
+  ✔ source revocation removes ruby payload from retained reads and export; image revoke removes typed output label (110.866263ms)
+✔ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation (2833.889459ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3800.461745

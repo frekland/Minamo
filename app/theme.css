@@ -1,0 +1,136 @@
+/* Canonical application theme; source reference: docs/core-learning-experience/THEME-IMPLEMENTATION.md. */
+:root {
+  color-scheme: dark;
+  --mn-canvas: #1B1B1B;
+  --mn-surface: #252525;
+  --mn-surface-secondary: #2D2D2D;
+  --mn-border: #3A3A3A;
+  --mn-border-control: #888888;
+  --mn-text: #F5F5F5;
+  --mn-text-body: #E2E2E2;
+  --mn-text-muted: #B1B1B1;
+  --mn-interactive: #8CAED1;
+  --mn-interactive-hover: #A3C1DF;
+  --mn-interactive-pressed: #7E9EBF;
+  --mn-accent: #7DB9C4;
+  --mn-accent-hover: #9ACBD3;
+  --mn-on-accent: #1B1B1B;
+  --mn-focus: #8CAED1;
+  --mn-selected: #2A3A4A;
+  --mn-annotation: #273D42;
+  --mn-code-bg: #202020;
+  --mn-code-inline-bg: #2D2D2D;
+  --mn-code-text: #E2E2E2;
+  --mn-code-comment: #B1B1B1;
+  --mn-code-keyword: #8CAED1;
+  --mn-code-string: #B7C7B0;
+  --mn-code-number: #C6B496;
+  --mn-status-success: #9FB9A6;
+  --mn-status-warning: #C2AD81;
+  --mn-status-danger: #D0A1A1;
+  --mn-overlay-backdrop: rgb(0 0 0 / 58%);
+  --mn-shadow: 0 12px 36px rgb(0 0 0 / 24%);
+  --mn-radius-control: 6px;
+  --mn-radius-panel: 10px;
+  --mn-duration-fast: 120ms;
+  --mn-duration-normal: 180ms;
+
+  /* Aliases for token names observed in the reviewed implementation.
+   * Keep one owner, not two divergent root palettes.
+   * --accent historically drives action controls, so it maps to BLUE, not cyan.
+   */
+  --bg: var(--mn-canvas);
+  --panel: var(--mn-surface);
+  --line: var(--mn-border);
+  --ink: var(--mn-text);
+  --muted: var(--mn-text-muted);
+  --accent: var(--mn-interactive);
+  --v2-bg: var(--mn-canvas);
+  --v2-panel: var(--mn-surface);
+  --v2-panel-light: var(--mn-surface-secondary);
+  --v2-ink: var(--mn-text);
+  --v2-muted: var(--mn-text-muted);
+  --v2-faint: var(--mn-text-muted);
+  --v2-line: var(--mn-border);
+  --v2-accent: var(--mn-interactive);
+}
+
+
+:root { --v2-serif: Georgia, 'Times New Roman', serif; --mn-status-danger-bg: #342828; }
+@media (prefers-reduced-motion: reduce) { :root { --mn-duration-fast: 0ms; --mn-duration-normal: 0ms; } }
+
+.v2-brand-image{width:145px;height:42px;object-fit:contain;object-position:left center}@media(max-width:600px){.v2-brand-image{width:105px;height:36px}}
+
+/* Optional light reading surface. The established charcoal tokens stay the
+   default; all controls continue to consume the same semantic palette. */
+:is(.wp-workspace,.study-app)[data-theme=light]{
+ color-scheme:light;
+ --mn-canvas:#f5f7fa;--mn-surface:#ffffff;--mn-surface-secondary:#edf2f7;
+ --mn-border:#d5dfe8;--mn-border-control:#8193a4;
+ --mn-text:#172435;--mn-text-body:#29394a;--mn-text-muted:#52687d;
+ --mn-interactive:#1b659e;--mn-interactive-hover:#125482;--mn-interactive-pressed:#0d426d;
+ --mn-accent:#247f98;--mn-accent-hover:#156f88;--mn-on-accent:#ffffff;
+ --mn-focus:#2169ad;--mn-selected:#e1eff9;--mn-annotation:#e0f0f2;
+ --mn-code-bg:#eef2f7;--mn-code-inline-bg:#e3ebf3;--mn-code-text:#243646;
+ --mn-code-comment:#64788c;--mn-code-keyword:#165d9c;--mn-code-string:#396b4e;--mn-code-number:#8e5d29;
+ --mn-status-success:#306b49;--mn-status-warning:#785a23;--mn-status-danger:#9b3d42;
+ --mn-status-danger-bg:#fcebec;--mn-overlay-backdrop:rgb(17 33 50 / 38%);
+ --mn-shadow:0 12px 36px rgb(21 38 57 / 14%);
+ /* Alias declarations at :root are resolved before descendant overrides.
+    Rebind legacy consumers in this scope, or text can stay white on white. */
+ --bg:var(--mn-canvas);--panel:var(--mn-surface);--line:var(--mn-border);
+ --ink:var(--mn-text);--muted:var(--mn-text-muted);--accent:var(--mn-interactive);
+ --v2-bg:var(--mn-canvas);--v2-panel:var(--mn-surface);
+ --v2-panel-light:var(--mn-surface-secondary);--v2-ink:var(--mn-text);
+ --v2-muted:var(--mn-text-muted);--v2-faint:var(--mn-text-muted);
+ --v2-line:var(--mn-border);--v2-accent:var(--mn-interactive);
+ background:var(--mn-canvas);color:var(--mn-text-body);
+}
+@media(prefers-color-scheme:light){
+ :is(.wp-workspace,.study-app)[data-theme=system]{
+  color-scheme:light;
+  --mn-canvas:#f5f7fa;--mn-surface:#ffffff;--mn-surface-secondary:#edf2f7;
+  --mn-border:#d5dfe8;--mn-border-control:#8193a4;
+  --mn-text:#172435;--mn-text-body:#29394a;--mn-text-muted:#52687d;
+  --mn-interactive:#1b659e;--mn-interactive-hover:#125482;--mn-interactive-pressed:#0d426d;
+  --mn-accent:#247f98;--mn-accent-hover:#156f88;--mn-on-accent:#ffffff;
+  --mn-focus:#2169ad;--mn-selected:#e1eff9;--mn-annotation:#e0f0f2;
+  --mn-code-bg:#eef2f7;--mn-code-inline-bg:#e3ebf3;--mn-code-text:#243646;
+  --mn-code-comment:#64788c;--mn-code-keyword:#165d9c;--mn-code-string:#396b4e;--mn-code-number:#8e5d29;
+  --mn-status-success:#306b49;--mn-status-warning:#785a23;--mn-status-danger:#9b3d42;
+  --mn-status-danger-bg:#fcebec;--mn-overlay-backdrop:rgb(17 33 50 / 38%);
+  --mn-shadow:0 12px 36px rgb(21 38 57 / 14%);
+  --bg:var(--mn-canvas);--panel:var(--mn-surface);--line:var(--mn-border);
+  --ink:var(--mn-text);--muted:var(--mn-text-muted);--accent:var(--mn-interactive);
+  --v2-bg:var(--mn-canvas);--v2-panel:var(--mn-surface);
+  --v2-panel-light:var(--mn-surface-secondary);--v2-ink:var(--mn-text);
+  --v2-muted:var(--mn-text-muted);--v2-faint:var(--mn-text-muted);
+  --v2-line:var(--mn-border);--v2-accent:var(--mn-interactive);
+  background:var(--mn-canvas);color:var(--mn-text-body);
+ }
+}
+
+/* The dark chrome remains legible against the optional light workspace.
+   Keep the brand's white wordmark on its original charcoal sidebar. */
+:is(.wp-workspace,.study-app)[data-theme=light] :is(.v2-header,.v2-sidebar){
+ --mn-canvas:#1b1b1b;--mn-surface:#252525;--mn-surface-secondary:#2d2d2d;
+ --mn-border:#3a3a3a;--mn-text:#f5f5f5;--mn-text-body:#e2e2e2;
+ --mn-text-muted:#b1b1b1;--mn-interactive:#8caed1;--mn-selected:#2a3a4a;
+ --v2-ink:var(--mn-text);--v2-muted:var(--mn-text-muted);--v2-faint:var(--mn-text-muted);
+ --v2-panel:var(--mn-surface);--v2-panel-light:var(--mn-surface-secondary);
+ --v2-line:var(--mn-border);--v2-accent:var(--mn-interactive);
+ color:var(--mn-text-body);
+}
+.wp-workspace.v2-app[data-theme=light] header.v2-header{background:#1b1b1b}
+@media(prefers-color-scheme:light){
+ :is(.wp-workspace,.study-app)[data-theme=system] :is(.v2-header,.v2-sidebar){
+  --mn-canvas:#1b1b1b;--mn-surface:#252525;--mn-surface-secondary:#2d2d2d;
+  --mn-border:#3a3a3a;--mn-text:#f5f5f5;--mn-text-body:#e2e2e2;
+  --mn-text-muted:#b1b1b1;--mn-interactive:#8caed1;--mn-selected:#2a3a4a;
+  --v2-ink:var(--mn-text);--v2-muted:var(--mn-text-muted);--v2-faint:var(--mn-text-muted);
+  --v2-panel:var(--mn-surface);--v2-panel-light:var(--mn-surface-secondary);
+  --v2-line:var(--mn-border);--v2-accent:var(--mn-interactive);
+  color:var(--mn-text-body);
+ }
+ .wp-workspace.v2-app[data-theme=system] header.v2-header{background:#1b1b1b}
+}

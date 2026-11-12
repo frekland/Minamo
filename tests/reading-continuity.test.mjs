@@ -1,0 +1,13 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
+const {build}=wr('esbuild');
+const compiled=await build({entryPoints:['lib/reading-continuity.ts'],bundle:true,format:'esm',platform:'node',write:false});
+const {planReadingRefresh}=await import('data:text/javascript;base64,'+Buffer.from(compiled.outputFiles[0].text).toString('base64'));
+const record={family:'article',id:'a',rev:4,rendition:'edition4',body:'Reading with my selection',sections:[]};
+test('new MCP edition leaves displayed text pinned pending deliberate adoption and rechecks retained rights',()=>{const plan=planReadingRefresh(record,{...record,rev:5,rendition:'edition5',body:'Revised explanation'});assert.equal(plan.display,record);assert.equal(plan.newer,true);assert.equal(plan.needsRetained,true)});
+test('same-revision eligibility redaction replaces stale image metadata without requiring authored revision change',()=>{const redacted={...record,sections:[{id:'s',parts:[{id:'p',kind:'image',text:'',unavailable:true}]}]};assert.equal(planReadingRefresh(record,redacted).display,redacted);assert.equal(planReadingRefresh(record,redacted).newer,false)});
+test('family-qualified identity cannot reuse another reading with the same id',()=>{const other={...record,family:'note'};assert.equal(planReadingRefresh(record,other).display,other)});
+test('a late lower revision cannot overwrite an already displayed edition',()=>{const plan=planReadingRefresh(record,{...record,rev:3,rendition:'edition3'});assert.equal(plan.display,record);assert.equal(plan.needsRetained,true)});
+test('metadata-only current changes with identical reading identity do not force an edition banner',()=>{const status={...record,rev:5,status:'paused'};const plan=planReadingRefresh(record,status);assert.equal(plan.display,status);assert.equal(plan.newer,false)});

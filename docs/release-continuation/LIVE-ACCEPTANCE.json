@@ -1,0 +1,1192 @@
+{
+  "completedDate": "2026-10-25",
+  "classification": "Actual owner-private V28 core release with qualified fresh-client/device follow-up",
+  "released": {
+    "githubMerge": "791881e90614c4822587b13bf76c973cd2913641",
+    "githubCandidate": "233b33bf6af16d5f458675031b9d8bd91b3e8f20",
+    "nativeSource": "0e961cab2e5d27b45d486f5cebc49679dc26a9a6",
+    "commonTree": "1ec130ba723576c803d91732b50ddc6638fd173f",
+    "inputCount": 663,
+    "inputDigest": "3c7f7c01e087b6608458dbb70a8a23a500fb0c15790f075ae24f92cbbe714feb",
+    "version": 28,
+    "versionId": "appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_df59e8da818481918588b8102c8599bc",
+    "finalDeployment": {
+      "id": "appgdep_6ade87a761608191b022a78826e1d3c2",
+      "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+      "title": "Minamo",
+      "version_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_df59e8da818481918588b8102c8599bc",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://minamo.jscymru.chatgpt.site",
+      "has_mcp": true,
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6ad8a4e85eb48191accd6e78976b47e3",
+      "failure_message": null,
+      "env_set_revision": 5,
+      "updated_at": "2026-10-25T22:50:28.468123+00:00"
+    },
+    "featureOffRollback": {
+      "deployment": "appgdep_6ade877e24c481919ae16b4d463a2d85",
+      "envRevision": 4,
+      "version": 28,
+      "activityCompanionWithheld": true,
+      "attemptCompanionWithheld": true,
+      "allUnrevealedHintsWithheld": true,
+      "laterNoteRev": 2,
+      "sourceStillRevoked": true,
+      "generation": "legacy@0"
+    },
+    "reenable": {
+      "passed": true,
+      "records": 12,
+      "generation": "legacy@0",
+      "exactActivityEdition": "r-31e41ab8b630063a06eb2ad9a15265a97db0bcb08429cfa3abad8bcb2db3761a",
+      "attemptEdition": "r-31e41ab8b630063a06eb2ad9a15265a97db0bcb08429cfa3abad8bcb2db3761a",
+      "laterNoteRev": 2,
+      "sourceRevoked": true
+    },
+    "projectId": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+    "url": "https://minamo.jscymru.chatgpt.site",
+    "accessRevision": 1,
+    "externalVisitors": 0,
+    "environmentRevision": 5,
+    "coreFlags": {
+      "MINAMO_ACTIVITY_STUDIO": "1",
+      "MINAMO_LEARNING_ATLAS": "1"
+    },
+    "licenseValueUndisclosedAndUnchanged": true
+  },
+  "legacy": {
+    "projectId": "appgprj_6acfb08219e48191895dd6171f289ecb",
+    "version": 62,
+    "accessRevision": 1,
+    "writes": 0
+  },
+  "browser": {
+    "actualPrivateActivityMounted": true,
+    "sourceAndHints": true,
+    "attemptSavedAndMcpRead": true,
+    "languageRubyActive": true,
+    "mathTexActive": true,
+    "dataTableActive": true,
+    "dataChartActive": true,
+    "classicFocusTaskSwitches": true,
+    "semanticTerminalExact": true,
+    "browserInterruptionRecovered": true,
+    "traceActive": true,
+    "allFourAtlasLensesLoaded": true,
+    "atlasCountsObserved": {
+      "journeyDefault": {
+        "references": 38,
+        "connections": 58
+      },
+      "journeySyntheticOptIn": {
+        "references": 42,
+        "connections": 61
+      },
+      "knowledgeSyntheticOptIn": {
+        "references": 61,
+        "connections": 84
+      },
+      "evidenceSyntheticOptIn": {
+        "references": 17,
+        "connections": 3
+      },
+      "projectBoundedPage": {
+        "references": 24,
+        "connections": 43
+      }
+    },
+    "atlasScope": "Bounded current graph pages; synthetic opt-in restored off; no complete-graph or 10k-hosted claim.",
+    "note": {
+      "id": "TEST-ONLY-pr45-release-note-20261025",
+      "rev": 2,
+      "rendition": "r-20c620ad2e42fd98ff211af87227aa075342cef189e28e5e24bd507060bee31e",
+      "canaryPersisted": true,
+      "originalTerminalExact": true
+    },
+    "sourceRevocation": {
+      "source": "TEST-ONLY-pr45-release-source-20261025",
+      "retainedRendition": "r-c799d366ff4252a8812263b045892029a10c4854c66cd924a8ef1750b308b66d",
+      "capture": "TEST-ONLY-pr45-release-source-capture-20261025",
+      "restrictedTextWithheld": true,
+      "independentProsePreserved": true
+    },
+    "trashedSourceBrowserUnavailable": true,
+    "homeOriginalContinue": true,
+    "homeNoTestPollution": true,
+    "classicLayoutRestored": true
+  },
+  "cleanup": {
+    "active": {
+      "passed": true,
+      "records": 52,
+      "pages": 2,
+      "generation": "legacy@0",
+      "allIdsRevisionsRenditionsWritersUnchanged": true
+    },
+    "existingCurrentAndTrashedRecords": 190,
+    "existingRecordMetadataChanged": 0,
+    "taskOwnedNewRows": 14,
+    "allTaskRowsRecoverablyTrashed": true,
+    "originalBookmarkRowsUnchanged": 16,
+    "taskBookmarkTombstone": {
+      "active": false,
+      "targetRev": 2
+    },
+    "originalPerspectivesUnchanged": 3,
+    "learningDevelopmentCount": 55,
+    "originalLearningDevelopmentCount": 55,
+    "images": 3,
+    "media": 0,
+    "taskProductActivityRows": 31,
+    "taskProductOperations": [
+      {
+        "operationId": "activity-attempt-184d917e-603d-4c1b-b65f-82c5b0812774",
+        "family": "run",
+        "id": "attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+        "verb": "create",
+        "actor": "user",
+        "synthetic": true
+      },
+      {
+        "operationId": "cc3019cf-2e99-48b2-94bd-538caab13f40",
+        "family": "note",
+        "id": "TEST-ONLY-pr45-release-note-20261025",
+        "verb": "update",
+        "actor": "user",
+        "synthetic": true
+      },
+      {
+        "operationId": "e0832370-f868-4a96-9f60-30fa5b6ee47a",
+        "family": "source",
+        "id": "TEST-ONLY-pr45-release-source-20261025",
+        "verb": "update",
+        "actor": "user",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-fresh-attempt-20261025",
+        "family": "run",
+        "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-fresh-publish-20261025",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-fresh-trash-activity-20261025",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-fresh-trash-attempt-20261025",
+        "family": "run",
+        "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-activity-0",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-release-tcp-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-activity-1",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-release-language-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-activity-2",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-release-data-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-inquiry",
+        "family": "investigation",
+        "id": "TEST-ONLY-pr45-release-inquiry-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-japanese-annotation",
+        "family": "annotation",
+        "id": "TEST-ONLY-pr45-release-annotation-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-journey",
+        "family": "journey",
+        "id": "TEST-ONLY-pr45-release-journey-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-later",
+        "family": "note",
+        "id": "TEST-ONLY-pr45-release-later-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-note",
+        "family": "note",
+        "id": "TEST-ONLY-pr45-release-note-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-source",
+        "family": "source",
+        "id": "TEST-ONLY-pr45-release-source-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-create-source-capture",
+        "family": "annotation",
+        "id": "TEST-ONLY-pr45-release-source-capture-20261025",
+        "verb": "create",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-flag-off",
+        "family": "flag",
+        "id": "flag-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+        "verb": "unflag",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-flag-on",
+        "family": "flag",
+        "id": "flag-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+        "verb": "flag",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-revoke-source",
+        "family": "source",
+        "id": "TEST-ONLY-pr45-release-source-20261025",
+        "verb": "update",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-annotation-TEST-ONLY-pr45-release-annotation-20261025",
+        "family": "annotation",
+        "id": "TEST-ONLY-pr45-release-annotation-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-annotation-TEST-ONLY-pr45-release-source-capture-20261025",
+        "family": "annotation",
+        "id": "TEST-ONLY-pr45-release-source-capture-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-data-20261025",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-release-data-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-language-20261025",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-release-language-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-tcp-20261025",
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-release-tcp-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-investigation-TEST-ONLY-pr45-release-inquiry-20261025",
+        "family": "investigation",
+        "id": "TEST-ONLY-pr45-release-inquiry-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-journey-TEST-ONLY-pr45-release-journey-20261025",
+        "family": "journey",
+        "id": "TEST-ONLY-pr45-release-journey-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-note-TEST-ONLY-pr45-release-later-20261025",
+        "family": "note",
+        "id": "TEST-ONLY-pr45-release-later-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-note-TEST-ONLY-pr45-release-note-20261025",
+        "family": "note",
+        "id": "TEST-ONLY-pr45-release-note-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-run-attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+        "family": "run",
+        "id": "attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      },
+      {
+        "operationId": "pr45-release-trash-source-TEST-ONLY-pr45-release-source-20261025",
+        "family": "source",
+        "id": "TEST-ONLY-pr45-release-source-20261025",
+        "verb": "trash",
+        "actor": "gpt",
+        "synthetic": true
+      }
+    ],
+    "permanentDeletes": 0,
+    "rootTaskOwnedNewRows": 12,
+    "freshAgentOwnedRows": 2,
+    "postFreshAudit": {
+      "activeRecords": 52,
+      "activePages": 2,
+      "generation": "legacy@0",
+      "originalRecordMetadataRows": 190,
+      "changedOriginalRows": 0,
+      "totalCurrentAndTrashedRows": 204,
+      "rootOwnedTrashedRows": 12,
+      "freshAgentTrashedRows": 2,
+      "allTaskOwnedTrashedRows": 14,
+      "productActivityOperationRows": 31,
+      "allTaskActivitySynthetic": true,
+      "freshRows": [
+        {
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+          "rev": 2,
+          "trashed_at": "2026-10-25T23:02:30.229Z",
+          "last_operation": "pr45-fresh-trash-activity-20261025"
+        },
+        {
+          "family": "run",
+          "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+          "rev": 2,
+          "trashed_at": "2026-10-25T23:02:25.707Z",
+          "last_operation": "pr45-fresh-trash-attempt-20261025"
+        }
+      ],
+      "operations": [
+        {
+          "operationId": "activity-attempt-184d917e-603d-4c1b-b65f-82c5b0812774",
+          "family": "run",
+          "id": "attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+          "verb": "create",
+          "actor": "user",
+          "synthetic": true
+        },
+        {
+          "operationId": "cc3019cf-2e99-48b2-94bd-538caab13f40",
+          "family": "note",
+          "id": "TEST-ONLY-pr45-release-note-20261025",
+          "verb": "update",
+          "actor": "user",
+          "synthetic": true
+        },
+        {
+          "operationId": "e0832370-f868-4a96-9f60-30fa5b6ee47a",
+          "family": "source",
+          "id": "TEST-ONLY-pr45-release-source-20261025",
+          "verb": "update",
+          "actor": "user",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-fresh-attempt-20261025",
+          "family": "run",
+          "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-fresh-publish-20261025",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-fresh-trash-activity-20261025",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-fresh-trash-attempt-20261025",
+          "family": "run",
+          "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-activity-0",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-release-tcp-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-activity-1",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-release-language-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-activity-2",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-release-data-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-inquiry",
+          "family": "investigation",
+          "id": "TEST-ONLY-pr45-release-inquiry-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-japanese-annotation",
+          "family": "annotation",
+          "id": "TEST-ONLY-pr45-release-annotation-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-journey",
+          "family": "journey",
+          "id": "TEST-ONLY-pr45-release-journey-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-later",
+          "family": "note",
+          "id": "TEST-ONLY-pr45-release-later-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-note",
+          "family": "note",
+          "id": "TEST-ONLY-pr45-release-note-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-source",
+          "family": "source",
+          "id": "TEST-ONLY-pr45-release-source-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-create-source-capture",
+          "family": "annotation",
+          "id": "TEST-ONLY-pr45-release-source-capture-20261025",
+          "verb": "create",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-flag-off",
+          "family": "flag",
+          "id": "flag-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+          "verb": "unflag",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-flag-on",
+          "family": "flag",
+          "id": "flag-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+          "verb": "flag",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-revoke-source",
+          "family": "source",
+          "id": "TEST-ONLY-pr45-release-source-20261025",
+          "verb": "update",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-annotation-TEST-ONLY-pr45-release-annotation-20261025",
+          "family": "annotation",
+          "id": "TEST-ONLY-pr45-release-annotation-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-annotation-TEST-ONLY-pr45-release-source-capture-20261025",
+          "family": "annotation",
+          "id": "TEST-ONLY-pr45-release-source-capture-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-data-20261025",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-release-data-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-language-20261025",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-release-language-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-tcp-20261025",
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-release-tcp-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-investigation-TEST-ONLY-pr45-release-inquiry-20261025",
+          "family": "investigation",
+          "id": "TEST-ONLY-pr45-release-inquiry-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-journey-TEST-ONLY-pr45-release-journey-20261025",
+          "family": "journey",
+          "id": "TEST-ONLY-pr45-release-journey-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-note-TEST-ONLY-pr45-release-later-20261025",
+          "family": "note",
+          "id": "TEST-ONLY-pr45-release-later-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-note-TEST-ONLY-pr45-release-note-20261025",
+          "family": "note",
+          "id": "TEST-ONLY-pr45-release-note-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-run-attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+          "family": "run",
+          "id": "attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        },
+        {
+          "operationId": "pr45-release-trash-source-TEST-ONLY-pr45-release-source-20261025",
+          "family": "source",
+          "id": "TEST-ONLY-pr45-release-source-20261025",
+          "verb": "trash",
+          "actor": "gpt",
+          "synthetic": true
+        }
+      ]
+    }
+  },
+  "taskOwnedRecords": [
+    {
+      "family": "journey",
+      "id": "TEST-ONLY-pr45-release-journey-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "investigation",
+      "id": "TEST-ONLY-pr45-release-inquiry-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-release-tcp-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-release-language-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-release-data-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-pr45-release-note-20261025",
+      "preCleanupRev": 2
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-pr45-release-later-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "run",
+      "id": "attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-pr45-release-annotation-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "flag",
+      "id": "flag-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+      "preCleanupRev": 2
+    },
+    {
+      "family": "source",
+      "id": "TEST-ONLY-pr45-release-source-20261025",
+      "preCleanupRev": 3
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-pr45-release-source-capture-20261025",
+      "preCleanupRev": 1
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+      "cleanupRev": 2
+    },
+    {
+      "family": "run",
+      "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+      "cleanupRev": 2
+    }
+  ],
+  "cleanupReceipts": [
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-pr45-release-annotation-20261025",
+      "operationId": "pr45-release-trash-annotation-TEST-ONLY-pr45-release-annotation-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-pr45-release-source-capture-20261025",
+      "operationId": "pr45-release-trash-annotation-TEST-ONLY-pr45-release-source-capture-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "run",
+      "id": "attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+      "operationId": "pr45-release-trash-run-attempt-249eade2-d5d9-40c6-b2c3-7b50c4ef2f5e",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-pr45-release-note-20261025",
+      "operationId": "pr45-release-trash-note-TEST-ONLY-pr45-release-note-20261025",
+      "status": "committed",
+      "rev": 3
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-pr45-release-later-20261025",
+      "operationId": "pr45-release-trash-note-TEST-ONLY-pr45-release-later-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-release-tcp-20261025",
+      "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-tcp-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-release-language-20261025",
+      "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-language-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "experiment",
+      "id": "TEST-ONLY-pr45-release-data-20261025",
+      "operationId": "pr45-release-trash-experiment-TEST-ONLY-pr45-release-data-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "source",
+      "id": "TEST-ONLY-pr45-release-source-20261025",
+      "operationId": "pr45-release-trash-source-TEST-ONLY-pr45-release-source-20261025",
+      "status": "committed",
+      "rev": 4
+    },
+    {
+      "family": "investigation",
+      "id": "TEST-ONLY-pr45-release-inquiry-20261025",
+      "operationId": "pr45-release-trash-investigation-TEST-ONLY-pr45-release-inquiry-20261025",
+      "status": "committed",
+      "rev": 2
+    },
+    {
+      "family": "journey",
+      "id": "TEST-ONLY-pr45-release-journey-20261025",
+      "operationId": "pr45-release-trash-journey-TEST-ONLY-pr45-release-journey-20261025",
+      "status": "committed",
+      "rev": 2
+    }
+  ],
+  "flagOff": {
+    "targetKey": "bookmark-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+    "targetRev": 2,
+    "active": false,
+    "available": true,
+    "flagRef": {
+      "family": "flag",
+      "id": "flag-17aa1054ba9778e64ec0de6232b535d1bece315c06d90f817ccd71aebdfeaf9d",
+      "rev": 2
+    }
+  },
+  "installedCatalogue": {
+    "earlierControllerCachedCatalogue": {
+      "count": 21,
+      "names": [
+        "mcp__codex_apps__minamo_apply_minamo_authoring_package",
+        "mcp__codex_apps__minamo_apply_minamo_command",
+        "mcp__codex_apps__minamo_confirm_minamo_relationship",
+        "mcp__codex_apps__minamo_get_minamo_context",
+        "mcp__codex_apps__minamo_get_minamo_editorial_policy",
+        "mcp__codex_apps__minamo_get_minamo_learning_context",
+        "mcp__codex_apps__minamo_get_minamo_next_probe",
+        "mcp__codex_apps__minamo_get_minamo_relationship_candidates",
+        "mcp__codex_apps__minamo_get_minamo_workspace",
+        "mcp__codex_apps__minamo_manage_minamo_recovery",
+        "mcp__codex_apps__minamo_preview_minamo_authoring_package",
+        "mcp__codex_apps__minamo_preview_minamo_command",
+        "mcp__codex_apps__minamo_preview_minamo_manuscript",
+        "mcp__codex_apps__minamo_publish_minamo_manuscript",
+        "mcp__codex_apps__minamo_query_minamo_library",
+        "mcp__codex_apps__minamo_query_minamo_records",
+        "mcp__codex_apps__minamo_read_minamo_manuscript_source",
+        "mcp__codex_apps__minamo_read_minamo_operation",
+        "mcp__codex_apps__minamo_read_minamo_record",
+        "mcp__codex_apps__minamo_record_minamo_learning_development",
+        "mcp__codex_apps__minamo_revise_minamo_learning_development"
+      ],
+      "newActivityTools": []
+    },
+    "refreshedIndependentCatalogue": {
+      "count": 29,
+      "names": [
+        "mcp__codex_apps__minamo_apply_minamo_authoring_package",
+        "mcp__codex_apps__minamo_apply_minamo_command",
+        "mcp__codex_apps__minamo_confirm_minamo_relationship",
+        "mcp__codex_apps__minamo_get_minamo_activity_capabilities",
+        "mcp__codex_apps__minamo_get_minamo_activity_context",
+        "mcp__codex_apps__minamo_get_minamo_context",
+        "mcp__codex_apps__minamo_get_minamo_editorial_policy",
+        "mcp__codex_apps__minamo_get_minamo_learning_context",
+        "mcp__codex_apps__minamo_get_minamo_learning_graph",
+        "mcp__codex_apps__minamo_get_minamo_next_probe",
+        "mcp__codex_apps__minamo_get_minamo_relationship_candidates",
+        "mcp__codex_apps__minamo_get_minamo_workspace",
+        "mcp__codex_apps__minamo_manage_minamo_recovery",
+        "mcp__codex_apps__minamo_preview_minamo_activity_package",
+        "mcp__codex_apps__minamo_preview_minamo_authoring_package",
+        "mcp__codex_apps__minamo_preview_minamo_command",
+        "mcp__codex_apps__minamo_preview_minamo_manuscript",
+        "mcp__codex_apps__minamo_publish_minamo_activity_package",
+        "mcp__codex_apps__minamo_publish_minamo_manuscript",
+        "mcp__codex_apps__minamo_query_minamo_library",
+        "mcp__codex_apps__minamo_query_minamo_records",
+        "mcp__codex_apps__minamo_read_minamo_activity",
+        "mcp__codex_apps__minamo_read_minamo_manuscript_source",
+        "mcp__codex_apps__minamo_read_minamo_operation",
+        "mcp__codex_apps__minamo_read_minamo_record",
+        "mcp__codex_apps__minamo_record_minamo_activity_attempt",
+        "mcp__codex_apps__minamo_record_minamo_learning_development",
+        "mcp__codex_apps__minamo_reveal_minamo_activity_hint",
+        "mcp__codex_apps__minamo_revise_minamo_learning_development"
+      ],
+      "activityCatalogue": "activity-studio-interface-foundry-2026-10-25.2",
+      "activityContract": "minamo.activity.v1",
+      "attemptContract": "minamo.attempt.v1",
+      "atlasContract": "minamo.learning-graph.v1"
+    },
+    "qualification": "Actual connected 29-tool catalogue and live typed read/preview/publish/replay/Attempt/context/Trash verified in fresh agent context. A separate human/new Chat UI session and raw tools/list packet were not independently captured."
+  },
+  "workerLogs": [
+    {
+      "timestamp": 1792968930593,
+      "requestId": "3562bcaf65fbc9da029622b2992402f1",
+      "route": "/api/context",
+      "status": 404,
+      "outcome": "ok",
+      "level": "info"
+    },
+    {
+      "timestamp": 1792968909205,
+      "requestId": "56c8af90b798ca026f412fb4cb97c2f4",
+      "route": "/api/context",
+      "status": 404,
+      "outcome": "ok",
+      "level": "info"
+    },
+    {
+      "timestamp": 1792968909196,
+      "requestId": "7112849c61f27e1f1f1acd40781fe944",
+      "route": "/api/context",
+      "status": 404,
+      "outcome": "ok",
+      "level": "info"
+    },
+    {
+      "timestamp": 1792968909155,
+      "requestId": "fbabf325f85076fed7ffd7bdb3687114",
+      "route": "/api/context",
+      "status": 404,
+      "outcome": "ok",
+      "level": "info"
+    },
+    {
+      "timestamp": 1792968672725,
+      "requestId": "1ef5c9af014e7e71ef0ea18b43dd3777",
+      "route": "/signin-with-chatgpt",
+      "status": 404,
+      "outcome": "ok",
+      "level": "info"
+    },
+    {
+      "timestamp": 1792968632030,
+      "requestId": "bbf26a56add061b821aa3ba194e6dcdc",
+      "route": "/signin-with-chatgpt",
+      "status": 404,
+      "outcome": "ok",
+      "level": "info"
+    }
+  ],
+  "limits": {
+    "remoteGitHubCIGreen": false,
+    "ciOwnerAlternativeAccepted": true,
+    "freshNewTypedMcpCatalogueVerified": true,
+    "freshNewConversationVerified": false,
+    "physicalAndroidVerified": false,
+    "optionalCanvasOff": true,
+    "heavyScienceOff": true,
+    "untrustedExecutionOff": true,
+    "physicalAudioGpuVoiceUnqualified": true,
+    "archiveContainerHashesDistinct": true,
+    "freshAgentHostedAuthoringVerified": true
+  },
+  "operationalWatchpoints": [
+    "Initial pre-release recovery checkpoint generic503 recovered using exact original operation; cause unestablished; new archive independently verified.",
+    "Temporary execution/browser environment unavailable, then recovered existing authenticated tab without new credentials.",
+    "Two /signin-with-chatgpt crawler404s and four context404s around recoverable cleanup; all returned invocation outcome ok. No unhandled exception observed in this bounded log window."
+  ],
+  "freshHostedMcp": {
+    "schema": "minamo.fresh-hosted-mcp-acceptance.v1",
+    "date": "2026-10-25",
+    "scope": "fresh-context subagent connected-tool acceptance, not an overall release verdict",
+    "status": "scoped acceptance complete; recoverable cleanup verified",
+    "generation": "legacy@0",
+    "modelBoundary": {
+      "freshContextSubagent": true,
+      "priorAppHandover": false,
+      "sameRootThread": true,
+      "humanSession": false,
+      "independentNewChat": false,
+      "mechanism": "actual connected Minamo MCP tools only; no fixture, local proxy, browser, source, or direct API used for acceptance"
+    },
+    "catalogue": {
+      "count": 29,
+      "names": [
+        "mcp__codex_apps__minamo_apply_minamo_authoring_package",
+        "mcp__codex_apps__minamo_apply_minamo_command",
+        "mcp__codex_apps__minamo_confirm_minamo_relationship",
+        "mcp__codex_apps__minamo_get_minamo_activity_capabilities",
+        "mcp__codex_apps__minamo_get_minamo_activity_context",
+        "mcp__codex_apps__minamo_get_minamo_context",
+        "mcp__codex_apps__minamo_get_minamo_editorial_policy",
+        "mcp__codex_apps__minamo_get_minamo_learning_context",
+        "mcp__codex_apps__minamo_get_minamo_learning_graph",
+        "mcp__codex_apps__minamo_get_minamo_next_probe",
+        "mcp__codex_apps__minamo_get_minamo_relationship_candidates",
+        "mcp__codex_apps__minamo_get_minamo_workspace",
+        "mcp__codex_apps__minamo_manage_minamo_recovery",
+        "mcp__codex_apps__minamo_preview_minamo_activity_package",
+        "mcp__codex_apps__minamo_preview_minamo_authoring_package",
+        "mcp__codex_apps__minamo_preview_minamo_command",
+        "mcp__codex_apps__minamo_preview_minamo_manuscript",
+        "mcp__codex_apps__minamo_publish_minamo_activity_package",
+        "mcp__codex_apps__minamo_publish_minamo_manuscript",
+        "mcp__codex_apps__minamo_query_minamo_library",
+        "mcp__codex_apps__minamo_query_minamo_records",
+        "mcp__codex_apps__minamo_read_minamo_activity",
+        "mcp__codex_apps__minamo_read_minamo_manuscript_source",
+        "mcp__codex_apps__minamo_read_minamo_operation",
+        "mcp__codex_apps__minamo_read_minamo_record",
+        "mcp__codex_apps__minamo_record_minamo_activity_attempt",
+        "mcp__codex_apps__minamo_record_minamo_learning_development",
+        "mcp__codex_apps__minamo_reveal_minamo_activity_hint",
+        "mcp__codex_apps__minamo_revise_minamo_learning_development"
+      ],
+      "activityCatalogue": "activity-studio-interface-foundry-2026-10-25.2",
+      "activityContract": "minamo.activity.v1",
+      "attemptContract": "minamo.attempt.v1",
+      "atlasContract": "minamo.learning-graph.v1"
+    },
+    "discovery": {
+      "query": "Mood-to-Music",
+      "includeSynthetic": true,
+      "suppliedRecordIds": false,
+      "targets": 1,
+      "ambiguous": false,
+      "searchIncomplete": false,
+      "parentIdentity": "redacted genuine parent id/title/URL",
+      "parentRevBefore": 4,
+      "parentRevAfter": 4,
+      "parentRenditionUnchanged": true
+    },
+    "atlas": {
+      "contract": "minamo.learning-graph.v1",
+      "generation": "legacy@0",
+      "scope": {
+        "generation": "legacy@0",
+        "version": 3154,
+        "focus": null,
+        "includeSynthetic": false
+      },
+      "nodeCount": 37,
+      "edgeCount": 57,
+      "truncated": true,
+      "limits": {
+        "records": 13,
+        "nodes": 120,
+        "edges": 240
+      },
+      "hasNextCursor": true,
+      "notice": "bounded current saved graph projection; truncated page was not treated as complete corpus or mastery"
+    },
+    "preview": {
+      "failedBeforeWrites": [
+        {
+          "code": "invalid_activity",
+          "path": "input.expectedRev",
+          "repair": "omit expectedRev on create"
+        },
+        {
+          "code": "invalid_activity",
+          "path": "input.activity.blocks.1.text",
+          "repair": "use typed block text field for prediction and reflection"
+        }
+      ],
+      "successful": true,
+      "failedPreviewsWroteRecordsOrReceipts": false
+    },
+    "records": [
+      {
+        "created": {
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+          "rev": 1,
+          "rendition": "r-080957292b9d980fab1f32442a3a8da25f6cde4ab36bc6b1267cb65c0a3e2e98",
+          "synthetic": true,
+          "trashedAt": null
+        },
+        "cleanup": {
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+          "rev": 2,
+          "rendition": "r-080957292b9d980fab1f32442a3a8da25f6cde4ab36bc6b1267cb65c0a3e2e98",
+          "synthetic": true,
+          "trashedAt": "2026-10-25T23:02:30.229Z"
+        }
+      },
+      {
+        "created": {
+          "family": "run",
+          "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+          "rev": 1,
+          "rendition": "r-e0a3b7846b951c1a697955b3f9610a50c244a6f068cca0f868d5bfe7c9447a5d",
+          "synthetic": true,
+          "trashedAt": null
+        },
+        "activityPin": {
+          "family": "experiment",
+          "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+          "rendition": "r-080957292b9d980fab1f32442a3a8da25f6cde4ab36bc6b1267cb65c0a3e2e98"
+        },
+        "cleanup": {
+          "family": "run",
+          "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+          "rev": 2,
+          "rendition": "r-e0a3b7846b951c1a697955b3f9610a50c244a6f068cca0f868d5bfe7c9447a5d",
+          "synthetic": true,
+          "trashedAt": "2026-10-25T23:02:25.707Z"
+        }
+      }
+    ],
+    "operations": [
+      {
+        "tool": "publish_minamo_activity_package",
+        "operationId": "pr45-fresh-publish-20261025",
+        "identicalReplay": false,
+        "expectedRev": null,
+        "expectedGeneration": "legacy@0",
+        "status": "committed"
+      },
+      {
+        "tool": "publish_minamo_activity_package",
+        "operationId": "pr45-fresh-publish-20261025",
+        "identicalReplay": true,
+        "expectedRev": null,
+        "expectedGeneration": "legacy@0",
+        "status": "committed"
+      },
+      {
+        "tool": "record_minamo_activity_attempt",
+        "operationId": "pr45-fresh-attempt-20261025",
+        "identicalReplay": false,
+        "expectedRev": null,
+        "expectedGeneration": "legacy@0",
+        "status": "committed"
+      },
+      {
+        "tool": "apply_minamo_command",
+        "operationId": "pr45-fresh-trash-attempt-20261025",
+        "identicalReplay": false,
+        "expectedRev": 1,
+        "expectedGeneration": "legacy@0",
+        "status": "committed"
+      },
+      {
+        "tool": "apply_minamo_command",
+        "operationId": "pr45-fresh-trash-activity-20261025",
+        "identicalReplay": false,
+        "expectedRev": 1,
+        "expectedGeneration": "legacy@0",
+        "status": "committed"
+      }
+    ],
+    "verification": {
+      "exactActivityRead": true,
+      "exactAttemptRead": true,
+      "replayReported": true,
+      "replayRev": 1,
+      "replayEditionUnchanged": true,
+      "naturalContextActivityIds": [
+        "TEST-ONLY-pr45-fresh-activity-20261025"
+      ],
+      "naturalContextAttemptIds": [
+        "TEST-ONLY-pr45-fresh-attempt-20261025"
+      ],
+      "shortNextIntentionReturned": true,
+      "postCleanupActivityIds": [],
+      "postCleanupAttemptIds": [],
+      "cleanupOperationReadbacksCommitted": true,
+      "parentMetadataUnchanged": true
+    },
+    "boundaries": {
+      "allCreatedRecordsSynthetic": true,
+      "optionalNoteCreated": false,
+      "terminalTested": false,
+      "executedCode": false,
+      "observedExecutionAsserted": false,
+      "learningDevelopmentCreated": false,
+      "genuineRecordMutations": false,
+      "permanentDeletion": false,
+      "otherTestRecordsTouched": false,
+      "overallGoDeclared": false
+    },
+    "failuresAfterSuccessfulPreview": [],
+    "remaining": "Root controller independent baseline comparison is outside this scoped result."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "purpose": "Task-owned production acceptance fixtures; never genuine learner data.",
+  "generation": "legacy@0",
+  "baseline": "V37",
+  "sourceNote": "TEST-ONLY-background-20261026-source",
+  "records": [
+    {
+      "family": "note",
+      "id": "TEST-ONLY-background-20261026-source",
+      "createdRev": 1,
+      "synthetic": true
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-background-20261026-annotation-1",
+      "createdRev": 1,
+      "synthetic": true
+    },
+    {
+      "family": "flag",
+      "id": "flag-0d813d29133943c8338c6273974639c0e1dcd3e3ea4e4092ff31d0606da8211d",
+      "createdRev": 1,
+      "synthetic": true
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-background-20261026-annotation-2",
+      "createdRev": 1,
+      "synthetic": true
+    },
+    {
+      "family": "flag",
+      "id": "flag-a431c8a2f71be032ae21ebaf685b5017085a98d2ad02005475c16f324826ff90",
+      "createdRev": 1,
+      "synthetic": true
+    }
+  ],
+  "classification": "Four marks assigned Computing with exclusive classifyLearningScope CAS at canonical revision1; no canonical prose revision.",
+  "cleanup": "Recoverable Trash/off operations and verification are recorded in implementation PR completion receipt."
+}

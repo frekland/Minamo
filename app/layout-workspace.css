@@ -1,0 +1,221 @@
+/* Three deliberate presentations over the existing Workspace and editor owners.
+   Classic keeps the V24 surface; shared switcher styles are its only layout addition. */
+.ml-switcher { display:flex; align-items:center; gap:2px; padding:3px; border:1px solid var(--mn-border-control); border-radius:9px; background:var(--mn-canvas); }
+.ml-switcher button { display:flex; align-items:center; justify-content:center; gap:6px; min-height:36px; padding:7px 10px; border-radius:6px; background:transparent; color:var(--mn-text-muted); font-size:13px; }
+.ml-switcher button[aria-pressed=true] { background:var(--mn-selected); color:var(--mn-text); box-shadow:inset 0 0 0 1px var(--mn-border-control); }
+.ml-switcher-settings { width:fit-content; max-width:100%; }
+.ml-context { display:none; min-width:0; color:var(--mn-text-body); background:var(--mn-surface); border-color:var(--mn-border); }
+.ml-context button { padding:8px; border-radius:6px; background:transparent; color:var(--mn-text); text-align:left; white-space:normal; overflow-wrap:anywhere; font-size:13px; line-height:1.5; }
+.ml-context button:hover { background:var(--mn-surface-secondary); }
+.ml-context small { display:block; margin-top:4px; color:var(--mn-text-muted); font-size:12px; line-height:1.5; overflow-wrap:anywhere; }
+.ml-context summary { cursor:pointer; min-height:36px; padding-block:7px; font-size:13px; line-height:1.6; }
+.ml-kicker,.ml-next-label { display:block; margin:0 0 8px; color:var(--mn-interactive); font:12px/1.6 system-ui; letter-spacing:.08em; }
+.ml-task-title { padding:0!important; font:500 17px/1.45 system-ui!important; }
+.ml-task-title small { font-size:13px; margin-top:6px; }
+.ml-task-identity { font-size:12px!important; }
+.ml-context-tools { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-block:14px; }
+.ml-context-tools button { display:flex; align-items:center; gap:7px; min-height:38px; border:1px solid var(--mn-border-control); }
+.ml-task-continue { padding-block:8px; }
+.ml-next-action { font-size:14px; line-height:1.7; white-space:pre-wrap; overflow-wrap:anywhere; }
+.ml-task-detail { margin-top:10px; padding-block:10px; border-top:1px solid var(--mn-border); font-size:14px; line-height:1.7; }
+.ml-task-detail details { margin-top:12px; padding-top:10px; border-top:1px solid var(--mn-border); }
+.ml-task-detail details button { display:block; width:100%; border-bottom:1px solid var(--mn-border); }
+.ml-resources { margin-top:8px; padding-top:10px; border-top:1px solid var(--mn-border); font-size:13px; }
+.ml-resource { display:flex; align-items:start; border-bottom:1px solid var(--mn-border); }
+.ml-resource>button:first-child { flex:1; min-width:0; }
+.ml-resource>button:last-child { flex:0 0 36px; min-width:36px; min-height:40px; padding:10px 6px; }
+.ml-resources>small { padding-top:10px; }
+.ml-treatment { display:block; margin:10px 0 0!important; font-size:13px!important; }
+.ml-treatment select { display:block; width:100%; min-height:40px; margin:6px 0 0; font-size:13px; }
+.ml-mode-options { min-width:150px; margin-top:12px; }
+.ml-remember { margin-top:12px; text-decoration:underline; }
+
+/* Alternative modes retain global navigation behind the existing named menu. */
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-shell { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); position:relative; container-type:inline-size; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-mobile-menu { display:inline-flex!important; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-sidebar { display:none; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-sidebar.is-open { display:flex; position:absolute; z-index:35; inset:0 auto 0 0; width:260px; max-width:85%; max-height:100%; padding-bottom:20px; transform:none; background:var(--mn-surface); box-shadow:15px 0 35px #0007; overflow:auto; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-nav-scrim { display:block; position:absolute; z-index:30; inset:0; border-radius:0; background:var(--mn-overlay-backdrop); }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-main { width:100%; max-width:none; padding:28px 5% 70px; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader { margin-inline:auto; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reading-header { margin-inline:auto; margin-bottom:22px; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader h1 { margin-block:10px 16px; font-size:40px; line-height:1.2; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-breadcrumb { flex-wrap:wrap; white-space:normal; row-gap:6px; margin-bottom:12px; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .wp-context-actions { margin-bottom:10px; }
+.ml-reading-actions { display:inline-block; margin:0 20px 10px 0; vertical-align:top; color:var(--mn-text-muted); font-size:13px; }
+.ml-reading-actions>summary { display:list-item; min-height:38px; padding-block:7px; cursor:pointer; }
+.ml-reading-actions[open] { display:block; }
+.ml-reading-actions .wp-context-actions { margin-block:8px; }
+.ml-reading-actions:not(.is-reduced),.ml-reading-actions:not(.is-reduced)[open] { display:contents; margin:0; }
+.ml-reading-actions:not(.is-reduced)>summary,.ml-reading-actions>summary[hidden],.ml-reading-orientation>summary[hidden] { display:none; }
+.ml-reading-actions:not(.is-reduced) .wp-context-actions { margin-block:0 10px; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-library-return { display:inline-block; margin-bottom:10px; vertical-align:top; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav { clear:both; min-height:44px; height:auto; gap:10px; margin-bottom:16px; padding-block:7px; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav label { display:flex; align-items:center; gap:9px; margin:0; font-size:13px; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav select { max-width:min(480px,65vw); min-height:40px; margin:0; }
+.wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader-bookmark { float:right; margin:0 0 8px 18px; }
+
+/* The same orientation owner remains mounted in every mode. Classic/Task keep
+   their existing open flow; Focus folds administration into one named disclosure. */
+.ml-reading-orientation,.ml-reading-orientation-body { display:contents; }
+.ml-reading-orientation>summary { display:none; }
+.wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced { display:block; margin:0 0 10px; }
+.wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced>summary { display:list-item; min-height:44px; padding:9px 0; color:var(--mn-text-muted); font-size:14px; line-height:1.6; cursor:pointer; }
+.wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced>.ml-reading-orientation-body { display:block; padding:8px 0 12px; border-bottom:1px solid var(--mn-border); }
+.wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced>.ml-reading-orientation-body .v2-breadcrumb { margin-block:0 10px; }
+.wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced>.ml-reading-orientation-body .wp-context-actions { margin-block:0 10px; }
+.wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced>.ml-reading-orientation-body .v2-library-return { margin-bottom:0; }
+
+/* Focus has calm task/reference access, not a permanently visible action dashboard. */
+.wp-workspace[data-layout=focus] .ml-context { display:flex; grid-column:1/-1; align-items:start; flex-wrap:wrap; gap:10px 24px; padding:8px 28px; border-bottom:1px solid var(--mn-border); }
+.wp-workspace[data-layout=focus] .ml-context-tools { margin:0 0 0 auto; }
+.wp-workspace[data-layout=focus] .ml-orientation { flex:1; min-width:180px; }
+.wp-workspace[data-layout=focus] .ml-orientation-body { padding:10px 0; max-height:min(50dvh,420px); overflow:auto; }
+.wp-workspace[data-layout=focus] .ml-task-title { font-size:15px!important; }
+.wp-workspace[data-layout=focus] .ml-task-identity { margin-top:8px; }
+.wp-workspace[data-layout=focus] .ml-mode-options { margin-top:0; }
+.wp-workspace[data-layout=focus] .ml-resources { margin-top:12px; }
+.wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-reader { max-width:1060px; }
+.wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-reading-header,
+.wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-reading-content { max-width:min(760px,var(--wp-reading-measure)); }
+.wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-part>p { font-size:max(18px,var(--wp-reading-size)); line-height:1.95; }
+.wp-workspace[data-layout=focus][data-focus-treatment=technical] .rn-reader { max-width:1120px; }
+.wp-workspace[data-layout=focus][data-focus-treatment=technical] .rn-reading-layout { display:block; }
+.wp-workspace[data-layout=focus][data-focus-treatment=technical] .rn-reading-content { max-width:1100px; margin-inline:auto; }
+.wp-workspace[data-layout=focus][data-focus-treatment=technical] .rn-part>p { max-width:var(--wp-reading-measure); margin-inline:auto; }
+.wp-workspace[data-layout=focus][data-focus-treatment=technical] .v2-main:has(.le-reading-nav) .rn-contents { display:none; }
+.wp-workspace[data-layout=focus] .rn-reading-layout { display:block; }
+.wp-workspace[data-layout=focus] .v2-main:has(.le-reading-nav) .rn-contents { display:none; }
+@container reading (min-width:980px) {
+ .wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-reading-layout { display:grid; grid-template-columns:160px minmax(0,1fr); gap:28px; }
+ .wp-workspace[data-layout=focus][data-focus-treatment=book] .v2-main:has(.le-reading-nav) .rn-contents { display:flex; }
+ .wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-contents { position:sticky; top:65px; align-self:start; flex-direction:column; padding:0; margin:20px 0 0; border:0; }
+}
+
+/* Task prioritises the saved next action and authored relationships beside practical reading. */
+.wp-workspace[data-layout=task] .v2-shell { grid-template-columns:272px minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
+.wp-workspace[data-layout=task] .ml-context { display:block; min-height:0; padding:24px 19px; border-right:1px solid var(--mn-border); overflow:auto; }
+.wp-workspace[data-layout=task] .rn-reader { max-width:1120px; }
+.wp-workspace[data-layout=task] .rn-reading-layout { display:block; }
+.wp-workspace[data-layout=task] .rn-reading-content { max-width:1100px; margin-inline:auto; }
+.wp-workspace[data-layout=task] .rn-part>p { max-width:var(--wp-reading-measure); margin-inline:auto; }
+.wp-workspace[data-layout=task] .v2-main:has(.le-reading-nav) .rn-contents { display:none; }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .v2-shell,
+.wp-workspace[data-layout=task][data-notes-open=true]:is([data-notes-dock=left],[data-notes-dock=right]) .v2-shell { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-context,
+.wp-workspace[data-layout=task][data-notes-open=true]:is([data-notes-dock=left],[data-notes-dock=right]) .ml-context { display:flex; grid-column:1/-1; align-items:start; flex-wrap:wrap; gap:12px 22px; max-height:min(40dvh,320px); padding:14px 24px; border-right:0; border-bottom:1px solid var(--mn-border); }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-task-heading { flex:1; min-width:180px; max-width:320px; }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-context-tools { margin:0; }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-task-detail { flex:1; min-width:210px; margin:0; padding:0; border:0; }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-task-continue { flex:1; min-width:220px; padding:0; }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-resources { flex:1; min-width:210px; margin:0; padding:0; border:0; }
+.wp-workspace[data-layout=task]:is([data-task-rail=top],[data-task-rail=compact]) .ml-mode-options { margin-top:0; }
+.wp-workspace[data-layout=task][data-task-rail=compact] .ml-task-identity { display:none; }
+
+/* A passive reference occupies its own viewport. The owning Workspace controls
+   canonical visibility and selection; CSS does not create or promote a Reader. */
+.wp-workspace[data-layout=task][data-reference=true] .v2-shell { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); }
+.wp-workspace[data-layout=task][data-reference=true] .ml-context { grid-column:1/-1; max-height:min(36dvh,270px); border-right:0; border-bottom:1px solid var(--mn-border); }
+.wp-workspace:is([data-layout=focus],[data-layout=task])[data-reference=true] .wp-reference { grid-column:1/-1; width:100%; max-width:none; min-height:0; border-left:0; border-top:1px solid var(--mn-border); }
+.wp-workspace:is([data-layout=focus],[data-layout=task])[data-reference=true] .v2-main { display:none; }
+
+@media (max-width:1150px) and (min-width:701px) {
+ .wp-workspace[data-layout] .v2-header { gap:12px; padding-inline:20px; }
+ .wp-workspace[data-layout] .v2-header-actions { gap:3px; }
+ .wp-workspace[data-layout] .ml-switcher button { padding-inline:8px; }
+}
+@media (max-width:1000px) {
+ .wp-workspace[data-layout=task] .v2-shell { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); }
+ .wp-workspace[data-layout=task] .ml-context { display:flex; grid-column:1/-1; align-items:start; flex-wrap:wrap; gap:8px 18px; max-height:min(40dvh,300px); padding:12px 20px; border-right:0; border-bottom:1px solid var(--mn-border); }
+ .wp-workspace[data-layout=task] .ml-task-heading { flex:1 1 190px; }
+ .wp-workspace[data-layout=task] .ml-task-title { font-size:15px!important; }
+ .wp-workspace[data-layout=task] .ml-task-identity { display:none; }
+ .wp-workspace[data-layout=task] .ml-context-tools { margin:0; }
+ .wp-workspace[data-layout=task] .ml-task-continue { flex:1 1 220px; }
+ .wp-workspace[data-layout=task] .ml-task-detail,
+ .wp-workspace[data-layout=task] .ml-resources { flex:1 1 210px; margin:0; padding:0; border:0; }
+ .wp-workspace[data-layout=task] .ml-mode-options { margin:0; }
+}
+@media (max-width:700px) {
+ /* Classic keeps its original brand/search hierarchy. Only make room for presets. */
+ .wp-workspace[data-layout=classic] .v2-header { height:auto; min-height:0; display:flex; flex-wrap:wrap; gap:8px; padding:10px 16px; }
+ .wp-workspace[data-layout=classic] .v2-brand { flex:1; margin:0; }
+ .wp-workspace[data-layout=classic] .v2-search { order:3; flex:1 1 100%; width:100%; margin:0; }
+ .wp-workspace[data-layout=classic] .v2-header-actions { order:4; flex:1 1 100%; width:100%; margin:0; justify-content:space-between; }
+ .wp-workspace[data-layout=classic] .v2-sidebar.is-open { top:0; bottom:0; max-height:100%; position:absolute; }
+ .wp-workspace[data-layout=classic] .v2-nav-scrim { top:0; bottom:0; position:absolute; }
+ /* Focus/Task use two clear rows: navigation and search, then presets/support. */
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-header { height:auto; min-height:0; display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; padding:8px 14px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-brand { display:none; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-mobile-menu { order:0; min-width:36px!important; width:36px; min-height:44px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-search { order:1; flex:1 1 200px; min-width:0; width:auto; max-width:none; height:auto; min-height:44px; margin:0; padding:8px 10px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-search input { font-size:14px!important; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-search kbd { display:none; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-header-actions { order:2; flex:1 1 100%; width:100%; margin:0; gap:1px; }
+ .wp-workspace[data-layout] .ml-switcher { flex:1; max-width:none; }
+ .wp-workspace[data-layout] .ml-switcher button { flex:1; min-height:44px; padding:6px; font-size:13px; }
+ .wp-workspace[data-layout] .ml-switcher button svg { display:none; }
+ .wp-workspace[data-layout] .v2-header-actions>.v2-icon { flex:0 0 38px; min-width:38px; width:38px; min-height:44px; padding:6px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .ml-context { padding:6px 18px; gap:6px 14px; }
+ .wp-workspace[data-layout=focus] .ml-context { padding-inline:12px; column-gap:8px; }
+ .wp-workspace[data-layout=focus] .ml-orientation { flex:1 1 142px; min-width:142px; }
+ .wp-workspace[data-layout=focus] .ml-orientation:not([open])>summary,
+ .wp-workspace[data-layout=focus] .ml-mode-options:not([open])>summary { white-space:nowrap; }
+ .wp-workspace[data-layout=focus] .ml-context-tools { order:0; margin:0; }
+ .wp-workspace[data-layout=focus] .ml-mode-options { flex:0 1 auto; min-width:0; margin:0; }
+ .wp-workspace[data-layout=focus] .ml-orientation[open],
+ .wp-workspace[data-layout=focus] .ml-mode-options[open] { flex-basis:100%; }
+ .wp-workspace[data-layout=focus] .ml-orientation-body { max-height:35dvh; }
+ .wp-workspace[data-layout=focus] .ml-mode-options>summary { min-height:36px; }
+ .wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced { margin-bottom:5px; }
+ .wp-workspace[data-layout=focus] .ml-reading-orientation.is-reduced>summary { padding-block:8px; }
+ .wp-workspace[data-layout=focus] .ml-treatment { max-width:280px; margin-top:4px!important; padding-bottom:8px; }
+ .wp-workspace[data-layout=task] .ml-context { max-height:min(36dvh,270px); }
+ .wp-workspace[data-layout=task] .ml-task-heading { min-width:170px; }
+ .wp-workspace[data-layout=task] .ml-kicker { margin-bottom:4px; }
+ .wp-workspace[data-layout=task] .ml-next-label { margin-bottom:4px; }
+ .wp-workspace[data-layout=task] .ml-task-continue { flex-basis:100%; }
+ .wp-workspace[data-layout=task] .ml-task-title { font-size:15px!important; }
+ .wp-workspace[data-layout=task] .ml-context-tools button { min-height:44px; }
+ .wp-workspace[data-layout=task] .ml-mode-options { min-width:160px; }
+ .wp-workspace .ml-context summary { min-height:40px; padding-block:8px; }
+ .wp-workspace .ml-resource button { min-height:44px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-main { padding:12px 18px 55px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-breadcrumb { margin-bottom:6px; line-height:1.5; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader h1 { font-size:30px; line-height:1.2; margin-block:6px 12px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reading-header { margin-bottom:18px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .rn-reader-meta { margin-bottom:5px; gap:7px 12px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .ml-reading-actions { margin-bottom:5px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav { min-height:44px; margin-bottom:12px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav label { font-size:13px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .le-reading-nav select { max-width:100%; }
+ .wp-workspace[data-layout=focus][data-focus-treatment=book] .rn-part>p { line-height:1.85; }
+}
+@media (max-width:360px) {
+ .wp-workspace[data-layout] .v2-header-actions { flex-wrap:wrap; justify-content:flex-end; }
+ .wp-workspace[data-layout] .v2-header-actions>.ml-switcher { flex-basis:100%; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-header { padding-inline:10px; }
+ .wp-workspace:is([data-layout=focus],[data-layout=task]) .v2-main { padding-inline:16px; }
+}
+@media (max-height:600px) and (max-width:1000px) {
+ .wp-workspace[data-layout=task] .ml-context { max-height:29dvh; }
+ .wp-workspace[data-layout=focus] .ml-orientation-body { max-height:28dvh; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .wp-workspace[data-layout] * { scroll-behavior:auto!important; transition:none!important; }
+}
+
+@media(min-width:1001px){
+ .wp-workspace[data-layout=task][data-task-rail=expanded]:not([data-notes-open=true][data-notes-dock=left]):not([data-notes-open=true][data-notes-dock=right]) .ml-task-heading{position:sticky;top:0;z-index:2;background:var(--mn-surface);padding-bottom:10px}
+}
+
+/* Compact Task keeps identity and Notes immediate, with a genuine optional body. */
+.ml-task-body:not(.is-compact),.ml-task-body:not(.is-compact)>.ml-task-body-content { display:contents; }
+.ml-task-body>summary[hidden] { display:none!important; }
+.wp-workspace[data-layout=task] .ml-task-body.is-compact { flex:1 1 100%; min-width:0; }
+.ml-task-body.is-compact>summary { min-height:40px; padding:7px 0; font-size:14px; cursor:pointer; }
+.ml-task-body.is-compact>.ml-task-body-content { display:flex; flex-wrap:wrap; gap:12px 22px; padding:8px 0; }
+@media(max-width:700px){
+ .wp-workspace[data-layout=task][data-task-rail=compact] .ml-task-heading { min-width:120px; max-width:none; }
+ .wp-workspace[data-layout=task][data-task-rail=compact] .ml-context-tools { flex:0 0 auto; }
+}

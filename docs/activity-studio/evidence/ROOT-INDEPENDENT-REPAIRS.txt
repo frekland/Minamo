@@ -1,0 +1,27 @@
+▶ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links
+  ✔ guarded high-level publication saves an exact Attempt relation (0.662777ms)
+  ✔ old saved links and native typed Attempts project the immutable target rather than latest (57.2788ms)
+  ✔ reverse neighborhood discovers native typed Attempts and exact reading-only Activity links (80.345066ms)
+  ✔ old-client edits with Activity disabled preserve stored cartridge and exact Attempt metadata (61.16187ms)
+  ✔ revoked source suppresses typed reading relationships and invalidates the prior graph cursor (90.786317ms)
+✔ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links (1974.408609ms)
+✔ independent exact Activity reading target variants use the same current owner projections (1783.248663ms)
+✔ strict admission remains unloaded, snapshots exact source, and lifecycle disposes once (8.058146ms)
+✔ unknown version/kind/keys, source digest mismatch and forged observed provenance fail (4.04355ms)
+✔ revocation gates fallback and revalidation clears renderer (1.352574ms)
+✔ revalidation authority failure clears live content and disposes once before rejecting (1.080535ms)
+✔ late revoked lazy import cannot mount or leak fallback (1.098512ms)
+✔ JSON prewalk rejects executable/accessor/cyclic/nonfinite/oversized/deep data (2.577846ms)
+✔ structured output manifest rejects stale cancelled plots, mismatched tables and SVG payloads (1.75575ms)
+✔ failed loader cannot restore private fallback after revocation or authority failure (2.524326ms)
+✔ post-mount authority exception releases resources even when the retry allows a static fallback (1.672575ms)
+✔ sparse and extended arrays cannot bypass budgets then expand during JSON snapshot (0.497818ms)
+✔ unpaired UTF16 canonical source rejects before UTF8 replacement could collapse distinct source hashes (3.282986ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4030.308997

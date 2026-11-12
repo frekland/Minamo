@@ -1,0 +1,2694 @@
+{
+  "synthetic": true,
+  "backend": "Python stdlib SQLite in-memory; NOT hosted D1",
+  "sqliteVersion": "3.53.1",
+  "passages": 33,
+  "queryCases": 40,
+  "methodology": "Fixed synthetic fixture, 20 warm SQL samples per case per strategy. Same exact alias path first. No model/synonym expansion. Literal is simplified query-shape comparator, not execution of production domain code.",
+  "strategies": {
+    "literal": {
+      "positiveCases": 33,
+      "hitAt5": 16,
+      "top1Correct": 16,
+      "noAnswerCases": 7,
+      "falsePositiveNoAnswer": 0,
+      "medianSqlMs": 0.01698,
+      "p95SqlMs": 0.02,
+      "meanSerializedUtf8Bytes": 88.4,
+      "categories": {
+        "literal": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "natural": {
+          "cases": 8,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "diagnostic": {
+          "cases": 4,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "synonym": {
+          "cases": 5,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "exact": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "no-answer": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "eligibility": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "query-syntax": {
+          "cases": 1,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        }
+      },
+      "cases": [
+        {
+          "query": "working directory",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.01774
+        },
+        {
+          "query": "relative paths",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.0187
+        },
+        {
+          "query": "returned value",
+          "expected": [
+            "03-return"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.01863
+        },
+        {
+          "query": "sorting numbers",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "04-sort"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 256,
+          "medianSqlMs": 0.0182
+        },
+        {
+          "query": "HTTP failure",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "06-curl-exit"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 265,
+          "medianSqlMs": 0.01828
+        },
+        {
+          "query": "code verifier",
+          "expected": [
+            "07-pkce"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "07-pkce"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 280,
+          "medianSqlMs": 0.01883
+        },
+        {
+          "query": "UTF-16 offsets",
+          "expected": [
+            "19-anchor"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "19-anchor"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 289,
+          "medianSqlMs": 0.0184
+        },
+        {
+          "query": "server acknowledgement",
+          "expected": [
+            "20-storage"
+          ],
+          "category": "literal",
+          "path": "literal",
+          "results": [
+            "20-storage"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 286,
+          "medianSqlMs": 0.01812
+        },
+        {
+          "query": "why is document undefined in node",
+          "expected": [
+            "02-node"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01673
+        },
+        {
+          "query": "why does console.log return undefined",
+          "expected": [
+            "03-return"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01655
+        },
+        {
+          "query": "does const freeze object properties",
+          "expected": [
+            "15-state"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01717
+        },
+        {
+          "query": "why does sort change the original array",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01663
+        },
+        {
+          "query": "does a commit prove successful execution",
+          "expected": [
+            "12-commit"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01721
+        },
+        {
+          "query": "how can stale response update current state",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01695
+        },
+        {
+          "query": "why did a join multiply rows",
+          "expected": [
+            "17-join"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01683
+        },
+        {
+          "query": "what does conflict retain",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "natural",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01688
+        },
+        {
+          "query": "KeyError missing key default",
+          "expected": [
+            "10-dict"
+          ],
+          "category": "diagnostic",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01678
+        },
+        {
+          "query": "404 exit nonzero curl",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "diagnostic",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01661
+        },
+        {
+          "query": "IndexError missing position",
+          "expected": [
+            "11-list"
+          ],
+          "category": "diagnostic",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01776
+        },
+        {
+          "query": "grapheme code points bytes",
+          "expected": [
+            "09-unicode"
+          ],
+          "category": "diagnostic",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.0168
+        },
+        {
+          "query": "shell cannot find file",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01758
+        },
+        {
+          "query": "folder I am currently inside",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01736
+        },
+        {
+          "query": "screen message versus function answer",
+          "expected": [
+            "03-return"
+          ],
+          "category": "synonym",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01758
+        },
+        {
+          "query": "old download overwrites newest result",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "synonym",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01748
+        },
+        {
+          "query": "keep local writing after racing saves",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "synonym",
+          "path": "literal",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01638
+        },
+        {
+          "query": "curl -i",
+          "expected": [
+            "21-curl-lower"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "21-curl-lower"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 140,
+          "medianSqlMs": 0.00481
+        },
+        {
+          "query": "curl -I",
+          "expected": [
+            "22-curl-upper"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "22-curl-upper"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 166,
+          "medianSqlMs": 0.00483
+        },
+        {
+          "query": "Map",
+          "expected": [
+            "23-map-object"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "23-map-object"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 185,
+          "medianSqlMs": 0.00491
+        },
+        {
+          "query": "map",
+          "expected": [
+            "24-map-function"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "24-map-function"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 199,
+          "medianSqlMs": 0.0049
+        },
+        {
+          "query": "??",
+          "expected": [
+            "25-nullish"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "25-nullish"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 180,
+          "medianSqlMs": 0.00491
+        },
+        {
+          "query": "||",
+          "expected": [
+            "26-or"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "26-or"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 154,
+          "medianSqlMs": 0.00479
+        },
+        {
+          "query": "dict.get()",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00483
+        },
+        {
+          "query": "dict.get",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00475
+        },
+        {
+          "query": "quantum entanglement",
+          "expected": [],
+          "category": "no-answer",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01688
+        },
+        {
+          "query": "how do I return a parcel",
+          "expected": [],
+          "category": "no-answer",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.0177
+        },
+        {
+          "query": "what is the secret token in a client",
+          "expected": [],
+          "category": "no-answer",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01601
+        },
+        {
+          "query": "GHOSTCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01753
+        },
+        {
+          "query": "ALIENCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01802
+        },
+        {
+          "query": "OLDCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01807
+        },
+        {
+          "query": "\" OR * NOT snippet(fts)",
+          "expected": [],
+          "category": "query-syntax",
+          "path": "literal",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01685
+        }
+      ]
+    },
+    "fts-and": {
+      "positiveCases": 33,
+      "hitAt5": 24,
+      "top1Correct": 23,
+      "noAnswerCases": 7,
+      "falsePositiveNoAnswer": 0,
+      "medianSqlMs": 0.01549,
+      "p95SqlMs": 0.02573,
+      "meanSerializedUtf8Bytes": 149.8,
+      "categories": {
+        "literal": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "natural": {
+          "cases": 8,
+          "hitAt5": 4,
+          "falsePositiveNoAnswer": 0
+        },
+        "diagnostic": {
+          "cases": 4,
+          "hitAt5": 4,
+          "falsePositiveNoAnswer": 0
+        },
+        "synonym": {
+          "cases": 5,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "exact": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "no-answer": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "eligibility": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "query-syntax": {
+          "cases": 1,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        }
+      },
+      "cases": [
+        {
+          "query": "working directory",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.01821
+        },
+        {
+          "query": "relative paths",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.01663
+        },
+        {
+          "query": "returned value",
+          "expected": [
+            "03-return"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.01751
+        },
+        {
+          "query": "sorting numbers",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "04-sort"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 256,
+          "medianSqlMs": 0.01693
+        },
+        {
+          "query": "HTTP failure",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "06-curl-exit"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 265,
+          "medianSqlMs": 0.0176
+        },
+        {
+          "query": "code verifier",
+          "expected": [
+            "07-pkce"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "07-pkce"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 280,
+          "medianSqlMs": 0.01733
+        },
+        {
+          "query": "UTF-16 offsets",
+          "expected": [
+            "19-anchor"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "09-unicode",
+            "19-anchor"
+          ],
+          "hitAt5": true,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 583,
+          "medianSqlMs": 0.0224
+        },
+        {
+          "query": "server acknowledgement",
+          "expected": [
+            "20-storage"
+          ],
+          "category": "literal",
+          "path": "fts-and",
+          "results": [
+            "20-storage"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 286,
+          "medianSqlMs": 0.0168
+        },
+        {
+          "query": "why is document undefined in node",
+          "expected": [
+            "02-node"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [
+            "02-node"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 291,
+          "medianSqlMs": 0.02077
+        },
+        {
+          "query": "why does console.log return undefined",
+          "expected": [
+            "03-return"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.02433
+        },
+        {
+          "query": "does const freeze object properties",
+          "expected": [
+            "15-state"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [
+            "15-state"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 280,
+          "medianSqlMs": 0.0236
+        },
+        {
+          "query": "why does sort change the original array",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01465
+        },
+        {
+          "query": "does a commit prove successful execution",
+          "expected": [
+            "12-commit"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01467
+        },
+        {
+          "query": "how can stale response update current state",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01664
+        },
+        {
+          "query": "why did a join multiply rows",
+          "expected": [
+            "17-join"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [
+            "17-join"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 258,
+          "medianSqlMs": 0.02214
+        },
+        {
+          "query": "what does conflict retain",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "natural",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01162
+        },
+        {
+          "query": "KeyError missing key default",
+          "expected": [
+            "10-dict"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and",
+          "results": [
+            "10-dict"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 273,
+          "medianSqlMs": 0.02451
+        },
+        {
+          "query": "404 exit nonzero curl",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and",
+          "results": [
+            "06-curl-exit"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 265,
+          "medianSqlMs": 0.02272
+        },
+        {
+          "query": "IndexError missing position",
+          "expected": [
+            "11-list"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and",
+          "results": [
+            "11-list"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 250,
+          "medianSqlMs": 0.02073
+        },
+        {
+          "query": "grapheme code points bytes",
+          "expected": [
+            "09-unicode"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and",
+          "results": [
+            "09-unicode"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 295,
+          "medianSqlMs": 0.02307
+        },
+        {
+          "query": "shell cannot find file",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01394
+        },
+        {
+          "query": "folder I am currently inside",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01295
+        },
+        {
+          "query": "screen message versus function answer",
+          "expected": [
+            "03-return"
+          ],
+          "category": "synonym",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01571
+        },
+        {
+          "query": "old download overwrites newest result",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "synonym",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01488
+        },
+        {
+          "query": "keep local writing after racing saves",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "synonym",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01731
+        },
+        {
+          "query": "curl -i",
+          "expected": [
+            "21-curl-lower"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "21-curl-lower"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 140,
+          "medianSqlMs": 0.0049
+        },
+        {
+          "query": "curl -I",
+          "expected": [
+            "22-curl-upper"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "22-curl-upper"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 166,
+          "medianSqlMs": 0.00488
+        },
+        {
+          "query": "Map",
+          "expected": [
+            "23-map-object"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "23-map-object"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 185,
+          "medianSqlMs": 0.0049
+        },
+        {
+          "query": "map",
+          "expected": [
+            "24-map-function"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "24-map-function"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 199,
+          "medianSqlMs": 0.00497
+        },
+        {
+          "query": "??",
+          "expected": [
+            "25-nullish"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "25-nullish"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 180,
+          "medianSqlMs": 0.00493
+        },
+        {
+          "query": "||",
+          "expected": [
+            "26-or"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "26-or"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 154,
+          "medianSqlMs": 0.00486
+        },
+        {
+          "query": "dict.get()",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00499
+        },
+        {
+          "query": "dict.get",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00483
+        },
+        {
+          "query": "quantum entanglement",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01103
+        },
+        {
+          "query": "how do I return a parcel",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01142
+        },
+        {
+          "query": "what is the secret token in a client",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01351
+        },
+        {
+          "query": "GHOSTCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01059
+        },
+        {
+          "query": "ALIENCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01
+        },
+        {
+          "query": "OLDCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.00999
+        },
+        {
+          "query": "\" OR * NOT snippet(fts)",
+          "expected": [],
+          "category": "query-syntax",
+          "path": "fts-and",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01162
+        }
+      ]
+    },
+    "fts-or": {
+      "positiveCases": 33,
+      "hitAt5": 31,
+      "top1Correct": 28,
+      "noAnswerCases": 7,
+      "falsePositiveNoAnswer": 2,
+      "medianSqlMs": 0.02065,
+      "p95SqlMs": 0.04177,
+      "meanSerializedUtf8Bytes": 459.6,
+      "categories": {
+        "literal": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "natural": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "diagnostic": {
+          "cases": 4,
+          "hitAt5": 4,
+          "falsePositiveNoAnswer": 0
+        },
+        "synonym": {
+          "cases": 5,
+          "hitAt5": 3,
+          "falsePositiveNoAnswer": 0
+        },
+        "exact": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "no-answer": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 2
+        },
+        "eligibility": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "query-syntax": {
+          "cases": 1,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        }
+      },
+      "cases": [
+        {
+          "query": "working directory",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "01-cwd",
+            "13-diff"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 507,
+          "medianSqlMs": 0.02001
+        },
+        {
+          "query": "relative paths",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.01678
+        },
+        {
+          "query": "returned value",
+          "expected": [
+            "03-return"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "03-return",
+            "16-null",
+            "15-state",
+            "10-dict"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 1086,
+          "medianSqlMs": 0.02363
+        },
+        {
+          "query": "sorting numbers",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "04-sort",
+            "28-copy"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 455,
+          "medianSqlMs": 0.01886
+        },
+        {
+          "query": "HTTP failure",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "06-curl-exit",
+            "21-curl-lower",
+            "22-curl-upper",
+            "05-http-status"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 847,
+          "medianSqlMs": 0.02312
+        },
+        {
+          "query": "code verifier",
+          "expected": [
+            "07-pkce"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "07-pkce",
+            "09-unicode",
+            "28-copy"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 773,
+          "medianSqlMs": 0.02116
+        },
+        {
+          "query": "UTF-16 offsets",
+          "expected": [
+            "19-anchor"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "09-unicode",
+            "19-anchor"
+          ],
+          "hitAt5": true,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 583,
+          "medianSqlMs": 0.02178
+        },
+        {
+          "query": "server acknowledgement",
+          "expected": [
+            "20-storage"
+          ],
+          "category": "literal",
+          "path": "fts-or",
+          "results": [
+            "20-storage"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 286,
+          "medianSqlMs": 0.01683
+        },
+        {
+          "query": "why is document undefined in node",
+          "expected": [
+            "02-node"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "02-node",
+            "25-nullish",
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 736,
+          "medianSqlMs": 0.02405
+        },
+        {
+          "query": "why does console.log return undefined",
+          "expected": [
+            "03-return"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "03-return",
+            "25-nullish",
+            "02-node"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 736,
+          "medianSqlMs": 0.02768
+        },
+        {
+          "query": "does const freeze object properties",
+          "expected": [
+            "15-state"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "15-state",
+            "02-node"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 570,
+          "medianSqlMs": 0.02541
+        },
+        {
+          "query": "why does sort change the original array",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "04-sort",
+            "24-map-function",
+            "14-effect",
+            "18-cas"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 1008,
+          "medianSqlMs": 0.02977
+        },
+        {
+          "query": "does a commit prove successful execution",
+          "expected": [
+            "12-commit"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "30-bytes",
+            "12-commit"
+          ],
+          "hitAt5": true,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 539,
+          "medianSqlMs": 0.02641
+        },
+        {
+          "query": "how can stale response update current state",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "14-effect",
+            "15-state",
+            "21-curl-lower",
+            "05-http-status",
+            "29-network"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 1232,
+          "medianSqlMs": 0.04219
+        },
+        {
+          "query": "why did a join multiply rows",
+          "expected": [
+            "17-join"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "17-join"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 258,
+          "medianSqlMs": 0.02143
+        },
+        {
+          "query": "what does conflict retain",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "natural",
+          "path": "fts-or",
+          "results": [
+            "19-anchor",
+            "18-cas",
+            "15-state"
+          ],
+          "hitAt5": true,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 833,
+          "medianSqlMs": 0.02083
+        },
+        {
+          "query": "KeyError missing key default",
+          "expected": [
+            "10-dict"
+          ],
+          "category": "diagnostic",
+          "path": "fts-or",
+          "results": [
+            "10-dict",
+            "27-dict-ref",
+            "11-list",
+            "04-sort",
+            "16-null"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 1180,
+          "medianSqlMs": 0.03201
+        },
+        {
+          "query": "404 exit nonzero curl",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "diagnostic",
+          "path": "fts-or",
+          "results": [
+            "06-curl-exit",
+            "21-curl-lower",
+            "22-curl-upper",
+            "05-http-status"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 847,
+          "medianSqlMs": 0.02822
+        },
+        {
+          "query": "IndexError missing position",
+          "expected": [
+            "11-list"
+          ],
+          "category": "diagnostic",
+          "path": "fts-or",
+          "results": [
+            "11-list",
+            "16-null",
+            "10-dict"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 790,
+          "medianSqlMs": 0.02453
+        },
+        {
+          "query": "grapheme code points bytes",
+          "expected": [
+            "09-unicode"
+          ],
+          "category": "diagnostic",
+          "path": "fts-or",
+          "results": [
+            "09-unicode",
+            "30-bytes",
+            "07-pkce",
+            "28-copy",
+            "19-anchor"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 1332,
+          "medianSqlMs": 0.03215
+        },
+        {
+          "query": "shell cannot find file",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "fts-or",
+          "results": [
+            "01-cwd",
+            "30-bytes",
+            "02-node"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 835,
+          "medianSqlMs": 0.02693
+        },
+        {
+          "query": "folder I am currently inside",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.0129
+        },
+        {
+          "query": "screen message versus function answer",
+          "expected": [
+            "03-return"
+          ],
+          "category": "synonym",
+          "path": "fts-or",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.02649
+        },
+        {
+          "query": "old download overwrites newest result",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "synonym",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01489
+        },
+        {
+          "query": "keep local writing after racing saves",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "synonym",
+          "path": "fts-or",
+          "results": [
+            "18-cas",
+            "20-storage"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 551,
+          "medianSqlMs": 0.03094
+        },
+        {
+          "query": "curl -i",
+          "expected": [
+            "21-curl-lower"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "21-curl-lower"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 140,
+          "medianSqlMs": 0.00498
+        },
+        {
+          "query": "curl -I",
+          "expected": [
+            "22-curl-upper"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "22-curl-upper"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 166,
+          "medianSqlMs": 0.00499
+        },
+        {
+          "query": "Map",
+          "expected": [
+            "23-map-object"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "23-map-object"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 185,
+          "medianSqlMs": 0.0049
+        },
+        {
+          "query": "map",
+          "expected": [
+            "24-map-function"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "24-map-function"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 199,
+          "medianSqlMs": 0.00495
+        },
+        {
+          "query": "??",
+          "expected": [
+            "25-nullish"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "25-nullish"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 180,
+          "medianSqlMs": 0.00493
+        },
+        {
+          "query": "||",
+          "expected": [
+            "26-or"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "26-or"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 154,
+          "medianSqlMs": 0.00491
+        },
+        {
+          "query": "dict.get()",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00488
+        },
+        {
+          "query": "dict.get",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00486
+        },
+        {
+          "query": "quantum entanglement",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01109
+        },
+        {
+          "query": "how do I return a parcel",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-or",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": true,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.01705
+        },
+        {
+          "query": "what is the secret token in a client",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-or",
+          "results": [
+            "07-pkce"
+          ],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": true,
+          "serializedUtf8Bytes": 280,
+          "medianSqlMs": 0.02076
+        },
+        {
+          "query": "GHOSTCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01052
+        },
+        {
+          "query": "ALIENCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01003
+        },
+        {
+          "query": "OLDCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.00999
+        },
+        {
+          "query": "\" OR * NOT snippet(fts)",
+          "expected": [],
+          "category": "query-syntax",
+          "path": "fts-or",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01155
+        }
+      ]
+    },
+    "fts-and-local": {
+      "positiveCases": 33,
+      "hitAt5": 24,
+      "top1Correct": 23,
+      "noAnswerCases": 7,
+      "falsePositiveNoAnswer": 0,
+      "medianSqlMs": 0.0149,
+      "p95SqlMs": 0.03908,
+      "meanSerializedUtf8Bytes": 149.8,
+      "categories": {
+        "literal": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "natural": {
+          "cases": 8,
+          "hitAt5": 4,
+          "falsePositiveNoAnswer": 0
+        },
+        "diagnostic": {
+          "cases": 4,
+          "hitAt5": 4,
+          "falsePositiveNoAnswer": 0
+        },
+        "synonym": {
+          "cases": 5,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "exact": {
+          "cases": 8,
+          "hitAt5": 8,
+          "falsePositiveNoAnswer": 0
+        },
+        "no-answer": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "eligibility": {
+          "cases": 3,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        },
+        "query-syntax": {
+          "cases": 1,
+          "hitAt5": 0,
+          "falsePositiveNoAnswer": 0
+        }
+      },
+      "cases": [
+        {
+          "query": "working directory",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.02535
+        },
+        {
+          "query": "relative paths",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "01-cwd"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 274,
+          "medianSqlMs": 0.02567
+        },
+        {
+          "query": "returned value",
+          "expected": [
+            "03-return"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.02581
+        },
+        {
+          "query": "sorting numbers",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "04-sort"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 256,
+          "medianSqlMs": 0.02524
+        },
+        {
+          "query": "HTTP failure",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "06-curl-exit"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 265,
+          "medianSqlMs": 0.02654
+        },
+        {
+          "query": "code verifier",
+          "expected": [
+            "07-pkce"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "07-pkce"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 280,
+          "medianSqlMs": 0.02631
+        },
+        {
+          "query": "UTF-16 offsets",
+          "expected": [
+            "19-anchor"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "09-unicode",
+            "19-anchor"
+          ],
+          "hitAt5": true,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 583,
+          "medianSqlMs": 0.04587
+        },
+        {
+          "query": "server acknowledgement",
+          "expected": [
+            "20-storage"
+          ],
+          "category": "literal",
+          "path": "fts-and-local",
+          "results": [
+            "20-storage"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 286,
+          "medianSqlMs": 0.02597
+        },
+        {
+          "query": "why is document undefined in node",
+          "expected": [
+            "02-node"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [
+            "02-node"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 291,
+          "medianSqlMs": 0.0293
+        },
+        {
+          "query": "why does console.log return undefined",
+          "expected": [
+            "03-return"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [
+            "03-return"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 267,
+          "medianSqlMs": 0.03024
+        },
+        {
+          "query": "does const freeze object properties",
+          "expected": [
+            "15-state"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [
+            "15-state"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 280,
+          "medianSqlMs": 0.03004
+        },
+        {
+          "query": "why does sort change the original array",
+          "expected": [
+            "04-sort"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01398
+        },
+        {
+          "query": "does a commit prove successful execution",
+          "expected": [
+            "12-commit"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01395
+        },
+        {
+          "query": "how can stale response update current state",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.0159
+        },
+        {
+          "query": "why did a join multiply rows",
+          "expected": [
+            "17-join"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [
+            "17-join"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 258,
+          "medianSqlMs": 0.02918
+        },
+        {
+          "query": "what does conflict retain",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "natural",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01092
+        },
+        {
+          "query": "KeyError missing key default",
+          "expected": [
+            "10-dict"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and-local",
+          "results": [
+            "10-dict"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 273,
+          "medianSqlMs": 0.03081
+        },
+        {
+          "query": "404 exit nonzero curl",
+          "expected": [
+            "06-curl-exit"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and-local",
+          "results": [
+            "06-curl-exit"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 265,
+          "medianSqlMs": 0.02943
+        },
+        {
+          "query": "IndexError missing position",
+          "expected": [
+            "11-list"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and-local",
+          "results": [
+            "11-list"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 250,
+          "medianSqlMs": 0.02742
+        },
+        {
+          "query": "grapheme code points bytes",
+          "expected": [
+            "09-unicode"
+          ],
+          "category": "diagnostic",
+          "path": "fts-and-local",
+          "results": [
+            "09-unicode"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 295,
+          "medianSqlMs": 0.02958
+        },
+        {
+          "query": "shell cannot find file",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01403
+        },
+        {
+          "query": "folder I am currently inside",
+          "expected": [
+            "01-cwd"
+          ],
+          "category": "synonym",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01191
+        },
+        {
+          "query": "screen message versus function answer",
+          "expected": [
+            "03-return"
+          ],
+          "category": "synonym",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01505
+        },
+        {
+          "query": "old download overwrites newest result",
+          "expected": [
+            "14-effect"
+          ],
+          "category": "synonym",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01401
+        },
+        {
+          "query": "keep local writing after racing saves",
+          "expected": [
+            "18-cas"
+          ],
+          "category": "synonym",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": false,
+          "top1Correct": false,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01641
+        },
+        {
+          "query": "curl -i",
+          "expected": [
+            "21-curl-lower"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "21-curl-lower"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 140,
+          "medianSqlMs": 0.0049
+        },
+        {
+          "query": "curl -I",
+          "expected": [
+            "22-curl-upper"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "22-curl-upper"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 166,
+          "medianSqlMs": 0.0049
+        },
+        {
+          "query": "Map",
+          "expected": [
+            "23-map-object"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "23-map-object"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 185,
+          "medianSqlMs": 0.00494
+        },
+        {
+          "query": "map",
+          "expected": [
+            "24-map-function"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "24-map-function"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 199,
+          "medianSqlMs": 0.00497
+        },
+        {
+          "query": "??",
+          "expected": [
+            "25-nullish"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "25-nullish"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 180,
+          "medianSqlMs": 0.00494
+        },
+        {
+          "query": "||",
+          "expected": [
+            "26-or"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "26-or"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 154,
+          "medianSqlMs": 0.00494
+        },
+        {
+          "query": "dict.get()",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00489
+        },
+        {
+          "query": "dict.get",
+          "expected": [
+            "27-dict-ref"
+          ],
+          "category": "exact",
+          "path": "exact",
+          "results": [
+            "27-dict-ref"
+          ],
+          "hitAt5": true,
+          "top1Correct": true,
+          "falsePositiveNoAnswer": null,
+          "serializedUtf8Bytes": 136,
+          "medianSqlMs": 0.00492
+        },
+        {
+          "query": "quantum entanglement",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01033
+        },
+        {
+          "query": "how do I return a parcel",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01084
+        },
+        {
+          "query": "what is the secret token in a client",
+          "expected": [],
+          "category": "no-answer",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01295
+        },
+        {
+          "query": "GHOSTCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.0098
+        },
+        {
+          "query": "ALIENCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.0092
+        },
+        {
+          "query": "OLDCANARY",
+          "expected": [],
+          "category": "eligibility",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.00927
+        },
+        {
+          "query": "\" OR * NOT snippet(fts)",
+          "expected": [],
+          "category": "query-syntax",
+          "path": "fts-and-local",
+          "results": [],
+          "hitAt5": null,
+          "top1Correct": null,
+          "falsePositiveNoAnswer": false,
+          "serializedUtf8Bytes": 2,
+          "medianSqlMs": 0.01088
+        }
+      ]
+    }
+  },
+  "safetyChecks": {
+    "GHOSTCANARY": "excluded",
+    "ALIENCANARY": "excluded",
+    "OLDCANARY": "excluded",
+    "post-revocation-head-filter": "excluded without index refresh",
+    "stale-passage-revision": "excluded",
+    "stale-fts-revision": "excluded",
+    "derived-index-rebuild": "restored current eligible destination",
+    "case-punctuation-exact-path": "preserved"
+  },
+  "globalCorpusStatistics": {
+    "beforeOtherOwnerRows": [
+      "A",
+      "B"
+    ],
+    "afterOtherOwnerRows": [
+      "B",
+      "A"
+    ],
+    "conclusion": "Global BM25 corpus statistics change eligible result order despite WHERE owner filter. Production scoring/index partition must address owner/generation/rights noninterference; hiding raw scores alone is insufficient."
+  },
+  "localScoreInvariance": {
+    "before": [
+      "A",
+      "B"
+    ],
+    "after100OtherOwnerRows": [
+      "A",
+      "B"
+    ],
+    "after100OldGenerationRows": [
+      "A",
+      "B"
+    ],
+    "conclusion": "Unchanged order using the complete eligible candidate set and per-passage local scoring. Does not establish scalable bounded-window completeness."
+  },
+  "limitations": [
+    "Tiny authored corpus and hand-labelled cases, not representative production recall or latency.",
+    "No HTTP/connector/network/hosted-D1 timing or database concurrency measured.",
+    "Eligibility is a simplified head model, not Minamo source-rights/restore/domain integration proof.",
+    "FTS corpus statistics can influence rank across excluded rows; production must isolate scoring or avoid exposing rank statistics. Head filters alone are insufficient proof of noninterference.",
+    "Record-per-passage fixture does not evaluate aggregating multiple passages in the same article.",
+    "fts-and-local fetches the entire small eligible matching set; a production candidate cap can change completeness and needs a separate design/benchmark.",
+    "Full-query literal recall is intentionally measured; GPT can already reformulate queries today.",
+    "A return of lexical candidates is not a claim that any candidate answers the question."
+  ]
+}

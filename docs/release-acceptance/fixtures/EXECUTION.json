@@ -1,0 +1,47 @@
+{
+  "classification": "TEST ONLY original synthetic engineering execution",
+  "networkTrace": false,
+  "learnerProgress": false,
+  "githubProviderAcceptance": false,
+  "files": [
+    {
+      "path": "stream_reader.py",
+      "sha256": "613b82393c0284e3082d3014ef3c1ddd9465ae3cfc4a29a3969edaff30039dc1",
+      "bytes": 135
+    },
+    {
+      "path": "stream_reader.repaired.py",
+      "sha256": "7a81f55d15204cb8112ed448b2e7f13a6e283e2db2bd68e9462a2eb6b1978ffc",
+      "bytes": 403
+    },
+    {
+      "path": "test_stream_reader.py",
+      "sha256": "b58cd3dc2a85a379e9e17595c3285f60d52b700676cd3e31a7b35c8b72bc4027",
+      "bytes": 1061
+    }
+  ],
+  "baseline": {
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "test_empty_stream (test_stream_reader.FiniteStreamTests.test_empty_stream) ... ok\ntest_limit_applies_to_accumulated_bytes (test_stream_reader.FiniteStreamTests.test_limit_applies_to_accumulated_bytes) ... FAIL\ntest_single_chunk (test_stream_reader.FiniteStreamTests.test_single_chunk) ... ok\ntest_three_chunks (test_stream_reader.FiniteStreamTests.test_three_chunks) ... FAIL\ntest_utf8_split_is_still_bytes (test_stream_reader.FiniteStreamTests.test_utf8_split_is_still_bytes) ... FAIL\n\n======================================================================\nFAIL: test_limit_applies_to_accumulated_bytes (test_stream_reader.FiniteStreamTests.test_limit_applies_to_accumulated_bytes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-original-proof-8d_f2muz/test_stream_reader.py\", line 27, in test_limit_applies_to_accumulated_bytes\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_three_chunks (test_stream_reader.FiniteStreamTests.test_three_chunks)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-original-proof-8d_f2muz/test_stream_reader.py\", line 20, in test_three_chunks\n    self.assertEqual(self.collect([b\"post\", b\"card\", b\"!\"]), b\"postcard!\")\nAssertionError: b'post' != b'postcard!'\n\n======================================================================\nFAIL: test_utf8_split_is_still_bytes (test_stream_reader.FiniteStreamTests.test_utf8_split_is_still_bytes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-original-proof-8d_f2muz/test_stream_reader.py\", line 24, in test_utf8_split_is_still_bytes\n    self.assertEqual(self.collect([text[:2], text[2:4], text[4:]]), text)\nAssertionError: b'\\xe6\\x97' != b'\\xe6\\x97\\xa5\\xf0\\x9f\\x98\\x80'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+  },
+  "repaired": {
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "test_empty_stream (test_stream_reader.FiniteStreamTests.test_empty_stream) ... ok\ntest_limit_applies_to_accumulated_bytes (test_stream_reader.FiniteStreamTests.test_limit_applies_to_accumulated_bytes) ... ok\ntest_single_chunk (test_stream_reader.FiniteStreamTests.test_single_chunk) ... ok\ntest_three_chunks (test_stream_reader.FiniteStreamTests.test_three_chunks) ... ok\ntest_utf8_split_is_still_bytes (test_stream_reader.FiniteStreamTests.test_utf8_split_is_still_bytes) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  }
+}

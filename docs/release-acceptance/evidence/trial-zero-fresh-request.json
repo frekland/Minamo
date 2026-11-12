@@ -1,0 +1,95 @@
+{
+  "purpose": "TEST ONLY original synthetic lantern-fold Activity; no learner achievement.",
+  "operationId": "synthetic-nacre-lantern-fold-publish",
+  "id": "synthetic-nacre-lantern-fold",
+  "title": "TEST ONLY — Nacre paper lantern folds",
+  "synthetic": true,
+  "activity": {
+    "contract": "minamo.activity.v1",
+    "template": "mathematics",
+    "intent": "Compare original fictional lantern-fold prose with a finite authored linear expression.",
+    "authorship": "original-exercise",
+    "blocks": [
+      {
+        "id": "task",
+        "kind": "instruction",
+        "text": "Inspect the supplied description and formula. Identify the initial value and per-round increment without executing anything."
+      },
+      {
+        "id": "lantern-prose",
+        "kind": "foundry",
+        "artefact": {
+          "contract": "minamo.artefact.v1",
+          "kind": "text/plain-v1",
+          "canonical": {
+            "format": "text",
+            "source": "TEST ONLY — At the fictional Nacre workshop, a paper lantern starts with 3 folds. Each imagined round adds 4 folds. Label: A😀é.\r\nThis is original supplied prose, not measured work or executed code.",
+            "sha256": "19b650284e71c4c8e4cb496386e558a64947f2da566795d2af0ad5e8113a4aa8"
+          },
+          "provenance": {
+            "classification": "authored",
+            "execution": "not-executed"
+          },
+          "payload": {
+            "text": "TEST ONLY — At the fictional Nacre workshop, a paper lantern starts with 3 folds. Each imagined round adds 4 folds. Label: A😀é.\r\nThis is original supplied prose, not measured work or executed code."
+          }
+        }
+      },
+      {
+        "id": "fold-model",
+        "kind": "foundry",
+        "artefact": {
+          "contract": "minamo.artefact.v1",
+          "kind": "math/tex-v1",
+          "canonical": {
+            "format": "tex",
+            "source": "F(n)=3+4n,\\quad n\\in\\{0,1,2,3\\}",
+            "sha256": "f77fca1be466517e08c31f6fb7a11eaaf116f77801b3a25f06902e9c047898f5"
+          },
+          "provenance": {
+            "classification": "authored",
+            "execution": "not-executed"
+          },
+          "payload": {
+            "contract": "minamo.math.v1",
+            "id": "nacre-finite-fold-model",
+            "format": "tex",
+            "source": "F(n)=3+4n,\\quad n\\in\\{0,1,2,3\\}",
+            "display": "block",
+            "description": "Original finite fictional expression; no execution receipt or learning claim."
+          }
+        }
+      },
+      {
+        "id": "question",
+        "kind": "reflection",
+        "text": "Which words support the constants in the expression? No attempt is requested."
+      }
+    ],
+    "presentation": {
+      "contract": "minamo.presentation.v1",
+      "version": 1,
+      "pattern": "mathematics-science",
+      "slots": [
+        {
+          "slot": "task",
+          "blockId": "task"
+        },
+        {
+          "slot": "source",
+          "blockId": "lantern-prose"
+        },
+        {
+          "slot": "explore",
+          "blockId": "fold-model"
+        },
+        {
+          "slot": "evidence",
+          "blockId": "question"
+        }
+      ],
+      "preferredFocus": "explore",
+      "fallback": "accessible-source"
+    }
+  }
+}

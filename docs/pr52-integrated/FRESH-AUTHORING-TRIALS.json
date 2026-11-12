@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "evaluatedAt": "2026-10-26",
+  "generation": "legacy@0",
+  "role": "post-publication-evaluator",
+  "independenceLimit": "Evaluator previously authored jq; separate deliberate pass, not blind independent person.",
+  "writes": {
+    "minamoRecords": 0,
+    "runtime": 0,
+    "learnerProgress": 0,
+    "cleanup": 0
+  },
+  "records": [
+    {
+      "family": "article",
+      "id": "ms-464b2f82595621bff4040b7b01406b5f27ce0e1b",
+      "rev": 1,
+      "catalogueRev": 1,
+      "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+      "synthetic": true,
+      "operationId": "test-fresh-jq-reference-20261026-c425c5-v1",
+      "sourceDigest": "5f97164afcfa5a809d3d1f48894cb8690a6cac8f0f42709c5b6ad911e24fbcb5"
+    },
+    {
+      "family": "article",
+      "id": "ms-175a124b9ca601575d9862c3ac29a2b8ba579c28",
+      "rev": 3,
+      "catalogueRev": 3,
+      "rendition": "r-d02e6da1026ff839d5519272bc5f52526f7527cbc58e720756520b01062525a9",
+      "synthetic": true,
+      "operationId": "acceptance-referential-effects-enrich-20261026-02",
+      "sourceDigest": "81f54778dcc425b1dbaf2ce909ec7edebbd2845af1e1e66a069d19f3a1b14d43"
+    },
+    {
+      "family": "article",
+      "id": "ms-40ee3b85aa3d5fc140edb21eb36c0af8bb1c3a3b",
+      "rev": 1,
+      "catalogueRev": 1,
+      "rendition": "r-99c4c54f3f347ae377cfb2baed6a11d5e15a655b89e2759e7e8e989d6542900a",
+      "synthetic": true,
+      "operationId": "acceptance-fresh-german-separable-20261026-resource-v1",
+      "sourceDigest": "2dc98dca9212fcb0407c70a26e57d31df15a4f9bee10caaf261a21ed43222e7a"
+    },
+    {
+      "family": "experiment",
+      "id": "acceptance-fresh-german-separable-practice-20261026",
+      "rev": 1,
+      "rendition": "r-b700c6185cde28f1f1ca38c5ae98a1cbb18c30b16a88642ee44b5e171decaf83",
+      "synthetic": true,
+      "operationId": "acceptance-fresh-german-separable-20261026-practice-v1"
+    }
+  ],
+  "diagnosticComparisons": [
+    {
+      "label": "current",
+      "args": {},
+      "recordRev": 1,
+      "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+      "concepts": 4,
+      "recordCatalogueRev": 1,
+      "referenceDestinations": 4,
+      "findings": [],
+      "topKeys": [
+        "generation",
+        "record",
+        "resourceQuality",
+        "bookmark",
+        "conceptEntries",
+        "mediaNotice"
+      ]
+    },
+    {
+      "label": "current-catalogue",
+      "args": {
+        "catalogueRev": 1
+      },
+      "recordRev": 1,
+      "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+      "concepts": 4,
+      "envelopeCatalogueRev": 1,
+      "recordCatalogueRev": 1,
+      "referenceDestinations": 4,
+      "findings": [],
+      "topKeys": [
+        "generation",
+        "record",
+        "resourceQuality",
+        "catalogue",
+        "bookmark",
+        "conceptEntries",
+        "mediaNotice"
+      ]
+    },
+    {
+      "label": "retained",
+      "args": {
+        "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c"
+      },
+      "recordRev": 1,
+      "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+      "concepts": null,
+      "referenceDestinations": 0,
+      "findings": [],
+      "topKeys": [
+        "generation",
+        "record",
+        "resourceQuality",
+        "bookmark",
+        "conceptEntries",
+        "mediaNotice"
+      ]
+    },
+    {
+      "label": "retained-catalogue",
+      "args": {
+        "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+        "catalogueRev": 1
+      },
+      "recordRev": 1,
+      "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+      "concepts": null,
+      "envelopeCatalogueRev": 1,
+      "referenceDestinations": 0,
+      "findings": [],
+      "topKeys": [
+        "generation",
+        "record",
+        "resourceQuality",
+        "catalogue",
+        "bookmark",
+        "conceptEntries",
+        "mediaNotice"
+      ]
+    }
+  ],
+  "practiceChecks": [
+    {
+      "blockId": "main-clause",
+      "input": "Ich rufe Lea heute an.",
+      "verdict": "accepted"
+    },
+    {
+      "blockId": "modal-clause",
+      "input": "Ich möchte Lea heute anrufen.",
+      "verdict": "accepted"
+    },
+    {
+      "blockId": "weil-clause",
+      "input": "Ich brauche mein Handy, weil ich Lea heute anrufe.",
+      "verdict": "accepted"
+    },
+    {
+      "blockId": "main-clause",
+      "input": "Ich anrufe Lea heute.",
+      "verdict": "different"
+    },
+    {
+      "blockId": "modal-clause",
+      "input": "Ich möchte Lea heute rufe an.",
+      "verdict": "different"
+    },
+    {
+      "blockId": "weil-clause",
+      "input": "Ich brauche mein Handy, weil ich rufe Lea heute an.",
+      "verdict": "different"
+    },
+    {
+      "blockId": "main-clause",
+      "input": "Ich rufe Lea heute an",
+      "verdict": "different"
+    },
+    {
+      "blockId": "main-clause",
+      "input": "Ich rufe heute Lea an.",
+      "verdict": "different"
+    }
+  ],
+  "practiceAuthority": "Read-only check; no Attempt saved. Hint/answer reveals saved:false. Not observed learner performance.",
+  "localCodeChecks": {
+    "authority": "Evaluator-local subprocesses, not Minamo or learner execution",
+    "jqFilters": 5,
+    "pythonCases": 3,
+    "allPredictionsMatched": true
+  },
+  "links": {
+    "jqExactHtmlIdsVerified": [
+      "basic-filters",
+      "select",
+      "assignment",
+      "invoking-jq"
+    ],
+    "haskellReport": "opened; relevant sequencing content verified",
+    "pythonLruCache": "opened; relevant cache warnings verified",
+    "dw": {
+      "status": 200,
+      "bytes": 211418,
+      "pages": 4,
+      "read": "all page text",
+      "searchOpen": "failed tool access"
+    },
+    "goethe": {
+      "pages": 5,
+      "printedPage4": "separable participles",
+      "printedPage5": "haben/sein"
+    }
+  },
+  "limits": [
+    "No fresh browser rendering/accessibility check",
+    "No native-speaker qualification",
+    "No learner trial",
+    "No hosted terminal execution"
+  ]
+}

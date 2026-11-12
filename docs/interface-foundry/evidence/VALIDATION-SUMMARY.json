@@ -1,0 +1,14 @@
+{
+  "tests": 1001,
+  "pass": 1000,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 1,
+  "todo": 0,
+  "runtimeCommit": "a2c78d8332d330efaaad3f14fa1565292827ce87",
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "portablePlaywrightCases": 37,
+  "portablePlaywright": "not-run-missing-pinned-browser",
+  "defaultPackageScienceIncluded": false
+}

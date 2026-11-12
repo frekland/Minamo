@@ -1,0 +1,65 @@
+# Independent runtime and release challenge
+
+Scope: PR40's 25 October Pro-phase commission; `staging/activity-studio-atlas-20261025`, frozen code checkpoint identified below. This review is synthetic local engineering evidence, not hosted authentication, physical Android, browser CSP acceptance or permission to release. Final compiled measurements and source identities are recorded separately in `RUNTIME-RELEASE-METRICS.json`.
+
+## Found and repaired: rejected activation leaked mounted resources
+
+`lib/foundry/platform.ts`, `ArtefactRegistry.activate`: a renderer could finish mounting, then the post-mount authority read could throw. When the catch-path authority retry succeeded, it restored static fallback without calling the renderer's cleanup. The activation promise rejected, so its caller never received the disposal handle. A real compiled registry reproduction returned `disposed: 0`, `calls: 5` with fallback visible after a transient fourth authority read failure.
+
+The catch path now clears resources on every rejected activation before restoring a currently permitted static fallback. Previously disposed/revoked content remains withheld. `tests/foundry-platform.test.mjs` now runs the real registry with both a recovering and a persistently failing post-mount authority; both require exactly one cleanup. Root authorised this bounded patch. The reviewer implemented this repair; independent acceptance of the repair belongs to the integration owner/other reviewer, not this document.
+
+Focused retest: `node --test tests/foundry-platform.test.mjs tests/foundry-packaging.test.mjs tests/foundry-python.test.mjs tests/foundry-visual-platform.test.mjs` — **20 passed, 0 failed, 0 skipped**, 332 ms. Existing late permission-loss, malformed output, bounded streaming and lazy loading regressions also pass.
+
+A second actual reproduction found that an already active instance's `revalidate()` propagated an authority exception while retaining live content and cleanup count zero. Revalidation now clears and disposes before rethrowing. The added regression also proves later disposal/revalidation is idempotent. After this additional repair, `node --test tests/foundry-platform.test.mjs` passes **11/11**, no skips, 165 ms; the final full-suite run must include both repairs.
+
+Current adapter construction was inspected for exceptions before returning cleanup. `lib/foundry/visual-three.ts` catches setup failures and disposes geometry, material, observer and renderer state; its underlying builders also dispose partially constructed resources. React adapters return their root unmount functions; math and plain adapters allocate DOM only. Three uses on-demand rendering, bounded viewport/pixel ratio and no animation loop or remote asset loader. GPU disposal/browser after-navigation behavior remains a browser/device acceptance item.
+
+## Actual scientific execution and bytes
+
+`node --test tests/foundry-python-execution.test.mjs` — **3 passed, 0 failed, 0 skipped**, 15,672 ms, using staged pinned assets and the actual shared `scienceWorker` function in Node worker threads:
+
+- A real Matplotlib computation emits a 200×100 PNG and table, retains explicitly partial diagnostic output after an exception, and the next fresh runtime has no inherited output.
+- A deceptive 100×100 inch, 1 dpi figure is refused using the actual 100 dpi export raster budget before rendering.
+- An actual Python infinite loop is terminated by the parent watchdog after approximately five seconds.
+
+The local science manifest contains **22 assets, 17 resolved packages and 50,251,575 bytes**. Independently rereading every asset found every byte count and SHA-256 correct. Requested roots are NumPy, Matplotlib, SymPy, Pandas, Pillow and SciPy. These are local staged test bytes, not evidence that a release includes them or that a browser has loaded them.
+
+`lib/foundry/python-runtime.ts` only fetches scientific assets after deliberate execution, verifies bounded response bytes and manifest SHA-256, places the controller in an opaque `allow-scripts` iframe without `allow-same-origin`, and uses source-window/token checks. The controller runs Python in a fresh terminable Worker, restricts fetches to provided bytes, closes figures, terminates the Worker and revokes its URL. Cancel/navigation aborts asset requests or removes the execution iframe; the 30 second run timer excludes the preceding asset-fetch phase. Browser CSP enforcement, actual iframe Worker teardown, memory pressure and physical-device viability have **not** been independently observed here. Keep scientific activation gated until the supported-browser acceptance can run.
+
+`app/scientific-output-studio.tsx` resets prior success before execution and clears/aborts on scope changes/unmount. `lib/python-output-save.ts` saves error/interrupted results without successful structured outputs, retains exact captured code digest and labels saved output browser-reported. Saved output is not a server execution receipt or learning achievement. Existing ordinary tools' base Pyodide assets remain an existing product dependency; their approximately 12 MB is distinct from the opt-in 50 MB scientific closure.
+
+## Default-off production boundaries
+
+`scripts/build-app.mjs` runs the fixed-path package policy after framework build. `scripts/foundry-package-policy.mjs` removes the scientific directory and controller from `dist/client` unless `MINAMO_FOUNDRY_PACKAGE_SCIENCE=1`; the packaging regression verifies stale local staging cannot defeat default-off policy. Opt-in packaging alone is not a runtime enablement or safety acceptance.
+
+`app/workspace.tsx` lazy-loads Activity Studio, typed output, scientific tools and semantic Atlas. Activity and Atlas entry points are server-flagged by `MINAMO_ACTIVITY_STUDIO=1` and `MINAMO_LEARNING_ATLAS=1`; API/MCP admission also checks these flags. `app/learning-atlas-canvas.tsx` returns its production fallback before the lazy SDK can mount, and `app/learning-atlas-canvas-sdk.tsx` owns the static tldraw import. Freeform canvas remains DEV/synthetic only, with a separate licence/host/privacy acceptance lane.
+
+`app/capability-foundry/page.tsx`, `app/capability-foundry-phone/page.tsx` and `app/preview-activity/page.tsx` reject production requests independently of query/auth. Compiled Worker tests, rather than source matching alone, must verify these 404s against the final build. A generated client chunk's existence is not evidence its route is reachable or its code loaded on first render. Static and lazy import-closure measurements are in the machine report; network/first-paint timing cannot be inferred from them.
+
+## Source parity, migration and rollback challenge
+
+`docs/SOURCE-SYNCHRONISATION.md` remains binding: native and GitHub commits may differ, but the bounded source trees must match exactly; expected-head guards are required before ref updates. The main-rooted local base is `6ce455608150b0983a654bcf071d94a2d96792e1`, mapped in `CONTINUATION.md` to GitHub main `c40ebcc9a27bd2538ecf5b117a3eeba7f1229d1c` and common tree `a4d084d56d6979e26b89c13354132de9a424e991`. These are baseline identities, **not** the final candidate tree or proof of current native sync.
+
+No new SQL migration has been added to this integration: Activity/Attempt use the validated existing Experiment/Run companion projection. Existing migrations `0000`–`0008` still must be applied successfully to the isolated compiled acceptance DB, while old-client, generation activation/recovery and source-right behavior must pass domain tests. Disabling a feature does not downgrade persisted typed records; do not assert an old binary can round-trip new fields without the actual compatibility/restore evidence.
+
+Before any separately authorised release, the owner must receive a concrete candidate receipt with exact source commit/tree, parent/bank SHAs, native expected head, GitHub expected head/common tree, tested build/source manifest, catalogue version, migration results and rollback target. Rollback must retain the pre-release source/deployment identity and protected pre-release archive; first disable Activity/Atlas and science packaging, then restore the verified prior binary only under documented record compatibility. Never activate a restore over genuine learner data as a test.
+
+Root's final `INTEGRATION-RECEIPT.md`, `RELEASE-READINESS.md` and `ACTIVATION-MATRIX.md` now provide the integration dossier. The rollback policy correctly prefers this candidate with features disabled: a pre-Activity binary may expose nested hint data through generic reads, so returning to that binary requires a reviewed compatibility projection or an explicitly approved verified pre-Activity restore with later-work retention. This review does not replace the receipt's remote publication identities. Installed production client refresh, fresh-chat catalogue acceptance and physical Pixel/TalkBack remain owner/provider gates. The supported preview's connection refusal after managed profile repair is an evidenced browser infrastructure blocker; no alternate server/network route was used.
+
+Disposition: the discovered resource leak is repaired with real red/green regression; default-off packaging and final production boundaries require the frozen-build retest below. Browser scientific/viewport/accessibility acceptance and owner-approved native sync/deployment/catalogue operations remain explicit gates. No production save/deploy, merge or private learner mutation was performed by this reviewer.
+
+## Frozen build measurement
+
+Root froze code at `50182d80108f90979150fc96573f399c7d97d6f2`, tree `35f83453d76e71e3e7b78c2d7ecf207b35abfd5c`, completed typecheck and the normal managed build. Independently inspecting that generated distribution found **17,835,326 client bytes**, **6,990,605 server bytes**, no scientific directory/controller and no client source maps. The source build's `scienceIncluded:false` log is therefore corroborated by actual disk inspection and an actual compiled Worker test.
+
+`node --test tests/activity-security-compiled.test.mjs` passes **1/1**, no skips, 3,774 ms: production Foundry/phone/Activity gallery and fixture-proxy requests return 404, default-off Activity creation returns `activity_disabled`, and both science payload paths are absent. These are actual Worker HTTP requests under a synthetic identity, not browser gestures.
+
+The browser-entry + Workspace static manifest closure, including its emitted CSS, totals **1,222,332 raw bytes / 349,872 per-file gzip bytes**. Activity Studio, scientific tools, typed outputs, Atlas and Three are outside that eager closure; the tldraw SDK is entirely absent from the final manifest. This does not predict browser first paint, fetched resources or memory.
+
+The existing baseline checkout was independently confirmed at `6ce455608150b0983a654bcf071d94a2d96792e1`, tree `a4d084d56d6979e26b89c13354132de9a424e991`; its generated manifest SHA matches the banked performance report. Using exactly the same static traversal, baseline is **1,134,121 raw / 321,917 gzip bytes**. The candidate adds **88,211 raw (+7.78%) / 27,955 gzip (+8.68%)**. This is a measurable modest eager cost, not “unchanged bytes.” The existing baseline was reused without a rebuild; the prior report notes shared installed dependencies. Root-layout CSS absent from these manifest roots is excluded from both counts; do not mix this comparison with the prior report's different Home RSC dependency graph.
+
+Root also reports a supported-helper **local-only** native parity rehearsal at commit `36f4ac6047d6e8e0ebeea79ca76a8823b6eef9b5`, with exactly candidate tree `35f83453d76e71e3e7b78c2d7ecf207b35abfd5c`. No native push/save/deploy occurred. This is useful source parity preparation; remote publication/release acceptance still needs its own verified heads and receipt.
+
+The independent bounded `node:test` probe of the same compiled Worker also passes **1/1**, no skips, 1,875 ms: both feature flags enabled, migrations `0000`–`0008` applied to isolated D1, and `/?view=atlas` returns **200 / 44,385 bytes**, containing Atlas markup with no `ReferenceError`, missing `requestAnimationFrame` or internal-server-error marker. This independently verifies the optional SDK's prior SSR failure is avoided. It does not exercise hydration or browser interactions. Earlier inline Node probes stalled before migration completion and were interrupted; the equivalent bounded test harness completed, so those attempts are not reported as an Atlas SSR failure.
+
+Final reviewer conclusion: the frozen default-off build passes the independently exercised production boundaries and Atlas SSR lane; scientific package bytes are genuinely excluded. The eager payload cost is quantified above. The two repaired registry lifecycle failures have real regressions, and the integration owner/other reviewer must own independent repair approval/full-suite acceptance. Release still requires the separately documented supported-browser, hosted catalogue and owner/device gates; a browser-complete or deployed claim would exceed this evidence.

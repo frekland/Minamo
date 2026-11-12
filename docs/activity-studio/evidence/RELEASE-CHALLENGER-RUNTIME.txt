@@ -1,0 +1,19 @@
+✔ strict admission remains unloaded, snapshots exact source, and lifecycle disposes once (8.858147ms)
+✔ unknown version/kind/keys, source digest mismatch and forged observed provenance fail (3.77114ms)
+✔ revocation gates fallback and revalidation clears renderer (1.561404ms)
+✔ revalidation authority failure clears live content and disposes once before rejecting (1.181954ms)
+✔ late revoked lazy import cannot mount or leak fallback (1.384758ms)
+✔ JSON prewalk rejects executable/accessor/cyclic/nonfinite/oversized/deep data (2.228135ms)
+✔ structured output manifest rejects stale cancelled plots, mismatched tables and SVG payloads (1.890969ms)
+✔ failed loader cannot restore private fallback after revocation or authority failure (2.328395ms)
+✔ post-mount authority exception releases resources even when the retry allows a static fallback (1.82511ms)
+✔ sparse and extended arrays cannot bypass budgets then expand during JSON snapshot (0.558459ms)
+✔ unpaired UTF16 canonical source rejects before UTF8 replacement could collapse distinct source hashes (2.708666ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.116762

@@ -1,0 +1,91 @@
+{
+  "purpose": "TEST ONLY — original synthetic finite view integration trial; no genuine learner mutation.",
+  "operationId": "synthetic-trace-fresh-beacon-v1-publish",
+  "id": "synthetic-trace-fresh-beacon-v1",
+  "title": "TEST ONLY — Supplied beacon events",
+  "synthetic": true,
+  "activity": {
+    "contract": "minamo.activity.v1",
+    "template": "predict-compare",
+    "authorship": "original-exercise",
+    "intent": "Inspect original supplied event data through a trusted finite presentation; no execution or learning claim.",
+    "blocks": [
+      {
+        "id": "task",
+        "kind": "instruction",
+        "text": "Predict which event contains the supplied result, then inspect the existing trace deliberately."
+      },
+      {
+        "id": "trace",
+        "kind": "foundry",
+        "artefact": {
+          "contract": "minamo.artefact.v1",
+          "kind": "trace/external-v1",
+          "canonical": {
+            "format": "trace-json",
+            "source": "{\"format\":\"minamo.trace.v1\",\"classification\":\"supplied-artifact\",\"events\":[{\"sequence\":0,\"timeMs\":0,\"kind\":\"command\",\"text\":\"$ synthetic-example --inspect\"},{\"sequence\":1,\"timeMs\":10,\"kind\":\"stdout\",\"text\":\"Supplied original synthetic event. No command was executed.\"},{\"sequence\":2,\"timeMs\":20,\"kind\":\"exit\",\"text\":\"Supplied test fixture exit status, not observed execution.\",\"exitCode\":0}],\"redacted\":false}",
+            "sha256": "df72799f0f79a1b0fa13a1e8cef4b839da79e779498563c65c3a36c904cffd95"
+          },
+          "provenance": {
+            "classification": "supplied",
+            "execution": "reported-externally",
+            "description": "Original synthetic test fixture; no command execution performed."
+          },
+          "payload": {
+            "format": "minamo.trace.v1",
+            "classification": "supplied-artifact",
+            "events": [
+              {
+                "sequence": 0,
+                "timeMs": 0,
+                "kind": "command",
+                "text": "$ synthetic-example --inspect"
+              },
+              {
+                "sequence": 1,
+                "timeMs": 10,
+                "kind": "stdout",
+                "text": "Supplied original synthetic event. No command was executed."
+              },
+              {
+                "sequence": 2,
+                "timeMs": 20,
+                "kind": "exit",
+                "text": "Supplied test fixture exit status, not observed execution.",
+                "exitCode": 0
+              }
+            ],
+            "redacted": false
+          }
+        }
+      },
+      {
+        "id": "reflect",
+        "kind": "reflection",
+        "text": "Does this supplied exit status establish any observed execution or learning achievement?"
+      }
+    ],
+    "presentation": {
+      "contract": "minamo.presentation.v1",
+      "pattern": "predict-explore-compare",
+      "version": 1,
+      "slots": [
+        {
+          "slot": "task",
+          "blockId": "task"
+        },
+        {
+          "slot": "evidence",
+          "blockId": "trace",
+          "viewId": "trace.fresh-beacon-v1"
+        },
+        {
+          "slot": "evidence",
+          "blockId": "reflect"
+        }
+      ],
+      "preferredFocus": "task",
+      "fallback": "accessible-source"
+    }
+  }
+}

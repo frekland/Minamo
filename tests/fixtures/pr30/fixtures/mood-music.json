@@ -1,0 +1,80 @@
+{
+  "key": "mood-music",
+  "title": "TEST ONLY \u2014 Mood-to-Music Companion",
+  "profile": "Fast-moving learner with hidden asynchronous state misconceptions.",
+  "goal": "Build a small accessible React interface with explainable recommendations and honest source boundaries.",
+  "sessions": [
+    {
+      "id": "s01",
+      "title": "Mocks before access",
+      "synthetic": true,
+      "learner_prediction": "A track title containing calm proves the track will feel calming.",
+      "learner_attempt": "Render three mock track objects and choose a calm mood.",
+      "supplied_artifact": null,
+      "observation": "Mock objects render; title-to-emotion inference is unvalidated.",
+      "correction": "Metadata is not a measured emotional response.",
+      "decision": {
+        "choice": "Begin with listener feedback and transparent tags",
+        "reason": "The product can help without claiming objective emotional truth.",
+        "status": "provisional"
+      },
+      "unresolved": "Real API capabilities and rights are not verified yet.",
+      "next_action": "Define the card contract and one keyboard-usable mood control.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s02",
+      "title": "API feasibility gate",
+      "synthetic": true,
+      "learner_prediction": "We can use audio features from any newly created developer app.",
+      "learner_attempt": "Read current authoritative Spotify documentation before choosing an integration.",
+      "supplied_artifact": null,
+      "observation": "The lab must insert a dated authoritative capability receipt; this fixture intentionally does NOT assert current availability.",
+      "correction": "Treat capability as unverified until the research receipt is attached.",
+      "decision": {
+        "choice": "Keep integration behind an adapter and mock fallback",
+        "reason": "External capability and account eligibility can change.",
+        "status": "provisional"
+      },
+      "unresolved": "No Spotify login, request, save or playback was executed.",
+      "next_action": "Inspect documented access mode, endpoint availability and account restrictions.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s03",
+      "title": "Late response wins incorrectly",
+      "synthetic": true,
+      "learner_prediction": "The last response to arrive must belong to the current mood.",
+      "learner_attempt": "Select calm then energetic; resolve the energetic request first and calm request last.",
+      "supplied_artifact": null,
+      "observation": "A naive implementation displays calm tracks under an energetic heading.",
+      "correction": "Arrival order differs from intent order; guard updates with request identity or cancellation.",
+      "decision": {
+        "choice": "Use a request-identity guard",
+        "reason": "A deterministic delayed promise test reproduces the race without credentials.",
+        "status": "provisional"
+      },
+      "unresolved": "Aborting an operation alone may not cancel every already-started continuation.",
+      "next_action": "Predict and run the two-request schedule; retain loading, empty and error states.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s04",
+      "title": "Requirement changes",
+      "synthetic": true,
+      "learner_prediction": "We should delete all the earlier reasoning because the plan changed.",
+      "learner_attempt": "Abandon objective mood scoring and request personally labelled favourites instead.",
+      "supplied_artifact": null,
+      "observation": "The source limitation and feedback rationale still explain the new design.",
+      "correction": "Abandoned approaches remain useful historical context; they are not current instructions.",
+      "decision": {
+        "choice": "Build a local labelled-track prototype",
+        "reason": "It remains useful while API feasibility is unresolved and respects personal variation.",
+        "status": "provisional"
+      },
+      "unresolved": "Real external-service capability must be supplied by the dated research receipt.",
+      "next_action": "Implement and test one feedback update without mutating the original track array.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    }
+  ]
+}

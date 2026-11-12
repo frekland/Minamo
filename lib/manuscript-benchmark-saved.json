@@ -1,0 +1,1295 @@
+[
+  {
+    "id": "ms-b29662cbdd41787a266ee0737eee2dead7021c62",
+    "family": "article",
+    "title": "Finding duplicate files without changing them",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-c23deb233a4443d30dd2b495e1a070f80dba3a9b",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "implementation"
+      },
+      {
+        "family": "journey",
+        "id": "ms-a602bdb2df6ce0b41a4d256aa7bebd162404b534",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "learning Journey"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Introduction",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "A duplicate reporter answers a narrow question: which regular files yielded the same byte content during a scan? It does not decide which copy you should keep. A matching name is not evidence of matching content. Different names can contain identical bytes.",
+            "inline": [
+              {
+                "start": 160,
+                "end": 212,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "p2",
+            "kind": "paragraph",
+            "text": "Use two filters: first group by byte size, then hash only groups with more than one member. A hash maps an arbitrary byte sequence to a fixed-size digest. Equal bytes produce equal SHA-256 digests; equal digests are extremely strong evidence, but are not a mathematical proof of equal bytes. A byte-for-byte comparison is the stricter next step when the distinction matters."
+          },
+          {
+            "id": "p3",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Observation",
+                "What it supports",
+                "What it does not establish"
+              ],
+              "rows": [
+                [
+                  "Same filename",
+                  "Similar naming",
+                  "Same content"
+                ],
+                [
+                  "Same size",
+                  "Possible duplicate",
+                  "Same content"
+                ],
+                [
+                  "Same SHA-256",
+                  "Strong content-match evidence",
+                  "Independent physical copies"
+                ]
+              ]
+            },
+            "text": "Observation\tWhat it supports\tWhat it does not establish\nSame filename\tSimilar naming\tSame content\nSame size\tPossible duplicate\tSame content\nSame SHA-256\tStrong content-match evidence\tIndependent physical copies"
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "Hard links can name the same underlying file. Symbolic links point elsewhere and this project skips them. A file can also change between the size check and reading. This first version assumes you scan a quiet folder you control; it is not designed for hostile filesystem races."
+          },
+          {
+            "id": "p5",
+            "kind": "paragraph",
+            "text": "Reading in chunks bounds the byte buffer, although the program still stores file paths and grouping metadata. The digest state is updated in order with every chunk. Do not hash just the first chunk and call it a whole-file fingerprint."
+          },
+          {
+            "id": "p6",
+            "kind": "paragraph",
+            "text": "References: pathlib, hashlib. Continue with the implementation or the learning Journey.",
+            "inline": [
+              {
+                "start": 12,
+                "end": 19,
+                "kind": "link",
+                "url": "https://docs.python.org/3/library/pathlib.html"
+              },
+              {
+                "start": 21,
+                "end": 28,
+                "kind": "link",
+                "url": "https://docs.python.org/3/library/hashlib.html"
+              },
+              {
+                "start": 48,
+                "end": 62,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-c23deb233a4443d30dd2b495e1a070f80dba3a9b"
+              },
+              {
+                "start": 70,
+                "end": 86,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=journeys&family=journey&id=ms-a602bdb2df6ce0b41a4d256aa7bebd162404b534"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "library-topic",
+      "subject": "Finding duplicate files without changing them",
+      "reusableBeyondProject": true
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:20.837Z",
+    "updatedAt": "2026-10-22T02:17:20.837Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-1e9291a6bdaedd1945f9b1869eaebbb18f0abacf02ba662063a0dcdd6bc669b0"
+  },
+  {
+    "id": "ms-c23deb233a4443d30dd2b495e1a070f80dba3a9b",
+    "family": "article",
+    "title": "A read-only duplicate reporter",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-b29662cbdd41787a266ee0737eee2dead7021c62",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "content model"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Introduction",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "Save this as duplicates.py and run it with Python 3.10 or later. It prints JSON arrays of paths that have equal observed sizes and SHA-256 digests. It scans regular files below the chosen root, skips symlinks, and reports readable filesystem errors on stderr. It never edits scanned files.",
+            "inline": [
+              {
+                "start": 13,
+                "end": 26,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p2",
+            "kind": "code",
+            "language": "python",
+            "text": "import argparse\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport sys\n\ndef fingerprint(path):\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as handle:\n        while True:\n            chunk = handle.read(1024 * 1024)\n            if not chunk:\n                break\n            digest.update(chunk)\n    return digest.hexdigest()\n\ndef report_error(error):\n    print(f\"Skipped: {error}\", file=sys.stderr)\n\ndef duplicates(root):\n    by_size = {}\n    for directory, dirs, files in os.walk(\n        root, followlinks=False, onerror=report_error\n    ):\n        base = Path(directory)\n        dirs[:] = sorted(\n            name for name in dirs if not (base / name).is_symlink()\n        )\n        for name in sorted(files):\n            path = base / name\n            try:\n                if path.is_symlink() or not path.is_file():\n                    continue\n                by_size.setdefault(path.stat().st_size, []).append(path)\n            except OSError as error:\n                report_error(error)\n    matches = []\n    for size, paths in sorted(by_size.items()):\n        if len(paths) < 2:\n            continue\n        by_digest = {}\n        for path in paths:\n            try:\n                digest = fingerprint(path)\n            except OSError as error:\n                report_error(error)\n                continue\n            by_digest.setdefault(digest, []).append(str(path))\n        matches.extend(sorted(group) for group in by_digest.values()\n                       if len(group) > 1)\n    return sorted(matches)\n\ndef main():\n    parser = argparse.ArgumentParser(description=\"Report duplicate candidates\")\n    parser.add_argument(\"root\", type=Path)\n    args = parser.parse_args()\n    root = args.root.expanduser()\n    if root.is_symlink() or not root.is_dir():\n        parser.error(\"root must be an existing non-symlink directory\")\n    print(json.dumps(duplicates(root), indent=2, ensure_ascii=False))\n\nif __name__ == \"__main__\":\n    main()"
+          },
+          {
+            "id": "p3",
+            "kind": "paragraph",
+            "text": "Invoke it as python duplicates.py /path/to/a/quiet/folder. Empty files form a valid duplicate group. Errors produce incomplete results, not a claim that skipped files are unique. A path containing a symlink in a parent component is not excluded by the root check; choose the root yourself and do not treat these checks as a security boundary.",
+            "inline": [
+              {
+                "start": 13,
+                "end": 57,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "This code is a learning baseline. It does not detect mutation during reads or deduplicate hard links by inode. Those limitations are part of the content model.",
+            "inline": [
+              {
+                "start": 145,
+                "end": 158,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-b29662cbdd41787a266ee0737eee2dead7021c62"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "library-topic",
+      "subject": "A read-only duplicate reporter",
+      "reusableBeyondProject": true
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:20.837Z",
+    "updatedAt": "2026-10-22T02:17:20.837Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-0117da0de3e511e2a60db1a3df25cd040036bef50fdb619166a218381d3358da"
+  },
+  {
+    "id": "ms-a602bdb2df6ce0b41a4d256aa7bebd162404b534",
+    "family": "journey",
+    "title": "Build and inspect a duplicate report",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-b29662cbdd41787a266ee0737eee2dead7021c62",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1",
+          "stageId": "stage-s1"
+        },
+        "relation": "related",
+        "reason": "model"
+      },
+      {
+        "family": "article",
+        "id": "ms-c23deb233a4443d30dd2b495e1a070f80dba3a9b",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s2",
+          "stageId": "stage-s2"
+        },
+        "relation": "related",
+        "reason": "program"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Predict the result",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "Read the model. Write down why two equal-size files might still differ. Predict how empty files will behave.",
+            "inline": [
+              {
+                "start": 9,
+                "end": 14,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-b29662cbdd41787a266ee0737eee2dead7021c62"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Create a disposable fixture",
+        "parts": [
+          {
+            "id": "p2",
+            "kind": "paragraph",
+            "text": "Save the program as duplicates.py. In the same directory, save this as try_duplicates.py. It creates and removes only its own temporary fixture directory; the reporter remains read-only.",
+            "inline": [
+              {
+                "start": 9,
+                "end": 16,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-c23deb233a4443d30dd2b495e1a070f80dba3a9b"
+              },
+              {
+                "start": 20,
+                "end": 33,
+                "kind": "code"
+              },
+              {
+                "start": 71,
+                "end": 88,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p3",
+            "kind": "code",
+            "language": "python",
+            "text": "from pathlib import Path\nimport subprocess\nimport sys\nimport tempfile\n\nwith tempfile.TemporaryDirectory(prefix=\"duplicate-demo-\") as folder:\n    root = Path(folder)\n    (root / \"one.txt\").write_bytes(b\"same\\n\")\n    (root / \"two.txt\").write_bytes(b\"same\\n\")\n    (root / \"other.txt\").write_bytes(b\"else\\n\")\n    (root / \"empty-a\").write_bytes(b\"\")\n    (root / \"empty-b\").write_bytes(b\"\")\n    subprocess.run([sys.executable, \"duplicates.py\", str(root)], check=True)"
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "Run python try_duplicates.py from the directory containing both scripts. The expected group memberships are one.txt with two.txt, and empty-a with empty-b. other.txt has the same size as the two text duplicates but different bytes. Temporary path prefixes vary. This expected result is a prediction, not a record of execution.",
+            "inline": [
+              {
+                "start": 4,
+                "end": 28,
+                "kind": "code"
+              },
+              {
+                "start": 108,
+                "end": 115,
+                "kind": "code"
+              },
+              {
+                "start": 121,
+                "end": 128,
+                "kind": "code"
+              },
+              {
+                "start": 134,
+                "end": 141,
+                "kind": "code"
+              },
+              {
+                "start": 147,
+                "end": 154,
+                "kind": "code"
+              },
+              {
+                "start": 156,
+                "end": 165,
+                "kind": "code"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "title": "Explain the evidence",
+        "parts": [
+          {
+            "id": "p5",
+            "kind": "paragraph",
+            "text": "• Identify the line that skips hashing singleton size groups."
+          },
+          {
+            "id": "p6",
+            "kind": "paragraph",
+            "text": "• Edit the fixture source line for two.txt: replace b\"same\\n\" with b\"sane\\n\", preserving its byte length. Then rerun try_duplicates.py; each run creates a new temporary directory, and the previous directory is already gone.",
+            "inline": [
+              {
+                "start": 35,
+                "end": 42,
+                "kind": "code"
+              },
+              {
+                "start": 52,
+                "end": 61,
+                "kind": "code"
+              },
+              {
+                "start": 67,
+                "end": 76,
+                "kind": "code"
+              },
+              {
+                "start": 117,
+                "end": 134,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p7",
+            "kind": "paragraph",
+            "text": "• Explain why a missing group after a permission error cannot establish uniqueness."
+          },
+          {
+            "id": "p8",
+            "kind": "paragraph",
+            "text": "To reproduce a read failure without depending on operating-system permissions, save this as try_failure.py beside duplicates.py and run it. It injects PermissionError only when the reporter fingerprints two.txt; it does not change real permissions. Predict which duplicate group becomes incomplete and inspect stderr for the reported error.",
+            "inline": [
+              {
+                "start": 92,
+                "end": 106,
+                "kind": "code"
+              },
+              {
+                "start": 114,
+                "end": 127,
+                "kind": "code"
+              },
+              {
+                "start": 151,
+                "end": 166,
+                "kind": "code"
+              },
+              {
+                "start": 203,
+                "end": 210,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p9",
+            "kind": "code",
+            "language": "python",
+            "text": "from pathlib import Path\nimport tempfile\nfrom unittest.mock import patch\nimport duplicates\n\nwith tempfile.TemporaryDirectory(prefix=\"failure-demo-\") as folder:\n    root = Path(folder)\n    for name in (\"one.txt\", \"two.txt\"):\n        (root / name).write_bytes(b\"same\")\n    original = duplicates.fingerprint\n    def injected(path):\n        if path.name == \"two.txt\":\n            raise PermissionError(\"synthetic read failure\")\n        return original(path)\n    with patch.object(duplicates, \"fingerprint\", side_effect=injected):\n        print(duplicates.duplicates(root))"
+          },
+          {
+            "id": "p10",
+            "kind": "paragraph",
+            "text": "The missing complete group cannot establish that these files differ. The failure was injected before reading one candidate, so that candidate has no digest evidence."
+          },
+          {
+            "id": "p11",
+            "kind": "paragraph",
+            "text": "Checkpoint: Describe one input assumption and one output limitation before adapting this tool to your own folder."
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "title": "Choose an extension",
+        "parts": [
+          {
+            "id": "p12",
+            "kind": "paragraph",
+            "text": "Add a final byte comparison, or record file metadata before and after hashing and flag changes. Neither extension makes a live filesystem into a snapshot. Keep deletion outside this project."
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "journey",
+      "stages": [
+        {
+          "id": "stage-s1",
+          "sectionId": "s1",
+          "title": "Predict the result"
+        },
+        {
+          "id": "stage-s2",
+          "sectionId": "s2",
+          "title": "Create a disposable fixture"
+        },
+        {
+          "id": "stage-s3",
+          "sectionId": "s3",
+          "title": "Explain the evidence",
+          "checkpoint": "Describe one input assumption and one output limitation before adapting this tool to your own folder."
+        },
+        {
+          "id": "stage-s4",
+          "sectionId": "s4",
+          "title": "Choose an extension"
+        }
+      ]
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:20.838Z",
+    "updatedAt": "2026-10-22T02:17:20.838Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-047d1ba72ba507f5912a269e36bb27dba8a1229eea83de1793e2dfb835c69690"
+  },
+  {
+    "id": "ms-1114eab01c97b82c1e7b910eded9baf37c848ceb",
+    "family": "article",
+    "title": "Caches store reusable answers",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-269f6771a0f027c55d08d57fdf3b9a1674c4a974",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "deterministic demonstration"
+      },
+      {
+        "family": "journey",
+        "id": "ms-512a322cc71c3dd89e7ea1faf7e5c46ec857f755",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "reasoning Journey"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Introduction",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "A cache stores an answer so that later requests can avoid repeating work. The authoritative source determines the current price; the cache holds a previously computed price. A dictionary can implement either role. Its role depends on the system’s contract, not its data structure."
+          },
+          {
+            "id": "p2",
+            "kind": "paragraph",
+            "text": "A cache hit means a usable entry exists for a key. It does not mean the answer matches the source right now. On a miss, a cache-aside reader loads the source and stores the answer.",
+            "inline": [
+              {
+                "start": 59,
+                "end": 62,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "p3",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Mechanism",
+                "Benefit",
+                "Limit"
+              ],
+              "rows": [
+                [
+                  "Time-to-live (TTL)",
+                  "Limits how long an entry is eligible for reuse",
+                  "Source may change before expiry"
+                ],
+                [
+                  "Explicit invalidation",
+                  "Removes a known stale entry",
+                  "Notifications may be delayed or lost"
+                ],
+                [
+                  "Versioned key",
+                  "Separates versions of an answer",
+                  "Caller must obtain the right version"
+                ]
+              ]
+            },
+            "text": "Mechanism\tBenefit\tLimit\nTime-to-live (TTL)\tLimits how long an entry is eligible for reuse\tSource may change before expiry\nExplicit invalidation\tRemoves a known stale entry\tNotifications may be delayed or lost\nVersioned key\tSeparates versions of an answer\tCaller must obtain the right version"
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "For a cache loaded at time 0 with TTL 10, a source change at time 2 can leave the old value served until time 10. TTL alone does not provide freshness at every read. A monotonic clock is appropriate for elapsed durations because wall-clock corrections should not extend or shorten a local deadline unexpectedly."
+          },
+          {
+            "id": "p5",
+            "kind": "paragraph",
+            "text": "A key must include every input that can change the answer under the cache’s contract. For a shop price, this may include product, currency, customer segment, and region. Omitting currency can return a syntactically valid number with the wrong meaning. Storing a missing-item result is negative caching; it needs its own freshness policy too."
+          },
+          {
+            "id": "p6",
+            "kind": "paragraph",
+            "text": "A cache is useful only when its cost and freshness tradeoffs fit the task. Independent processes also need a policy for concurrent misses and invalidation; a local dictionary does not coordinate them."
+          },
+          {
+            "id": "p7",
+            "kind": "paragraph",
+            "text": "Reference: time.monotonic. Explore the deterministic demonstration and reasoning Journey.",
+            "inline": [
+              {
+                "start": 11,
+                "end": 25,
+                "kind": "link",
+                "url": "https://docs.python.org/3/library/time.html#time.monotonic"
+              },
+              {
+                "start": 39,
+                "end": 66,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-269f6771a0f027c55d08d57fdf3b9a1674c4a974"
+              },
+              {
+                "start": 71,
+                "end": 88,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=journeys&family=journey&id=ms-512a322cc71c3dd89e7ea1faf7e5c46ec857f755"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "library-topic",
+      "subject": "Caches store reusable answers",
+      "reusableBeyondProject": true
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:20.958Z",
+    "updatedAt": "2026-10-22T02:17:20.958Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-10d43d83a03fe339fb78cc69bb23b4fe8eabf09946f3f82578cc9f0fae75c6f5"
+  },
+  {
+    "id": "ms-269f6771a0f027c55d08d57fdf3b9a1674c4a974",
+    "family": "article",
+    "title": "Observe expiry with a fake clock",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-1114eab01c97b82c1e7b910eded9baf37c848ceb",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "cache model"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Introduction",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "This standard-library Python example models one process and one price key. Fake time makes the expiry boundary visible without sleeping. Amounts use integer cents to avoid introducing floating-point money arithmetic."
+          },
+          {
+            "id": "p2",
+            "kind": "code",
+            "language": "python",
+            "text": "class PriceCache:\n    def __init__(self, load, now, ttl):\n        if ttl < 0:\n            raise ValueError(\"ttl must be non-negative\")\n        self.load = load\n        self.now = now\n        self.ttl = ttl\n        self.entries = {}\n\n    def get(self, key):\n        entry = self.entries.get(key)\n        if entry is not None:\n            expires_at, value = entry\n            if self.now() < expires_at:\n                return value\n        value = self.load(key)\n        self.entries[key] = (self.now() + self.ttl, value)\n        return value\n\n    def invalidate(self, key):\n        self.entries.pop(key, None)\n\nclock = [0]\nkey = (\"mug\", \"USD\", \"retail\")\nsource = {key: 1200}\ncache = PriceCache(source.__getitem__, lambda: clock[0], ttl=10)\nprint(cache.get(key))\nsource[key] = 1500\nclock[0] = 9\nprint(cache.get(key))\nclock[0] = 10\nprint(cache.get(key))\nsource[key] = 1700\ncache.invalidate(key)\nprint(cache.get(key))"
+          },
+          {
+            "id": "p3",
+            "kind": "paragraph",
+            "text": "The predicted output is 1200, 1200, 1500, then 1700, each on its own line. The comparison uses <, so an entry expires exactly at its deadline. This text records an expected result, not an executed run. TTL begins after loading completes. In a real local implementation, inject time.monotonic for elapsed-time deadlines.",
+            "inline": [
+              {
+                "start": 24,
+                "end": 28,
+                "kind": "code"
+              },
+              {
+                "start": 30,
+                "end": 34,
+                "kind": "code"
+              },
+              {
+                "start": 36,
+                "end": 40,
+                "kind": "code"
+              },
+              {
+                "start": 47,
+                "end": 51,
+                "kind": "code"
+              },
+              {
+                "start": 95,
+                "end": 96,
+                "kind": "code"
+              },
+              {
+                "start": 277,
+                "end": 291,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "The implementation has no capacity limit, thread coordination, negative caching, or persistence. A failed load raises and does not install a new entry; after expiry, an old entry remains stored but is ineligible for reuse. For the policy behind those choices, see the cache model.",
+            "inline": [
+              {
+                "start": 268,
+                "end": 279,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-1114eab01c97b82c1e7b910eded9baf37c848ceb"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "library-topic",
+      "subject": "Observe expiry with a fake clock",
+      "reusableBeyondProject": true
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:20.958Z",
+    "updatedAt": "2026-10-22T02:17:20.958Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-9d028ca2601262ba5387185c2c7631512e9052681464bd8f844fd72fd270e72f"
+  },
+  {
+    "id": "ms-512a322cc71c3dd89e7ea1faf7e5c46ec857f755",
+    "family": "journey",
+    "title": "Reason about cached prices",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-1114eab01c97b82c1e7b910eded9baf37c848ceb",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1",
+          "stageId": "stage-s1"
+        },
+        "relation": "related",
+        "reason": "cache model"
+      },
+      {
+        "family": "article",
+        "id": "ms-269f6771a0f027c55d08d57fdf3b9a1674c4a974",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s2",
+          "stageId": "stage-s2"
+        },
+        "relation": "related",
+        "reason": "fake-clock example"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Trace one request at a time",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "Read the cache model. Draw a two-column notebook trace: authoritative price and cached price. At time 0, load 1200 cents. Change the source to 1500 at time 2. Predict the value at times 9 and 10 under a TTL of 10. Explain why the entry’s age and the source’s age are different concepts.",
+            "inline": [
+              {
+                "start": 9,
+                "end": 20,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-1114eab01c97b82c1e7b910eded9baf37c848ceb"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Test the expiry boundary",
+        "parts": [
+          {
+            "id": "p2",
+            "kind": "paragraph",
+            "text": "Run the fake-clock example locally. Compare its output to your trace. Change the TTL to zero and explain why every call loads the source, even though entries are still stored. No real delay or network request is needed.",
+            "inline": [
+              {
+                "start": 8,
+                "end": 26,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-269f6771a0f027c55d08d57fdf3b9a1674c4a974"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "title": "Design a key",
+        "parts": [
+          {
+            "id": "p3",
+            "kind": "paragraph",
+            "text": "Your shop introduces member discounts and prices in EUR. List the dimensions of the answer before choosing a tuple key. Give an example of two requests that would collide under a product-only key but should produce different prices."
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "Checkpoint: State the freshness promise you would make to a shopper. “Fast” is a performance goal; it is not a freshness promise."
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "title": "Consider concurrent readers",
+        "parts": [
+          {
+            "id": "p5",
+            "kind": "paragraph",
+            "text": "Two workers miss the same key at once. Describe the redundant work they might do. Then consider a source update arriving while an old load is still running. What evidence would you need before claiming invalidation prevents all stale writes? Keep that as a design question; this single-process demonstration does not answer it."
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "journey",
+      "stages": [
+        {
+          "id": "stage-s1",
+          "sectionId": "s1",
+          "title": "Trace one request at a time"
+        },
+        {
+          "id": "stage-s2",
+          "sectionId": "s2",
+          "title": "Test the expiry boundary"
+        },
+        {
+          "id": "stage-s3",
+          "sectionId": "s3",
+          "title": "Design a key",
+          "checkpoint": "State the freshness promise you would make to a shopper. “Fast” is a performance goal; it is not a freshness promise."
+        },
+        {
+          "id": "stage-s4",
+          "sectionId": "s4",
+          "title": "Consider concurrent readers"
+        }
+      ]
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:20.959Z",
+    "updatedAt": "2026-10-22T02:17:20.959Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-e6ca789eb9acbc4018447625cc84fa4cd09b8e5b860a99f5fe924ffe16a5b8cc"
+  },
+  {
+    "id": "ms-ace5bbcddf102b0954b403915e09e33161800ee4",
+    "family": "article",
+    "title": "What a composite index might change",
+    "body": "",
+    "links": [
+      {
+        "family": "journey",
+        "id": "ms-107b62e25e82ebc582e587c2e9f0a548e71f8bd3",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "experiment Journey"
+      },
+      {
+        "family": "investigation",
+        "id": "ms-c2c5b0d022c6a739e2a6e1ecccce05785a02d9e8",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s1"
+        },
+        "relation": "related",
+        "reason": "open Investigation"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Introduction",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "Consider events with an integer identifier, a device identifier, an integer timestamp, and a payload. The query filters on one device and asks for the newest rows with an explicit tie-breaker:"
+          },
+          {
+            "id": "p2",
+            "kind": "code",
+            "language": "sql",
+            "text": "SELECT id, recorded_at, payload\nFROM events\nWHERE device_id = ?\nORDER BY recorded_at DESC, id DESC\nLIMIT 20;"
+          },
+          {
+            "id": "p3",
+            "kind": "paragraph",
+            "text": "An index on (device_id, recorded_at DESC, id DESC) may let SQLite seek to the relevant device and read rows in the requested order. Without a suitable index, SQLite may scan more rows and use a temporary structure for ordering. The actual choice depends on available indexes, statistics, data, and SQLite version.",
+            "inline": [
+              {
+                "start": 12,
+                "end": 50,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "An index stores additional data and must be maintained on writes. The proposed index does not contain payload, so it is not a covering index for this query: fetching a result’s payload can require looking up the table row. “Uses an index” and “is faster for this workload” are different observations.",
+            "inline": [
+              {
+                "start": 102,
+                "end": 109,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p5",
+            "kind": "paragraph",
+            "text": "The id tie-breaker makes the ordering deterministic when timestamps match. Parameter binding separates SQL structure from parameter values. The in-memory experiment does not model durable disk writes, production cache conditions, or every device distribution.",
+            "inline": [
+              {
+                "start": 4,
+                "end": 6,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p6",
+            "kind": "paragraph",
+            "text": "References: SQLite query planning, EXPLAIN QUERY PLAN, Python sqlite3. See the experiment Journey and open Investigation.",
+            "inline": [
+              {
+                "start": 12,
+                "end": 33,
+                "kind": "link",
+                "url": "https://www.sqlite.org/queryplanner.html"
+              },
+              {
+                "start": 35,
+                "end": 53,
+                "kind": "link",
+                "url": "https://www.sqlite.org/eqp.html"
+              },
+              {
+                "start": 55,
+                "end": 69,
+                "kind": "link",
+                "url": "https://docs.python.org/3/library/sqlite3.html"
+              },
+              {
+                "start": 79,
+                "end": 97,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=journeys&family=journey&id=ms-107b62e25e82ebc582e587c2e9f0a548e71f8bd3"
+              },
+              {
+                "start": 102,
+                "end": 120,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=investigations&family=investigation&id=ms-c2c5b0d022c6a739e2a6e1ecccce05785a02d9e8"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "library-topic",
+      "subject": "What a composite index might change",
+      "reusableBeyondProject": true
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:21.046Z",
+    "updatedAt": "2026-10-22T02:17:21.046Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-11f6b29e9863bdb726cb8bce7d463cc98b3ebe9dc10e788dc1babb65e0029de9"
+  },
+  {
+    "id": "ms-107b62e25e82ebc582e587c2e9f0a548e71f8bd3",
+    "family": "journey",
+    "title": "Compare a query before and after indexing",
+    "body": "",
+    "links": [
+      {
+        "family": "article",
+        "id": "ms-ace5bbcddf102b0954b403915e09e33161800ee4",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s1",
+          "stageId": "stage-s1"
+        },
+        "relation": "related",
+        "reason": "index model"
+      },
+      {
+        "family": "investigation",
+        "id": "ms-c2c5b0d022c6a739e2a6e1ecccce05785a02d9e8",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s4",
+          "stageId": "stage-s4"
+        },
+        "relation": "related",
+        "reason": "open Investigation"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "State the hypothesis",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "Read the index model. Predict whether an index that starts with device_id can reduce work for the filtered, ordered query. Write a competing explanation: a small table might already be fast enough that index maintenance is not worthwhile.",
+            "inline": [
+              {
+                "start": 9,
+                "end": 20,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-ace5bbcddf102b0954b403915e09e33161800ee4"
+              },
+              {
+                "start": 64,
+                "end": 73,
+                "kind": "code"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Run a disposable experiment",
+        "parts": [
+          {
+            "id": "p2",
+            "kind": "paragraph",
+            "text": "This script uses only Python’s standard library and creates an in-memory database. Save it as index_probe.py and run python index_probe.py. It prints the local SQLite version, plans, median warm-query time, and number of returned rows. No execution results are supplied here. The timestamp i // 1000 deliberately gives multiple rows of the same device the same timestamp. The assertions check equal results before/after, descending (recorded_at, id) order, and the presence of a timestamp tie in the returned rows.",
+            "inline": [
+              {
+                "start": 94,
+                "end": 108,
+                "kind": "code"
+              },
+              {
+                "start": 117,
+                "end": 138,
+                "kind": "code"
+              },
+              {
+                "start": 290,
+                "end": 299,
+                "kind": "code"
+              },
+              {
+                "start": 432,
+                "end": 449,
+                "kind": "code"
+              }
+            ]
+          },
+          {
+            "id": "p3",
+            "kind": "code",
+            "language": "python",
+            "text": "import sqlite3\nimport statistics\nimport time\n\nquery = \"\"\"SELECT id, recorded_at, payload FROM events\nWHERE device_id = ?\nORDER BY recorded_at DESC, id DESC LIMIT 20\"\"\"\n\ndef measure(connection, label):\n    plan = connection.execute(\n        \"EXPLAIN QUERY PLAN \" + query, (7,)\n    ).fetchall()\n    connection.execute(query, (7,)).fetchall()\n    samples = []\n    rows = []\n    for _ in range(30):\n        started = time.perf_counter()\n        rows = connection.execute(query, (7,)).fetchall()\n        samples.append(time.perf_counter() - started)\n    print(label, plan)\n    print(\"median seconds:\", statistics.median(samples))\n    print(\"rows:\", len(rows))\n    return rows\n\nwith sqlite3.connect(\":memory:\") as connection:\n    print(\"SQLite\", sqlite3.sqlite_version)\n    connection.execute(\"\"\"CREATE TABLE events (\n        id INTEGER PRIMARY KEY, device_id INTEGER NOT NULL,\n        recorded_at INTEGER NOT NULL, payload TEXT NOT NULL)\"\"\")\n    connection.executemany(\n        \"INSERT INTO events VALUES (?, ?, ?, ?)\",\n        ((i, i % 100, i // 1000, \"sample\") for i in range(1, 50001)),\n    )\n    connection.commit()\n    before = measure(connection, \"before\")\n    connection.execute(\"\"\"CREATE INDEX event_device_time\n        ON events(device_id, recorded_at DESC, id DESC)\"\"\")\n    connection.commit()\n    after = measure(connection, \"after\")\n    if before != after:\n        raise RuntimeError(\"result mismatch\")\n    if after != sorted(after, key=lambda row: (row[1], row[0]), reverse=True):\n        raise RuntimeError(\"ordering mismatch\")\n    if not any(left[1] == right[1] for left, right in zip(after, after[1:])):\n        raise RuntimeError(\"fixture did not exercise timestamp ties\")"
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "title": "Record evidence precisely",
+        "parts": [
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "Keep the version, both plans, timings, input size, and whether the row comparison passed. A plan describes the selected access strategy; it does not count rows actually examined. This script does not measure rows examined, and a changed plan alone cannot establish that fewer rows were visited. Plan descriptions are diagnostic output whose text can change between SQLite versions; do not parse them as a stable API. Repeated queries mostly measure warm conditions, and running the indexed case second introduces an order effect."
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "title": "Challenge the finding",
+        "parts": [
+          {
+            "id": "p5",
+            "kind": "paragraph",
+            "text": "Repeat at smaller and larger row counts, and with a skewed device distribution. For a concrete order check, refactor database creation and population into a function that returns a fresh connection with identical generated rows, and make the measurement function return all 30 samples as well as rows. In round 1 create two separate databases: measure an unindexed database first, then create the index on the second database and measure it. Close both. In round 2 recreate both from scratch, measure the indexed database first, then the unindexed database. Repeat paired rounds, alternating order, with the same query parameters and one warm-up query per measured case. Keep every per-query sample with its round, case, row count, and case order; compare medians, tails, and within-case spread rather than retaining only a single aggregate. Do not include population or index-creation time in query samples; measure those costs separately if relevant. This controls the obvious shared-database order effect but still measures warm in-memory queries and cannot remove every host-load effect. To study write cost or file size, design a separate disposable file-backed experiment; the script above does not measure them. Add observations to the open Investigation, preserving uncertainty.",
+            "inline": [
+              {
+                "start": 1243,
+                "end": 1261,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=investigations&family=investigation&id=ms-c2c5b0d022c6a739e2a6e1ecccce05785a02d9e8"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "journey",
+      "stages": [
+        {
+          "id": "stage-s1",
+          "sectionId": "s1",
+          "title": "State the hypothesis"
+        },
+        {
+          "id": "stage-s2",
+          "sectionId": "s2",
+          "title": "Run a disposable experiment"
+        },
+        {
+          "id": "stage-s3",
+          "sectionId": "s3",
+          "title": "Record evidence precisely"
+        },
+        {
+          "id": "stage-s4",
+          "sectionId": "s4",
+          "title": "Challenge the finding"
+        }
+      ]
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:21.047Z",
+    "updatedAt": "2026-10-22T02:17:21.047Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-7044502b81192077da1f03482c7fd7223984835b84ce38c1e68c1881d7c3c431"
+  },
+  {
+    "id": "ms-c2c5b0d022c6a739e2a6e1ecccce05785a02d9e8",
+    "family": "investigation",
+    "title": "Open Investigation: should the event log gain an index?",
+    "body": "",
+    "links": [
+      {
+        "family": "journey",
+        "id": "ms-107b62e25e82ebc582e587c2e9f0a548e71f8bd3",
+        "relationId": "link1",
+        "sourceContext": {
+          "sectionId": "s5"
+        },
+        "relation": "related",
+        "reason": "disposable experiment"
+      },
+      {
+        "family": "article",
+        "id": "ms-ace5bbcddf102b0954b403915e09e33161800ee4",
+        "relationId": "link2",
+        "sourceContext": {
+          "sectionId": "s5"
+        },
+        "relation": "related",
+        "reason": "reusable index explanation"
+      }
+    ],
+    "synthetic": true,
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Question and current status",
+        "parts": [
+          {
+            "id": "p1",
+            "kind": "paragraph",
+            "text": "Would a composite device/time index improve the intended event-log workload enough to justify extra storage and write maintenance? Unanswered. No local or production experiment has been executed for this record. No timing, plan, or storage result is claimed.",
+            "inline": [
+              {
+                "start": 131,
+                "end": 142,
+                "kind": "strong"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Hypotheses to distinguish",
+        "parts": [
+          {
+            "id": "p2",
+            "kind": "paragraph",
+            "text": "1. The proposed index enables a more selective access path and avoids a separate sort for the target query, making representative reads faster. Plans can support the access-path claim; proving fewer rows were actually examined requires separate execution instrumentation, which this experiment does not provide."
+          },
+          {
+            "id": "p3",
+            "kind": "paragraph",
+            "text": "2. The table is small or the query infrequent enough that the practical benefit is negligible."
+          },
+          {
+            "id": "p4",
+            "kind": "paragraph",
+            "text": "3. Read gains exist, but write maintenance or storage cost makes the overall tradeoff unattractive."
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "title": "Evidence still needed",
+        "parts": [
+          {
+            "id": "p5",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Evidence",
+                "Status",
+                "Why it matters"
+              ],
+              "rows": [
+                [
+                  "Version and plans before/after",
+                  "Not collected",
+                  "Establishes what access paths were selected"
+                ],
+                [
+                  "Representative read latency distribution",
+                  "Not collected",
+                  "Measures the user-facing query cost"
+                ],
+                [
+                  "Read and write frequency",
+                  "Unknown",
+                  "Weighs benefit against maintenance"
+                ],
+                [
+                  "File-backed write and size measurements",
+                  "Not collected",
+                  "Tests costs omitted by the memory demo"
+                ],
+                [
+                  "Realistic device skew and payload sizes",
+                  "Unknown",
+                  "Checks whether synthetic data transfers"
+                ]
+              ]
+            },
+            "text": "Evidence\tStatus\tWhy it matters\nVersion and plans before/after\tNot collected\tEstablishes what access paths were selected\nRepresentative read latency distribution\tNot collected\tMeasures the user-facing query cost\nRead and write frequency\tUnknown\tWeighs benefit against maintenance\nFile-backed write and size measurements\tNot collected\tTests costs omitted by the memory demo\nRealistic device skew and payload sizes\tUnknown\tChecks whether synthetic data transfers"
+          }
+        ]
+      },
+      {
+        "id": "s4",
+        "title": "Decision criteria",
+        "parts": [
+          {
+            "id": "p6",
+            "kind": "paragraph",
+            "text": "Before running experiments, choose a read-latency target and acceptable write/storage budget appropriate to the application. A changed plan is supporting evidence; meeting those workload goals is the decision criterion. If the baseline already meets the target with margin, that weakens the urgency to add an index. If results vary widely, investigate the variance before choosing a winner."
+          }
+        ]
+      },
+      {
+        "id": "s5",
+        "title": "Next action",
+        "parts": [
+          {
+            "id": "p7",
+            "kind": "paragraph",
+            "text": "Run the disposable experiment, attach the actual observations, and revise these hypotheses. Keep the reusable index explanation separate from measured claims. Do not convert a prediction into a conclusion merely because the proposed index sounds plausible.",
+            "inline": [
+              {
+                "start": 8,
+                "end": 29,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=journeys&family=journey&id=ms-107b62e25e82ebc582e587c2e9f0a548e71f8bd3"
+              },
+              {
+                "start": 101,
+                "end": 127,
+                "kind": "link",
+                "url": "https://minamo-v2.jscymru.chatgpt.site/?view=library&family=article&id=ms-ace5bbcddf102b0954b403915e09e33161800ee4"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "learningShape": {
+      "version": 1,
+      "kind": "investigation",
+      "question": "Open Investigation: should the event log gain an index?",
+      "mode": "suggested",
+      "provenance": "gpt-prompt"
+    },
+    "rev": 1,
+    "createdAt": "2026-10-22T02:17:21.047Z",
+    "updatedAt": "2026-10-22T02:17:21.047Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-e2388138ee26f3dda9bbd8f23ad1b4272faf7efb4006f62c9d37d20548d6edc3"
+  }
+]

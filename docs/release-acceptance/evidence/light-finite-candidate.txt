@@ -1,0 +1,12 @@
+✔ fresh finite registration admits exact generated source, finite boundaries, fallback and revoked identity (8.156456ms)
+✔ fresh finite omitted view keeps the original trace renderer loader (1.264307ms)
+Fresh finite local typed MCP receipt {"id":"synthetic-trace-fresh-beacon-v1","rendition":"r-c6e1a98ef0d950c2e90e833d89822b436674f231101a2aab1c1cbd6318b7fe98","rev":1,"sha256":"df72799f0f79a1b0fa13a1e8cef4b839da79e779498563c65c3a36c904cffd95","run":0,"learningDevelopment":0}
+✔ fresh finite exact generated fixture publishes through real isolated local typed MCP without Run or checkpoint (1546.982973ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2015.427814

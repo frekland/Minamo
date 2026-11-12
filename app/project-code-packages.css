@@ -1,0 +1,20 @@
+.pc-code-packages{margin:12px 0 16px;display:grid;gap:8px}
+.pc-code-package{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid var(--mn-border-subtle);border-radius:12px;background:var(--mn-surface-low,var(--mn-surface));color:var(--mn-text)}
+.pc-code-package>svg{color:var(--mn-accent);flex:none}
+.pc-code-package-body{min-width:0;flex:1;display:grid;gap:3px}
+.pc-code-package-body>strong{font-size:14px;font-weight:600}
+.pc-code-package small,.pc-code-packages>small{color:var(--mn-text-muted);font-size:12px}
+.pc-code-package details{font-size:12px;color:var(--mn-text-muted)}
+.pc-code-package summary{cursor:pointer;width:max-content;max-width:100%}
+.pc-code-package ul{list-style:none;padding:6px 0 0;margin:0;display:grid;gap:4px;max-height:150px;overflow:auto}
+.pc-code-package code{font-size:12px;overflow-wrap:anywhere;color:var(--mn-text)}
+.pc-code-package button{display:inline-flex;align-items:center;gap:7px;flex:none}
+.pc-code-package .pc-source-file-button{display:inline;padding:0;border:0;background:none;color:var(--mn-text-muted);text-align:left;cursor:pointer}
+.pc-code-package .pc-source-file-button:hover,.pc-code-package .pc-source-file-button[aria-pressed=true]{color:var(--mn-accent)}
+.pc-source-inspection{margin:7px 0 4px;min-width:0;border:1px solid var(--mn-border-subtle);border-radius:9px;overflow:hidden}
+.pc-source-inspection-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;background:var(--mn-surface);font-size:12px}
+.pc-source-inspection-header .v2-secondary{font-size:12px;padding:4px 9px}
+.pc-source-inspection pre{margin:0;padding:12px;max-height:380px;overflow:auto;white-space:pre;tab-size:4;font-size:12px;line-height:1.55;color:var(--mn-text)}
+.pc-source-inspection p{margin:0;padding:12px;font-size:12px;color:var(--mn-text-muted)}
+.pc-code-packages [role=alert]{font-size:13px;color:var(--mn-danger,var(--mn-text));margin:0}
+@media(max-width:540px){.pc-code-package{align-items:flex-start;flex-wrap:wrap}.pc-code-package button{margin-left:30px}}

@@ -1,0 +1,44 @@
+# Learning interface, continuity and Library correction evidence
+
+This document describes the PR26 implementation, not a production receipt. The release report supplies actual hosted, installed MCP and browser acceptance results. All executable fixtures are synthetic. No genuine learner records were changed by this implementation or its local tests.
+
+## Material decisions
+
+- A checkpoint is a saved account, not a transcript, mastery score or inferred progress. `lib/learning-perspective-view.ts` projects the latest eligible, non-withdrawn, non-superseded checkpoint without combining potentially contradictory prose. It retains exact fact roles, evidence basis, decision reasons and the practical next action. An unavailable latest checkpoint does not silently promote an older account as current.
+- `app/learning-developments.tsx` places **Where you left off** before the current task. The compact view separates attempts, evidence, misconceptions, provisional decisions, open questions and the next action. When the latest entry contains an attempt but no decision, a relevant earlier decision is explicitly labelled **Earlier saved choice**, with its date and provisional status; it is not inferred to remain established. Corrections which remove a decision do not silently reintroduce one.
+- Full checkpoint history, explicit recording, correction and withdrawal live in management/review dialogs. A correction exposes the saved choice, reason, status and next action, preserving reference identities and evidence basis. Current-target refresh is immediate after an acknowledged checkpoint change. Request sequencing rejects older arriving reads; loading an earlier history page preserves the current resume and perspective.
+- Evidence-backed facts link to the exact eligible source edition in the canonical Reader, where the learner can Flag or Annotate an actual passage. A checkpoint summary or reported statement is not assigned a fabricated Reader anchor. Existing private Note evidence links remain available.
+- `app/workspace.tsx` provides one **Manage** destination for record editing, explicit status choice, checkpoint recording and recent changes. Ordinary task surfaces no longer stack options, editorial and history disclosures. Legitimate controls remain available. Practical aims are visible instead of hidden in a second disclosure.
+- A native sticky section selector supports ongoing long-article navigation on mobile and keyboard. Journey stage selection stays available while scrolling. A linked reference retains a return to the exact Journey stage, including while browsing the Library between articles.
+
+## Library is a first-class reference system
+
+The existing subject-area / independent Article / exact technical-reference model was retained. No new inferred hierarchy or separate duplicate topic corpus was introduced. A topic opens its canonical Article; each Article may belong to several explicitly authored subject areas and support several learning projects.
+
+- The Library home is a compact subject index. Subject cards show a short description and Article count, then open the subject's topic list rather than expanding whole readings inline.
+- Subject topics are scannable substantive Article rows. The same browsing surface makes **Concepts**, **Functions & APIs**, **Commands**, **APIs**, **Language syntax** and **All technical references** directly discoverable. The query-only `functions` category groups stored Python-function and API entries without changing their original types. Technical entries preserve exact names, aliases, environment, definition, signature and usage, and open the canonical explanation at its exact rendition/section/part.
+- The existing full-corpus paged query remains authoritative. HTTP search now sends the actual `q` parameter consumed by the server; the previous UI `query` parameter was ignored by that GET route. Tests exercise the real authenticated GET path, not just a state helper.
+- `lib/catalogue.ts` returns subject memberships for topic/reference results from explicit unscoped links in either direction. A scoped cross-reference is not misrepresented as whole-topic membership. Owner scope, current eligibility, keyset pagination, exact-case technical lookup and retained-reading guarantees remain enforced.
+- Subject, category and search state survive a trip into an Article. **Back to Library browsing** restores the working catalogue context. Mobile reference categories scroll horizontally and Article content stays within the viewport. The catalogue owns its heading, avoiding the duplicate outer Library title caught by independent browser review.
+- The DEV-only preview uses `localLibraryItems` with the same `LibraryCatalogueView`, deriving results from explicitly synthetic records. It does not provide an authenticated API identity or acknowledge durable writes. Production uses the server query.
+
+## Finding disposition in this implementation
+
+| Concern | Disposition and verification |
+|---|---|
+| C-01/C-02/C-06/C-07/C-12/C-13/residual C-14 | Materially improved: compact navigation, a single management destination, visible practical aim, persistent section/stage navigation, compact full Library catalogue and exact task return. Rendered markup and real server catalogue queries are tested; browser findings are recorded separately in the integrated release evidence. |
+| C-15/C-16/C-17 | Materially improved: latest supported checkpoint before task, meaningful role hierarchy, decision rationale, explicit next action, historical choices labelled as history, Home next-action agreement, correction/withdrawal controls and invalidation. Server continuity/recovery tests are owned by the MCP implementation and run in the full suite. |
+| C-18 | Supported through genuine exact evidence links into canonical reading. Checkpoint summaries themselves remain non-anchorable; reported-only statements can be corrected or withdrawn. This is deliberate integrity preservation, not full checkpoint-summary annotation. |
+| Library parity clarification | Addressed across subject browse, topic/Article discovery, technical indexes, real GET search, explicit cross-links and natural task return. Live corpus content quality and editorial changes are separately evidenced by the coordinating agent. |
+
+## Tests and review
+
+Focused tests: `tests/pr26-learning-interface.test.mjs`, `tests/educational-reading-ui.test.mjs`, `tests/catalogue-core.test.mjs` pass (21 tests including subtests after the final additional rendered-continuity case). They cover source-faithful resume, unavailable/superseded/withdrawn cases, decision reasons and exact evidence identity, rendered ordinary-versus-management surfaces, compact area/Article/reference presentation, exact aliases/case, real authenticated HTTP `q` search, declared membership versus scoped links, unrelated-owner isolation, 1,500-topic pagination and a 230-member area. Typecheck passes. The coordinator runs the aggregate production build and full suite.
+
+Independent review corrections included editable structured decisions/next action, preservation of current resume while paging history, the HTTP search parameter mismatch, Home's preference for the agreed practical next action, and the duplicate Library heading observed in the actual browser. The React review checklist was applied to the edited components: hooks remain unconditional, browser effects clean up listeners/observers, async catalogue search uses abort plus sequence protection, storage restoration validates supported shapes, no unsafe HTML or external image request was added, and responsive controls retain accessible names/focus styles.
+
+`/preview-learning` is a DEV-only read-only visual fixture using the actual production `LearningResumeView` with synthetic current/corrected/withdrawn/unavailable state projections. It grants no identity and performs no durable writes. It is not evidence of physical Android acceptance or of a real save. The final release report must keep those distinctions.
+
+## Hosted acceptance correction: Library pending-state honesty
+
+The coordinating agent's hosted Library walkthrough exposed a brief false “No matches” message during initial load and the 180 ms search/filter debounce. The query UI now enters the pending state immediately on initialization and filter changes, clears stale errors before scheduling the request, and invalidates the prior request sequence before aborting it during effect cleanup. An older response or its `finally` block can therefore neither populate the next query's pending window nor clear that query's loading state. Pagination and explicit retry retain the existing bounded server request path. This correction was made after the initial V20 release and requires the coordinator's follow-up source/publication receipt; it is not assumed deployed by this document.

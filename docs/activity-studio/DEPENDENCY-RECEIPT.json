@@ -1,0 +1,56 @@
+{
+  "contract": "minamo.activity-dependencies.v1",
+  "directAdditions": [
+    {
+      "name": "@xyflow/react",
+      "version": "12.12.0",
+      "license": "MIT",
+      "dependencies": {
+        "classcat": "^5.0.3",
+        "zustand": "^4.4.0",
+        "@xyflow/system": "0.0.83"
+      },
+      "peerDependencies": {
+        "@types/react": ">=17",
+        "@types/react-dom": ">=17",
+        "react": ">=17",
+        "react-dom": ">=17"
+      }
+    },
+    {
+      "name": "tldraw",
+      "version": "5.5.2",
+      "license": "SEE LICENSE IN LICENSE.md",
+      "dependencies": {
+        "@tiptap/core": "^3.12.1",
+        "@tiptap/extension-code": "^3.12.1",
+        "@tiptap/extension-highlight": "^3.12.1",
+        "@tiptap/extension-list": "^3.12.1",
+        "@tiptap/extension-typography": "3.13.0",
+        "@tiptap/pm": "^3.12.1",
+        "@tiptap/react": "^3.12.1",
+        "@tiptap/starter-kit": "^3.12.1",
+        "@tldraw/driver": "5.5.2",
+        "@tldraw/editor": "5.5.2",
+        "@tldraw/state": "5.5.2",
+        "@tldraw/store": "5.5.2",
+        "@tldraw/tlschema": "5.5.2",
+        "classnames": "^2.5.1",
+        "idb": "^7.1.1",
+        "lz-string": "^1.5.0",
+        "radix-ui": "^1.4.2"
+      },
+      "peerDependencies": {
+        "react": "^18.2.0 || ^19.2.1",
+        "react-dom": "^18.2.0 || ^19.2.1"
+      }
+    }
+  ],
+  "lockfile": "pnpm-lock.yaml",
+  "optionalScienceAssets": {
+    "packages": 17,
+    "bytes": 50251575,
+    "defaultPackaged": false
+  },
+  "licenceQualification": "tldraw is source available, not permissive; production licence/host/telemetry not accepted by this commission."
+}

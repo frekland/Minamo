@@ -1,0 +1,172 @@
+{
+  "contract": "minamo.pr52-live-audio-ledger.v1",
+  "generation": "legacy@0",
+  "productionVersion": 34,
+  "classification": "task-owned-synthetic-acceptance",
+  "records": [
+    {
+      "family": "article",
+      "id": "ms-3de9ac14ed123e2a709f3a0ef041ace248e23942",
+      "rev": 3,
+      "rendition": "r-317a07e17c580e6697e2cfd0ebe4e4548fb1c72cfe4e093e4eb32720a91eacb1",
+      "synthetic": true,
+      "role": "ja-licensed-source",
+      "sourcePublicationOperation": "pr52-audio-v32-20261026-manuscript",
+      "transcript": {
+        "sectionId": "s2",
+        "partId": "p2"
+      },
+      "mediaPartId": "licensed-ja-audio"
+    },
+    {
+      "family": "experiment",
+      "id": "pr52-audio-v33-ja-listening-20261026",
+      "rev": 1,
+      "rendition": "r-db8c1a3add59449b7f2ee573a85daf37d2bb57e095b0358ba3e12f1c2f6cf4ac",
+      "synthetic": true,
+      "role": "ja-listening",
+      "publicationOperation": "pr52-audio-v33-ja-listening-publish-20261026",
+      "href": "https://minamo.jscymru.chatgpt.site/?view=tools&family=experiment&id=pr52-audio-v33-ja-listening-20261026&rendition=r-db8c1a3add59449b7f2ee573a85daf37d2bb57e095b0358ba3e12f1c2f6cf4ac"
+    },
+    {
+      "family": "article",
+      "id": "ms-f6a11b5e395dfd6a7ae2a9265837149e4b51f56c",
+      "rev": 3,
+      "rendition": "r-0ebf3430acc98cf83c8fcf50eb4abcc9bef344f06daf9eeae837ae70ede746d1",
+      "synthetic": true,
+      "role": "zh-licensed-source",
+      "sourcePublicationOperation": "pr52-audio-v33-mandarin-source-20261026",
+      "transcript": {
+        "sectionId": "s2",
+        "partId": "p2"
+      },
+      "mediaPartId": "part-34b34d09-4053-4c5b-b130-31f6f31a36d8"
+    },
+    {
+      "family": "experiment",
+      "id": "pr52-audio-v33-zh-listening-20261026",
+      "rev": 1,
+      "rendition": "r-1cf6af79d413f758ee899013e3d867f5ff4a232199e7506dc30e50ed5ae5bf4c",
+      "synthetic": true,
+      "role": "zh-listening",
+      "publicationOperation": "pr52-audio-v33-zh-listening-publish-20261026",
+      "href": "https://minamo.jscymru.chatgpt.site/?view=tools&family=experiment&id=pr52-audio-v33-zh-listening-20261026&rendition=r-1cf6af79d413f758ee899013e3d867f5ff4a232199e7506dc30e50ed5ae5bf4c"
+    }
+  ],
+  "assets": [
+    {
+      "id": "media-fab3c15f97343f0f33532768648132b2cf953b21e43ab254a8c7041ee53caf68",
+      "revision": 1,
+      "state": "attached",
+      "mime": "audio/wav",
+      "bytes": 29030,
+      "sha256": "322757bd773146d8d899960df527a5a45ba66c5dd50057ffb7ce6aaaf53eba81",
+      "durationSeconds": 0.90475,
+      "language": "ja",
+      "license": "CC-BY-SA-3.0",
+      "originalSource": "https://commons.wikimedia.org/wiki/File:Wikibooksqsjapanese1-snd005.ogg"
+    },
+    {
+      "id": "media-32f8b65569385fd86319b071e27578c52d05b0cfe0d64f178ca47a4cc4812187",
+      "revision": 1,
+      "state": "attached",
+      "mime": "audio/wav",
+      "bytes": 33888,
+      "sha256": "506380acaef046ffb3b92fa82c847cab39eba62607cdb4e9b2fd31281e56a1e8",
+      "durationSeconds": 1.0565625,
+      "language": "zh-Hans",
+      "license": "CC-BY-SA-3.0",
+      "originalSource": "https://commons.wikimedia.org/wiki/File:Zh_n%C7%90_h%C7%8Eo.ogg"
+    }
+  ],
+  "attempts": [
+    {
+      "family": "run",
+      "id": "attempt-030e8400-ab3e-4cd8-91ae-0ae81009b558",
+      "rev": 1,
+      "rendition": "r-02e5a0883d18f22d46839748bb8754a2a0707da7678f9ab4e1898ddcb8f94aba",
+      "synthetic": true,
+      "activity": {
+        "family": "experiment",
+        "id": "pr52-audio-v33-ja-listening-20261026",
+        "rendition": "r-db8c1a3add59449b7f2ee573a85daf37d2bb57e095b0358ba3e12f1c2f6cf4ac"
+      },
+      "interactions": [
+        {
+          "blockId": "listening",
+          "kind": "listening",
+          "edition": "r-db8c1a3add59449b7f2ee573a85daf37d2bb57e095b0358ba3e12f1c2f6cf4ac",
+          "events": [
+            {
+              "type": "segment",
+              "value": "greeting"
+            },
+            {
+              "type": "dictation-input",
+              "value": "\u3053\u3093\u306b\u3061\u306f"
+            },
+            {
+              "type": "transcript-revealed",
+              "value": "true"
+            },
+            {
+              "type": "compared",
+              "value": "true"
+            }
+          ]
+        }
+      ],
+      "actor": "user",
+      "href": "https://minamo.jscymru.chatgpt.site/?view=work&family=run&id=attempt-030e8400-ab3e-4cd8-91ae-0ae81009b558&rendition=r-02e5a0883d18f22d46839748bb8754a2a0707da7678f9ab4e1898ddcb8f94aba"
+    },
+    {
+      "family": "run",
+      "id": "attempt-2fa94079-d88c-4daf-b9cc-c755a30542b9",
+      "rev": 1,
+      "rendition": "r-0e77f4b3e7ef462d6e0570922b3b0c5562e9c869c639f3bb3d888228621cfe7f",
+      "synthetic": true,
+      "activity": {
+        "family": "experiment",
+        "id": "pr52-audio-v33-zh-listening-20261026",
+        "rendition": "r-1cf6af79d413f758ee899013e3d867f5ff4a232199e7506dc30e50ed5ae5bf4c"
+      },
+      "interactions": [
+        {
+          "blockId": "listening",
+          "kind": "listening",
+          "edition": "r-1cf6af79d413f758ee899013e3d867f5ff4a232199e7506dc30e50ed5ae5bf4c",
+          "events": [
+            {
+              "type": "segment",
+              "value": "greeting"
+            },
+            {
+              "type": "dictation-input",
+              "value": "\u4f60\u597d"
+            },
+            {
+              "type": "transcript-revealed",
+              "value": "true"
+            },
+            {
+              "type": "compared",
+              "value": "true"
+            }
+          ]
+        }
+      ],
+      "actor": "user",
+      "href": "https://minamo.jscymru.chatgpt.site/?view=work&family=run&id=attempt-2fa94079-d88c-4daf-b9cc-c755a30542b9&rendition=r-0e77f4b3e7ef462d6e0570922b3b0c5562e9c869c639f3bb3d888228621cfe7f"
+    }
+  ],
+  "cleanup": {
+    "status": "pending-parent-browser-acceptance",
+    "mechanism": "Recoverable Trash of exact task-owned Attempts, then Activities and source Articles. Retain audio with trashed parents; no purge."
+  },
+  "learningDevelopmentCreated": false,
+  "cleanupReceipt": {
+    "path": "LIVE-CLEANUP.json",
+    "status": "task-owned synthetic records recoverably trashed; named Development withdrawn; retained bytes verified",
+    "postCleanupArchiveId": "archive-35421d9612b5d4d68d377e6f151bc2b43636ec9e22c744a4"
+  }
+}

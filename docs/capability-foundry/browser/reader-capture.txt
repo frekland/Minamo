@@ -1,0 +1,121 @@
+- main:
+  - paragraph: MINAMO · CAPABILITY FOUNDRY
+  - heading "Small experiments, reusable foundations." [level=1]
+  - paragraph: A developer-only laboratory. Choose a track to load its trusted modules. Computation and audio require separate deliberate controls; no learner record or checkpoint is written here.
+  - paragraph: SYNTHETIC LOCAL RESEARCH · DEFAULT OFF · NO PRODUCTION RELEASE
+  - navigation "Foundry tracks":
+    - button "Shared platform"
+    - button "Languages"
+    - button "Mathematics"
+    - button "Scientific Python"
+    - button "Graphics & simulations"
+    - button "Data & traces"
+    - button "Audio & music"
+    - button "Reader & Notes" [pressed]
+    - button "Bytes, diffs & colour"
+    - button "Unload track"
+  - heading "Existing Reader and Notes integration" [level=2]
+  - paragraph: These are the actual current components with optional display hooks. Original canonical parts remain unchanged. Capture prepares the existing command shape; this page cannot acknowledge a save.
+  - text: Workspace presentation
+  - combobox "Workspace presentation":
+    - option "Classic fixture" [selected]
+    - option "Focus fixture"
+    - option "Task fixture"
+  - button "Disable dormant display hooks"
+  - button "Hide readings"
+  - article:
+    - button "Add to Favourites":
+      - generic: ◇
+      - generic: Favourite
+    - heading "Synthetic retained Japanese and mathematical reading" [level=1]
+    - paragraph: A display decoration leaves the original text, source and captures unchanged.
+    - navigation "In this reading":
+      - generic: In this reading
+      - link "Exact original characters":
+        - /url: "#section-language"
+      - link "Exact mathematical source":
+        - /url: "#section-math"
+    - heading "Exact original characters" [level=2]
+    - paragraph:
+      - generic: 今日
+      - generic: きょう
+      - generic: は
+      - generic: 日本語
+      - generic: にほんご
+      - generic: を
+      - generic: 勉強
+      - generic: べんきょう
+      - generic: します。
+    - heading "Exact mathematical source" [level=2]
+    - button "Copy code"
+    - figure "An authored integral equality; typesetting is separate from computation. Display does not evaluate or prove the statement.":
+      - math:
+        - generic: ∫
+        - generic: "0"
+        - generic: "1"
+        - generic: x
+        - generic: "2"
+        - generic: d
+        - generic: x
+        - generic: =
+        - generic: "1"
+        - generic: "3"
+      - text: ∫
+      - generic: "0"
+      - generic: "1"
+      - text: x
+      - generic: "2"
+      - text: dx =
+      - generic: "3"
+      - generic: "1"
+      - generic: An authored integral equality; typesetting is separate from computation. Display does not evaluate or prove the statement.
+      - generic "Exact TeX source"
+      - button "Capture whole expression source" [disabled]
+    - text: Select without dragging
+    - combobox "Flag or annotate a whole passage":
+      - option "Choose a passage…" [selected]
+      - option "Synthetic retained Japanese and mathematical reading"
+      - option "A display decoration leaves the original text, source and captures unc"
+      - option "Exact original characters"
+      - option "今日は日本語を勉強します。"
+      - option "Exact mathematical source"
+      - 'option "\\int_0^1 x^2\\,dx = \\frac{1}{3}"'
+    - status: Whole passage selected. To choose a smaller range, select its text normally.
+  - heading "Existing Markdown Note viewer" [level=3]
+  - paragraph: "Prediction: I expect the area to be near one third."
+  - figure "Authored mathematical notation. Display does not evaluate or prove the statement.":
+    - math:
+      - generic: ∫
+      - generic: "0"
+      - generic: "1"
+      - generic: x
+      - generic: "2"
+      - generic: d
+      - generic: x
+      - generic: =
+      - generic: "1"
+      - generic: "3"
+    - text: ∫
+    - generic: "0"
+    - generic: "1"
+    - text: x
+    - generic: "2"
+    - text: dx =
+    - generic: "3"
+    - generic: "1"
+    - generic: Authored mathematical notation. Display does not evaluate or prove the statement.
+    - generic "Exact TeX source"
+    - button "Capture whole expression source" [disabled]
+  - text: minamo-math-source
+  - code: "\\int_0^1 x^2\\,dx = \\frac{1}{3}"
+  - paragraph: This is my illustrative Note, not learning progress.
+  - status: No persistent command has been sent.
+  - paragraph: Browser viewport checks are not physical Pixel, TalkBack, NVDA or authenticated production acceptance. Inspect each capability’s activation dossier before integration.
+- dialog "Annotate selected passage":
+  - strong: Your annotation
+  - button "Close"
+  - blockquote: 今日は日本語を勉強します。
+  - text: Your writing
+  - textbox "Your writing" [active]
+  - button "Save annotation" [disabled]
+  - button "Cancel"

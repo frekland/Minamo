@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-25",
+  "scope": "Local synthetic full Workspace; browser DOM geometry, no human study or physical Android claim",
+  "metrics": [
+    {
+      "layout": "artefact-first",
+      "viewport": 1363,
+      "workbenchWidth": 1021.59375,
+      "sourceWidth": 709.203125,
+      "visiblePanes": [
+        "source"
+      ],
+      "overflow": false
+    },
+    {
+      "layout": "context-first",
+      "overflow": false,
+      "panes": [
+        {
+          "id": "task",
+          "width": 306.46875
+        },
+        {
+          "id": "source",
+          "width": 715.125
+        }
+      ],
+      "sourceWidth": 479.34375,
+      "viewport": 1363,
+      "workbenchWidth": 1021.59375
+    },
+    {
+      "layout": "sequence",
+      "overflow": false,
+      "panes": [
+        {
+          "id": "source",
+          "width": 1021.59375
+        }
+      ],
+      "sourceWidth": 709.203125,
+      "steps": "Previous section2 of 4 · Source filesNext section",
+      "viewport": 1363,
+      "workbenchWidth": 1021.59375
+    },
+    {
+      "layout": "power",
+      "overflow": false,
+      "panes": [
+        {
+          "id": "source",
+          "width": 684.46875
+        },
+        {
+          "id": "evidence",
+          "width": 337.125
+        }
+      ],
+      "prediction": "TEST ONLY independent predicted partial stream.",
+      "ratio": "33",
+      "sourceWidth": 456.359375,
+      "viewport": 1363,
+      "workbenchWidth": 1021.59375
+    }
+  ],
+  "screenshots": [
+    "interface-variant-artefact-independent.jpg",
+    "interface-variant-context-independent.jpg",
+    "interface-variant-sequence-independent.jpg",
+    "interface-variant-power-independent.jpg"
+  ]
+}

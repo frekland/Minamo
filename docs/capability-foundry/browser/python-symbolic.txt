@@ -1,0 +1,37 @@
+- main:
+  - paragraph: MINAMO · CAPABILITY FOUNDRY
+  - heading "Small experiments, reusable foundations." [level=1]
+  - paragraph: A developer-only laboratory. Choose a track to load its trusted modules. Computation and audio require separate deliberate controls; no learner record or checkpoint is written here.
+  - paragraph: SYNTHETIC LOCAL RESEARCH · DEFAULT OFF · NO PRODUCTION RELEASE
+  - navigation "Foundry tracks":
+    - button "Shared platform"
+    - button "Languages"
+    - button "Mathematics"
+    - button "Scientific Python" [pressed]
+    - button "Graphics & simulations"
+    - button "Data & traces"
+    - button "Audio & music"
+    - button "Reader & Notes"
+    - button "Bytes, diffs & colour"
+    - button "Unload track"
+  - region "Scientific Python specimen":
+    - paragraph: Local lab execution. Opening a saved result never executes code. No record or learning progress is saved.
+    - text: Example
+    - combobox "Example":
+      - option "plot"
+      - option "symbolic" [selected]
+      - option "dataframe"
+      - option "image"
+      - option "error"
+      - option "interrupt"
+    - text: Captured Python source
+    - textbox "Captured Python source": import sympy as s x=s.symbols('x') answer=s.integrate(x*x,(x,0,1)) print('Computed exact integral:', answer) print('TeX output:',s.latex(answer)) _minamo_emit_table('Symbolic result',['expression','integral'],[['x**2','1/3']])
+    - button "Run scientific Python"
+    - status: Finished; inspect the observed output
+    - generic "Source captured for this result"
+    - generic "Exact source captured for this result": import sympy as s x=s.symbols('x') answer=s.integrate(x*x,(x,0,1)) print('Computed exact integral:', answer) print('TeX output:',s.latex(answer)) _minamo_emit_table('Symbolic result',['expression','integral'],[['x**2','1/3']])
+    - paragraph:
+      - text: "Observed local lab result: completed; 6033ms. Input SHA-256:"
+      - code: ea7e646fcc890bc4c78c0d34f099689e102b9b86279cc7f8503c864ff88cd6b6
+    - generic: "Computed exact integral: 1/3 TeX output: \\frac{1}{3} Symbolic result expression integral x**2 1/3"
+  - paragraph: Browser viewport checks are not physical Pixel, TalkBack, NVDA or authenticated production acceptance. Inspect each capability’s activation dossier before integration.

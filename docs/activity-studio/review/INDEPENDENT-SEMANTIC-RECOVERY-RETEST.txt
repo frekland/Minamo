@@ -1,0 +1,18 @@
+✔ native semantic metadata preserves exact base and TeX, rejects source drift, surrogate cuts, scripts and budgets (3.565276ms)
+✔ typed outputs prohibit forged observation and stale success on interrupted/error, validate code hash and owned image binding (6.378812ms)
+✔ explicit Python save preparation stages exact PNG bytes, carries actual captured source, and clears failed/interrupted figures (4.574832ms)
+✔ new explicit manuscript declarations compile to native semantic source; invalid declarations stay exact code (389.779834ms)
+▶ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation
+  ✔ publish canonical ruby/math in ordinary Article and Note; exact source identity survives MCP and Flag (240.447372ms)
+  ✔ private PNG and table save on a native Run; no forged observed evidence or foreign-owner read (77.967753ms)
+  ✔ encrypted export includes typed metadata and original R2 bytes, restore retains native semantic source (508.592127ms)
+  ✔ source revocation removes ruby payload from retained reads and export; image revoke removes typed output label (126.637344ms)
+✔ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation (2623.839556ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3473.828908

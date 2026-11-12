@@ -1,0 +1,35 @@
+{
+  "source": "2a7cad57fe2de69d493fb69932b1876c082e5b36",
+  "run": 40228116303,
+  "retryAccepted": true,
+  "retryJob": 121284406985,
+  "status": "completed",
+  "conclusion": "failure",
+  "steps": [],
+  "logs": "404 BlobNotFound",
+  "checkAnnotations": "GitHub fetch rejects check-run annotations endpoint as unsupported",
+  "browser": "Logged-out private GitHub run returns404; no provider diagnostic available",
+  "cause": "unestablished",
+  "remoteCIGreen": false,
+  "decision": "No alternative CI signoff or owner disposition is inferred. Retain release gate.",
+  "runner_id": 0,
+  "runner_name": "",
+  "rawAttemptEndpoint": "https://api.github.com/repos/frekland/minamo-v2/actions/runs/40228116303/attempts/2/jobs",
+  "correctionCandidate": {
+    "commit": "a117cc664321425c5927f51004c1ad2e25e38390",
+    "run": 40233196299,
+    "job": 121289136502,
+    "conclusion": "failure",
+    "exposedSteps": null,
+    "note": "Code candidate CI also fails before exposed steps; later report/packaging head must be checked separately. Root cause still unestablished."
+  },
+  "finalRuntime": {
+    "commit": "03d7c8464e6c99ba7841a6ce063cba0d1ff4a5bc",
+    "run": 40233656238,
+    "job": 121290515447,
+    "runner_id": 0,
+    "steps": [],
+    "conclusion": "failure",
+    "cause": "unestablished"
+  }
+}

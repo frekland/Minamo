@@ -1,0 +1,175 @@
+{
+  "contract": "minamo.activity-readiness-gaps.v1",
+  "phase": "initial-independent-audit",
+  "scope": "synthetic local code; no production access",
+  "gaps": [
+    {
+      "id": "SEC-01",
+      "capability": "Activity and Attempt validation",
+      "workflow": "GPT publish / generic command",
+      "category": "code-owned resolvable",
+      "state": "implementation-in-progress",
+      "priority": "P1",
+      "blocksCoreRelease": true,
+      "owner": "activity_domain",
+      "observed": "Baseline validateData only allows fixed known keys; new companion activity/attempt fields require strict shared admission, not endpoint-only checks.",
+      "sources": [
+        "lib/domain.ts:88",
+        "lib/domain.ts:319"
+      ],
+      "acceptance": [
+        "Feature-off new endpoint and generic-command writes rejected",
+        "Unknown block, active script, oversize and fake observed evidence rejected",
+        "Old client updates cannot erase companion fields"
+      ]
+    },
+    {
+      "id": "SEC-02",
+      "capability": "Live source and asset rights",
+      "workflow": "Read current/retained Activity, graph, output after revocation",
+      "category": "code-owned resolvable",
+      "state": "implementation-in-progress",
+      "priority": "P1",
+      "blocksCoreRelease": true,
+      "owner": "activity_domain + semantic_outputs + atlas",
+      "observed": "Baseline projectRecord scrubs excerpts/images/media and anchored quotations; embedded Activity/Attempt/typed-output fields are absent and therefore lack projection.",
+      "sources": [
+        "lib/domain.ts:143",
+        "lib/domain.ts:162",
+        "lib/domain.ts:223"
+      ],
+      "acceptance": [
+        "Revoke Source and asset after publish",
+        "Inspect ordinary/current/retained/MCP/search/Atlas/export reads",
+        "Unavailable payload withheld without mutating retained original"
+      ]
+    },
+    {
+      "id": "SEC-03",
+      "capability": "Hidden-solution containment",
+      "workflow": "Starter / generic MCP read / source maps / default DOM",
+      "category": "code-owned resolvable",
+      "state": "implementation-in-progress",
+      "priority": "P1",
+      "blocksCoreRelease": true,
+      "owner": "activity_domain + exchange_generators",
+      "observed": "Existing general records return their stored content; client-hidden hint or solution fields would be readable via generic APIs. New schema must exclude full solutions and project unrevealed hint content.",
+      "sources": [
+        "lib/domain.ts:181",
+        "lib/domain-handler.ts"
+      ],
+      "acceptance": [
+        "No repaired complete solution in starter ZIP, manifest, DOM, bundle or default context",
+        "Hints require deliberate reveal under current edition",
+        "Retained reads and protected recovery do not grant broader live access"
+      ]
+    },
+    {
+      "id": "SEC-04",
+      "capability": "Execution provenance",
+      "workflow": "Save/reopen scientific outputs and submitted tests",
+      "category": "code-owned resolvable",
+      "state": "implementation-in-progress",
+      "priority": "P1",
+      "blocksCoreRelease": true,
+      "owner": "semantic_outputs + activity_domain",
+      "observed": "Existing domain permits synthetic GPT-authored observed Runs; synthetic evidence is not a trusted receipt and cannot authorize a genuine computed claim.",
+      "sources": [
+        "lib/domain.ts:334",
+        "lib/foundry/platform.ts",
+        "lib/foundry/python-runtime.ts"
+      ],
+      "acceptance": [
+        "Client-forged receipt refused or labelled supplied",
+        "Immutable code digest matches saved execution source",
+        "Aborted/new run clears stale success"
+      ]
+    },
+    {
+      "id": "SEC-05",
+      "capability": "Opaque runtime containment",
+      "workflow": "Execute arbitrary Python / inspect untrusted JS",
+      "category": "blocked by current browser/Sites/security isolation",
+      "state": "baseline-boundary-present",
+      "priority": "P1",
+      "blocksCoreRelease": false,
+      "owner": "security_release + root",
+      "observed": "Science controller uses sandbox allow-scripts without allow-same-origin, blob Worker, deny-network CSP and 30-second termination. Arbitrary JS app preview has no independently isolated approved host.",
+      "sources": [
+        "lib/foundry/python-runtime.ts",
+        "public/foundry-python-isolate.js",
+        "scripts/foundry-package-policy.mjs"
+      ],
+      "acceptance": [
+        "Malicious code cannot reach owner session",
+        "No arbitrary JS eval mounted in Workspace",
+        "Default package excludes science assets",
+        "Secure alternative remains local-source handoff"
+      ],
+      "workaround": "Keep arbitrary app preview external/local only; do not weaken owner origin."
+    },
+    {
+      "id": "SEC-06",
+      "capability": "Source topology and packaging",
+      "workflow": "Draft integration and future release",
+      "category": "code-owned resolvable",
+      "state": "verification-pending",
+      "priority": "P1",
+      "blocksCoreRelease": true,
+      "owner": "root + security_release",
+      "observed": "Imported Foundry code is on a new local main-rooted staging branch; original PR39 is stacked. Native Site source repository remains separate from GitHub.",
+      "sources": [
+        "docs/SOURCE-SYNCHRONISATION.md",
+        "scripts/build-app.mjs"
+      ],
+      "acceptance": [
+        "Exact runtime source manifest and tree equality",
+        "No source-only research ancestry required",
+        "Production gallery routes return 404",
+        "Compiled default-off build preserves existing workspace",
+        "Feature-on synthetic compiled Worker integration passes"
+      ]
+    },
+    {
+      "id": "SEC-07",
+      "capability": "Hosted catalogue and physical device",
+      "workflow": "Future owner release acceptance",
+      "category": "requires owner-only access/device",
+      "state": "release-gate",
+      "priority": "P1",
+      "blocksCoreRelease": true,
+      "owner": "owner",
+      "observed": "User forbids deployment/MCP reinstall in this task; local compiled tools cannot establish installed-client catalogue or physical Pixel behavior.",
+      "sources": [
+        "docs/activity-studio/commission/PRO-PHASE-GAP-CLOSURE.md"
+      ],
+      "acceptance": [
+        "After separate owner-approved deployment refresh installed MCP",
+        "Fresh GPT capabilities/publish/read/attempt/resume",
+        "Pixel 8a touch, keyboard equivalent and source revocation"
+      ],
+      "workaround": "Complete local cold-start producer and mobile-size browser proof, explicitly qualify physical/hosted gap."
+    },
+    {
+      "id": "SEC-08",
+      "capability": "tldraw licence",
+      "workflow": "Optional freeform canvas activation",
+      "category": "requires owner-only access/device",
+      "state": "licence-host-unverified",
+      "priority": "P2",
+      "blocksCoreRelease": false,
+      "owner": "atlas + owner",
+      "observed": "User reports SDK licence but no validated host-key/expiry/telemetry evidence exists in authorised local source.",
+      "sources": [
+        "docs/activity-studio/commission/ATLAS.md"
+      ],
+      "acceptance": [
+        "No licence secret committed",
+        "Exact production host covered",
+        "Telemetry/privacy reviewed",
+        "Semantic graph works without tldraw"
+      ],
+      "workaround": "Keep optional canvas lane disabled; safe layout fallback and semantic graph continue."
+    }
+  ]
+}

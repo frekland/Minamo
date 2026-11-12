@@ -1,0 +1,10 @@
+/* Long independent writing remains legible without stretching one grid column indefinitely. */
+.pwo-card.is-note-expanded{grid-column:1/-1}
+.pwo-card .pwo-note-excerpt{margin:10px 0 5px;white-space:normal}
+.pwo-note-full{max-height:min(62vh,570px);overflow:auto;overscroll-behavior:contain;min-width:0;margin:13px 0;padding:6px 15px;border:1px solid var(--mn-border);border-radius:8px;background:var(--mn-canvas);scrollbar-gutter:stable}
+.pwo-note-full .nw-markdown{font-size:14px;line-height:1.75;white-space:normal}
+.pwo-note-full .nw-markdown .nw-md-heading h2{font-size:22px}
+.pwo-note-full .nw-markdown .nw-md-heading h3{font-size:18px}
+.pwo-note-full .nw-markdown .nw-md-block{overflow-wrap:anywhere}
+.pwo-note-full .nw-markdown pre{font-size:12px}
+.pwo-note-terminal{max-height:230px;overflow:auto;overflow-wrap:anywhere;margin:10px 0;font-size:12px;line-height:1.6}

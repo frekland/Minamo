@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json'));
+const built=await wr('esbuild').build({stdin:{contents:`import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import LoadingSkeleton from './app/loading-skeleton';export const render=props=>renderToStaticMarkup(React.createElement(LoadingSkeleton,props));`,resolveDir:process.cwd()},bundle:true,platform:'node',format:'cjs',write:false,jsx:'automatic',loader:{'.css':'empty'}});
+const dir=mkdtempSync(join(tmpdir(),'minamo-loading-')),entry=join(dir,'skeleton.cjs');writeFileSync(entry,built.outputFiles[0].text);const {render}=require(entry);rmSync(dir,{recursive:true,force:true});
+test('structural loading announces one honest status and hides decorative placeholder blocks',()=>{for(const kind of ['reading','cards','outline']){const html=render({kind,label:'Loading exact reading'});assert.match(html,/role="status"/);assert.match(html,/aria-busy="true"/);assert.match(html,/aria-hidden="true"/);assert.match(html,/Loading exact reading/);assert.doesNotMatch(html,/progressbar|complete|Saved/);}});
+test('skeleton motion respects device and saved reduced-motion preferences',()=>{const css=readFileSync('app/loading-skeleton.css','utf8');assert.match(css,/prefers-reduced-motion:reduce/);assert.match(css,/data-motion=reduce/);assert.match(css,/animation:none/);});

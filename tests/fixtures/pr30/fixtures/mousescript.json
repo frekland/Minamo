@@ -1,0 +1,80 @@
+{
+  "key": "mousescript",
+  "title": "TEST ONLY \u2014 MouseScript",
+  "profile": "Knowledge-transfer learner; understands Python functions but overgeneralises familiar syntax.",
+  "goal": "Implement a tiny mouse command language, connecting mechanisms with the RPG without copying project instructions into Library articles.",
+  "sessions": [
+    {
+      "id": "s01",
+      "title": "Commands before a compiler course",
+      "synthetic": true,
+      "learner_prediction": "A list of commands means we need classes and a full compiler immediately.",
+      "learner_attempt": "Interpret MOVE 2 and SQUEAK hello by splitting a line.",
+      "supplied_artifact": null,
+      "observation": "A small dispatch function handles the initial two commands.",
+      "correction": "The simplest grammar can start with explicit tokens and a few branches.",
+      "decision": {
+        "choice": "Start with one command per line",
+        "reason": "It offers a runnable prediction before advanced abstractions.",
+        "status": "provisional"
+      },
+      "unresolved": "Do not introduce recursion before a nested-language need exists.",
+      "next_action": "Predict position after MOVE 2 then MOVE -1, and inspect the result.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s02",
+      "title": "Splitting cannot preserve a phrase",
+      "synthetic": true,
+      "learner_prediction": "str.split preserves quoted phrases just like a shell.",
+      "learner_attempt": "Add SQUEAK \"hello brave mouse\".",
+      "supplied_artifact": null,
+      "observation": "Ordinary split yields multiple pieces and retains quote characters.",
+      "correction": "Lexing rules are defined by the language; Python split is not a shell lexer.",
+      "decision": {
+        "choice": "Define quote and escape behaviour before choosing a tokenizer",
+        "reason": "The grammar should drive implementation rather than accidental library behaviour.",
+        "status": "provisional"
+      },
+      "unresolved": "Using shlex is a possible implementation choice only if its rules match the intended grammar.",
+      "next_action": "Test an empty quoted phrase and an unmatched quote.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s03",
+      "title": "An AST is not execution",
+      "synthetic": true,
+      "learner_prediction": "Building an AST has already moved the mouse twice.",
+      "learner_attempt": "Represent REPEAT 2 { MOVE 1 } as a nested syntax node.",
+      "supplied_artifact": null,
+      "observation": "The tree is data; no movement occurs until an evaluator visits it.",
+      "correction": "Parsing and execution are distinct phases.",
+      "decision": {
+        "choice": "Keep parse output inspectable",
+        "reason": "A printed tree helps connect nested data with familiar dictionaries/lists.",
+        "status": "provisional"
+      },
+      "unresolved": "No arbitrary Python eval or exec is authorised or needed.",
+      "next_action": "Inspect the AST then execute it against a fresh state and compare position.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s04",
+      "title": "Transfer to the kitten",
+      "synthetic": true,
+      "learner_prediction": "Reusing an article means copying the whole kitten combat lesson.",
+      "learner_attempt": "Use the RPG's state-factory pattern to isolate two script executions.",
+      "supplied_artifact": null,
+      "observation": "Fresh state prevents one run's variables and movement leaking into the other.",
+      "correction": "Transfer the mechanism and link the reusable explanation; project narrative stays in its own Journey.",
+      "decision": {
+        "choice": "Reuse state ownership and return-value concepts",
+        "reason": "The same knowledge explains independence without coupling both project routes.",
+        "status": "provisional"
+      },
+      "unresolved": "Recursive programs need a bounded execution budget before introduction; no unbounded recursion is tested.",
+      "next_action": "Run the same AST against two states, then vary one variable and inspect the other.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    }
+  ]
+}

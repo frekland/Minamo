@@ -1,0 +1,171 @@
+{
+  "contract": "minamo.critical-path-closure.v1",
+  "codeOwnedUnresolved": [],
+  "releaseReady": false,
+  "gaps": [
+    {
+      "id": "G1",
+      "capability": "Native semantic admission",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/semantic-content.ts",
+      "test": "tests/semantic-content.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G2",
+      "capability": "Typed reported outputs and private media",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/typed-outputs.ts",
+      "test": "tests/semantic-content.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G3",
+      "capability": "Durable Activity/Attempt lifecycle",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/activity/domain.ts",
+      "test": "tests/activity-domain.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G4",
+      "capability": "Typed MCP and fresh continuity",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/activity/mcp.ts",
+      "test": "tests/activity-cold-handoff.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G5",
+      "capability": "Project interchange",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/challenge-exchange/package.ts",
+      "test": "tests/activity-exchange.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G6",
+      "capability": "Ordinary workspace and native capture",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "app/activity-studio.tsx",
+      "test": "tests/activity-ui.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G7",
+      "capability": "Scoped graph and typed retained links",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/atlas/service.ts",
+      "test": "tests/activity-independent-integration.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G8",
+      "capability": "Runtime boundaries and cleanup",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/foundry/platform.ts",
+      "test": "tests/foundry-platform.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G9",
+      "capability": "Compiled dormant source and parity",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "worker/index.ts",
+      "test": "tests/activity-product-worker.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "G10",
+      "capability": "Real red/green and oracle challenge",
+      "category": "code-owned resolvable",
+      "state": "implemented-and-locally-verified",
+      "source": "lib/challenge-exchange/generators.ts",
+      "test": "tests/activity-pedagogy.test.mjs",
+      "codeCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+      "blocksCoreRelease": false,
+      "qualification": "Local engineering evidence only; higher acceptance gates below remain."
+    },
+    {
+      "id": "A1",
+      "capability": "Actual integrated desktop/mobile browser",
+      "category": "blocked by current browser/Sites/security isolation",
+      "state": "open-external-acceptance",
+      "proof": "Managed preview healthy response but CUA ERR_CONNECTION_REFUSED after documented profile repair",
+      "action": "Restore supported preview routing then run real UI gestures/screenshots; no alternate server bypass",
+      "blocksCoreRelease": true
+    },
+    {
+      "id": "A2",
+      "capability": "Production release/catalogue/authentication",
+      "category": "requires owner-only access/device",
+      "state": "open-external-acceptance",
+      "proof": "No merge or Site save/deploy authorised; current installed catalogue has no new tools",
+      "action": "Owner approve release, exact native sync/deploy then fresh installed MCP acceptance",
+      "blocksCoreRelease": true
+    },
+    {
+      "id": "A3",
+      "capability": "Pixel/assistive and browser scientific enforcement",
+      "category": "requires owner-only access/device",
+      "state": "open-external-acceptance",
+      "proof": "Node scientific watchdog verified; browser routing unavailable and physical device absent",
+      "action": "Actual owner device/browser isolation, cancel/navigation and memory acceptance",
+      "blocksCoreRelease": true
+    },
+    {
+      "id": "A4",
+      "capability": "Optional tldraw production licence",
+      "category": "requires external provider credential/service",
+      "state": "open-external-acceptance",
+      "proof": "PinnedSDK5.5.2 has licence/host and telemetry-dependent requirements",
+      "action": "Check actual SDK licence and permitted domain/telemetry; no key in Git",
+      "blocksCoreRelease": false
+    },
+    {
+      "id": "A5",
+      "capability": "Arbitrary executable app previews",
+      "category": "deliberately rejected for cost/quality/security",
+      "state": "secure-exclusion",
+      "proof": "No independently proven unprivileged code host in authorised scope",
+      "action": "Use tested local project handoff; any new runner needs independent isolation proof",
+      "blocksCoreRelease": false
+    },
+    {
+      "id": "A6",
+      "capability": "GitHub Actions verification",
+      "category": "requires external provider credential/service",
+      "state": "failed-provider-verification-unexplained",
+      "proof": "Run40222590385 completed failure in3s; job121257171310 exposes no steps; log retrieval returned404BlobNotFound. Local frozen typecheck/build/full suite passed. Cause not established.",
+      "action": "Inspect provider job annotation/log availability on GitHub; correct an evidenced code issue if found; no account/billing/permission change authorised.",
+      "blocksCoreRelease": true
+    }
+  ]
+}

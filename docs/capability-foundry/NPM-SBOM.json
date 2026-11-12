@@ -1,0 +1,88 @@
+{
+  "contract": "minamo.foundry-npm-inventory.v1",
+  "generatedAt": "2026-10-25T17:13:11.130Z",
+  "dependencies": [
+    {
+      "name": "katex",
+      "version": "0.19.0",
+      "license": "MIT",
+      "packageManifestSha256": "279db0fd6fcecf3fe3da1c1244dc9387e527b877d23638be6cf0c5e2a03817ea",
+      "dependencies": {
+        "commander": "^15.0.0"
+      },
+      "licenseFiles": [
+        {
+          "path": "LICENSE",
+          "bytes": 1107,
+          "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3"
+        }
+      ]
+    },
+    {
+      "name": "three",
+      "version": "0.186.1",
+      "license": "MIT",
+      "packageManifestSha256": "f9c474a27c920b9435353a6235968f4453436bee0444fac7e5fd289c8fa463de",
+      "dependencies": {},
+      "licenseFiles": [
+        {
+          "path": "LICENSE",
+          "bytes": 1081,
+          "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+        }
+      ]
+    },
+    {
+      "name": "@noble/hashes",
+      "version": "2.4.0",
+      "license": "MIT",
+      "packageManifestSha256": "3e361734f5269de162fa362483d7f45dee7efb533ec217157945338f7591baaf",
+      "dependencies": {},
+      "licenseFiles": [
+        {
+          "path": "LICENSE",
+          "bytes": 1109,
+          "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+        }
+      ]
+    },
+    {
+      "name": "@types/katex",
+      "version": "0.16.8",
+      "license": "MIT",
+      "packageManifestSha256": "5f5923051683062dc38edc0f89fcc91ffe8d800306cbda67d9dabb798c9fe08e",
+      "dependencies": {},
+      "licenseFiles": [
+        {
+          "path": "LICENSE",
+          "bytes": 1141,
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ]
+    },
+    {
+      "name": "@types/three",
+      "version": "0.186.0",
+      "license": "MIT",
+      "packageManifestSha256": "b0253caeb8b99b6a64150e6279cc4bbf30e61610683bdf39f8db2667d6103626",
+      "dependencies": {
+        "@dimforge/rapier3d-compat": "~0.12.0",
+        "@tweenjs/tween.js": "~23.1.3",
+        "@types/stats.js": "*",
+        "@types/webxr": ">=0.5.17",
+        "fflate": "~0.8.3",
+        "meshoptimizer": "~1.1.1"
+      },
+      "licenseFiles": [
+        {
+          "path": "LICENSE",
+          "bytes": 1141,
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ]
+    }
+  ],
+  "lockfile": "pnpm-lock.yaml",
+  "lockfileSha256": "86bc6379be192cc68151957577b7f3fb321e85dd0923305e36dcd2848cae74ee",
+  "scope": "New direct runtime/dev dependencies and their declared dependency edges; full resolved transitive graph/integrities remain in the lockfile. Scientific wheel metadata/licences are separately in python/SCIENCE-SBOM.json. No dictionary/fonts/audio corpus redistributed beyond pinned package licences."
+}

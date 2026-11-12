@@ -1,0 +1,412 @@
+{
+  "runtime": "Pyodide0.28.3 MPL-2.0 (npm package)",
+  "packages": [
+    {
+      "name": "numpy",
+      "version": "2.2.5",
+      "file": "numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "3db3c4f3e0448f4d62a85c262692f1260ccd8a91335442bd2442f21ffeddb558",
+      "metadataLicense": "Copyright (c) 2005-2024, NumPy Developers.\n         All rights reserved.\n         \n         Redistribution and use in source and binary forms, with or without\n         modification, are permitted provided that the following conditions are\n         met:\n         \n             * Redistributions of source code must retain the above copyright\n                notice, this list of conditions and the following disclaimer.\n         \n             * Redistributions in binary form must reproduce the above\n                copyright notice, this list of conditions and the following\n                disclaimer in the documentation and/or other materials provided\n                with the distribution.\n         \n             * Neither the name of the NumPy Developers nor the names of any\n                contributors may be used to endorse or promote products derived\n                from this software without specific prior written permission.\n         \n         THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n         \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n         LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n         A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\n         OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n         SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT\n         LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n         DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n         THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n         (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n         OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n         ",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "numpy/_core/include/numpy/random/LICENSE.txt",
+          "sha256": "fbc539f47d0cf83bc61378080fb873d5c14630126cacbfe754035c3926daa5ec",
+          "bytes": 1018
+        },
+        {
+          "path": "numpy/ma/LICENSE",
+          "sha256": "05f3b88351988ecfad10abe92c0c50e5875c6452d5009a0084cc291551ffcca6",
+          "bytes": 1593
+        },
+        {
+          "path": "numpy/random/LICENSE.md",
+          "sha256": "103166b62b80443afb9eb3488e052ea06be0cff566b908f199e561fde49af19f",
+          "bytes": 3511
+        },
+        {
+          "path": "numpy-2.2.5.dist-info/LICENSE.txt",
+          "sha256": "01fb016849aa427edb1bbbbd55f91c26ca6cadb32a5b20e7f000655dd05b0760",
+          "bytes": 1543
+        }
+      ]
+    },
+    {
+      "name": "contourpy",
+      "version": "1.3.1",
+      "file": "contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "3fe3d224ef8129f7be7062cf44c26a38a6cb6a1f07e11e93f33ec502476a40e7",
+      "metadataLicense": "BSD 3-Clause License\n         \n         Copyright (c) 2021-2024, ContourPy Developers.\n         All rights reserved.\n         \n         Redistribution and use in source and binary forms, with or without\n         modification, are permitted provided that the following conditions are met:\n         \n         1. Redistributions of source code must retain the above copyright notice, this\n            list of conditions and the following disclaimer.\n         \n         2. Redistributions in binary form must reproduce the above copyright notice,\n            this list of conditions and the following disclaimer in the documentation\n            and/or other materials provided with the distribution.\n         \n         3. Neither the name of the copyright holder nor the names of its\n            contributors may be used to endorse or promote products derived from\n            this software without specific prior written permission.\n         \n         THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n         IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n         DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\n         FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n         DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n         SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n         CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n         OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n         OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n         ",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "contourpy-1.3.1.dist-info/LICENSE",
+          "sha256": "c7d0a153bffaa104044463ebc633793d451722efd3138b5ffd2527b40f1505a2",
+          "bytes": 1534
+        }
+      ]
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "file": "six-1.17.0-py2.py3-none-any.whl",
+      "sha256": "618e0357f1724d937c20b75d691f0ba9e404de2701084e3c4f35995cfb879665",
+      "metadataLicense": "MIT",
+      "classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "six-1.17.0.dist-info/LICENSE",
+          "sha256": "4375ba20e2b9c6c4e7cad2940a628fd90e95cc3d50ee92aae755715d8ba1fbd0",
+          "bytes": 1066
+        }
+      ]
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1",
+      "file": "cycler-0.12.1-py3-none-any.whl",
+      "sha256": "4c163eac65b7ced9007b4259575c045a172dd45d36de7e25ae97b2be67b4a7d1",
+      "metadataLicense": "Copyright (c) 2015, matplotlib project\n        All rights reserved.\n        \n        Redistribution and use in source and binary forms, with or without\n        modification, are permitted provided that the following conditions are met:\n        \n        * Redistributions of source code must retain the above copyright notice, this\n          list of conditions and the following disclaimer.\n        \n        * Redistributions in binary form must reproduce the above copyright notice,\n          this list of conditions and the following disclaimer in the documentation\n          and/or other materials provided with the distribution.\n        \n        * Neither the name of the matplotlib project nor the names of its\n          contributors may be used to endorse or promote products derived from\n          this software without specific prior written permission.\n        \n        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\n        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "cycler-0.12.1.dist-info/LICENSE",
+          "sha256": "f1218143d766da3fea66f13396b7f15df46a83303f29bf96ba6e98eb4d42f408",
+          "bytes": 1497
+        }
+      ]
+    },
+    {
+      "name": "fonttools",
+      "version": "4.56.0",
+      "file": "fonttools-4.56.0-py3-none-any.whl",
+      "sha256": "862f1298792269b5882f145efc0b2683b5101d30152e43152f2a9ee90e55755a",
+      "metadataLicense": "MIT",
+      "classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "fonttools-4.56.0.dist-info/LICENSE",
+          "sha256": "6787208f83f659ccbc2223b2fde952ffa6f7e8aca62f1a8a2bf5bc51bb1b2383",
+          "bytes": 1072
+        }
+      ]
+    },
+    {
+      "name": "kiwisolver",
+      "version": "1.4.8",
+      "file": "kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "01451f4a9f0dcd93ea6d9e2e577a793d4c9082fbf1f59cfb8ff3ba376f28d3e3",
+      "metadataLicense": "=========================\n         The Kiwi licensing terms\n        =========================\n        Kiwi is licensed under the terms of the Modified BSD License (also known as\n        New or Revised BSD), as follows:\n        \n        Copyright (c) 2013-2024, Nucleic Development Team\n        \n        All rights reserved.\n        \n        Redistribution and use in source and binary forms, with or without\n        modification, are permitted provided that the following conditions are met:\n        \n        Redistributions of source code must retain the above copyright notice, this\n        list of conditions and the following disclaimer.\n        \n        Redistributions in binary form must reproduce the above copyright notice, this\n        list of conditions and the following disclaimer in the documentation and/or\n        other materials provided with the distribution.\n        \n        Neither the name of the Nucleic Development Team nor the names of its\n        contributors may be used to endorse or promote products derived from this\n        software without specific prior written permission.\n        \n        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND\n        ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\n        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n        DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE\n        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n        \n        About Kiwi\n        ----------\n        Chris Colbert began the Kiwi project in December 2013 in an effort to\n        create a blisteringly fast UI constraint solver. Chris is still the\n        project lead.\n        \n        The Nucleic Development Team is the set of all contributors to the Nucleic\n        project and its subprojects.\n        \n        The core team that coordinates development on GitHub can be found here:\n        http://github.com/nucleic. The current team consists of:\n        \n        * Chris Colbert\n        \n        Our Copyright Policy\n        --------------------\n        Nucleic uses a shared copyright model. Each contributor maintains copyright\n        over their contributions to Nucleic. But, it is important to note that these\n        contributions are typically only changes to the repositories. Thus, the Nucleic\n        source code, in its entirety is not the copyright of any single person or\n        institution. Instead, it is the collective copyright of the entire Nucleic\n        Development Team. If individual contributors want to maintain a record of what\n        changes/contributions they have specific copyright on, they should indicate\n        their copyright in the commit message of the change, when they commit the\n        change to one of the Nucleic repositories.\n        \n        With this in mind, the following banner should be used in any source code file\n        to indicate the copyright and license terms:\n        \n        #------------------------------------------------------------------------------\n        # Copyright (c) 2013-2024, Nucleic Development Team.\n        #\n        # Distributed under the terms of the Modified BSD License.\n        #\n        # The full license is in the file LICENSE, distributed with this software.\n        #------------------------------------------------------------------------------\n        ",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "kiwisolver-1.4.8.dist-info/licenses/LICENSE",
+          "sha256": "238e69906d7e507a94832b9831131862c4176d58c002b388e2e99db5d83677d2",
+          "bytes": 3289
+        }
+      ]
+    },
+    {
+      "name": "packaging",
+      "version": "24.2",
+      "file": "packaging-24.2-py3-none-any.whl",
+      "sha256": "fdbc12e70e25c89b3e95a853f09065c629ebd6add9bf7a788ce6cfdb35b5c7b0",
+      "metadataLicense": null,
+      "classifiers": [
+        "License :: OSI Approved :: Apache Software License",
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "packaging/licenses/__init__.py",
+          "sha256": "d71e4cd671188dc83011b2edd1d5f0cf6ba48ebd7c0e20b30b4b2b690a89f96c",
+          "bytes": 5715
+        },
+        {
+          "path": "packaging/licenses/_spdx.py",
+          "sha256": "a009b5ced3c5c25b2608a7bb94002cbff38839f4b57160eef5b34191ebbeda7b",
+          "bytes": 48398
+        },
+        {
+          "path": "packaging-24.2.dist-info/licenses/LICENSE",
+          "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48",
+          "bytes": 197
+        },
+        {
+          "path": "packaging-24.2.dist-info/licenses/LICENSE.APACHE",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+          "bytes": 10174
+        },
+        {
+          "path": "packaging-24.2.dist-info/licenses/LICENSE.BSD",
+          "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5",
+          "bytes": 1344
+        }
+      ]
+    },
+    {
+      "name": "pillow",
+      "version": "11.3.0",
+      "file": "pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "52984112ca668d60291a7868011a04d66baf526d27e5eaef0a8a16e7ef22ab6c",
+      "metadataLicense": "MIT-CMU",
+      "classifiers": [],
+      "bundledLicenseFiles": [
+        {
+          "path": "pillow-11.3.0.dist-info/licenses/LICENSE",
+          "sha256": "17f240ae101143707e5e7303a5d800450d9ccc7475b463cedb555cefdb3c6ece",
+          "bytes": 1453
+        }
+      ]
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.2.1",
+      "file": "pyparsing-3.2.1-py3-none-any.whl",
+      "sha256": "7d595baa16a4640b541ef894a01f1724425bc5b6a07be5e55b1168d637ba7747",
+      "metadataLicense": null,
+      "classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "pyparsing-3.2.1.dist-info/LICENSE",
+          "sha256": "10d5120a16805804ffda8b688c220bfb4e8f39741b57320604d455a309e01972",
+          "bytes": 1023
+        }
+      ]
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "file": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "sha256": "26b50ce706a17abdde09dbb95745a44f9320dfdb99e950c52b1a62a3d99e452c",
+      "metadataLicense": "Dual License",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "python_dateutil-2.9.0.post0.dist-info/LICENSE",
+          "sha256": "ba00f51a0d92823b5a1cde27d8b5b9d2321e67ed8da9bc163eff96d5e17e577e",
+          "bytes": 2889
+        }
+      ]
+    },
+    {
+      "name": "pytz",
+      "version": "2025.2",
+      "file": "pytz-2025.2-py2.py3-none-any.whl",
+      "sha256": "1d7f409837318a3a234a6394253a77900072616a42e5dba89c3214f70e77f31b",
+      "metadataLicense": "MIT",
+      "classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "pytz-2025.2.dist-info/LICENSE.txt",
+          "sha256": "be8b1a37ebe26c592a90f6c0eb33103a7f383ce2f4d7498c0af9a526990a07b8",
+          "bytes": 1088
+        }
+      ]
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.8.4",
+      "file": "matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "4082bc4a9f7ab494137014991fe8afe83218aaaeb6bb4dbd6fd2b40c464742e5",
+      "metadataLicense": "PSF",
+      "classifiers": [
+        "License :: OSI Approved :: Python Software Foundation License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "matplotlib/mpl-data/fonts/ttf/LICENSE_DEJAVU",
+          "sha256": "d75938dec098f06f0ac3c00853065d94f020be1c3c62ef1dc2975ba15b4d9b0e",
+          "bytes": 4816
+        },
+        {
+          "path": "matplotlib/mpl-data/fonts/ttf/LICENSE_STIX",
+          "sha256": "bab3d31dfef07f483624f2f65f2711e76065b8e7273278b1c071ede1041c9959",
+          "bytes": 5476
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE",
+          "sha256": "5a1a81ea301728c8bba2933da832c0cd62229daf20893a024ab3d53244468dbc",
+          "bytes": 4830
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_AMSFONTS",
+          "sha256": "155141d59877f338f6e1c0805de9b79964dce71fe5d2a56c44e38b2c0f7e35ee",
+          "bytes": 12675
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_BAKOMA",
+          "sha256": "93adb2b53c02b7ce06b26bff41358c21248f42fed287b633ec4c31038377cdbb",
+          "bytes": 1440
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_CARLOGO",
+          "sha256": "61902d5eef34dd24870b7287a96260d3328233b96f7202bf70ad6e2a0da2de3f",
+          "bytes": 4455
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_COLORBREWER",
+          "sha256": "01173653fe745ce2124ec156d78b460582d2a719d2d9212804267e95fd2c97e7",
+          "bytes": 695
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_COURIERTEN",
+          "sha256": "ac81f717aaff9456b88010fc55382a8dff199e4c4bcc5d61e040c3f7063beb43",
+          "bytes": 802
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_JSXTOOLS_RESIZE_OBSERVER",
+          "sha256": "597756adcb51f243ef4fb386920377f61d012ace0904364e1a8ee9aaec6afc84",
+          "bytes": 6799
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_QHULL",
+          "sha256": "106d55c931fd6a84822e5345d900273d059f1c27310d02567ccb313c5d18c55d",
+          "bytes": 1720
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_QT4_EDITOR",
+          "sha256": "b2b50ca8b6172aca23095adf15db89d3727e9ef2d6ef0178e427234011bed3cd",
+          "bytes": 1230
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_SOLARIZED",
+          "sha256": "12d5327fbc4df845a86883de99ed5fdf4198445d56dbacdf5fad8f0efdc97513",
+          "bytes": 1121
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_STIX",
+          "sha256": "bab3d31dfef07f483624f2f65f2711e76065b8e7273278b1c071ede1041c9959",
+          "bytes": 5476
+        },
+        {
+          "path": "matplotlib-3.8.4.dist-info/licenses/LICENSE/LICENSE_YORICK",
+          "sha256": "cab753d38c093651e8deb5abb684e3ed68020e0e418034f94d79e890dc7ae84d",
+          "bytes": 2313
+        }
+      ]
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "file": "mpmath-1.3.0-py3-none-any.whl",
+      "sha256": "022134ea1b98efab4b011a40aaa89f19b45151c195e0d1610b9c8b28e5aaf85c",
+      "metadataLicense": "BSD",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "mpmath-1.3.0.dist-info/LICENSE",
+          "sha256": "c26cae81da4508e5e249985777a33821f183223ebb74d7f8cfbf90fe7eef2fb7",
+          "bytes": 1537
+        }
+      ]
+    },
+    {
+      "name": "sympy",
+      "version": "1.13.3",
+      "file": "sympy-1.13.3-py3-none-any.whl",
+      "sha256": "d28066226aba33c9908435b8aa58f24ba211a3116eee333dee639f91f9bb1379",
+      "metadataLicense": "BSD",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "sympy/parsing/latex/LICENSE.txt",
+          "sha256": "007bc30a58fa40a996e772047120de4eaf31f5110e4f9c3b5f93fcdfbe2eaca1",
+          "bytes": 1075
+        },
+        {
+          "path": "sympy-1.13.3.dist-info/LICENSE",
+          "sha256": "07a5e9819f727b4986ad2829c7a29a6320d42575f720eb24d71b7fef573a0286",
+          "bytes": 7885
+        }
+      ]
+    },
+    {
+      "name": "pandas",
+      "version": "2.3.1",
+      "file": "pandas-2.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "01d16ef68eb333f3ac18e370aa352660f8f8d432f607ff1272a16cd2ea2e87ce",
+      "metadataLicense": "BSD 3-Clause License\n         \n         Copyright (c) 2008-2011, AQR Capital Management, LLC, Lambda Foundry, Inc. and PyData Development Team\n         All rights reserved.\n         \n         Copyright (c) 2011-2023, Open source contributors.\n         \n         Redistribution and use in source and binary forms, with or without\n         modification, are permitted provided that the following conditions are met:\n         \n         * Redistributions of source code must retain the above copyright notice, this\n           list of conditions and the following disclaimer.\n         \n         * Redistributions in binary form must reproduce the above copyright notice,\n           this list of conditions and the following disclaimer in the documentation\n           and/or other materials provided with the distribution.\n         \n         * Neither the name of the copyright holder nor the names of its\n           contributors may be used to endorse or promote products derived from\n           this software without specific prior written permission.\n         \n         THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n         IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n         DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\n         FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n         DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n         SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n         CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n         OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n         OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n         ",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "pandas-2.3.1.dist-info/LICENSE",
+          "sha256": "533eb6d0b98e5be3ddd12dce97be35dd11282f5c47cdf8d08c81756fd5d70a26",
+          "bytes": 1634
+        }
+      ]
+    },
+    {
+      "name": "libopenblas",
+      "version": "0.3.26",
+      "file": "libopenblas-0.3.26.zip",
+      "sha256": "15c2c82b0fdfdde83a81190f35f5f4a0d15bf236a7e93944c433ae5ac6bf3ee5",
+      "metadataLicense": null,
+      "classifiers": [],
+      "bundledLicenseFiles": []
+    },
+    {
+      "name": "scipy",
+      "version": "1.14.1",
+      "file": "scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "6c4277bb1902f2064f5f4bd0ffbea67cf9aaf89a3fdc49e9ac1e078d9b574ef0",
+      "metadataLicense": "Copyright (c) 2001-2002 Enthought, Inc. 2003-2024, SciPy Developers.\n         All rights reserved.\n         \n         Redistribution and use in source and binary forms, with or without\n         modification, are permitted provided that the following conditions\n         are met:\n         \n         1. Redistributions of source code must retain the above copyright\n            notice, this list of conditions and the following disclaimer.\n         \n         2. Redistributions in binary form must reproduce the above\n            copyright notice, this list of conditions and the following\n            disclaimer in the documentation and/or other materials provided\n            with the distribution.\n         \n         3. Neither the name of the copyright holder nor the names of its\n            contributors may be used to endorse or promote products derived\n            from this software without specific prior written permission.\n         \n         THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n         \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n         LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n         A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\n         OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n         SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT\n         LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n         DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n         THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n         (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n         OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n         ",
+      "classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "bundledLicenseFiles": [
+        {
+          "path": "scipy/_lib/_uarray/LICENSE",
+          "sha256": "c80c39b5fce06ba4897e14e0b0a88b54458334d951eb1361402ffad2cfb863b4",
+          "bytes": 1514
+        },
+        {
+          "path": "scipy/fft/_pocketfft/LICENSE.md",
+          "sha256": "c254b2b5fd30ae3c89d36ba061730563b9760fca04f1b746a1b2c3157da2c789",
+          "bytes": 1498
+        },
+        {
+          "path": "scipy/sparse/linalg/_eigen/arpack/COPYING",
+          "sha256": "0926566f9f406178d1214f8cc796e166b1213dd7c05e0c5b461a8b8ac9e50bbe",
+          "bytes": 1892
+        },
+        {
+          "path": "scipy/spatial/qhull_src/COPYING.txt",
+          "sha256": "34db0c0c4f931861d720555c9cd7a2e228d1290ba29af0f2ee80c41bb2038afb",
+          "bytes": 1635
+        },
+        {
+          "path": "scipy-1.14.1.dist-info/LICENSE.txt",
+          "sha256": "c29fb8e5936f33237a8b15256b4c6e93037f05bbf58c3d7b5755aede4c200173",
+          "bytes": 1536
+        }
+      ]
+    }
+  ],
+  "scope": "Observed wheel metadata and bundled license files, not legal compatibility certification. Preserve complete wheel notices on redistribution."
+}

@@ -1,0 +1,2338 @@
+{
+  "classification": "independent read-only source/package/version provenance audit; not overall hosted acceptance",
+  "observedAtUtc": "2026-10-25T22:43:34.315828+00:00",
+  "controlPlane": {
+    "githubPR": {
+      "number": 45,
+      "state": "closed",
+      "merged": true,
+      "head_sha": "233b33bf6af16d5f458675031b9d8bd91b3e8f20",
+      "merge_commit_sha": "791881e90614c4822587b13bf76c973cd2913641"
+    },
+    "githubCommit": {
+      "sha": "791881e90614c4822587b13bf76c973cd2913641",
+      "tree": "1ec130ba723576c803d91732b50ddc6638fd173f"
+    },
+    "savedVersion": {
+      "id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_df59e8da818481918588b8102c8599bc",
+      "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+      "version_number": 28,
+      "source": {
+        "commit_sha": "0e961cab2e5d27b45d486f5cebc49679dc26a9a6"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_000000009efc824392296ddc6a2c285a",
+        "content_hash": "sha256:9f3b754c418758720ce3b6a31fb3e9613c46ae1384fb808972d1c0accffbbc52",
+        "size_bytes": 25446400,
+        "file_count": 433
+      },
+      "deployment_id": "appgdep_6ade8325be8c8191803fb820f97a9c4b"
+    },
+    "minamo": {
+      "projectId": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+      "title": "Minamo",
+      "slug": "minamo",
+      "liveUrl": "https://minamo.jscymru.chatgpt.site",
+      "version": 28,
+      "currentUserRole": "owner",
+      "accessMode": "custom",
+      "accessRevision": 1,
+      "allowedAccountCount": 1,
+      "allowedEditorCount": 0,
+      "externalVisitorCount": 0,
+      "allowedGroupCount": 0,
+      "mcp": {
+        "mcp_url": "https://minamo.jscymru.chatgpt.site/mcp",
+        "oauth_resource": "https://minamo.jscymru.chatgpt.site/mcp",
+        "plugin_id": "plugin_asdk_app_sites_1aa61d1ea1148191a4f246d947fcc0bb"
+      }
+    },
+    "legacy": {
+      "projectId": "appgprj_6acfb08219e48191895dd6171f289ecb",
+      "title": "Minamo-legacy",
+      "slug": "minamo-legacy",
+      "liveUrl": "https://minamo-legacy.jscymru.chatgpt.site",
+      "version": 62,
+      "currentUserRole": "owner",
+      "accessMode": "custom",
+      "accessRevision": 1,
+      "allowedAccountCount": 1,
+      "allowedEditorCount": 0,
+      "externalVisitorCount": 0,
+      "allowedGroupCount": 0
+    },
+    "deployments": [
+      {
+        "id": "appgdep_6ade82e5ccb08191b4530744511f6308",
+        "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+        "title": "Minamo",
+        "version_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_df59e8da818481918588b8102c8599bc",
+        "type": "publish",
+        "status": "succeeded",
+        "url": "https://minamo.jscymru.chatgpt.site",
+        "has_mcp": true,
+        "provider_deployment_id": "site---6ad8a4e85eb48191accd6e78976b47e3",
+        "failure_message": null,
+        "env_set_revision": 2,
+        "updated_at": "2026-10-25T22:31:18.745852+00:00"
+      },
+      {
+        "id": "appgdep_6ade8325be8c8191803fb820f97a9c4b",
+        "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+        "title": "Minamo",
+        "version_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3~appgver_df59e8da818481918588b8102c8599bc",
+        "type": "publish",
+        "status": "succeeded",
+        "url": "https://minamo.jscymru.chatgpt.site",
+        "has_mcp": true,
+        "provider_deployment_id": "site---6ad8a4e85eb48191accd6e78976b47e3",
+        "failure_message": null,
+        "env_set_revision": 3,
+        "updated_at": "2026-10-25T22:32:11.021943+00:00"
+      }
+    ]
+  },
+  "source": {
+    "testedGithubCommit": "6252b6535c448888a1a16d517a0590b5456395b4",
+    "testedTree": "b6ac05c1cfde049dc74d645a737f5950b1fd6cc1",
+    "mergedGithubCommit": "791881e90614c4822587b13bf76c973cd2913641",
+    "nativeCommit": "0e961cab2e5d27b45d486f5cebc49679dc26a9a6",
+    "commonMergedNativeTree": "1ec130ba723576c803d91732b50ddc6638fd173f",
+    "nativeStatus": "",
+    "changesSinceTestedTree": [
+      "docs/release-acceptance/MATRIX-DISPOSITION.md",
+      "docs/release-acceptance/SECURITY.md",
+      "docs/release-continuation/FINAL-CI-ATTESTATION.json",
+      "docs/release-continuation/FINAL-CI-ATTESTATION.md",
+      "docs/release-continuation/INDEPENDENT-GATES.md",
+      "docs/release-continuation/NATIVE-PACKAGE-REHEARSAL.json",
+      "docs/release-continuation/RELEASE-EXECUTION.md",
+      "docs/release-continuation/RELEASE-READINESS.md",
+      "docs/release-continuation/evidence/INDEPENDENT-PREDEPLOY-RECOVERY-READBACK.json",
+      "docs/release-continuation/evidence/final-ci-build.log.gz",
+      "docs/release-continuation/evidence/final-ci-full-suite.log.gz",
+      "docs/release-continuation/evidence/final-ci-typecheck.log.gz",
+      "docs/release-continuation/evidence/native-rehearsal-build.log.gz",
+      "docs/release-continuation/evidence/native-rehearsal-guards.log.gz",
+      "docs/release-continuation/evidence/native-rehearsal-package.log.gz"
+    ],
+    "onlyDocumentationChanged": true,
+    "inputCount": 663,
+    "inputDigest": "3c7f7c01e087b6608458dbb70a8a23a500fb0c15790f075ae24f92cbbe714feb",
+    "inputMismatches": [],
+    "sourceHosting": {
+      "d1": "DB",
+      "r2": "BUCKET",
+      "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+      "capabilities": [
+        "mcp"
+      ]
+    },
+    "archiveHosting": {
+      "d1": "DB",
+      "r2": "BUCKET",
+      "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+      "capabilities": [
+        "mcp"
+      ]
+    }
+  },
+  "localPackage": {
+    "path": "/workspace/scratch/10fcadaf9a6c/minamo-release-pr45.tar.gz",
+    "compressedBytes": 10452347,
+    "compressedSha256": "3c4813c06b1d703dab620ec47a3ef0f9d75eeae9aaaa7e7d0bdcc67d800d4cfe",
+    "decompressedTarBytes": 25456640,
+    "decompressedTarSha256": "120d8a4d0712f6014a46054755eb866e07ad85c8c706104935159bf61c94aaeb",
+    "entryCount": 459,
+    "regularFileCount": 433,
+    "directoryCount": 26,
+    "unsafeEntries": [],
+    "nativeBuildByteComparisonMismatches": [],
+    "scienceControllerEntries": [],
+    "scienceRuntimeEntries": [],
+    "files": [
+      {
+        "path": "dist/server/_next/static/css/index.CNTucaHt.css",
+        "bytes": 159013,
+        "sha256": "a260625e9da2a5f4063c09cef9ae1adb08a0333c360b699682d54463463ccd68"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-stream-DveMMYXw.js",
+        "bytes": 9968,
+        "sha256": "51dc352f01cf09c321f0033ad4955ca9961bb1a1e4ea96c4bd0ab0ce75e032ae"
+      },
+      {
+        "path": "dist/server/_next/static/page-BxappOu6.js",
+        "bytes": 311,
+        "sha256": "8eddfbf033d6ff1d73430e52bad3b3bf11b6028d6c91bdb1a87b83a96ade1519"
+      },
+      {
+        "path": "dist/server/_next/static/math-render-CqkIQswA.js",
+        "bytes": 738,
+        "sha256": "992a655bb61513399b0ad9364ebbc5118e11e1fa9b9ca367bc7e291f12a9a0a9"
+      },
+      {
+        "path": "dist/server/_next/static/domain-BLkuBNgo.js",
+        "bytes": 335185,
+        "sha256": "3c45dcd3568cb30975e3fe27863b4f02d552519f3c3d3b1086bf54981a710f18"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-cache-finalizer-Ba4xnVwF.js",
+        "bytes": 3530,
+        "sha256": "9b6fcb3b15e128fd54e5e3a0c8ebee990210454f9126a5111970a95d15819827"
+      },
+      {
+        "path": "dist/server/_next/static/record-lkbTe2y1.js",
+        "bytes": 79,
+        "sha256": "b9bdb7b7d0e4844d241dba61104d18111d61ef92af3f137d15749531d276f9cf"
+      },
+      {
+        "path": "dist/server/_next/static/navigation.react-server-DCQsynue.js",
+        "bytes": 302,
+        "sha256": "57cd84e73045abc8303e987b505c0dea4028c3d678f91477df45cc82d41eda18"
+      },
+      {
+        "path": "dist/server/_next/static/actions-CG6F9gOD.js",
+        "bytes": 651,
+        "sha256": "455aaddf6e8488c66a8e13c3b571057846c2822fbe46ae823ff82bed8a9e8697"
+      },
+      {
+        "path": "dist/server/_next/static/page-Bec6M6ah.js",
+        "bytes": 491,
+        "sha256": "5fddd17e440917d28bd1d07ad3cb281c667fbb0430315f54115068e2d42c9d15"
+      },
+      {
+        "path": "dist/server/_next/static/framework~index~app-page-cache-render~app-page-cache~app-server-action-execution~actions~pa~k95lmczq-BzKakabE.js",
+        "bytes": 5499,
+        "sha256": "4f686187dcd97b5d9eef7f152f93eaf0b53172f59e748a8ecf410a20b326e9f8"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-cache-render-CTwiG-aZ.js",
+        "bytes": 2009,
+        "sha256": "b742313dc761a03d68718b8c11c6c6ba7b1c55b2c84c37a665e34deb4cb5c65d"
+      },
+      {
+        "path": "dist/server/_next/static/link-SYLbZr6l.js",
+        "bytes": 170,
+        "sha256": "0b42d3c82197dd730bb67387b793c3514e0097e0cd9a976b7012149207d8f817"
+      },
+      {
+        "path": "dist/server/_next/static/route-B9okByBy.js",
+        "bytes": 76,
+        "sha256": "4b1101a60f88f916390648969eff9360f6f8256e3315d105c39ad5ab7d198b55"
+      },
+      {
+        "path": "dist/server/_next/static/rsc-BrEzO0OA.js",
+        "bytes": 2151,
+        "sha256": "9d07260f0316838b9f4609494df147f38d5811b2b3f267d8171d1b96d69a4d4f"
+      },
+      {
+        "path": "dist/server/_next/static/framework~index~app-server-action-execution~actions~page~page~page~page~page~page~page~page~dt122erh-as-kbW_u.js",
+        "bytes": 56617,
+        "sha256": "bee27dc6216d34f6cfa544dd25ee1cca4094248f5af0a7f46b5ea0ba6bdbb94d"
+      },
+      {
+        "path": "dist/server/_next/static/page-CT_EsMT3.js",
+        "bytes": 491,
+        "sha256": "882e6f1b499db1441311949c0a68169b6270702dde230d49c5c8d492249c580a"
+      },
+      {
+        "path": "dist/server/_next/static/encryption-runtime-CRGspyZD.js",
+        "bytes": 26,
+        "sha256": "86132fe50eabab8078f59e06fc9bff8de1df268051f02d8631ab0f341d6569c9"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-render-observation-CUovV86F.js",
+        "bytes": 15493,
+        "sha256": "929810852f88dae9c984791cece1843247f806088579a6f102cf65603c357ae0"
+      },
+      {
+        "path": "dist/server/_next/static/workspace-BcvKfl3D.js",
+        "bytes": 170,
+        "sha256": "2c840a6e14585b4a600d4233ee23838a4d5b91556843e9d3c4ed7f7d48f8da62"
+      },
+      {
+        "path": "dist/server/_next/static/implicit-tags-Dt35ngx8.js",
+        "bytes": 1345,
+        "sha256": "52611efc53e1ab9450541fd3b6b2fff71fc67bf975a5fa2d4e849b5c5b6c64d2"
+      },
+      {
+        "path": "dist/server/_next/static/app-route-handler-dispatch-BRmmQYwP.js",
+        "bytes": 26151,
+        "sha256": "1694634cb93a2709405a9fdfb95619699fd238e5aa0853447923a6bd5c16284c"
+      },
+      {
+        "path": "dist/server/_next/static/redirect-digest-tAs9wzXF.js",
+        "bytes": 377,
+        "sha256": "b92ec9aa7c6dcd33cfbe31e79016b8e95e069db3104601e782c0eab8aa9d331b"
+      },
+      {
+        "path": "dist/server/_next/static/page-Cxo_2DC3.js",
+        "bytes": 2105,
+        "sha256": "0431ef6188d61805cc8d8b1226da1f0edf5d75ef47126420415d9042548513a7"
+      },
+      {
+        "path": "dist/server/_next/static/page-CnFS8bvG.js",
+        "bytes": 491,
+        "sha256": "66b75d50404d677294447fc2c00400a73e9763fc3b0b55ced0fc86d7223d2008"
+      },
+      {
+        "path": "dist/server/_next/static/foundry-audio-renderer--cOLPKZa.js",
+        "bytes": 205,
+        "sha256": "86ff07974428dbde32d5ca877811eadeb5b2bb5480abe693591054333a3b4a90"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-cache--vXAGv-S.js",
+        "bytes": 5254,
+        "sha256": "2b84b0ef33a6e2fc8c1e3487458c8c4c8ab20a534b13665533df628d0a95cf16"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-render-identity-DFbaXvFu.js",
+        "bytes": 1695,
+        "sha256": "7113c61f738150f411818979b2b52e159e4373443480a580594ba1e437276d3d"
+      },
+      {
+        "path": "dist/server/_next/static/page-Byi9nszj.js",
+        "bytes": 1057,
+        "sha256": "2dd8477aa6408bee7c0e46dbd576fdd3fb89929a2470128464d8f15c7a8736e7"
+      },
+      {
+        "path": "dist/server/_next/static/route-pattern-C4_lzdyr.js",
+        "bytes": 10963,
+        "sha256": "09485716b4a321885bb25bd8b7056f8e62ffc338132b69ece7c9f4b396c1b789"
+      },
+      {
+        "path": "dist/server/_next/static/page-ZBs7tWXN.js",
+        "bytes": 77987,
+        "sha256": "827eb4161ede0a90e3fb663281a988a12d0c2b86e3cbeeefe29dcd0947e055bc"
+      },
+      {
+        "path": "dist/server/_next/static/navigation-errors-DGzv-pZU.js",
+        "bytes": 1422,
+        "sha256": "d9d32ef6f559f79467c85623e3aa1f18876b32a693269a4ecce6e6cf693bd3c3"
+      },
+      {
+        "path": "dist/server/_next/static/app-static-generation-DkxOPByJ.js",
+        "bytes": 916,
+        "sha256": "71451721ae4a42108e9ed32567cd9d9861beb4952215b0fd57ffc373cd3edc01"
+      },
+      {
+        "path": "dist/server/_next/static/navigation-runtime-B4Hb8sDh.js",
+        "bytes": 803,
+        "sha256": "e169c28ff5b6d147dc87f92656af2e7ab2cccffd6a2f9a4e6d3ddb8ba379a56f"
+      },
+      {
+        "path": "dist/server/_next/static/app-page-request-C92cSDkr.js",
+        "bytes": 87400,
+        "sha256": "a0d77ef9a6cb8f66a449e0c52418cdafacb10f7d306eefdf5ee8faafedf7e2fd"
+      },
+      {
+        "path": "dist/server/_next/static/navigation-server-UH-umdaf.js",
+        "bytes": 40,
+        "sha256": "e7a9da8c4d0f72e7adcb9d02ec48cd6e7275326bf656c89438d5f72f6480bcf7"
+      },
+      {
+        "path": "dist/server/_next/static/headers-l4YZd8hA.js",
+        "bytes": 5081,
+        "sha256": "ad7d6ec346d0811112b473dc8b452d183fc176f36024e6e7d2775b00404f900d"
+      },
+      {
+        "path": "dist/server/_next/static/app-prerender-endpoints-DDC1ghu_.js",
+        "bytes": 2012,
+        "sha256": "27ad9b2106f16fce11a90dca2f1e62f3c730e2c172d890b36773b40db08bcca3"
+      },
+      {
+        "path": "dist/server/_next/static/app-prerender-static-params-CtTBrkEg.js",
+        "bytes": 175,
+        "sha256": "499071d61a40228c737cdc914b0050ada1a25cdbede9f447248be73ab7fc7089"
+      },
+      {
+        "path": "dist/server/_next/static/visual-three-CgBj309W.js",
+        "bytes": 536136,
+        "sha256": "3058b0eef676481ba5bae5e122acc8fc80913c37e66c5532fe1d1e5530263cbf"
+      },
+      {
+        "path": "dist/server/_next/static/page-pRS3z0t_.js",
+        "bytes": 2309,
+        "sha256": "466d0b36694e83a02f5aca99922cbe8b5a37036392e5bb09624e09a6dccc5a89"
+      },
+      {
+        "path": "dist/server/_next/static/sha2-B5HOiDco.js",
+        "bytes": 7310,
+        "sha256": "b640dd9f922899b4459d859ca07e5ae9bba319ea4318976598685b9ef80364f7"
+      },
+      {
+        "path": "dist/server/_next/static/rolldown-runtime-DUnMT5BP.js",
+        "bytes": 694,
+        "sha256": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75"
+      },
+      {
+        "path": "dist/server/_next/static/framework~index-914RIYsU.js",
+        "bytes": 243,
+        "sha256": "0509a0c8bcf6fa7167ab60c62cc8f256fdbc47606746f99755271df44afc2768"
+      },
+      {
+        "path": "dist/server/_next/static/math-Blk6PoQ8.js",
+        "bytes": 4160,
+        "sha256": "ba76893b2348028a6f62c667db06760be90bf195e356f1d3f3ed5a2ba6c9453b"
+      },
+      {
+        "path": "dist/server/_next/static/headers-Cm544ob1.js",
+        "bytes": 10975,
+        "sha256": "755bc88828a7c3465af2d5188f96dd5ee413f1ec37bc2d8165042b5df5082c90"
+      },
+      {
+        "path": "dist/server/_next/static/page-D_qReX3o.js",
+        "bytes": 3505,
+        "sha256": "1cb84cfe006fb1f3e9b3cfc1378de0c41f726ca1fae28a1cdc44c1ff90e22f88"
+      },
+      {
+        "path": "dist/server/_next/static/root-params-BSGpej-T.js",
+        "bytes": 1576,
+        "sha256": "94297617a7e6ddbe690fecf9e2f43acd61f490163c6a716d9f99f0c5ce1040d8"
+      },
+      {
+        "path": "dist/server/_next/static/chatgpt-auth-BBPOblAJ.js",
+        "bytes": 924,
+        "sha256": "96b53f856e9d9e376d81a06f626612007c3773302c1d46b882780e84d9736d3c"
+      },
+      {
+        "path": "dist/server/_next/static/page-jT9CtRT2.js",
+        "bytes": 765,
+        "sha256": "0a67dbeec0c596b67e4f8770c030e00113d4f0b060e583a0a429010ed9965cdc"
+      },
+      {
+        "path": "dist/server/_next/static/katex-B7DDsOZx.js",
+        "bytes": 258620,
+        "sha256": "804e659d73538dea49b9ff57bedfba0997332ce522389e5746601aed9a8e3499"
+      },
+      {
+        "path": "dist/server/_next/static/foundry-language-renderer-BnR0sBhY.js",
+        "bytes": 426,
+        "sha256": "f6adf783ba206294f8b057515b7f359371359e0f4ed01414b2ffebd4cc28e5eb"
+      },
+      {
+        "path": "dist/server/_next/static/lab-Bexrwf2Z.js",
+        "bytes": 2444,
+        "sha256": "93dce8cd8c0684684503d2d15149c502b92adc165d771c4102757ceec340d3e0"
+      },
+      {
+        "path": "dist/server/_next/static/visual-b95EPbss.js",
+        "bytes": 2426,
+        "sha256": "5ee6a3f12aae861024b823ab348d78f6e9c7dab4cd4a0d59a1cb25bf78c408ab"
+      },
+      {
+        "path": "dist/server/_next/static/page-DDcINQrY.js",
+        "bytes": 311,
+        "sha256": "8eddfbf033d6ff1d73430e52bad3b3bf11b6028d6c91bdb1a87b83a96ade1519"
+      },
+      {
+        "path": "dist/server/_next/static/app-segment-config-CvNP37wL.js",
+        "bytes": 5069,
+        "sha256": "a7f2b740a369da60d29e3e43cca2c39d6db14a4321026659b938f90ab65394a2"
+      },
+      {
+        "path": "dist/server/_next/static/page-BLOuDQ8O.js",
+        "bytes": 3415,
+        "sha256": "390bbbdbf3b9e2b022ef0d6b4f8a4af8c7dba7d2adffa82409dcbbeb8e743c6b"
+      },
+      {
+        "path": "dist/server/_next/static/app-server-action-execution-OP7yN7ob.js",
+        "bytes": 16335,
+        "sha256": "6a1145f4a996560d0e74502b2f1b2ca441a721b8d9e22ab074c109459c1f8070"
+      },
+      {
+        "path": "dist/server/_next/static/text-stream-GMuT-n0R.js",
+        "bytes": 4205,
+        "sha256": "7c1b3688f3218b0e31c2bab489d48e7ff8fc1b3be26f8a344dbfb226c22b0d21"
+      },
+      {
+        "path": "dist/server/_next/static/cache-headers-Dexe4zYc.js",
+        "bytes": 39413,
+        "sha256": "fcb9bd3869f14daf825105492dd3a0362a10576181680a60838b75799c287357"
+      },
+      {
+        "path": "dist/server/_next/static/page-DSc_ZbCu.js",
+        "bytes": 491,
+        "sha256": "b2c43036e5891bfeba702a082ec1f8cee710175981b1f59cda09f38a4cad7ee9"
+      },
+      {
+        "path": "dist/server/_next/static/page-C7nEVpdD.js",
+        "bytes": 491,
+        "sha256": "5211bbfec4c8510538aeaee2a0ddc4695787bc51f39f13ddd3b78cb083b45428"
+      },
+      {
+        "path": "dist/server/_next/static/page-DpdCIyud.js",
+        "bytes": 2499,
+        "sha256": "80078361ed5fbde79bd1d9491c053e53a62a1cbc45b43a50da42916a7f48584e"
+      },
+      {
+        "path": "dist/server/_next/static/cookie-utils-DD6VmGY7.js",
+        "bytes": 136,
+        "sha256": "0244649ed05e9f3bd8ecb67cc228faa72ef1643c88735ef2562af7119a5adf88"
+      },
+      {
+        "path": "dist/server/_next/static/framework~index~app-page-cache-render~app-page-cache~app-server-action-execution~page~page~~fsx1kzax-CnBfte6N.js",
+        "bytes": 824,
+        "sha256": "f5bed7c8d1355cccc4ef7aed77494ab409b53c5286cccc14cc0a5a76728fb187"
+      },
+      {
+        "path": "dist/server/_next/static/foundry-data-renderer-DgfhJtJa.js",
+        "bytes": 542,
+        "sha256": "e463fe4d575a65606e8c959b58a0626d8ee8118ae55c77793ab6ae54418491a2"
+      },
+      {
+        "path": "dist/server/_next/static/isr-cache-DRWstmfj.js",
+        "bytes": 3322,
+        "sha256": "b96ca5e1c8edf8b1c9250aacce38f312fb123ae01e0414b758fb3c61b518a6e6"
+      },
+      {
+        "path": "dist/server/__vite_rsc_assets_manifest.js",
+        "bytes": 31924,
+        "sha256": "33f85ca441fca16e369d96a28e96a0e2ae978c3d549aab6267e090e8969f0959"
+      },
+      {
+        "path": "dist/server/vinext-server.json",
+        "bytes": 86,
+        "sha256": "fe15da1efa3f50af5547a3fe271f13f9dfc9becbf9f659936bd6a1fa4a2347a4"
+      },
+      {
+        "path": "dist/server/.vite/manifest.json",
+        "bytes": 27859,
+        "sha256": "27601d3e38ab7c35db1201e5aad524efa7447231fd85d45c17ece198e7b27637"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/interface-view-registry-DUOt2x3Y.js",
+        "bytes": 758,
+        "sha256": "d8ee4d83380e82140b821109cb5fd9a72f26fb038ec844c44027a10776958c9b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/interface-view-trace-signal-ledger-v1-TNCt0O1h.js",
+        "bytes": 1930,
+        "sha256": "f3d2dce2bc1d54d523347bcf97b5834e8f2f0c967663c3fd831b79898faf3d9b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/workspace.Bv87qNzg.css",
+        "bytes": 61332,
+        "sha256": "a007b0766ddca35c65a7b2a38fc1c64094d5c2e1729c71618073457ff0a6d695"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/learning-atlas.CVfIasPY.css",
+        "bytes": 27893,
+        "sha256": "58a7ab9b848fe19f0b46418b4297d14b0127bdd98a46552a79495d23948f6792"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/reader.BzGaQxBt.css",
+        "bytes": 51325,
+        "sha256": "2c702dabb2b836675c393f5f36809bb06d200dd48db290552216a1bc5409f6d4"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/learning-experience.dvbuF0Jc.css",
+        "bytes": 20234,
+        "sha256": "029fb0a7b51aaf19625ddb82be604426aa6f6bdfd5b80938d3740a6b02f24681"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/notes-workspace.4hN2hpja.css",
+        "bytes": 23423,
+        "sha256": "98810cfc6492bde21c6fd5ad8fde53308645c1344373a68eb5f5c5b26864b311"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/activity-studio.BmUalGuj.css",
+        "bytes": 18700,
+        "sha256": "e014e32576118159971dbfe671b624ea33c45e812a368e65fd50e1e05475e249"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/css/foundry-gallery.DozJx2Oc.css",
+        "bytes": 33177,
+        "sha256": "e1557b76424e733e4759d3e36055fdeb304b97ccdb98de8c65e65eda2599eab3"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/link-Chyh4V9l.js",
+        "bytes": 5977,
+        "sha256": "1665e9892675bb83b245abc2db77fdea7870af98e2888dd2b470a487aab471b7"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/python-runtime-kgHpARKt.js",
+        "bytes": 822,
+        "sha256": "ec334e92b090839770dd8ab595d4abaae251ffeb456df2c0ccaf929496a0ab36"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/typed-output-view-BGWuQjFn.js",
+        "bytes": 1403,
+        "sha256": "5e589f44c107715996616a687a365752e1e349be27a1f0b23fd29895e68f2621"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/platform-DuTDy6AE.js",
+        "bytes": 6317,
+        "sha256": "615e741e02068b86aa28709311182e74e17feb933508bd973ca6f80ae321751a"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/sha2-qnJzuSX-.js",
+        "bytes": 7310,
+        "sha256": "b640dd9f922899b4459d859ca07e5ae9bba319ea4318976598685b9ef80364f7"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/app-prefetch-fetch-queue-BKTB9zuQ.js",
+        "bytes": 407,
+        "sha256": "ec8039e780dfceafda96cf65f156ab2187d0b0528b818f1a288e9c1ce574f67f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/scientific-output-studio-BttdUg23.js",
+        "bytes": 6566,
+        "sha256": "558d84bb5a59dd531abb45d4e4a0c8ce239627a24a837230253e7534fa22dbbb"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/workspace-C0HcuHaL.js",
+        "bytes": 372897,
+        "sha256": "d06f2af2df8f6e73f9e1edacd7ab3dceb07cdeaf147bf842cf947fe4fddfa470"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/query-B0Y8lmRW.js",
+        "bytes": 544,
+        "sha256": "64abf6fde819d39344c044923b54e1c95e72d24fe2d767cc40bb8cc182aea6c8"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/navigation-Be4jBuyc.js",
+        "bytes": 46981,
+        "sha256": "91603644103f5edc1ea558750c8d16f4ad031c25656c2501bb525da274a8b3c3"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/lab-client-BCPJzxW6.js",
+        "bytes": 3783,
+        "sha256": "9bc325a0dd1f14a3631da4ebcbd282d8248cf82f95e77a954efb76addd2e3388"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/data-core-C7nTnSj2.js",
+        "bytes": 12562,
+        "sha256": "7af1728991b911ca995da0c1aa8ab4ac4a20a8c493cd69a93db449e57b526329"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/learning-experience-D2a8g0AS.js",
+        "bytes": 19753,
+        "sha256": "2243ad87bf3628a4d641a086c94b56b7ef2e121d6e3106ed2d173e10f32a4e65"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/app-router-scroll-state-B7HlSXYU.js",
+        "bytes": 1085,
+        "sha256": "e7964c9603534ac8f5158341b5deefc94a71f5f9f803978601c93830593c30ea"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-Blo6UcTT.js",
+        "bytes": 84634,
+        "sha256": "563df23f4eea8cdd16ef46359ecb2017546b0aa3140ebb453bd2031ff8e8c081"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/python-results-ChQ5WBKH.js",
+        "bytes": 2882,
+        "sha256": "1ffa4ce5aaf76c2032ad58d6f84ef24d27569cc9585ec8e4e5e3e0a584a5254c"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/app-router-scroll-DM14DHWG.js",
+        "bytes": 2130,
+        "sha256": "b45a7947d5e87d747ad0891711195dd5917947dcd9e9dbba8dcb21f78a39b013"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/static.edge-1EfOFGHa.js",
+        "bytes": 173,
+        "sha256": "75021b9eec5a31a90e809d40f6667a36bc489a79c2e6f81e3c6a29d38f0d60bd"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/html-limited-bots-mJmfxFi8.js",
+        "bytes": 1965,
+        "sha256": "1b08f3e566284e34a3e8012c511965baede1f6412808e1fcace6c4ce437896e8"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/client-proof-BIS5CqJU.js",
+        "bytes": 491,
+        "sha256": "4749bd2d4d1c9994c5e07a0cd246c21fc031b3b80ced2c2ebded51692719888f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/streamed-icons-EuRJSHx3.js",
+        "bytes": 691,
+        "sha256": "85e3109e6ee67c2505ff6387f6c772a3bdd06838ddcdbeda276e71cb416e122d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/note-rich-editor-I3O4ozBn.js",
+        "bytes": 176346,
+        "sha256": "6087a6e9e695101ace1d72a7615344b7dd594e556b509d5ccf8f68a605eafb48"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/math-CGYODX6T.js",
+        "bytes": 5171,
+        "sha256": "359d2c7208a9e339bc19f7358fd5ee9a957397a8e5b50df972b579ff5433daa6"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-data-renderer-BhJC6g2x.js",
+        "bytes": 580,
+        "sha256": "ad1644c05ae24a9fab0cbdb98975d43c906d47baa3c8b9d9f7af34e37b851e31"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/client-id-D9E7e7Ao.js",
+        "bytes": 332,
+        "sha256": "b18bbb4e90dbb01e6b2207c23569c67d9ab40789762c61789b9145d769bd2aaa"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-data-demo-BwaO0OBZ.js",
+        "bytes": 12120,
+        "sha256": "fbdbedf81a5ee90fabe9ce18bb1cc90dfbc9ed46e471292e6cbc41c2227d1c29"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-language-renderer-B8yqG0d5.js",
+        "bytes": 2029,
+        "sha256": "e0d605dfe4fbbcd2434f5fa8ec09ed631cb433e324ec943827df7c2311be255b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-audio-demo-BYugqRtF.js",
+        "bytes": 6327,
+        "sha256": "8654fbad1aee380be7183dd6e7c7e63a26fe21587d7de316c51f2f9128d2c33d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/visual-CdGhuYYg.js",
+        "bytes": 15022,
+        "sha256": "e8813d76c9c7e31130b75964c763d106f26792b3800ba992547604a2a9816dcc"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/math-render-B0MfqWJm.js",
+        "bytes": 804,
+        "sha256": "5e7b31225f008a6e29669ac2fbbea1615809c364e24f056e8e73a04593640263"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/learning-atlas-Dzi8cLWN.js",
+        "bytes": 193274,
+        "sha256": "e82e5008a0e29e9e4d4538d732df4349ac0a2e155b85497cbd883d3a9ab3130c"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/language-dom-4zkaXcbJ.js",
+        "bytes": 1811,
+        "sha256": "abf7d517c9b72ed3ab9ada3a877d5efa0a838b46aa1db1db87216d08ddd29c4c"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/client-HnmVEBj7.js",
+        "bytes": 177918,
+        "sha256": "5ae5a4fa091435cdb094c91db29935048a0fb1a0536ad9dd0b0aa1344f14511d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/learning-continuity-fixture-DUEtl5wD.js",
+        "bytes": 3590,
+        "sha256": "1877d3ab395b1ce3de30920394a03696e35ee833a2bd688a1f1872d49d2e57dd"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-okvkYTLS.js",
+        "bytes": 28168,
+        "sha256": "2b4718a3d629f028349476afd5cf016c75d6bfe5359f9f6afeef062b17c48233"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-Kq7tNHFP.js",
+        "bytes": 35024,
+        "sha256": "b50f022dfc9f6db4d9850f329bc44da531d9f86d2873089ad1a91e6bb56296bb"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/activity-preview-CuADZ72J.js",
+        "bytes": 1099,
+        "sha256": "03ab8ce2bb3eca550b09d33490524a068cb6ff3ec7f4c71d779330f1e7aa7a5b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/digest-JYy6e7A3.js",
+        "bytes": 57188,
+        "sha256": "d628952d074ad1ff69bb02b53be87c3e7493b3bddbcb7181851d4f21d591d051"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/interface-view-bytes-CnZAFWD3.js",
+        "bytes": 2234,
+        "sha256": "807d80d51cc96f313c297b70109ce1df51c906092b046274c96e85d1012d0d71"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/error-boundary-DekiBcuB.js",
+        "bytes": 5439,
+        "sha256": "7ebbaa07ede985c030fac2c5d29008bbef1b90fd2a504bb7f174da3315cacd5f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/app-nav-failure-handler-CMdIF5lV.js",
+        "bytes": 72,
+        "sha256": "f6a9d62fb9873f70236c9c3eb21337fa5337df87f170dcb04565daeffb5f2f62"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/notes-workspace-c0aypUnI.js",
+        "bytes": 28382,
+        "sha256": "289287b7394b00ebe4217f6729f1887fc870cb87c29c2b90a814caf603547770"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-DZEnpABh.js",
+        "bytes": 13912,
+        "sha256": "11256908c6fa2dfcf6ac8a9450fbdb32d72d34098865f6b8bb5c53f55a7041d6"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/layout-segment-context-p8g_z9mf.js",
+        "bytes": 381,
+        "sha256": "1c134016d3c7940fe7e9e8bd55adddfd110633c8b69d196f78efd368e880e194"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-gallery-Dl6MH04G.js",
+        "bytes": 2674,
+        "sha256": "96b02d7a6b26b9ab182176ed78fec368a22f66818d843ebae903246d39a60bfe"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-python-demo-D6FP_NrG.js",
+        "bytes": 4117,
+        "sha256": "5dcd603dba1419dc44693fa242402dbd83fe6a164ae38d19705cf7913f4537de"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/language-CTBQ0U9u.js",
+        "bytes": 4448,
+        "sha256": "b967f3909d1f8d27110a53fa1c66b8b4efff0d547d59ef7c45093c709b3cdc98"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/activity-studio-DlLpdBMd.js",
+        "bytes": 35963,
+        "sha256": "2977d29323ee8414740fe6c0daea0c35173ba31b639db06c22e3671fda780f03"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/katex-qNpvpy5X.js",
+        "bytes": 258620,
+        "sha256": "804e659d73538dea49b9ff57bedfba0997332ce522389e5746601aed9a8e3499"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/package-Dkr_TLKI.js",
+        "bytes": 6397,
+        "sha256": "19af06aa020a3461a6c651f6faa8cb3dd29999c52cc87e3c721fcf378189ebd0"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Bold.CFMepnvq.ttf",
+        "bytes": 24504,
+        "sha256": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Italic.DN2j7dab.woff",
+        "bytes": 14112,
+        "sha256": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Script-Regular.D3wIWfF6.woff2",
+        "bytes": 9644,
+        "sha256": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Bold.D1sUS0GD.woff2",
+        "bytes": 12216,
+        "sha256": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_AMS-Regular.BQhdFMY1.woff2",
+        "bytes": 28076,
+        "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size4-Regular.BF-4gkZK.woff",
+        "bytes": 5980,
+        "sha256": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-BoldItalic.DxDJ3AOS.woff2",
+        "bytes": 16780,
+        "sha256": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Typewriter-Regular.D3Ib7_Hf.ttf",
+        "bytes": 27556,
+        "sha256": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Caligraphic-Bold.ATXxdsX0.ttf",
+        "bytes": 12368,
+        "sha256": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-BoldItalic.DzxPMmG6.ttf",
+        "bytes": 32968,
+        "sha256": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Caligraphic-Regular.Di6jR-x-.woff2",
+        "bytes": 6908,
+        "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Regular.BNo7hRIc.ttf",
+        "bytes": 19436,
+        "sha256": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Regular.ypZvNtVU.ttf",
+        "bytes": 53580,
+        "sha256": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size1-Regular.C195tn64.woff",
+        "bytes": 6496,
+        "sha256": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Math-BoldItalic.iY-2wyZ7.woff",
+        "bytes": 18668,
+        "sha256": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Script-Regular.D5yQViql.woff",
+        "bytes": 10588,
+        "sha256": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Caligraphic-Bold.Dq_IR9rO.woff2",
+        "bytes": 6912,
+        "sha256": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Regular.CS6fqUqJ.woff",
+        "bytes": 12316,
+        "sha256": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Fraktur-Bold.CL6g_b3V.woff2",
+        "bytes": 11348,
+        "sha256": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Fraktur-Bold.BdnERNNW.ttf",
+        "bytes": 19584,
+        "sha256": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Bold.Jm3AIy58.woff",
+        "bytes": 29912,
+        "sha256": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Math-Italic.DA0__PXp.woff",
+        "bytes": 18748,
+        "sha256": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Math-Italic.t53AETM-.woff2",
+        "bytes": 16440,
+        "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Italic.BMLOBm91.woff",
+        "bytes": 19676,
+        "sha256": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size4-Regular.Dl5lxZxV.woff2",
+        "bytes": 4928,
+        "sha256": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size1-Regular.Dbsnue_I.ttf",
+        "bytes": 12228,
+        "sha256": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Math-Italic.flOr_0UB.ttf",
+        "bytes": 31308,
+        "sha256": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_AMS-Regular.DRggAlZN.ttf",
+        "bytes": 63632,
+        "sha256": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Bold.Cx986IdX.woff2",
+        "bytes": 25324,
+        "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Caligraphic-Bold.BEiXGLvX.woff",
+        "bytes": 7716,
+        "sha256": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Italic.3WenGoN9.ttf",
+        "bytes": 33580,
+        "sha256": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Caligraphic-Regular.wX97UBjC.ttf",
+        "bytes": 12344,
+        "sha256": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Bold.DbIhKOiC.woff",
+        "bytes": 14408,
+        "sha256": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size4-Regular.DWFBv043.ttf",
+        "bytes": 10364,
+        "sha256": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Bold.waoOVXN0.ttf",
+        "bytes": 51336,
+        "sha256": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Typewriter-Regular.C0xS9mPB.woff",
+        "bytes": 16028,
+        "sha256": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Italic.NWA7e6Wa.woff2",
+        "bytes": 16988,
+        "sha256": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-BoldItalic.SpSLRI95.woff",
+        "bytes": 19412,
+        "sha256": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Fraktur-Regular.CTYiF6lA.woff2",
+        "bytes": 11316,
+        "sha256": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size3-Regular.DgpXs0kz.ttf",
+        "bytes": 7588,
+        "sha256": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Italic.YYjJ1zSn.ttf",
+        "bytes": 22364,
+        "sha256": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Regular.DDBCnlJ7.woff2",
+        "bytes": 10344,
+        "sha256": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Script-Regular.C5JkGWo-.ttf",
+        "bytes": 16648,
+        "sha256": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Typewriter-Regular.CO6r4hn1.woff2",
+        "bytes": 13568,
+        "sha256": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size2-Regular.B7gKUWhC.ttf",
+        "bytes": 11508,
+        "sha256": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Fraktur-Regular.Dxdc4cR9.woff",
+        "bytes": 13208,
+        "sha256": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Regular.B22Nviop.woff2",
+        "bytes": 26272,
+        "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size2-Regular.oD1tc_U0.woff",
+        "bytes": 6188,
+        "sha256": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Math-BoldItalic.CZnvNsCZ.woff2",
+        "bytes": 16400,
+        "sha256": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size1-Regular.mCD8mA8B.woff2",
+        "bytes": 5468,
+        "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Fraktur-Regular.CB_wures.ttf",
+        "bytes": 19572,
+        "sha256": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Fraktur-Bold.BsDP51OF.woff",
+        "bytes": 13296,
+        "sha256": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Math-BoldItalic.B3XSjfu4.ttf",
+        "bytes": 31196,
+        "sha256": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size2-Regular.Dy4dx90m.woff2",
+        "bytes": 5208,
+        "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Size3-Regular.CTq5MqoE.woff",
+        "bytes": 4420,
+        "sha256": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_AMS-Regular.DMm9YOAa.woff",
+        "bytes": 33516,
+        "sha256": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_SansSerif-Italic.C3H0VqGB.woff2",
+        "bytes": 12028,
+        "sha256": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Main-Regular.Dr94JaBh.woff",
+        "bytes": 30772,
+        "sha256": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/media/KaTeX_Caligraphic-Regular.CTRA-rTL.woff",
+        "bytes": 7656,
+        "sha256": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/interface-extension-CblqxBX3.js",
+        "bytes": 861,
+        "sha256": "693c76745dc690c5af009e4c8a0786527dce44403982b123127eb8d65b5f8c17"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-OBl97R3Y.js",
+        "bytes": 23126,
+        "sha256": "5efa8120bfd1ea0c572a247682d140ed29062438214d390fa0692498edbf9e37"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/specimens-DmfOpIlM.js",
+        "bytes": 14521,
+        "sha256": "8f9f60947df21d6a3f63ee38006bd09e64d225a01e801899773f2575918cf97e"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/growth-preview-CVr2zqKe.js",
+        "bytes": 5852,
+        "sha256": "2c7b3836211c52a232afb38d6b22cff471542236c2d2686ad2329074952469f3"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-CWmz0wXe.js",
+        "bytes": 44723,
+        "sha256": "2bec2e392f4582fd85f90d8202f87134c33dc9d20fab9f9ca1186c6d52fc1eca"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-CefRMDmp.js",
+        "bytes": 26917,
+        "sha256": "be80544e239027a3e59e50f61f7b356d21a31b1ffb9bdb78ed4d8ff7956e7262"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/novel-D26xSmfC.js",
+        "bytes": 4775,
+        "sha256": "02be1c796018696cf13c60cd2d978822488eedd90ca2b62e553a9dccb63413a7"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-DLmUChnG.js",
+        "bytes": 284655,
+        "sha256": "c439403af0f52a7c7c3b66ebc97ddd125f46291fcced08092166e577416a7e6e"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-platform-demo-CkQLUkbA.js",
+        "bytes": 2548,
+        "sha256": "7817eda61f60f3b5c0d9be9b651a8c7c971f451ea824e0a91be92941b5b4fe54"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/note-rich-codec-j6A4BJky.js",
+        "bytes": 166261,
+        "sha256": "946c8124df4d0a805b08adf8df80b3a7fa5a3a1e3db86a3e2ae48e0aa7bb12a5"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-novel-BOQAAC_6.js",
+        "bytes": 4460,
+        "sha256": "c6e9ab38d4308f8092af8beef3b9f2ab6452c66f1f72137f954e6e130d6a448f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/interface-extension-catalogue-BW09zJkA.js",
+        "bytes": 384,
+        "sha256": "30a16e9f5762c8360c47b839b0b117063dfe274ebd922673344c43da1f965031"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/reader-Bh5H9VXI.js",
+        "bytes": 111989,
+        "sha256": "bd0765a4b3e4a40b897bb86960de57f7aefeb4296ff55f97a79a7f3708dd419e"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/note-markdown-view-DaonDJHl.js",
+        "bytes": 22553,
+        "sha256": "d6df891b1d5c17a348f89d6a8888edb6ce0e70e93cbdf03952e45e3a6f715bba"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/python-output-save-PGerFmmX.js",
+        "bytes": 4715,
+        "sha256": "d3c88954aac0fd806b16004930b120006f8d378a846ffc5c3db6c4d1605e3b2e"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/audio-core-Dp0gTLh-.js",
+        "bytes": 4530,
+        "sha256": "b322acc4fdc96d3e1d469f0df81b92a23b7749304db1a393840623260cb5da8d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/domain-locale-BRjxqz9A.js",
+        "bytes": 1298,
+        "sha256": "90cd3deb156ef0d7f566e922210d8b0d98e81084d7b4e8b4024a1ccee64c7684"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/workspace-generation-D0YoStEL.js",
+        "bytes": 1434,
+        "sha256": "eb10a7550d55ea7bbe9cd12f992d461e233b3bc9c2d5c76c1d3588c806a152af"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/visual-three-IsSw4_mB.js",
+        "bytes": 536136,
+        "sha256": "9c1b0855d81ddd3f1868bec28738666f6ce2e59aa7cfe3203f1b79eea3aa54ae"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-visual-CW2yD2Yz.js",
+        "bytes": 14399,
+        "sha256": "f655d8c6ae469bbafda3f3cc27956bedaa1a8075208cf7186d27575bfe4f2b1f"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-reading-bridge-KKnjyvSq.js",
+        "bytes": 4124,
+        "sha256": "415abc1d4230905be76aa3c88ec52e3ada6cf9ab85d89ede091948bc5fa9699a"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-language-demo-M6Swr2a7.js",
+        "bytes": 11632,
+        "sha256": "b941b1a30a8ca969702d7f8f51ebaa98daefbc7954aad786ae1b5bfc2fd01d93"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/hybrid-client-route-owner-BfN0HuRG.js",
+        "bytes": 190,
+        "sha256": "3a0c9f86041ab74e40504fe68f0c591b8e9afec7a77c34bb8d7bb1b40003f3d6"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/language-fixtures-Dk8q0Z4n.js",
+        "bytes": 1374,
+        "sha256": "3ad0e31b774dbf196676fb210600adc61491f8d10b700963349b71cada6acfd3"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/note-lifecycle-fixture-CMUNSM5I.js",
+        "bytes": 3915,
+        "sha256": "6d394ffd8e83f170c3adce90ba1ca9d8c4ce7f67bd922824b3e9da8519e020d8"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/dist-DP8YW5gZ.js",
+        "bytes": 31781,
+        "sha256": "cc41764c4880a3c6db6dcd21c9440837f6f44e3d4d296fa4a993b0a273ac3b1d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-audio-renderer-D-GtjYyv.js",
+        "bytes": 355,
+        "sha256": "50e779535501c52465f7e4f58f01d510731092fdd74b7da4b5e52d71c6b392c6"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/reader-code-syntax-CT0iJL-e.js",
+        "bytes": 1130,
+        "sha256": "837a56ba308c150580f74e2a4260ef57444ef0c88b79400ee51181779cbcab1d"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/foundry-math-BqgAt-B8.js",
+        "bytes": 20144,
+        "sha256": "9535f34b5f66c5092a92e48adce7462ab063cd803d59010af0c3f844824c2fd5"
+      },
+      {
+        "path": "dist/server/ssr/_next/static/hybrid-client-route-owner-direct-BTGCc3Uf.js",
+        "bytes": 56,
+        "sha256": "138ee68a61e3b74df01eb186158f72109550a13ece0262556dda15d34feb7a20"
+      },
+      {
+        "path": "dist/server/ssr/__vite_rsc_assets_manifest.js",
+        "bytes": 31924,
+        "sha256": "33f85ca441fca16e369d96a28e96a0e2ae978c3d549aab6267e090e8969f0959"
+      },
+      {
+        "path": "dist/server/ssr/vinext-server.json",
+        "bytes": 86,
+        "sha256": "fe15da1efa3f50af5547a3fe271f13f9dfc9becbf9f659936bd6a1fa4a2347a4"
+      },
+      {
+        "path": "dist/server/ssr/vinext-client-assets.js",
+        "bytes": 30736,
+        "sha256": "7b8a941021857da804b516b287d58716cc3c13f98080c0c3fea071ffa09d9468"
+      },
+      {
+        "path": "dist/server/ssr/index.js",
+        "bytes": 286174,
+        "sha256": "1c4e6df78e086fa34b01e750fa6c6fa41c88df30caf268bf93da29fb89604305"
+      },
+      {
+        "path": "dist/server/vinext-externals.json",
+        "bytes": 3,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "path": "dist/server/vinext-client-assets.js",
+        "bytes": 30736,
+        "sha256": "7b8a941021857da804b516b287d58716cc3c13f98080c0c3fea071ffa09d9468"
+      },
+      {
+        "path": "dist/server/index.js",
+        "bytes": 561076,
+        "sha256": "a07971fa9f96a8890536f6a94e513d69db2b58956532293a5d7c14cd7a5d7964"
+      },
+      {
+        "path": "dist/server/BUILD_ID",
+        "bytes": 36,
+        "sha256": "86e7f4c94a747e350191aece5c5126fd6d586fe4b95c3407c5db7628e0187cf0"
+      },
+      {
+        "path": "dist/server/wrangler.json",
+        "bytes": 1309,
+        "sha256": "6f6d7092a52413b42d2a43ffbed7250e1800a6865ba0d5c427db4cc5691f94d5"
+      },
+      {
+        "path": "dist/.openai/drizzle/0005_pale_young_avengers.sql",
+        "bytes": 5458,
+        "sha256": "ff6d79a964f875074cae36bc55691ebb85437e01cd7328ba13d3caa26cff2e60"
+      },
+      {
+        "path": "dist/.openai/drizzle/0007_manuscript_editions.sql",
+        "bytes": 857,
+        "sha256": "eef64a1aeb48df4601443e7d0a4edcf55cc93d6fceee44f759ff60e5033026bb"
+      },
+      {
+        "path": "dist/.openai/drizzle/0004_adorable_red_skull.sql",
+        "bytes": 1043,
+        "sha256": "37b0dd5cd9c2f8f333e9d1f8815e378a0e5fcacebdcd76d7e003c71309a30fc1"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0001_snapshot.json",
+        "bytes": 8998,
+        "sha256": "2ec7d843e51a69afeb20478ee5ebf0b2df39886a33d4403b0ae173a36be7a0a2"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0006_snapshot.json",
+        "bytes": 25350,
+        "sha256": "194b969fc9093eb17f3c694dcc4abf4359e55b1028795a4fcab7fadc7277f8cd"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0004_snapshot.json",
+        "bytes": 20783,
+        "sha256": "fedcee0c5aa97fe11def96655bfea44c2f476600ba3f119e574a4d7e5988add1"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0005_snapshot.json",
+        "bytes": 21381,
+        "sha256": "f78c939bc76429d57fb756c50845b7bdbec48b101c5d73b39b550b3fdaf03bd5"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0007_snapshot.json",
+        "bytes": 26841,
+        "sha256": "db429743b3a76660b3f9e15471471a97c1a43962bc5135a56602428683c8d6fd"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0000_snapshot.json",
+        "bytes": 2550,
+        "sha256": "bc328fcc2ee74198dfdacb4507676853e7c43d2e410b97e82f9808877dc4fb0e"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0003_snapshot.json",
+        "bytes": 14674,
+        "sha256": "9e8693cdffd68da01f65647ca588222799a520536c8c747e9c2bf94c9cb5106e"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/_journal.json",
+        "bytes": 1361,
+        "sha256": "ce73616acdcd430f9a4b4e0f72261c610d1c586f2600e382f2429332a22e04a9"
+      },
+      {
+        "path": "dist/.openai/drizzle/meta/0002_snapshot.json",
+        "bytes": 12979,
+        "sha256": "5cd62f7a7b5270ffdb17d65f3b544dfd4efebb3137b95d0e2a24da4baaf527ef"
+      },
+      {
+        "path": "dist/.openai/drizzle/0006_serious_korvac.sql",
+        "bytes": 2244,
+        "sha256": "511d46e9fae9796f223566c3b6edfed5524d6e7bdbaf474eccaa968c4c7b9034"
+      },
+      {
+        "path": "dist/.openai/drizzle/0001_omniscient_freak.sql",
+        "bytes": 1006,
+        "sha256": "a7d261ff0fbc5bb9b0316b37b18fc50a2a13bcd0f50aefe8d81bca4c5a9f26f1"
+      },
+      {
+        "path": "dist/.openai/drizzle/0003_complex_ben_parker.sql",
+        "bytes": 257,
+        "sha256": "127dbe82f8060b3b3782a71932a03389c446685bbede3f714711acca4bd4a271"
+      },
+      {
+        "path": "dist/.openai/drizzle/0002_mean_fenris.sql",
+        "bytes": 705,
+        "sha256": "996bb0a89ae668ff478972fd4c86e10dfdad2e48dbee2d22fd673ecb7f018ac8"
+      },
+      {
+        "path": "dist/.openai/drizzle/0008_learning_continuity.sql",
+        "bytes": 8511,
+        "sha256": "dda419f495723b71d5f7721c079c32139b71d7c35e39246bce9425b9312bed6c"
+      },
+      {
+        "path": "dist/.openai/drizzle/0000_narrow_forge.sql",
+        "bytes": 366,
+        "sha256": "4f989bbee149bbaa3c29783ed44f5c4c8f267a6fbd80960f9c313580b94da25b"
+      },
+      {
+        "path": "dist/.openai/hosting.json",
+        "bytes": 130,
+        "sha256": "ca38401a7b9240132af7527b6c44b79f71ea6b0c6bed107833013fb0e667c3b9"
+      },
+      {
+        "path": "dist/client/identity/minamo-icon.svg",
+        "bytes": 1616,
+        "sha256": "49e40f9ae643bc4deca892b67b2198cb00709e238219f07c2aa74309197c8b7e"
+      },
+      {
+        "path": "dist/client/identity/minamo-header-refined.png",
+        "bytes": 113941,
+        "sha256": "d37c49bdd81bac40f2219ba0619e7afc33ff19764cf0d2e3e2ad01e25107b9fc"
+      },
+      {
+        "path": "dist/client/_next/static/css/workspace.Bv87qNzg.css",
+        "bytes": 61332,
+        "sha256": "a007b0766ddca35c65a7b2a38fc1c64094d5c2e1729c71618073457ff0a6d695"
+      },
+      {
+        "path": "dist/client/_next/static/css/learning-atlas.CVfIasPY.css",
+        "bytes": 27893,
+        "sha256": "58a7ab9b848fe19f0b46418b4297d14b0127bdd98a46552a79495d23948f6792"
+      },
+      {
+        "path": "dist/client/_next/static/css/index.CNTucaHt.css",
+        "bytes": 159013,
+        "sha256": "a260625e9da2a5f4063c09cef9ae1adb08a0333c360b699682d54463463ccd68"
+      },
+      {
+        "path": "dist/client/_next/static/css/foundry-gallery.CeINFTm-.css",
+        "bytes": 28376,
+        "sha256": "384d671dc68e94e543c5e6e3b4b04be076561e9e2fa87c5dcf944e98500ab1fb"
+      },
+      {
+        "path": "dist/client/_next/static/css/reader.BzGaQxBt.css",
+        "bytes": 51325,
+        "sha256": "2c702dabb2b836675c393f5f36809bb06d200dd48db290552216a1bc5409f6d4"
+      },
+      {
+        "path": "dist/client/_next/static/css/learning-experience.dvbuF0Jc.css",
+        "bytes": 20234,
+        "sha256": "029fb0a7b51aaf19625ddb82be604426aa6f6bdfd5b80938d3740a6b02f24681"
+      },
+      {
+        "path": "dist/client/_next/static/css/notes-workspace.4hN2hpja.css",
+        "bytes": 23423,
+        "sha256": "98810cfc6492bde21c6fd5ad8fde53308645c1344373a68eb5f5c5b26864b311"
+      },
+      {
+        "path": "dist/client/_next/static/css/activity-studio.BmUalGuj.css",
+        "bytes": 18700,
+        "sha256": "e014e32576118159971dbfe671b624ea33c45e812a368e65fd50e1e05475e249"
+      },
+      {
+        "path": "dist/client/_next/static/e4822417-70c1-4a35-b8f2-d31a8233f6c6/_buildManifest.js",
+        "bytes": 159,
+        "sha256": "47f02b34be6dc481257b6efce4c19e19111f37ef5c437f8ffed44f0da97fa9bb"
+      },
+      {
+        "path": "dist/client/_next/static/e4822417-70c1-4a35-b8f2-d31a8233f6c6/_ssgManifest.js",
+        "bytes": 76,
+        "sha256": "653f3e53e89b4f8548ff86c19e92bb3c6b84b6be7485a320b1e00893ed877479"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/growth-preview-zHokCW_W.js",
+        "bytes": 5905,
+        "sha256": "1d1f11756e194c43b9c0aecd2b16a0601ca54ce9e1ec016c0619f5add12336c3"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-platform-demo-B5cYdDrU.js",
+        "bytes": 2601,
+        "sha256": "3a70355da73fcd755bda4d64af7918c611375f410bef7b67057b1a71b0bc3e35"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/interface-view-bytes-C4_uqmqK.js",
+        "bytes": 2234,
+        "sha256": "81102f1561c2cbc2fc1b2f75d3106e09f3a570399fd6256745296c4cd7a7e1d8"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-YJmcg4H0.js",
+        "bytes": 284659,
+        "sha256": "785ce410e30fe09f6b09a9a918552360c738d8d99fddf8ced39e1bf6c7020548"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/python-output-save-DCUZtYDS.js",
+        "bytes": 4715,
+        "sha256": "aef5e726fd42d654f853c7c67288b43e94253dad9b0e8944ca060ca6c9b870b3"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/navigation-errors-CbHWKIM-.js",
+        "bytes": 4040,
+        "sha256": "8079365b302385be914b5750316813c78cdbb88f897349ecec72f5998fb65500"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-audio-renderer-DWtD-wL0.js",
+        "bytes": 325,
+        "sha256": "92c772d50842e3b271357bad4188e7809701cbaa022bbea136721518316597f1"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-B1cJfQEn.js",
+        "bytes": 31781,
+        "sha256": "a54cd1f18a046af38d1b60e546e2dba8f4ed977c2dfd2bc5cf837e907b6ec631"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/scientific-output-studio-BmmNmt1_.js",
+        "bytes": 7494,
+        "sha256": "e36d170136aaa89a2701d6b93c056500a50513b397d8e01080b43b956f7b91e8"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/client-id-Cin3oGJ6.js",
+        "bytes": 332,
+        "sha256": "b18bbb4e90dbb01e6b2207c23569c67d9ab40789762c61789b9145d769bd2aaa"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-novel-wpw5Ut5C.js",
+        "bytes": 4513,
+        "sha256": "a9e51773570f2320b78d28b73bbf54807faaabf8a050209ad6fa1cdf8e6da336"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/interface-extension-BQSE36w6.js",
+        "bytes": 861,
+        "sha256": "6a931eee65765a7159a2ed8e23d82c88d0ddf8f91ad45fb657b7a8473e8483d6"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/ppr-fallback-shell-WiTn_FT2.js",
+        "bytes": 1975,
+        "sha256": "37ed17f1764385ca213b2ebbf7768a7102743059fd50d89dd1bd6536a40c280d"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-NDJRcrbN.js",
+        "bytes": 44723,
+        "sha256": "21407793d4be5f8732d47414315010f3f7942aa24b030d28ca15a3cfe1c09ae4"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/interface-view-trace-signal-ledger-v1-DoV7Fw2-.js",
+        "bytes": 1930,
+        "sha256": "5721b83d5638696e23ebde5e9e1d2c84164ba803dc8d2057d15cf3898660636c"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/package-DpxBFBaH.js",
+        "bytes": 6397,
+        "sha256": "4c72b1703ad4fe84ff265ae3f8ca20d98e627dc65bb560e9b985137d8c042791"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-data-renderer-BaldQhhx.js",
+        "bytes": 555,
+        "sha256": "8c7610ed7fb88584e31369741eec699c9e9f9ac539f351be0eeb2952469726e2"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/python-results-BRg7nmbu.js",
+        "bytes": 3082,
+        "sha256": "3eb3251f8bf964ba6171d7a5e30889e46ae354d8e777a3776190f4e10305c4f5"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/language-Bct4Dqxr.js",
+        "bytes": 4448,
+        "sha256": "b967f3909d1f8d27110a53fa1c66b8b4efff0d547d59ef7c45093c709b3cdc98"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/route-matching-SIwpxVJf.js",
+        "bytes": 2888,
+        "sha256": "5cece28d13ebc285c4d7a2e57f083eb44e1a5e077b25fdea11e500c6ee127f65"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/hybrid-client-route-owner-direct-Cg5qvHX9.js",
+        "bytes": 1103,
+        "sha256": "de9ddbb9a63a56c6834766688bf4386b7df33b69477652ec97872c2525f13c6e"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/digest-DYma5Iua.js",
+        "bytes": 57295,
+        "sha256": "96762b487972b21a2453318e8aaa61c6a502fbe010ea2bd48840c2351c739522"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/visual-iwu-9a_Z.js",
+        "bytes": 15022,
+        "sha256": "e8813d76c9c7e31130b75964c763d106f26792b3800ba992547604a2a9816dcc"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-rsc-render-mode-DIIbL8ol.js",
+        "bytes": 668,
+        "sha256": "b9db37ffe7d7e3f76c7e6bdffc078b9da7b799d56513d9bb5387f887b4d658dc"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/note-lifecycle-fixture-BSLuq5Om.js",
+        "bytes": 3968,
+        "sha256": "7950361cd6335716454d7fd7462d94c19e3e790ef15090352f5948c5f09a7c30"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/interface-extension-catalogue-C89Llcld.js",
+        "bytes": 384,
+        "sha256": "30a16e9f5762c8360c47b839b0b117063dfe274ebd922673344c43da1f965031"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/domain-locale-6KOVpmCQ.js",
+        "bytes": 1027,
+        "sha256": "5809f184544d546c8739f58941c57e10c60f5dcaaada8303fd74d899ba9b9042"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/note-rich-codec-C7Pb6HWm.js",
+        "bytes": 166277,
+        "sha256": "b0c91d254950403b11e1d03a74f9b5cf36a6badde20b544a03dd1b4f39122a37"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/language-dom-BWnFl02F.js",
+        "bytes": 1811,
+        "sha256": "98578feaad4a7337188ac29873cbb33f3725f30029d2059457cc963665f6fadd"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-reading-bridge-DJ_ssRJQ.js",
+        "bytes": 4177,
+        "sha256": "e0855d1b867d77e410321d5c72aea6d4adae743400dd441e257c6d66c00979ed"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/platform-DJMm_dIK.js",
+        "bytes": 6333,
+        "sha256": "253e7dfcc701a623de20bb877f12834cc38608efe6342ec14431c93ae61c209e"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-C_L1If-w.js",
+        "bytes": 28184,
+        "sha256": "4d5b5cea3bc13be2e3bc3c094cfe08876299e3e3e3c2d8126b88bc1d60a8a7f0"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/activity-preview-Cycn4Myr.js",
+        "bytes": 1152,
+        "sha256": "6d83d31a96f3dd319d5079981465562be6aaddefaba5edced51ccb833cdee163"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/language-fixtures-Sj8LYSnQ.js",
+        "bytes": 1374,
+        "sha256": "3ad0e31b774dbf196676fb210600adc61491f8d10b700963349b71cada6acfd3"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/workspace-BzhjwsEQ.js",
+        "bytes": 380237,
+        "sha256": "3c022387ddcf5896200cd3b81a184f95660b486f02ba20a4a7fa990a2feaf937"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/specimens-TM4ChrVS.js",
+        "bytes": 16489,
+        "sha256": "97b2a736848fb97c2c8570cc819c5f8d97d276b2147c837b8111698277d8ee54"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-visual-Ckg15WYD.js",
+        "bytes": 14707,
+        "sha256": "f7c8285a67c47bf14d88046b5f85e515a62b7125b619f3112d0fc3fbec1234cf"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/lab-client-Bl56BXUm.js",
+        "bytes": 3868,
+        "sha256": "57a49b07f2323900ab0c6f832b707007915896c8bd3d6c1c30ec87d91182ee15"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/record-uXSNv6cl.js",
+        "bytes": 79,
+        "sha256": "b9bdb7b7d0e4844d241dba61104d18111d61ef92af3f137d15749531d276f9cf"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/reader-fpz5TMdz.js",
+        "bytes": 112533,
+        "sha256": "db5f7a9eafab1937f1ba9c6d6ed40aea0739edca345bf22fa7753e7ff491884b"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/framework-D_rUT4EX.js",
+        "bytes": 190152,
+        "sha256": "939d0fabebb3b2f01753bb866b067d8d3384fb06da19f0e6557609d3b1a9f4f7"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-router-scroll-state-BkTWSAPb.js",
+        "bytes": 1532,
+        "sha256": "7f187b82c1831438c2f666dc3e35da6739722ad4307bb91a2dba9a803195b4f8"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-prefetch-fetch-queue-C-KJwPps.js",
+        "bytes": 1172,
+        "sha256": "659db5bd91a9408e3e995b76a0ef53a1e35b03034828693ab571e6b1afb638c4"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/sha2-Bc1stEKw.js",
+        "bytes": 7310,
+        "sha256": "b640dd9f922899b4459d859ca07e5ae9bba319ea4318976598685b9ef80364f7"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/reader-code-syntax-YhJis3bK.js",
+        "bytes": 2072,
+        "sha256": "80cd7baa801eba72992053dc97de3457a3753129052a00f8e5883385fd15435f"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/headers-8KBE7Tjy.js",
+        "bytes": 3328,
+        "sha256": "ba485173c05cf2f3fc5c5f37584aa1c76ed6b1a96bed191813b300375b9be434"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/math-C_8dBX3Q.js",
+        "bytes": 5171,
+        "sha256": "359d2c7208a9e339bc19f7358fd5ee9a957397a8e5b50df972b579ff5433daa6"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-DAwbSUt0.js",
+        "bytes": 35024,
+        "sha256": "1c2482e6a4efa64955dedcd190a1dde9cb1c72559c8a4f2324fb90af14d035ab"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/note-markdown-view-DYRtWD3X.js",
+        "bytes": 22606,
+        "sha256": "50ac03fbed662cc89f37bd705ecbb389f5f885758cc7318df159b98d1b5ad88d"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-Cn4W8ONe.js",
+        "bytes": 26895,
+        "sha256": "5ab3a9746bb2518b3922d6d3f078262086df7d9981fd53b40be6a04a430b3d01"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/novel-BarYmlcX.js",
+        "bytes": 4775,
+        "sha256": "02be1c796018696cf13c60cd2d978822488eedd90ca2b62e553a9dccb63413a7"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/layout-segment-context-D9jw4E9k.js",
+        "bytes": 534,
+        "sha256": "fd0ea4a44673d517098751f93824dcb277bce43c40eeef2005cea1b2815ea854"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/learning-atlas-B9qg9m11.js",
+        "bytes": 194023,
+        "sha256": "108f47869323c957d6a5e66b518b2ba5f164140a6749235ad3f81c4b52dd7aa9"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/deployment-id-Dv812N7y.js",
+        "bytes": 97,
+        "sha256": "cff727c88395e970914fe0fd68f0d2f78c51dc9ec13c7b6e6db8e5104ecb240b"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-python-demo-CE9XsReM.js",
+        "bytes": 4165,
+        "sha256": "c7d728146091fa1770db7c29ac993208e4b70e3d85cfe823569119d3cb947542"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-math-B7-rFUqn.js",
+        "bytes": 20197,
+        "sha256": "88bd5b88ef2c0f8cf7b9018b6978533c72fb7d5e380fd814b98fe481513cb246"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/navigation-BjVsIkVI.js",
+        "bytes": 57422,
+        "sha256": "7d43cc9632d74983017977cd5a3693ac3041fafb76ed2f9d22434a62c3d5e056"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+        "bytes": 694,
+        "sha256": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-NZjIFhHp.js",
+        "bytes": 84634,
+        "sha256": "0eff5bd95a448003c1dc9a798ae3d1716813c74edd821ad1b60098b4e94d50cb"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-gallery-BY4Xgsc5.js",
+        "bytes": 4720,
+        "sha256": "4ad404dd8bfabdb1993dceb725f08ed32278626b1636bf95bebe9a244f45128a"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/visual-three-B8XSJJDl.js",
+        "bytes": 536237,
+        "sha256": "7251d7e1d84d7c0ed13f16fd0e1b08da9fecbaae1c674f173bf25284d023ccf5"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/hash-DMuXySqZ.js",
+        "bytes": 256,
+        "sha256": "fba69692645d8206561e12edf1653f0f7931d0f14f8f753ec3be5031dfd004d1"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-elements-B3gm6KC-.js",
+        "bytes": 12828,
+        "sha256": "b5d214fdd501a892f72abf2b9816c2e97bc2b2e525d9f8e0909e30fc96faf1fa"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/learning-continuity-fixture-DHw0WsER.js",
+        "bytes": 3643,
+        "sha256": "b38f211a19a02eb9f658fd477bfa7e59626d95b5294146a5cf2a4f832952e509"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-browser-server-action-client-S7JHt4r1.js",
+        "bytes": 3549,
+        "sha256": "ca7d5f5ffe131816d78fc4abaffa4406f317a5180e2b34a930ddd4effa076e82"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/data-core-DN1rClEy.js",
+        "bytes": 12562,
+        "sha256": "7af1728991b911ca995da0c1aa8ab4ac4a20a8c493cd69a93db449e57b526329"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-route-prefetch-policy-COSP8V-x.js",
+        "bytes": 1061,
+        "sha256": "8f3ebf87765b561f7d39e2bdb20f5052a8729e4ec846efff567c3885ab4dbd8b"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/link-C_fIBYAi.js",
+        "bytes": 14514,
+        "sha256": "f5bc573901969ffabafd569dfd4939120068be594f12ae8827be767600687520"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/activity-studio-D60--IJp.js",
+        "bytes": 36772,
+        "sha256": "a08bf9d689daf5fabc27bc538d28d13ce1cb5a3fd912fae15135dc2b1f9458ef"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/preload-helper-5TPFiuuK.js",
+        "bytes": 1193,
+        "sha256": "0c88c6aaef07b19239a2eac9faef82584f9e733114f85dc190e98dcea60b1753"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-Bw4tdL4u.js",
+        "bytes": 23126,
+        "sha256": "31bee342a798415d3755a856b22ae02eeefbee524b57d5ff13d414a53be89aee"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/audio-core-CaOmS-4n.js",
+        "bytes": 4530,
+        "sha256": "b322acc4fdc96d3e1d469f0df81b92a23b7749304db1a393840623260cb5da8d"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/dist-DQIfJfU0.js",
+        "bytes": 13912,
+        "sha256": "512550977ebfb0f95b46eab36dd6388fd2e5d02bfe4363afa6853c9ec9b770a8"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-language-demo-DcCCvF0w.js",
+        "bytes": 12297,
+        "sha256": "1bbd558502666fc922f94c0e9c4ddf218dbd56641c4c096c0b008f5a04b88582"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/notes-workspace-BdO76ZjG.js",
+        "bytes": 29277,
+        "sha256": "8e5f87c34981e5c712ce01982ad44a4581b14f784bfafc95ae4415a57a5a413e"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/index-CUgc3PMY.js",
+        "bytes": 134675,
+        "sha256": "5c7e84640d915795fd5920b8122789773338cb7f1728fda2728b9ab69c4e7730"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/math-render-C0WzRmnl.js",
+        "bytes": 869,
+        "sha256": "c0501902a901a180522433dace39541bfa210f0ace843351fa5d89a950cdcbef"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/app-rsc-cache-busting-DbOEmbeB.js",
+        "bytes": 4974,
+        "sha256": "856fb83804f3b6b6f754fc685c33bd9ce6d153588433269a0a5ccceb745b4556"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/html-limited-bots-CKbY4On0.js",
+        "bytes": 7296,
+        "sha256": "21f3cd5e4bda11cc024ddba36eb1d566efce7c9f4bb2a2ef189bafac6b9618b0"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/protocol-headers-DrXyjimu.js",
+        "bytes": 327,
+        "sha256": "9b15d2c8452ddb9df5d6f2cfb3a23dd576a10dc0450fb72565d9f293abab0edd"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-data-demo-D3e8lVhU.js",
+        "bytes": 12173,
+        "sha256": "2180429e5025918bf170fc50204cb4c49dc0dc29de754d4f35dc8552ff8b2c59"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/client-proof-BLUYXhDu.js",
+        "bytes": 544,
+        "sha256": "66e716e910a0f828446b7c5d88ad9339f915835ab3f5fd7261a36b8e4b80c8a7"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/learning-experience-jaCdchHV.js",
+        "bytes": 19806,
+        "sha256": "79259cfcf661e2663be27776a3f96ad84b97438e2cbb5cb58d1717f83ca5b6cd"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/katex-DoqTKzd9.js",
+        "bytes": 259485,
+        "sha256": "242c814ded6aae513b77693fe95134fce5b1656ee1af3412f7c63aa192d3bef9"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/workspace-generation-B2YKOfDW.js",
+        "bytes": 1434,
+        "sha256": "eb10a7550d55ea7bbe9cd12f992d461e233b3bc9c2d5c76c1d3588c806a152af"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/python-runtime-KBIOGROV.js",
+        "bytes": 5536,
+        "sha256": "1a946ed3e438682b8fa747047f619a438b772cf7a18a662db7430a161bb3e67f"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/typed-output-view-Czfck2Pu.js",
+        "bytes": 1412,
+        "sha256": "a6d242f2c55057d1fb41d568af135d6b2c336c9c5c3cc7b5b4debba27cbf1076"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-audio-demo-DzN1OPJc.js",
+        "bytes": 6380,
+        "sha256": "d7ad6e1696ea8ec6f44fb2ec937682711e626d38274507d676b2d38eca00a3b8"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/note-rich-editor-BfcOu7cL.js",
+        "bytes": 176346,
+        "sha256": "0d41bc5cfec1b090f7d2fbf3e9799181d9d1b43e0a29568b744d39574ee9539f"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/base-path-BcCsO9j-.js",
+        "bytes": 132,
+        "sha256": "47e04cc1384cf80d72482920edc94243f46a67ca9b37423bd81a69bd4c91eac4"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/query-BfyC1S49.js",
+        "bytes": 984,
+        "sha256": "0a1973f3c6175c2655da2d796c0b590a07352ee8c22aed1a49cd90513fa34b02"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/foundry-language-renderer-RxHCYdgg.js",
+        "bytes": 2043,
+        "sha256": "c9538b5c89a17ebcddef172e0026c1cbadfdbdc6cfb2c4e916cd5692d49310de"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/interface-view-registry-DmIQuLKP.js",
+        "bytes": 1813,
+        "sha256": "208c8dbe72264958c25e458a4c745f6f2ce59cf862d7dc2a31620311575dc6ce"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/streamed-icons-DxFpn0IK.js",
+        "bytes": 772,
+        "sha256": "7eb2a6b44b9c0faa7300c8dd36b0fae7a35d9f65e139dd9046b3df193aa83bc8"
+      },
+      {
+        "path": "dist/client/_next/static/chunks/hybrid-client-route-owner-BCtfJGkV.js",
+        "bytes": 19546,
+        "sha256": "873ad12939728aef3b07f4d4d2152fb2056ecb08dd113f78e9a8695aa8b49508"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Bold.CFMepnvq.ttf",
+        "bytes": 24504,
+        "sha256": "1ece03f79f95277d57dc7f6b435a74e1379b0d46104a8530286b60ff49369ea0"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Italic.DN2j7dab.woff",
+        "bytes": 14112,
+        "sha256": "91ee67500cc0129aa0ace3ac5c61ff1692102f0f31d02b69347fba35dcb75bf2"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Script-Regular.D3wIWfF6.woff2",
+        "bytes": 9644,
+        "sha256": "036d4e95149b69ff9bcc0cd55771efeb25ffa3947293e69acd78d5ac328c684b"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Bold.D1sUS0GD.woff2",
+        "bytes": 12216,
+        "sha256": "e99ae51144bf1232efcc1bfe5add36262c6866b0faab24fa75740e1b98577a62"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_AMS-Regular.BQhdFMY1.woff2",
+        "bytes": 28076,
+        "sha256": "0cdd387c9590a1a9f9794560022dbb59654a7d86f187aa0c81495ad42d3a7308"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size4-Regular.BF-4gkZK.woff",
+        "bytes": 5980,
+        "sha256": "99f9c6750b489c9462bf04900bd3f939df9b829339daaaaa99ef5495cdddea58"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-BoldItalic.DxDJ3AOS.woff2",
+        "bytes": 16780,
+        "sha256": "99cd42a3c072d918f2f44984a807cf7aa16e13545fd0875fc07c6c65f99e715b"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Typewriter-Regular.D3Ib7_Hf.ttf",
+        "bytes": 27556,
+        "sha256": "f01f3e87d9c6a61c0c081ceb577abd864eb00a612f7ac1620dd6915fad2ef5aa"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Caligraphic-Bold.ATXxdsX0.ttf",
+        "bytes": 12368,
+        "sha256": "07d8e303ce4fc12b4bb54f1004170dd190a1f3db45d400fe68060df3e0897268"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-BoldItalic.DzxPMmG6.ttf",
+        "bytes": 32968,
+        "sha256": "70ee1f64a20f2048c21940ef46d0144fd215baa953ca69afd1e31e98544f708f"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Caligraphic-Regular.Di6jR-x-.woff2",
+        "bytes": 6908,
+        "sha256": "5d53e70ad607c2352162dec9e0923fb54ecdafaccbf604cd8dcf7d00facb989b"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Regular.BNo7hRIc.ttf",
+        "bytes": 19436,
+        "sha256": "f36ea897e19f4a2e571d1e900e4e3710e438deb05a842486045ba0a3e616a4ad"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Regular.ypZvNtVU.ttf",
+        "bytes": 53580,
+        "sha256": "d0332f52868370fd83ae7fa46470f90c8f2eab2fcf12bc4f88080b340c95a830"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size1-Regular.C195tn64.woff",
+        "bytes": 6496,
+        "sha256": "c943cc986384f59e86bea5fd7dc50a9c4dfe567a7c05eb40d6790720dead97c9"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Math-BoldItalic.iY-2wyZ7.woff",
+        "bytes": 18668,
+        "sha256": "850c0af5c2238497febaf5e461d880bf458c341f42f4f330f1b1ab5698b1998e"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Script-Regular.D5yQViql.woff",
+        "bytes": 10588,
+        "sha256": "d96cdf2b3bdd4d64a8fd5f74a4c467f123a8a73931cd435889f08ffaf9bf947a"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Caligraphic-Bold.Dq_IR9rO.woff2",
+        "bytes": 6912,
+        "sha256": "de7701e42cf1f4cf0b766c03fb27977207eee2f4fd5d76fa82188406da43ea4c"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Regular.CS6fqUqJ.woff",
+        "bytes": 12316,
+        "sha256": "11e4dc8a6471ff6d6ee561d53d10fde8f7489e798257ff449c5d37c197435605"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Fraktur-Bold.CL6g_b3V.woff2",
+        "bytes": 11348,
+        "sha256": "74444efd593c005e3f4573b44524704c0af0a937fe911cca9e94068d0d140d3f"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Fraktur-Bold.BdnERNNW.ttf",
+        "bytes": 19584,
+        "sha256": "9163df9c7122432e6495b4229fa9071cf9ae86a758ae5efc4924ec2e1a6dbce1"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Bold.Jm3AIy58.woff",
+        "bytes": 29912,
+        "sha256": "c76c5d696297d51b9cb1639c7da4334f0e7dec81b42b11213b5e25ef671bb822"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size3-Regular.gV2CO0n9.woff2",
+        "bytes": 3624,
+        "sha256": "73d591271b1604960cb10bb90fee021670af7297017e0e98480b332d11f51995"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Math-Italic.DA0__PXp.woff",
+        "bytes": 18748,
+        "sha256": "8a8d244581371912b8f3f5a23e2437cb2a59cd9bcaebb0346e722c05737a2571"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Math-Italic.t53AETM-.woff2",
+        "bytes": 16440,
+        "sha256": "7af58c5ec8f132a2ddde9027c6d7814decce4d3b822a11192a42a20e2e973264"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Italic.BMLOBm91.woff",
+        "bytes": 19676,
+        "sha256": "f1d6ef86f3b11a528bd5185199bd2443ecb2b0dead96d88674b5a2c12be24bdf"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size4-Regular.Dl5lxZxV.woff2",
+        "bytes": 4928,
+        "sha256": "a4af7d414440a1c1790825cfb700cf9cf43b0f2c4b04f0ebc523011ad9853ec0"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size1-Regular.Dbsnue_I.ttf",
+        "bytes": 12228,
+        "sha256": "95b6d2f1a50173bfedb8c63e1d1c99b10427d0a4df4201cb44513b226951a22b"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Math-Italic.flOr_0UB.ttf",
+        "bytes": 31308,
+        "sha256": "08ce98e51b04d58945a301e639e02b6998af29fdfd61a7b8afdd07bbfc479d4a"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_AMS-Regular.DRggAlZN.ttf",
+        "bytes": 63632,
+        "sha256": "68534840bcfdd2bffb6f0e8deb48684dd01e7f04ea2813267577afb906de1d13"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Bold.Cx986IdX.woff2",
+        "bytes": 25324,
+        "sha256": "0f60d1b897938ec918c8ce073092411baf9438f6739465693ff18b0f9d20b021"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Caligraphic-Bold.BEiXGLvX.woff",
+        "bytes": 7716,
+        "sha256": "1ae6bd7475590e97e7f145a89e09ccde322f7a6bc0b91607b1c8b8ee28290fed"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Italic.3WenGoN9.ttf",
+        "bytes": 33580,
+        "sha256": "0d85ae7cc30f23790a7f1a58c4a112fdca8aae769b6ba11429af1d98b1b6cb3a"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Caligraphic-Regular.wX97UBjC.ttf",
+        "bytes": 12344,
+        "sha256": "ed0b74372feefcbb9c0666b2e210da37b7e49fa7fbbf3eeb11db5f693dacfbb7"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Bold.DbIhKOiC.woff",
+        "bytes": 14408,
+        "sha256": "ece03cfd83e22c212cdef66feb8442d25a083beb988db3f1883f3f9738d750ba"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size4-Regular.DWFBv043.ttf",
+        "bytes": 10364,
+        "sha256": "c647367d1dd4e162468717d020e1fc0f1dc5c26ebfdffbe55261713bf88c5877"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Bold.waoOVXN0.ttf",
+        "bytes": 51336,
+        "sha256": "138ac28d1663b3037e9c5f52371fa5c63d8324f4a38d22cd573e6ea3a3fd0cf8"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Typewriter-Regular.C0xS9mPB.woff",
+        "bytes": 16028,
+        "sha256": "e14fed02b1aba7ce9f5afd5844b5d0321b22351febc720e0de8b8723527609f7"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Italic.NWA7e6Wa.woff2",
+        "bytes": 16988,
+        "sha256": "97479ca6cce906abc961ecac96faa5f9ca2e61b8e7670d475826bcdee9a7c267"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-BoldItalic.SpSLRI95.woff",
+        "bytes": 19412,
+        "sha256": "a6f7ec0d846ac7ad975adb8959c37ed49b94acbc4ae436db9ce9e20287e4a64c"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Fraktur-Regular.CTYiF6lA.woff2",
+        "bytes": 11316,
+        "sha256": "51814d270d06ff0255dba0799994fa4d8c84d11f09951d47595f4abb1f3602dc"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size3-Regular.DgpXs0kz.ttf",
+        "bytes": 7588,
+        "sha256": "500e04d54f0d51666332c9d2089aa803be22aa878eca539e59fa53c6e522b082"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Italic.YYjJ1zSn.ttf",
+        "bytes": 22364,
+        "sha256": "3931dd81faed86ba021bb2bbdc36f5bed9a38d6b4f4077aca59b265aa1b02083"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Regular.DDBCnlJ7.woff2",
+        "bytes": 10344,
+        "sha256": "68e8c73ef42afd3ccec58bf0fba302cce448938e7fc020a5e31f8a952eee1342"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Script-Regular.C5JkGWo-.ttf",
+        "bytes": 16648,
+        "sha256": "1c67f068fea8bb09bf099c088b1cf64bd27516a6e07f4684344873564bb66a67"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Typewriter-Regular.CO6r4hn1.woff2",
+        "bytes": 13568,
+        "sha256": "71d517d67827787cfabdf186914cc3358eda539e37931941f2b2fd4a21f68c0b"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size2-Regular.B7gKUWhC.ttf",
+        "bytes": 11508,
+        "sha256": "a6b2099fb555c60e3a0db3a08842ebf1d732c6eb4e4bf44913613bed4fc4e39b"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Fraktur-Regular.Dxdc4cR9.woff",
+        "bytes": 13208,
+        "sha256": "5e28753be717dac97f559f49bc10be9cf3c124ddcabda6659d11cb68febc6463"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Regular.B22Nviop.woff2",
+        "bytes": 26272,
+        "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size2-Regular.oD1tc_U0.woff",
+        "bytes": 6188,
+        "sha256": "2014c523c3210bcc166648c4d4cc57f05b747df07a24277bf71c51e67dc79e3d"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Math-BoldItalic.CZnvNsCZ.woff2",
+        "bytes": 16400,
+        "sha256": "dc47344dbb6cb5b655c8460d561f4df5f501b90c804ad3c6cec65fe322351ab1"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size1-Regular.mCD8mA8B.woff2",
+        "bytes": 5468,
+        "sha256": "6b47c40166b6dbe21a5dfca7718413f2147fd2399be1ba605d8ad39cedf25dfe"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Fraktur-Regular.CB_wures.ttf",
+        "bytes": 19572,
+        "sha256": "1e6f9579e90e2cac37f8f60a597c436e075c114385652b7cbeb0dec0421291b3"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Fraktur-Bold.BsDP51OF.woff",
+        "bytes": 13296,
+        "sha256": "9be7ceb88004ab8ad124082246fbfcca4091e36385d4ec6ed1df67375dad50fb"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Math-BoldItalic.B3XSjfu4.ttf",
+        "bytes": 31196,
+        "sha256": "f9377ab0271cda59af24bcffbd46a4d0c8a3572ffafdbb38de2ad5ea7b0d5ee5"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size2-Regular.Dy4dx90m.woff2",
+        "bytes": 5208,
+        "sha256": "d04c54219f9eaec6d4d4fd42dfb28785975a4794d6b2fc71e566b9cd6db842dd"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Size3-Regular.CTq5MqoE.woff",
+        "bytes": 4420,
+        "sha256": "6ab6b62e9b62dae2c00dd90f791bd10950be0ecc3490d7d6045f51c2e8fe0949"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_AMS-Regular.DMm9YOAa.woff",
+        "bytes": 33516,
+        "sha256": "30da91e84c893f875e252689faebdc590b2871145e8adc7f9a9d4dbd8ce0b251"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_SansSerif-Italic.C3H0VqGB.woff2",
+        "bytes": 12028,
+        "sha256": "00b26ac825e2095056396e0553b8ac26d3f8ad158c3826e28b4c45b385c4714a"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Main-Regular.Dr94JaBh.woff",
+        "bytes": 30772,
+        "sha256": "c6368d87e8a1a3a5d337623d83d8dc4b868f242a9ad476237d6f8d1e0f168cdc"
+      },
+      {
+        "path": "dist/client/_next/static/media/KaTeX_Caligraphic-Regular.CTRA-rTL.woff",
+        "bytes": 7656,
+        "sha256": "3398dd02302557a793f2863f88e02d96ce10df2abffa07c8e9fa90775116e65c"
+      },
+      {
+        "path": "dist/client/.assetsignore",
+        "bytes": 30,
+        "sha256": "14ce8d5101f6d8f172242053466d44f5e2cd622dee81db53c14bd445c25d1942"
+      },
+      {
+        "path": "dist/client/_headers",
+        "bytes": 131,
+        "sha256": "2148fb62669525f5091532d36d4a48a8da95b08a5a797bacde75d2fe981351bb"
+      },
+      {
+        "path": "dist/client/favicon.svg",
+        "bytes": 712,
+        "sha256": "e6d2e59b7b5bbb0342e0fb496dfc262decbfe4426bbb7b047aec8d467d1dc6f7"
+      },
+      {
+        "path": "dist/client/runtime/versions.json",
+        "bytes": 37,
+        "sha256": "b8ede1e4ba82af401212db321a9095d7802f13c6d56c429e8c29e26fa97e05e6"
+      },
+      {
+        "path": "dist/client/runtime/sql-wasm.wasm",
+        "bytes": 659806,
+        "sha256": "0734155c83e493983d1f2ff5b09a4fab6e35a32e9449c7e4e545756439f62d73"
+      },
+      {
+        "path": "dist/client/runtime/sql-wasm.js",
+        "bytes": 48788,
+        "sha256": "694ca5b36aa3e6e71f417819d7df390b65343665fcfa5c69015ca33d93d291b3"
+      },
+      {
+        "path": "dist/client/runtime/sqljs-LICENSE",
+        "bytes": 2199,
+        "sha256": "60a3f6e4d7b29b4321359e683b36cf198d24f58e24582070f56e6fa89d5ee2be"
+      },
+      {
+        "path": "dist/client/runtime/NOTICE.txt",
+        "bytes": 222,
+        "sha256": "f36ac67e9a14841e60ef2e20af25b02708d8aaba7c07f508906de6307e444de7"
+      },
+      {
+        "path": "dist/client/runtime/pyodide/pyodide-lock.json",
+        "bytes": 109732,
+        "sha256": "f6e6f42f451f42affbbcddb00e8c9a3278dcbf399f57aab9f3f568839a7ff4a6"
+      },
+      {
+        "path": "dist/client/runtime/pyodide/pyodide.js",
+        "bytes": 17331,
+        "sha256": "24a458425dcb4ea9836eb5ce26701d18cb769374e2b79247602ba605bf093278"
+      },
+      {
+        "path": "dist/client/runtime/pyodide/pyodide.asm.wasm",
+        "bytes": 8645967,
+        "sha256": "5effb6a1a6cc4a1a85bec4622701aa797c031e1de923cbbaf2ad47abdc4ab325"
+      },
+      {
+        "path": "dist/client/runtime/pyodide/pyodide.asm.js",
+        "bytes": 1073033,
+        "sha256": "b22e5831eade9ff10e6fe2c811c68688cd91f10154377b4f80debcf5bafa1e56"
+      },
+      {
+        "path": "dist/client/runtime/pyodide/python_stdlib.zip",
+        "bytes": 2416866,
+        "sha256": "71fee17f88a6260ec8c9c7c063533ee59c021fdc88a1ce76247378d3c4a35f4c"
+      },
+      {
+        "path": "dist/client/.vite/manifest.json",
+        "bytes": 61977,
+        "sha256": "ac5e4764db2ce9d5418916e4f6915bb8fc561839c4064a6b17697f031dfa3e49"
+      },
+      {
+        "path": "dist/client/tools/tool-worker.js",
+        "bytes": 2539,
+        "sha256": "cca305a100da375fc22a4f93fbf71dca34b3ba8a3348eb33add3d2947292cb6a"
+      },
+      {
+        "path": "dist/client/tools/python-isolate.js",
+        "bytes": 3274,
+        "sha256": "bf93338e885e58b04fe7357aca823bc77dd7df3c353c378942e872e6bb980b90"
+      },
+      {
+        "path": "dist/client/tools/web-isolate.html",
+        "bytes": 381,
+        "sha256": "32ebad4126c53cee21796fa746f48d3b18e20eae1a19f015b0de24e56d3283d7"
+      },
+      {
+        "path": "dist/client/tools/python-isolate.html",
+        "bytes": 413,
+        "sha256": "2a67d8f32fcb230df99cedb67b462f8fead2be7ef13802c2b072e43f095259ec"
+      },
+      {
+        "path": "dist/client/tools/web-isolate.js",
+        "bytes": 1125,
+        "sha256": "128881997cfc88d102c6e33aa11fa8b979894711a9c076631b797bbe7cacd7d9"
+      },
+      {
+        "path": "dist/client/vinext-client-entry-manifest.json",
+        "bytes": 65,
+        "sha256": "348421a94b74016c7b596a0653b8e988d4d109f30994b79110e7dd53c99c2661"
+      }
+    ]
+  },
+  "storedArchiveQualification": "Saved version archive_storage reports a separate tar-format hash/size. It is not byte-identical to the local compressed or decompressed archive. Transformation/normalization was not independently established; no deployed-file-byte equality is asserted. Native API accepted the supplied archive with the exact saved source commit.",
+  "samePackageGuardEvidence": {
+    "path": "evidence/deployed-package-compiled-guards.log.gz",
+    "uncompressedSha256": "1579052a89349880ade9df035b945ba43b4624a2b54450a697032e8cb953e055",
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 5819.050443,
+    "auditReranTests": false
+  },
+  "environmentQualification": "Read-only deployment metadata verifies environment revisions2 and3. Environment variable values, including TLDRAW_LICENSE_KEY, were not read by this audit. Two core flags and unchanged license value are release-owner-reported configuration actions, not independently disclosed here.",
+  "remainingAcceptance": "Root-owned authenticated workflow acceptance, corpus comparison and synthetic cleanup were ongoing at this audit. No overall acceptance or cleanup-complete claim is made.",
+  "remoteCIGreen": false,
+  "productionMutationByAuditor": false,
+  "browserOperationByAuditor": false
+}

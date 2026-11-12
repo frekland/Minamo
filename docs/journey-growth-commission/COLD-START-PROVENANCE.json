@@ -1,0 +1,50 @@
+{
+  "synthetic": true,
+  "hosted": false,
+  "productionWrites": 0,
+  "protocol": {
+    "tutorContexts": "Two fresh model contexts without inherited conversation, test setup, record IDs, expected next action or private evaluator guidance. Parent retains returned tutor prose separately.",
+    "userRequest": "Use minamo. Let’s continue the queue project.",
+    "permittedInterface": "Normal actual compiled domainHandler MCP JSON-RPC tools/list/tools/call, carried over an isolated filesystem transport because executor loopback networks are not shared.",
+    "setup": "Accelerated synthetic capture, not longitudinal human use. Seven contextual short Notes across three Investigations plus one unrelated Note, one Annotation, one bookmark, one external terminal block, and one explicit checkpoint; a Note intention was edited after that checkpoint. No consolidated resume dossier was authored. The second condition adds one independent similarly named Journey.",
+    "storage": "Isolated Miniflare D1/R2 only. Both harness processes were stopped after run-named traces were frozen. No hosted test records were created, and no production records or permissions were touched.",
+    "scopeLimit": "These model-based continuations do not establish measured human learning gains, reliability rates or physical Android usability."
+  },
+  "runs": [
+    {
+      "condition": "primary",
+      "trace": "cold-start-tool-trace-primary.json",
+      "events": 5,
+      "catalogueReads": 2,
+      "domainReadCalls": 3,
+      "domainCalls": [
+        "get_minamo_learning_context",
+        "get_minamo_learning_context",
+        "read_minamo_record"
+      ],
+      "domainResponseBytes": 40033,
+      "initialQuery": "queue project",
+      "suppliedInitialRecordIds": false,
+      "writes": 0
+    },
+    {
+      "condition": "ambiguous",
+      "trace": "cold-start-tool-trace-ambiguous.json",
+      "events": 2,
+      "catalogueReads": 1,
+      "domainReadCalls": 1,
+      "domainCalls": [
+        "get_minamo_learning_context"
+      ],
+      "domainResponseBytes": 1481,
+      "initialQuery": "queue project",
+      "suppliedInitialRecordIds": false,
+      "writes": 0
+    }
+  ],
+  "observedOutcome": {
+    "primary": "Parent reports that the returning tutor recovered the post-checkpoint retry/shutdown intention and framed the next experiment as untested. Parent retains the tutor transcript separately; tool traces alone do not establish every dimension of response quality.",
+    "ambiguous": "Parent reports that the fresh tutor asked which of the two matching projects the learner intended and did not choose or merge their work.",
+    "exactCapture": "Semantic capture exact-read/persistence is separately exercised in automated interoperability acceptance; the primary fresh tutor chose an exact linked Article read, rather than an exact terminal read."
+  }
+}

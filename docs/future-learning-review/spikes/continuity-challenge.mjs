@@ -1,0 +1,57 @@
+/** TEST ONLY: isolated local D1/R2 fixture; no production/connected Minamo access. */
+import assert from 'node:assert/strict';
+import {resolve,join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {writeFileSync} from 'node:fs';
+const arg=process.argv.indexOf('--checkout');
+if(arg<0||!process.argv[arg+1])throw Error('Use --checkout /absolute/minamo-v2-checkout');
+const checkout=resolve(process.argv[arg+1]);
+const contextArg=process.argv.indexOf('--contexts');
+if(contextArg>=0&&!process.argv[contextArg+1])throw Error('--contexts needs an output path');
+const contextOutput=contextArg>=0?resolve(process.argv[contextArg+1]):undefined;
+process.chdir(checkout);
+const {privateStorageFixture}=await import(pathToFileURL(join(checkout,'tests/private-storage-fixture.mjs')).href);
+const timeout=setTimeout(()=>{process.stderr.write('Local continuity fixture exceeded 40 seconds. No production access occurred.\n');process.exit(2)},40000);
+const worker="import {domainHandler} from './lib/domain-handler.ts';export default {fetch:domainHandler}";
+const f=await privateStorageFixture(worker);
+try{
+ const c=f.client('TEST-ONLY-PR27-continuity-challenge'),target={kind:'investigation',investigationId:'TEST-ONLY-question'};
+ const created=await c.command({action:'create',family:'investigation',id:target.investigationId,data:{title:'TEST ONLY choose a local diagnostic approach',body:'Compare useful supplied evidence. No observed execution is asserted.',synthetic:true,learningShape:{version:2,kind:'investigation',question:'Which local diagnostic approach is useful?'}}});assert.equal(created.status,200);
+ const base={intent:'explicit-user-checkpoint',expectedGeneration:'legacy@0',target,expectedTargetRev:1};
+ const save=async(id,development,extra={})=>{const r=await c.request('/api/learning-developments',{...base,operationId:id,development,...extra});assert.equal(r.status,200,JSON.stringify(r.data));return r;};
+ const read=async(options={})=>{const r=await c.request('/api/learning-context',{scope:'target',target,...options});assert.equal(r.status,200,JSON.stringify(r.data));return r.data;};
+ await save('c0-choice',{summary:'Prefer a local metadata experiment for a recorded reason.',decisions:[{choice:'Use local metadata first; abandon remote audio-feature inference for now.',reason:'TEST_ONLY_EARLIER_RATIONALE: remote access has not been established and titles do not prove sound.',status:'provisional',basis:'provisional'}],facts:[{role:'misconception',text:'TEST_ONLY_MISCONCEPTION: a title alone establishes how a song sounds.',basis:'learner-reported'},{role:'correction',text:'TEST_ONLY_CORRECTION: titles are evidence about labels, not listening experience.',basis:'gpt-interpretation'}],nextAction:'Inspect one supplied local fixture.'},{expectedPerspectiveRev:0,perspective:{summary:'TEST_ONLY_PERSPECTIVE: local metadata first is provisional; remote audio-feature access is unestablished and labels do not establish sound.',dependencies:[{id:'c0-choice',revision:1}]}});
+ for(let i=1;i<=6;i++)await save('c'+i+'-attempt',{summary:'TEST ONLY narrow reported attempt '+i,facts:[{role:'attempt',text:'The learner reports inspecting fixture item '+i,basis:'learner-reported'}],nextAction:'Compare fixture item '+(i+1)+'.'});
+ const count=Number((await f.db.prepare('SELECT count(*) n FROM v2_learning_developments').first()).n);
+ const tutor=await read({profile:'tutor'}),full=await read({profile:'full'}),widerTutor=await read({profile:'tutor',limit:8});
+ const mcp=await c.request('/mcp',{jsonrpc:'2.0',id:1,method:'tools/call',params:{name:'get_minamo_learning_context',arguments:{purpose:'TEST ONLY fresh-conversation recall in an isolated fixture',scope:'target',target}}});assert.equal(mcp.status,200);const mcpTutor=JSON.parse(mcp.data.result.content[0].text);assert.equal(mcpTutor.profile,'tutor');assert.equal(mcpTutor.resume.source.id,'c6-attempt');
+ assert.equal(tutor.resume.source.id,'c6-attempt');assert.equal(tutor.priorCheckpoints.length,3);assert.ok(tutor.nextCursor);
+ assert.ok(!JSON.stringify(tutor).includes('TEST_ONLY_EARLIER_RATIONALE'));assert.ok(JSON.stringify(full).includes('TEST_ONLY_EARLIER_RATIONALE'));
+ assert.equal(tutor.perspective,undefined);assert.ok(full.perspective.summary.includes('TEST_ONLY_PERSPECTIVE'));assert.equal(full.perspective.stale,undefined);
+ const second=await read({profile:'tutor',cursor:tutor.nextCursor});assert.equal(second.resume.source.id,'c2-attempt');
+ const correction=await c.request('/api/learning-developments/revise',{...base,operationId:'revise-old-choice',id:'c0-choice',expectedRev:1,development:{summary:'TEST ONLY corrected earlier choice; it remains a provisional account.',kind:'correction',decisions:[{choice:'Keep local metadata first, without inferring sound.',reason:'TEST_ONLY_REVISED_REASON: clarify what the supplied evidence can establish.',status:'provisional',basis:'gpt-interpretation'}],facts:[{role:'correction',text:'The initial title-based interpretation was too strong.',basis:'gpt-interpretation'}]}});assert.equal(correction.status,200,JSON.stringify(correction.data));
+ const corrected=await read({profile:'tutor'}),correctedFull=await read({profile:'full'});assert.equal(corrected.resume.source.id,'c0-choice');assert.equal(corrected.resume.source.revision,2);assert.ok(!JSON.stringify(corrected).includes('TEST_ONLY_EARLIER_RATIONALE'));assert.equal(correctedFull.perspective.stale,true);assert.equal(correctedFull.perspective.summary,'');
+ const withdraw=await c.request('/api/learning-developments/revise',{...base,operationId:'withdraw-old-choice',id:'c0-choice',expectedRev:2,withdraw:true});assert.equal(withdraw.status,200,JSON.stringify(withdraw.data));
+ const withdrawnTutor=await read({profile:'tutor'}),withdrawnFull=await read({profile:'full'});
+ assert.equal(withdrawnTutor.resume.source.id,'c6-attempt');assert.ok(!JSON.stringify(withdrawnTutor).includes('TEST_ONLY_REVISED_REASON'));assert.ok(withdrawnFull.developments.some(d=>d.id==='c0-choice'&&d.withdrawn));assert.equal(withdrawnFull.perspective.stale,true);assert.equal(withdrawnFull.perspective.summary,'');
+ const readsAfter=Number((await f.db.prepare('SELECT count(*) n FROM v2_learning_developments').first()).n);assert.equal(readsAfter,count);
+ const bytes=x=>Buffer.byteLength(JSON.stringify(x));
+ // Excessive authored detail remains valid, but can drown a useful current constraint.
+ const largeFacts=Array.from({length:12},(_,i)=>({role:'attempt',basis:'learner-reported',text:('TEST ONLY verbose supplied narrative '+i+': reviewed a local fixture row, compared the displayed label, copied a disposable object, inspected a shell prompt and discussed a spelling variation. ').repeat(7)}));
+ largeFacts.push({role:'correction',basis:'gpt-interpretation',text:'TEST_ONLY_DECISIVE_CONSTRAINT: titles describe labels; no permission or evidence supports remote audio-feature access or claims about how a song sounds.'});
+ const largeDevelopment={summary:'TEST ONLY continue the local metadata/parser exercise. The learner wants to understand code rather than receive a finished app.',decisions:[{choice:'Keep the experiment local and inspect one object property.',reason:'The prerequisite is basic value/array reasoning; no supported remote audio-feature access is established.',status:'provisional',basis:'provisional'}],facts:largeFacts,nextAction:'Predict the result of one property access, then inspect the supplied value; do not start remote OAuth work.',nextQuestions:['Which expression supplies the displayed label?']};
+ const largeRequest={...base,operationId:'c7-large',development:largeDevelopment};const largeSaved=await c.request('/api/learning-developments',largeRequest);assert.equal(largeSaved.status,200,JSON.stringify(largeSaved.data));
+ const largeTutor=await read({profile:'tutor'}),largeFull=await read({profile:'full'});assert.ok(JSON.stringify(largeTutor).includes('TEST_ONLY_DECISIVE_CONSTRAINT'));assert.equal(largeTutor.resume.attempts.length,12);
+ const result={fixture:'synthetic local compiled domain + actual Miniflare D1/R2',baselineRecords:7,defaultTutorLimit:4,
+ initial:{tutorBytes:bytes(tutor),fullBytes:bytes(full),widerTutorBytes:bytes(widerTutor),mcpDefaultTutorInnerBytes:bytes(mcpTutor),tutorResume:tutor.resume.source.id,tutorPriorIds:tutor.priorCheckpoints.map(d=>d.id),earlierRationaleInTutor:false,earlierRationaleInFull:true,earlierRationaleInWiderTutor:JSON.stringify(widerTutor).includes('TEST_ONLY_EARLIER_RATIONALE'),hasHistoryCursor:true},
+ historyPage:{bytes:bytes(second),resumeId:second.resume.source.id,containsEarlierRationale:JSON.stringify(second).includes('TEST_ONLY_EARLIER_RATIONALE'),hasPageRoleField:'pageRole' in second,globalLatestId:'c6-attempt'},
+ correction:{tutorBytes:bytes(corrected),resumeId:corrected.resume.source.id,revision:corrected.resume.source.revision,resumeHasNextAction:!!corrected.resume.nextAction,mostRecentAttemptNextAction:tutor.resume.nextAction,originalRationaleInPayload:JSON.stringify(corrected).includes('TEST_ONLY_EARLIER_RATIONALE'),storedRevisionRowsAfterCorrectionAndWithdrawal:Number((await f.db.prepare('SELECT count(*) n FROM v2_learning_development_revisions WHERE development_id=?').bind('c0-choice').first()).n)},
+ withdrawal:{tutorBytes:bytes(withdrawnTutor),resumeId:withdrawnTutor.resume.source.id,withdrawnDevelopmentInTutor:JSON.stringify(withdrawnTutor).includes('c0-choice'),withdrawnDevelopmentInFull:withdrawnFull.developments.some(d=>d.id==='c0-choice'&&d.withdrawn)},
+ optionalPerspective:{savedOnExplicitInitialCheckpoint:true,initialTutorPresent:!!tutor.perspective,initialFullPresent:!!full.perspective,summaryAfterSixLaterAttempts:full.perspective.summary,dependencies:full.perspective.dependencies,afterCorrection:{stale:correctedFull.perspective.stale,summary:correctedFull.perspective.summary},afterWithdrawal:{stale:withdrawnFull.perspective.stale,summary:withdrawnFull.perspective.summary}},
+ readOnlyCheck:{recordsBeforeReads:count,recordsAfterReads:readsAfter},
+ overDetailedCurrent:{developmentRequestBytes:bytes(largeRequest),tutorBytes:bytes(largeTutor),fullBytes:bytes(largeFull),attemptFactsReturned:largeTutor.resume.attempts.length,decisiveConstraintPreserved:JSON.stringify(largeTutor).includes('TEST_ONLY_DECISIVE_CONSTRAINT'),nextActionPreserved:largeTutor.resume.nextAction===largeDevelopment.nextAction,wholePartDetailsDeferred:largeTutor.currentTask.deferredParts?.length??0,evidenceDetailsTruncated:largeTutor.evidenceDetailsTruncated},
+ limitations:'Seven small checkpoints plus one excessive authored-detail checkpoint on one synthetic target. Compiled local domain/MCP with actual Miniflare D1/R2, not hosted client delivery or an independently executed fresh GPT tutoring conversation. No genuine learner records or production access. Rights revocation is covered by existing source/tests, not repeated in this fixture.'};
+ const contexts={syntheticOnly:true,purpose:'Independent assessment of how a principal GPT should tutor from bounded saved context, not a learner transcript.',initialTutor:tutor,initialWiderTutor:widerTutor,initialFull:full,historyPage:second,afterOldCorrection:corrected,afterOldCorrectionFull:correctedFull,afterWithdrawal:withdrawnTutor,afterWithdrawalFull:withdrawnFull,overDetailedTutor:largeTutor};
+ if(contextOutput)writeFileSync(contextOutput,JSON.stringify(contexts,null,2)+'\n');
+ console.log(JSON.stringify(result,null,2));
+}finally{clearTimeout(timeout);await f.dispose();}

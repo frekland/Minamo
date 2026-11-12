@@ -1,0 +1,12 @@
+{
+  "evaluatedHead": "e2057363b32f6a1dcf196b52ad0e488f06abafd6",
+  "runs": [
+    {"id": 40227989205, "conclusion": "failure", "url": "https://github.com/frekland/minamo-v2/actions/runs/40227989205"},
+    {"id": 40227986257, "conclusion": "failure", "url": "https://github.com/frekland/minamo-v2/actions/runs/40227986257"}
+  ],
+  "job": {"id": 121273406115, "name": "verify", "steps": [], "runnerId": 0, "elapsedSeconds": 2},
+  "logRetrieval": "404 BlobNotFound",
+  "cause": "unestablished; no billing, runner or application diagnosis claimed",
+  "localValidation": {"typecheck": "pass", "productionBuild": "pass", "tests": 1001, "passed": 1000, "failed": 0, "existingCargoSkip": 1},
+  "releaseGate": "Inspect actual provider annotations or restore normal runner/log availability and obtain a real CI result before production release. Do not change billing, permissions or code without evidence."
+}

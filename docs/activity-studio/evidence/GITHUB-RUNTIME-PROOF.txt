@@ -1,0 +1,1 @@
+{"baseline":1,"repaired":0,"continuity":{"activities":1,"attempts":1,"commit":"d51a4661fa99135b6cba805557138d90ca94b436","verification":"supplied-unverified","nextIntention":"Investigate persistent framing: why EOF cannot be every protocol boundary."}}

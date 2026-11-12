@@ -1,0 +1,30 @@
+{
+  "purpose": "Read-only preview of an original synthetic Japanese Language Investigation.",
+  "operationId": "PR61-20261026-LANG-preview-1",
+  "expectedGeneration": "legacy@0",
+  "synthetic": true,
+  "detail": true,
+  "existing": [],
+  "manuscript": {
+    "version": 1,
+    "brief": "Prepare a concise synthetic Language Investigation on why Japanese は and が can change what a listener treats as new information. Prefix title/id PR61-20261026-LANG. Use a narrower dedicated introductory Question: paragraph and short meaningful examples with ruby if guidance supports it. Teach subject first. No arbitrary pedagogical quotas or admin commentary in teaching. Do not mutate/publish.",
+    "documents": [
+      {
+        "key": "PR61-20261026-LANG",
+        "title": "PR61-20261026-LANG — What changes when 山田さんが becomes 山田さんは?",
+        "role": "investigation",
+        "learningScope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "ja"
+          ],
+          "provenance": "authored"
+        },
+        "markdown": "# PR61-20261026-LANG — What changes when 山田さんが becomes 山田さんは?\n\nQuestion: When the listener already knows Yamada, why can changing が to は change whether the sentence answers “Who came?” or gives news about Yamada?\n\n## Start with the subject\n\nThe subject is the person or thing that the predicate says something about. In 山田さんが来ました。 (“Yamada came”), 来ました describes coming, and 山田さん is its subject. が marks that subject. A subject need not be an unfamiliar person: you can know Yamada well and still not know that Yamada was the person who came.\n\n```minamo-language\n{\"version\":1,\"text\":\"山田さんが来ました。\",\"language\":\"ja\",\"direction\":\"ltr\",\"cues\":[{\"expression\":\"山田\",\"reading\":\"やまだ\",\"occurrence\":1,\"origin\":\"author-verified\"},{\"expression\":\"来ました\",\"reading\":\"きました\",\"occurrence\":1,\"origin\":\"author-verified\",\"gloss\":\"came\"}],\"translation\":{\"text\":\"Yamada came.\",\"language\":\"en\",\"direction\":\"ltr\",\"provenance\":\"authored-translation\"}}\n```\n\n## A topic gives the listener a starting point\n\nは, pronounced *wa* as a particle, presents a topic: roughly, “as for this person or thing…”. The following comment supplies what the speaker wants to say about it. In 山田さんは来ました。, Yamada is the starting point and “came” is the comment.\n\nThis is a difference in how information is packaged. The same person can be both the subject of coming and the topic of the conversation. は and が are not two interchangeable labels for “subject”.\n\n```minamo-language\n{\"version\":1,\"text\":\"山田さんは来ました。\",\"language\":\"ja\",\"direction\":\"ltr\",\"cues\":[{\"expression\":\"山田\",\"reading\":\"やまだ\",\"occurrence\":1,\"origin\":\"author-verified\"},{\"expression\":\"来ました\",\"reading\":\"きました\",\"occurrence\":1,\"origin\":\"author-verified\",\"gloss\":\"came\"}],\"translation\":{\"text\":\"As for Yamada, they came.\",\"language\":\"en\",\"direction\":\"ltr\",\"provenance\":\"authored-translation\"}}\n```\n\n## Change the question, then compare the reply\n\nImagine that you and your listener both know Yamada.\n\n| What the listener wants to know | A fitting reply | What the reply contributes |\n| --- | --- | --- |\n| “Who came?” | 山田さんが来ました。 | It identifies Yamada as the person who came. |\n| “What about Yamada—did they come?” | 山田さんは来ました。 | It says that coming is true of the person already being discussed. |\n\nIn the first exchange, the missing information is an identity. が fits the identification. In the second, Yamada is already the topic; the missing information is what happened to that person. は frames the reply around that topic.\n\nTry swapping the replies. A は reply to “Who came?” may sound like “Yamada came, at least…” rather than a straightforward identification. It can invite a contrast with other people. That possible contrast does **not** prove that anyone else stayed away.\n\n## Test the boundary of the explanation\n\n“が means new information” is a useful first approximation, not a rule that the noun itself must be new. In an announcement such as 雨が降っています。 (“It is raining”), the whole situation can be news; が need not single out “rain” as the only new part. Context and emphasis help determine the focus.\n\nTo investigate the opening question, keep 山田さん and 来ました unchanged. Imagine each reply after the two questions above, and explain what the listener was missing before the reply. Then consider a contrasting context: “Tanaka could not come. What about Yamada?” Which reply makes that shift of topic easier to hear? Treat these as interpretations to compare, rather than evidence that a particle mechanically fixes one meaning in every context.\n\nFor further examples of topic, identification and contrast, see [Mango Languages: は and が](https://www.mangolanguages.com/resources/learn/grammar/japanese/what-is-the-difference-between-wa-and-ga-in-japanese-).\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-25",
+  "environment": {
+    "runtime": "v24.22.1",
+    "platform": "linux",
+    "arch": "x64",
+    "browser": false,
+    "physicalDevice": false
+  },
+  "source": [
+    {
+      "path": "lib/foundry/visual.ts",
+      "bytes": 22577,
+      "sha256": "376f586c64ad68d1a2a4ea7bf1a1c3bf973e8cb7bc84c56e2eee166cf08a5efa"
+    },
+    {
+      "path": "lib/foundry/visual-three.ts",
+      "bytes": 5267,
+      "sha256": "ded8bde9665cac64f590cd1fc743e3930d86554942892ac3e3490e6477c33dee"
+    },
+    {
+      "path": "lib/foundry/visual-platform.ts",
+      "bytes": 2098,
+      "sha256": "a1bdf6b4bb454f0ab30de597c6007112e2232d493f2247bc30f293a4a1faacb9"
+    },
+    {
+      "path": "app/foundry-visual.tsx",
+      "bytes": 14647,
+      "sha256": "d8445d4ac241a17ec81a433824a4b530eb75338363c393b9ebf6ba1bdef811aa"
+    },
+    {
+      "path": "tests/foundry-visual.test.mjs",
+      "bytes": 13593,
+      "sha256": "e4358093162183d9e0f90237d0384729eeef9e01f520fad8a1b96f143b11318f"
+    },
+    {
+      "path": "tests/foundry-visual-platform.test.mjs",
+      "bytes": 2397,
+      "sha256": "6ab6e0b9deaad3e5460f7012d114cc684c8a605fa9c3de0579b501d0ea2e8457"
+    }
+  ],
+  "dependency": {
+    "name": "three",
+    "version": "0.186.1",
+    "license": "MIT",
+    "licenseSha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+  },
+  "standaloneEsbuild": {
+    "scope": "Prototype splitting measurement; not a deployed Minamo bundle or network transfer",
+    "chunks": [
+      {
+        "path": "foundry-visual.js",
+        "bytes": 13098,
+        "gzipBytes": 5248
+      },
+      {
+        "path": "visual-three-RV3UK6EQ.js",
+        "bytes": 541243,
+        "gzipBytes": 137182
+      },
+      {
+        "path": "chunk-WV4KBF2Z.js",
+        "bytes": 15063,
+        "gzipBytes": 6418
+      }
+    ]
+  },
+  "nodeSyntheticTimings": {
+    "glbDecode": {
+      "medianMs": 0.0771959999999865,
+      "minMs": 0.04965500000000134,
+      "maxMs": 0.2024640000000204,
+      "iterations": 10
+    },
+    "dijkstra": {
+      "medianMs": 0.05389099999999303,
+      "minMs": 0.029934999999994716,
+      "maxMs": 0.17131700000001615,
+      "iterations": 10
+    },
+    "life100": {
+      "medianMs": 2.9191509999999994,
+      "minMs": 2.7673739999999896,
+      "maxMs": 4.462637999999998,
+      "iterations": 10
+    },
+    "physics10000": {
+      "medianMs": 1.7346939999999904,
+      "minMs": 1.59597500000001,
+      "maxMs": 5.295968000000016,
+      "iterations": 10
+    },
+    "mandelbrot": {
+      "medianMs": 0.5258490000000222,
+      "minMs": 0.4682329999999979,
+      "maxMs": 0.6393699999999853,
+      "iterations": 10
+    },
+    "sudoku": {
+      "medianMs": 0.774741999999975,
+      "minMs": 0.5137609999999881,
+      "maxMs": 1.2320789999999988,
+      "iterations": 10
+    }
+  },
+  "glbFixtureBytes": 396,
+  "notMeasured": [
+    "actual browser latency and GPU memory",
+    "real owner authenticated storage",
+    "physical Android",
+    "screen reader speech",
+    "cold/warm network transfers"
+  ]
+}

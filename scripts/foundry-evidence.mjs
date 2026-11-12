@@ -1,0 +1,13 @@
+import {readFileSync,readdirSync,statSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {resolve} from 'node:path';
+const sha=value=>createHash('sha256').update(value).digest('hex');
+const paths=execFileSync('git',['ls-files','--cached','--others','--exclude-standard'],{encoding:'utf8'}).trim().split('\n');
+const core=new Set(['app/reader.tsx','app/note-markdown-view.tsx','scripts/build-app.mjs','tests/product-worker.test.mjs','package.json','pnpm-lock.yaml','vendor/foundry-python-isolate.js']);
+const source=paths.filter(p=>/^(lib\/foundry\/|app\/foundry-|app\/capability-foundry|scripts\/foundry-|tests\/foundry-)/.test(p)||core.has(p)).filter(p=>statSync(p).isFile()).sort().map(path=>{const bytes=readFileSync(path);return {path,bytes:bytes.length,sha256:sha(bytes)};});
+const dependencies=['katex','three','@noble/hashes','@types/katex','@types/three'].map(name=>{const root=resolve('node_modules',name),pkg=JSON.parse(readFileSync(root+'/package.json','utf8'));return {name,version:pkg.version,license:pkg.license,packageManifestSha256:sha(readFileSync(root+'/package.json')),dependencies:pkg.dependencies??{},licenseFiles:readdirSync(root).filter(p=>/^licen[cs]e/i.test(p)&&statSync(root+'/'+p).isFile()).map(path=>({path,bytes:statSync(root+'/'+path).size,sha256:sha(readFileSync(root+'/'+path))}))};});
+const out='docs/capability-foundry';mkdirSync(out,{recursive:true});
+writeFileSync(out+'/SOURCE-MANIFEST.json',JSON.stringify({contract:'minamo.foundry-source-manifest.v1',generatedAt:new Date().toISOString(),baselineGitHub:'c40ebcc9a27bd2538ecf5b117a3eeba7f1229d1c',sourceFiles:source.length,sourceBytes:source.reduce((n,f)=>n+f.bytes,0),files:source},null,2)+'\n');
+writeFileSync(out+'/NPM-SBOM.json',JSON.stringify({contract:'minamo.foundry-npm-inventory.v1',generatedAt:new Date().toISOString(),dependencies,lockfile:'pnpm-lock.yaml',lockfileSha256:sha(readFileSync('pnpm-lock.yaml')),scope:'New direct runtime/dev dependencies and their declared dependency edges; full resolved transitive graph/integrities remain in the lockfile. Scientific wheel metadata/licences are separately in python/SCIENCE-SBOM.json. No dictionary/fonts/audio corpus redistributed beyond pinned package licences.'},null,2)+'\n');
+console.log(JSON.stringify({files:source.length,sourceBytes:source.reduce((n,f)=>n+f.bytes,0),newDirectDependencies:dependencies.length}));

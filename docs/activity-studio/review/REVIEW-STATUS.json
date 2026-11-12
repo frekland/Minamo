@@ -1,0 +1,99 @@
+{
+  "contract": "minamo.independent-security-review.v1",
+  "scope": "Local synthetic compiled domain/D1/R2 plus source review; no production writes",
+  "tests": {
+    "command": "node --test tests/activity-security-boundaries.test.mjs tests/activity-security-lifecycle.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "transcript": "docs/activity-studio/review/INDEPENDENT-SECURITY-TESTS.txt"
+  },
+  "corrected": [
+    {
+      "id": "SEC-F01",
+      "finding": "Native __article/__excerpt Activity source IDs rejected",
+      "resolution": "Exact native coordinates accepted and exercised through Source revocation"
+    },
+    {
+      "id": "SEC-F02",
+      "finding": "Activity companion metadata missing from edition digest",
+      "resolution": "Activity/Attempt included in rendition hash; old/new distinct editions verified"
+    },
+    {
+      "id": "SEC-F03",
+      "finding": "Nested Activity payload could expand general related summaries",
+      "resolution": "Heavy companion fields removed from general summaries; dedicated continuation defers content"
+    },
+    {
+      "id": "SEC-F04",
+      "finding": "Interchange manifest/configuration ambiguity",
+      "resolution": "Reserved manifest, Windows configuration, Cargo dependency hooks and colliding file paths denied"
+    },
+    {
+      "id": "SEC-F05",
+      "finding": "Protected restore needed normal typed-output source digest and actual PNG MIME parity",
+      "resolution": "Imported record/revision digest validation plus bounded staged namespace MIME checks run before staging and activation; direct changed-code and staged JPEG mismatch rejected"
+    }
+  ],
+  "releaseGates": [
+    {
+      "id": "SEC-G01",
+      "state": "explicit-policy-compiled-retest-passed-final-build-rerun-required",
+      "category": "code-owned resolvable",
+      "instruction": "Independent compiled retest passes1/1 after direct existing package policy cleanup; final frozen-source ordinary build must repeat assertion. Do not infer controller absence only from logged scienceIncluded:false."
+    },
+    {
+      "id": "SEC-G02",
+      "state": "infrastructure-blocked",
+      "category": "blocked by current browser/Sites/security isolation",
+      "instruction": "Supported Sites preview profile repair performed; cloud browser still connection refused. No alternate network/server used; browser security and screenshots unverified."
+    },
+    {
+      "id": "SEC-G03",
+      "state": "owner-release-only",
+      "category": "requires owner-only access/device",
+      "instruction": "Separately approved deployment, refreshed installed catalogue/fresh GPT acceptance and physical Pixel8a/assistive tests."
+    }
+  ],
+  "sourceSha256": {
+    "lib/domain.ts": "8f33b186d46b39aeafae45c8d79302fce24e33189bc80e004ac0e9d9f691d394",
+    "lib/activity/schema.ts": "8677d29fe8324c07b0ad2dab078dcc7181e1f92f7ad4ebd64b0a07ddbb687aad",
+    "lib/activity/domain.ts": "6254ff1a8f23c5ada4fc1390400447210a0c80a63ba2bca9841b1027546da2d8",
+    "lib/challenge-exchange/package.ts": "7ae439d0a2efa9691d45ecbff176d99c875aafa6270272530c1d9297506f30f8",
+    "lib/typed-outputs.ts": "5ec8dc19fcfc0de336fb9183fea70f1f7ae18834e89fc56f3a60ec447dc1cfae",
+    "lib/recovery-bundle.ts": "c0fd9bad764b3776e24834747a0d79df800de8dba80d98477c84860e0e92c945",
+    "lib/foundry/python-runtime.ts": "bc83a77c610b6a6b04ba45af332ea02aaec9d070dbaa4cfb626bda7349868dba",
+    "scripts/foundry-package-policy.mjs": "ae95f2856b2f46da890e60696ecc578ec380d42250c83f1c59eb3b7855891404",
+    "tests/activity-security-boundaries.test.mjs": "3aecbebb13f73b229e723102e7ac6dd1ca18241c948e6518e1e93a5f761b4d76",
+    "tests/activity-security-lifecycle.test.mjs": "de713bbf019a2d90d340f08e32b61d5652827a759fafd8b3fce3eb9093fc7d24",
+    "tests/activity-security-compiled.test.mjs": "44864b5275b5a963632eaafba6902fe97554570e60c2e62a964cdc998f31ec7b",
+    "lib/recovery.ts": "304a5bc830e061b220e3053b3208b019cc6d7d47cfe76d1197d0f02a83f6b0d3"
+  },
+  "compiledRetest": {
+    "command": "node --test tests/activity-security-compiled.test.mjs",
+    "passed": 1,
+    "failed": 0,
+    "after": "Root reapplied existing package policy; generated science controller removed without source change",
+    "transcript": "docs/activity-studio/review/INDEPENDENT-COMPILED-SECURITY-RETEST.txt",
+    "finalFrozenSourceBuildRerunRequired": true
+  },
+  "readingRetest": {
+    "command": "node --test tests/excerpt-reader.test.mjs",
+    "passed": 6,
+    "failed": 0
+  },
+  "semanticRetest": {
+    "command": "node --test tests/semantic-content.test.mjs",
+    "passed": 9,
+    "failed": 0,
+    "transcript": "docs/activity-studio/review/INDEPENDENT-SEMANTIC-RECOVERY-RETEST.txt"
+  },
+  "finalIndependentRetest": {
+    "command": "node --test tests/semantic-content.test.mjs tests/activity-security-compiled.test.mjs tests/excerpt-reader.test.mjs",
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "transcript": "docs/activity-studio/review/INDEPENDENT-FINAL-RETEST.txt",
+    "controllerAbsentAfterTest": true,
+    "scope": "Current semantic source fixtures plus last existing production build; final frozen-source build still must rerun"
+  }
+}

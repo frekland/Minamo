@@ -1,0 +1,50 @@
+/* Presentation aliases inherit the canonical Minamo palette. No second theme owner. */
+:where(.activity-studio,.if-workbench,.if-lab){
+  --if-canvas:var(--mn-canvas,#1b1b1b);
+  --if-surface:var(--mn-surface,#252525);
+  --if-raised:var(--mn-surface-secondary,#2d2d2d);
+  --if-code:var(--mn-code-bg,#202020);
+  --if-text:var(--mn-text,#f5f5f5);
+  --if-body:var(--mn-text-body,#e2e2e2);
+  --if-muted:var(--mn-text-muted,#b1b1b1);
+  --if-line:var(--mn-border,#3a3a3a);
+  --if-control-line:var(--mn-border-control,#888888);
+  --if-accent:var(--mn-accent,#7db9c4);
+  --if-accent-hover:var(--mn-accent-hover,#9acbd3);
+  --if-on-accent:var(--mn-on-accent,#1b1b1b);
+  --if-link:var(--mn-interactive,#8caed1);
+  --if-selected:var(--mn-selected,#2a3a4a);
+  --if-focus:var(--mn-focus,#8caed1);
+  --if-positive:var(--mn-status-success,#9fb9a6);
+  --if-warning:var(--mn-status-warning,#c2ad81);
+  --if-danger:var(--mn-status-danger,#d0a1a1);
+  --if-danger-bg:var(--mn-status-danger-bg,#342828);
+  --if-radius:var(--mn-radius-panel,10px);
+  --if-control-radius:var(--mn-radius-control,6px);
+  --if-font:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --if-mono:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',monospace;
+  --if-prose-size:var(--wp-reading-size,17px);
+  --if-measure:var(--wp-reading-measure,68ch);
+  color:var(--if-text);
+  font-family:var(--if-font);
+  accent-color:var(--if-accent);
+}
+:where(.activity-studio,.if-workbench,.if-lab) :where(button,input,select,textarea,summary,a,[tabindex]):focus-visible{
+  outline:3px solid var(--if-focus);outline-offset:3px;
+}
+:where(.activity-studio,.if-workbench,.if-lab) :where(button,input,select,textarea){font-family:inherit}
+:where(.activity-studio,.if-workbench,.if-lab) :where(button,a,summary){touch-action:manipulation}
+:where(.activity-studio,.if-workbench,.if-lab) :where(button,select){min-height:44px}
+:where(.activity-studio,.if-workbench,.if-lab) :where(button,select):disabled{cursor:not-allowed}
+:where(.activity-studio,.if-workbench,.if-lab) :where(pre,table,canvas,svg){max-width:100%}
+:where(.activity-studio,.if-workbench,.if-lab) :where(pre,code){font-family:var(--if-mono)}
+:where(.activity-studio,.if-workbench,.if-lab) :where([lang=ja],[lang=zh],[lang=ko]){line-height:1.95;line-break:strict;word-break:normal;overflow-wrap:anywhere}
+:where(.activity-studio,.if-workbench,.if-lab) ruby{ruby-position:over}
+:where(.activity-studio,.if-workbench,.if-lab) rt{font-size:.6em;user-select:none}
+.if-visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(prefers-reduced-motion:reduce){:where(.activity-studio,.if-workbench,.if-lab) *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(forced-colors:active){
+  :where(.activity-studio,.if-workbench,.if-lab){border-color:CanvasText;box-shadow:none}
+  :where(.activity-studio,.if-workbench,.if-lab) :where(button,select,textarea,input){border:1px solid ButtonText}
+  :where(.activity-studio,.if-workbench,.if-lab) :where([aria-current=true],[aria-pressed=true],.is-selected){outline:2px solid Highlight;outline-offset:1px}
+}

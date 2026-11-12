@@ -1,0 +1,155 @@
+{
+  "observedAt": "2026-10-25",
+  "repository": "frekland/minamo-v2",
+  "source": {
+    "githubCommit": "890152e41eb65a9c311bf202b3bbd37a57d20776",
+    "githubTree": "fb4bd3f64cfc5e34d879613c45380f6b3945f4e8",
+    "localCommit": "7fbb119faea56f35a58ccf68ffb9bce8e8b01af4"
+  },
+  "currentChecks": [
+    {
+      "id": 121290951206,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "failure",
+      "output": {
+        "title": null,
+        "summary": null,
+        "text": null,
+        "annotations_count": 2,
+        "annotations_url": "https://api.github.com/repos/frekland/minamo-v2/check-runs/121290951206/annotations"
+      },
+      "details_url": "https://github.com/frekland/minamo-v2/actions/runs/40233804127/job/121290951206",
+      "started_at": "2026-10-25T21:05:12Z",
+      "completed_at": "2026-10-25T21:05:14Z"
+    },
+    {
+      "id": 121290938225,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "failure",
+      "output": {
+        "title": null,
+        "summary": null,
+        "text": null,
+        "annotations_count": 2,
+        "annotations_url": "https://api.github.com/repos/frekland/minamo-v2/check-runs/121290938225/annotations"
+      },
+      "details_url": "https://github.com/frekland/minamo-v2/actions/runs/40233800046/job/121290938225",
+      "started_at": "2026-10-25T21:05:09Z",
+      "completed_at": "2026-10-25T21:05:12Z"
+    }
+  ],
+  "currentRunTiming": {
+    "billable": {
+      "UBUNTU": {
+        "total_ms": 0,
+        "jobs": 1,
+        "job_runs": [
+          {
+            "job_id": 121290951206,
+            "duration_ms": 0
+          }
+        ]
+      }
+    },
+    "run_duration_ms": 3000
+  },
+  "pendingDeployments": [],
+  "annotationsRead": {
+    "url": "https://api.github.com/repos/frekland/minamo-v2/check-runs/121290951206/annotations",
+    "result": {
+      "error": "HTTPError: 400: GitHub Fetch URL is not an allowed public GitHub repository or search endpoint. (Response: None)",
+      "error_code": "INVALID_ARGUMENT"
+    }
+  },
+  "knownSuccessfulSameWorkflow": {
+    "run": 40219549276,
+    "commit": "e2f2bad6b7b97f1c7d577be49dda505c4b9d2bef",
+    "createdAt": "2026-10-25T18:05:05Z",
+    "workflowGitBlob": "1216893981f6b8ddb7617e8a3cd46fc5f678c56c",
+    "currentWorkflowGitBlob": "1216893981f6b8ddb7617e8a3cd46fc5f678c56c",
+    "jobs": [
+      {
+        "id": 121247917609,
+        "name": "verify",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40219549276,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run npm install --global pnpm@11.25.0",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run pnpm install --frozen-lockfile",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run pnpm run typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run pnpm run build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run pnpm test",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      }
+    ]
+  },
+  "classification": "Current remote workflow failed before runner execution; unchanged workflow has actual earlier provider success. Precise startup cause remains unestablished because recorded annotations cannot be fetched by this connector.",
+  "remoteCIGreen": false,
+  "rerunPerformed": false,
+  "accountOrBillingChanges": false
+}

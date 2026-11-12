@@ -1,0 +1,12 @@
+{"evidence":"native-DOM only","utf16Units":2036,"utf8Bytes":2152,"sha256":"0d976c7ce82e730128e775dbe7c3e66e860fc1b2a5e87f8a3fd8af1db9ee6631","rows8":269,"rows16":135,"maxVisibleRows":48}
+✔ fresh Light B: selected banked bytes exact Unicode/CRLF pages, denial, revalidation, disposal, omitted prose (30.3964ms)
+{"evidence":"real isolated local Worker/D1/R2 typed MCP","receipts":[{"id":"synthetic-fresh-byte-observatory","rendition":"r-905d3f6aa5f19273f733e4c8703e175fab6330cf2b9bf63020fd80c45f0e888d","status":"committed"},{"id":"synthetic-fresh-ordinary-observatory","rendition":"r-f349182cebd0d2a98b09d43b452e777e87b0aaf22f45173bc658326e954ac19f","status":"committed"}],"runRecords":0,"learningDevelopments":0,"ownerDenial":404,"sourceDenial":"unavailable instruction"}
+✔ fresh Light B: typed isolated MCP previews/publishes/reads exact selected text+math and ordinary companion (3410.746351ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4071.476682

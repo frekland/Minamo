@@ -1,0 +1,6 @@
+export type ReadingRect={left:number;top:number;right:number;bottom:number;width:number;height:number};
+export type ReadingViewport={left:number;top:number;width:number;height:number};
+export function placeReadingInteraction(anchor:ReadingRect,width:number,height:number,viewport:ReadingViewport){const gap=10,pad=8,usableWidth=Math.max(1,viewport.width-pad*2),actualWidth=Math.min(width,usableWidth),actualHeight=Math.min(height,Math.max(1,viewport.height-pad*2));const left=Math.max(viewport.left+pad,Math.min(anchor.left+anchor.width/2-actualWidth/2,viewport.left+viewport.width-actualWidth-pad));const below=anchor.bottom+gap,above=anchor.top-actualHeight-gap;const preferred=below+actualHeight<=viewport.top+viewport.height-pad?below:above>=viewport.top+pad?above:below;const top=Math.max(viewport.top+pad,Math.min(preferred,viewport.top+viewport.height-actualHeight-pad));return{left,top,width:actualWidth,maxHeight:Math.max(1,viewport.top+viewport.height-top-pad)};}
+
+/** Focus-end line geometry places controls beside the gesture, without changing saved ranges. */
+export function selectionActionAnchor(rects:readonly ReadingRect[],backward=false):ReadingRect|null{const usable=rects.filter(rect=>Number.isFinite(rect.left)&&Number.isFinite(rect.top)&&rect.width>0&&rect.height>0);return (backward?usable[0]:usable.at(-1))??null;}

@@ -1,0 +1,1194 @@
+{
+  "contract": "minamo.exchange-proof.v1",
+  "environment": {
+    "node": "v24.22.1",
+    "python": "Python 3.12.14",
+    "platform": "linux"
+  },
+  "classification": "synthetic-local-engineering-test",
+  "productionWrites": false,
+  "githubProviderAcceptance": false,
+  "commissionFixture": {
+    "sourceRef": "8d703ddb8f9894e1c771749d8106370b68f8d04b",
+    "files": [
+      {
+        "path": "chunked_reader.py",
+        "sha256": "d85a4ffeab41d3235f9f652d4c7ab22f152de9fddfc4e000afc75fd9cd4b5a81",
+        "gitBlob": "2888d53697c17b53bfd33c6e722cb40f2220d223"
+      },
+      {
+        "path": "test_chunked_reader.py",
+        "sha256": "63c0ebf2c6c1f1d060f503d1edacdb31218c6cef9c4b50a8a98658d36f0e0499",
+        "gitBlob": "36271900cb2a3ac775a5de504b1b9cc0903ca6fa"
+      }
+    ],
+    "baseline": {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v"
+      ],
+      "exitCode": 1,
+      "signal": null,
+      "stdout": "",
+      "stderr": "test_empty_stream (test_chunked_reader.ChunkedReaderTests.test_empty_stream) ... ok\ntest_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced) ... FAIL\ntest_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks) ... FAIL\ntest_one_chunk (test_chunked_reader.ChunkedReaderTests.test_one_chunk) ... ok\ntest_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded) ... FAIL\n\n======================================================================\nFAIL: test_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-commission-fixture-UYgFaz/test_chunked_reader.py\", line 30, in test_maximum_size_enforced\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-commission-fixture-UYgFaz/test_chunked_reader.py\", line 24, in test_multiple_chunks\n    self.assertEqual(collect_message(receiver([b\"A\", b\"BC\", b\"D\"])), b\"ABCD\")\nAssertionError: b'A' != b'ABCD'\n\n======================================================================\nFAIL: test_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-commission-fixture-UYgFaz/test_chunked_reader.py\", line 27, in test_split_utf8_bytes_are_not_decoded\n    self.assertEqual(collect_message(receiver([b\"\\xe3\\x81\", b\"\\x82\"])), b\"\\xe3\\x81\\x82\")\nAssertionError: b'\\xe3\\x81' != b'\\xe3\\x81\\x82'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+    },
+    "repaired": {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "test_empty_stream (test_chunked_reader.ChunkedReaderTests.test_empty_stream) ... ok\ntest_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced) ... ok\ntest_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks) ... ok\ntest_one_chunk (test_chunked_reader.ChunkedReaderTests.test_one_chunk) ... ok\ntest_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+    }
+  },
+  "results": [
+    {
+      "id": "tcp-chunks",
+      "domain": "networking",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "d0af5e9a2d32fc594d1a8706ce7c257c4f9f52a168206c0352248b07b98fc29f",
+      "zipSha256": "de7ca88c3ff4b40d0c079b37277ae300fbf05007098a3958f62b72e8feb655b7",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "3d6849869b9baa860fb98ff758da98e33ed1cea8b6c328bf8d87dc2bd6ccd579",
+          "role": "teaching-only"
+        },
+        {
+          "path": "chunked_reader.py",
+          "sha256": "561a0b9579dfc80aa545afbf96db3a35e8ba3e005f34d85290ede12609bca63b",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_chunked_reader.py",
+          "sha256": "b87439e3fb82c28bfb92931c25b6b4f124a14f9ae53132595317e294fca8f4f1",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_empty_stream (test_chunked_reader.ChunkedReaderTests.test_empty_stream) ... ok\ntest_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced) ... FAIL\ntest_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks) ... FAIL\ntest_one_chunk (test_chunked_reader.ChunkedReaderTests.test_one_chunk) ... ok\ntest_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded) ... FAIL\n\n======================================================================\nFAIL: test_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-a4rMF3/test_chunked_reader.py\", line 17, in test_maximum_size_enforced\n    with self.assertRaises(ValueError): collect_message(receiver([b\"ab\",b\"cd\"]),max_bytes=3)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-a4rMF3/test_chunked_reader.py\", line 14, in test_multiple_chunks\n    def test_multiple_chunks(self): self.assertEqual(collect_message(receiver([b\"A\",b\"BC\",b\"D\"])),b\"ABCD\")\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'A' != b'ABCD'\n\n======================================================================\nFAIL: test_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-a4rMF3/test_chunked_reader.py\", line 15, in test_split_utf8_bytes_are_not_decoded\n    def test_split_utf8_bytes_are_not_decoded(self): self.assertEqual(collect_message(receiver([b\"\\xe3\\x81\",b\"\\x82\"])),b\"\\xe3\\x81\\x82\")\n                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'\\xe3\\x81' != b'\\xe3\\x81\\x82'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_empty_stream (test_chunked_reader.ChunkedReaderTests.test_empty_stream) ... ok\ntest_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced) ... ok\ntest_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks) ... ok\ntest_one_chunk (test_chunked_reader.ChunkedReaderTests.test_one_chunk) ... ok\ntest_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "unicode-slice",
+      "domain": "unicode",
+      "runtime": "node",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "be7e0892ab3e98ab1c73e1710739201b00b318fcb13c66fb8019765da1c63cec",
+      "zipSha256": "914b9b27f146a918d4b8556c5d9cf0787fdfb010c99ebf629b74ba36580554b5",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "c0da6e1352379457b58783b7d8a91df42386fbae353ab1b37662bb4f9f14cf1a",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.mjs",
+          "sha256": "86787074e4b47972dea791abc3d4734ce9e456ac8ede63d2a5cc4bf836e53f3e",
+          "role": "editable-starter"
+        },
+        {
+          "path": "main.test.mjs",
+          "sha256": "40e1481114c942277d1c0b5f11643aa2edcbe3e2f7de5524f911bc1ecb50732e",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ ASCII (0.747173ms)\n✖ astral code point (0.797327ms)\n✔ Japanese code points (0.104147ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 91.03716\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ astral code point (0.797327ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  'A\\ud83d' !== 'A😀'\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-activity-proof-RP8r0I/main.test.mjs:5:37)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'A\\ud83d',\n    expected: 'A😀',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ ASCII (0.727313ms)\n✔ astral code point (0.116015ms)\n✔ Japanese code points (0.108122ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 88.102427\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "async-order",
+      "domain": "javascript",
+      "runtime": "node",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "cfe08493adf7679aed6be607043e13ae9649108a4ce29c4efd22ad8af7a707ca",
+      "zipSha256": "0479a337dcfe3b6e3c714ed59f866420065a97f329c650c579fc6cac15fc8069",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "8558b4e1c08885368bc5bc3ce818398e78c78114bfcc7053a730a6756c202604",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.mjs",
+          "sha256": "a6c92658f3170a242b3b794080637d4907805a7201b78f525e7934eaa642e799",
+          "role": "editable-starter"
+        },
+        {
+          "path": "main.test.mjs",
+          "sha256": "6a1ec34e9dbb1220abdf052f1b4c8129276e253ce4b9c9b5734203ba0f4d5331",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✖ await values (2.398453ms)\n✔ empty (0.162564ms)\nℹ tests 2\nℹ suites 0\nℹ pass 1\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 83.574744\n\n✖ failing tests:\n\ntest at main.test.mjs:4:1\n✖ await values (2.398453ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    [\n  +   Promise {\n  +     6,\n  +     Symbol(async_id_symbol): 48,\n  +     Symbol(trigger_async_id_symbol): 17\n  +   },\n  +   Promise {\n  +     2,\n  +     Symbol(async_id_symbol): 49,\n  +     Symbol(trigger_async_id_symbol): 17\n  +   },\n  +   Promise {\n  +     4,\n  +     Symbol(async_id_symbol): 50,\n  +     Symbol(trigger_async_id_symbol): 17\n  +   }\n  -   6,\n  -   2,\n  -   4\n    ]\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-activity-proof-3Uy06k/main.test.mjs:4:37)\n      at async Test.run (node:internal/test_runner/test:1409:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [Array],\n    expected: [Array],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ await values (1.223918ms)\n✔ empty (0.142054ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 81.796674\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "trapezoid",
+      "domain": "calculus",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "4e26f4a761d65064f33406acc26a3b68f145d4d370fee61c7fd564bcbf799858",
+      "zipSha256": "a1c669172b7ed20bbb845a419807e866c4295dfcdc9c60c62aaf022828cfde3e",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "79e3d5c2bfec82b69357c703dc3c4646fc27488e3499a7c935042552b8b20c94",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.py",
+          "sha256": "3f0d47d9f56a8ff4146f06ece2b7c575e8939a22930fe52a37b4ba2f4b28a76d",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_main.py",
+          "sha256": "215cf2ad88007397d1da610515d4705664b920d309faaa0e441076cf901daba9",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... FAIL\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... FAIL\n\n======================================================================\nFAIL: test_linear (test_main.ChallengeTests.test_linear)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-29HnhN/test_main.py\", line 5, in test_linear\n    def test_linear(self): self.assertAlmostEqual(solve([(0,0),(1,2)]),1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2 != 1 within 7 places (1 difference)\n\n======================================================================\nFAIL: test_nonuniform (test_main.ChallengeTests.test_nonuniform)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-29HnhN/test_main.py\", line 7, in test_nonuniform\n    def test_nonuniform(self): self.assertAlmostEqual(solve([(0,0),(1,1),(3,3)]),4.5)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 4.5 within 7 places (2.5 difference)\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... ok\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "sample-mean",
+      "domain": "statistics",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "7a60c1eeaccb12f67c0e13f7398718e6f1c76aed9256192f29c077282ae206e4",
+      "zipSha256": "06e52c6edc635e77fb436158fd6212bf3f9b0a4ef7cf72bed793bdfb4a79e10b",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "95155b2a0cb15ca30f31185881d8ed5680136fccfa26411935d33954b9a5a67b",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.py",
+          "sha256": "3207bed275d3ce52ca180c13a92165fcb448e7ca8cda7e57f277e1510184dccf",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_main.py",
+          "sha256": "5a9aaaa45934b4b1943cb067861704203c361f89834f8108fb7036cec626eae4",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... FAIL\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\n\n======================================================================\nFAIL: test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-elzNwn/test_main.py\", line 7, in test_duplicate_invariant\n    def test_duplicate_invariant(self): self.assertEqual(solve([2,4]),solve([2,4,2,4]))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2.0 != 2.4\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-elzNwn/test_main.py\", line 5, in test_single\n    def test_single(self): self.assertEqual(solve([8]),8)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 4.0 != 8\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "maze-wrap",
+      "domain": "games",
+      "runtime": "node",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "34a97ac84806fea600de7e1b46691867d5d621e9a2aedffa2c154e6a4c0dec31",
+      "zipSha256": "a8c1036209a7b444a563c1b4ffb7b1f2ce90e0febe2d3b3c1c1fc39129feabe8",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "6aa2be9514e71220981b51ba9928d07c75e55615e256e3bff705c38725e9fd8e",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.mjs",
+          "sha256": "c7a7ec102a740da89bfe1d96a05febe2cb20a1fb871431531b275d53eeef0a0d",
+          "role": "editable-starter"
+        },
+        {
+          "path": "main.test.mjs",
+          "sha256": "1ae86aaa744e86739ee64adecd7d8ed64ce3ca87230957b5637363d102ccd716",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ right wrap (0.685069ms)\n✖ left wrap (0.697178ms)\n✖ multiple wraps (0.220561ms)\nℹ tests 3\nℹ suites 0\nℹ pass 1\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 78.947681\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ left wrap (0.697178ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-activity-proof-dvisk0/main.test.mjs:5:29)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:6:1\n✖ multiple wraps (0.220561ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-activity-proof-dvisk0/main.test.mjs:6:34)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ right wrap (0.863086ms)\n✔ left wrap (0.114502ms)\n✔ multiple wraps (0.105318ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 79.06643\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "beat-clock",
+      "domain": "music",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "acbcf35fad4b8d0a9c1e57846810ce906008c0bc166b862bf922302cabf8d264",
+      "zipSha256": "39895aad423bf794e187cc2274c5a9fb8c479107d9fc095464cb53672b96aff5",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "61c9b5c5f3ccd771fd5ad236793565130c82870d1ef108ff75c4ac92377db5ac",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.py",
+          "sha256": "f501d7f047df63211b38e61ba3dfde1187f84b2f4efa68727e8bcf2227f0cfc4",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_main.py",
+          "sha256": "158eea284c06e14eb257b746c16f801761cd7a4ee873fb2b50a79912a7aa28e6",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... FAIL\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\n\n======================================================================\nFAIL: test_120 (test_main.ChallengeTests.test_120)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-t5uIKM/test_main.py\", line 5, in test_120\n    def test_120(self): self.assertEqual(solve(120,3),[0,0.5,1])\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [0.0, 2.0, 4.0] != [0, 0.5, 1]\n\nFirst differing element 1:\n2.0\n0.5\n\n- [0.0, 2.0, 4.0]\n+ [0, 0.5, 1]\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nFAILED (failures=1)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... ok\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "csv-detective",
+      "domain": "data",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "58a5f51c9beacc11afb19b92d9e69fc3eb2c8535c80022c0ccaf7a3f9486231a",
+      "zipSha256": "df665fd21b8745dc81d38621c17a997c2ca7b6f402b202187688d4a2b00bdca4",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "3528f69ca5f09483e3f851f73c4a1708b09b28b9096a23c306a917c15d1d7778",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.py",
+          "sha256": "7119e82cd6184261219a4836a095c683cfd3fd22131d34d33bcc984e4af11e04",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_main.py",
+          "sha256": "e32b5134ecd66e5d89fb9f8e863517c2a009f55e5cc655dba7773fea818e58a3",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_comma (test_main.ChallengeTests.test_comma) ... FAIL\ntest_plain (test_main.ChallengeTests.test_plain) ... ok\ntest_quote (test_main.ChallengeTests.test_quote) ... FAIL\n\n======================================================================\nFAIL: test_comma (test_main.ChallengeTests.test_comma)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-M7iHq7/test_main.py\", line 6, in test_comma\n    def test_comma(self): self.assertEqual(solve('\"Oxford, UK\",7'),[\"Oxford, UK\",\"7\"])\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['\"Oxford', ' UK\"', '7'] != ['Oxford, UK', '7']\n\nFirst differing element 0:\n'\"Oxford'\n'Oxford, UK'\n\nFirst list contains 1 additional elements.\nFirst extra element 2:\n'7'\n\n- ['\"Oxford', ' UK\"', '7']\n+ ['Oxford, UK', '7']\n\n======================================================================\nFAIL: test_quote (test_main.ChallengeTests.test_quote)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-M7iHq7/test_main.py\", line 7, in test_quote\n    def test_quote(self): self.assertEqual(solve('\"a\"\"b\",2'),['a\"b',\"2\"])\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['\"a\"\"b\"', '2'] != ['a\"b', '2']\n\nFirst differing element 0:\n'\"a\"\"b\"'\n'a\"b'\n\n- ['\"a\"\"b\"', '2']\n?   -  - -\n\n+ ['a\"b', '2']\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_comma (test_main.ChallengeTests.test_comma) ... ok\ntest_plain (test_main.ChallengeTests.test_plain) ... ok\ntest_quote (test_main.ChallengeTests.test_quote) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "utf8-fragments",
+      "domain": "languages",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "edf9b0a631972689568fe224ccbf3409aa5208ce5e3b8ed7fbb26d368bb285c5",
+      "zipSha256": "964eb037b64b12335001aa017c0344a5923ce15c368236dd95bd607d13c7f205",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "ef1644f849611c0f3a5c54a336410e3670db94be95ff58836692a56761c5ef07",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.py",
+          "sha256": "956315a5b15b2baa716a4c31b03bbd10ca6056b469f62e1beccc4b158689efa2",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_main.py",
+          "sha256": "02b34ba97a50de4611807d973cb7d7be8d693e8c78d0790ea0bbe1e8dbaee77f",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_ascii (test_main.ChallengeTests.test_ascii) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_split (test_main.ChallengeTests.test_split) ... ERROR\n\n======================================================================\nERROR: test_split (test_main.ChallengeTests.test_split)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-RwDVEu/test_main.py\", line 6, in test_split\n    def test_split(self): self.assertEqual(solve([b\"\\xe3\\x81\",b\"\\x82\"]),\"あ\")\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/minamo-activity-proof-RwDVEu/main.py\", line 2, in solve\n    return \"\".join(chunk.decode(\"utf-8\") for chunk in chunks)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/minamo-activity-proof-RwDVEu/main.py\", line 2, in <genexpr>\n    return \"\".join(chunk.decode(\"utf-8\") for chunk in chunks)\n                   ^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode bytes in position 0-1: unexpected end of data\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nFAILED (errors=1)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_ascii (test_main.ChallengeTests.test_ascii) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_split (test_main.ChallengeTests.test_split) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "sql-missing-parent",
+      "domain": "sql",
+      "runtime": "sql",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "3a67063c7d64d04c83b07780a54f38baca00ecda863741dd0858c2b85bf69769",
+      "zipSha256": "855b78ddd8ccce496999f459b19ad59d63ad0558f842e6b03c1c05ad4fffb5f2",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "e8adbd46eca15551bb45aedc09b6d11b96bf40d154fa20bcb4be720d098d4256",
+          "role": "teaching-only"
+        },
+        {
+          "path": "query.sql",
+          "sha256": "fc0c8498b655ab76ff8b72f8387d328a0ec53127bfa2d11006ec2e41e136fcd5",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_query.py",
+          "sha256": "4821a2e35e18dfc07f213020239f0a44da6da9be79f9455e45f1e2bf4ca9ba1f",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_keeps_empty_parent (test_query.QueryTests.test_keeps_empty_parent) ... FAIL\n\n======================================================================\nFAIL: test_keeps_empty_parent (test_query.QueryTests.test_keeps_empty_parent)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-wAlVGf/test_query.py\", line 6, in test_keeps_empty_parent\n    self.assertEqual(db.execute(pathlib.Path(\"query.sql\").read_text()).fetchall(),[(1,1),(2,0),(3,0)])\nAssertionError: Lists differ: [(1, 1)] != [(1, 1), (2, 0), (3, 0)]\n\nSecond list contains 2 additional elements.\nFirst extra element 1:\n(2, 0)\n\n- [(1, 1)]\n+ [(1, 1), (2, 0), (3, 0)]\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_keeps_empty_parent (test_query.QueryTests.test_keeps_empty_parent) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK\n"
+      }
+    },
+    {
+      "id": "bash-space-log",
+      "domain": "bash",
+      "runtime": "bash",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "105a0f9d69f35af689970579838d4df136b326be813c4a7dd0e303d497cfa52e",
+      "zipSha256": "16b6f2482bf9f6eec5b81790dc7768e9a4b2d247efff55ac664e43438dfbfa93",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "84e361667458aca4c084aa307ac93c1110190f4102ab45383b6290905b9ab8d9",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.sh",
+          "sha256": "e9522726514a5e93659b66daa789a73a9a5b299309705faf281ca08124436a01",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test.sh",
+          "sha256": "81f03b71b57fadeb1ce0801b2b13062e37bcb0bc6907226cef8b1395d0fbed6b",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "bash",
+          "test.sh"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "FAIL: spaces\n"
+      },
+      "repaired": {
+        "command": [
+          "bash",
+          "test.sh"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "PASS: literal log records, empty lines and final record\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "counterexample-max",
+      "domain": "algorithms",
+      "runtime": "python",
+      "classification": "engineering-local-execution",
+      "learnerProgress": false,
+      "packageDigest": "adebbc77a6fdc5505f2737b0c9e0656212fc11a0d6c4e9c03d4061445d2585d0",
+      "zipSha256": "963ac6d29072815c689ad23bac71dd7be8bfb28dd1fc20c833e9949637ff665b",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "7b70f1327f26a84cb557ea5be6612552d8f6a2f4a6f77571529ef5742b3bfb7a",
+          "role": "teaching-only"
+        },
+        {
+          "path": "main.py",
+          "sha256": "ed6187b3b8325778db268ac88b14577cd048a8b492a7f7bc8b4d301f48026289",
+          "role": "editable-starter"
+        },
+        {
+          "path": "test_main.py",
+          "sha256": "705059ecaab67b6848667f39e0ab871f440b62c4bcaadd5ecfcfde2de3075c84",
+          "role": "visible-test"
+        }
+      ],
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... FAIL\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\n\n======================================================================\nFAIL: test_negative (test_main.ChallengeTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-uBzL1u/test_main.py\", line 6, in test_negative\n    def test_negative(self): self.assertEqual(solve([-5,-2,-9]),-2)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -2\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-activity-proof-uBzL1u/test_main.py\", line 7, in test_single\n    def test_single(self): self.assertEqual(solve([-1]),-1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -1\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... ok\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+      }
+    }
+  ],
+  "variants": [
+    {
+      "id": "unicode-slice-v0",
+      "seed": 0,
+      "packageDigest": "7b4d6bdcefad758cee903ae40c32bb6168c8cd23f6aa2db431e7bc1df997b334",
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ ASCII (0.744999ms)\n✖ astral code point (0.816968ms)\n✔ Japanese code points (0.10648ms)\n✔ seed 0 code-point prefix (0.104998ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 79.508593\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ astral code point (0.816968ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  'A\\ud83d' !== 'A😀'\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-meaJ2P/main.test.mjs:5:37)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'A\\ud83d',\n    expected: 'A😀',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ ASCII (0.840673ms)\n✔ astral code point (0.230015ms)\n✔ Japanese code points (0.177336ms)\n✔ seed 0 code-point prefix (0.110386ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 87.996868\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "unicode-slice-v7",
+      "seed": 7,
+      "packageDigest": "4a96ed70db4741ed93ea8351fcfba01d2f74e4d92251c26e19b838bef9f67a99",
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ ASCII (0.762114ms)\n✖ astral code point (0.850698ms)\n✔ Japanese code points (0.117176ms)\n✖ seed 7 code-point prefix (0.24601ms)\nℹ tests 4\nℹ suites 0\nℹ pass 2\nℹ fail 2\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 81.901547\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ astral code point (0.850698ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  'A\\ud83d' !== 'A😀'\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-cMHXYf/main.test.mjs:5:37)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'A\\ud83d',\n    expected: 'A😀',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:7:1\n✖ seed 7 code-point prefix (0.24601ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  'A😀' !== 'A😀日'\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-cMHXYf/main.test.mjs:7:44)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'A😀',\n    expected: 'A😀日',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ ASCII (0.723997ms)\n✔ astral code point (0.203486ms)\n✔ Japanese code points (0.108744ms)\n✔ seed 7 code-point prefix (0.101343ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 85.515516\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "unicode-slice-v65535",
+      "seed": 65535,
+      "packageDigest": "9f6f8f3b6b9aaef53fc7d821e8ea9c6999c8f14c52c1bb392424a0bffdc7db5a",
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ ASCII (0.959011ms)\n✖ astral code point (1.074454ms)\n✔ Japanese code points (0.108863ms)\n✔ seed 65535 code-point prefix (0.095473ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 92.466759\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ astral code point (1.074454ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  'A\\ud83d' !== 'A😀'\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-Sjqszy/main.test.mjs:5:37)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'A\\ud83d',\n    expected: 'A😀',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ ASCII (0.678028ms)\n✔ astral code point (0.123195ms)\n✔ Japanese code points (0.100411ms)\n✔ seed 65535 code-point prefix (0.097377ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 80.812698\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "sample-mean-v0",
+      "seed": 0,
+      "packageDigest": "99af44d4fa176ffd6f1e127257b8212a6e56a2aac7660c2d433a0695625947a5",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... FAIL\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... FAIL\n\n======================================================================\nFAIL: test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dYPG0x/test_main.py\", line 7, in test_duplicate_invariant\n    def test_duplicate_invariant(self): self.assertEqual(solve([2,4]),solve([2,4,2,4]))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2.0 != 2.4\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dYPG0x/test_main.py\", line 5, in test_single\n    def test_single(self): self.assertEqual(solve([8]),8)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 4.0 != 8\n\n======================================================================\nFAIL: test_seed_0 (test_main.SeededVariantTests.test_seed_0)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dYPG0x/test_main.py\", line 13, in test_seed_0\n    def test_seed_0(self): self.assertEqual(solve([2,4,6]),4)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3.0 != 4\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "sample-mean-v7",
+      "seed": 7,
+      "packageDigest": "b11232dc421d1ee48d2c3ffefa868e5854893ae0b144fcb1f2f8df6548e741c9",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... FAIL\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... FAIL\n\n======================================================================\nFAIL: test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-3CKyPA/test_main.py\", line 7, in test_duplicate_invariant\n    def test_duplicate_invariant(self): self.assertEqual(solve([2,4]),solve([2,4,2,4]))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2.0 != 2.4\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-3CKyPA/test_main.py\", line 5, in test_single\n    def test_single(self): self.assertEqual(solve([8]),8)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 4.0 != 8\n\n======================================================================\nFAIL: test_seed_7 (test_main.SeededVariantTests.test_seed_7)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-3CKyPA/test_main.py\", line 13, in test_seed_7\n    def test_seed_7(self): self.assertEqual(solve([9,11,13]),11)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 8.25 != 11\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "sample-mean-v65535",
+      "seed": 65535,
+      "packageDigest": "aa20769090aa02ab7a0374e0d54804ea84fc863e4c58dee0efb42b4c3abdfaa4",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... FAIL\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... FAIL\n\n======================================================================\nFAIL: test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-Ix65br/test_main.py\", line 7, in test_duplicate_invariant\n    def test_duplicate_invariant(self): self.assertEqual(solve([2,4]),solve([2,4,2,4]))\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2.0 != 2.4\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-Ix65br/test_main.py\", line 5, in test_single\n    def test_single(self): self.assertEqual(solve([8]),8)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 4.0 != 8\n\n======================================================================\nFAIL: test_seed_65535 (test_main.SeededVariantTests.test_seed_65535)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-Ix65br/test_main.py\", line 13, in test_seed_65535\n    def test_seed_65535(self): self.assertEqual(solve([2,4,6]),4)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3.0 != 4\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_duplicate_invariant (test_main.ChallengeTests.test_duplicate_invariant) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_symmetric (test_main.ChallengeTests.test_symmetric) ... ok\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "maze-wrap-v0",
+      "seed": 0,
+      "packageDigest": "dd010115e6797d96e522f7a0c18376543b6abad34eda3a52c0018cd85cda648b",
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ right wrap (0.703367ms)\n✖ left wrap (0.7389ms)\n✖ multiple wraps (0.298258ms)\n✖ seed 0 bounded negative move (0.209084ms)\nℹ tests 4\nℹ suites 0\nℹ pass 1\nℹ fail 3\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 81.504331\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ left wrap (0.7389ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-niOd1F/main.test.mjs:5:29)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:6:1\n✖ multiple wraps (0.298258ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-niOd1F/main.test.mjs:6:34)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:7:1\n✖ seed 0 bounded negative move (0.209084ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 1\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-niOd1F/main.test.mjs:7:48)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 1,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ right wrap (0.727192ms)\n✔ left wrap (0.122314ms)\n✔ multiple wraps (0.097637ms)\n✔ seed 0 bounded negative move (0.092478ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 79.196164\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "maze-wrap-v7",
+      "seed": 7,
+      "packageDigest": "882f8ed87bb3d61437ceda42de11ad7678bac3625d31f4c3a6019576bd2955ac",
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ right wrap (0.905731ms)\n✖ left wrap (0.810317ms)\n✖ multiple wraps (0.24638ms)\n✖ seed 7 bounded negative move (0.163997ms)\nℹ tests 4\nℹ suites 0\nℹ pass 1\nℹ fail 3\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 86.954894\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ left wrap (0.810317ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-BuluHs/main.test.mjs:5:29)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:6:1\n✖ multiple wraps (0.24638ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-BuluHs/main.test.mjs:6:34)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:7:1\n✖ seed 7 bounded negative move (0.163997ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -8 !== 1\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-BuluHs/main.test.mjs:7:48)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -8,\n    expected: 1,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ right wrap (0.810848ms)\n✔ left wrap (0.115103ms)\n✔ multiple wraps (0.088854ms)\n✔ seed 7 bounded negative move (0.147121ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 80.027182\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "maze-wrap-v65535",
+      "seed": 65535,
+      "packageDigest": "e3868db83c5b66446cbc37c2dcf482035fec624d1951e8b6fe90305e0ec21d51",
+      "baseline": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "✔ right wrap (0.850839ms)\n✖ left wrap (0.70506ms)\n✖ multiple wraps (0.2131ms)\n✖ seed 65535 bounded negative move (0.159069ms)\nℹ tests 4\nℹ suites 0\nℹ pass 1\nℹ fail 3\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 87.288709\n\n✖ failing tests:\n\ntest at main.test.mjs:5:1\n✖ left wrap (0.70506ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-n2OZuB/main.test.mjs:5:29)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:6:1\n✖ multiple wraps (0.2131ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -1 !== 4\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-n2OZuB/main.test.mjs:6:34)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -1,\n    expected: 4,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at main.test.mjs:7:1\n✖ seed 65535 bounded negative move (0.159069ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  -7 !== 2\n  \n      at TestContext.<anonymous> (file:///tmp/minamo-variant-proof-n2OZuB/main.test.mjs:7:52)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -7,\n    expected: 2,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+        "stderr": ""
+      },
+      "repaired": {
+        "command": [
+          "node",
+          "--test"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "✔ right wrap (0.689005ms)\n✔ left wrap (0.209515ms)\n✔ multiple wraps (0.107892ms)\n✔ seed 65535 bounded negative move (0.112609ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 85.356729\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "beat-clock-v0",
+      "seed": 0,
+      "packageDigest": "163621abf8305bb971481de817509d76dd2375123f3ad44816b9b29e4d650b8a",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... FAIL\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... ok\n\n======================================================================\nFAIL: test_120 (test_main.ChallengeTests.test_120)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dBsNFc/test_main.py\", line 5, in test_120\n    def test_120(self): self.assertEqual(solve(120,3),[0,0.5,1])\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [0.0, 2.0, 4.0] != [0, 0.5, 1]\n\nFirst differing element 1:\n2.0\n0.5\n\n- [0.0, 2.0, 4.0]\n+ [0, 0.5, 1]\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=1)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... ok\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "beat-clock-v7",
+      "seed": 7,
+      "packageDigest": "0c0de3f89ff9ec76b1da14bb4e8be06b51889c921ee6e44f16dae08c2c8f8e1c",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... FAIL\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... FAIL\n\n======================================================================\nFAIL: test_120 (test_main.ChallengeTests.test_120)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-UQ0lzl/test_main.py\", line 5, in test_120\n    def test_120(self): self.assertEqual(solve(120,3),[0,0.5,1])\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [0.0, 2.0, 4.0] != [0, 0.5, 1]\n\nFirst differing element 1:\n2.0\n0.5\n\n- [0.0, 2.0, 4.0]\n+ [0, 0.5, 1]\n\n======================================================================\nFAIL: test_seed_7 (test_main.SeededVariantTests.test_seed_7)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-UQ0lzl/test_main.py\", line 15, in test_seed_7\n    for value,reference in zip(actual,expected): self.assertAlmostEqual(value,reference)\n                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 4.0 != 0.25 within 7 places (3.75 difference)\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... ok\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "beat-clock-v65535",
+      "seed": 65535,
+      "packageDigest": "27f7a899bb64ca882560373954839aae4f4923116ff80c57af13031c39ad2960",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... FAIL\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... FAIL\n\n======================================================================\nFAIL: test_120 (test_main.ChallengeTests.test_120)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-hLnceo/test_main.py\", line 5, in test_120\n    def test_120(self): self.assertEqual(solve(120,3),[0,0.5,1])\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [0.0, 2.0, 4.0] != [0, 0.5, 1]\n\nFirst differing element 1:\n2.0\n0.5\n\n- [0.0, 2.0, 4.0]\n+ [0, 0.5, 1]\n\n======================================================================\nFAIL: test_seed_65535 (test_main.SeededVariantTests.test_seed_65535)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-hLnceo/test_main.py\", line 15, in test_seed_65535\n    for value,reference in zip(actual,expected): self.assertAlmostEqual(value,reference)\n                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 4.0 != 0.25 within 7 places (3.75 difference)\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_120 (test_main.ChallengeTests.test_120) ... ok\ntest_60 (test_main.ChallengeTests.test_60) ... ok\ntest_empty (test_main.ChallengeTests.test_empty) ... ok\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "counterexample-max-v0",
+      "seed": 0,
+      "packageDigest": "dc957ca2853cfa4d1e4c2b73149111bab9b84df7e4b3136adabd3ce758153dac",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... FAIL\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... FAIL\n\n======================================================================\nFAIL: test_negative (test_main.ChallengeTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-pvLWtx/test_main.py\", line 6, in test_negative\n    def test_negative(self): self.assertEqual(solve([-5,-2,-9]),-2)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -2\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-pvLWtx/test_main.py\", line 7, in test_single\n    def test_single(self): self.assertEqual(solve([-1]),-1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -1\n\n======================================================================\nFAIL: test_seed_0 (test_main.SeededVariantTests.test_seed_0)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-pvLWtx/test_main.py\", line 11, in test_seed_0\n    def test_seed_0(self): self.assertEqual(solve([-6,-2,-4]),-2)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -2\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... ok\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "counterexample-max-v7",
+      "seed": 7,
+      "packageDigest": "438f5bd404a15149ac84fb398c13e99b499b7f9727dfa02bed98489455c6df45",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... FAIL\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... FAIL\n\n======================================================================\nFAIL: test_negative (test_main.ChallengeTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-CkyVw7/test_main.py\", line 6, in test_negative\n    def test_negative(self): self.assertEqual(solve([-5,-2,-9]),-2)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -2\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-CkyVw7/test_main.py\", line 7, in test_single\n    def test_single(self): self.assertEqual(solve([-1]),-1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -1\n\n======================================================================\nFAIL: test_seed_7 (test_main.SeededVariantTests.test_seed_7)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-CkyVw7/test_main.py\", line 11, in test_seed_7\n    def test_seed_7(self): self.assertEqual(solve([-13,-9,-11]),-9)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -9\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... ok\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "counterexample-max-v65535",
+      "seed": 65535,
+      "packageDigest": "74b884057ec78ce8b64764a1c012ad665cd3582c3c38eea4510988d3846464e6",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... FAIL\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... FAIL\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... FAIL\n\n======================================================================\nFAIL: test_negative (test_main.ChallengeTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-30hmf8/test_main.py\", line 6, in test_negative\n    def test_negative(self): self.assertEqual(solve([-5,-2,-9]),-2)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -2\n\n======================================================================\nFAIL: test_single (test_main.ChallengeTests.test_single)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-30hmf8/test_main.py\", line 7, in test_single\n    def test_single(self): self.assertEqual(solve([-1]),-1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -1\n\n======================================================================\nFAIL: test_seed_65535 (test_main.SeededVariantTests.test_seed_65535)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-30hmf8/test_main.py\", line 11, in test_seed_65535\n    def test_seed_65535(self): self.assertEqual(solve([-6,-2,-4]),-2)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != -2\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_negative (test_main.ChallengeTests.test_negative) ... ok\ntest_positive (test_main.ChallengeTests.test_positive) ... ok\ntest_single (test_main.ChallengeTests.test_single) ... ok\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "trapezoid-v0",
+      "seed": 0,
+      "packageDigest": "7c5ec75250d0b031e1914882c70bb52876c62ca636284bb16b331f4746fb54dd",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... FAIL\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... FAIL\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... FAIL\n\n======================================================================\nFAIL: test_linear (test_main.ChallengeTests.test_linear)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dRKt2r/test_main.py\", line 5, in test_linear\n    def test_linear(self): self.assertAlmostEqual(solve([(0,0),(1,2)]),1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2 != 1 within 7 places (1 difference)\n\n======================================================================\nFAIL: test_nonuniform (test_main.ChallengeTests.test_nonuniform)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dRKt2r/test_main.py\", line 7, in test_nonuniform\n    def test_nonuniform(self): self.assertAlmostEqual(solve([(0,0),(1,1),(3,3)]),4.5)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 4.5 within 7 places (2.5 difference)\n\n======================================================================\nFAIL: test_seed_0 (test_main.SeededVariantTests.test_seed_0)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-dRKt2r/test_main.py\", line 11, in test_seed_0\n    def test_seed_0(self): self.assertAlmostEqual(solve([(0,0),(2,4)]),4)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 8 != 4 within 7 places (4 difference)\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... ok\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... ok\ntest_seed_0 (test_main.SeededVariantTests.test_seed_0) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "trapezoid-v7",
+      "seed": 7,
+      "packageDigest": "1eacd072ee9ebd5a102477993676b559beeb45abfed37fe843099330f998ecfa",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... FAIL\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... FAIL\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... FAIL\n\n======================================================================\nFAIL: test_linear (test_main.ChallengeTests.test_linear)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-wS4jHj/test_main.py\", line 5, in test_linear\n    def test_linear(self): self.assertAlmostEqual(solve([(0,0),(1,2)]),1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2 != 1 within 7 places (1 difference)\n\n======================================================================\nFAIL: test_nonuniform (test_main.ChallengeTests.test_nonuniform)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-wS4jHj/test_main.py\", line 7, in test_nonuniform\n    def test_nonuniform(self): self.assertAlmostEqual(solve([(0,0),(1,1),(3,3)]),4.5)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 4.5 within 7 places (2.5 difference)\n\n======================================================================\nFAIL: test_seed_7 (test_main.SeededVariantTests.test_seed_7)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-wS4jHj/test_main.py\", line 11, in test_seed_7\n    def test_seed_7(self): self.assertAlmostEqual(solve([(0,0),(9,18)]),81)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 162 != 81 within 7 places (81 difference)\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... ok\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... ok\ntest_seed_7 (test_main.SeededVariantTests.test_seed_7) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    },
+    {
+      "id": "trapezoid-v65535",
+      "seed": 65535,
+      "packageDigest": "55dd67a5d2402c38afcf7ee032511e82d77579da243e96f0bf94a5dbba399dd7",
+      "baseline": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... FAIL\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... FAIL\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... FAIL\n\n======================================================================\nFAIL: test_linear (test_main.ChallengeTests.test_linear)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-ECMs1l/test_main.py\", line 5, in test_linear\n    def test_linear(self): self.assertAlmostEqual(solve([(0,0),(1,2)]),1)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2 != 1 within 7 places (1 difference)\n\n======================================================================\nFAIL: test_nonuniform (test_main.ChallengeTests.test_nonuniform)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-ECMs1l/test_main.py\", line 7, in test_nonuniform\n    def test_nonuniform(self): self.assertAlmostEqual(solve([(0,0),(1,1),(3,3)]),4.5)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 4.5 within 7 places (2.5 difference)\n\n======================================================================\nFAIL: test_seed_65535 (test_main.SeededVariantTests.test_seed_65535)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/minamo-variant-proof-ECMs1l/test_main.py\", line 11, in test_seed_65535\n    def test_seed_65535(self): self.assertAlmostEqual(solve([(0,0),(2,4)]),4)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 8 != 4 within 7 places (4 difference)\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "repaired": {
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "test_constant (test_main.ChallengeTests.test_constant) ... ok\ntest_linear (test_main.ChallengeTests.test_linear) ... ok\ntest_nonuniform (test_main.ChallengeTests.test_nonuniform) ... ok\ntest_seed_65535 (test_main.SeededVariantTests.test_seed_65535) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+      }
+    }
+  ],
+  "gitReceipt": {
+    "classification": "isolated-local-git-not-github",
+    "providerAcceptance": false,
+    "starterCommit": "547742855f2423166cd2d9aa3389486091f06d78",
+    "submissionCommit": "ea942f8bd2e54e5cbc79aa08c5e186c6be828d0f",
+    "starterTree": "7c5ba6661bf834ee9ba711d74774e98b923de216",
+    "submissionTree": "0a5bd3ade6f5cb4bf087292a0c99d07db3fcf69f",
+    "changedPaths": [
+      "chunked_reader.py"
+    ],
+    "diffSha256": "3bcbc1c2db9f91ead227d957750e3452fc04e57b2592aee582069cecdae5f2e4",
+    "providerContractSimulationDigest": "0140eb8f99f708273ac5890470d34a81c2246edb0579507546be390ca56472cb",
+    "question": "The stream can arrive in fragments; what terminates a message?",
+    "nextIntention": "Explore length-prefixed framing next.",
+    "ci": "not-run"
+  }
+}

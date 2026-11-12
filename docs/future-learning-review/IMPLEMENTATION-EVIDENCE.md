@@ -1,0 +1,45 @@
+# PR27 integrated implementation evidence
+
+**24 October 2026 · release build record.** Implements the selected IMPLEMENTABLE-PLAN and reconciled FOCUSED-CHALLENGE. Exact source, deployment and post-publication installed-MCP receipts are recorded on [PR27](https://github.com/frekland/minamo-v2/pull/27). This file records the implementation and pre-publication checks; it is not a claim that an unperformed hosted/device check passed.
+
+## Delivered outcomes
+
+| Slice | Finished behaviour |
+| --- | --- |
+| A · workspace | Typed identity-only reference URL/history state; primary scroll restoration; exact targets retain Reader ownership of focus/scroll. Notes and Tools keep their persistent owners. Owner-scoped local reading size/width/spacing, code-wrap default, sidebar and motion settings have a strict whitelist; learning recovery and drafts are unaffected |
+| B · Library/reference/personal work | Compact Subjects/Topics/Technical reference entry points; eligible Area introductions and small authored groups separate from complete paginated membership; exact destinations and explicit passive preview with full Reader access. History retains filters/depth/position/focused result without stale card-body caches. General cards use labelled canonical excerpts where a manuscript has no body. Personal search filters the corpus by exact context/topic and matches only currently projected permitted quotes |
+| C · practical work and continuity | Canonical stage headings and stable IDs remain intact; exact duplicate generated declarations suppressed. Practical guide precedes supplementary purpose/outcome details. Investigations retain their open question/canonical guide, saved reasoning and linked Notes. Explicit task/reference Note capture creates a new draft and never retargets an existing Note. Quiet exact GPT handoff is available in normal reading. Ordinary browser practice defaults to genuine practice classification; disposable product tests remain explicit |
+| C · GPT semantics | Current/history/detail page roles; no historical page-local resume. Current reads expose chronological source metadata, bounded coverage, safe withdrawal/supersession cues and optional dependency-checked authored perspective. Stale prose is withheld. Guidance distinguishes correction from a new attempt, current evidence from interpretation, and agreed choices from mastery; selective existing reads recover older rationale |
+| D · future authoring/self-study | Original Markdown workflow retained. Guidance supports purposeful reuse/reformulation, current canonical revision inspection and optional prediction/explanation/variation. Candidate findings state their title-derived scope and offer compact eligible excerpts. A six-case actual local MCP benchmark covers creation, diagnosis, concise definition, unrelated reuse, targeted revision after personal captures/catalogue, and a structurally valid but factually wrong preview-only control |
+| E · conditional retrieval | **FTS not adopted.** At both 1k/10k synthetic passages, competent targeted literal and equal-budget FTS reformulations found 33/33 useful destinations with 0/7 no-answer candidates. FTS helps raw questions and local scan work, but no extra useful-destination benefit over the measured normal GPT baseline and no hosted/lifecycle proof warranted adding its derived index now. Existing exact/literal discovery ships without a flag or migration |
+
+No new durable learning family, taxonomy, cloud preference table, paid service, external connector, runtime, automatic checkpoint writer, mastery inference, quiz or generic reveal widget was introduced. Genuine teaching/learner corpus records were not migrated or rewritten.
+
+## Verification
+
+- **645 tests passed**, no failures/skips, final complete run about 54 seconds. New focused cases combine actual isolated domain/HTTP/MCP/D1/R2 with SSR and exact identity checks; they are not claimed as hosted execution.
+- `pnpm run typecheck` passed. The supported Sites build helper completed the production build. `git diff --check` passed.
+- Existing source/reader/Notes/recovery/owner-generation tests remain in the aggregate, alongside new Library, task, continuity, personal discovery, authoring and presentation tests.
+- Personal-discovery scale cases find older direct/parent-linked work among 125 Notes and beyond a 600-candidate scan. Source revocation prevents raw retained quote hits while independent prose remains searchable. Cursors bind filter, version and generation; partial scans have explicit continuation. A request-local projection cache searches 150 same-Source captures in at most 12 prepared reads and rechecks revocation on the next request. No cross-request cache or new index grants eligibility.
+- Existing catalogue scale checks cover 1,500 topics and 230 Area members. Area curation and independent membership remain different meanings; a contextual highlight does not classify all linked records.
+- Seven-checkpoint continuity cases preserve current direction, explain omissions and recover older reasoning through existing wider reads. One run measured focused 5,948 UTF-8 JSON bytes versus widened 7,354. A verbose fixture retained all 12 attempts and the decisive tail constraint instead of truncating facts. These are payload observations, not token or learning-gain claims.
+- [Authoring evidence](AUTHORING-IMPLEMENTATION-EVIDENCE.md) records six realistic requests, actual Node example execution, rich Reader rendering, independent reuse, catalogue-only CAS and retained canonical captures. Wrong sorting material remains preview-only.
+- [Retrieval adoption receipt](spikes/pr27-adoption-decision.md) gives the fixed reformulation comparison, scale, noninterference checks and limitations. It does not claim literal browser search understands natural-language questions or that localhost performance is hosted D1 performance.
+
+## Independent review and corrections
+
+A separate integration reviewer inspected changed production seams and React state/effect ownership. Corrected findings included: late preview publication after invalidation; exact passage scroll overridden by a generic top restoration; preview-close focus stealing a new primary destination; platform shortcut hydration mismatch; per-block wrapping reset by unrelated settings; explicit reduced-motion preference not reaching Reader scrolls; valid long rendition identities rejected by the preview URL parser; and Note capture remaining enabled for a missing exact preview part.
+
+Preview state is now atomically keyed by scope/destination and invalidation cancels publication; its renderer has no canonical IDs or reading-selection hooks. Exact Reader targets keep their own scroll/focus. Note actions are explicit and preserve the displayed edition. Missing destinations do not substitute similar passages. A separate passive-preview/Reader SSR case checks duplicate IDs, exact code bytes, withheld text and oversized whole-part omission.
+
+## Browser evidence and limits
+
+Actual local React UI was inspected through the supported preview, not a screenshot-only prototype. A Journey stage opened its exact passive reference, kept the main DOM/writing owner, and closed back to the same stage and invoking control. The 390×844 iframe used the real responsive CSS: reference becomes a complete secondary view rather than squeezing columns; return preserved stage, scroll and focus. The frame reported equal client/scroll widths (375 CSS px after its scrollbar).
+
+The initial narrow stage placed too much generated framing before the practical guide. Supplementary purpose/outcome metadata was moved below the guide, the route control shortened, and the sole canonical H1/first action rechecked. Canonical bytes were unchanged. Existing rich code, diagrams, tables and exact capture controls remain available.
+
+Rich Notes retained original synthetic writing through reload, settings and navigation. A newly requested Note focused the real ProseMirror editor; narrow Notes occupied its full 844px viewport with feedback header in the first 44px. Typing reported device retention, and unauthenticated preview autosave correctly rejected the save while preserving writing. No local preview grants API identity or can acknowledge a durable write.
+
+One maximum-update-depth error was observed during Fast Refresh while source/hook changes were in progress; a clean reload retained text and subsequent writing/new-Note creation worked. The rich editor/codec transaction implementation remains unchanged from V21. The exact development-only cause was not established; source ownership and deferred focus were checked, and no unproved production-loop fix is claimed.
+
+These checks do not establish physical Android keyboard/IME, native touch selection, Android Back, TalkBack, pinch zoom or rotation. A desktop iframe is not device emulation. Hosted installed-MCP, authenticated save/recovery and final source/private deployment evidence belongs to the PR27 release receipt after publication. No automatic claim of educational effectiveness or mastery follows from passing tests or publishing material.

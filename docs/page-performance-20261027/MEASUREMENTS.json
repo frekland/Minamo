@@ -1,0 +1,134 @@
+{
+  "synthetic": true,
+  "hosted": false,
+  "baselineNativeCommit": "2eb3827cb97e1fc32a13e4787db078cb8abba065",
+  "records": 374,
+  "measurement": "Local real Worker/D1 wall time and prepared statements; not production latency or Worker CPU.",
+  "before": [
+    {
+      "endpoint": "context",
+      "query": "article-000",
+      "n": 11,
+      "p50Ms": 16.4,
+      "p95Ms": 32.46,
+      "medianPrepared": 12,
+      "responseBytes": 18376
+    },
+    {
+      "endpoint": "context",
+      "query": "investigation-linked",
+      "n": 11,
+      "p50Ms": 88.81,
+      "p95Ms": 105.36,
+      "medianPrepared": 87,
+      "responseBytes": 22938
+    },
+    {
+      "endpoint": "context",
+      "query": "journey-linked",
+      "n": 11,
+      "p50Ms": 81.57,
+      "p95Ms": 92.42,
+      "medianPrepared": 87,
+      "responseBytes": 22848
+    },
+    {
+      "endpoint": "workspace",
+      "query": "collection",
+      "n": 11,
+      "p50Ms": 180.08,
+      "p95Ms": 257.73,
+      "medianPrepared": 188,
+      "responseBytes": 178949
+    }
+  ],
+  "after": [
+    {
+      "endpoint": "context",
+      "query": "article-000",
+      "n": 11,
+      "p50Ms": 16.04,
+      "p95Ms": 23.3,
+      "medianPrepared": 10,
+      "responseBytes": 18376
+    },
+    {
+      "endpoint": "context",
+      "query": "investigation-linked",
+      "n": 11,
+      "p50Ms": 32.16,
+      "p95Ms": 53.12,
+      "medianPrepared": 10,
+      "responseBytes": 22938
+    },
+    {
+      "endpoint": "context",
+      "query": "journey-linked",
+      "n": 11,
+      "p50Ms": 36.29,
+      "p95Ms": 45.08,
+      "medianPrepared": 10,
+      "responseBytes": 22848
+    },
+    {
+      "endpoint": "workspace",
+      "query": "collection",
+      "n": 11,
+      "p50Ms": 87.63,
+      "p95Ms": 98.83,
+      "medianPrepared": 14,
+      "responseBytes": 178949
+    }
+  ],
+  "bundles": {
+    "before": {
+      "chunks": 17,
+      "bytes": 975876,
+      "gzip": 291839,
+      "files": [
+        "_next/static/chunks/learning-experience-5SYYmKTE.js",
+        "_next/static/chunks/language-CvNZCL1c.js",
+        "_next/static/chunks/note-markdown-view-BW1pd924.js",
+        "_next/static/chunks/language-reading-details-DGLVbDwi.js",
+        "_next/static/chunks/reader-GRac4Juq.js",
+        "_next/static/chunks/language-dom-Ds4xa0_m.js",
+        "_next/static/chunks/math-zrn4vrOx.js",
+        "_next/static/chunks/framework-D_rUT4EX.js",
+        "_next/static/chunks/digest-By19PiLt.js",
+        "_next/static/chunks/client-id-hOV9eBXr.js",
+        "_next/static/chunks/data-core-BY77qK0B.js",
+        "_next/static/chunks/workspace-D80vuF-k.js",
+        "_next/static/chunks/platform-CUJdhBb5.js",
+        "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+        "_next/static/chunks/preload-helper-5TPFiuuK.js",
+        "_next/static/chunks/workspace-generation-CfFBhQWg.js",
+        "_next/static/chunks/notes-workspace-p0bq-1gM.js"
+      ]
+    },
+    "after": {
+      "chunks": 18,
+      "bytes": 880107,
+      "gzip": 264079,
+      "files": [
+        "_next/static/chunks/client-id-BwVyAVgA.js",
+        "_next/static/chunks/language-reading-details-VM8WItgk.js",
+        "_next/static/chunks/note-markdown-view-D26rS4el.js",
+        "_next/static/chunks/platform-DMmsfL0R.js",
+        "_next/static/chunks/framework-D_rUT4EX.js",
+        "_next/static/chunks/workspace-generation-CfFBhQWg.js",
+        "_next/static/chunks/workspace-Dv_PTTl5.js",
+        "_next/static/chunks/digest-DxQM2HeN.js",
+        "_next/static/chunks/data-core-HeKuXBHl.js",
+        "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+        "_next/static/chunks/preload-helper-5TPFiuuK.js",
+        "_next/static/chunks/learning-experience-D4Si88pp.js",
+        "_next/static/chunks/language-W-uxbqpR.js",
+        "_next/static/chunks/notes-workspace-BwUeoWZP.js",
+        "_next/static/chunks/reader-D83KF7JP.js",
+        "_next/static/chunks/note-image-placement-CFpqIhr-.js",
+        "_next/static/chunks/language-dom-0PIwMu6V.js",
+        "_next/static/chunks/math-DyDKtMon.js"
+      ]
+    }
+  }
+}

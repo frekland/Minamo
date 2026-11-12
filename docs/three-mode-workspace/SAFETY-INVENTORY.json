@@ -1,0 +1,670 @@
+{
+  "environment": "Isolated local QA D1/R2 only; never connected production",
+  "owner": "TEST-ONLY-multi-layout-local-20261024",
+  "productionWrites": 0,
+  "connectedSyntheticRecords": [],
+  "connectedCleanupRequired": false,
+  "genuineDataExported": false,
+  "localReviewFixturesIntentionallyRetained": true,
+  "recordCount": 14,
+  "records": [
+    {
+      "family": "annotation",
+      "id": "95ce2461-2dad-4982-b592-6282fdce765c",
+      "rev": 1,
+      "rendition": "r-93c1bed5d38ff2bcf493089c4fd23d0790a91208f10b927088dea10ea56477f8",
+      "synthetic": false,
+      "state": "active",
+      "lastOperation": "91a485c1-fc94-467c-8502-de42b152875c"
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-ml-annotation",
+      "rev": 1,
+      "rendition": "r-9d0b956654491afca99a7754a42306bd19529ec08d24bed1b062b2dcef79b1d0",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "layout-lab-seed-TEST-ONLY-ml-annotation"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-excerpt",
+      "rev": 2,
+      "rendition": "r-8c841613185db3442d11917d3c2be2fd652644bc028ff483e8692c6d12273e9c",
+      "synthetic": true,
+      "state": "trashed",
+      "lastOperation": "TEST-ONLY-layout-source-trash-7bbbcd61-d2df-48b1-87e6-05807ff88eb7"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-state",
+      "rev": 2,
+      "rendition": "r-1ee9c0cb84e696ff3052a1935fdfb98ec4f41c2a123b0509b3f982b98ea6fef7",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "layout-lab-links-TEST-ONLY-ml-state"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-tcp",
+      "rev": 3,
+      "rendition": "r-bad7d56adaf50cbcbd002008b61219abb7b686f7a7710b6db942d15f3b63d3ae",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "TEST-ONLY-layout-edition-14ce0c4d-fad0-4f69-990d-0c835b7d3781"
+    },
+    {
+      "family": "flag",
+      "id": "flag-d48d52d084b6eb73f80e98c38a4d5da4c94350ca88eb1ee74129f4766d528e7a",
+      "rev": 1,
+      "rendition": null,
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "56d07bda-801b-4b29-b48d-67506925316b"
+    },
+    {
+      "family": "investigation",
+      "id": "TEST-ONLY-ml-linux",
+      "rev": 2,
+      "rendition": "r-cd99f13670aa43681d71218492ae257826c9b2420a561e63c9679694bf90e52a",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "layout-lab-links-TEST-ONLY-ml-linux"
+    },
+    {
+      "family": "investigation",
+      "id": "c251a2f3-863a-44ed-a3ff-6c03c61c8ead",
+      "rev": 1,
+      "rendition": "r-a1be456605fe4792465c985c81de0ce5be4001451aa7857bc5f4a89c846815af",
+      "synthetic": false,
+      "state": "active",
+      "lastOperation": "1bd880fb-9797-4712-a2ef-14d24a4e702a"
+    },
+    {
+      "family": "journey",
+      "id": "TEST-ONLY-ml-rpg",
+      "rev": 2,
+      "rendition": "r-c37960e585f6ec7fd34d1d0901592541cfe2099898190b17f0945360207d5641",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "layout-lab-links-TEST-ONLY-ml-rpg"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "rev": 9,
+      "rendition": "r-e64ce083c4d08f5e1ede41091b714126b5fab00d70b88f3fc9cde59cbaccdded",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "d02e1b39-89f9-4cf1-92ac-fecdf32d1872"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-reference",
+      "rev": 2,
+      "rendition": "r-af65d79e351563a33cd261add062d45853ee44c6bc48e7de1a9e10ad0a4e7df5",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "TEST-ONLY-layout-lab-attach-image"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-rpg",
+      "rev": 2,
+      "rendition": "r-f4ded33d610a31096b5fe8f69fb1d120207d2f59fd93b9e4970f834f3bfc1778",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "layout-lab-links-TEST-ONLY-ml-note-rpg"
+    },
+    {
+      "family": "run",
+      "id": "run-f57552fe-0b25-4098-aad6-57e67da73d9a",
+      "rev": 1,
+      "rendition": "r-66ef69c4297b1d36946fd3e5c7494f1908df529e422fdc178dd1d7448ece2026",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "e88b8056-ba07-4df7-a623-aa181b87646b"
+    },
+    {
+      "family": "source",
+      "id": "TEST-ONLY-ml-source",
+      "rev": 2,
+      "rendition": "r-5de2c6880359175566b56c533cdd7c878c4b952f35e257f45ce5b1c761435898",
+      "synthetic": true,
+      "state": "active",
+      "lastOperation": "TEST-ONLY-layout-source-revoke-788d3b2e-bb44-42ac-8733-fc35d3867e96"
+    }
+  ],
+  "operationCount": 36,
+  "operations": [
+    {
+      "id": "1bd880fb-9797-4712-a2ef-14d24a4e702a",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "32c65430-e089-461e-87d1-2663e111ea55",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "3c3f805b-121f-4bb4-9a99-c9b592c294ee",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "56d07bda-801b-4b29-b48d-67506925316b",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": {
+        "family": "flag",
+        "id": "flag-d48d52d084b6eb73f80e98c38a4d5da4c94350ca88eb1ee74129f4766d528e7a",
+        "rev": 1
+      },
+      "recordRefs": null
+    },
+    {
+      "id": "80ac6e97-bee2-42fb-965b-392fee2c327d",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "8951fe00-95b3-465f-b24a-e527ece645b3",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "91a485c1-fc94-467c-8502-de42b152875c",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-edition-14ce0c4d-fad0-4f69-990d-0c835b7d3781",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-lab-attach-image",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-lab-linux-checkpoint",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-source-admission",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-source-display",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-source-revoke-788d3b2e-bb44-42ac-8733-fc35d3867e96",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "TEST-ONLY-layout-source-trash-7bbbcd61-d2df-48b1-87e6-05807ff88eb7",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "ad996c01-cd66-4b29-890f-db753d0154b5",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "b2c01e5a-ef73-496b-847c-446d7875970d",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "b4371b22-9ef0-4305-a2f8-e566c1812cad",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "c13d5562-1765-4771-b047-8b6484bb9d85",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "d02e1b39-89f9-4cf1-92ac-fecdf32d1872",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "d88e2998-96be-4669-823a-c1154af7169e",
+      "httpStatus": 409,
+      "result": "conflict",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "e88b8056-ba07-4df7-a623-aa181b87646b",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-external-d1d93c86-5f0b-45b5-8019-8b2582f5f90f",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-links-TEST-ONLY-ml-linux",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-links-TEST-ONLY-ml-note-linux",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-links-TEST-ONLY-ml-note-rpg",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-links-TEST-ONLY-ml-rpg",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-links-TEST-ONLY-ml-state",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-links-TEST-ONLY-ml-tcp",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-annotation",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-linux",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-note-linux",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-note-reference",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-note-rpg",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-rpg",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-state",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    },
+    {
+      "id": "layout-lab-seed-TEST-ONLY-ml-tcp",
+      "httpStatus": 200,
+      "result": "committed",
+      "recordRef": null,
+      "recordRefs": null
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "80ac6e97-bee2-42fb-965b-392fee2c327d",
+      "revision": 3,
+      "withdrawn": 1,
+      "last_operation": "b4371b22-9ef0-4305-a2f8-e566c1812cad",
+      "target_key": "investigation:c251a2f3-863a-44ed-a3ff-6c03c61c8ead"
+    },
+    {
+      "id": "TEST-ONLY-layout-lab-linux-checkpoint",
+      "revision": 1,
+      "withdrawn": 0,
+      "last_operation": "TEST-ONLY-layout-lab-linux-checkpoint",
+      "target_key": "investigation:TEST-ONLY-ml-linux"
+    }
+  ],
+  "assets": [
+    {
+      "id": "image-503279416d06d674bc18e030b0b7d7c1ae856a1a8c7a7a385ea4e63dddad7a72",
+      "upload_id": "TEST-ONLY-layout-lab-image",
+      "digest": "6ce85d4d064c15776cfd9e1cb04eed168b28c7355e19e9c58f29aaa24459af4f",
+      "mime": "image/png",
+      "bytes": 77,
+      "width": 2,
+      "height": 3,
+      "state": "attached",
+      "revision": 1
+    },
+    {
+      "id": "image-aa5c5040fba9ad36f5e6a43fd24fd58170c188243fcba5610652fbf65244d39e",
+      "upload_id": "cafa3ea1-a07b-4525-a312-667b9e0288de",
+      "digest": "6ce85d4d064c15776cfd9e1cb04eed168b28c7355e19e9c58f29aaa24459af4f",
+      "mime": "image/png",
+      "bytes": 77,
+      "width": 2,
+      "height": 3,
+      "state": "attached",
+      "revision": 1
+    }
+  ],
+  "attachments": [
+    {
+      "asset_id": "image-503279416d06d674bc18e030b0b7d7c1ae856a1a8c7a7a385ea4e63dddad7a72",
+      "family": "note",
+      "record_id": "TEST-ONLY-ml-note-reference"
+    },
+    {
+      "asset_id": "image-aa5c5040fba9ad36f5e6a43fd24fd58170c188243fcba5610652fbf65244d39e",
+      "family": "note",
+      "record_id": "TEST-ONLY-ml-note-linux"
+    }
+  ],
+  "notes": [
+    "The manually authored TEST ONLY Home task uses ordinary classification solely to exercise Home, which correctly excludes synthetic checkpoints. It exists only in isolated QA storage. Its checkpoint was corrected then withdrawn at revision3.",
+    "The seeded synthetic Linux checkpoint remains a local review example; no connected checkpoint was created.",
+    "All ephemeral automated Miniflare instances dispose in finally. No purge, recovery activation, access or production preference change."
+  ],
+  "exactEditions": {
+    "TCPRetained": "r-2ebf32787d0dda3a9c5f73578e97f3044b51cce89fb5310a30e80c1144def8c5",
+    "TCPCurrent": "r-bad7d56adaf50cbcbd002008b61219abb7b686f7a7710b6db942d15f3b63d3ae",
+    "LinuxTask": "r-cd99f13670aa43681d71218492ae257826c9b2420a561e63c9679694bf90e52a",
+    "RPGStageTask": "r-c37960e585f6ec7fd34d1d0901592541cfe2099898190b17f0945360207d5641"
+  },
+  "revisions": [
+    {
+      "family": "annotation",
+      "id": "95ce2461-2dad-4982-b592-6282fdce765c",
+      "revision": 1,
+      "rendition": "r-93c1bed5d38ff2bcf493089c4fd23d0790a91208f10b927088dea10ea56477f8"
+    },
+    {
+      "family": "annotation",
+      "id": "TEST-ONLY-ml-annotation",
+      "revision": 1,
+      "rendition": "r-9d0b956654491afca99a7754a42306bd19529ec08d24bed1b062b2dcef79b1d0"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-excerpt",
+      "revision": 1,
+      "rendition": "r-8c841613185db3442d11917d3c2be2fd652644bc028ff483e8692c6d12273e9c"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-excerpt",
+      "revision": 2,
+      "rendition": "r-8c841613185db3442d11917d3c2be2fd652644bc028ff483e8692c6d12273e9c"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-state",
+      "revision": 1,
+      "rendition": "r-1ee9c0cb84e696ff3052a1935fdfb98ec4f41c2a123b0509b3f982b98ea6fef7"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-state",
+      "revision": 2,
+      "rendition": "r-1ee9c0cb84e696ff3052a1935fdfb98ec4f41c2a123b0509b3f982b98ea6fef7"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-tcp",
+      "revision": 1,
+      "rendition": "r-2ebf32787d0dda3a9c5f73578e97f3044b51cce89fb5310a30e80c1144def8c5"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-tcp",
+      "revision": 2,
+      "rendition": "r-2ebf32787d0dda3a9c5f73578e97f3044b51cce89fb5310a30e80c1144def8c5"
+    },
+    {
+      "family": "article",
+      "id": "TEST-ONLY-ml-tcp",
+      "revision": 3,
+      "rendition": "r-bad7d56adaf50cbcbd002008b61219abb7b686f7a7710b6db942d15f3b63d3ae"
+    },
+    {
+      "family": "flag",
+      "id": "flag-d48d52d084b6eb73f80e98c38a4d5da4c94350ca88eb1ee74129f4766d528e7a",
+      "revision": 1,
+      "rendition": null
+    },
+    {
+      "family": "investigation",
+      "id": "TEST-ONLY-ml-linux",
+      "revision": 1,
+      "rendition": "r-cd99f13670aa43681d71218492ae257826c9b2420a561e63c9679694bf90e52a"
+    },
+    {
+      "family": "investigation",
+      "id": "TEST-ONLY-ml-linux",
+      "revision": 2,
+      "rendition": "r-cd99f13670aa43681d71218492ae257826c9b2420a561e63c9679694bf90e52a"
+    },
+    {
+      "family": "investigation",
+      "id": "c251a2f3-863a-44ed-a3ff-6c03c61c8ead",
+      "revision": 1,
+      "rendition": "r-a1be456605fe4792465c985c81de0ce5be4001451aa7857bc5f4a89c846815af"
+    },
+    {
+      "family": "journey",
+      "id": "TEST-ONLY-ml-rpg",
+      "revision": 1,
+      "rendition": "r-c37960e585f6ec7fd34d1d0901592541cfe2099898190b17f0945360207d5641"
+    },
+    {
+      "family": "journey",
+      "id": "TEST-ONLY-ml-rpg",
+      "revision": 2,
+      "rendition": "r-c37960e585f6ec7fd34d1d0901592541cfe2099898190b17f0945360207d5641"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 1,
+      "rendition": "r-a6d2bd3ae734cf9d4efb5bb058c40018ed2d51b32aa82a28c382d6e3ec8cd402"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 2,
+      "rendition": "r-a6d2bd3ae734cf9d4efb5bb058c40018ed2d51b32aa82a28c382d6e3ec8cd402"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 3,
+      "rendition": "r-72c7a0345d80f705fd7289803481a8a249218e3036104a4a655c072e15a69f6a"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 4,
+      "rendition": "r-1b20c6c5bbc3aaef88df438a97f1b6dd32f8239a99d032f8215e650281940816"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 5,
+      "rendition": "r-de0a72cde09970a929cedcfd9bf677b2e6bfb9fbb2e4271919aa998ce77cd7c7"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 6,
+      "rendition": "r-3f064b1bee5a221d777402601b2f0c5a7985f8c5ea208863b8dec130b2bdfb8d"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 7,
+      "rendition": "r-9844771ba684691824db5fbf2b8d10b26533f8a30b05ba58641bc59d847cb092"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 8,
+      "rendition": "r-7169899b9cacb0d199f033c6b1f98688c45743ce83492d2bac1c61586d780672"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-linux",
+      "revision": 9,
+      "rendition": "r-e64ce083c4d08f5e1ede41091b714126b5fab00d70b88f3fc9cde59cbaccdded"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-reference",
+      "revision": 1,
+      "rendition": "r-d80acdb27350433a17801d08ff209b4edd371f833118fd6418e3ff7029db5f0c"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-reference",
+      "revision": 2,
+      "rendition": "r-af65d79e351563a33cd261add062d45853ee44c6bc48e7de1a9e10ad0a4e7df5"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-rpg",
+      "revision": 1,
+      "rendition": "r-f4ded33d610a31096b5fe8f69fb1d120207d2f59fd93b9e4970f834f3bfc1778"
+    },
+    {
+      "family": "note",
+      "id": "TEST-ONLY-ml-note-rpg",
+      "revision": 2,
+      "rendition": "r-f4ded33d610a31096b5fe8f69fb1d120207d2f59fd93b9e4970f834f3bfc1778"
+    },
+    {
+      "family": "run",
+      "id": "run-f57552fe-0b25-4098-aad6-57e67da73d9a",
+      "revision": 1,
+      "rendition": "r-66ef69c4297b1d36946fd3e5c7494f1908df529e422fdc178dd1d7448ece2026"
+    },
+    {
+      "family": "source",
+      "id": "TEST-ONLY-ml-source",
+      "revision": 1,
+      "rendition": "r-ff80f40ae0d255cc091ce6a53f84b75df93b96926f1091b688e33337a7f4029e"
+    },
+    {
+      "family": "source",
+      "id": "TEST-ONLY-ml-source",
+      "revision": 2,
+      "rendition": "r-5de2c6880359175566b56c533cdd7c878c4b952f35e257f45ce5b1c761435898"
+    }
+  ],
+  "checkpointRevisions": [
+    {
+      "development_id": "80ac6e97-bee2-42fb-965b-392fee2c327d",
+      "revision": 1,
+      "created_at": "2026-10-24T18:18:10.020Z"
+    },
+    {
+      "development_id": "80ac6e97-bee2-42fb-965b-392fee2c327d",
+      "revision": 2,
+      "created_at": "2026-10-24T18:19:47.486Z"
+    },
+    {
+      "development_id": "80ac6e97-bee2-42fb-965b-392fee2c327d",
+      "revision": 3,
+      "created_at": "2026-10-24T18:19:58.185Z"
+    },
+    {
+      "development_id": "TEST-ONLY-layout-lab-linux-checkpoint",
+      "revision": 1,
+      "created_at": "2026-10-24T17:56:17.517Z"
+    }
+  ]
+}

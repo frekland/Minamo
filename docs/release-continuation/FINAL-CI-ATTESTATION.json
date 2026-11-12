@@ -1,0 +1,128 @@
+{
+  "classification": "final independent exact-tree CI-equivalent rebind; not remote GitHub CI",
+  "completedAtUtc": "2026-10-25T21:49:16.531365+00:00",
+  "source": {
+    "githubCommit": "6252b6535c448888a1a16d517a0590b5456395b4",
+    "localCommit": "fba699b000c33af379413ee51772a952dd5b4a17",
+    "githubAndLocalTree": "b6ac05c1cfde049dc74d645a737f5950b1fd6cc1",
+    "inputManifest": "evidence/INPUT-MANIFEST.json",
+    "inputCount": 663,
+    "inputDigest": "3c7f7c01e087b6608458dbb70a8a23a500fb0c15790f075ae24f92cbbe714feb",
+    "mismatchesBefore": [],
+    "mismatchesAfter": [],
+    "gitStatusAfter": "",
+    "cleanCheckout": "/workspace/scratch/10fcadaf9a6c/continuation-ci-attestation"
+  },
+  "dependencies": {
+    "node": "v24.22.1",
+    "pnpm": "11.25.0",
+    "freshReinstallThisRebind": false,
+    "reusedIndependentPriorFrozenInstallation": true,
+    "nodeModulesIsSymlink": false,
+    "unchangedInputs": {
+      "package.json": {
+        "previousSha256": "4bd1bbbc0af4792e26800af9f3fec2dfb1e95fce1f41cfb021c3d7a5da25e19a",
+        "currentSha256": "4bd1bbbc0af4792e26800af9f3fec2dfb1e95fce1f41cfb021c3d7a5da25e19a",
+        "same": true
+      },
+      "pnpm-lock.yaml": {
+        "previousSha256": "15b04e0b73842bbc9e77b42d2ac615fac4d89e4488cb796b33d94bac6088e4ee",
+        "currentSha256": "15b04e0b73842bbc9e77b42d2ac615fac4d89e4488cb796b33d94bac6088e4ee",
+        "same": true
+      }
+    },
+    "priorFreshInstallReceipt": "CI-ATTESTATION.json",
+    "priorFreshInstallLog": "evidence/ci-independent-install.log.gz"
+  },
+  "validation": {
+    "typecheck": {
+      "command": "pnpm run typecheck",
+      "exitCode": 0
+    },
+    "productionBuild": {
+      "command": "pnpm run build",
+      "exitCode": 0,
+      "scienceIncluded": false
+    },
+    "fullSuite": {
+      "command": "pnpm test",
+      "exitCode": 0,
+      "concurrentFiles": 2,
+      "tests": 1021,
+      "pass": 1017,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 4,
+      "todo": 0,
+      "durationMs": 207522.805717,
+      "skipDetails": [
+        "\ufe63 actual shared controller computes PNG+table and keeps error output partial; next fresh run cannot inherit it (1.021864ms) # SKIP",
+        "\ufe63 actual shared controller blocks deceptive low-dpi huge raster before savefig (0.125889ms) # SKIP",
+        "\ufe63 actual isolated Node worker infinite loop is terminated by parent watchdog (0.083255ms) # SKIP",
+        "\ufe63 Rust local starter compilation is performed only when a genuine toolchain exists (5.130331ms) # Rust/Cargo unavailable: source is complete but remains uncompiled; no Python substitute is counted as Rust evidence."
+      ]
+    },
+    "optionalAssetsAfterSuite": {
+      "publicController": false,
+      "distributionController": false,
+      "scienceDistribution": false
+    },
+    "cgroupOomEventsBefore": 20,
+    "cgroupOomEventsAfter": 20,
+    "cgroupOomKillsBefore": 3,
+    "cgroupOomKillsAfter": 3
+  },
+  "currentProvider": {
+    "run": 40236768170,
+    "jobs": [
+      {
+        "id": 121299902363,
+        "name": "verify",
+        "status": "completed",
+        "conclusion": "failure",
+        "runner_id": 0,
+        "steps": [],
+        "started_at": "2026-10-25T21:42:45Z",
+        "completed_at": "2026-10-25T21:42:47Z"
+      }
+    ],
+    "timing": {
+      "billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 1,
+          "job_runs": [
+            {
+              "job_id": 121299902363,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "run_duration_ms": 4000
+    },
+    "remoteCIGreen": false,
+    "cause": "unestablished; no rerun, billing, permissions or account change performed"
+  },
+  "logs": {
+    "typecheck": {
+      "path": "evidence/final-ci-typecheck.log.gz",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "build": {
+      "path": "evidence/final-ci-build.log.gz",
+      "uncompressedBytes": 2043,
+      "uncompressedSha256": "9db524bd52e08dafaefdb851cebe5e76a2a350de12f6dd43cca497055ebf1ee7"
+    },
+    "fullSuite": {
+      "path": "evidence/final-ci-full-suite.log.gz",
+      "uncompressedBytes": 148313,
+      "uncompressedSha256": "d75195dc169d62c2e29aed07041b2b1f0d9adb5a8f1ff77ca86ecd2d929d8c31"
+    }
+  },
+  "sourceChangesPerformed": false,
+  "productionWritesPerformed": false,
+  "portableBrowserClaim": "Separate root/reviewer-owned 39-case pinned browser receipt; not rerun or added to Node test count by this CI attestation.",
+  "disposition": "Final technical validation rebind complete; independent release reviewer owns G03 alternative signoff and all remaining release gates."
+}

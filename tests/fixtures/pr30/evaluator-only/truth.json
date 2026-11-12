@@ -1,0 +1,58 @@
+{
+  "classification": "EVALUATOR ONLY \u2014 never include this file or scenario transcripts in blind tutor input",
+  "ghost-signal": {
+    "must_retain": [
+      "Current DNS exonerated; archived NXDOMAIN describes unrelated old incident",
+      "/health 200 does not establish telemetry correctness",
+      "Offsets normalised to UTC; preserve originals",
+      "Missing does not equal zero",
+      "Retry corruption hypothesis unsupported by controlled replay",
+      "Atomic write hypothesis untested in saved history",
+      "Current goal is evidence-led report, not dashboard or class refactor"
+    ],
+    "next_step": "One small direct-write vs atomic-replacement experiment with learner prediction; do not announce its outcome in advance.",
+    "false_claims": [
+      "DNS fixed",
+      "Retry caused corruption",
+      "Atomicity already proved",
+      "Learner achieved mastery",
+      "Real observatory repaired"
+    ]
+  },
+  "mood-music": {
+    "must_retain": [
+      "Personally labelled local tracks chosen after abandoning objective mood score",
+      "API capability unverified unless dated authoritative receipt supplied",
+      "Stale responses need intent ordering",
+      "No live Spotify operation executed"
+    ],
+    "next_step": "One pure feedback update or deterministic asynchronous race test, according to saved next action; preserve mock adapter and explain source limits."
+  },
+  "zombie-rpg": {
+    "must_retain": [
+      "Complete beginner wants small changes",
+      "Truthiness/equality, print/return and shared-default misconceptions corrected",
+      "Fresh dictionary state selected; classes deferred",
+      "Parsed JSON still needs domain validation"
+    ],
+    "next_step": "One missing-health validation check followed by a small repair; avoid complete engine or class architecture."
+  },
+  "signal-garden": {
+    "must_retain": [
+      "Unit normalisation",
+      "Null versus zero",
+      "UTC plus raw provenance",
+      "Observation-weighted and sensor-weighted statistics answer different questions"
+    ],
+    "next_step": "Calculate both means and coverage, choose matching statistic; do not certify sensor fault from suspicion."
+  },
+  "mousescript": {
+    "must_retain": [
+      "Tokenizer behaviour follows chosen grammar",
+      "Parsing produces data, execution changes state",
+      "RPG mechanism transfers without project-text duplication",
+      "No eval/exec; bounded runtime before recursion"
+    ],
+    "next_step": "Execute the same AST against independent states and inspect leakage; avoid compiler-course avalanche."
+  }
+}

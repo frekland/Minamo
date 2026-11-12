@@ -1,0 +1,42 @@
+- paragraph: Data detective
+- button "Expand content"
+- button "Open Notes"
+- tablist "Activity sections":
+  - tab "Task"
+  - tab "Source files"
+  - tab "Explore" [selected]
+  - tab "Hints"
+  - tab "Your attempt"
+- region "Task":
+  - heading "Task" [level=3]
+  - paragraph: Explore
+  - paragraph: "Data detective: check the denominator. Inspect the exact source, make a prediction and retain a useful question. This is an original synthetic activity, not an execution or learning claim."
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=task
+  - paragraph: Before you try
+  - paragraph: What do you expect, and which observation would change your mind?
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=predict
+  - paragraph: Explore
+  - paragraph: "Compare counts with their own totals: A is 8 of 10; B is 9 of 20. The missing count for C is not zero. Keep its blank table cell; the count-versus-total plot omits that one incomplete numeric pair and reports the omission. These are original synthetic measurements, not observed results."
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=data-guidance
+- tabpanel "Explore":
+  - heading "Explore" [level=3]
+  - paragraph: data/table-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=table-source
+  - status: Ready to inspect.
+  - paragraph: data/chart-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=chart-source
+  - status: Ready to inspect.
+- group: Compare working layouts

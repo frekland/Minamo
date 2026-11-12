@@ -1,0 +1,82 @@
+{
+  "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+  "title": "Minamo",
+  "slug": "minamo",
+  "url": "https://minamo.jscymru.chatgpt.site",
+  "productionVersion": 27,
+  "nativeHead": "6ce455608150b0983a654bcf071d94a2d96792e1",
+  "githubMain": "c40ebcc9a27bd2538ecf5b117a3eeba7f1229d1c",
+  "access": {
+    "mode": "custom",
+    "revision": 1,
+    "allowedOwners": 1,
+    "externalVisitors": 0,
+    "editors": 0
+  },
+  "manifest": {
+    "d1": "DB",
+    "r2": "BUCKET",
+    "capabilities": [
+      "mcp"
+    ]
+  },
+  "databaseOverview": "Read-only live control plane returned DB and24 user tables; no row contents were exported to Git.",
+  "generation": "legacy@0",
+  "mcp": {
+    "url": "https://minamo.jscymru.chatgpt.site/mcp",
+    "plugin_id": "plugin_asdk_app_sites_1aa61d1ea1148191a4f246d947fcc0bb",
+    "installedToolNames": [
+      "apply_minamo_authoring_package",
+      "apply_minamo_command",
+      "confirm_minamo_relationship",
+      "get_minamo_context",
+      "get_minamo_editorial_policy",
+      "get_minamo_learning_context",
+      "get_minamo_next_probe",
+      "get_minamo_relationship_candidates",
+      "get_minamo_workspace",
+      "manage_minamo_recovery",
+      "preview_minamo_authoring_package",
+      "preview_minamo_command",
+      "preview_minamo_manuscript",
+      "publish_minamo_manuscript",
+      "query_minamo_library",
+      "query_minamo_records",
+      "read_minamo_manuscript_source",
+      "read_minamo_operation",
+      "read_minamo_record",
+      "record_minamo_learning_development",
+      "revise_minamo_learning_development"
+    ],
+    "activityToolsPresent": false,
+    "disposition": "Expected V27 installed catalogue; candidate not deployed. Reconnect only after future successful release, then fresh conversation verification."
+  },
+  "environment": {
+    "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+    "revision": 2,
+    "entries": [
+      {
+        "key": "TLDRAW_LICENSE_KEY",
+        "is_secret": false,
+        "configured": true
+      }
+    ]
+  },
+  "license": {
+    "keyValuePrinted": false,
+    "keyValuePersisted": false,
+    "keyValueCommitted": false,
+    "canvasGate": "DEV and synthetic-only; remains OFF in production",
+    "hostLicenseValidation": "Not established. Runtime env presence does not inject a license into the compiled browser. No key was provided to a client.",
+    "reference": "https://tldraw.dev/sdk-features/license-key",
+    "privacy": "Client signature/domain/type/expiry and license telemetry must be individually accepted before enabling. Trial/hobby licenses send page URL metadata. Current disabled optional lane performs no licensed canvas mount."
+  },
+  "legacy": {
+    "project_id": "appgprj_6acfb08219e48191895dd6171f289ecb",
+    "url": "https://minamo-legacy.jscymru.chatgpt.site",
+    "version": 62,
+    "accessRevision": 1,
+    "policy": "Read-only confirmation only; zero writes"
+  },
+  "baselineCommonTree": "a4d084d56d6979e26b89c13354132de9a424e991"
+}

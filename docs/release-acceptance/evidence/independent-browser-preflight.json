@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "scripts/interface-browser.mjs",
+    "--url",
+    "http://terminal.local:4173/"
+  ],
+  "exitCode": 2,
+  "stdout": "",
+  "stderr": "Browser suite NOT RUN: the pinned Chromium headless shell is unavailable. No application assertion or screenshot comparison executed. Use a supported local Playwright environment with its pinned Chromium installed; this runner does not install or substitute a browser.\n",
+  "assertionsExecuted": false
+}

@@ -1,0 +1,46 @@
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+✖ independent production-compiled Worker refuses galleries, synthetic fixture proxy and disabled activity writes (1164.944657ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ single excerpt selection maps exact UTF16 occurrence to Source plus separate display return (1.908099ms)
+✔ mixed prose/source and multiple excerpt blocks reject without guessing a joined origin (0.348554ms)
+✔ highlight maps Source coordinates across multiple display contexts only on exact eligible edition (0.386541ms)
+✔ excerpt provenance is outside mapped text and revoked projection withholds text and metadata (6.470669ms)
+✔ Source capture persistence stores only selector, operation references and independent prose (0.404478ms)
+✔ exact Source action is a native canonical anchor with retained origin coordinates (0.569106ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1892.55802
+
+✖ failing tests:
+
+test at tests/activity-security-compiled.test.mjs:8:1
+✖ independent production-compiled Worker refuses galleries, synthetic fixture proxy and disabled activity writes (1164.944657ms)
+  AssertionError [ERR_ASSERTION]: Default package excludes science controller.
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/b3880c561a0d/minamo-v2/tests/activity-security-compiled.test.mjs:21:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,32 @@
+{
+  "source": "V34 production build",
+  "scienceIncluded": false,
+  "assets": [
+    {
+      "name": "activity-studio-iB9xPvZq.js",
+      "bytes": 106792,
+      "gzipBytes": 32455
+    },
+    {
+      "name": "learning-atlas-BJlnznDb.js",
+      "bytes": 197748,
+      "gzipBytes": 63376
+    },
+    {
+      "name": "scientific-output-studio-sOgwFjYo.js",
+      "bytes": 7494,
+      "gzipBytes": 3019
+    },
+    {
+      "name": "workspace-generation-CfFBhQWg.js",
+      "bytes": 1434,
+      "gzipBytes": 719
+    },
+    {
+      "name": "workspace-ib5reMuO.js",
+      "bytes": 408402,
+      "gzipBytes": 118653
+    }
+  ],
+  "qualification": "Actual built asset bytes and gzip sizes, not browser network-transfer or heap measurements. Optional runtime activation and browser timings are recorded separately."
+}

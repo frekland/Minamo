@@ -1,0 +1,10 @@
+.minamo-furigana-toggle {position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;border-radius:50%!important;font-size:20px;font-weight:650;line-height:1;background:color-mix(in srgb,var(--accent,#608be0) 10%,transparent)!important;}
+.minamo-furigana-toggle[aria-pressed="true"] {border:1px solid color-mix(in srgb,var(--accent,#82b3fb) 45%,transparent)!important;}
+.minamo-furigana-toggle ruby {ruby-position:over;ruby-align:center;}
+.minamo-furigana-toggle rt {font-size:10px;line-height:1;color:#c9d9ff;}
+.minamo-furigana-on .minamo-japanese-reading {ruby-position:over;ruby-align:center;white-space:nowrap;}
+.minamo-furigana-on .minamo-japanese-reading rt {font-size:max(.72em,11px);font-weight:570;line-height:1.12;color:#c9d9ff;user-select:none;}
+.minamo-furigana-off .minamo-japanese-reading rt,.minamo-furigana-off .minamo-japanese-reading rp {display:none;}
+.minamo-furigana-on .minamo-semantic-ruby ruby {ruby-position:over;ruby-align:center;}
+.minamo-furigana-on .minamo-semantic-ruby rt {font-size:max(.72em,11px)!important;line-height:1.12;}
+@media(max-width:540px){.minamo-furigana-toggle{min-width:36px;min-height:36px;font-size:18px;}}

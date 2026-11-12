@@ -1,0 +1,301 @@
+{
+  "contract": "minamo.python-assets.v1",
+  "runtime": {
+    "engine": "pyodide",
+    "version": "0.28.3",
+    "abi": "2025_0",
+    "python": "3.13.2"
+  },
+  "requested": [
+    "numpy",
+    "matplotlib",
+    "sympy",
+    "pandas",
+    "pillow",
+    "scipy"
+  ],
+  "packages": [
+    {
+      "name": "numpy",
+      "version": "2.2.5",
+      "file": "numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "3db3c4f3e0448f4d62a85c262692f1260ccd8a91335442bd2442f21ffeddb558",
+      "dependencies": []
+    },
+    {
+      "name": "contourpy",
+      "version": "1.3.1",
+      "file": "contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "3fe3d224ef8129f7be7062cf44c26a38a6cb6a1f07e11e93f33ec502476a40e7",
+      "dependencies": [
+        "numpy"
+      ]
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "file": "six-1.17.0-py2.py3-none-any.whl",
+      "sha256": "618e0357f1724d937c20b75d691f0ba9e404de2701084e3c4f35995cfb879665",
+      "dependencies": []
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1",
+      "file": "cycler-0.12.1-py3-none-any.whl",
+      "sha256": "4c163eac65b7ced9007b4259575c045a172dd45d36de7e25ae97b2be67b4a7d1",
+      "dependencies": [
+        "six"
+      ]
+    },
+    {
+      "name": "fonttools",
+      "version": "4.56.0",
+      "file": "fonttools-4.56.0-py3-none-any.whl",
+      "sha256": "862f1298792269b5882f145efc0b2683b5101d30152e43152f2a9ee90e55755a",
+      "dependencies": []
+    },
+    {
+      "name": "kiwisolver",
+      "version": "1.4.8",
+      "file": "kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "01451f4a9f0dcd93ea6d9e2e577a793d4c9082fbf1f59cfb8ff3ba376f28d3e3",
+      "dependencies": []
+    },
+    {
+      "name": "packaging",
+      "version": "24.2",
+      "file": "packaging-24.2-py3-none-any.whl",
+      "sha256": "fdbc12e70e25c89b3e95a853f09065c629ebd6add9bf7a788ce6cfdb35b5c7b0",
+      "dependencies": []
+    },
+    {
+      "name": "pillow",
+      "version": "11.3.0",
+      "file": "pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "52984112ca668d60291a7868011a04d66baf526d27e5eaef0a8a16e7ef22ab6c",
+      "dependencies": []
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.2.1",
+      "file": "pyparsing-3.2.1-py3-none-any.whl",
+      "sha256": "7d595baa16a4640b541ef894a01f1724425bc5b6a07be5e55b1168d637ba7747",
+      "dependencies": []
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "file": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "sha256": "26b50ce706a17abdde09dbb95745a44f9320dfdb99e950c52b1a62a3d99e452c",
+      "dependencies": [
+        "six"
+      ]
+    },
+    {
+      "name": "pytz",
+      "version": "2025.2",
+      "file": "pytz-2025.2-py2.py3-none-any.whl",
+      "sha256": "1d7f409837318a3a234a6394253a77900072616a42e5dba89c3214f70e77f31b",
+      "dependencies": []
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.8.4",
+      "file": "matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "4082bc4a9f7ab494137014991fe8afe83218aaaeb6bb4dbd6fd2b40c464742e5",
+      "dependencies": [
+        "contourpy",
+        "cycler",
+        "fonttools",
+        "kiwisolver",
+        "numpy",
+        "packaging",
+        "pillow",
+        "pyparsing",
+        "python-dateutil",
+        "pytz"
+      ]
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "file": "mpmath-1.3.0-py3-none-any.whl",
+      "sha256": "022134ea1b98efab4b011a40aaa89f19b45151c195e0d1610b9c8b28e5aaf85c",
+      "dependencies": []
+    },
+    {
+      "name": "sympy",
+      "version": "1.13.3",
+      "file": "sympy-1.13.3-py3-none-any.whl",
+      "sha256": "d28066226aba33c9908435b8aa58f24ba211a3116eee333dee639f91f9bb1379",
+      "dependencies": [
+        "mpmath"
+      ]
+    },
+    {
+      "name": "pandas",
+      "version": "2.3.1",
+      "file": "pandas-2.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "01d16ef68eb333f3ac18e370aa352660f8f8d432f607ff1272a16cd2ea2e87ce",
+      "dependencies": [
+        "numpy",
+        "python-dateutil",
+        "pytz"
+      ]
+    },
+    {
+      "name": "libopenblas",
+      "version": "0.3.26",
+      "file": "libopenblas-0.3.26.zip",
+      "sha256": "15c2c82b0fdfdde83a81190f35f5f4a0d15bf236a7e93944c433ae5ac6bf3ee5",
+      "dependencies": []
+    },
+    {
+      "name": "scipy",
+      "version": "1.14.1",
+      "file": "scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "6c4277bb1902f2064f5f4bd0ffbea67cf9aaf89a3fdc49e9ac1e078d9b574ef0",
+      "dependencies": [
+        "numpy",
+        "libopenblas"
+      ]
+    }
+  ],
+  "source": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/",
+  "lockSha256": "f6e6f42f451f42affbbcddb00e8c9a3278dcbf399f57aab9f3f568839a7ff4a6",
+  "assets": [
+    {
+      "file": "pyodide.js",
+      "sha256": "24a458425dcb4ea9836eb5ce26701d18cb769374e2b79247602ba605bf093278",
+      "bytes": 17331,
+      "role": "runtime"
+    },
+    {
+      "file": "pyodide.asm.js",
+      "sha256": "b22e5831eade9ff10e6fe2c811c68688cd91f10154377b4f80debcf5bafa1e56",
+      "bytes": 1073033,
+      "role": "runtime"
+    },
+    {
+      "file": "pyodide.asm.wasm",
+      "sha256": "5effb6a1a6cc4a1a85bec4622701aa797c031e1de923cbbaf2ad47abdc4ab325",
+      "bytes": 8645967,
+      "role": "runtime"
+    },
+    {
+      "file": "python_stdlib.zip",
+      "sha256": "71fee17f88a6260ec8c9c7c063533ee59c021fdc88a1ce76247378d3c4a35f4c",
+      "bytes": 2416866,
+      "role": "runtime"
+    },
+    {
+      "file": "pyodide-lock.json",
+      "sha256": "31cff6aace9e6d492e749f141f1ac5108cc84aa8352f57efe447e2358663bf44",
+      "bytes": 5202,
+      "role": "lock"
+    },
+    {
+      "file": "numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "3db3c4f3e0448f4d62a85c262692f1260ccd8a91335442bd2442f21ffeddb558",
+      "bytes": 3109648,
+      "role": "package"
+    },
+    {
+      "file": "contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "3fe3d224ef8129f7be7062cf44c26a38a6cb6a1f07e11e93f33ec502476a40e7",
+      "bytes": 132421,
+      "role": "package"
+    },
+    {
+      "file": "six-1.17.0-py2.py3-none-any.whl",
+      "sha256": "618e0357f1724d937c20b75d691f0ba9e404de2701084e3c4f35995cfb879665",
+      "bytes": 11050,
+      "role": "package"
+    },
+    {
+      "file": "cycler-0.12.1-py3-none-any.whl",
+      "sha256": "4c163eac65b7ced9007b4259575c045a172dd45d36de7e25ae97b2be67b4a7d1",
+      "bytes": 8321,
+      "role": "package"
+    },
+    {
+      "file": "fonttools-4.56.0-py3-none-any.whl",
+      "sha256": "862f1298792269b5882f145efc0b2683b5101d30152e43152f2a9ee90e55755a",
+      "bytes": 1089800,
+      "role": "package"
+    },
+    {
+      "file": "kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "01451f4a9f0dcd93ea6d9e2e577a793d4c9082fbf1f59cfb8ff3ba376f28d3e3",
+      "bytes": 36920,
+      "role": "package"
+    },
+    {
+      "file": "packaging-24.2-py3-none-any.whl",
+      "sha256": "fdbc12e70e25c89b3e95a853f09065c629ebd6add9bf7a788ce6cfdb35b5c7b0",
+      "bytes": 71930,
+      "role": "package"
+    },
+    {
+      "file": "pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "52984112ca668d60291a7868011a04d66baf526d27e5eaef0a8a16e7ef22ab6c",
+      "bytes": 1058399,
+      "role": "package"
+    },
+    {
+      "file": "pyparsing-3.2.1-py3-none-any.whl",
+      "sha256": "7d595baa16a4640b541ef894a01f1724425bc5b6a07be5e55b1168d637ba7747",
+      "bytes": 107717,
+      "role": "package"
+    },
+    {
+      "file": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "sha256": "26b50ce706a17abdde09dbb95745a44f9320dfdb99e950c52b1a62a3d99e452c",
+      "bytes": 229892,
+      "role": "package"
+    },
+    {
+      "file": "pytz-2025.2-py2.py3-none-any.whl",
+      "sha256": "1d7f409837318a3a234a6394253a77900072616a42e5dba89c3214f70e77f31b",
+      "bytes": 509225,
+      "role": "package"
+    },
+    {
+      "file": "matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "4082bc4a9f7ab494137014991fe8afe83218aaaeb6bb4dbd6fd2b40c464742e5",
+      "bytes": 6722016,
+      "role": "package"
+    },
+    {
+      "file": "mpmath-1.3.0-py3-none-any.whl",
+      "sha256": "022134ea1b98efab4b011a40aaa89f19b45151c195e0d1610b9c8b28e5aaf85c",
+      "bytes": 418000,
+      "role": "package"
+    },
+    {
+      "file": "sympy-1.13.3-py3-none-any.whl",
+      "sha256": "d28066226aba33c9908435b8aa58f24ba211a3116eee333dee639f91f9bb1379",
+      "bytes": 4119974,
+      "role": "package"
+    },
+    {
+      "file": "pandas-2.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "01d16ef68eb333f3ac18e370aa352660f8f8d432f607ff1272a16cd2ea2e87ce",
+      "bytes": 5292464,
+      "role": "package"
+    },
+    {
+      "file": "libopenblas-0.3.26.zip",
+      "sha256": "15c2c82b0fdfdde83a81190f35f5f4a0d15bf236a7e93944c433ae5ac6bf3ee5",
+      "bytes": 1916561,
+      "role": "package"
+    },
+    {
+      "file": "scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "sha256": "6c4277bb1902f2064f5f4bd0ffbea67cf9aaf89a3fdc49e9ac1e078d9b574ef0",
+      "bytes": 13258838,
+      "role": "package"
+    }
+  ],
+  "totalBytes": 50251575
+}

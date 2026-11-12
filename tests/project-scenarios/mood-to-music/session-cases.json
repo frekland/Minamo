@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "fixture": "mood-to-music/3",
+  "purpose": "Six-session longitudinal acceptance of GPT ↔ user-authored Minamo work ↔ external source, not a scripted GPT answer or learner-assessment benchmark.",
+  "startingPhase": "F",
+  "orderedPhases": ["F", "G", "H", "I", "J", "K"],
+  "rules": [
+    "Use a single isolated synthetic test-user dataset throughout sessions S01–S06. Never reset between sessions; reset only between complete independent experiment runs.",
+    "Phase G–K advances inject scripted fictional USER actions only: Notes, short annotations, Flags, source claims and one User Note revision. They never synthesize a GPT reply, GPT-authored Library article, user checkpoint or verified runtime receipt.",
+    "Cold GPT means a new conversation with no inherited transcript or account memory; the assistant must discover the current state using Minamo MCP and the authorised public source where relevant.",
+    "Flags are reminders/bookmarks, not orders. Annotations are short user-authored marginalia. Notes contain user-authored thinking and supplied evidence. GPT reads all three without grading or rewriting them.",
+    "Only explicit simulated User instructions authorise GPT to revise Questions, publish Library references or save checkpoints; record canonical operations and read back every result.",
+    "Generated output prose must not be pre-seeded or compared to a fixed golden string. Assess actual content, retrieval, record editions, UI display, links, navigation, responsiveness and correction handling.",
+    "External GitHub file + exact SHA/content digest proves source identity; it does not establish local command execution. All fictional terminal excerpts are supplied claims. Source/execution integration remains separate issue #11.",
+    "All source and Minamo user mutations are synthetic-only. No private owner data, hosted production reset, playlist API or authentication expansion."
+  ],
+  "sessions": [
+    {
+      "id": "S01",
+      "phase": "F",
+      "conversation": "cold",
+      "simulatedUserPrompt": "I'm back to Mood-to-Music after a break. Please use Minamo to see where I left off, including the questions, my Notes and existing Library. I am confused about React labels surviving mood changes. Can you add a genuinely useful Library reference about state, refresh and shared-device privacy, connected to this Project? Don't change my Notes or decide I've proved anything. Start with what is still uncertain.",
+      "requestedWrites": ["LIB-01 Library Article on explicit request only"],
+      "checks": ["No generated answer at F before conversation", "Actual context/Library discovery before drafting", "Substantive tailored article, canonical receipt and readback", "Project-to-Library and Library-to-Project UI navigation", "Unverified supplied terminal remains only reported"],
+      "betweenSessions": "After this conversation, move to G. G creates the fictional User's own two Notes, two brief annotations and one Flag; do not invent the GPT output during advance."
+    },
+    {
+      "id": "S02",
+      "phase": "G",
+      "conversation": "warm-or-fresh",
+      "simulatedUserPrompt": "I've made a couple of short reminders and flagged a passage in Minamo. Can you help me understand the state/persistence distinction, using the exact passages I marked? I haven't performed the refresh test yet. Please give me one prediction to check. Don't change my work records.",
+      "requestedWrites": [],
+      "checks": ["Flag without annotation is not assumed to be an explicit task", "Short marginalia resolved against exact Article edition", "User Note is read as a thought/process record", "GPT suggests a bounded experiment without writing a checkpoint", "Return to the same Library passage in the Site"],
+      "betweenSessions": "Move to H: the User's reported v5 experiment and v6 external source exist, with no execution receipt forged and no automatic GPT update."
+    },
+    {
+      "id": "S03",
+      "phase": "H",
+      "conversation": "cold",
+      "simulatedUserPrompt": "New chat. Please independently reconstruct what happened since my last Mood-to-Music discussion. I reported a page-refresh result and tried a new version of the code. Inspect the relevant Minamo Notes and the versioned public source, but distinguish my reports from anything actually tested. I'd like the storage Question updated and a checkpoint of my current decision, without changing any Notes.",
+      "requestedWrites": ["Revise existing Question on explicit request", "Optional save-c01 checkpoint, no mastery judgement"],
+      "checks": ["No prior chat context used", "Source v6 path and content hash cross-checked where available", "No fabricated commit or CI result", "Question revision plus historical edition", "Checkpoint receipt and exact Note edition", "Site shows returned decision and linked work"],
+      "betweenSessions": "Move to I: fictional User records a shared-device concern and leaves unrelated async and privacy flags unresolved."
+    },
+    {
+      "id": "S04",
+      "phase": "I",
+      "conversation": "warm-or-fresh",
+      "simulatedUserPrompt": "I realised automatic local storage could be awkward on a shared laptop. I've flagged some passages and written what I think. Could you revisit the Library explanation, and—if it would help rather than duplicate it—add a short, practical privacy reference linked to my Project? Keep the unresolved async question separate. I'd also like to decide which Flags to remove myself.",
+      "requestedWrites": ["Optional second Library Article, revision or no duplicate (reasoned decision)", "No automatic Flag removal"],
+      "checks": ["Learner's revised preference not falsely called tested fact", "Possible second direct Article or exact receipt-derived lib04-manuscript", "Short Flag/annotation cues recoverable without inflating them into tasks", "Source passage anchors across editorial revision", "UI Flag/unflag, historical annotation and related links"],
+      "betweenSessions": "Move to J: fictional User's versioned v7 privacy-first code and reported retest appear."
+    },
+    {
+      "id": "S05",
+      "phase": "J",
+      "conversation": "cold",
+      "simulatedUserPrompt": "This is another fresh chat. Please reconstruct the v5→v6→v7 changes from Minamo and available source, then explain what changed in my decision. My latest Note contains only partial test evidence. Help me design one local check of the opt-in control. If I agree to a checkpoint afterward, organise the decision—but do not mark the test as independently passed or rewrite my Notes.",
+      "requestedWrites": ["Optional save-c02 or save-c03 only after explicit agreement"],
+      "checks": ["Correct latest version and historical version distinction", "User-authored v7 Note and earlier v5 evidence preserved", "GitHub/source verification not conflated with execution", "Prior annotation and Flag remain discoverable", "No checkpoint until permission", "One manageable prediction-first experiment"],
+      "betweenSessions": "Move to K: the fictional User returns ten days later, adds two Notes and updates an older Note edition."
+    },
+    {
+      "id": "S06",
+      "phase": "K",
+      "conversation": "cold",
+      "simulatedUserPrompt": "I haven't touched this in about ten days. Please independently reconstruct Mood-to-Music from Minamo: what direction is current, what code has changed, what did I actually verify, what were my notes and little flagged questions about, and what's still open? I want one sensible next activity. Don't change anything in Minamo without asking.",
+      "requestedWrites": [],
+      "checks": ["Independent latest-context retrieval from accumulated 19 User Notes", "Short annotations remain quick cues rather than assessments", "Flags may remain useful, stale or resolved—not automatically converted to Questions", "Earlier Note revision is distinguishable from current Note", "Intervening Library edits and checkpoints actually influence summary", "UI allows useful resume and exact return navigation", "Extraneous garden record excluded and no global state dump"],
+      "betweenSessions": "End the complete experiment. Inspect every generated output/receipt and UI observation; reset only this synthetic run, clear test-user D1 and replay F and K for deterministic baselines."
+    }
+  ],
+  "optionalOutputRegistry": {
+    "directArticles": ["requested-label-storage", "requested-privacy-review"],
+    "manuscriptOperations": ["lib01-manuscript", "lib04-manuscript"],
+    "annotations": ["annotation-library", "annotation-privacy-library"],
+    "checkpoints": ["save-c01", "save-c02", "save-c03", "save-c04"],
+    "scope": "All identifiers are prefixed with TEST-ONLY-m2m-r<epoch>; unknown Project-linked records fail closed on controller reset."
+  }
+}

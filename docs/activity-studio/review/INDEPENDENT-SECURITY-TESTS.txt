@@ -1,0 +1,14 @@
+✔ independent attack: generic commands cannot promote reported output to observed or detach its exact code (4714.984104ms)
+✔ independent attack corpus rejects ambiguous extraction paths, shell metadata and active output data (39.088227ms)
+✔ untrusted scientific runtime has no owner-origin grant and remains absent from default package policy (3.679793ms)
+✔ independent feature-off generic command attack cannot persist a new activity (4713.355781ms)
+✔ independent Activity concurrency and uncertain-result replay cannot lose a definition (2679.954471ms)
+✔ independent retained source, hint and edition attacks use current rights and exact immutable activity (3486.364616ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11706.464662

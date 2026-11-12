@@ -1,0 +1,218 @@
+{
+  "schema": "minamo.fresh-hosted-mcp-acceptance.v1",
+  "date": "2026-10-25",
+  "scope": "fresh-context subagent connected-tool acceptance, not an overall release verdict",
+  "status": "scoped acceptance complete; recoverable cleanup verified",
+  "generation": "legacy@0",
+  "modelBoundary": {
+    "freshContextSubagent": true,
+    "priorAppHandover": false,
+    "sameRootThread": true,
+    "humanSession": false,
+    "independentNewChat": false,
+    "mechanism": "actual connected Minamo MCP tools only; no fixture, local proxy, browser, source, or direct API used for acceptance"
+  },
+  "catalogue": {
+    "count": 29,
+    "names": [
+      "mcp__codex_apps__minamo_apply_minamo_authoring_package",
+      "mcp__codex_apps__minamo_apply_minamo_command",
+      "mcp__codex_apps__minamo_confirm_minamo_relationship",
+      "mcp__codex_apps__minamo_get_minamo_activity_capabilities",
+      "mcp__codex_apps__minamo_get_minamo_activity_context",
+      "mcp__codex_apps__minamo_get_minamo_context",
+      "mcp__codex_apps__minamo_get_minamo_editorial_policy",
+      "mcp__codex_apps__minamo_get_minamo_learning_context",
+      "mcp__codex_apps__minamo_get_minamo_learning_graph",
+      "mcp__codex_apps__minamo_get_minamo_next_probe",
+      "mcp__codex_apps__minamo_get_minamo_relationship_candidates",
+      "mcp__codex_apps__minamo_get_minamo_workspace",
+      "mcp__codex_apps__minamo_manage_minamo_recovery",
+      "mcp__codex_apps__minamo_preview_minamo_activity_package",
+      "mcp__codex_apps__minamo_preview_minamo_authoring_package",
+      "mcp__codex_apps__minamo_preview_minamo_command",
+      "mcp__codex_apps__minamo_preview_minamo_manuscript",
+      "mcp__codex_apps__minamo_publish_minamo_activity_package",
+      "mcp__codex_apps__minamo_publish_minamo_manuscript",
+      "mcp__codex_apps__minamo_query_minamo_library",
+      "mcp__codex_apps__minamo_query_minamo_records",
+      "mcp__codex_apps__minamo_read_minamo_activity",
+      "mcp__codex_apps__minamo_read_minamo_manuscript_source",
+      "mcp__codex_apps__minamo_read_minamo_operation",
+      "mcp__codex_apps__minamo_read_minamo_record",
+      "mcp__codex_apps__minamo_record_minamo_activity_attempt",
+      "mcp__codex_apps__minamo_record_minamo_learning_development",
+      "mcp__codex_apps__minamo_reveal_minamo_activity_hint",
+      "mcp__codex_apps__minamo_revise_minamo_learning_development"
+    ],
+    "activityCatalogue": "activity-studio-interface-foundry-2026-10-25.2",
+    "activityContract": "minamo.activity.v1",
+    "attemptContract": "minamo.attempt.v1",
+    "atlasContract": "minamo.learning-graph.v1"
+  },
+  "discovery": {
+    "query": "Mood-to-Music",
+    "includeSynthetic": true,
+    "suppliedRecordIds": false,
+    "targets": 1,
+    "ambiguous": false,
+    "searchIncomplete": false,
+    "parentIdentity": "redacted genuine parent id/title/URL",
+    "parentRevBefore": 4,
+    "parentRevAfter": 4,
+    "parentRenditionUnchanged": true
+  },
+  "atlas": {
+    "contract": "minamo.learning-graph.v1",
+    "generation": "legacy@0",
+    "scope": {
+      "generation": "legacy@0",
+      "version": 3154,
+      "focus": null,
+      "includeSynthetic": false
+    },
+    "nodeCount": 37,
+    "edgeCount": 57,
+    "truncated": true,
+    "limits": {
+      "records": 13,
+      "nodes": 120,
+      "edges": 240
+    },
+    "hasNextCursor": true,
+    "notice": "bounded current saved graph projection; truncated page was not treated as complete corpus or mastery"
+  },
+  "preview": {
+    "failedBeforeWrites": [
+      {
+        "code": "invalid_activity",
+        "path": "input.expectedRev",
+        "repair": "omit expectedRev on create"
+      },
+      {
+        "code": "invalid_activity",
+        "path": "input.activity.blocks.1.text",
+        "repair": "use typed block text field for prediction and reflection"
+      }
+    ],
+    "successful": true,
+    "failedPreviewsWroteRecordsOrReceipts": false
+  },
+  "records": [
+    {
+      "created": {
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+        "rev": 1,
+        "rendition": "r-080957292b9d980fab1f32442a3a8da25f6cde4ab36bc6b1267cb65c0a3e2e98",
+        "synthetic": true,
+        "trashedAt": null
+      },
+      "cleanup": {
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+        "rev": 2,
+        "rendition": "r-080957292b9d980fab1f32442a3a8da25f6cde4ab36bc6b1267cb65c0a3e2e98",
+        "synthetic": true,
+        "trashedAt": "2026-10-25T23:02:30.229Z"
+      }
+    },
+    {
+      "created": {
+        "family": "run",
+        "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+        "rev": 1,
+        "rendition": "r-e0a3b7846b951c1a697955b3f9610a50c244a6f068cca0f868d5bfe7c9447a5d",
+        "synthetic": true,
+        "trashedAt": null
+      },
+      "activityPin": {
+        "family": "experiment",
+        "id": "TEST-ONLY-pr45-fresh-activity-20261025",
+        "rendition": "r-080957292b9d980fab1f32442a3a8da25f6cde4ab36bc6b1267cb65c0a3e2e98"
+      },
+      "cleanup": {
+        "family": "run",
+        "id": "TEST-ONLY-pr45-fresh-attempt-20261025",
+        "rev": 2,
+        "rendition": "r-e0a3b7846b951c1a697955b3f9610a50c244a6f068cca0f868d5bfe7c9447a5d",
+        "synthetic": true,
+        "trashedAt": "2026-10-25T23:02:25.707Z"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "tool": "publish_minamo_activity_package",
+      "operationId": "pr45-fresh-publish-20261025",
+      "identicalReplay": false,
+      "expectedRev": null,
+      "expectedGeneration": "legacy@0",
+      "status": "committed"
+    },
+    {
+      "tool": "publish_minamo_activity_package",
+      "operationId": "pr45-fresh-publish-20261025",
+      "identicalReplay": true,
+      "expectedRev": null,
+      "expectedGeneration": "legacy@0",
+      "status": "committed"
+    },
+    {
+      "tool": "record_minamo_activity_attempt",
+      "operationId": "pr45-fresh-attempt-20261025",
+      "identicalReplay": false,
+      "expectedRev": null,
+      "expectedGeneration": "legacy@0",
+      "status": "committed"
+    },
+    {
+      "tool": "apply_minamo_command",
+      "operationId": "pr45-fresh-trash-attempt-20261025",
+      "identicalReplay": false,
+      "expectedRev": 1,
+      "expectedGeneration": "legacy@0",
+      "status": "committed"
+    },
+    {
+      "tool": "apply_minamo_command",
+      "operationId": "pr45-fresh-trash-activity-20261025",
+      "identicalReplay": false,
+      "expectedRev": 1,
+      "expectedGeneration": "legacy@0",
+      "status": "committed"
+    }
+  ],
+  "verification": {
+    "exactActivityRead": true,
+    "exactAttemptRead": true,
+    "replayReported": true,
+    "replayRev": 1,
+    "replayEditionUnchanged": true,
+    "naturalContextActivityIds": [
+      "TEST-ONLY-pr45-fresh-activity-20261025"
+    ],
+    "naturalContextAttemptIds": [
+      "TEST-ONLY-pr45-fresh-attempt-20261025"
+    ],
+    "shortNextIntentionReturned": true,
+    "postCleanupActivityIds": [],
+    "postCleanupAttemptIds": [],
+    "cleanupOperationReadbacksCommitted": true,
+    "parentMetadataUnchanged": true
+  },
+  "boundaries": {
+    "allCreatedRecordsSynthetic": true,
+    "optionalNoteCreated": false,
+    "terminalTested": false,
+    "executedCode": false,
+    "observedExecutionAsserted": false,
+    "learningDevelopmentCreated": false,
+    "genuineRecordMutations": false,
+    "permanentDeletion": false,
+    "otherTestRecordsTouched": false,
+    "overallGoDeclared": false
+  },
+  "failuresAfterSuccessfulPreview": [],
+  "remaining": "Root controller independent baseline comparison is outside this scoped result."
+}

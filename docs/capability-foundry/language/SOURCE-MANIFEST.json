@@ -1,0 +1,66 @@
+{
+  "classification": "Exact language packet source hashes; final bank PR commit supplies immutable source ref",
+  "files": [
+    {
+      "path": "app/foundry-language-demo.tsx",
+      "bytes": 9712,
+      "sha256": "0c47885e336f0922e3a06526008db82d5d260ecbe0dc0b00a20c485776482d1a"
+    },
+    {
+      "path": "app/foundry-language-renderer.tsx",
+      "bytes": 2629,
+      "sha256": "20de58e3e4ca20fc8957024a4a8e7371ab4e99d413231c5fbdb74be186d8eb56"
+    },
+    {
+      "path": "lib/foundry/language-dom.ts",
+      "bytes": 3320,
+      "sha256": "8f2a54304f152daf52c9677d8ed9f37c83c4bd934ca8c76f70599d90f53517b7"
+    },
+    {
+      "path": "lib/foundry/language-fixtures.ts",
+      "bytes": 1858,
+      "sha256": "aca4e73fea332922aa1a81f74956f8e695e405d2bc56b84d3ad17830144ea376"
+    },
+    {
+      "path": "lib/foundry/language-platform.ts",
+      "bytes": 3357,
+      "sha256": "da7b31eaffaa7423d466c870b4356d31e0a8cf83d9b16e9fdf1c30d99a9f5bab"
+    },
+    {
+      "path": "lib/foundry/language-probes.ts",
+      "bytes": 4121,
+      "sha256": "324495ee6a7c39c92d93932f1c7723731a2183a874afa18b40a89533b5317001"
+    },
+    {
+      "path": "lib/foundry/language-speech.ts",
+      "bytes": 3710,
+      "sha256": "4ac03bb6ba3a14d473cf2bfc251d60bf8106959d7e1985ecaca454003b728b40"
+    },
+    {
+      "path": "lib/foundry/language-tokenizer.ts",
+      "bytes": 2597,
+      "sha256": "2da8290e3d8c79d799f7d425537ae0f4f0f87ef8997233e425e66c47f3312312"
+    },
+    {
+      "path": "lib/foundry/language.ts",
+      "bytes": 13315,
+      "sha256": "ab50ec765ca5fdd376016e9c55a043e6a25f10b868f1864b36aa75b60955b631"
+    },
+    {
+      "path": "tests/foundry-language-domain.test.mjs",
+      "bytes": 7837,
+      "sha256": "e622b4adbcb28e15ebdbf94d49409dc8f58c1763b8935ab470e6fd82207aa658"
+    },
+    {
+      "path": "tests/foundry-language-platform.test.mjs",
+      "bytes": 4494,
+      "sha256": "39af32814c5dd54acd7e53d9080472e8875a625dfd483f59a6448861ebf0b0ed"
+    },
+    {
+      "path": "tests/foundry-language.test.mjs",
+      "bytes": 9903,
+      "sha256": "e9070a0564e61f64046409ed0b3aa7dfd50f165222d7541710c4606646466eca"
+    }
+  ],
+  "totalSourceBytes": 66853
+}

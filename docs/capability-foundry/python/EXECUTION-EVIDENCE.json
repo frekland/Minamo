@@ -1,0 +1,131 @@
+{
+  "contract": "minamo.foundry-science-proof.v1",
+  "environment": "Node.js v24.22.1 executing actual Pyodide 0.28.3 WebAssembly (not browser/hosted authentication)",
+  "observedAt": "2026-10-25T16:34:19.436Z",
+  "runtimeVersion": "0.28.3",
+  "assetBytes": 50251575,
+  "packageCount": 17,
+  "coreStartupMs": 1448.2271520000002,
+  "packageLoadMs": 3869.1147359999995,
+  "totalMs": 14084.164147,
+  "memory": {
+    "rss": 640376832,
+    "heapTotal": 122368000,
+    "heapUsed": 65997512,
+    "external": 383595156,
+    "arrayBuffers": 189818333
+  },
+  "networkDenialAttempts": 1,
+  "results": [
+    {
+      "name": "numpy+matplotlib",
+      "inputSha256": "b89116bf22d9aa76d6c19e2fff7f107d3bc6f8ce98dd6b9d59fcbbad3ba13282",
+      "code": "import matplotlib\nmatplotlib.use('agg')\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport io,base64,json,hashlib,struct\nx=np.linspace(0,1,51)\ny=x*x\nfig,ax=plt.subplots(figsize=(4,3),dpi=100)\nax.plot(x,y)\nax.set(xlabel='x',ylabel='x squared',title='Synthetic x squared')\nb=io.BytesIO()\nfig.savefig(b,format='png',dpi=100)\na=b.getvalue()\nw,h=struct.unpack('>II',a[16:24])\nassert a.startswith(bytes([137,80,78,71,13,10,26,10]))\nassert (w,h)==(400,300)\nresult={'integralApprox':float(np.trapezoid(y,x)),'pngBytes':len(a),'pngSha256':hashlib.sha256(a).hexdigest(),'width':w,'height':h,'rows':[[float(i),float(j)] for i,j in zip(x[::10],y[::10])]}\nplt.close('all')\njson.dumps(result)",
+      "durationMs": 2486.8401189999995,
+      "result": {
+        "integralApprox": 0.33340000000000003,
+        "pngBytes": 16317,
+        "pngSha256": "e922d26e80c452632bc53e69d227ff5faf24ed14fb60c833d79bfde87b5b45b7",
+        "width": 400,
+        "height": 300,
+        "rows": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0.04000000000000001
+          ],
+          [
+            0.4,
+            0.16000000000000003
+          ],
+          [
+            0.6,
+            0.36
+          ],
+          [
+            0.8,
+            0.6400000000000001
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "name": "sympy",
+      "inputSha256": "d07cf3ebbc0e7ed061bab4aa554cf2c463136b812b8fb5c833995e35f542b7b0",
+      "code": "import sympy as s,json\nx=s.symbols('x')\na=s.integrate(x*x,(x,0,1))\nassert a==s.Rational(1,3)\njson.dumps({'integral':str(a),'tex':s.latex(a),'derivative':str(s.diff(x**3,x))})",
+      "durationMs": 3103.1975839999996,
+      "result": {
+        "integral": "1/3",
+        "tex": "\\frac{1}{3}",
+        "derivative": "3*x**2"
+      }
+    },
+    {
+      "name": "pandas",
+      "inputSha256": "dd05c1ce474651cf64dc91b76eef03274c49abecc37e3cb96b8195cef06f4cef",
+      "code": "import pandas as pd,json\ndf=pd.DataFrame({'sample':['a','b','c'],'value':[4,8,15]})\nassert int(df.value.sum())==27\njson.dumps({'sum':int(df.value.sum()),'rows':df.values.tolist()})",
+      "durationMs": 1773.8945609999992,
+      "result": {
+        "sum": 27,
+        "rows": [
+          [
+            "a",
+            4
+          ],
+          [
+            "b",
+            8
+          ],
+          [
+            "c",
+            15
+          ]
+        ]
+      }
+    },
+    {
+      "name": "pillow",
+      "inputSha256": "0739f9f3f09a147c071f6e0a17f00222e15a6593ba157ecf6fc54f3203ebdbea",
+      "code": "from PIL import Image\nimport numpy as np,json,io\na=np.arange(256,dtype=np.uint8).reshape((16,16))\nim=Image.fromarray(a).resize((128,128))\nb=io.BytesIO();im.save(b,format='PNG')\nassert im.size==(128,128)\njson.dumps({'size':list(im.size),'mode':im.mode,'pngBytes':len(b.getvalue())})",
+      "durationMs": 2.9427470000009635,
+      "result": {
+        "size": [
+          128,
+          128
+        ],
+        "mode": "L",
+        "pngBytes": 199
+      }
+    },
+    {
+      "name": "scipy",
+      "inputSha256": "4a7127fa3d510a8e0a1db5089e8739f70db0743f7316d5fce00ccdd6197005e1",
+      "code": "import scipy.integrate as i,json\nv,error=i.quad(lambda x:x*x,0,1)\nassert abs(v-1/3)<1e-12\njson.dumps({'integral':v,'reportedNumericalError':error})",
+      "durationMs": 1396.0336630000002,
+      "result": {
+        "integral": 0.33333333333333337,
+        "reportedNumericalError": 3.700743415417189e-15
+      }
+    },
+    {
+      "name": "network-denial",
+      "inputSha256": "f29a9e2b1dd87d59f650f389b5f3db3f4986514334010c04c131a24810bda8f9",
+      "code": "import js\ntry:\n    await js.fetch('https://example.com')\n    raise AssertionError('Network unexpectedly permitted')\nexcept Exception as e:\n    str(e)\n'network-denial-confirmed'",
+      "durationMs": 3.4621170000009442,
+      "result": "network-denial-confirmed"
+    }
+  ],
+  "stdout": [
+    "Loading Pillow, contourpy, cycler, fonttools, kiwisolver, libopenblas, matplotlib, mpmath, numpy, packaging, pandas, pyparsing, python-dateutil, pytz, scipy, six, sympy",
+    "Loaded Pillow, contourpy, cycler, fonttools, kiwisolver, libopenblas, matplotlib, mpmath, numpy, packaging, pandas, pyparsing, python-dateutil, pytz, scipy, six, sympy"
+  ],
+  "stderr": [],
+  "limits": "No browser viewport/GPU/Android/authenticated owner execution is claimed. Node proof code is trusted synthetic source only."
+}

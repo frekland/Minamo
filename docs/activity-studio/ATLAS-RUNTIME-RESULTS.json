@@ -1,0 +1,27 @@
+{
+  "contract": "minamo.atlas-evidence.v1",
+  "environment": "local synthetic Miniflare D1/R2 plus source and SSR verification",
+  "scale": {
+    "records": 10000,
+    "pageNodes": 60,
+    "firstPageMilliseconds": 74,
+    "responseBytes": 20649,
+    "seedingMilliseconds": 26717,
+    "twoPagesUniqueIdentities": 120,
+    "command": "node --test tests/atlas-*.test.mjs"
+  },
+  "subsequentScopedDomainTests": {
+    "passed": 8,
+    "failed": 0,
+    "command": "node --test --test-name-pattern='real synthetic' tests/atlas-domain.test.mjs"
+  },
+  "uiTests": {"passed": 2, "failed": 0, "productionOptionalSdkRefusal": true, "sourceTitlesEscaped": true},
+  "projectionTests": {"passed": 5, "failed": 0},
+  "typecheck": "passed with no Atlas errors; root owns final aggregate",
+  "browserEvidence": "owned by root; not claimed by this evidence file",
+  "hostedAcceptance": false,
+  "physicalAndroid": false,
+  "installedMcpRefresh": false,
+  "productionDeployment": false,
+  "genuineLearnerWrites": false
+}

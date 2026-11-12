@@ -1,0 +1,19 @@
+▶ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links
+  ✔ guarded high-level publication saves an exact Attempt relation (0.60581ms)
+  ✔ old saved links and native typed Attempts project the immutable target rather than latest (44.556811ms)
+  ✔ reverse neighborhood discovers native typed Attempts and exact reading-only Activity links (71.799589ms)
+  ✔ old-client edits with Activity disabled preserve stored cartridge and exact Attempt metadata (51.656309ms)
+✔ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links (1686.204052ms)
+✔ four Atlas lenses preserve exact identities, distinct stage/concept projections and deterministic layout (9.749456ms)
+✔ saved relationships keep authored reasons and historical rendition; no chronology creates causal edge (0.469936ms)
+✔ revoked source and Trash disappear; unsupported hint/proposal/rights fields rejected by query schema (1.989236ms)
+✔ canvas snapshots retain only bounded coordinates and exact identity; revocation/generation fences (0.987573ms)
+✔ 120-node bounded graph layout remains deterministic in every lens without engine/GPU access (7.146089ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1976.529682

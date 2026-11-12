@@ -1,0 +1,422 @@
+{
+  "source": "9971481eda2444014a53055ac1fade2ebd1370bc",
+  "reading": "TEST ONLY — 🪁雨の庭で、三つの皿に二粒ずつ種を置く。\r\n記録: é / é。",
+  "readingCodeUnits": 46,
+  "readingCodePoints": 45,
+  "readingUtf8Bytes": 96,
+  "readingSha256": "908486af986d6a8483fe94a4b159ba7aee65dadc49fa900ee6759fdf13b6539a",
+  "spans": [
+    {
+      "start": 14,
+      "end": 15,
+      "base": "雨",
+      "reading": "あめ",
+      "origin": "author-verified"
+    },
+    {
+      "start": 16,
+      "end": 17,
+      "base": "庭",
+      "reading": "にわ",
+      "origin": "author-verified"
+    },
+    {
+      "start": 19,
+      "end": 21,
+      "base": "三つ",
+      "reading": "みっつ",
+      "origin": "author-verified"
+    },
+    {
+      "start": 22,
+      "end": 23,
+      "base": "皿",
+      "reading": "さら",
+      "origin": "author-verified"
+    },
+    {
+      "start": 24,
+      "end": 26,
+      "base": "二粒",
+      "reading": "ふたつぶ",
+      "origin": "author-verified"
+    },
+    {
+      "start": 28,
+      "end": 29,
+      "base": "種",
+      "reading": "たね",
+      "origin": "author-verified"
+    },
+    {
+      "start": 30,
+      "end": 32,
+      "base": "置く",
+      "reading": "おく",
+      "origin": "author-verified"
+    },
+    {
+      "start": 35,
+      "end": 37,
+      "base": "記録",
+      "reading": "きろく",
+      "origin": "author-verified"
+    }
+  ],
+  "canonical": [
+    {
+      "id": "japanese",
+      "format": "language-json",
+      "source": "{\"version\":1,\"text\":\"TEST ONLY — 🪁雨の庭で、三つの皿に二粒ずつ種を置く。\\r\\n記録: é / é。\",\"language\":\"ja\",\"direction\":\"ltr\",\"spans\":[{\"start\":14,\"end\":15,\"base\":\"雨\",\"reading\":\"あめ\",\"origin\":\"author-verified\"},{\"start\":16,\"end\":17,\"base\":\"庭\",\"reading\":\"にわ\",\"origin\":\"author-verified\"},{\"start\":19,\"end\":21,\"base\":\"三つ\",\"reading\":\"みっつ\",\"origin\":\"author-verified\"},{\"start\":22,\"end\":23,\"base\":\"皿\",\"reading\":\"さら\",\"origin\":\"author-verified\"},{\"start\":24,\"end\":26,\"base\":\"二粒\",\"reading\":\"ふたつぶ\",\"origin\":\"author-verified\"},{\"start\":28,\"end\":29,\"base\":\"種\",\"reading\":\"たね\",\"origin\":\"author-verified\"},{\"start\":30,\"end\":32,\"base\":\"置く\",\"reading\":\"おく\",\"origin\":\"author-verified\"},{\"start\":35,\"end\":37,\"base\":\"記録\",\"reading\":\"きろく\",\"origin\":\"author-verified\"}]}",
+      "sha256": "1a9ce3fc4560699f7f793d9055d8f5e644e93239f28cff4e585ae2abacf8ef46"
+    },
+    {
+      "id": "seed-model",
+      "format": "tex",
+      "source": "N(d)=3(2+d),\\quad N(0)=6,\\quad N(1)=9",
+      "sha256": "37c31e02ae8a9922fe487ff0352a53b843aa77930b200fce636b8668fe660238"
+    }
+  ],
+  "errors": [
+    {
+      "label": "duplicate block slot",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\"A block can be mounted only once.\",\"code\":\"invalid_activity\",\"path\":\"data.activity.presentation.slots.4.blockId\"}"
+          }
+        ]
+      }
+    },
+    {
+      "label": "dropped block",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\"Every Activity block must remain reachable exactly once.\",\"code\":\"invalid_activity\",\"path\":\"data.activity.presentation.slots\"}"
+          }
+        ]
+      }
+    },
+    {
+      "label": "foreign block",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\"The exact Activity block is unavailable.\",\"code\":\"invalid_activity\",\"path\":\"data.activity.presentation.slots.0.blockId\"}"
+          }
+        ]
+      }
+    },
+    {
+      "label": "wrong ruby role",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\"This trusted block cannot occupy that slot.\",\"code\":\"invalid_activity\",\"path\":\"data.activity.presentation.slots.1.slot\"}"
+          }
+        ]
+      }
+    },
+    {
+      "label": "slot injection",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\"Unrecognized key(s) in object: 'component'\",\"code\":\"invalid_activity\",\"path\":\"input.activity.presentation.slots.1\"}"
+          }
+        ]
+      }
+    },
+    {
+      "label": "wrong hash",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\"Canonical source hash does not match.\",\"code\":\"activity_context_unavailable\",\"path\":\"data.activity.blocks.1.artefact\"}"
+          }
+        ]
+      }
+    },
+    {
+      "label": "split astral UTF-16 annotation",
+      "result": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"error\":\": Annotations need exact nonempty UTF-16 boundaries.\",\"code\":\"activity_context_unavailable\",\"path\":\"data.activity.blocks.1.artefact\"}"
+          }
+        ]
+      }
+    }
+  ],
+  "catalogue": "activity-studio-interface-foundry-2026-10-25.2",
+  "baselineCounts": {
+    "investigations": 0,
+    "notes": 0,
+    "v2_activity": 0,
+    "v2_bookmarks": 0,
+    "v2_catalogue_heads": 0,
+    "v2_catalogue_revisions": 0,
+    "v2_catalogue_terms": 0,
+    "v2_generation_heads": 0,
+    "v2_image_attachments": 0,
+    "v2_images": 0,
+    "v2_learning_development_revisions": 0,
+    "v2_learning_developments": 0,
+    "v2_learning_perspectives": 0,
+    "v2_manuscript_editions": 0,
+    "v2_media": 0,
+    "v2_media_attachments": 0,
+    "v2_namespace_versions": 0,
+    "v2_operations": 0,
+    "v2_permission_floors": 0,
+    "v2_records": 0,
+    "v2_recovery_archives": 0,
+    "v2_recovery_operations": 0,
+    "v2_recovery_stages": 0,
+    "v2_revisions": 0
+  },
+  "previewNoWrites": {
+    "allApplicationTableCountsUnchanged": true,
+    "r2Objects": 0
+  },
+  "receipt": {
+    "operationId": "synthetic-cross-seed-dishes-publish",
+    "status": "committed",
+    "record": {
+      "id": "synthetic-cross-seed-dishes",
+      "family": "experiment",
+      "title": "TEST ONLY — 雨の庭の種 / seed-dish model",
+      "body": "",
+      "links": [],
+      "synthetic": true,
+      "activity": {
+        "contract": "minamo.activity.v1",
+        "template": "language",
+        "intent": "Read an original Japanese seed-dish sentence and compare its counters with a deliberately authored algebraic model.",
+        "authorship": "original-exercise",
+        "blocks": [
+          {
+            "id": "prompt",
+            "kind": "instruction",
+            "text": "Read the ruby metadata, then compare three dishes containing two seeds each with N(d). The extra d seeds per dish are a model assumption, not measured growth."
+          },
+          {
+            "id": "japanese",
+            "kind": "foundry",
+            "artefact": {
+              "contract": "minamo.artefact.v1",
+              "kind": "language/ruby-v1",
+              "canonical": {
+                "format": "language-json",
+                "source": "{\"version\":1,\"text\":\"TEST ONLY — 🪁雨の庭で、三つの皿に二粒ずつ種を置く。\\r\\n記録: é / é。\",\"language\":\"ja\",\"direction\":\"ltr\",\"spans\":[{\"start\":14,\"end\":15,\"base\":\"雨\",\"reading\":\"あめ\",\"origin\":\"author-verified\"},{\"start\":16,\"end\":17,\"base\":\"庭\",\"reading\":\"にわ\",\"origin\":\"author-verified\"},{\"start\":19,\"end\":21,\"base\":\"三つ\",\"reading\":\"みっつ\",\"origin\":\"author-verified\"},{\"start\":22,\"end\":23,\"base\":\"皿\",\"reading\":\"さら\",\"origin\":\"author-verified\"},{\"start\":24,\"end\":26,\"base\":\"二粒\",\"reading\":\"ふたつぶ\",\"origin\":\"author-verified\"},{\"start\":28,\"end\":29,\"base\":\"種\",\"reading\":\"たね\",\"origin\":\"author-verified\"},{\"start\":30,\"end\":32,\"base\":\"置く\",\"reading\":\"おく\",\"origin\":\"author-verified\"},{\"start\":35,\"end\":37,\"base\":\"記録\",\"reading\":\"きろく\",\"origin\":\"author-verified\"}]}",
+                "sha256": "1a9ce3fc4560699f7f793d9055d8f5e644e93239f28cff4e585ae2abacf8ef46"
+              },
+              "provenance": {
+                "classification": "authored",
+                "execution": "not-executed"
+              },
+              "payload": {
+                "version": 1,
+                "text": "TEST ONLY — 🪁雨の庭で、三つの皿に二粒ずつ種を置く。\r\n記録: é / é。",
+                "language": "ja",
+                "direction": "ltr",
+                "spans": [
+                  {
+                    "start": 14,
+                    "end": 15,
+                    "base": "雨",
+                    "reading": "あめ",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 16,
+                    "end": 17,
+                    "base": "庭",
+                    "reading": "にわ",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 19,
+                    "end": 21,
+                    "base": "三つ",
+                    "reading": "みっつ",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 22,
+                    "end": 23,
+                    "base": "皿",
+                    "reading": "さら",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 24,
+                    "end": 26,
+                    "base": "二粒",
+                    "reading": "ふたつぶ",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 28,
+                    "end": 29,
+                    "base": "種",
+                    "reading": "たね",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 30,
+                    "end": 32,
+                    "base": "置く",
+                    "reading": "おく",
+                    "origin": "author-verified"
+                  },
+                  {
+                    "start": 35,
+                    "end": 37,
+                    "base": "記録",
+                    "reading": "きろく",
+                    "origin": "author-verified"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "seed-model",
+            "kind": "foundry",
+            "artefact": {
+              "contract": "minamo.artefact.v1",
+              "kind": "math/tex-v1",
+              "canonical": {
+                "format": "tex",
+                "source": "N(d)=3(2+d),\\quad N(0)=6,\\quad N(1)=9",
+                "sha256": "37c31e02ae8a9922fe487ff0352a53b843aa77930b200fce636b8668fe660238"
+              },
+              "provenance": {
+                "classification": "authored",
+                "execution": "not-executed"
+              },
+              "payload": {
+                "contract": "minamo.math.v1",
+                "id": "seed-dish-linear-model",
+                "format": "tex",
+                "source": "N(d)=3(2+d),\\quad N(0)=6,\\quad N(1)=9",
+                "display": "block",
+                "description": "Original authored counting model: d extra seeds per dish; no execution or measurement."
+              }
+            }
+          },
+          {
+            "id": "question",
+            "kind": "reflection",
+            "text": "Which original words specify the initial six seeds, and which part of N(d) extends beyond the sentence? No saved attempt is required."
+          }
+        ],
+        "presentation": {
+          "contract": "minamo.presentation.v1",
+          "pattern": "language-reading",
+          "version": 1,
+          "slots": [
+            {
+              "slot": "task",
+              "blockId": "prompt"
+            },
+            {
+              "slot": "source",
+              "blockId": "japanese"
+            },
+            {
+              "slot": "explore",
+              "blockId": "seed-model"
+            },
+            {
+              "slot": "evidence",
+              "blockId": "question"
+            }
+          ],
+          "preferredFocus": "explore",
+          "fallback": "accessible-source"
+        }
+      },
+      "rev": 1,
+      "createdAt": "2026-10-25T20:39:38.734Z",
+      "updatedAt": "2026-10-25T20:39:38.734Z",
+      "trashedAt": null,
+      "actor": "gpt",
+      "rendition": "r-1fad3bed0f1795b9fec5af3da5b04cb9767fe38d5605c5beebbef9dc451b9494"
+    },
+    "replayed": false,
+    "recordRef": {
+      "family": "experiment",
+      "id": "synthetic-cross-seed-dishes",
+      "rev": 1
+    }
+  },
+  "record": {
+    "id": "synthetic-cross-seed-dishes",
+    "rendition": "r-1fad3bed0f1795b9fec5af3da5b04cb9767fe38d5605c5beebbef9dc451b9494",
+    "rev": 1
+  },
+  "finalCounts": {
+    "investigations": 0,
+    "notes": 0,
+    "v2_activity": 1,
+    "v2_bookmarks": 0,
+    "v2_catalogue_heads": 0,
+    "v2_catalogue_revisions": 0,
+    "v2_catalogue_terms": 0,
+    "v2_generation_heads": 0,
+    "v2_image_attachments": 0,
+    "v2_images": 0,
+    "v2_learning_development_revisions": 0,
+    "v2_learning_developments": 0,
+    "v2_learning_perspectives": 0,
+    "v2_manuscript_editions": 0,
+    "v2_media": 0,
+    "v2_media_attachments": 0,
+    "v2_namespace_versions": 1,
+    "v2_operations": 1,
+    "v2_permission_floors": 0,
+    "v2_records": 1,
+    "v2_recovery_archives": 0,
+    "v2_recovery_operations": 0,
+    "v2_recovery_stages": 0,
+    "v2_revisions": 1
+  },
+  "denied": {
+    "isError": true,
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"error\":\"The exact Activity is unavailable.\",\"code\":\"activity_unavailable\"}"
+      }
+    ]
+  },
+  "assertions": [
+    "known advertised kinds and pattern",
+    "7 rejected malformed variants leave every table unchanged",
+    "valid preview leaves every table unchanged",
+    "publication exact activity and recipe",
+    "readback original reading UTF-16 bytes, Unicode scalar count, CRLF, both accent forms and exact hashes",
+    "all 8 original ruby readings and slice offsets unchanged",
+    "math source and hash unchanged",
+    "foreign owner MCP error without source leakage and API 404",
+    "zero run, checkpoint and learning-development records"
+  ],
+  "disposed": true
+}

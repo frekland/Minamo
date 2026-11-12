@@ -1,0 +1,55 @@
+{
+  "contract": "minamo.pr52.github-connector-readback.v1",
+  "date": "2026-10-26",
+  "classification": "connector-observed-engineering",
+  "learnerProgress": false,
+  "repository": "frekland/minamo-v2",
+  "starterCommit": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+  "submissionCommit": "d51a4661fa99135b6cba805557138d90ca94b436",
+  "starterRead": {
+    "content": "\"\"\"INTENTIONALLY BUGGY. Read until EOF, preserve exact bytes, enforce max_bytes.\nPersistent protocols require separate explicit framing.\n\"\"\"\ndef collect_message(recv_chunk, max_bytes=65536):\n    return recv_chunk(4)\n",
+    "encoding": "utf-8",
+    "sha": "72e0b85f2b19534d1bca9f2e8fd18aae5b0d3942",
+    "display_url": "https://github.com/frekland/minamo-v2/blob/ce1a297b14ab78e1ce1f8e76941dd22519fc432a/examples/activity-studio/exchange-canary/chunked_reader.py",
+    "display_title": "chunked_reader.py"
+  },
+  "submissionRead": {
+    "content": "\"\"\"SYNTHETIC SUBMISSION — finite EOF exercise, not a persistent protocol.\"\"\"\ndef collect_message(recv_chunk, max_bytes=65536):\n    chunks = []\n    total = 0\n    while True:\n        chunk = recv_chunk(4)\n        if not chunk:\n            return b\"\".join(chunks)\n        total += len(chunk)\n        if total > max_bytes:\n            raise ValueError(\"maximum size exceeded\")\n        chunks.append(chunk)\n",
+    "encoding": "utf-8",
+    "sha": "734e44bbb6afc979c8aac158f69eca4c6e83b8ab",
+    "display_url": "https://github.com/frekland/minamo-v2/blob/d51a4661fa99135b6cba805557138d90ca94b436/examples/activity-studio/exchange-canary/chunked_reader.py",
+    "display_title": "chunked_reader.py"
+  },
+  "comparison": {
+    "repository_full_name": "frekland/minamo-v2",
+    "base": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+    "head": "d51a4661fa99135b6cba805557138d90ca94b436",
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "too_large": null,
+    "base_commit": {
+      "sha": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "url": "https://api.github.com/repos/frekland/minamo-v2/commits/ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "html_url": "https://github.com/frekland/minamo-v2/commit/ce1a297b14ab78e1ce1f8e76941dd22519fc432a"
+    },
+    "merge_base_commit": {
+      "sha": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "url": "https://api.github.com/repos/frekland/minamo-v2/commits/ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "html_url": "https://github.com/frekland/minamo-v2/commit/ce1a297b14ab78e1ce1f8e76941dd22519fc432a"
+    },
+    "files": [
+      {
+        "filename": "examples/activity-studio/exchange-canary/chunked_reader.py",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 4,
+        "changes": 15,
+        "previous_filename": null
+      }
+    ]
+  },
+  "authority": "Connector-observed by this engineering agent; Minamo receives these claims only as supplied-unverified. No independent Worker GitHub credential/provider binding is deployed.",
+  "githubActions": "Not queried or claimed in this retest."
+}

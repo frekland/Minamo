@@ -1,0 +1,51 @@
+{
+  "environment": {
+    "runtime": "v24.22.1",
+    "platform": "linux",
+    "scope": "Synthetic local Node; not browser, physical Pixel, hosted auth or durable Run"
+  },
+  "csv": {
+    "sourceBytes": 10984286,
+    "rows": 30000,
+    "parseMs": 154.25494,
+    "heapDeltaBytes": 33469288,
+    "filterMs": 100.37918400000001,
+    "filterMatches": 130
+  },
+  "audio": {
+    "samples": 32000,
+    "fftSize": 1024,
+    "frames": 128,
+    "spectrogramMs": 32.471637999999984
+  },
+  "bootstrap": {
+    "sampleSize": 1000,
+    "iterations": 1000,
+    "elapsedMs": 9.292027000000019,
+    "interval": [
+      7.656924999999991,
+      8.287024999999996
+    ]
+  },
+  "modules": {
+    "data": {
+      "minifiedBytes": 23385,
+      "gzipBytes": 9189
+    },
+    "audio": {
+      "minifiedBytes": 10297,
+      "gzipBytes": 4230
+    }
+  },
+  "hashes": {
+    "lib/foundry/data-core.ts": "f45c9bbd034f9f3bcd051a359ff365ffbfb07f2dacf4f7b490076e670dbdb951",
+    "lib/foundry/data-platform.ts": "2e1ef4da79e0f1926414b7ec8affa94a1d194244c33b431c131526c71a543971",
+    "lib/foundry/audio-core.ts": "b061ba8fcc2feffcbb21e43519904c43ea7aec3bf83bde84c1e4a8764f57b5e9",
+    "lib/foundry/audio-platform.ts": "9c3d31a8b3884119aa4d7ca64cdc00b7890c10a401aa985e40ac1b22c2ec640a",
+    "app/foundry-data-demo.tsx": "9e7c785e4cdff3cacc7a0bf2c9cca569c1e66ef4321a8a2ba6385ce9859e8144",
+    "app/foundry-audio-demo.tsx": "532cb14b552c89088dad9829708639d49aa0ce6400a208a7a5509e7778801bbf",
+    "tests/foundry-data-audio.test.mjs": "d237cd99bfa7ce29dca88070898b27977342f636ff2145f37dd660a57ed45c99",
+    "tests/foundry-data-ui.test.mjs": "e2f49745c4abfd6d718b7e2ce878970c5cb0e5ee116475933640015ff0a20bd7",
+    "tests/foundry-data-platform.test.mjs": "313b7251ddccabff2df66198c226faeea723b819720edfd334b79cbf63cef1e5"
+  }
+}

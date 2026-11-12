@@ -1,0 +1,39 @@
+▶ Activity typed MCP publication, explicit attempts and fresh natural-name continuity use existing durable domain
+  ✔ capability discovery is typed and preview writes neither record nor receipt (52.440566ms)
+  ✔ one guarded publication saves exact edition and replay returns one operation (53.477067ms)
+  ✔ ordinary reads and uncertain receipt readback never disclose unopened hints (110.707484ms)
+  ✔ saved Attempt keeps supplied provenance and remains pinned after Activity revision (100.054689ms)
+  ✔ fresh natural project query recovers linked cartridge and latest explicit intention without opaque IDs (57.655394ms)
+  ✔ encrypted export/import restores native metadata and immutable targets with generation fencing (531.968212ms)
+✔ Activity typed MCP publication, explicit attempts and fresh natural-name continuity use existing durable domain (3490.289477ms)
+✔ Activity strict admission rejects unknown solutions, source copies, computed claims, package traversal and observed Attempts (1704.06054ms)
+✔ Activity original source files are native canonical passages with exact Unicode Flags and retained annotations (1579.106756ms)
+▶ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links
+  ✔ guarded high-level publication saves an exact Attempt relation (0.749716ms)
+  ✔ old saved links and native typed Attempts project the immutable target rather than latest (84.828197ms)
+  ✔ reverse neighborhood discovers native typed Attempts and exact reading-only Activity links (118.047898ms)
+  ✔ old-client edits with Activity disabled preserve stored cartridge and exact Attempt metadata (79.22029ms)
+  ✔ revoked source suppresses typed reading relationships and invalidates the prior graph cursor (167.697239ms)
+✔ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links (3019.612342ms)
+✔ independent exact Activity reading target variants use the same current owner projections (2380.735005ms)
+✔ independent feature-off generic command attack cannot persist a new activity (2635.211233ms)
+✔ independent Activity concurrency and uncertain-result replay cannot lose a definition (1852.42299ms)
+✔ independent retained source, hint and edition attacks use current rights and exact immutable activity (1778.812029ms)
+✔ native semantic metadata preserves exact base and TeX, rejects source drift, surrogate cuts, scripts and budgets (3.455997ms)
+✔ typed outputs prohibit forged observation and stale success on interrupted/error, validate code hash and owned image binding (7.270223ms)
+✔ explicit Python save preparation stages exact PNG bytes, carries actual captured source, and clears failed/interrupted figures (13.013134ms)
+✔ new explicit manuscript declarations compile to native semantic source; invalid declarations stay exact code (521.035045ms)
+▶ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation
+  ✔ publish canonical ruby/math in ordinary Article and Note; exact source identity survives MCP and Flag (308.983117ms)
+  ✔ private PNG and table save on a native Run; no forged observed evidence or foreign-owner read (146.385679ms)
+  ✔ encrypted export includes typed metadata and original R2 bytes, restore retains native semantic source (779.82828ms)
+  ✔ source revocation removes ruby payload from retained reads and export; image revoke removes typed output label (121.511746ms)
+✔ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation (3578.810203ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7096.468895

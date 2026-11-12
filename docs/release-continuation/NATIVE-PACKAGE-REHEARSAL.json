@@ -1,0 +1,96 @@
+{
+  "classification": "local native Sites build/package rehearsal; not published or deployed",
+  "completedAtUtc": "2026-10-25T21:49:48.771891+00:00",
+  "projectId": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+  "githubRuntimeCommit": "6252b6535c448888a1a16d517a0590b5456395b4",
+  "nativeLocalCommit": "267c41a51a95b265c0815577184fe5cfe6dc8671",
+  "commonTree": "b6ac05c1cfde049dc74d645a737f5950b1fd6cc1",
+  "expectedRemoteNativeHead": "6ce455608150b0983a654bcf071d94a2d96792e1",
+  "executionProfile": "managed-linux",
+  "nativeBuild": {
+    "officialHelper": "build-site.mjs",
+    "exitCode": 0,
+    "scienceIncluded": false
+  },
+  "compiledWorkerGuards": {
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "skip": 0,
+    "durationMs": 5428.388438,
+    "files": [
+      "tests/built-worker.test.mjs",
+      "tests/activity-product-worker.test.mjs",
+      "tests/activity-security-compiled.test.mjs"
+    ],
+    "scope": "real compiled SSR/RSC/Server Action and isolated D1/R2 Activity/MCP/Atlas/feature-off/security; synthetic trusted dispatch is not actual Sites owner sign-in"
+  },
+  "dependencies": "symlink to independently installed frozen dependencies with byte-identical package/lock; no fresh installation claimed",
+  "package": {
+    "officialHelper": "package-site.mjs",
+    "exitCode": 0,
+    "filename": "minamo-conditional-release.tar.gz",
+    "bytes": 10453234,
+    "sha256": "16a93a4a6ba196499c1d8835736b396e39f682422597aa9e9a462c630c15142e",
+    "entries": 459,
+    "hosting": {
+      "d1": "DB",
+      "r2": "BUCKET",
+      "project_id": "appgprj_6ad8a4e85eb48191accd6e78976b47e3",
+      "capabilities": [
+        "mcp"
+      ]
+    },
+    "manifestHashes": {
+      "dist/server/wrangler.json": {
+        "bytes": 1309,
+        "sha256": "6f6d7092a52413b42d2a43ffbed7250e1800a6865ba0d5c427db4cc5691f94d5"
+      },
+      "dist/.openai/hosting.json": {
+        "bytes": 130,
+        "sha256": "ca38401a7b9240132af7527b6c44b79f71ea6b0c6bed107833013fb0e667c3b9"
+      }
+    },
+    "migrationFiles": [
+      "dist/.openai/drizzle/0005_pale_young_avengers.sql",
+      "dist/.openai/drizzle/0007_manuscript_editions.sql",
+      "dist/.openai/drizzle/0004_adorable_red_skull.sql",
+      "dist/.openai/drizzle/0006_serious_korvac.sql",
+      "dist/.openai/drizzle/0001_omniscient_freak.sql",
+      "dist/.openai/drizzle/0003_complex_ben_parker.sql",
+      "dist/.openai/drizzle/0002_mean_fenris.sql",
+      "dist/.openai/drizzle/0008_learning_continuity.sql",
+      "dist/.openai/drizzle/0000_narrow_forge.sql"
+    ],
+    "dangerousEntries": [],
+    "optionalSciencePayloads": []
+  },
+  "remoteNativePush": false,
+  "siteSave": false,
+  "deployment": false,
+  "environmentOrAccessChange": false,
+  "genuineLearningMutation": false,
+  "logs": {
+    "build": {
+      "path": "evidence/native-rehearsal-build.log.gz",
+      "uncompressedBytes": 2405,
+      "uncompressedSha256": "71d3eb7035a74f306007bf1dd26df398e7f58bda3f638eb5129456354231e560"
+    },
+    "guards": {
+      "path": "evidence/native-rehearsal-guards.log.gz",
+      "uncompressedBytes": 2211,
+      "uncompressedSha256": "a75b8453ea1ac1687976f9341a1123d3dfae3b979384519906c810ebd5328b4d"
+    },
+    "package": {
+      "path": "evidence/native-rehearsal-package.log.gz",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "aed4b40a7ddb5f0fc6cd1f6b4f2711f9fbd938f1e189e8ab04871773bb8606ec"
+    }
+  },
+  "inputVerificationAfter": {
+    "count": 663,
+    "digest": "3c7f7c01e087b6608458dbb70a8a23a500fb0c15790f075ae24f92cbbe714feb",
+    "mismatches": [],
+    "gitStatus": ""
+  }
+}

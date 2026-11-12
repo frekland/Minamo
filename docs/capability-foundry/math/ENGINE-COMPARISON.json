@@ -1,0 +1,224 @@
+{
+  "recordedAt": "2026-10-25T16:37:45.595Z",
+  "node": "v24.22.1",
+  "environment": "synthetic local Node process; no browser, hosted sign-in or physical device",
+  "workingBranch": "research/foundry-execution-20261025",
+  "fixtures": 6,
+  "results": [
+    {
+      "name": "KaTeX",
+      "version": "0.19.0",
+      "license": "MIT",
+      "mode": "HTML+MathML source (not browser render)",
+      "importMs": 18.799341,
+      "firstSixMs": 14.757364000000024,
+      "warm100Ms": 31.448408999999998,
+      "cases": [
+        {
+          "source": "\\int_0^1 x^2\\,dx = \\frac{1}{3}",
+          "ok": true,
+          "outputBytes": 3103,
+          "outputSha256": "c9d06962d5b9bb1262c259efedb9a53f83ae932fbbf2cae0b5b0fcae4ba1bd0a",
+          "containsMathML": true
+        },
+        {
+          "source": "e^{i\\pi}+1=0",
+          "ok": true,
+          "outputBytes": 1534,
+          "outputSha256": "bdc0fc0f1cbb6bdf1de89d448dd947c8f5d9f68dac84c1e4f9d061fcb4889968",
+          "containsMathML": true
+        },
+        {
+          "source": "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}",
+          "ok": true,
+          "outputBytes": 3672,
+          "outputSha256": "901a22414537cdf823e1276688992b558449294b27c2957007fed966d9a8a321",
+          "containsMathML": true
+        },
+        {
+          "source": "P(A\\mid B)=\\frac{P(B\\mid A)P(A)}{P(B)}",
+          "ok": true,
+          "outputBytes": 3077,
+          "outputSha256": "66699486b8e1423c3ebe401bf84d5b9c454cf1dd18c2a7f70a54a770c52c9de5",
+          "containsMathML": true
+        },
+        {
+          "source": "\\nabla\\cdot\\mathbf{E}=\\frac{\\rho}{\\varepsilon_0}",
+          "ok": true,
+          "outputBytes": 2486,
+          "outputSha256": "ba5f6550ac37fe7d2e866d5fa92dd196446bb2ae883eb0a7cdeaf35d5e9270d5",
+          "containsMathML": true
+        },
+        {
+          "source": "f(x)=\\begin{cases}x^2&x\\geq0\\\\-x&x<0\\end{cases}",
+          "ok": true,
+          "outputBytes": 3695,
+          "outputSha256": "97377cb4330829711ccd7692bd51c9007386e0729581afb5c9296fba7c94dd94",
+          "containsMathML": true
+        }
+      ]
+    },
+    {
+      "name": "MathJax",
+      "version": "4.1.3",
+      "license": "Apache-2.0",
+      "mode": "direct TeX->MathML only (not SVG/layout/a11y explorer)",
+      "importMs": 68.71570899999999,
+      "firstSixMs": 23.98881,
+      "warm100Ms": 103.470767,
+      "cases": [
+        {
+          "source": "\\int_0^1 x^2\\,dx = \\frac{1}{3}",
+          "ok": true,
+          "outputBytes": 602,
+          "outputSha256": "244cc5d85f33cf71b2e7334aa44d974b133ace1c799a5a688f6e9b02fad01f01",
+          "containsMathML": true
+        },
+        {
+          "source": "e^{i\\pi}+1=0",
+          "ok": true,
+          "outputBytes": 421,
+          "outputSha256": "ce2c658466ddd97acd9a7c91936ca58cb48c49077e9cc58275b31e0ed9a5639f",
+          "containsMathML": true
+        },
+        {
+          "source": "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}",
+          "ok": true,
+          "outputBytes": 1079,
+          "outputSha256": "0c912ad25c283e2da121694e11e4db3763e76e8d68ac3e951697850e9131bfae",
+          "containsMathML": true
+        },
+        {
+          "source": "P(A\\mid B)=\\frac{P(B\\mid A)P(A)}{P(B)}",
+          "ok": true,
+          "outputBytes": 1079,
+          "outputSha256": "cddc3fa161ff5bed3e5651db6dd3ffb2242b3144500a41ffc338f6c74a0aeb70",
+          "containsMathML": true
+        },
+        {
+          "source": "\\nabla\\cdot\\mathbf{E}=\\frac{\\rho}{\\varepsilon_0}",
+          "ok": true,
+          "outputBytes": 609,
+          "outputSha256": "6b6e63c4581a335019936fb8da233f9924c74c3ccd25bd4e16f52a0fd5913e01",
+          "containsMathML": true
+        },
+        {
+          "source": "f(x)=\\begin{cases}x^2&x\\geq0\\\\-x&x<0\\end{cases}",
+          "ok": true,
+          "outputBytes": 1205,
+          "outputSha256": "4403c6336d6b591ddc014f26c0ceeab720b0904909868afc28fcd6201885a3b3",
+          "containsMathML": true
+        }
+      ]
+    },
+    {
+      "name": "MathLive SSR",
+      "version": "0.111.1",
+      "license": "MIT",
+      "mode": "TeX->MathML only (not visual editor/virtual keyboard)",
+      "importMs": 19.196376999999984,
+      "firstSixMs": 9.41148800000002,
+      "warm100Ms": 15.605946999999958,
+      "cases": [
+        {
+          "source": "\\int_0^1 x^2\\,dx = \\frac{1}{3}",
+          "ok": true,
+          "outputBytes": 217,
+          "outputSha256": "5444d9616657e71dc817892f1586c772ec46f337d7f2f539a1fb0565e35cc20d",
+          "containsMathML": true
+        },
+        {
+          "source": "e^{i\\pi}+1=0",
+          "ok": true,
+          "outputBytes": 132,
+          "outputSha256": "d181d49640193b870de4d155ec2b0c5c9c763fed99a2b659801d98b419947fce",
+          "containsMathML": true
+        },
+        {
+          "source": "\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}\\begin{bmatrix}x\\\\y\\end{bmatrix}",
+          "ok": true,
+          "outputBytes": 453,
+          "outputSha256": "5452541d6b90ceb5214dbbf9ae98518e0adbe2ca4707d5125744e43e9c9a13ea",
+          "containsMathML": true
+        },
+        {
+          "source": "P(A\\mid B)=\\frac{P(B\\mid A)P(A)}{P(B)}",
+          "ok": true,
+          "outputBytes": 426,
+          "outputSha256": "6ed886952566d32d2ccb61bef25535b146cad94bc650a045cce13ebf20394e25",
+          "containsMathML": true
+        },
+        {
+          "source": "\\nabla\\cdot\\mathbf{E}=\\frac{\\rho}{\\varepsilon_0}",
+          "ok": true,
+          "outputBytes": 136,
+          "outputSha256": "868ed0c8c53d1ca0468c36d07f1a37c8412712edf2597b73545397c73aeeb8fe",
+          "containsMathML": true
+        },
+        {
+          "source": "f(x)=\\begin{cases}x^2&x\\geq0\\\\-x&x<0\\end{cases}",
+          "ok": true,
+          "outputBytes": 423,
+          "outputSha256": "2a1aeb09c08b827d8a2d928add9a68d906e16df1dabf92643fa0b223a0a2648f",
+          "containsMathML": true
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "path": "lib/foundry/math.ts",
+      "bytes": 9467,
+      "sha256": "c3a8e1d055c80635276ae46847765e0f0bb8190178dcbc2e2ceb675cd0fde90b"
+    },
+    {
+      "path": "lib/foundry/math-render.ts",
+      "bytes": 1294,
+      "sha256": "dc807a6cf5ad0d7bb095f220d338c58ba13932ccd0297a818eb9a96e09f220b6"
+    },
+    {
+      "path": "lib/foundry/math-science.ts",
+      "bytes": 6642,
+      "sha256": "e7f62be309c2da07a9e4a60b88b62271a7960bad2be8f4de318bb982e744b830"
+    },
+    {
+      "path": "lib/foundry/math-linear.ts",
+      "bytes": 3783,
+      "sha256": "41d3086907a5a411c4a37ab98ddd06e9ba97302f1a1f8e78a039feefe02e12e1"
+    },
+    {
+      "path": "lib/foundry/math-probability.ts",
+      "bytes": 2428,
+      "sha256": "09292d498aa2d0517a2e55d5faf2f234bab47864612fb3f2476febb11542e6e1"
+    },
+    {
+      "path": "app/foundry-math.tsx",
+      "bytes": 10929,
+      "sha256": "f336585d560dcef5c28dc5a276272773e7f04780555e463dcc9da370c341edfb"
+    },
+    {
+      "path": "tests/foundry-math.test.mjs",
+      "bytes": 11344,
+      "sha256": "c32f28dd6a8194bfae85c2dd5fbc64bb353fdbc766de72c6a22069cf833eaa0e"
+    }
+  ],
+  "footprints": {
+    "katexDistBytes": 2973768,
+    "mathjaxSourcePackageBytes": 33726950,
+    "mathlivePackageBytes": 5755950
+  },
+  "memory": {
+    "rss": 85729280,
+    "heapTotal": 42201088,
+    "heapUsed": 22486992,
+    "external": 4055387,
+    "arrayBuffers": 146579
+  },
+  "limitations": [
+    "Timing includes different output modes and is not a fair visual-render speed comparison.",
+    "No screen reader, browser layout, mobile keyboard or physical-device measurements.",
+    "MathJax uses no autoload/require extension and no output fonts in this source-only comparison.",
+    "MathLive SSR conversion is not verification of the visual editor.",
+    "Only KaTeX is a dormant product dependency; comparison packages remain outside the application."
+  ]
+}

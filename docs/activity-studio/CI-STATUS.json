@@ -1,0 +1,29 @@
+{
+  "contract": "minamo.remote-ci-status.v1",
+  "runId": 40222590385,
+  "headSha": "8e7dd6067c258c72741f66a31368c52ad6eb9458",
+  "status": "completed",
+  "conclusion": "failure",
+  "createdAt": "2026-10-25T18:43:19Z",
+  "updatedAt": "2026-10-25T18:43:22Z",
+  "url": "https://github.com/frekland/minamo-v2/actions/runs/40222590385",
+  "jobId": 121257171310,
+  "exposedSteps": [],
+  "logRetrieval": {
+    "error": "GitHub API error 404: ﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.\nRequestId:9ce497fd-801e-0058-05b1-644fae000000\nTime:2026-10-25T18:46:56.9764108Z</Message></Error>",
+    "error_code": "NOT_FOUND",
+    "error_data": {
+      "error_str": "GitHub API error 404: ﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.\nRequestId:9ce497fd-801e-0058-05b1-644fae000000\nTime:2026-10-25T18:46:56.9764108Z</Message></Error>"
+    }
+  },
+  "local": {
+    "typecheck": "pass",
+    "build": "pass",
+    "tests": 951,
+    "passed": 950,
+    "failed": 0,
+    "skipped": 1
+  },
+  "cause": "unestablished",
+  "productionChanged": false
+}

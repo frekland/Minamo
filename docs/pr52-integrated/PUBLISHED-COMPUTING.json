@@ -1,0 +1,288 @@
+{
+  "contract": "minamo.pr52.published-computing.v1",
+  "date": "2026-10-26",
+  "production": "https://minamo.jscymru.chatgpt.site",
+  "baselineVersion": 32,
+  "installedCatalogue": "integrated-practice-2026-10-26.4",
+  "generation": "legacy@0",
+  "scope": "Three owner-authorized permanent original Computing Activity exemplars; separate task-owned synthetic exact-submission acceptance.",
+  "permanent": [
+    {
+      "family": "experiment",
+      "id": "practice-bash-space-log",
+      "title": "Shell streams \u2014 preserve a line as data",
+      "synthetic": false,
+      "rev": 1,
+      "rendition": "r-898a93b5becc7b8674b30ee01e280f0b82230d23f7f65aeb28cf1a4574e6696f",
+      "url": "https://minamo.jscymru.chatgpt.site/?view=tools&family=experiment&id=practice-bash-space-log&rendition=r-898a93b5becc7b8674b30ee01e280f0b82230d23f7f65aeb28cf1a4574e6696f",
+      "operationId": "pr52-permanent-practice-bash-space-log-20261026",
+      "receiptStatus": "committed",
+      "scope": {
+        "version": 1,
+        "spaces": [
+          "computing"
+        ],
+        "provenance": "authored"
+      },
+      "exactInstalledMcpReadback": true,
+      "sourceFiles": [
+        {
+          "path": "README.md",
+          "role": "teaching-only",
+          "sha256": "84e361667458aca4c084aa307ac93c1110190f4102ab45383b6290905b9ab8d9"
+        },
+        {
+          "path": "main.sh",
+          "role": "editable-starter",
+          "sha256": "e9522726514a5e93659b66daa789a73a9a5b299309705faf281ca08124436a01"
+        },
+        {
+          "path": "test.sh",
+          "role": "visible-test",
+          "sha256": "81f03b71b57fadeb1ce0801b2b13062e37bcb0bc6907226cef8b1395d0fbed6b"
+        }
+      ],
+      "commands": {
+        "kali": "bash test.sh",
+        "powershell": "wsl bash test.sh"
+      },
+      "sourceBoundReferences": [
+        {
+          "family": "article",
+          "id": "ms-5e5f942fcca18def732117cca343ac4553a92dd2",
+          "rendition": "r-5bb647b07e9da9192d3b8ee1bd0fe6b0e21ce5943f3467956fa472a094b67b3f",
+          "sectionId": "s3"
+        },
+        {
+          "family": "article",
+          "id": "ms-5e5f942fcca18def732117cca343ac4553a92dd2",
+          "rendition": "r-5bb647b07e9da9192d3b8ee1bd0fe6b0e21ce5943f3467956fa472a094b67b3f",
+          "sectionId": "s4"
+        },
+        {
+          "family": "article",
+          "id": "ms-3f94c84194a7bfb7f34fb6d2619e6fc879e882ed",
+          "rendition": "r-8cd9ff4a01ac44030652da2b95844c29b35b57d1eedbfbb87965fd59e0bbbaad",
+          "sectionId": "pr52-streams"
+        }
+      ],
+      "walkthrough": {
+        "kind": "trace/external-v1",
+        "canonicalSha256": "c5beb7994c14e89920db8d4e5b08e9def544c0161b1cb86d57d1345abb0419c3",
+        "events": 4,
+        "provenance": {
+          "classification": "illustrative",
+          "execution": "not-executed"
+        },
+        "execution": "not-executed"
+      },
+      "learnerProgressCreated": false
+    },
+    {
+      "family": "experiment",
+      "id": "practice-tcp-chunks",
+      "title": "TCP observations \u2014 a stream is not a message",
+      "synthetic": false,
+      "rev": 1,
+      "rendition": "r-dfd24c5c8fa8e667e43e99a4ea1c89270d1f98a41f404759c17b91132e81bc68",
+      "url": "https://minamo.jscymru.chatgpt.site/?view=tools&family=experiment&id=practice-tcp-chunks&rendition=r-dfd24c5c8fa8e667e43e99a4ea1c89270d1f98a41f404759c17b91132e81bc68",
+      "operationId": "pr52-permanent-practice-tcp-chunks-20261026",
+      "receiptStatus": "committed",
+      "scope": {
+        "version": 1,
+        "spaces": [
+          "computing"
+        ],
+        "provenance": "authored"
+      },
+      "exactInstalledMcpReadback": true,
+      "sourceFiles": [
+        {
+          "path": "README.md",
+          "role": "teaching-only",
+          "sha256": "3d6849869b9baa860fb98ff758da98e33ed1cea8b6c328bf8d87dc2bd6ccd579"
+        },
+        {
+          "path": "chunked_reader.py",
+          "role": "editable-starter",
+          "sha256": "561a0b9579dfc80aa545afbf96db3a35e8ba3e005f34d85290ede12609bca63b"
+        },
+        {
+          "path": "test_chunked_reader.py",
+          "role": "visible-test",
+          "sha256": "b87439e3fb82c28bfb92931c25b6b4f124a14f9ae53132595317e294fca8f4f1"
+        }
+      ],
+      "commands": {
+        "kali": "python3 -m unittest -v",
+        "powershell": "py -3 -m unittest -v"
+      },
+      "sourceBoundReferences": [
+        {
+          "family": "article",
+          "id": "ms-a5c07502e7d21f26023953f00d8804fb546b4607",
+          "rendition": "r-ab9f7de19780cd2f17977d6fbf83e5b5978d81bc679955493df5d598c54684b0",
+          "sectionId": "s1"
+        },
+        {
+          "family": "article",
+          "id": "ms-a5c07502e7d21f26023953f00d8804fb546b4607",
+          "rendition": "r-ab9f7de19780cd2f17977d6fbf83e5b5978d81bc679955493df5d598c54684b0",
+          "sectionId": "s3"
+        }
+      ],
+      "walkthrough": {
+        "kind": "trace/external-v1",
+        "canonicalSha256": "397cbb271e1551bd43e14fd73c3ce5e720ec356807e12d3a493ef308aa60cea1",
+        "events": 5,
+        "provenance": {
+          "classification": "illustrative",
+          "execution": "not-executed"
+        },
+        "execution": "not-executed"
+      },
+      "learnerProgressCreated": false
+    },
+    {
+      "family": "experiment",
+      "id": "practice-counterexample-max",
+      "title": "Counterexamples \u2014 repair an assumption, keep the oracle",
+      "synthetic": false,
+      "rev": 1,
+      "rendition": "r-39cd1a3cf722d82cbdd0386b59a324d103efe8d5c5f3a8ce7f6d6f7d91e931b2",
+      "url": "https://minamo.jscymru.chatgpt.site/?view=tools&family=experiment&id=practice-counterexample-max&rendition=r-39cd1a3cf722d82cbdd0386b59a324d103efe8d5c5f3a8ce7f6d6f7d91e931b2",
+      "operationId": "pr52-permanent-practice-counterexample-max-20261026",
+      "receiptStatus": "committed",
+      "scope": {
+        "version": 1,
+        "spaces": [
+          "computing"
+        ],
+        "provenance": "authored"
+      },
+      "exactInstalledMcpReadback": true,
+      "sourceFiles": [
+        {
+          "path": "README.md",
+          "role": "teaching-only",
+          "sha256": "7b70f1327f26a84cb557ea5be6612552d8f6a2f4a6f77571529ef5742b3bfb7a"
+        },
+        {
+          "path": "main.py",
+          "role": "editable-starter",
+          "sha256": "ed6187b3b8325778db268ac88b14577cd048a8b492a7f7bc8b4d301f48026289"
+        },
+        {
+          "path": "test_main.py",
+          "role": "visible-test",
+          "sha256": "705059ecaab67b6848667f39e0ab871f440b62c4bcaadd5ecfcfde2de3075c84"
+        }
+      ],
+      "commands": {
+        "kali": "python3 -m unittest -v",
+        "powershell": "py -3 -m unittest -v"
+      },
+      "sourceBoundReferences": [
+        {
+          "family": "article",
+          "id": "ms-6f59ce387b2585336fca5de2d523431399b18f00",
+          "rendition": "r-06f5d243a3031af17eee2125ffb489f1e211e109fca965ff9e11598d5ccf2226",
+          "sectionId": "s1"
+        },
+        {
+          "family": "article",
+          "id": "ms-3f94c84194a7bfb7f34fb6d2619e6fc879e882ed",
+          "rendition": "r-8cd9ff4a01ac44030652da2b95844c29b35b57d1eedbfbb87965fd59e0bbbaad",
+          "sectionId": "pr52-status"
+        }
+      ],
+      "walkthrough": {
+        "kind": "trace/external-v1",
+        "canonicalSha256": "61d6994c9b478e68cf303a5e26ba934c5591b4a0df65a53c4df31cf62e785fda",
+        "events": 4,
+        "provenance": {
+          "classification": "illustrative",
+          "execution": "not-executed"
+        },
+        "execution": "not-executed"
+      },
+      "learnerProgressCreated": false
+    }
+  ],
+  "syntheticAcceptance": {
+    "family": "run",
+    "id": "test-pr52-computing-submission-20261026",
+    "title": "TEST ONLY \u2014 PR52 exact computing submission",
+    "synthetic": true,
+    "rev": 1,
+    "rendition": "r-267345f8c5a2d24d5b4047582a356ff82cdddf8162645dedd8b32ab0e15f2e30",
+    "url": "https://minamo.jscymru.chatgpt.site/?view=work&family=run&id=test-pr52-computing-submission-20261026&rendition=r-267345f8c5a2d24d5b4047582a356ff82cdddf8162645dedd8b32ab0e15f2e30",
+    "operationId": "pr52-test-computing-submission-20261026",
+    "status": "committed",
+    "target": {
+      "family": "experiment",
+      "id": "practice-tcp-chunks",
+      "rendition": "r-dfd24c5c8fa8e667e43e99a4ea1c89270d1f98a41f404759c17b91132e81bc68"
+    },
+    "contract": "minamo.scratch-submission.v1",
+    "starterDigest": "d0af5e9a2d32fc594d1a8706ce7c257c4f9f52a168206c0352248b07b98fc29f",
+    "submittedFiles": [
+      {
+        "path": "README.md",
+        "sha256": "3d6849869b9baa860fb98ff758da98e33ed1cea8b6c328bf8d87dc2bd6ccd579"
+      },
+      {
+        "path": "chunked_reader.py",
+        "sha256": "112440f0c4afa68c04b287d3666e63d4c0eba2b5e1f91e87f353a266bebac174"
+      },
+      {
+        "path": "test_chunked_reader.py",
+        "sha256": "b87439e3fb82c28bfb92931c25b6b4f124a14f9ae53132595317e294fca8f4f1"
+      }
+    ],
+    "github": {
+      "repository": "frekland/minamo-v2",
+      "starterCommit": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "submissionCommit": "d51a4661fa99135b6cba805557138d90ca94b436",
+      "classification": "supplied-unverified"
+    },
+    "execution": "not-executed-by-minamo",
+    "exactInstalledMcpReadback": true,
+    "idempotentReplay": {
+      "status": "committed",
+      "replayed": true,
+      "id": "test-pr52-computing-submission-20261026",
+      "rev": 1
+    },
+    "forgedStarterDigest": {
+      "id": "test-pr52-forged-computing-20261026",
+      "rejected": true,
+      "response": {
+        "error_code": "INVALID_ARGUMENT"
+      },
+      "note": "The installed connector returned only INVALID_ARGUMENT for this intentionally wrong starter digest; the useful detailed field path is not available from that wrapper response. No success or committed receipt was returned."
+    },
+    "learnerProgressCreated": false,
+    "cleanup": {
+      "state": "active-held-for-parent-post-write-checkpoint-and-authenticated-browser",
+      "next": "Parent compiler/recovery owner checkpoints after these new writes; then recoverable Trash only this task-owned synthetic run."
+    }
+  },
+  "preservation": {
+    "existingReferencesReadOnly": true,
+    "referenceEditionsPinned": true,
+    "existingGenuineLearningRecordsChanged": false,
+    "formalCheckpointsCreated": false,
+    "newPaidServices": false
+  },
+  "verificationLimits": {
+    "authenticatedBrowser": "Parent owns the cloud browser and records matched acceptance separately.",
+    "githubProvider": "Exact immutable commits and local red/green proof are engineering-observed externally; Minamo stores supplied-unverified and not-executed-by-minamo.",
+    "recovery": "Parent coordinates post-new-write checkpoint and restore evidence before synthetic cleanup."
+  },
+  "cleanupReceipt": {
+    "path": "LIVE-CLEANUP.json",
+    "status": "task-owned synthetic records recoverably trashed; named Development withdrawn; retained bytes verified",
+    "postCleanupArchiveId": "archive-35421d9612b5d4d68d377e6f151bc2b43636ec9e22c744a4"
+  }
+}

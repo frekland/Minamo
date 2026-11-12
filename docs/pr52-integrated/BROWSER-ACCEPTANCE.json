@@ -1,0 +1,201 @@
+{
+  "contract": "minamo.pr52.browser-acceptance.v1",
+  "date": "2026-10-26",
+  "surface": "Authenticated owner-private Sites; remote Chrome; no physical Windows/phone/AT/native-speaker certification",
+  "versions": {
+    "initial": 31,
+    "integrated": 32,
+    "corrected": [
+      33,
+      34
+    ]
+  },
+  "desktopViewport": {
+    "width": 1363,
+    "height": 936
+  },
+  "observed": [
+    {
+      "id": "reader-japanese",
+      "result": "pass",
+      "details": "Shared header scope/language, contextual 一度→いちど, independent phrase alignment and actual matching corpus occurrence returned exact source rendition,s2/p2,start35,end37. Exact return visibly acknowledged."
+    },
+    {
+      "id": "practice-german",
+      "result": "pass",
+      "details": "Ordinary UI check rejected Ich anrufe Lea heute.; retained saved answer1, revised to Ich rufe Lea heute an. accepted; saved same synthetic Attempt rev2 with both originals and feedback. No Development.",
+      "record": "practice-attempt-e8e01fe7-4eb6-4ef2-bee8-17eee10dd9f7"
+    },
+    {
+      "id": "computing",
+      "result": "pass",
+      "details": "Production lazy scratch opened, original Python starter unchanged, edited exact scratch, comparison marked only chunked_reader.py changed and visible tests unchanged. Task layout preserved draft; deliberate reset restored exact starter. UI execution never claimed. Separate exact synthetic MCP submission plus prior isolated UI save/local Git red-green receipts."
+    },
+    {
+      "id": "character",
+      "result": "pass",
+      "details": "Japanese stroke replay, hidden-model recall, explicit keyboard self-report; mouse trace added one local polyline. Recall cleared it; DOM polylines0 and model opacity0,0. Canonical text/attribution retained; no auto-save or handwriting grade."
+    },
+    {
+      "id": "ordering",
+      "result": "pass",
+      "details": "Real keyboard Enter on Move 1 later; incorrect authored order diagnosed, restored order accepted. No dragging required."
+    },
+    {
+      "id": "matching",
+      "result": "pass",
+      "details": "Mandarin matching select 再说一遍→Say it once more accepted through native select."
+    },
+    {
+      "id": "dialogue",
+      "result": "pass",
+      "details": "Japanese clarification branch asked repetition, confirmed window, finished with useful authored feedback. Trace stayed local."
+    },
+    {
+      "id": "spatial",
+      "result": "pass",
+      "details": "Mandarin book moved with native buttons/keyboard from row3col1 to row2col3, immediately right of table row2col2; finite position check accepted. Separate Mandarin character replay present."
+    },
+    {
+      "id": "licensed-ja-audio",
+      "result": "pass",
+      "details": "Native audio pausedfalse,currentTime0.251972,duration0.90475,readyState4,rate0.75,errornull; custom loop enabled. ExplicitStop pausedtrue. Dictationこんにちは exact comparison; explicit transcript/translation reveal; no eligible local-voice fallback. Actual UI synthetic Attempt saved and independently read via installed MCP.",
+      "record": "attempt-030e8400-ab3e-4cd8-91ae-0ae81009b558"
+    },
+    {
+      "id": "licensed-zh-audio",
+      "result": "pass",
+      "details": "Native audio pausedfalse,currentTime0.550766,duration1.056563,readyState4,rate0.5,errornull; custom loop enabled. ExplicitStop, dictation你好 exactmatch and deliberate synthetic UI Attempt saved/read.",
+      "record": "attempt-2fa94079-d88c-4daf-b9cc-c755a30542b9"
+    },
+    {
+      "id": "upload-preview",
+      "result": "corrected-pass",
+      "initialFailure": "V32 Add media to draft crashed because authoring preview omitted workspace scope. Existing staged original recovered unchanged; no duplicate upload.",
+      "retest": "V33 fresh Mandarin Upload→Add media→metadata-only preview→parentSave passed. V34 attached read-only preview excludes management writes."
+    },
+    {
+      "id": "section-only-edit",
+      "result": "corrected-pass",
+      "initialFailure": "HTML required introduction blocked revision of section-based Article with empty body.",
+      "retest": "V34 optional body accepted; actual UI saved rev4, MCP body empty, exact你好 transcript and same mediaasset preserved; Activity remained pinned retained source rev3."
+    },
+    {
+      "id": "native-selection",
+      "result": "pass",
+      "details": "Normal pointer text selection of retained Mandarin source s2/p2; Ctrl+C clipboard exactly你好; adjacent Flag and Annotate controls. Flag acknowledged; annotation save pending final readback."
+    },
+    {
+      "id": "phone-reflow",
+      "result": "pass-qualified",
+      "details": "Actual isolated synthetic iframe390x844 CSS px, scrollWidth390, header231; controls reachable and passagepicker absent. Physical phone/IME/AT not tested."
+    },
+    {
+      "id": "native-selected-marks",
+      "result": "pass",
+      "details": "Actual UI Flag and Annotation acknowledged; installed MCP confirms synthetic:true, exact source rendition r-0ebf3430acc98cf83c8fcf50eb4abcc9bef344f06daf9eeae837ae70ede746d1 s2/p2 UTF16 0:2 quote你好.",
+      "flag": "flag-647e35f8d6c84b7edaf2a9e0048bbf90264d5cc95886fe48823ff4cd7d5d46ca",
+      "annotation": "39356492-e3af-4f85-8e4e-ba25cd83fbe4"
+    },
+    {
+      "id": "recorder-no-device",
+      "result": "pass-qualified",
+      "details": "Actual V34 optional Start local recording returned Requested device not found. No media bytes/upload/Attempt or voice achievement created. Physical microphone success unperformed."
+    },
+    {
+      "id": "reference-navigation",
+      "result": "pass",
+      "details": "Commands catalogue exact jq search → Preview showed relevant value-stream mechanism/fixture → Open exact reading s2 → reload retained exact title/section and complete worked example. All generic paths; no command special-case."
+    },
+    {
+      "id": "notes",
+      "result": "pass",
+      "details": "Opened standalone Lantern Note in Notes; text unchanged across Task→Classic→Focus, Japanese→Computing scope, keyboard bottom resize430→450→430, side dock right460→bottom. Closed only task-owned Note tab, preserved record; no writes."
+    },
+    {
+      "id": "section-navigation",
+      "result": "pass",
+      "details": "Classic retained source lower section h2/section y186.59375,bottom407.65625 within pane top71/bottom889; nav computed position static. Top returned main.scrollTop0. Exact corpus/jq deep-link reload and mode transitions separately verified."
+    },
+    {
+      "id": "post-trash-media",
+      "result": "pass",
+      "details": "Authenticated browser navigation to both exact media byte URLs and both metadata URLs returned media_unavailable, File details are unavailable, generationlegacy@0. No file download."
+    },
+    {
+      "id": "atlas",
+      "result": "pass",
+      "details": "Actual focused TCP Activity graph2references/3savedconnections. Enter selected Article, switched to equivalent cards and exact-source/provenance detail; kindarticle and relationrelated URL filters restored after reload and browserBack/Forward once graph options became available. This is DOM state after hydration, not server skeleton defaults."
+    },
+    {
+      "id": "finite-walkthrough",
+      "result": "pass",
+      "details": "Actual typed trace/external-v1 renderer opened after exact Activity/source validation. Stepped five original supplied illustrative events; final Next event disabled at5of5 with no invented timing or execution. Switching toSourcefiles disposes view."
+    },
+    {
+      "id": "starter-export",
+      "result": "pass",
+      "details": "Actual production Download starter ZIP returned2925bytes; independent Python ZIP decoder verified README.md,chunked_reader.py,test_chunked_reader.py exact declared source SHA256 plus MINAMO-MANIFEST.json. ZIP SHA256de7ca88c3ff4b40d0c079b37277ae300fbf05007098a3958f62b72e8feb655b7."
+    }
+  ],
+  "timing": {
+    "documentToCharacterControlsMs": 5131,
+    "qualification": "Warm browser cache; orchestration-inclusive navigation-to-visible-controls wall time, not FCP or a pure in-browser latency metric."
+  },
+  "layout": {
+    "before": {
+      "header90": 90,
+      "separateBand": 110.03125,
+      "focusTitleHeaderY": 454,
+      "classicTitleHeaderY": 566.03125,
+      "articleMeasure": 740,
+      "tocRail": 215
+    },
+    "intermediate": {
+      "sharedHeader": 71,
+      "focusTitleHeaderY": 315,
+      "classicTitleHeaderY": 206,
+      "classicReaderWidth": 1056.3125
+    },
+    "finalMatched": {
+      "version": 34,
+      "retainedCanonicalEdition": "r-836d41bd367c574d42f04a8a4156bd1f256b8dbe9608d5a5bb18e3d7ca2ebccf",
+      "viewport": {
+        "width": 1363,
+        "height": 936
+      },
+      "mainScrollTop": 0,
+      "focus": {
+        "header": 71,
+        "headerBlockY": 315,
+        "titleY": 315,
+        "readerWidth": 1260,
+        "codeWidth": 1260,
+        "proseWidth": 740,
+        "navY": 234,
+        "navHeight": 55
+      },
+      "classic": {
+        "header": 71,
+        "headerBlockY": 364,
+        "titleY": 420,
+        "readerWidth": 1056.3125,
+        "codeWidth": 1056.3125,
+        "proseWidth": 740,
+        "navY": 274,
+        "navHeight": 74
+      },
+      "overflow": false,
+      "ordinaryProseTabStops": 0,
+      "persistentPassagePicker": false,
+      "notes": "minimised bottom, original430px expanded preference restored",
+      "qualification": "Same source text and desktop viewport/mode; final retained-edition notice intentionally visible below the title. Earlier intermediate Classic geometry was before Top reset and is not the matched result."
+    }
+  },
+  "pending": [],
+  "limits": [
+    "Physical microphone success, physical IME, stylus and assistive technology remain unperformed; no pronunciation/mastery claims."
+  ],
+  "finalRuntimeVersion": 34,
+  "status": "Complete for available authenticated browser surfaces; physical/device and isolated optional qualifications retained."
+}

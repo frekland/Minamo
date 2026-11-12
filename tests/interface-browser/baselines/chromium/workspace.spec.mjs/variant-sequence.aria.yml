@@ -1,0 +1,31 @@
+- paragraph: Debug and repair
+- button "Expand content"
+- button "Open Notes"
+- tablist "Activity sections":
+  - tab "Task"
+  - tab "Source files" [selected]
+  - tab "Hints"
+  - tab "Your attempt"
+- tabpanel "Source files":
+  - heading "Source files" [level=3]
+  - region "Project source and local handoff":
+    - paragraph: SOURCE PACKAGE · python
+    - heading "Can a single recv return the whole message?" [level=3]
+    - button "Download starter ZIP"
+    - navigation "Project files":
+      - button "README.md Teaching reference"
+      - button "chunked_reader.py Starter"
+      - button "test_chunked_reader.py Visible tests"
+    - strong: README.md
+    - button "Copy source"
+    - code: "# Can a single recv return the whole message? INTENTIONALLY BUGGY synthetic teaching starter. Investigate finite EOF-terminated byte streams, distinct from persistent protocol framing. Predict which tests expose a mistaken message boundary. Tests are visible. No repaired solution is included. Use the package manifest for Kali and PowerShell commands. Bash requires WSL on Windows; Python/Node/Rust must be installed locally. No package manager installation, remote shell or CI dispatch occurs in Minamo. Source inspection and test passes do not establish learner understanding."
+    - paragraph:
+      - link "Open this exact file in Reader to Flag or annotate":
+        - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-debug&rendition=r-7b3c66c84085e31db99558df5b2cb6f342e6099c08316b3db097b1857e9ca033&section=activity&part=starter-file-0
+    - group: File integrity
+    - group: Work on Kali or Windows
+- navigation "Activity step navigation":
+  - button "Previous section"
+  - text: 2 of 4 · Source files
+  - button "Next section"
+- group: Compare working layouts

@@ -1,0 +1,30 @@
+- paragraph: Algorithm and game lab
+- button "Expand content"
+- button "Open Notes"
+- tablist "Activity sections":
+  - tab "Task"
+  - tab "Source files"
+  - tab "Explore" [selected]
+  - tab "Hints"
+  - tab "Your attempt"
+- region "Task":
+  - heading "Task" [level=3]
+  - paragraph: Explore
+  - paragraph: "Game and algorithm: inspect the state. Inspect the exact source, make a prediction and retain a useful question. This is an original synthetic activity, not an execution or learning claim."
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-game&rendition=r-d3f54786f5d6fae88b98cdbbc7ecb68bf6252e18b9b332cad39f82105012dc12&section=activity&part=task
+  - paragraph: Before you try
+  - paragraph: What do you expect, and which observation would change your mind?
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-game&rendition=r-d3f54786f5d6fae88b98cdbbc7ecb68bf6252e18b9b332cad39f82105012dc12&section=activity&part=predict
+- tabpanel "Explore":
+  - heading "Explore" [level=3]
+  - paragraph: scene/geometry-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-game&rendition=r-d3f54786f5d6fae88b98cdbbc7ecb68bf6252e18b9b332cad39f82105012dc12&section=activity&part=scene-source
+  - status: Ready to inspect.
+- group: Compare working layouts

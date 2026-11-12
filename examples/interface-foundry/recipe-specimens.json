@@ -1,0 +1,228 @@
+{
+  "researchOnly": true,
+  "contract": "minamo.presentation.research-v1",
+  "warning": "Illustrative UI recipes, not admitted into current Minamo backend/MCP and not proof of any server capability.",
+  "patterns": [
+    {
+      "pattern": "debug-and-repair",
+      "id": "synthetic-recv-bug",
+      "title": "Why does the receive loop stop?",
+      "purpose": "Find a deliberately broken receive boundary assumption",
+      "workspaceMode": "task",
+      "primary": {
+        "slot": "primary",
+        "view": "code-file-tree",
+        "source": "synthetic:starter",
+        "sourceClass": "authored-exercise"
+      },
+      "additional": [
+        {
+          "slot": "evidence",
+          "view": "test-report",
+          "source": "synthetic:tests",
+          "sourceClass": "illustrative-test-until-executed"
+        },
+        {
+          "slot": "guidance",
+          "view": "hint-ladder",
+          "source": "synthetic:hints",
+          "reveal": "explicit"
+        },
+        {
+          "slot": "supporting",
+          "view": "linked-reading",
+          "source": "synthetic:tcp-library"
+        }
+      ],
+      "actions": [
+        "inspect",
+        "copy",
+        "open-locally",
+        "show-hint",
+        "open-note"
+      ],
+      "mobile": [
+        "primary",
+        "evidence",
+        "guidance",
+        "supporting"
+      ],
+      "mustNot": [
+        "auto-run",
+        "auto-checkpoint",
+        "include-hidden-solution"
+      ],
+      "fallback": "Original instructions and code as readable text"
+    },
+    {
+      "pattern": "read-and-annotate",
+      "id": "synthetic-japanese-ruby",
+      "title": "Reading a Japanese sentence",
+      "workspaceMode": "focus",
+      "primary": {
+        "slot": "primary",
+        "view": "japanese-passage",
+        "source": "synthetic:author-verified-ja",
+        "sourceClass": "authored"
+      },
+      "additional": [
+        {
+          "slot": "inspector",
+          "view": "glossary",
+          "source": "synthetic:glossary"
+        },
+        {
+          "slot": "guidance",
+          "view": "reading-reveal",
+          "source": "synthetic:ruby"
+        }
+      ],
+      "actions": [
+        "reveal-reading",
+        "copy-source",
+        "flag-passage",
+        "annotate",
+        "open-note"
+      ],
+      "mobile": [
+        "primary",
+        "inspector",
+        "guidance"
+      ],
+      "mustNot": [
+        "override-canonical-text",
+        "claim-reading-mastery"
+      ],
+      "fallback": "Original Japanese base text with readings as plain labels"
+    },
+    {
+      "pattern": "predict-explore-compare",
+      "id": "synthetic-integral",
+      "title": "What should this integral equal?",
+      "workspaceMode": "task",
+      "primary": {
+        "slot": "primary",
+        "view": "math-expression",
+        "source": "synthetic:tex",
+        "sourceClass": "authored"
+      },
+      "additional": [
+        {
+          "slot": "inspector",
+          "view": "plot-controls",
+          "source": "synthetic:parameter-plot"
+        },
+        {
+          "slot": "evidence",
+          "view": "run-output",
+          "source": "synthetic:reported-only",
+          "sourceClass": "illustrative"
+        },
+        {
+          "slot": "guidance",
+          "view": "reflection",
+          "source": "synthetic:prompt"
+        }
+      ],
+      "actions": [
+        "predict",
+        "inspect-source",
+        "run-if-available",
+        "compare",
+        "open-note"
+      ],
+      "mobile": [
+        "primary",
+        "inspector",
+        "evidence",
+        "guidance"
+      ],
+      "mustNot": [
+        "pretend-compute-on-view",
+        "convert-illustration-to-observation"
+      ],
+      "fallback": "Readable integral source and narrated expected plot meaning"
+    },
+    {
+      "pattern": "data-investigation",
+      "id": "synthetic-csv",
+      "title": "Where did these missing values come from?",
+      "workspaceMode": "task",
+      "primary": {
+        "slot": "primary",
+        "view": "data-table",
+        "source": "synthetic:csv",
+        "sourceClass": "supplied"
+      },
+      "additional": [
+        {
+          "slot": "inspector",
+          "view": "statistical-chart",
+          "source": "synthetic:csv"
+        },
+        {
+          "slot": "evidence",
+          "view": "query-results",
+          "source": "synthetic:query"
+        }
+      ],
+      "actions": [
+        "inspect",
+        "filter",
+        "copy-source",
+        "open-note"
+      ],
+      "mobile": [
+        "primary",
+        "inspector",
+        "evidence"
+      ],
+      "mustNot": [
+        "invent-statistics",
+        "execute-freeform-sql-in-d1"
+      ],
+      "fallback": "Bounded source table and source digest label"
+    },
+    {
+      "pattern": "learning-atlas",
+      "id": "synthetic-journey-map",
+      "title": "Investigating byte streams",
+      "workspaceMode": "task",
+      "primary": {
+        "slot": "primary",
+        "view": "semantic-graph",
+        "source": "synthetic:authorized-graph",
+        "sourceClass": "derived-with-evidence"
+      },
+      "additional": [
+        {
+          "slot": "inspector",
+          "view": "record-summary",
+          "source": "synthetic:selected-node"
+        },
+        {
+          "slot": "supporting",
+          "view": "link-reasons",
+          "source": "synthetic:edges"
+        }
+      ],
+      "actions": [
+        "focus-node",
+        "open-source",
+        "change-view",
+        "open-note"
+      ],
+      "mobile": [
+        "primary",
+        "inspector",
+        "supporting"
+      ],
+      "mustNot": [
+        "infer-mastery",
+        "copy-revoked-content"
+      ],
+      "fallback": "Accessible hierarchical list of owned nodes and explained links"
+    }
+  ]
+}
+

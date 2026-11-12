@@ -1,0 +1,45 @@
+- paragraph: Mathematics and science
+- button "Expand content"
+- button "Open Notes"
+- tablist "Activity sections":
+  - tab "Task"
+  - tab "Explore" [selected]
+  - tab "Hints"
+  - tab "Your attempt"
+- region "Task":
+  - heading "Task" [level=3]
+  - paragraph: Explore
+  - paragraph: Mathematics and science board. Inspect the exact source, make a prediction and retain a useful question. This is an original synthetic activity, not an execution or learning claim.
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-math&rendition=r-90b6a6bdfd2d73cac3c144cdc2a9a516890b2934ece3ebeeb77ef7b95e6588ba&section=activity&part=task
+  - paragraph: Before you try
+  - paragraph: What do you expect, and which observation would change your mind?
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-math&rendition=r-90b6a6bdfd2d73cac3c144cdc2a9a516890b2934ece3ebeeb77ef7b95e6588ba&section=activity&part=predict
+- tabpanel "Explore":
+  - heading "Explore" [level=3]
+  - paragraph: math/tex-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-math&rendition=r-90b6a6bdfd2d73cac3c144cdc2a9a516890b2934ece3ebeeb77ef7b95e6588ba&section=activity&part=formula-source
+  - status: Ready to inspect.
+  - paragraph: math/native-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-math&rendition=r-90b6a6bdfd2d73cac3c144cdc2a9a516890b2934ece3ebeeb77ef7b95e6588ba&section=activity&part=native-math-source
+  - status: Ready to inspect.
+  - paragraph: data/chart-v1
+  - paragraph: Supplied content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-math&rendition=r-90b6a6bdfd2d73cac3c144cdc2a9a516890b2934ece3ebeeb77ef7b95e6588ba&section=activity&part=plot-source
+  - status: Ready to inspect.
+- group: Compare working layouts

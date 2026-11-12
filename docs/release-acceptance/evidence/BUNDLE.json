@@ -1,0 +1,100 @@
+{
+  "reports": [
+    {
+      "root": "/workspace/scratch/10fcadaf9a6c/candidate/dist/client",
+      "method": "Union of app browser entry + Workspace static import/CSS closures. Dynamic imports excluded; emitted transfer estimate, not network timing/INP.",
+      "defaultEager": {
+        "files": 38,
+        "bytes": 1225684,
+        "gzipBytes": 350695,
+        "paths": [
+          "_next/static/chunks/app-elements-Dhcdnhse.js",
+          "_next/static/chunks/app-prefetch-fetch-queue-C-KJwPps.js",
+          "_next/static/chunks/app-router-scroll-state-BkTWSAPb.js",
+          "_next/static/chunks/app-rsc-cache-busting-CC9rDn3w.js",
+          "_next/static/chunks/app-rsc-render-mode-DIIbL8ol.js",
+          "_next/static/chunks/base-path-BcCsO9j-.js",
+          "_next/static/chunks/client-id-tS3s65tk.js",
+          "_next/static/chunks/deployment-id-Dv812N7y.js",
+          "_next/static/chunks/digest-BhLdj_5e.js",
+          "_next/static/chunks/domain-locale-6KOVpmCQ.js",
+          "_next/static/chunks/framework-vnRwnn5g.js",
+          "_next/static/chunks/hash-DMuXySqZ.js",
+          "_next/static/chunks/headers-8KBE7Tjy.js",
+          "_next/static/chunks/html-limited-bots-CKbY4On0.js",
+          "_next/static/chunks/hybrid-client-route-owner-direct-Cg5qvHX9.js",
+          "_next/static/chunks/index-p2ucqGPf.js",
+          "_next/static/chunks/language-BoIKTMvq.js",
+          "_next/static/chunks/language-dom-C3asGevy.js",
+          "_next/static/chunks/learning-experience-Cyp2L_k0.js",
+          "_next/static/chunks/math-hzXmOAZr.js",
+          "_next/static/chunks/navigation-CoRVuP0q.js",
+          "_next/static/chunks/navigation-errors-DAyez9dZ.js",
+          "_next/static/chunks/note-markdown-view-Cg78_zwe.js",
+          "_next/static/chunks/notes-workspace-09bTFRFW.js",
+          "_next/static/chunks/platform-CFnQg5O4.js",
+          "_next/static/chunks/ppr-fallback-shell-BbbkZsYp.js",
+          "_next/static/chunks/preload-helper-5TPFiuuK.js",
+          "_next/static/chunks/protocol-headers-DrXyjimu.js",
+          "_next/static/chunks/reader-DZhKSCor.js",
+          "_next/static/chunks/record-uXSNv6cl.js",
+          "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+          "_next/static/chunks/route-matching-SIwpxVJf.js",
+          "_next/static/chunks/workspace-Dy9nPnJE.js",
+          "_next/static/chunks/workspace-generation-mv-LPF7t.js",
+          "_next/static/css/learning-experience.dvbuF0Jc.css",
+          "_next/static/css/notes-workspace.4hN2hpja.css",
+          "_next/static/css/reader.BzGaQxBt.css",
+          "_next/static/css/workspace.Bv87qNzg.css"
+        ]
+      },
+      "activity": {
+        "files": 10,
+        "bytes": 313308,
+        "gzipBytes": 93339,
+        "paths": [
+          "_next/static/chunks/activity-studio-J1ISFe8Z.js",
+          "_next/static/chunks/client-id-tS3s65tk.js",
+          "_next/static/chunks/digest-BhLdj_5e.js",
+          "_next/static/chunks/framework-vnRwnn5g.js",
+          "_next/static/chunks/interface-extension-catalogue-DTyS5N2G.js",
+          "_next/static/chunks/platform-CFnQg5O4.js",
+          "_next/static/chunks/preload-helper-5TPFiuuK.js",
+          "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+          "_next/static/chunks/workspace-generation-mv-LPF7t.js",
+          "_next/static/css/activity-studio.BmUalGuj.css"
+        ]
+      },
+      "atlas": {
+        "files": 21,
+        "bytes": 1211567,
+        "gzipBytes": 345443,
+        "paths": [
+          "_next/static/chunks/client-id-tS3s65tk.js",
+          "_next/static/chunks/digest-BhLdj_5e.js",
+          "_next/static/chunks/framework-vnRwnn5g.js",
+          "_next/static/chunks/language-BoIKTMvq.js",
+          "_next/static/chunks/language-dom-C3asGevy.js",
+          "_next/static/chunks/learning-atlas-DLCQA7PS.js",
+          "_next/static/chunks/learning-experience-Cyp2L_k0.js",
+          "_next/static/chunks/math-hzXmOAZr.js",
+          "_next/static/chunks/note-markdown-view-Cg78_zwe.js",
+          "_next/static/chunks/notes-workspace-09bTFRFW.js",
+          "_next/static/chunks/platform-CFnQg5O4.js",
+          "_next/static/chunks/preload-helper-5TPFiuuK.js",
+          "_next/static/chunks/reader-DZhKSCor.js",
+          "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+          "_next/static/chunks/workspace-Dy9nPnJE.js",
+          "_next/static/chunks/workspace-generation-mv-LPF7t.js",
+          "_next/static/css/learning-atlas.CVfIasPY.css",
+          "_next/static/css/learning-experience.dvbuF0Jc.css",
+          "_next/static/css/notes-workspace.4hN2hpja.css",
+          "_next/static/css/reader.BzGaQxBt.css",
+          "_next/static/css/workspace.Bv87qNzg.css"
+        ]
+      },
+      "allEmittedBytes": 4569061,
+      "heavyInDefault": []
+    }
+  ]
+}

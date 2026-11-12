@@ -1,0 +1,73 @@
+{
+  "classification": "independently reproduced clean exact-tree local CI-equivalent validation; not GitHub-hosted CI",
+  "completedAtUtc": "2026-10-25T21:14:40.130224+00:00",
+  "source": {
+    "githubCommit": "890152e41eb65a9c311bf202b3bbd37a57d20776",
+    "localCommit": "7fbb119faea56f35a58ccf68ffb9bce8e8b01af4",
+    "githubAndLocalTree": "fb4bd3f64cfc5e34d879613c45380f6b3945f4e8",
+    "runtimeGithubCommit": "03d7c8464e6c99ba7841a6ce063cba0d1ff4a5bc",
+    "inputCount": 628,
+    "inputDigest": "b20a951c783d52df7743d9a0ff6d5bc17cf3948de5f52fdd7ee249479d8c25ae",
+    "mismatches": [],
+    "gitStatusAfter": "",
+    "cleanCheckout": "/workspace/scratch/10fcadaf9a6c/continuation-ci-attestation"
+  },
+  "toolchain": {
+    "node": "v24.22.1",
+    "pnpm": "11.25.0",
+    "platform": "managed Linux x64",
+    "nodeModulesIsSymlink": false,
+    "freshInstall": true,
+    "packagesReused": 623,
+    "packagesDownloaded": 218,
+    "frozenLockfile": true
+  },
+  "validation": {
+    "installExitCode": 0,
+    "typecheckExitCode": 0,
+    "buildExitCode": 0,
+    "fullSuiteExitCode": 0,
+    "tests": 1020,
+    "pass": 1016,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 4,
+    "durationMs": 230834.139379,
+    "testConcurrency": 2,
+    "skipDetails": [
+      "\ufe63 actual shared controller computes PNG+table and keeps error output partial; next fresh run cannot inherit it (0.867363ms) # SKIP",
+      "\ufe63 actual shared controller blocks deceptive low-dpi huge raster before savefig (0.119789ms) # SKIP",
+      "\ufe63 actual isolated Node worker infinite loop is terminated by parent watchdog (0.189976ms) # SKIP",
+      "\ufe63 Rust local starter compilation is performed only when a genuine toolchain exists (6.008472ms) # Rust/Cargo unavailable: source is complete but remains uncompiled; no Python substitute is counted as Rust evidence."
+    ],
+    "publicController": false,
+    "distributionController": false,
+    "scienceDistribution": false
+  },
+  "logs": {
+    "install": {
+      "path": "evidence/ci-independent-install.log.gz",
+      "uncompressedBytes": 65561,
+      "uncompressedSha256": "31a53e335c7e2e74559c0cdfc960472b3ed07755cb0cd4cee9b02581b34e6850"
+    },
+    "typecheck": {
+      "path": "evidence/ci-independent-typecheck.log.gz",
+      "uncompressedBytes": 15,
+      "uncompressedSha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "build": {
+      "path": "evidence/ci-independent-build.log.gz",
+      "uncompressedBytes": 2043,
+      "uncompressedSha256": "273f1c391388e73f4c47ff67e643b8ea4c06d0ec63bbd0473d2957f4d57c6fcd"
+    },
+    "fullSuite": {
+      "path": "evidence/ci-independent-fullSuite.log.gz",
+      "uncompressedBytes": 148217,
+      "uncompressedSha256": "7afe558197ea2384b60a3af128a54515e3ac6f90129673d52dd8ed0b656e6372"
+    }
+  },
+  "productionWrites": false,
+  "remoteCIGreen": false,
+  "providerRootCause": "unestablished; provider recorded two annotations but connector rejects the annotations endpoint",
+  "disposition": "Technical command coverage for the commission-allowed reproducible alternative is complete. Independent release reviewer must explicitly assess the remaining provider-CI limitation; other mandatory gates remain independent."
+}

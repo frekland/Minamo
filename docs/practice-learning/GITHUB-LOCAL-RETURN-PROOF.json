@@ -1,0 +1,59 @@
+{
+  "contract": "minamo.pr52.github-local-return-proof.v1",
+  "classification": "engineering-executed-locally",
+  "learnerProgress": false,
+  "runtimeVersions": {
+    "node": "v24.22.1",
+    "python": "Python 3.12.14"
+  },
+  "connectorReceipt": "GITHUB-CONNECTOR-READBACK.json",
+  "starterCommit": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+  "submissionCommit": "d51a4661fa99135b6cba805557138d90ca94b436",
+  "starterFileSha256": "561a0b9579dfc80aa545afbf96db3a35e8ba3e005f34d85290ede12609bca63b",
+  "submissionFileSha256": "112440f0c4afa68c04b287d3666e63d4c0eba2b5e1f91e87f353a266bebac174",
+  "red": {
+    "command": "python3 -B -m unittest -v",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "test_empty_stream (test_chunked_reader.ChunkedReaderTests.test_empty_stream) ... ok\ntest_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced) ... FAIL\ntest_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks) ... FAIL\ntest_one_chunk (test_chunked_reader.ChunkedReaderTests.test_one_chunk) ... ok\ntest_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded) ... FAIL\n\n======================================================================\nFAIL: test_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/pr52-github-return-mG7jwT/test_chunked_reader.py\", line 17, in test_maximum_size_enforced\n    with self.assertRaises(ValueError): collect_message(receiver([b\"ab\",b\"cd\"]),max_bytes=3)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/pr52-github-return-mG7jwT/test_chunked_reader.py\", line 14, in test_multiple_chunks\n    def test_multiple_chunks(self): self.assertEqual(collect_message(receiver([b\"A\",b\"BC\",b\"D\"])),b\"ABCD\")\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'A' != b'ABCD'\n\n======================================================================\nFAIL: test_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/pr52-github-return-mG7jwT/test_chunked_reader.py\", line 15, in test_split_utf8_bytes_are_not_decoded\n    def test_split_utf8_bytes_are_not_decoded(self): self.assertEqual(collect_message(receiver([b\"\\xe3\\x81\",b\"\\x82\"])),b\"\\xe3\\x81\\x82\")\n                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'\\xe3\\x81' != b'\\xe3\\x81\\x82'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3)\n"
+  },
+  "green": {
+    "command": "python3 -B -m unittest -v",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "test_empty_stream (test_chunked_reader.ChunkedReaderTests.test_empty_stream) ... ok\ntest_maximum_size_enforced (test_chunked_reader.ChunkedReaderTests.test_maximum_size_enforced) ... ok\ntest_multiple_chunks (test_chunked_reader.ChunkedReaderTests.test_multiple_chunks) ... ok\ntest_one_chunk (test_chunked_reader.ChunkedReaderTests.test_one_chunk) ... ok\ntest_split_utf8_bytes_are_not_decoded (test_chunked_reader.ChunkedReaderTests.test_split_utf8_bytes_are_not_decoded) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  "comparison": {
+    "repository_full_name": "frekland/minamo-v2",
+    "base": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+    "head": "d51a4661fa99135b6cba805557138d90ca94b436",
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "too_large": null,
+    "base_commit": {
+      "sha": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "url": "https://api.github.com/repos/frekland/minamo-v2/commits/ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "html_url": "https://github.com/frekland/minamo-v2/commit/ce1a297b14ab78e1ce1f8e76941dd22519fc432a"
+    },
+    "merge_base_commit": {
+      "sha": "ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "url": "https://api.github.com/repos/frekland/minamo-v2/commits/ce1a297b14ab78e1ce1f8e76941dd22519fc432a",
+      "html_url": "https://github.com/frekland/minamo-v2/commit/ce1a297b14ab78e1ce1f8e76941dd22519fc432a"
+    },
+    "files": [
+      {
+        "filename": "examples/activity-studio/exchange-canary/chunked_reader.py",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 4,
+        "changes": 15,
+        "previous_filename": null
+      }
+    ]
+  },
+  "githubActions": "Not run or inferred; a commit is not a workflow result.",
+  "minamoClassification": "supplied-unverified",
+  "sourceAuthority": "The connector authenticated the immutable file reads. This local Python execution is outside Minamo Worker and is not a learner achievement."
+}

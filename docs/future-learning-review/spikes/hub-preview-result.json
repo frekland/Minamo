@@ -1,0 +1,50 @@
+{
+  "kind": "synthetic-hosted-MCP-preview-only",
+  "date": "2026-10-23",
+  "tool": "preview_minamo_manuscript",
+  "valid": true,
+  "warnings": [],
+  "findings": [
+    {
+      "code": "coverage_not_inspected",
+      "severity": "advisory"
+    }
+  ],
+  "result": {
+    "areaSectionCount": 3,
+    "areaLinks": [
+      {
+        "family": "article",
+        "sectionId": "s2",
+        "reason": "returned values"
+      },
+      {
+        "family": "article",
+        "sectionId": "s3",
+        "reason": "missing returns"
+      }
+    ],
+    "articleMemberships": [
+      {
+        "title": "Return and display",
+        "areaLinks": [
+          {
+            "hasSourceContext": false,
+            "reason": "Explains function value flow."
+          }
+        ]
+      },
+      {
+        "title": "Inspect a missing return",
+        "areaLinks": [
+          {
+            "hasSourceContext": false,
+            "reason": "Provides a useful value-flow failure comparison."
+          }
+        ]
+      }
+    ]
+  },
+  "writes": "None: no publish, apply, source edition, receipt or learner record was written.",
+  "limit": "Compilation and prospective relationship shapes, not a new hub frontend or persisted membership readback."
+}

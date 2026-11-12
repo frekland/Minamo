@@ -1,0 +1,117 @@
+.v2-header-actions>.ux-mobile-search{display:none}
+
+/* Native modal, placed near the top instead of covering the middle of reading. */
+.ux-search-dialog{
+  position:fixed;
+  --ux-search-top-gap:clamp(16px,6dvh,64px);
+  top:calc(var(--ux-search-viewport-offset,0px) + var(--ux-search-top-gap));
+  bottom:auto;
+  left:16px;
+  right:16px;
+  box-sizing:border-box;
+  width:min(720px,calc(100vw - 32px));
+  max-width:none;
+  max-height:calc(var(--ux-search-viewport-height,100dvh) - var(--ux-search-top-gap) - 16px);
+  margin:0 auto;
+  padding:14px 18px 18px;
+  border:1px solid var(--mn-border-control);
+  border-radius:14px;
+  background:var(--mn-surface);
+  color:var(--mn-text);
+  box-shadow:0 22px 70px #0008;
+  overflow:hidden;
+}
+.ux-search-dialog[open]{display:flex;flex-direction:column}
+.ux-search-dialog::backdrop{background:#000a}
+.ux-search-dialog-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex:0 0 auto;
+}
+.ux-search-dialog h2#mobile-search-title{
+  font:600 17px/1.3 system-ui;
+  margin:0;
+}
+.ux-search-dialog-header>.v2-icon{min-width:40px;min-height:40px}
+.ux-search-dialog-field{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:0 0 auto;
+  min-width:0;
+  margin:8px 0 0;
+  padding:5px 10px;
+  border:1px solid var(--mn-border-control);
+  border-radius:9px;
+  color:var(--mn-text-muted);
+  background:var(--mn-surface);
+}
+.ux-search-dialog-field>input{
+  flex:1 1 auto;
+  box-sizing:border-box;
+  min-width:0;
+  width:100%;
+  min-height:40px;
+  padding:4px 0;
+  border:0;
+  background:transparent;
+  color:var(--mn-text-body);
+  font:400 16px/1.35 system-ui;
+}
+.ux-search-dialog-field>input:focus-visible{
+  outline:none!important;
+  box-shadow:none!important;
+}
+.ux-search-dialog-field>input::-webkit-search-cancel-button{display:none}
+.ux-search-dialog-field:focus-within{
+  outline:2px solid var(--mn-focus);
+  outline-offset:2px;
+}
+.ux-search-dialog-field>.v2-icon{
+  flex:0 0 36px;
+  min-width:36px;
+  min-height:36px;
+}
+.ux-search-dialog-results{
+  min-width:0;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:14px 2px 2px;
+  scrollbar-gutter:stable;
+}
+.ux-search-dialog-results>.v2-global-search-results>.v2-page-heading{display:none}
+.ux-search-dialog-results .le-library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ux-search-dialog .v2-record-card{padding:14px}
+.ux-search-dialog .v2-record-copy h2{font-size:19px}
+.ux-search-dialog :focus-visible{outline-color:var(--mn-focus)}
+
+@media(max-width:700px){.wp-workspace.v2-app[data-layout] header.v2-header{height:56px;min-height:56px;box-sizing:border-box;display:flex;flex-wrap:nowrap;gap:0;padding:6px}.wp-workspace.v2-app[data-layout] .v2-header .v2-brand,.wp-workspace.v2-app[data-layout] .v2-header .v2-search{display:none}.wp-workspace.v2-app[data-layout] .v2-header-actions{display:flex;flex:1 1 auto;justify-content:flex-end;gap:0;order:1;min-width:0}.wp-workspace.v2-app[data-layout] .v2-mobile-menu{flex:0 0 44px;width:44px;min-width:44px!important;min-height:44px}.wp-workspace.v2-app[data-layout] .v2-header-actions>.v2-icon{flex:0 0 44px;width:44px;min-width:44px;min-height:44px;padding:8px}.wp-workspace.v2-app[data-layout] .v2-header-actions>.ux-mobile-search{display:inline-flex}.wp-workspace.v2-app[data-layout] .v2-header-actions>.ml-switcher{display:none}.ux-search-dialog-results .le-library-grid{grid-template-columns:1fr}.ux-search-dialog .v2-record-list{gap:10px}}
+
+.ux-search-dialog .v2-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:701px) and (max-width:1000px){.wp-workspace.v2-app[data-layout] header.v2-header{flex-wrap:nowrap;gap:8px}.wp-workspace.v2-app[data-layout] .v2-header .ml-switcher{display:none}.wp-workspace.v2-app[data-layout] .v2-header .v2-brand{flex:0 0 auto}.wp-workspace.v2-app[data-layout] .v2-header .v2-search{min-width:120px}.wp-workspace.v2-app[data-layout] .v2-header-actions{gap:0}}
+
+.wp-workspace .ux-view-cycle{display:inline-flex;align-items:center;justify-content:center;gap:5px;flex:0 0 auto;min-height:44px;padding:7px 9px;border:1px solid var(--mn-border-control);border-radius:6px;background:var(--mn-surface);color:var(--mn-text-body);font-size:12px;line-height:1.2;white-space:nowrap}.ux-view-cycle:focus-visible{outline:2px solid var(--mn-focus);outline-offset:2px}.ux-view-cycle>span{min-width:34px;text-align:left}
+@media(max-width:700px){.wp-workspace.v2-app[data-layout] .v2-header-actions{justify-content:space-between}.wp-workspace.v2-app[data-layout] .v2-header-actions>.ux-view-cycle{order:0;padding:5px 4px;gap:3px;min-width:70px}.wp-workspace.v2-app[data-layout] .v2-header-actions>.ux-space-icons{order:1}.wp-workspace.v2-app[data-layout] .v2-header-actions>.v2-icon{order:2;flex-basis:36px;width:36px;min-width:36px}.wp-workspace.v2-app[data-layout] .ux-space-icons .ux-space-icon{flex-basis:36px;width:36px;min-width:36px;padding:5px}.wp-workspace.v2-app[data-layout] .v2-mobile-menu{flex-basis:36px;width:36px;min-width:36px!important}}
+@media(max-width:359px){.wp-workspace.v2-app[data-layout] .v2-header-actions>.v2-icon,.wp-workspace.v2-app[data-layout] .ux-space-icons .ux-space-icon{flex-basis:32px;width:32px;min-width:32px}.wp-workspace.v2-app[data-layout] .v2-mobile-menu{flex-basis:32px;width:32px;min-width:32px!important}.wp-workspace.v2-app[data-layout] .v2-header-actions>.ux-view-cycle{min-width:72px;width:72px;flex-basis:72px;padding:5px 3px;font-size:11px}.ux-view-cycle>span{min-width:31px}.ux-view-cycle svg{width:18px}}
+
+@media(max-width:700px){
+  .ux-search-dialog{
+    --ux-search-top-gap:calc(env(safe-area-inset-top,0px) + 10px);
+    left:8px;
+    right:8px;
+    width:calc(100vw - 16px);
+    max-height:calc(var(--ux-search-viewport-height,100dvh) - var(--ux-search-top-gap) - 10px);
+    padding:10px 12px 12px;
+    border-radius:12px;
+  }
+  .ux-search-dialog-results{padding-top:10px}
+  .ux-search-dialog-results .le-library-grid{grid-template-columns:1fr}
+  .ux-search-dialog .v2-record-list{gap:8px}
+}
+@media(forced-colors:active){
+  .ux-search-dialog{border-color:CanvasText}
+  .ux-search-dialog-field:focus-within{outline-color:Highlight}
+}

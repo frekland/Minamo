@@ -1,0 +1,25 @@
+{
+  "synthetic": true,
+  "hosted": false,
+  "adapter": "actual compiled domainHandler in isolated Miniflare D1/R2",
+  "events": [
+    {
+      "at": "2026-10-25T11:51:06.651Z",
+      "method": "tools/list",
+      "status": 200,
+      "responseBytes": 196979
+    },
+    {
+      "at": "2026-10-25T11:51:10.820Z",
+      "method": "tools/call",
+      "tool": "get_minamo_learning_context",
+      "arguments": {
+        "purpose": "Resume the queue project from its current relevant learning context",
+        "scope": "resume",
+        "query": "queue project"
+      },
+      "status": 200,
+      "responseBytes": 1481
+    }
+  ]
+}

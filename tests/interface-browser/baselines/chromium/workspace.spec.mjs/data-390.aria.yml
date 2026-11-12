@@ -1,0 +1,28 @@
+- paragraph: Data detective
+- button "Expand content"
+- button "Open Notes"
+- tablist "Activity sections":
+  - tab "Task"
+  - tab "Source files"
+  - tab "Explore" [selected]
+  - tab "Hints"
+  - tab "Your attempt"
+- tabpanel "Explore":
+  - heading "Explore" [level=3]
+  - paragraph: data/table-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=table-source
+  - status: Ready to inspect.
+  - paragraph: data/chart-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-data&rendition=r-bb9f920cd0af7b66d2438f2ab62c0c56d93decb4a5b6edf448c535c7bdad62b2&section=activity&part=chart-source
+  - status: Ready to inspect.
+- group: Compare working layouts

@@ -1,0 +1,32 @@
+{
+  "classification": "TEST ONLY connector-fetched immutable GitHub exchange; engineering fixture, no learner progress",
+  "repository": "frekland/minamo-v2",
+  "branch": "test-only/pr44-stream-exchange-20261025",
+  "starter": {
+    "sha": "b821ffe4533231b9c0c86b1cf1a513bb01ecff92",
+    "tree": "a8e449b672edd9fde583c24490350af42b461d7c",
+    "sourceSha256": "613b82393c0284e3082d3014ef3c1ddd9465ae3cfc4a29a3969edaff30039dc1"
+  },
+  "submission": {
+    "sha": "dea22212b073d854ee6dbbc28477aec9b6c6e863",
+    "tree": "43b6dd08a82d93412988cfed356f9feb4f67e21e",
+    "sourceSha256": "7a81f55d15204cb8112ed448b2e7f13a6e283e2db2bd68e9462a2eb6b1978ffc"
+  },
+  "visibleTests": {
+    "sha256": "b58cd3dc2a85a379e9e17595c3285f60d52b700676cd3e31a7b35c8b72bc4027",
+    "immutableReadsMatch": true
+  },
+  "comparison": {
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "total_commits": 1,
+    "changedPaths": [
+      "test-only-pr44/stream_reader.py"
+    ],
+    "testsModified": false
+  },
+  "retrieval": "Connected GitHub create_tree/create_commit/CAS update_ref; fetch_file at exact starter and submission SHA, compare_commits and raw compare API. File source bytes matched local engineering fixture; visible tests re-read at submission.",
+  "execution": "Actual local Python execution is separately recorded in fixtures/EXECUTION.json. GitHub commits do not prove CI or Minamo execution.",
+  "cleanup": "Production records/assets/operations created: zero. Test-only GitHub branch deliberately retained as reviewable immutable source evidence; no open submission PR."
+}

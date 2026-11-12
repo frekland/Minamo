@@ -1,0 +1,10 @@
+✔ generation transition rejects stale projections and retains old local draft namespace (0.204738ms)
+✔ generationFetch attaches only expected generation while preserving request body, auth, headers and cancellation (4.097417ms)
+ℹ tests 1020
+ℹ suites 0
+ℹ pass 1016
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 4
+ℹ todo 0
+ℹ duration_ms 207284.548522

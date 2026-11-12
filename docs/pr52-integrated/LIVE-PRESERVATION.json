@@ -1,0 +1,773 @@
+{
+  "status": "complete: exact task-only cleanup, preservation and protected checkpoint verification passed",
+  "surface": "actual installed Minamo MCP against owner-private V32",
+  "generation": "legacy@0",
+  "baselineCheckpointVerification": {
+    "generation": "legacy@0",
+    "valid": true,
+    "archive": {
+      "id": "archive-48273ea01da1f2c43f9ab26d4e61b73e98e23b8c662bcc1b",
+      "createdAt": "2026-10-26T13:20:33.238Z",
+      "generation": "legacy@0",
+      "version": 4133,
+      "counts": {
+        "v2_learning_scopes": 73,
+        "v2_records": 296,
+        "v2_revisions": 719,
+        "v2_operations": 779,
+        "v2_activity": 719,
+        "v2_bookmarks": 20,
+        "v2_images": 3,
+        "v2_image_attachments": 3,
+        "v2_media": 0,
+        "v2_media_attachments": 0,
+        "v2_manuscript_editions": 37,
+        "v2_learning_developments": 56,
+        "v2_learning_development_revisions": 119,
+        "v2_learning_perspectives": 3,
+        "v2_catalogue_heads": 71,
+        "v2_catalogue_revisions": 107
+      },
+      "bytes": 9416458,
+      "state": "ready"
+    },
+    "verifiedImages": 3,
+    "verifiedMedia": 0
+  },
+  "preservation": {
+    "baselineRecords": 296,
+    "currentRecords": 327,
+    "missingBaselineRecords": [],
+    "baselineRecordsChanged": [
+      {
+        "family": "article",
+        "id": "ms-b07e5c5cf407124ad988199d2bf948e7256f8bb8",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-459120b2c238e7e779b3605aa62889f3e90883ccfd1971c4d8339543a56d4467",
+            "after": "r-f1c59bc59808aa6a13fe2e5ab954654f103b75cf24a0bbc5ef7b5516c074672e"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T10:59:30.019Z",
+            "after": "2026-10-26T13:52:42.846Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-8e8c84a668ce9b91d2615dffbfd9bb737227787e",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 3
+          },
+          "rendition": {
+            "before": "r-1657122510cdb190e9213f539b40531b7fa6770b40b54104dbad06b2c8507be6",
+            "after": "r-b63e2432fa81d9bd3830b1a09d5b5baefc72c7a14e0a0dffdca768bc0feba399"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:57:50.839Z",
+            "after": "2026-10-26T13:47:44.140Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-688f3100c3c92d159c33115f069ae5cc0da1ba1f",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-015ca366c86858e74b42915a9030b2b22911d69488d4f31e021e693c9f2c377a",
+            "after": "r-8a63ff1b68c1b6dac864e12c651eed6fae89a946b687abd3b82f41cb050e5703"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:57:50.580Z",
+            "after": "2026-10-26T13:58:55.354Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-4ac56cbd7d049d4cf51091d288d24f695f6e2aa3",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-eec08c6aa35cb5ea423e86d3103e87937b995ec34b0e4ba8e736c690a2667c35",
+            "after": "r-6417fc1b970626d897729f9c6bd1c23d052396dbffe2031cad0a29533bf2c6e6"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:57:50.314Z",
+            "after": "2026-10-26T13:44:47.155Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-05d453968ca1c875ce7fbb067c61f75e0d6e74b6",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-889a2a0e6242df3afdeb85e124548a197050a40636606ad788327485bfe4b9cd",
+            "after": "r-02dbc0ab55882cab800ca23a3def8eed5b6500848ebae4abe874be6225d46120"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:55:04.897Z",
+            "after": "2026-10-26T13:58:54.024Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-5e5f942fcca18def732117cca343ac4553a92dd2",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-7695b0a58126f07c515f3f4dfb4ac21ae535d6b42b0c8298d4f2d812d7a0f8db",
+            "after": "r-5bb647b07e9da9192d3b8ee1bd0fe6b0e21ce5943f3467956fa472a094b67b3f"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:55:04.354Z",
+            "after": "2026-10-26T13:58:54.688Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-6f59ce387b2585336fca5de2d523431399b18f00",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-a30ed93efe6a47dc170d9ae91104dc7d62eb55ab69f90e992296bd2afefa7868",
+            "after": "r-06f5d243a3031af17eee2125ffb489f1e211e109fca965ff9e11598d5ccf2226"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:55:04.088Z",
+            "after": "2026-10-26T13:48:19.009Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-d1d80ff32edfb4d1cbcec753f4e8e00e16da87bc",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 3
+          },
+          "rendition": {
+            "before": "r-bb012d8ddcf42f299be06e18304a9c363a8693792ea7b5748bdfcabd743b5a12",
+            "after": "r-c760b8e77951450d201cbe5d515507933f711fc914f3899c33668a5fb5a8fc17"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:55:03.822Z",
+            "after": "2026-10-26T13:47:43.577Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-793f058ce574ea7ca0bd14be2b8ccf0294708225",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-bc737019c83492f256843ce30d51ea968f3591520242b25ea5d9bc626edb81cc",
+            "after": "r-51e39b9082ac34cb81abc835556249d9558be8a0cd258fa39d858cd09c3296b7"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:55:03.546Z",
+            "after": "2026-10-26T13:48:18.329Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-f95871b11ce42b635f8dc7552e47db370381f0c1",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 2
+          },
+          "rendition": {
+            "before": "r-4dbda9daacdf316539c9bf704e3d9cf7e80e1f6497a9872dec05d0eb74513b97",
+            "after": "r-8c9761dbe955341d896f6f2355933205e97c7c13b1fe6b39d2bfbc8ae0f29c34"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:51:21.544Z",
+            "after": "2026-10-26T13:52:42.451Z"
+          }
+        },
+        "matchesLedger": true
+      },
+      {
+        "family": "article",
+        "id": "ms-3f94c84194a7bfb7f34fb6d2619e6fc879e882ed",
+        "authorizedReference": true,
+        "diff": {
+          "rev": {
+            "before": 1,
+            "after": 3
+          },
+          "rendition": {
+            "before": "r-e2c43ac7a8601a48965b1347f6c7e38caea3db0fd7ae367b952a5f04d73b82a1",
+            "after": "r-8cd9ff4a01ac44030652da2b95844c29b35b57d1eedbfbb87965fd59e0bbbaad"
+          },
+          "updatedAt": {
+            "before": "2026-10-26T09:51:21.286Z",
+            "after": "2026-10-26T13:47:21.785Z"
+          }
+        },
+        "matchesLedger": true
+      }
+    ],
+    "untouchedBaselineRecords": 285,
+    "newRecords": [
+      {
+        "family": "run",
+        "id": "pr52-test-exemplar-interaction-zh-Hans-20261026",
+        "rev": 1,
+        "rendition": "r-683a54ec8d91c705a7833f3ddfc4215c89edb3eb74cf9ca65dffe636f87eb229",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:19:53.928Z"
+      },
+      {
+        "family": "run",
+        "id": "pr52-test-exemplar-interaction-ja-20261026",
+        "rev": 1,
+        "rendition": "r-a58cff80831c7ade8a47bf0e48a6ab7f20dabc434ae98375a634935253325e54",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:19:46.920Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-3de9ac14ed123e2a709f3a0ef041ace248e23942",
+        "rev": 1,
+        "rendition": "r-3d6c1129b06c63ababd080c19e15fc3dd4ec6f1e57ad10ce67e4539150320e33",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:18:52.420Z"
+      },
+      {
+        "family": "run",
+        "id": "pr52-live-continuity-20261027-attempt",
+        "rev": 9,
+        "rendition": "r-7bcd96a553c504f4133e2c6c914565f01eb0d75c60e6a8087faf3922168826c7",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:18:28.884Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-sv-20261026",
+        "rev": 1,
+        "rendition": "r-eba3360428e9032e3527dd3a3cb761fdb6b6de16aaac993ce353a3049114bb8c",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:17:13.223Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-de-20261026",
+        "rev": 1,
+        "rendition": "r-48f931ae96bd0f30e2cf8d68492c3400330062f6d0d1ca8733eeee7191af71a0",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:17:07.786Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-el-20261026",
+        "rev": 1,
+        "rendition": "r-2f2e7edd71533e0864e136f4ae5653dc321998c61e520cbaaa80160b64559d05",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:17:03.421Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-es-20261026",
+        "rev": 1,
+        "rendition": "r-ea8084c903c7d9784b104810a6f8784b52934f53072699c1ff6437d6309b012e",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:16:58.976Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-fr-20261026",
+        "rev": 1,
+        "rendition": "r-64b69c0f0440b94332ad2cd8123a53d57efb9ac4e851cb0b7e6197ee682a4012",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:16:54.493Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-zh-Hans-20261026",
+        "rev": 1,
+        "rendition": "r-0f6e762b4f8833f650d72fd2f01c87c3836b3e2a9f536516aba2da2f700eeeee",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:16:49.172Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-language-practice-ja-20261026",
+        "rev": 1,
+        "rendition": "r-36adc92626d037a3975dc6a7b62e8d73d5f80d7d315daa82a7779c485a18e7da",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:16:31.825Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-ae0a247532c8364f1ca45ee8936ec2f296be91e1",
+        "rev": 2,
+        "rendition": "r-fd62a0ceea15f0b19d90f87e178df9243424c1df72086584b78075f816069c7f",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:42.358Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-fea2398a9d4b40fa3fe327d16fd10a6876717ff3",
+        "rev": 2,
+        "rendition": "r-6a5db0cfdfde51590363e39f01ddb20052d28a288e84d4b1996d4c7f7e9fffe4",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:41.650Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-79e4f1ca9ec7532e32ce8e859757f58160acf12e",
+        "rev": 2,
+        "rendition": "r-585a1df93910adc1f6e9d4882790200ee2cd9a2c65503ae3b59e05867db56417",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:40.961Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-160140856615dd80090070723615a9d64959e20a",
+        "rev": 2,
+        "rendition": "r-72274ccf68b95c45bd13a7f3911bcb9818f6b5cdc4d472e97634adf078761e4a",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:40.272Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-fe403581ee3dcd52a4cb0684c1f02997dc770a5f",
+        "rev": 2,
+        "rendition": "r-c300181e9947379b3ff1abd9dd8ecd1057d12d71069364bc9634dff936d23708",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:39.578Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-9321957c08efdcf4a28dc54f60967e5ff7e64d82",
+        "rev": 2,
+        "rendition": "r-02210ea943340aec310c1dc5727320c7993472831f362d1498b7de3d34ed98fc",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:38.868Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-6d62a7c2b2d0182c300ebd142dc4eb421efc6495",
+        "rev": 2,
+        "rendition": "r-536ef43108b8e8c064c8e7e49ba495e819c32c7d4f42c5ff763cc9d5fddf5442",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:15:38.175Z"
+      },
+      {
+        "family": "run",
+        "id": "test-pr52-computing-submission-20261026",
+        "rev": 1,
+        "rendition": "r-267345f8c5a2d24d5b4047582a356ff82cdddf8162645dedd8b32ab0e15f2e30",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:15:00.504Z"
+      },
+      {
+        "family": "note",
+        "id": "pr52-live-continuity-20261027-past-note",
+        "rev": 1,
+        "rendition": "r-6afaf6b08068233cf93df1a61803b8af6afcaac513f97eb13fc71e0955e2635c",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:14:09.756Z"
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-live-continuity-20261027-activity",
+        "rev": 1,
+        "rendition": "r-cf0a4398632c1499f3dc5a8a0399e34deb5732d4257d8e472aec54bf89afe81c",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:14:08.045Z"
+      },
+      {
+        "family": "experiment",
+        "id": "practice-counterexample-max",
+        "rev": 1,
+        "rendition": "r-39cd1a3cf722d82cbdd0386b59a324d103efe8d5c5f3a8ce7f6d6f7d91e931b2",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:13:55.760Z"
+      },
+      {
+        "family": "experiment",
+        "id": "practice-tcp-chunks",
+        "rev": 1,
+        "rendition": "r-dfd24c5c8fa8e667e43e99a4ea1c89270d1f98a41f404759c17b91132e81bc68",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:13:52.502Z"
+      },
+      {
+        "family": "experiment",
+        "id": "practice-bash-space-log",
+        "rev": 1,
+        "rendition": "r-898a93b5becc7b8674b30ee01e280f0b82230d23f7f65aeb28cf1a4574e6696f",
+        "synthetic": false,
+        "updatedAt": "2026-10-26T15:13:49.584Z"
+      },
+      {
+        "family": "investigation",
+        "id": "ms-8fd6cfa3520be0a442beaddc45c1af102669a364",
+        "rev": 2,
+        "rendition": "r-ac80aa1b3ff283acd44d47e96935c4fb2afb45dd86c106933273ee7e3be126e3",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:13:24.748Z"
+      },
+      {
+        "family": "journey",
+        "id": "ms-3d684fc02c52546460179800cb20267a0f74d5d8",
+        "rev": 1,
+        "rendition": "r-eb0d41be089cd54d7967527f4256dbe77fffd1a0fb8aad74cfb586c44fb8c7a6",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:13:09.798Z"
+      },
+      {
+        "family": "note",
+        "id": "pr52-live-continuity-20261027-conversation",
+        "rev": 1,
+        "rendition": "r-2e99e9f44691a684816150e9178f8b924f443f53c56ed0b3eb7ec7710d6ece0b",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T15:12:05.761Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-175a124b9ca601575d9862c3ac29a2b8ba579c28",
+        "rev": 3,
+        "rendition": "r-d02e6da1026ff839d5519272bc5f52526f7527cbc58e720756520b01062525a9",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T14:38:12.644Z"
+      },
+      {
+        "family": "experiment",
+        "id": "acceptance-fresh-german-separable-practice-20261026",
+        "rev": 1,
+        "rendition": "r-b700c6185cde28f1f1ca38c5ae98a1cbb18c30b16a88642ee44b5e171decaf83",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T14:38:10.180Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-40ee3b85aa3d5fc140edb21eb36c0af8bb1c3a3b",
+        "rev": 1,
+        "rendition": "r-99c4c54f3f347ae377cfb2baed6a11d5e15a655b89e2759e7e8e989d6542900a",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T14:37:39.596Z"
+      },
+      {
+        "family": "article",
+        "id": "ms-464b2f82595621bff4040b7b01406b5f27ce0e1b",
+        "rev": 1,
+        "rendition": "r-54a82a14a3f7ffa6bb0d254f8ff1fb107a5df649ba46c99f59ef5b0706d0511c",
+        "synthetic": true,
+        "updatedAt": "2026-10-26T14:37:17.680Z"
+      }
+    ],
+    "all13LibraryTargetsMatch": true,
+    "completeComparison": true,
+    "metadataFieldsCompared": [
+      "family",
+      "id",
+      "rev",
+      "rendition",
+      "synthetic",
+      "updatedAt"
+    ],
+    "guardedPages": 9,
+    "coordinatedWriteFreeze": true,
+    "unexplainedBaselineChanges": [],
+    "authorizedReferenceCount": 13,
+    "authorizedReferencesChangedSinceCapturedInventory": 11,
+    "baselineAlreadyContainedEnrichedReferences": 2,
+    "newPermanentExemplars": 17,
+    "newSyntheticAcceptanceRecords": 14,
+    "notice": "The captured baseline metadata already contains the two TCP/SSH enrichments at revision2; the other11 changes match the13-record permanent editorial ledger. All296 captured identities remain present. This compares metadata, not independent byte-for-byte private corpus or settings snapshots. Scope/access/retained-anchor checks have separate receipts."
+  },
+  "productionRestorePerformed": false,
+  "cleanupPerformed": true,
+  "postWriteCheckpoint": "archive-1fa41d46bc5dbb15fc4df912824c3b9c1753a794e26e4798 verified before cleanup",
+  "capturedAt": "2026-10-26T15:24:00.268500+00:00",
+  "postCleanupPreservation": {
+    "records": 335,
+    "baselineRecords": 296,
+    "allBaselineIdentitiesPresent": true,
+    "untouchedBaselineMetadata": 285,
+    "authorizedReferenceChangesComparedWithCapturedInventory": 11,
+    "all13CurrentLibraryTargetsMatchLedger": true,
+    "newPermanentExemplars": 17,
+    "exactTaskOwnedRecordsRecoverablyTrashed": 22,
+    "taskOwnedChangesSincePrecleanup": 22,
+    "unexplainedChanges": [],
+    "normalReadDenials": [
+      {
+        "family": "note",
+        "id": "pr52-live-continuity-20261027-conversation",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "journey",
+        "id": "ms-3d684fc02c52546460179800cb20267a0f74d5d8",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "investigation",
+        "id": "ms-8fd6cfa3520be0a442beaddc45c1af102669a364",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-live-continuity-20261027-activity",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "note",
+        "id": "pr52-live-continuity-20261027-past-note",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "pr52-live-continuity-20261027-attempt",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "practice-attempt-e8e01fe7-4eb6-4ef2-bee8-17eee10dd9f7",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "article",
+        "id": "ms-464b2f82595621bff4040b7b01406b5f27ce0e1b",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "article",
+        "id": "ms-175a124b9ca601575d9862c3ac29a2b8ba579c28",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "article",
+        "id": "ms-40ee3b85aa3d5fc140edb21eb36c0af8bb1c3a3b",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "experiment",
+        "id": "acceptance-fresh-german-separable-practice-20261026",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "article",
+        "id": "ms-3de9ac14ed123e2a709f3a0ef041ace248e23942",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-audio-v33-ja-listening-20261026",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "article",
+        "id": "ms-f6a11b5e395dfd6a7ae2a9265837149e4b51f56c",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "experiment",
+        "id": "pr52-audio-v33-zh-listening-20261026",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "attempt-030e8400-ab3e-4cd8-91ae-0ae81009b558",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "attempt-2fa94079-d88c-4daf-b9cc-c755a30542b9",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "pr52-test-exemplar-interaction-zh-Hans-20261026",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "pr52-test-exemplar-interaction-ja-20261026",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "run",
+        "id": "test-pr52-computing-submission-20261026",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "flag",
+        "id": "flag-647e35f8d6c84b7edaf2a9e0048bbf90264d5cc95886fe48823ff4cd7d5d46ca",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      },
+      {
+        "family": "annotation",
+        "id": "39356492-e3af-4f85-8e4e-ba25cd83fbe4",
+        "normalCurrentReadDenied": true,
+        "error": "INVALID_ARGUMENT",
+        "isError": true
+      }
+    ],
+    "normalReadDenialsComplete": true,
+    "trashEvidence": "Every owned record has a committed supported Trash or setFlag(false) receipt with trashedAt, remains present in includeTrash metadata, and is unavailable to normal current MCP reads. The MCP summary projection omits trashedAt; no absent field is treated as active."
+  },
+  "postCleanupProtectedCheckpoint": {
+    "generation": "legacy@0",
+    "valid": true,
+    "archive": {
+      "id": "archive-35421d9612b5d4d68d377e6f151bc2b43636ec9e22c744a4",
+      "createdAt": "2026-10-26T16:31:33.659Z",
+      "generation": "legacy@0",
+      "version": 4706,
+      "counts": {
+        "v2_learning_scopes": 73,
+        "v2_records": 335,
+        "v2_revisions": 824,
+        "v2_operations": 865,
+        "v2_activity": 824,
+        "v2_bookmarks": 21,
+        "v2_images": 3,
+        "v2_image_attachments": 3,
+        "v2_media": 2,
+        "v2_media_attachments": 2,
+        "v2_manuscript_editions": 52,
+        "v2_learning_developments": 57,
+        "v2_learning_development_revisions": 121,
+        "v2_learning_perspectives": 3,
+        "v2_catalogue_heads": 83,
+        "v2_catalogue_revisions": 144
+      },
+      "bytes": 11228008,
+      "state": "ready"
+    },
+    "verifiedImages": 3,
+    "verifiedMedia": 2
+  },
+  "productionRestoreActivated": false,
+  "preCleanupProtectedCheckpoint": {
+    "generation": "legacy@0",
+    "valid": true,
+    "archive": {
+      "id": "archive-1fa41d46bc5dbb15fc4df912824c3b9c1753a794e26e4798",
+      "createdAt": "2026-10-26T16:21:10.930Z",
+      "generation": "legacy@0",
+      "version": 4581,
+      "counts": {
+        "v2_learning_scopes": 73,
+        "v2_records": 335,
+        "v2_revisions": 800,
+        "v2_operations": 840,
+        "v2_activity": 800,
+        "v2_bookmarks": 21,
+        "v2_images": 3,
+        "v2_image_attachments": 3,
+        "v2_media": 2,
+        "v2_media_attachments": 2,
+        "v2_manuscript_editions": 52,
+        "v2_learning_developments": 57,
+        "v2_learning_development_revisions": 120,
+        "v2_learning_perspectives": 3,
+        "v2_catalogue_heads": 83,
+        "v2_catalogue_revisions": 144
+      },
+      "bytes": 11037651,
+      "state": "ready"
+    },
+    "verifiedImages": 3,
+    "verifiedMedia": 2
+  }
+}

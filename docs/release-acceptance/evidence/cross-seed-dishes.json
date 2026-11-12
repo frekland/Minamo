@@ -1,0 +1,156 @@
+{
+  "purpose": "TEST ONLY original cross-domain seed-dish reading and model; no learner achievement.",
+  "operationId": "synthetic-cross-seed-dishes-publish",
+  "id": "synthetic-cross-seed-dishes",
+  "title": "TEST ONLY — 雨の庭の種 / seed-dish model",
+  "synthetic": true,
+  "activity": {
+    "contract": "minamo.activity.v1",
+    "template": "language",
+    "intent": "Read an original Japanese seed-dish sentence and compare its counters with a deliberately authored algebraic model.",
+    "authorship": "original-exercise",
+    "blocks": [
+      {
+        "id": "prompt",
+        "kind": "instruction",
+        "text": "Read the ruby metadata, then compare three dishes containing two seeds each with N(d). The extra d seeds per dish are a model assumption, not measured growth."
+      },
+      {
+        "id": "japanese",
+        "kind": "foundry",
+        "artefact": {
+          "contract": "minamo.artefact.v1",
+          "kind": "language/ruby-v1",
+          "canonical": {
+            "format": "language-json",
+            "source": "{\"version\":1,\"text\":\"TEST ONLY — 🪁雨の庭で、三つの皿に二粒ずつ種を置く。\\r\\n記録: é / é。\",\"language\":\"ja\",\"direction\":\"ltr\",\"spans\":[{\"start\":14,\"end\":15,\"base\":\"雨\",\"reading\":\"あめ\",\"origin\":\"author-verified\"},{\"start\":16,\"end\":17,\"base\":\"庭\",\"reading\":\"にわ\",\"origin\":\"author-verified\"},{\"start\":19,\"end\":21,\"base\":\"三つ\",\"reading\":\"みっつ\",\"origin\":\"author-verified\"},{\"start\":22,\"end\":23,\"base\":\"皿\",\"reading\":\"さら\",\"origin\":\"author-verified\"},{\"start\":24,\"end\":26,\"base\":\"二粒\",\"reading\":\"ふたつぶ\",\"origin\":\"author-verified\"},{\"start\":28,\"end\":29,\"base\":\"種\",\"reading\":\"たね\",\"origin\":\"author-verified\"},{\"start\":30,\"end\":32,\"base\":\"置く\",\"reading\":\"おく\",\"origin\":\"author-verified\"},{\"start\":35,\"end\":37,\"base\":\"記録\",\"reading\":\"きろく\",\"origin\":\"author-verified\"}]}",
+            "sha256": "1a9ce3fc4560699f7f793d9055d8f5e644e93239f28cff4e585ae2abacf8ef46"
+          },
+          "provenance": {
+            "classification": "authored",
+            "execution": "not-executed"
+          },
+          "payload": {
+            "version": 1,
+            "text": "TEST ONLY — 🪁雨の庭で、三つの皿に二粒ずつ種を置く。\r\n記録: é / é。",
+            "language": "ja",
+            "direction": "ltr",
+            "spans": [
+              {
+                "start": 14,
+                "end": 15,
+                "base": "雨",
+                "reading": "あめ",
+                "origin": "author-verified"
+              },
+              {
+                "start": 16,
+                "end": 17,
+                "base": "庭",
+                "reading": "にわ",
+                "origin": "author-verified"
+              },
+              {
+                "start": 19,
+                "end": 21,
+                "base": "三つ",
+                "reading": "みっつ",
+                "origin": "author-verified"
+              },
+              {
+                "start": 22,
+                "end": 23,
+                "base": "皿",
+                "reading": "さら",
+                "origin": "author-verified"
+              },
+              {
+                "start": 24,
+                "end": 26,
+                "base": "二粒",
+                "reading": "ふたつぶ",
+                "origin": "author-verified"
+              },
+              {
+                "start": 28,
+                "end": 29,
+                "base": "種",
+                "reading": "たね",
+                "origin": "author-verified"
+              },
+              {
+                "start": 30,
+                "end": 32,
+                "base": "置く",
+                "reading": "おく",
+                "origin": "author-verified"
+              },
+              {
+                "start": 35,
+                "end": 37,
+                "base": "記録",
+                "reading": "きろく",
+                "origin": "author-verified"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "seed-model",
+        "kind": "foundry",
+        "artefact": {
+          "contract": "minamo.artefact.v1",
+          "kind": "math/tex-v1",
+          "canonical": {
+            "format": "tex",
+            "source": "N(d)=3(2+d),\\quad N(0)=6,\\quad N(1)=9",
+            "sha256": "37c31e02ae8a9922fe487ff0352a53b843aa77930b200fce636b8668fe660238"
+          },
+          "provenance": {
+            "classification": "authored",
+            "execution": "not-executed"
+          },
+          "payload": {
+            "contract": "minamo.math.v1",
+            "id": "seed-dish-linear-model",
+            "format": "tex",
+            "source": "N(d)=3(2+d),\\quad N(0)=6,\\quad N(1)=9",
+            "display": "block",
+            "description": "Original authored counting model: d extra seeds per dish; no execution or measurement."
+          }
+        }
+      },
+      {
+        "id": "question",
+        "kind": "reflection",
+        "text": "Which original words specify the initial six seeds, and which part of N(d) extends beyond the sentence? No saved attempt is required."
+      }
+    ],
+    "presentation": {
+      "contract": "minamo.presentation.v1",
+      "version": 1,
+      "pattern": "language-reading",
+      "slots": [
+        {
+          "slot": "task",
+          "blockId": "prompt"
+        },
+        {
+          "slot": "source",
+          "blockId": "japanese"
+        },
+        {
+          "slot": "explore",
+          "blockId": "seed-model"
+        },
+        {
+          "slot": "evidence",
+          "blockId": "question"
+        }
+      ],
+      "preferredFocus": "explore",
+      "fallback": "accessible-source"
+    }
+  }
+}

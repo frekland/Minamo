@@ -1,0 +1,23 @@
+{
+  "kind": "synthetic-local-SSR-only",
+  "distinctRecords": 2,
+  "duplicateDomIds": [
+    {
+      "id": "passage-__article-__title",
+      "count": 2
+    },
+    {
+      "id": "section-s1",
+      "count": 2
+    },
+    {
+      "id": "passage-s1-__heading",
+      "count": 2
+    },
+    {
+      "id": "passage-s1-p1",
+      "count": 2
+    }
+  ],
+  "conclusion": "Unchanged full Readers share canonical DOM IDs. This establishes a rendering collision; browser selection effects require separate testing. Use a noninteractive reference preview first, or scope the full Reader before two active instances."
+}

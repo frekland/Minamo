@@ -1,0 +1,781 @@
+{
+  "contract": "minamo.runtime-release-challenge.v1",
+  "observedAt": "2026-10-25T18:45:22.023Z",
+  "classification": "synthetic-local-engineering-evidence",
+  "sourceHead": "50182d80108f90979150fc96573f399c7d97d6f2",
+  "dirtySource": false,
+  "sourceSha256": {
+    "lib/foundry/platform.ts": "4b24d0d2c439411d87d87dda029094c711d31f047ea2b89b4c5257559b13ac5e",
+    "tests/foundry-platform.test.mjs": "397c43a84a498eb2e27c78467a5bbcbb370d597f8393d595a3ff2814906392e4",
+    "lib/foundry/python-runtime.ts": "bc83a77c610b6a6b04ba45af332ea02aaec9d070dbaa4cfb626bda7349868dba",
+    "public/foundry-python-isolate.js": "d0a8a88fcf5ffc16f86d584460a06c939b0347bd4d9eb31f0ce60a854c8dd500",
+    "lib/foundry/python-results.ts": "61ecf95e329d630a47475973de8e73a40db268d47ebc5be6c88a7cf5284e2811",
+    "scripts/foundry-package-policy.mjs": "ae95f2856b2f46da890e60696ecc578ec380d42250c83f1c59eb3b7855891404",
+    "scripts/build-app.mjs": "48ae9cc61dd5ed75b57c4029d72202bc7fccca469226b75df2453d51773509f4",
+    "app/scientific-output-studio.tsx": "de044823e0d1dce7016b100ead5166cd2563588d82ad8531714ca499016db133",
+    "app/learning-atlas-canvas.tsx": "39011cc8bba148b0b82fbc510c184cb380771628857f586fff04e3f25f8f9c81",
+    "app/learning-atlas-canvas-sdk.tsx": "0b73ddfcfa96821f7c62f407595969418820d52086e91967a045fcc6f4c2d14a"
+  },
+  "repairs": [
+    {
+      "id": "RUNTIME-F01",
+      "failure": "Post-mount authority exception with recovering retry left live renderer cleanup count zero and rejected without disposal handle.",
+      "fixed": true,
+      "test": "post-mount authority exception releases resources even when the retry allows a static fallback",
+      "independentRepairApproval": "pending integration owner or other reviewer"
+    },
+    {
+      "id": "RUNTIME-F02",
+      "failure": "Authority exception during active revalidation retained source and cleanup count zero.",
+      "fixed": true,
+      "test": "revalidation authority failure clears live content and disposes once before rejecting",
+      "independentRepairApproval": "pending integration owner or other reviewer"
+    }
+  ],
+  "tests": [
+    {
+      "command": "node --test tests/foundry-python-execution.test.mjs",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 15671.895623,
+      "proof": "Actual shared science controller/Pyodide in Node worker threads, including actual timed-out infinite loop; not browser CSP/iframe execution."
+    },
+    {
+      "command": "node --test tests/foundry-platform.test.mjs tests/foundry-packaging.test.mjs tests/foundry-python.test.mjs tests/foundry-visual-platform.test.mjs",
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 332.307066,
+      "sourceState": "After RUNTIME-F01; before RUNTIME-F02 regression was added."
+    },
+    {
+      "command": "node --test tests/foundry-platform.test.mjs",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 164.617157,
+      "sourceState": "After both repairs."
+    },
+    {
+      "command": "node --test tests/activity-security-compiled.test.mjs",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3773.626901,
+      "sourceState": "Final frozen normal production build50182d8",
+      "proof": "Actual compiled Worker5 production gallery/fixture routes404, feature-disabled Activity write404, no science package directory/controller."
+    }
+  ],
+  "stagedScience": {
+    "assets": 22,
+    "packages": 17,
+    "bytes": 50251575,
+    "manifestBytes": 50251575,
+    "requested": [
+      "numpy",
+      "matplotlib",
+      "sympy",
+      "pandas",
+      "pillow",
+      "scipy"
+    ],
+    "allSha256AndSizesMatch": true,
+    "files": [
+      {
+        "file": "pyodide.js",
+        "bytes": 17331,
+        "sha256": "24a458425dcb4ea9836eb5ce26701d18cb769374e2b79247602ba605bf093278",
+        "matches": true
+      },
+      {
+        "file": "pyodide.asm.js",
+        "bytes": 1073033,
+        "sha256": "b22e5831eade9ff10e6fe2c811c68688cd91f10154377b4f80debcf5bafa1e56",
+        "matches": true
+      },
+      {
+        "file": "pyodide.asm.wasm",
+        "bytes": 8645967,
+        "sha256": "5effb6a1a6cc4a1a85bec4622701aa797c031e1de923cbbaf2ad47abdc4ab325",
+        "matches": true
+      },
+      {
+        "file": "python_stdlib.zip",
+        "bytes": 2416866,
+        "sha256": "71fee17f88a6260ec8c9c7c063533ee59c021fdc88a1ce76247378d3c4a35f4c",
+        "matches": true
+      },
+      {
+        "file": "pyodide-lock.json",
+        "bytes": 5202,
+        "sha256": "31cff6aace9e6d492e749f141f1ac5108cc84aa8352f57efe447e2358663bf44",
+        "matches": true
+      },
+      {
+        "file": "numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 3109648,
+        "sha256": "3db3c4f3e0448f4d62a85c262692f1260ccd8a91335442bd2442f21ffeddb558",
+        "matches": true
+      },
+      {
+        "file": "contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 132421,
+        "sha256": "3fe3d224ef8129f7be7062cf44c26a38a6cb6a1f07e11e93f33ec502476a40e7",
+        "matches": true
+      },
+      {
+        "file": "six-1.17.0-py2.py3-none-any.whl",
+        "bytes": 11050,
+        "sha256": "618e0357f1724d937c20b75d691f0ba9e404de2701084e3c4f35995cfb879665",
+        "matches": true
+      },
+      {
+        "file": "cycler-0.12.1-py3-none-any.whl",
+        "bytes": 8321,
+        "sha256": "4c163eac65b7ced9007b4259575c045a172dd45d36de7e25ae97b2be67b4a7d1",
+        "matches": true
+      },
+      {
+        "file": "fonttools-4.56.0-py3-none-any.whl",
+        "bytes": 1089800,
+        "sha256": "862f1298792269b5882f145efc0b2683b5101d30152e43152f2a9ee90e55755a",
+        "matches": true
+      },
+      {
+        "file": "kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 36920,
+        "sha256": "01451f4a9f0dcd93ea6d9e2e577a793d4c9082fbf1f59cfb8ff3ba376f28d3e3",
+        "matches": true
+      },
+      {
+        "file": "packaging-24.2-py3-none-any.whl",
+        "bytes": 71930,
+        "sha256": "fdbc12e70e25c89b3e95a853f09065c629ebd6add9bf7a788ce6cfdb35b5c7b0",
+        "matches": true
+      },
+      {
+        "file": "pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 1058399,
+        "sha256": "52984112ca668d60291a7868011a04d66baf526d27e5eaef0a8a16e7ef22ab6c",
+        "matches": true
+      },
+      {
+        "file": "pyparsing-3.2.1-py3-none-any.whl",
+        "bytes": 107717,
+        "sha256": "7d595baa16a4640b541ef894a01f1724425bc5b6a07be5e55b1168d637ba7747",
+        "matches": true
+      },
+      {
+        "file": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+        "bytes": 229892,
+        "sha256": "26b50ce706a17abdde09dbb95745a44f9320dfdb99e950c52b1a62a3d99e452c",
+        "matches": true
+      },
+      {
+        "file": "pytz-2025.2-py2.py3-none-any.whl",
+        "bytes": 509225,
+        "sha256": "1d7f409837318a3a234a6394253a77900072616a42e5dba89c3214f70e77f31b",
+        "matches": true
+      },
+      {
+        "file": "matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 6722016,
+        "sha256": "4082bc4a9f7ab494137014991fe8afe83218aaaeb6bb4dbd6fd2b40c464742e5",
+        "matches": true
+      },
+      {
+        "file": "mpmath-1.3.0-py3-none-any.whl",
+        "bytes": 418000,
+        "sha256": "022134ea1b98efab4b011a40aaa89f19b45151c195e0d1610b9c8b28e5aaf85c",
+        "matches": true
+      },
+      {
+        "file": "sympy-1.13.3-py3-none-any.whl",
+        "bytes": 4119974,
+        "sha256": "d28066226aba33c9908435b8aa58f24ba211a3116eee333dee639f91f9bb1379",
+        "matches": true
+      },
+      {
+        "file": "pandas-2.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 5292464,
+        "sha256": "01d16ef68eb333f3ac18e370aa352660f8f8d432f607ff1272a16cd2ea2e87ce",
+        "matches": true
+      },
+      {
+        "file": "libopenblas-0.3.26.zip",
+        "bytes": 1916561,
+        "sha256": "15c2c82b0fdfdde83a81190f35f5f4a0d15bf236a7e93944c433ae5ac6bf3ee5",
+        "matches": true
+      },
+      {
+        "file": "scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+        "bytes": 13258838,
+        "sha256": "6c4277bb1902f2064f5f4bd0ffbea67cf9aaf89a3fdc49e9ac1e078d9b574ef0",
+        "matches": true
+      }
+    ]
+  },
+  "compiledBuild": {
+    "state": "measured-final-frozen-normal-build",
+    "sourceCommit": "50182d80108f90979150fc96573f399c7d97d6f2",
+    "sourceTree": "35f83453d76e71e3e7b78c2d7ecf207b35abfd5c",
+    "nativeLocalOnlyRehearsal": {
+      "commit": "36f4ac6047d6e8e0ebeea79ca76a8823b6eef9b5",
+      "tree": "35f83453d76e71e3e7b78c2d7ecf207b35abfd5c",
+      "pushed": false,
+      "evidence": "Integration owner reported supported-helper local-only source parity rehearsal; not a Site save/deploy."
+    },
+    "measuredAt": "2026-10-25T18:41:08.309Z",
+    "clientManifestSha256": "91816a1f776fe43712787a11f25099cc357e3a30cdd750ea86847dca25ebc616",
+    "serverEntrypointSha256": "945a77e24642885e1e126c72fe04e8877b4ecb50a943eef581bb702efef7f354",
+    "clientFiles": 179,
+    "clientBytes": 17835326,
+    "serverFiles": 218,
+    "serverBytes": 6990605,
+    "scienceDirectoryPresent": false,
+    "scienceControllerPresent": false,
+    "sourcemaps": 0,
+    "baseRuntimeBytes": 12973981,
+    "ordinaryStaticClosure": {
+      "roots": [
+        "virtual:vinext-app-browser-entry",
+        "app/workspace.tsx"
+      ],
+      "keys": [
+        "virtual:vinext-app-browser-entry",
+        "_rolldown-runtime-C60lm6uB.js",
+        "_ppr-fallback-shell-BbbkZsYp.js",
+        "_framework-vnRwnn5g.js",
+        "_preload-helper-5TPFiuuK.js",
+        "_navigation-FcPxSgCu.js",
+        "_html-limited-bots-CKbY4On0.js",
+        "_route-matching-SIwpxVJf.js",
+        "_base-path-BcCsO9j-.js",
+        "_record-uXSNv6cl.js",
+        "_app-elements-Dhcdnhse.js",
+        "_hash-DMuXySqZ.js",
+        "_app-rsc-cache-busting-CMgr9QTk.js",
+        "_app-rsc-render-mode-DIIbL8ol.js",
+        "_headers-8KBE7Tjy.js",
+        "_protocol-headers-DrXyjimu.js",
+        "_deployment-id-Dv812N7y.js",
+        "_app-router-scroll-state-BkTWSAPb.js",
+        "_app-prefetch-fetch-queue-C-KJwPps.js",
+        "_hybrid-client-route-owner-direct-Cg5qvHX9.js",
+        "_domain-locale-6KOVpmCQ.js",
+        "_navigation-errors-DAyez9dZ.js",
+        "app/workspace.tsx",
+        "_reader-B1lLNzFN.js",
+        "_note-markdown-view-Cg78_zwe.js",
+        "_workspace-generation-mv-LPF7t.js",
+        "_client-id-tS3s65tk.js",
+        "_learning-experience-Cyp2L_k0.js",
+        "_notes-workspace-zOabVqM_.js",
+        "_language-dom-C3asGevy.js",
+        "_language-BoIKTMvq.js",
+        "_math-hzXmOAZr.js",
+        "_platform-C3TdyxRD.js",
+        "_digest-CKgCucOc.js"
+      ],
+      "files": [
+        {
+          "file": "_next/static/chunks/index-BhQR6sor.js",
+          "bytes": 133779,
+          "gzipBytes": 38520
+        },
+        {
+          "file": "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+          "bytes": 694,
+          "gzipBytes": 422
+        },
+        {
+          "file": "_next/static/chunks/ppr-fallback-shell-BbbkZsYp.js",
+          "bytes": 1975,
+          "gzipBytes": 799
+        },
+        {
+          "file": "_next/static/chunks/framework-vnRwnn5g.js",
+          "bytes": 190171,
+          "gzipBytes": 59097
+        },
+        {
+          "file": "_next/static/chunks/preload-helper-5TPFiuuK.js",
+          "bytes": 1193,
+          "gzipBytes": 681
+        },
+        {
+          "file": "_next/static/chunks/navigation-FcPxSgCu.js",
+          "bytes": 57422,
+          "gzipBytes": 16972
+        },
+        {
+          "file": "_next/static/chunks/html-limited-bots-CKbY4On0.js",
+          "bytes": 7296,
+          "gzipBytes": 2812
+        },
+        {
+          "file": "_next/static/chunks/route-matching-SIwpxVJf.js",
+          "bytes": 2888,
+          "gzipBytes": 1083
+        },
+        {
+          "file": "_next/static/chunks/base-path-BcCsO9j-.js",
+          "bytes": 132,
+          "gzipBytes": 125
+        },
+        {
+          "file": "_next/static/chunks/record-uXSNv6cl.js",
+          "bytes": 79,
+          "gzipBytes": 94
+        },
+        {
+          "file": "_next/static/chunks/app-elements-Dhcdnhse.js",
+          "bytes": 12828,
+          "gzipBytes": 4222
+        },
+        {
+          "file": "_next/static/chunks/hash-DMuXySqZ.js",
+          "bytes": 256,
+          "gzipBytes": 181
+        },
+        {
+          "file": "_next/static/chunks/app-rsc-cache-busting-CMgr9QTk.js",
+          "bytes": 4974,
+          "gzipBytes": 2059
+        },
+        {
+          "file": "_next/static/chunks/app-rsc-render-mode-DIIbL8ol.js",
+          "bytes": 668,
+          "gzipBytes": 345
+        },
+        {
+          "file": "_next/static/chunks/headers-8KBE7Tjy.js",
+          "bytes": 3328,
+          "gzipBytes": 1305
+        },
+        {
+          "file": "_next/static/chunks/protocol-headers-DrXyjimu.js",
+          "bytes": 327,
+          "gzipBytes": 177
+        },
+        {
+          "file": "_next/static/chunks/deployment-id-Dv812N7y.js",
+          "bytes": 97,
+          "gzipBytes": 103
+        },
+        {
+          "file": "_next/static/chunks/app-router-scroll-state-BkTWSAPb.js",
+          "bytes": 1532,
+          "gzipBytes": 728
+        },
+        {
+          "file": "_next/static/chunks/app-prefetch-fetch-queue-C-KJwPps.js",
+          "bytes": 1172,
+          "gzipBytes": 602
+        },
+        {
+          "file": "_next/static/chunks/hybrid-client-route-owner-direct-Cg5qvHX9.js",
+          "bytes": 1103,
+          "gzipBytes": 574
+        },
+        {
+          "file": "_next/static/chunks/domain-locale-6KOVpmCQ.js",
+          "bytes": 1027,
+          "gzipBytes": 481
+        },
+        {
+          "file": "_next/static/chunks/navigation-errors-DAyez9dZ.js",
+          "bytes": 4040,
+          "gzipBytes": 1623
+        },
+        {
+          "file": "_next/static/chunks/workspace-H_znUV8b.js",
+          "bytes": 378733,
+          "gzipBytes": 109658
+        },
+        {
+          "file": "_next/static/css/workspace.Bv87qNzg.css",
+          "bytes": 61332,
+          "gzipBytes": 10399
+        },
+        {
+          "file": "_next/static/chunks/reader-B1lLNzFN.js",
+          "bytes": 112362,
+          "gzipBytes": 33385
+        },
+        {
+          "file": "_next/static/css/reader.BzGaQxBt.css",
+          "bytes": 51325,
+          "gzipBytes": 9411
+        },
+        {
+          "file": "_next/static/chunks/note-markdown-view-Cg78_zwe.js",
+          "bytes": 22606,
+          "gzipBytes": 8205
+        },
+        {
+          "file": "_next/static/chunks/workspace-generation-mv-LPF7t.js",
+          "bytes": 1434,
+          "gzipBytes": 719
+        },
+        {
+          "file": "_next/static/chunks/client-id-tS3s65tk.js",
+          "bytes": 332,
+          "gzipBytes": 237
+        },
+        {
+          "file": "_next/static/chunks/learning-experience-Cyp2L_k0.js",
+          "bytes": 19806,
+          "gzipBytes": 5947
+        },
+        {
+          "file": "_next/static/css/learning-experience.dvbuF0Jc.css",
+          "bytes": 20234,
+          "gzipBytes": 4124
+        },
+        {
+          "file": "_next/static/chunks/notes-workspace-zOabVqM_.js",
+          "bytes": 29168,
+          "gzipBytes": 9645
+        },
+        {
+          "file": "_next/static/css/notes-workspace.4hN2hpja.css",
+          "bytes": 23423,
+          "gzipBytes": 4688
+        },
+        {
+          "file": "_next/static/chunks/language-dom-C3asGevy.js",
+          "bytes": 1811,
+          "gzipBytes": 837
+        },
+        {
+          "file": "_next/static/chunks/language-BoIKTMvq.js",
+          "bytes": 4448,
+          "gzipBytes": 1768
+        },
+        {
+          "file": "_next/static/chunks/math-hzXmOAZr.js",
+          "bytes": 5171,
+          "gzipBytes": 2224
+        },
+        {
+          "file": "_next/static/chunks/platform-C3TdyxRD.js",
+          "bytes": 5871,
+          "gzipBytes": 2461
+        },
+        {
+          "file": "_next/static/chunks/digest-CKgCucOc.js",
+          "bytes": 57295,
+          "gzipBytes": 13159
+        }
+      ],
+      "bytes": 1222332,
+      "gzipBytes": 349872
+    },
+    "optionalStaticClosurePresence": {
+      "app/activity-studio.tsx": {
+        "manifestEntry": true,
+        "ordinaryStatic": false,
+        "file": "_next/static/chunks/activity-studio-odCFq0xW.js"
+      },
+      "app/scientific-output-studio.tsx": {
+        "manifestEntry": true,
+        "ordinaryStatic": false,
+        "file": "_next/static/chunks/scientific-output-studio-CwIHCxns.js"
+      },
+      "app/typed-output-view.tsx": {
+        "manifestEntry": true,
+        "ordinaryStatic": false,
+        "file": "_next/static/chunks/typed-output-view-B3ZjYoae.js"
+      },
+      "app/learning-atlas.tsx": {
+        "manifestEntry": true,
+        "ordinaryStatic": false,
+        "file": "_next/static/chunks/learning-atlas-DktpJiMo.js"
+      },
+      "app/learning-atlas-canvas-sdk.tsx": {
+        "manifestEntry": false,
+        "ordinaryStatic": false,
+        "file": null
+      },
+      "lib/foundry/visual-three.ts": {
+        "manifestEntry": true,
+        "ordinaryStatic": false,
+        "file": "_next/static/chunks/visual-three-D8Vcr8tA.js"
+      }
+    },
+    "largestFiles": [
+      {
+        "file": "runtime/pyodide/pyodide.asm.wasm",
+        "bytes": 8645967
+      },
+      {
+        "file": "runtime/pyodide/python_stdlib.zip",
+        "bytes": 2416866
+      },
+      {
+        "file": "runtime/pyodide/pyodide.asm.js",
+        "bytes": 1073033
+      },
+      {
+        "file": "runtime/sql-wasm.wasm",
+        "bytes": 659806
+      },
+      {
+        "file": "_next/static/chunks/visual-three-D8Vcr8tA.js",
+        "bytes": 536237
+      },
+      {
+        "file": "_next/static/chunks/workspace-H_znUV8b.js",
+        "bytes": 378733
+      },
+      {
+        "file": "_next/static/chunks/dist-dJuB5kqn.js",
+        "bytes": 284644
+      },
+      {
+        "file": "_next/static/chunks/katex-BylEM73J.js",
+        "bytes": 259485
+      },
+      {
+        "file": "_next/static/chunks/learning-atlas-DktpJiMo.js",
+        "bytes": 191148
+      },
+      {
+        "file": "_next/static/chunks/framework-vnRwnn5g.js",
+        "bytes": 190171
+      },
+      {
+        "file": "_next/static/chunks/note-rich-editor-CvLkPZ1u.js",
+        "bytes": 176159
+      },
+      {
+        "file": "_next/static/chunks/note-rich-codec-CSWi5M8O.js",
+        "bytes": 166117
+      },
+      {
+        "file": "_next/static/css/index.CNTucaHt.css",
+        "bytes": 159013
+      },
+      {
+        "file": "_next/static/chunks/index-BhQR6sor.js",
+        "bytes": 133779
+      },
+      {
+        "file": "identity/minamo-header-refined.png",
+        "bytes": 113941
+      }
+    ],
+    "limits": "Raw/gzip static import closure estimate, not observed browser requests, first paint, transferred compression, or baseline size regression.",
+    "baselineComparison": {
+      "baseline": {
+        "sourceHead": "6ce455608150b0983a654bcf071d94a2d96792e1",
+        "sourceTree": "a4d084d56d6979e26b89c13354132de9a424e991",
+        "clientManifestSha256": "782d5359f653d28ec82e47d8eab19cfdad225d351f13d5994a8b6977f9139593",
+        "roots": [
+          "virtual:vinext-app-browser-entry",
+          "app/workspace.tsx"
+        ],
+        "bytes": 1134121,
+        "gzipBytes": 321917,
+        "files": [
+          {
+            "file": "_next/static/chunks/index-CORtqgM-.js",
+            "bytes": 129804,
+            "gzipBytes": 37664
+          },
+          {
+            "file": "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+            "bytes": 694,
+            "gzipBytes": 422
+          },
+          {
+            "file": "_next/static/chunks/ppr-fallback-shell-WiTn_FT2.js",
+            "bytes": 1975,
+            "gzipBytes": 802
+          },
+          {
+            "file": "_next/static/chunks/framework-D_rUT4EX.js",
+            "bytes": 190152,
+            "gzipBytes": 59092
+          },
+          {
+            "file": "_next/static/chunks/preload-helper-5TPFiuuK.js",
+            "bytes": 1193,
+            "gzipBytes": 681
+          },
+          {
+            "file": "_next/static/chunks/navigation-BgKVp5F0.js",
+            "bytes": 57422,
+            "gzipBytes": 16975
+          },
+          {
+            "file": "_next/static/chunks/html-limited-bots-CKbY4On0.js",
+            "bytes": 7296,
+            "gzipBytes": 2812
+          },
+          {
+            "file": "_next/static/chunks/route-matching-SIwpxVJf.js",
+            "bytes": 2888,
+            "gzipBytes": 1083
+          },
+          {
+            "file": "_next/static/chunks/base-path-BcCsO9j-.js",
+            "bytes": 132,
+            "gzipBytes": 125
+          },
+          {
+            "file": "_next/static/chunks/record-uXSNv6cl.js",
+            "bytes": 79,
+            "gzipBytes": 94
+          },
+          {
+            "file": "_next/static/chunks/app-elements-B3gm6KC-.js",
+            "bytes": 12828,
+            "gzipBytes": 4222
+          },
+          {
+            "file": "_next/static/chunks/hash-DMuXySqZ.js",
+            "bytes": 256,
+            "gzipBytes": 181
+          },
+          {
+            "file": "_next/static/chunks/app-rsc-cache-busting-CM9YzkRr.js",
+            "bytes": 4974,
+            "gzipBytes": 2058
+          },
+          {
+            "file": "_next/static/chunks/app-rsc-render-mode-DIIbL8ol.js",
+            "bytes": 668,
+            "gzipBytes": 345
+          },
+          {
+            "file": "_next/static/chunks/headers-8KBE7Tjy.js",
+            "bytes": 3328,
+            "gzipBytes": 1305
+          },
+          {
+            "file": "_next/static/chunks/protocol-headers-DrXyjimu.js",
+            "bytes": 327,
+            "gzipBytes": 177
+          },
+          {
+            "file": "_next/static/chunks/deployment-id-Dv812N7y.js",
+            "bytes": 97,
+            "gzipBytes": 103
+          },
+          {
+            "file": "_next/static/chunks/app-router-scroll-state-BkTWSAPb.js",
+            "bytes": 1532,
+            "gzipBytes": 728
+          },
+          {
+            "file": "_next/static/chunks/app-prefetch-fetch-queue-C-KJwPps.js",
+            "bytes": 1172,
+            "gzipBytes": 602
+          },
+          {
+            "file": "_next/static/chunks/hybrid-client-route-owner-direct-Cg5qvHX9.js",
+            "bytes": 1103,
+            "gzipBytes": 574
+          },
+          {
+            "file": "_next/static/chunks/domain-locale-6KOVpmCQ.js",
+            "bytes": 1027,
+            "gzipBytes": 481
+          },
+          {
+            "file": "_next/static/chunks/navigation-errors-CbHWKIM-.js",
+            "bytes": 4040,
+            "gzipBytes": 1625
+          },
+          {
+            "file": "_next/static/chunks/workspace-Cguhc-zY.js",
+            "bytes": 482844,
+            "gzipBytes": 138982
+          },
+          {
+            "file": "_next/static/css/workspace.BhtPUKwm.css",
+            "bytes": 112656,
+            "gzipBytes": 18789
+          },
+          {
+            "file": "_next/static/chunks/notes-workspace-CsKYt3ci.js",
+            "bytes": 50466,
+            "gzipBytes": 16379
+          },
+          {
+            "file": "_next/static/css/notes-workspace.4hN2hpja.css",
+            "bytes": 23423,
+            "gzipBytes": 4688
+          },
+          {
+            "file": "_next/static/chunks/client-id-CDL9vAAo.js",
+            "bytes": 1753,
+            "gzipBytes": 876
+          },
+          {
+            "file": "_next/static/chunks/learning-experience-CwuSDyR7.js",
+            "bytes": 19758,
+            "gzipBytes": 5928
+          },
+          {
+            "file": "_next/static/css/learning-experience.dvbuF0Jc.css",
+            "bytes": 20234,
+            "gzipBytes": 4124
+          }
+        ]
+      },
+      "deltaBytes": 88211,
+      "deltaGzipBytes": 27955,
+      "percentBytes": 7.777917876487606,
+      "percentGzip": 8.683915419191912,
+      "method": "Same static manifest import traversal and per-file gzip for browser entry+Workspace+their CSS; old baseline dist reused, no rebuild.",
+      "limits": [
+        "Baseline checkout source tree confirmed exact main baseline; its existing generated dist matches the previously banked BUILD-COMPARISON manifest SHA.",
+        "Original baseline report states the same installed node_modules tree was shared rather than dependencies freshly restored; different source/lock/package changes remain.",
+        "This closure excludes root-layout CSS not represented by these manifest roots, dynamic imports, actual HTTP transfer, browser timings and memory.",
+        "Do not compare these counts directly with the prior report Home RSC+root-layout-CSS totals, which use a different graph."
+      ]
+    },
+    "independentSsrProbe": {
+      "command": "node --test docs/activity-studio/review/RUNTIME-SSR-PROBE.mjs",
+      "probeSha256": "1efcf7d43bce60e8b26e7b282bc90c5fd32991e76013f62e427aaffeb9a06720",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1875.089299,
+      "featureFlags": {
+        "MINAMO_ACTIVITY_STUDIO": "1",
+        "MINAMO_LEARNING_ATLAS": "1"
+      },
+      "migrations": "0000-0008 applied successfully to empty isolated D1",
+      "paths": [
+        {
+          "path": "/?view=atlas",
+          "status": 200,
+          "bodyBytes": 44385
+        }
+      ],
+      "assertions": [
+        "Learning Atlas or Opening Learning Atlas present",
+        "No ReferenceError, requestAnimationFrame-not-defined or INTERNAL_SERVER_ERROR markup"
+      ],
+      "classification": "Actual compiled Miniflare Worker SSR under synthetic trusted identity headers; no browser hydration or real hosted authentication.",
+      "initialInlineProbe": "Inline node --input-type=module probe stalled before migrations completed and was interrupted. Equivalent bounded node:test harness completed; no SSR failure claimed.",
+      "reproducibility": "Exact tested temporary probe bytes retained at this path; SHA256 matches. Run from repository root after normal build."
+    }
+  },
+  "unverified": [
+    "browser CSP enforcement",
+    "browser iframe Worker cancellation and after-navigation cleanup",
+    "memory pressure",
+    "physical Android and assistive technology",
+    "installed production MCP refresh",
+    "owner deployment acceptance",
+    "remote native/GitHub candidate parity after separately authorised source publication"
+  ],
+  "productionWrites": false,
+  "sourceState": "Frozen code checkpoint; reviewer reports written afterward are not part of the build inputs."
+}

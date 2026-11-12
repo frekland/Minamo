@@ -1,0 +1,38 @@
+- paragraph: Language reading
+- button "Expand content"
+- button "Open Notes"
+- tablist "Activity sections":
+  - tab "Task"
+  - tab "Explore" [selected]
+  - tab "Reading"
+  - tab "Hints"
+  - tab "Your attempt"
+- region "Task":
+  - heading "Task" [level=3]
+  - paragraph: Explore
+  - paragraph: Japanese reading and source. Inspect the exact source, make a prediction and retain a useful question. This is an original synthetic activity, not an execution or learning claim.
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-language&rendition=r-79f84c3f37e299293770e56f4b6b972b63070be72ee022e224fc245287fc569a&section=activity&part=task
+  - paragraph: Before you try
+  - paragraph: What do you expect, and which observation would change your mind?
+  - link "Flag or annotate this exact passage in Reader":
+    - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-language&rendition=r-79f84c3f37e299293770e56f4b6b972b63070be72ee022e224fc245287fc569a&section=activity&part=predict
+- tabpanel "Explore":
+  - heading "Explore" [level=3]
+  - paragraph: language/ruby-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-language&rendition=r-79f84c3f37e299293770e56f4b6b972b63070be72ee022e224fc245287fc569a&section=activity&part=ruby-source
+  - status: Ready to inspect.
+  - paragraph: language/parallel-v1
+  - paragraph: Authored content · no learning assessment
+  - button "Open interactive view"
+  - group: Inspect exact canonical source
+  - paragraph:
+    - link "Open exact source in Reader to Flag or annotate":
+      - /url: /?view=tools&family=experiment&id=TEST-ONLY-interface-language&rendition=r-79f84c3f37e299293770e56f4b6b972b63070be72ee022e224fc245287fc569a&section=activity&part=parallel-source
+  - status: Ready to inspect.
+- group: Compare working layouts

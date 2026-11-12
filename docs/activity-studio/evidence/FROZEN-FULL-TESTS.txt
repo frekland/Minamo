@@ -1,0 +1,1238 @@
+$ node --test tests/*.test.mjs
+✔ cold public MCP schema supports two synthetic publications, exact editions, supplied Attempt and natural-name resume (4158.674544ms)
+ℹ COLD_HANDOFF_METRICS {"transportCalls":13,"mcpCalls":11,"inputBytes":15668,"outputBytes":323468,"tools":{"get_minamo_activity_capabilities":1,"preview_minamo_activity_package":2,"publish_minamo_activity_package":2,"read_minamo_activity":2,"record_minamo_activity_attempt":1,"read_minamo_record":1,"get_minamo_activity_context":2}}
+▶ Activity typed MCP publication, explicit attempts and fresh natural-name continuity use existing durable domain
+  ✔ capability discovery is typed and preview writes neither record nor receipt (52.351304ms)
+  ✔ one guarded publication saves exact edition and replay returns one operation (60.957107ms)
+  ✔ ordinary reads and uncertain receipt readback never disclose unopened hints (133.807785ms)
+  ✔ saved Attempt keeps supplied provenance and remains pinned after Activity revision (131.967175ms)
+  ✔ fresh natural project query recovers linked cartridge and latest explicit intention without opaque IDs (133.118209ms)
+  ✔ encrypted export/import restores native metadata and immutable targets with generation fencing (822.102194ms)
+✔ Activity typed MCP publication, explicit attempts and fresh natural-name continuity use existing durable domain (4781.713365ms)
+✔ Activity strict admission rejects unknown solutions, source copies, computed claims, package traversal and observed Attempts (2929.120929ms)
+✔ Activity original source files are native canonical passages with exact Unicode Flags and retained annotations (2908.56392ms)
+✔ 12 cross-domain intentional failures and 18 seeded variants execute red/green; real Git returns exact SHA evidence (9056.180509ms)
+✔ project admission hashes bytes, freezes, normalises order and ZIP matches Python independent decoder (76.352111ms)
+✔ safe package boundaries reject traversal, symlinks, Windows collisions, secrets, lifecycle, unknown keys and tampering (18.455578ms)
+✔ GitHub evidence must come from exact provider reads; no commit implies CI and supplied terminal stays reported (2.811901ms)
+✔ starter package match requires trusted exact immutable file bytes; known dependency and prefix collisions rejected (15.659555ms)
+▶ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links
+  ✔ guarded high-level publication saves an exact Attempt relation (1.603246ms)
+  ✔ old saved links and native typed Attempts project the immutable target rather than latest (107.411704ms)
+  ✔ reverse neighborhood discovers native typed Attempts and exact reading-only Activity links (128.971468ms)
+  ✔ old-client edits with Activity disabled preserve stored cartridge and exact Attempt metadata (168.220168ms)
+  ✔ revoked source suppresses typed reading relationships and invalidates the prior graph cursor (245.806011ms)
+✔ independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links (4257.896318ms)
+✔ independent exact Activity reading target variants use the same current owner projections (3787.998071ms)
+✔ Bash visible oracle kills newline-truncating near-repair and accepts literal record-preserving repair (78.796252ms)
+✔ Seeded music oracle kills an empty-result mutant that passes original base cases (191.515664ms)
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+▶ compiled product Activity/MCP/Atlas workflow with feature-on synthetic D1 and ordinary SSR
+  ✔ discover and publish original multifile challenge through compiled MCP (213.257699ms)
+  ✔ ordinary route SSR mounts product Activity with source and existing Notes shell (176.960977ms)
+  ✔ explicit supplied Attempt survives fresh MCP read and natural-name continuity (80.262128ms)
+  ✔ graph endpoint uses same owned current records and creates no progress (29.834517ms)
+✔ compiled product Activity/MCP/Atlas workflow with feature-on synthetic D1 and ordinary SSR (2848.438202ms)
+✔ independent attack: generic commands cannot promote reported output to observed or detach its exact code (3248.199152ms)
+✔ independent attack corpus rejects ambiguous extraction paths, shell metadata and active output data (35.313696ms)
+✔ untrusted scientific runtime has no owner-origin grant and remains absent from default package policy (0.601783ms)
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+✔ independent production-compiled Worker refuses galleries, synthetic fixture proxy and disabled activity writes (2248.364069ms)
+✔ independent feature-off generic command attack cannot persist a new activity (3168.396065ms)
+✔ independent Activity concurrency and uncertain-result replay cannot lose a definition (2837.354008ms)
+✔ independent retained source, hint and edition attacks use current rights and exact immutable activity (2981.1567ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ Activity source is escaped inert text, exact file boundary and trustworthy local handoff (5.322719ms)
+✔ File selection shows the chosen exact test source and responsive native copy surface (0.440941ms)
+✔ Activity instructions keep untrusted prose inert and do not generate execution or progress UI (0.401162ms)
+✔ Saved attempt readback preserves uncertainty, exact target edition and supplied provenance (0.836586ms)
+✔ Draft identity fences generation, owner and exact immutable Activity edition (1.239811ms)
+✔ Uncertain attempt retries preserve original payload despite changed drafts and reject cross-edition retry (0.674813ms)
+✔ Actual UI file destination resolves retained D1 source, Reader capture DOM and exact Flag/Annotation writes (3328.538294ms)
+✔ exact occurrence identity retains repeated text positions (2.557829ms)
+✔ multi-part reconstruction uses declared boundaries and exact raw CRLF (0.537617ms)
+✔ a stale rendition or altered quotation cannot silently retarget (0.215854ms)
+✔ UTF16 keeps astral and combining sequences distinct without normalization (0.348162ms)
+✔ malformed and noncanonical multi-part ranges are rejected (0.343866ms)
+✔ generic reading family is part of exact target identity; legacy article default remains valid (0.319509ms)
+✔ saved run code and output are exact raw fields, independent of mutable tool editor buffers (0.280792ms)
+✔ malformed externally supplied segment lists fail closed without throwing (0.189634ms)
+✔ file controls reject missing, empty and oversized files before any upload (0.965339ms)
+✔ passphrases preserve Unicode exactly and reject malformed or out-of-bound values (0.208372ms)
+✔ import framing is four big-endian length bytes plus exact UTF8 metadata, without a filename or URL secret (0.800322ms)
+✔ streamed import reproduces exact prefix and binary bytes, so retrying same File is stable (22.914915ms)
+✔ the upload body uses the same framing whether browser streams or Blob fallback is selected (9.272298ms)
+✔ download names are fixed safe local names, never server or source titles (0.650877ms)
+✔ browsers without request streams use a File-backed Blob with identical framing (0.596565ms)
+✔ media permission belongs to one exact File and does not carry into a replacement file (0.330076ms)
+✔ image limits reject unsupported, empty, oversized and excessive decoded dimensions before upload (1.108905ms)
+✔ staged acknowledgement preserves immutable identity only for matching original metadata (0.518778ms)
+✔ uncertain stage retry sends exact raw bytes and retained operation identity, without filename or prose (5.501078ms)
+✔ denied or malformed server acknowledgements cannot become successful image proposals (1.35208ms)
+✔ image proposal enforces shared description and caption bounds independently of native inputs (1.228384ms)
+▶ bounded private raster lifecycle on actual Miniflare D1 and R2
+  ✔ actual PNG, JPEG and WebP fixtures have tested signatures and dimensions (133.355694ms)
+  ✔ stable retry identity converges and different bytes or owner cannot alias (115.982724ms)
+  ✔ staged pixels are private until a winning parent CAS atomically attaches them (76.73801ms)
+  ✔ owner-requested HTTP metadata uses the same current or retained eligibility as pixels (73.198928ms)
+  ✔ revocation between image preparation and record CAS fails the atomic asset guard (123.42561ms)
+  ✔ retained editions preserve admitted pixels after current removal; Trash gates all editions (159.368586ms)
+  ✔ same-ID different family cannot grant pixels; permanent revocation CAS hides historical editions (105.339612ms)
+  ✔ expiry prevents staged attachment and explicit cleanup deletes only uncommitted bytes (78.151352ms)
+  ✔ actual domain commands attach atomically, isolate owner and retain image-alt anchors only while eligible (378.016773ms)
+  ✔ concurrent display revocation races retain every historically attached original byte (186.79284ms)
+  ✔ missing bytes and inactive parent make image details unavailable without exposing storage internals (202.836827ms)
+  ✔ metadata contains neither storage keys, bytes nor a claim that pixels were interpreted (20.375434ms)
+  ✔ actual HTTP handler authenticates capabilities and raw staging, fences origins/owners and bounds revoke (179.834095ms)
+  ✔ dimension and total pixel bounds reject oversized header declarations (28.509588ms)
+  ✔ animated containers and inconsistent WebP container sizes reject (19.98525ms)
+  ✔ size, MIME mismatch, corrupt checksums, truncation and non-raster payloads reject (78.442553ms)
+✔ bounded private raster lifecycle on actual Miniflare D1 and R2 (4620.948691ms)
+▶ real synthetic D1 Atlas: exact saved links, pagination, owner, revoked source, retained edition and generation guards
+  ✔ focused graph reads both directions with exact links; projection creates no records (145.721226ms)
+  ✔ retained exact destination remains distinct after source revision; invalid retained part not guessed (52.941267ms)
+  ✔ five evidence-scoped GPT proposals remain unaccepted and never write authoritative relations (152.668044ms)
+  ✔ cursor is scoped to owner, focus, lens, page size and namespace changes (157.116911ms)
+  ✔ revoked source disappears from graph and retained canvas cannot preserve its content (134.986718ms)
+  ✔ Evidence river keeps an earlier explicit checkpoint separate from a later short Note intention (107.12706ms)
+  ✔ Trash removes target and edge while independent note survives (38.96636ms)
+✔ real synthetic D1 Atlas: exact saved links, pagination, owner, revoked source, retained edition and generation guards (3876.977637ms)
+✔ 10,000 synthetic D1 records produce bounded 60-record neighborhood pages; no corpus in response (63426.678104ms)
+ℹ {"syntheticRecords":10000,"seedingMs":60658,"firstPageMs":99,"responseBytes":20649,"returnedNodes":60,"engine":"real Miniflare D1","physicalDevice":false}
+✔ four Atlas lenses preserve exact identities, distinct stage/concept projections and deterministic layout (10.688574ms)
+✔ saved relationships keep authored reasons and historical rendition; no chronology creates causal edge (2.156577ms)
+✔ revoked source and Trash disappear; unsupported hint/proposal/rights fields rejected by query schema (3.841376ms)
+✔ canvas snapshots retain only bounded coordinates and exact identity; revocation/generation fences (1.077337ms)
+✔ 120-node bounded graph layout remains deterministic in every lens without engine/GPU access (8.625257ms)
+✔ all four Atlas lenses SSR accessible references and exact destination without active HTML (30.368584ms)
+✔ production freeform SDK refuses activation without dev-only verified boundary (0.515023ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ proposed reading uses shared safe blocks without persistent capture or saved-edition controls (10.478368ms)
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+▶ exact built Vinext Worker: request-time SSR, RSC transport and Server Action
+  ✔ anonymous API denied through deployed entrypoint (11.273221ms)
+  ✔ hosted viewport diagnostic denies anonymous reading frames (61.852291ms)
+  ✔ authenticated hosted viewport frames the actual same-origin reading at 390px and preserves exact return parameters (15.820758ms)
+  ✔ hosted viewport rejects arbitrary paths, remote URLs, recursion and invalid coordinates (50.070397ms)
+  ✔ explicit initialize on exact Worker (38.649448ms)
+  ✔ server HTML contains actual D1 note and fresh per-request receipt (61.491425ms)
+  ✔ RSC request emits Flight response (24.647646ms)
+  ✔ direct reading route contains Unicode and inline code (15.334488ms)
+  ✔ real framework Server Action updates D1 (40.147381ms)
+  ✔ unauthenticated Server Action cannot change record (26.00578ms)
+✔ exact built Vinext Worker: request-time SSR, RSC transport and Server Action (1409.249426ms)
+✔ catalogue-only metadata CAS preserves raw and historical reading identities, uncertain receipts and current indexing (3153.122444ms)
+▶ catalogue sidecar preserves exact reading and performs real D1 CAS, query, rights, pagination and migration
+  ✔ summary/reference edits leave every raw reading byte unchanged (194.555192ms)
+  ✔ exact case punctuation aliases and permissions remain separate (121.022088ms)
+  ✔ existing global query and MCP DTO use current sidecar authority (32.658145ms)
+  ✔ current content edits repin stable IDs and missing targets reject (42.739503ms)
+  ✔ library keyset pages and index epoch invalidate stale cursors (80.780639ms)
+  ✔ historical projection never overlays today's unrelated catalogue (6.895379ms)
+  ✔ additive legacy backfill is idempotent and preserves the raw historical record (170.530431ms)
+  ✔ server-wide pages cover 1,500 substantive topics and a 230-member area without loaded-array truncation (1109.264666ms)
+✔ catalogue sidecar preserves exact reading and performs real D1 CAS, query, rights, pagination and migration (3607.71492ms)
+✔ release SQL migration backfills existing current concepts without altering retained reading bytes (1565.420814ms)
+✔ HTTP preview fallback creates strong RFC4122 operation identities without randomUUID (221.403382ms)
+✔ command flags and exact aliases do not collapse case or punctuation (1.722926ms)
+✔ ambiguity remains multiple Article choices with environment context (0.586691ms)
+✔ explicit insensitive names use ASCII folding without normalizing Unicode (0.425259ms)
+✔ opening preview points to the exact Article family, edition, section and part (1.099591ms)
+✔ only available Articles supply concepts, not similarly named Notes or Trash (0.23328ms)
+✔ deliberately removed destination is rejected while stable concept IDs remain unchanged (0.781743ms)
+✔ unchanged read redactions are never sent back as authored content (2.851229ms)
+✔ caption improvement sends one block patch and no unrelated private body (0.458028ms)
+✔ new block insertion and deliberate removal retain exact surrounding IDs (0.322704ms)
+✔ deliberate representation conversion replaces only that stable block while unrelated unavailable media stays on the server (0.542564ms)
+✔ structural changes that would flatten unavailable content fail while valid replacement excludes display metadata (0.765539ms)
+✔ excerpt display provenance is read-only and never serialized into narrow or replacement authoring (0.345889ms)
+✔ plain text edits clear stale inline offsets through a narrow stable-ID patch without changing original (0.317848ms)
+✔ table canonical edits clear stale inline spans while caption-only and explicit fresh styling retain them (0.336946ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ safe Mermaid subset preserves HTTP request/response labels, disconnected explanation and directed cycles (4.175888ms)
+✔ DAG/branch labels, quoted delimiters, explicit aliases and state triggers map without inferred edges (1.510357ms)
+✔ unsupported Mermaid features, duplicate/conflicting declarations and excessive workloads stay uncompiled (0.812069ms)
+✔ real manuscript compiler→Worker/D1→retained source→native reader and exact diagram annotation (2954.784587ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ explicit branching graph preserves every node, edge and label including disconnected nodes (18.657596ms)
+✔ cycles, duplicate connections, unknown endpoints/formats and unsupported fields reject honestly (0.450897ms)
+✔ declared canonical source is deterministic while legacy exact textual diagrams are never inferred (0.670336ms)
+✔ bounded maximal DAG supports all admitted nodes and edges without truncation (0.582194ms)
+✔ hydratable SVG title and desc use single text children without parser-sensitive comment markers (5.791924ms)
+✔ collapsed text alternative preserves every node while connected SVG remains primary (6.247678ms)
+✔ actual hosted UTF-8 fork keeps both complete transition labels in disjoint boxes (3.069898ms)
+✔ maximal admitted fan-in and fork labels remain separate from labels and node rows (11.738419ms)
+▶ bookmarks and versioned Note bodies retain exact state on actual shared D1 paths
+  ✔ A-10 action-discriminated catalogue and rejected mixed update preserve records and receipts (111.027721ms)
+  ✔ initial off is a tombstone and readonly state lookup cannot write one (92.293244ms)
+  ✔ desired-state noop preserves revision/history while distinct stale operations conflict (123.636187ms)
+  ✔ legacy Trash is version-fenced target off; generic restore cannot bypass the tombstone (194.166504ms)
+  ✔ preview is readonly and canonical passage identity ignores presentation return and quote content (269.139295ms)
+  ✔ explicit Markdown codec changes visible canonical text without changing old retained plain-text anchors (133.137097ms)
+✔ bookmarks and versioned Note bodies retain exact state on actual shared D1 paths (3735.711776ms)
+▶ current catalogue concepts share Article identity with retained canonical reading and D1/MCP lookup/edit paths
+  ✔ add metadata to the same Article without duplicating its explanation or another knowledge table (80.937314ms)
+  ✔ query supports exact whole terms and aliases, preserving case-sensitive command flags and symbols (73.905089ms)
+  ✔ MCP read/context return current concept entries and exact canonical destinations (64.121748ms)
+  ✔ ambiguous aliases return choices with environment and explicit opt-in ASCII folding (86.514285ms)
+  ✔ new concept definitions create a catalogue edition without false reading churn while stable identity and unrelated entries survive (127.382179ms)
+  ✔ invalid same-article destinations and destructive block edits reject atomically (86.815401ms)
+  ✔ stale canonical improvement cannot overwrite a newer definition or acquire editorial rights (113.633267ms)
+  ✔ owner and current eligibility fences apply even when Trash is deliberately searched (157.019735ms)
+  ✔ bounded ambiguity reports omissions and later record pages continue without duplicating concept previews (493.25923ms)
+✔ current catalogue concepts share Article identity with retained canonical reading and D1/MCP lookup/edit paths (3956.750725ms)
+▶ explicit authored diagrams preserve canonical text and retained editions through real D1 commands
+  ✔ legacy literal diagram and declared flow graph coexist without rewriting old text (46.8275ms)
+  ✔ exact UTF16 diagram label anchors bind the immutable authored textual projection (42.94364ms)
+  ✔ targeted graph edit derives exact text and preserves unrelated legacy block and old edition (96.061562ms)
+  ✔ cycles, unknown nodes, unknown metadata versions, mismatched canonical text and wrong block codec reject without writes (119.111654ms)
+  ✔ actual current typed MCP schema publishes bounded nodes/connections while retaining literal diagram compatibility (27.35431ms)
+✔ explicit authored diagrams preserve canonical text and retained editions through real D1 commands (2869.508169ms)
+▶ V2 actual HTTP/MCP handlers with D1: integrated private learning record lifecycle
+  ✔ anonymous reads and writes rejected (17.217153ms)
+  ✔ browser cross-origin write rejected (3.217209ms)
+  ✔ GET and preview create no records (30.957929ms)
+  ✔ explicit synthetic fixture command creates only V2 records (65.723037ms)
+  ✔ seed is non-destructive when repeated deliberately (71.572602ms)
+  ✔ actual relationships include a multi-Journey Investigation (150.797601ms)
+  ✔ create contextual Note and distinguish genuine work from fixture (56.234675ms)
+  ✔ actual guarded update acknowledgement and subsequent readback (42.440915ms)
+  ✔ exact passage annotation uses retained UTF16 rendition identity (38.57377ms)
+  ✔ multi-part same-source capture joins actual authored ranges (64.979987ms)
+  ✔ unpaired surrogate text and split-surrogate offsets rejected (48.840971ms)
+  ✔ article title, introduction and section headings are exact selectable canonical parts (52.548031ms)
+  ✔ bounded literal search finds active unflagged Notes (35.526596ms)
+  ✔ context derives actual forward and reverse relationships (22.456649ms)
+  ✔ recoverable Trash removes from ordinary reads, preserves in deliberate organiser (107.00699ms)
+  ✔ restore returns identical personal prose with a new revision (12.317079ms)
+  ✔ source-rights admission rejects imported excerpts and credential-bearing URLs (23.761836ms)
+  ✔ MCP typed discovery retains foundation probe and real record commands (26.358225ms)
+  ✔ MCP reads actual same-user Note and bounded query/context (13.05755ms)
+  ✔ MCP mutation shares CAS, validation, principal and actor semantics (11.073862ms)
+  ✔ MCP content requires current request scope (5.614397ms)
+  ✔ title changes produce a new rendition while old exact capture remains retained (52.499123ms)
+  ✔ different principal sees empty private workspace (13.666404ms)
+✔ V2 actual HTTP/MCP handlers with D1: integrated private learning record lifecycle (3515.720492ms)
+▶ private image blocks use real shared D1 command transactions and R2 reads
+  ✔ staged pixels stay unavailable until actual successful parent command admission (125.269337ms)
+  ✔ exact image alternative-text capture retains its edition without claiming inspected pixels (43.577521ms)
+  ✔ caption and alt-to-caption LF ranges are exact selectable canonical image text (159.643574ms)
+  ✔ caption and alt edits are narrow and old image text remains available in retained edition (93.548701ms)
+  ✔ removing a current figure preserves eligible historical pixels while parent stays active (34.120575ms)
+  ✔ inline Note text-image-text ranges admit real D1 captures and retain older marker-free Note editions (288.398714ms)
+  ✔ revocation withholds retained image alt/caption, source capture quotes and pixels on every read projection (311.289028ms)
+  ✔ revoked image cannot be re-admitted by patch while independent prose remains writable (34.505659ms)
+  ✔ another owner cannot attach or read an opaque image identity (25.125718ms)
+✔ private image blocks use real shared D1 command transactions and R2 reads (4080.191708ms)
+▶ media canonical text, targeted edits and current-rights projections share actual D1 transactions
+  ✔ staging and validation preview admit no binary access; successful parent CAS derives honest metadata (113.797783ms)
+  ✔ exact caption/transcript captures and bookmark targets retain UTF-16 source edition (110.260294ms)
+  ✔ narrow transcript edits derive canonical text without overwriting other fields or retained edition (87.705978ms)
+  ✔ revocation withholds current/history/media metadata and every nested bookmark/capture quotation while independent prose stays editable (396.492857ms)
+  ✔ media revocation between preparation and real D1 batch fences both parent/history and attachment rows (112.300546ms)
+✔ media canonical text, targeted edits and current-rights projections share actual D1 transactions (4040.889219ms)
+▶ bounded cursor pages through actual D1 HTTP/MCP records without dropping tie keys or byte-bound remainder
+  ✔ workspace first page preserves300-record limit and offers opaque continuation (26.852317ms)
+  ✔ same-timestamp family/id tie keys continue to all311 active records exactly once (17.249792ms)
+  ✔ deliberate includeTrash pages enumerate324 records with its own continuation (36.269051ms)
+  ✔ query pages preserve literal family scope and page40 through307 matches (240.664411ms)
+  ✔ MCP workspace and query propagate page-size-bound cursor without skipping unsent records (138.054184ms)
+  ✔ MCP server rejects malformed or oversized page sizes instead of advancing an unsent cursor (101.165538ms)
+  ✔ 2MB byte ceiling offers continuation before300 records and preserves all105 large records (273.073378ms)
+  ✔ query byte-bound pages never discard remainder matched beyond the first byte budget (665.196614ms)
+  ✔ Trash between page reads remains currently ineligible without invalidating prior sort key (19.661523ms)
+✔ bounded cursor pages through actual D1 HTTP/MCP records without dropping tie keys or byte-bound remainder (7523.349744ms)
+▶ canonical retained reading across typed families with actual D1 admission
+  ✔ article creates a canonical rendition and exact same-family Flag (89.61537ms)
+  ✔ journey creates a canonical rendition and exact same-family Flag (89.961024ms)
+  ✔ investigation creates a canonical rendition and exact same-family Flag (74.981115ms)
+  ✔ area creates a canonical rendition and exact same-family Flag (74.938847ms)
+  ✔ note creates a canonical rendition and exact same-family Flag (76.78733ms)
+  ✔ source creates a canonical rendition and exact same-family Flag (86.453169ms)
+  ✔ experiment creates a canonical rendition and exact same-family Flag (71.39358ms)
+  ✔ run creates a canonical rendition and exact same-family Flag (79.413462ms)
+  ✔ identical text and IDs in different families have distinct rendition identities (0.492699ms)
+  ✔ article retains its exact older text after an edit (132.981455ms)
+  ✔ journey retains its exact older text after an edit (81.259334ms)
+  ✔ investigation retains its exact older text after an edit (98.589411ms)
+  ✔ area retains its exact older text after an edit (72.787932ms)
+  ✔ note retains its exact older text after an edit (66.670134ms)
+  ✔ source retains its exact older text after an edit (87.42657ms)
+  ✔ experiment retains its exact older text after an edit (71.468577ms)
+  ✔ run retains its exact older text after an edit (91.77664ms)
+  ✔ forged family on same-ID same-text capture cannot borrow another rendition (16.633718ms)
+  ✔ unsupported capture target family is rejected instead of being coerced to article (11.502735ms)
+  ✔ run code and output form exact mapped parts, not presentation labels (32.403168ms)
+  ✔ canonical annotation own prose is independently capturable without importing its origin quotation (84.725505ms)
+  ✔ current source Trash denies retained source reads and new captures while preserving existing own prose (39.394017ms)
+  ✔ legacy nonarticle rows gain stable projected identity without reads writing or rewriting history (136.340447ms)
+  ✔ targeted literal queries search real stored code and Run output (64.338379ms)
+  ✔ another principal cannot retrieve a known same-family rendition (4.209499ms)
+  ✔ MCP exact retained read honours requested nonarticle family (9.656315ms)
+✔ canonical retained reading across typed families with actual D1 admission (4221.644137ms)
+✔ complete recovery streams multiple authenticated frames and retries its original immutable snapshot (4144.945427ms)
+▶ protected recovery is reachable through actual domain transport and supports fenced rollback
+  ✔ root recovery route and MCP management discover the same bounded private service (93.52537ms)
+  ✔ checkpoint captures product state while later saved work remains in the activation backup (449.979626ms)
+  ✔ lost activation acknowledgement recovers with its original old-generation request and metadata-only status (33.135278ms)
+  ✔ old or missing generation cannot mutate, revive bookmarks, or read the replaced namespace (41.328771ms)
+  ✔ rollback stages the complete automatic backup into another fresh namespace and increments the epoch (370.014194ms)
+✔ protected recovery is reachable through actual domain transport and supports fenced rollback (3437.924509ms)
+▶ interconnected rich canonical reading through the shared real D1 API and MCP path
+  ✔ seed appends original rich examples and exact purposeful links without changing old IDs (45.230293ms)
+  ✔ unchanged plain article content preserves its original SHA rendition algorithm (0.935675ms)
+  ✔ policy-guided MCP package preview and write preserve rich typed content and acknowledged links (150.784328ms)
+  ✔ exact table focus is reconstructed from coordinates only and returned with private-safe deep links (79.113788ms)
+  ✔ native browser-observed cross-cell offsets admit exact canonical TSV and retain the edition (92.416802ms)
+  ✔ exact semantic destination changed or cross-family coordinates cannot be silently admitted (103.269001ms)
+  ✔ pinned repository metadata is a reference and cannot become GPT fabricated execution evidence (37.637105ms)
+  ✔ selection without pinned rendition or with caller-supplied quotation is rejected (23.695768ms)
+✔ interconnected rich canonical reading through the shared real D1 API and MCP path (3570.554158ms)
+▶ admitted excerpts retain original Source identity across the actual shared D1 learning lifecycle
+  ✔ explicit signed-in admission stores one immutable excerpt separate from independent Source body (62.07708ms)
+  ✔ exact UTF16 reusable excerpt blocks pin the active Source edition and derive provenance (33.041316ms)
+  ✔ context selection on a reused block reconstructs original source coordinates with independent display return (114.084584ms)
+  ✔ Source-own excerpt/prose multi-selection rejects and concept lookup uses current excerpt destination eligibility (75.583203ms)
+  ✔ forged display mapping and direct display-copy anchors reject rather than retarget provenance (46.512547ms)
+  ✔ Source body revisions preserve existing reuse, but a newly attached block must use the current Source rendition (147.050489ms)
+  ✔ narrow export-policy updates preserve raw admitted bytes but affect every retained display edition (86.066173ms)
+  ✔ permanent revocation hides restricted text and permission metadata in current and retained projections, preserves personal prose (200.430118ms)
+✔ admitted excerpts retain original Source identity across the actual shared D1 learning lifecycle (3270.886351ms)
+▶ targeted rich edits share actual D1 revision, history, admission and operation semantics
+  ✔ server capability discovery and typed tools list agree without claiming installed client freshness (63.643036ms)
+  ✔ MCP caption-only preview writes nothing and commit preserves all unrelated rich metadata and stable IDs (66.994145ms)
+  ✔ uncertain identical retry converges; reused operation ID with a different patch rejects (47.38718ms)
+  ✔ retained reading remains exact after narrow metadata edit (42.071451ms)
+  ✔ header/row edits derive exact canonical TSV without needing an old full block (37.750144ms)
+  ✔ ordered insert and removal do not flatten neighbouring blocks (30.208944ms)
+  ✔ one relationship can be appended, revised and removed while unrelated links survive (100.326049ms)
+  ✔ stale patch records a stable conflict and preserves newer prose (47.305241ms)
+  ✔ invalid/ambiguous/unknown edits reject atomically, rather than silently flattening rich fields (127.113217ms)
+  ✔ targeted relation edits still enforce current owned destination admission (30.187132ms)
+✔ targeted rich edits share actual D1 revision, history, admission and operation semantics (3335.725753ms)
+▶ PR15 actual Worker/MCP/D1 package editorial, canonical and transaction contracts
+  ✔ read current policy and server schema without claiming installed catalogue (42.88317ms)
+  ✔ read-only detailed preview compiles canonical blocks and pins internal exact links, no D1 writes (186.697009ms)
+  ✔ twelve related records commit in one operation with replay-safe compact receipt (149.56979ms)
+  ✔ bad member eleven and explicit canonical mismatch are located and write nothing (67.77694ms)
+  ✔ forced SQLite failure after earlier member mutations rolls the entire D1 batch back (199.850083ms)
+  ✔ stale coverage, generation and externally unavailable link reject before persistence (129.635994ms)
+  ✔ old one-to-one mirrored pattern returns meaningful blocking editorial findings (278.344785ms)
+  ✔ substantial GPT legacy creates cannot bypass package editorial preflight, owner writing survives (106.999566ms)
+  ✔ canonical compiler shared HTTP creation and patch insertion; explicit invalid text rejects safely (36.80166ms)
+  ✔ concurrent new packages contend atomically with no partial second package (124.938357ms)
+  ✔ suggested inquiry remains unanswered, fabricated learner findings reject and sparse reference needs no diagram (166.164739ms)
+  ✔ current policy, source-stage integrity and exact inspected coverage are server checks (93.806887ms)
+  ✔ concurrent identical uncertain retries converge on one receipt and one activity set (205.452376ms)
+  ✔ a target revision changing after preparation makes the whole actual D1 package batch fail (154.14403ms)
+  ✔ no-write decision returns no records and no fabricated activity (34.859996ms)
+  ✔ a generation swap immediately before the real D1 batch fences every package write (91.33677ms)
+✔ PR15 actual Worker/MCP/D1 package editorial, canonical and transaction contracts (4691.60632ms)
+✔ malformed relationship and concept entries return located client errors before iteration (222.536966ms)
+✔ substantial cross-project fixture passes actual shared policy/canonical preview, saves atomically, and preserves distinct reference roles (2787.017181ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ Journey overview offers a practical first step without rendering a whole textbook (10.466745ms)
+✔ stage view renders only the chosen canonical section and preserves exact capture identity (12.374605ms)
+✔ legacy Journey adapts sections without writes; stable stage context selects only its relationships (1.509807ms)
+✔ legacy Investigation presents a question and explicit checkpoints without status or invented observations (1.37245ms)
+✔ command index shows original syntax, environment and useful canonical code destination (1.448254ms)
+✔ legacy general references stay available without invented stage assignment or a landing-page wall (2.579142ms)
+✔ Journey overview shows canonical rich preamble without inventing an introductory stage (2.725741ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ only the exact active owner-attested permitted Source context is a reuse candidate (5.371388ms)
+✔ UTF16 selection admits the exact surrogate pair and rejects split, empty, fractional and oversized ranges (9.43358ms)
+✔ adding a reused passage keeps only exact origin identity and immutable source edition (2.961916ms)
+✔ draft validation refuses malformed or flattened excerpt origin while preserving unavailable placeholders (0.61349ms)
+✔ deliberate representation replacement clears reused bytes and readonly provenance instead of claiming original text (0.577717ms)
+✔ existing excerpt origin and passage render read-only with a deliberate reuse control and no remote import (27.52753ms)
+✔ reuse validation caps distinct source origins while preserving existing restricted media placeholders (0.620361ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ single excerpt selection maps exact UTF16 occurrence to Source plus separate display return (2.750619ms)
+✔ mixed prose/source and multiple excerpt blocks reject without guessing a joined origin (0.545438ms)
+✔ highlight maps Source coordinates across multiple display contexts only on exact eligible edition (0.534843ms)
+✔ excerpt provenance is outside mapped text and revoked projection withholds text and metadata (10.207552ms)
+✔ Source capture persistence stores only selector, operation references and independent prose (0.504397ms)
+✔ exact Source action is a native canonical anchor with retained origin coordinates (0.718809ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ exact external video provider identity rejects HTML, channel/listing links and mismatched URLs (1.951659ms)
+✔ generated embeds constrain origins and preserve no-autoplay privacy parameters (0.29973ms)
+✔ before activation both providers render only local consent controls and no iframe, thumbnail or preload (8.736494ms)
+✔ manuscript video declaration is explicit and produces safe reference metadata with authored exact text (4.344261ms)
+▶ composite language/math/data source survives current D1, Notes, MCP, immutable capture and protected recovery
+  ✔ actual source adapters compose into a supplied existing text Run without a new durable type (138.774068ms)
+  ✔ existing Journey/Investigation/Note relationships retain reasoning and rich source (144.608171ms)
+  ✔ three source adapters re-admit exact D1/MCP readback under live current-source authority (152.702731ms)
+  ✔ exact TeX and supplied-output captures use current immutable canonical offsets (148.103547ms)
+  ✔ new current editions preserve exact original Run/TeX and reject stale CAS (289.079391ms)
+  ✔ forged observed evidence and new unadmitted structured persistence fields are rejected (50.095029ms)
+  ✔ protected encrypted export preserves complete legacy fields without inventing binary assets (285.178075ms)
+  ✔ Trash closes source admission before protected import stage and activation restore exact snapshot (712.074764ms)
+  ✔ restored MCP exact readback remains supplied and no learning checkpoints were manufactured (154.674756ms)
+✔ composite language/math/data source survives current D1, Notes, MCP, immutable capture and protected recovery (5402.125111ms)
+✔ CSV quoted commas, double quotes, CRLF and exact source survive (4.573946ms)
+✔ CSV trailing empty field, BOM and explicit headerless TSV (0.413932ms)
+✔ Malformed CSV and resource bounds reject before rendering (4.348346ms)
+✔ JSON data import preserves primitives and rejects nested mixed nonfinite shapes (0.713841ms)
+✔ CSV spreadsheet-safe export escapes string formula prefixes without changing canonical source or numeric signs (1.238819ms)
+✔ Search retains exact row indices and explicit result cap; numeric series does not coerce blanks/null/boolean (0.86599ms)
+✔ Supplied CLI/HTTP trace ordering and explicit redaction never become observed execution (1.026461ms)
+✔ Trace false observed provenance, nonmonotonic or duplicate sequence and extra fields reject (0.330927ms)
+✔ Notebook is read-only source-exact supplied evidence despite trusted metadata and execution count (0.751818ms)
+✔ Notebook HTML/SVG/javascript never enters display output; attachments never dereferenced (2.034684ms)
+✔ Notebook valid PNG remains staged candidate, not automatically owner-admitted media (0.644007ms)
+✔ Notebook rejects malformed versions/cells/images/stream/output budgets (4.055152ms)
+✔ FFT locates a known synthetic frequency and bounded waveform RMS (8.842582ms)
+✔ WAV roundtrip signature, rate, PCM quantisation and supplied provenance (2.39816ms)
+✔ WAV malformed length, truncated and non-PCM files reject (1.448144ms)
+✔ Audio bounds reject NaN/overflow, arbitrary arrays, hostile FFT sizes and segment overlap (3.093484ms)
+✔ Spectrogram cap and declared segment transcript are preserved (1.567192ms)
+✔ MIDI binary contains declared notes tempo and end-of-track; sonification is explicit and deterministic (0.691418ms)
+✔ JSON nesting budget rejects deep metadata and strings with literal bracket characters remain exact (0.646691ms)
+✔ Dataset diff and missingness preserve zero/false/null/string differences without inferring causality (0.786471ms)
+✔ CSV export escapes leading tab/newline and traceback list retains its line boundaries (0.269705ms)
+✔ WAV rejects residual partial chunk header and minimal positive MIDI duration retains a later note-off (1.082935ms)
+✔ Forged tables cannot bypass aggregate byte/count/source admission or use sparse arrays (33.394015ms)
+✔ Seeded bootstrap mean is reproducible, agrees with constant and small enumerated oracle, and stays bounded (7.526328ms)
+✔ Histogram bin conservation, maximum inclusion and constant-data nonzero span (0.563947ms)
+✔ Seeded CSV roundtrip corpus preserves quotes, delimiters, CRLF, Unicode and empty strings across300 tables (32.821322ms)
+✔ FFT matches independent direct DFT oracle for every nonnegative bin of a32sample mixed signal (0.488434ms)
+✔ Single-column final empty string row survives explicit CSV/TSV export without ambiguity with terminal newline (0.274782ms)
+✔ All five SDK adapters admit exact canonical source and retain safe fallback without loading renderers (45.048049ms)
+✔ Table/chart/notebook/trace/audio payload drift rejects after canonical digest remains correct (14.223501ms)
+✔ Registry current source permission/Run checks remain authority; imported trace cannot become a computed Run (4.002157ms)
+✔ Shared 65k source/256k whole-artefact limits dominate standalone 12MiB import and audio no-rounding/provenance rules (34.477932ms)
+✔ Data chart and table keep hostile strings as text and include exact static fallback (8.439167ms)
+✔ Notebook static rendering never emits imported active markup or image URL (10.521503ms)
+✔ Gallery demos static-render with explicit controls, provenance, labelled alternatives and no autoplay (93.652235ms)
+▶ dormant language source uses real existing synthetic D1/Notes/MCP/capture authority
+  ✔ explicit language source roundtrips through existing rich Note codec (17.36813ms)
+  ✔ canonical Article retains base characters, and Note stores exact candidate source (100.529367ms)
+  ✔ base-text Flag and Annotation admit exact original characters (102.688989ms)
+  ✔ MCP reads exact source Note through existing typed read tool (16.104303ms)
+  ✔ current revision change retains old source and refuses retargeted decoration (119.381695ms)
+  ✔ other owner and Trash eligibility remain server-controlled (59.601083ms)
+✔ dormant language source uses real existing synthetic D1/Notes/MCP/capture authority (3295.890809ms)
+✔ shared registry admits language and parallel source with meaningful static fallbacks (21.389437ms)
+✔ language source hash, canonical format and source/payload mismatch fail before load (4.365072ms)
+✔ revoked language source never lazy-loads or mounts (3.921797ms)
+✔ language instance cleanup occurs once on current-rights revocation (1.649216ms)
+✔ parallel payload unknown fields or mismatched translation fail closed (3.087835ms)
+✔ all original language fixtures admit and preserve source exactly (9.23976ms)
+✔ Japanese compound readings, source codec and independent translation survive roundtrip (1.601584ms)
+✔ strict version and unknown field admission reject ambiguous payloads (0.825749ms)
+✔ Unicode exact offsets reject surrogate splits and normalization (0.59344ms)
+✔ overlap, reversed, fractional, outside and excessive span declarations fail closed (0.494773ms)
+✔ machine readings need explicit source; correction is immutable and guarded (0.507281ms)
+✔ binding uses exact retained text and current eligibility (0.882184ms)
+✔ malformed fences and historic markdown are never implicitly transformed (1.132551ms)
+✔ session recall requires begin/reveal/next and yields no progress fields (1.843638ms)
+✔ practice TSV quotes cells and neutralizes formula prefixes (0.681704ms)
+✔ parallel range admission rejects wrong bounds, malformed and unknown fields (0.95929ms)
+✔ speech is deliberate, local-only by default and disposes pending work/listeners (1.38543ms)
+✔ speech validates rate, text length and unsupported locale voices (0.357977ms)
+✔ author insertion is immutable, exact and refuses overlap/stale source (1.826402ms)
+✔ reading/gloss searches label metadata and pin the original characters (0.575674ms)
+✔ tokenizer proposals preserve unknowns, original Unicode offsets and uncertainty (2.053623ms)
+✔ strict expression admission preserves immutable exact source and distinguishes authored notation from computation (14.519475ms)
+✔ explicit mathematical fences preserve backslashes, CRLF, source whitespace and exact declaration capture (1.167022ms)
+✔ unrelated code fences and examples never become mathematical declarations (4.754236ms)
+✔ existing Note rich/source codec carries explicit mathematical declarations without new node kind or source rewrite (13.755712ms)
+✔ TeX preflight rejects unsafe resources, macros, controls, deep nesting and excessive expansion input (2.167243ms)
+✔ real KaTeX renders representative expressions with MathML accessibility and no generated resource fetch (38.974167ms)
+✔ renderer failure returns exact source and text error without injecting the diagnostic into HTML (0.537667ms)
+✔ 250 actual formula renders are independently bounded with no shared macro state (66.497466ms)
+✔ finite native MathML rejects arbitrary XML, attributes, URL nodes, wrong arity and cycles (0.878559ms)
+✔ trusted polynomial algorithms match independent analytical oracles and converge without evaluating input code (0.996666ms)
+✔ 2D transformations and dimensional arithmetic enforce finite bounded mathematical values (0.575744ms)
+✔ chemical atom-count inspection has exact conservation oracle and does not claim reaction feasibility (0.771899ms)
+✔ exact fraction parser normalizes signs and rejects floats, code, overflows and zero denominators (0.368814ms)
+✔ Gaussian elimination retains exact original input and snapshots and identifies all solution classes (0.730466ms)
+✔ rational Gaussian results satisfy independently generated linear systems with known exact solutions (3.508216ms)
+✔ near-cancelling large fractions never pass rounded Number intermediates as exact arithmetic (0.251448ms)
+✔ binomial probabilities satisfy independent small-case oracles, mass conservation and endpoint distributions (0.845138ms)
+✔ exact natural-frequency probabilities reveal base rates and preserve undefined empty denominators (0.55929ms)
+✔ RFC4648 published vectors and canonical pad bits (3.18447ms)
+✔ byte and UTF16 views preserve original combining/astral source and explicit lone surrogate (0.885699ms)
+✔ unified diff counts and exact source offsets retain supplied evidence (0.722996ms)
+✔ diff subset refuses bad counts, overlap, multi-file, binary and combined ambiguity (0.481252ms)
+✔ linear-light numerical reference endpoints and contrast are independently calculable (1.616126ms)
+✔ default build excludes dormant science bytes even if stale local staging exists, preserving source and core assets (3.724511ms)
+✔ strict admission remains unloaded, snapshots exact source, and lifecycle disposes once (18.320761ms)
+✔ unknown version/kind/keys, source digest mismatch and forged observed provenance fail (11.659972ms)
+✔ revocation gates fallback and revalidation clears renderer (4.583294ms)
+✔ revalidation authority failure clears live content and disposes once before rejecting (1.549978ms)
+✔ late revoked lazy import cannot mount or leak fallback (3.334275ms)
+✔ JSON prewalk rejects executable/accessor/cyclic/nonfinite/oversized/deep data (6.659937ms)
+✔ structured output manifest rejects stale cancelled plots, mismatched tables and SVG payloads (5.841288ms)
+✔ failed loader cannot restore private fallback after revocation or authority failure (8.130234ms)
+✔ post-mount authority exception releases resources even when the retry allows a static fallback (4.329729ms)
+✔ sparse and extended arrays cannot bypass budgets then expand during JSON snapshot (0.769575ms)
+✔ unpaired UTF16 canonical source rejects before UTF8 replacement could collapse distinct source hashes (4.800395ms)
+✔ actual shared controller computes PNG+table and keeps error output partial; next fresh run cannot inherit it (9491.951766ms)
+✔ actual shared controller blocks deceptive low-dpi huge raster before savefig (6526.548419ms)
+✔ actual isolated Node worker infinite loop is terminated by parent watchdog (5009.808635ms)
+✔ science resolver orders complete dependency closure and refuses unknown packages/cycles/path escapes (5.077682ms)
+✔ typed output rejects foreign keys/observed claims/nonfinite/ragged/unbounded data (13.155917ms)
+✔ PNG admission verifies actual signature, header and declared dimensions; rejects SVG and false geometry (5.576971ms)
+✔ manifest exact budgets prevent path/duplicate/size shape attacks (7.036762ms)
+✔ controller retains opaque-origin no-network bootstrap, bounded collection and explicit failure disposal (14.159083ms)
+✔ actual stream admission stops dishonest/oversized bodies before full allocation (11.55873ms)
+✔ collection bombs reject before schema expansion, including sparse outer collections (0.402505ms)
+✔ twelve actual adapters admit/fallback without lazy imports and reject source drift (103.323493ms)
+✔ portable SHA256 fallback equals native independent oracle for published vectors and large unicode source (49.428574ms)
+✔ visual adapter admits exact canonical geometry, source hashes, immutable snapshot; no execution authority (6.894029ms)
+✔ visual adapter rejects canonical/data mismatch, source-right denial, untrusted fields and invalid version (3.988627ms)
+✔ visual strict scene clones source and rejects URLs/scripts, nonfinite/oversized geometry (2.065671ms)
+✔ actual generated GLB2 decodes exact binary vertices and indices (2.385121ms)
+✔ GLB header, length, chunk, UTF8 and float corruptions fail closed (0.848825ms)
+✔ GLB resources, extensions, HTML metadata, recursion and unsupported layouts rejected before rendering (5.055678ms)
+✔ GLB repeated geometry has aggregate budget, bounded materials and transforms (1.227543ms)
+✔ real Three geometries/materials created and disposed exactly once, no GPU required (7.412357ms)
+✔ Dijkstra golden path, BFS hop semantics and immutable rewind snapshots (0.909875ms)
+✔ graph malicious IDs, missing endpoints, unknown fields, negative weights and budgets rejected (0.364297ms)
+✔ maze reaches goal through genuine legal moves, wall hit immutable, no fabricated progress (2.334213ms)
+✔ life blinker period and glider translation, dead exterior, invalid budgets (1.309826ms)
+✔ physics fixed integration and restitution preserve bounds over 10000 steps (18.43102ms)
+✔ bounded Mandelbrot symmetry and deterministic exact repeat (9.842063ms)
+✔ fixed-column PDB geometry preserves supplied coordinates without inventing bonds (0.824968ms)
+✔ RC curve numerical oracle at zero, tau and five tau; bounded parametric model (0.440852ms)
+✔ Sudoku genuine computed completion satisfies every given and row/column/box; rewind snapshots stable (3.016969ms)
+✔ scene accessor properties and sparse arrays cannot smuggle active values or missing vertices (0.471007ms)
+✔ GLB uint16 indexed geometry uses exact bounded BIN views; invalid indices fail (5.107296ms)
+✔ GLB repeated large valid accessor rejected by aggregate vertex budget before repeated allocation (6.859026ms)
+✔ all inactive GLB scenes are validated, not treated as trusted hidden metadata (0.374331ms)
+✔ extreme admitted scene geometry is normalized into visible initial camera fit without rewriting source (1.670327ms)
+✔ Dijkstra equal-distance queue uses code-unit order across locales (0.226941ms)
+PR26 future-authoring guidance fixture {"guidanceBytes":13713,"createRequestBytes":2782,"createResponseBytes":4852,"creationCalls":1,"optionalGuidanceReads":1,"schemaRetries":0,"records":4,"catalogueEntries":1}
+✔ normal authoring guidance is lazy, executable, rich and explicit about judgement, then the published set is indexed without internal IDs (3367.052351ms)
+✔ deliberately entered question is clipboard data and never part of the return URL (2.002065ms)
+✔ canonical links encode each family-qualified target and exact range without private text (1.405901ms)
+✔ portable brief names existing read tool and preserves exact selector but omits record/selection prose (0.642905ms)
+✔ related records are owner-selected, bounded and family-qualified; none are added by default (0.325679ms)
+✔ mismatched rendition/record and unsupported large selections reject rather than retarget or truncate (0.468223ms)
+✔ annotation body return and original captured passage are distinct destinations (0.46656ms)
+✔ malicious-looking IDs are data; unsafe origins and invalid identifiers cannot produce external hrefs (0.587612ms)
+✔ receipt link enrichment is metadata-only and does not mutate idempotency results (1.217087ms)
+✔ saved capture links use compact exact identity instead of serializing all segment coordinates (0.409725ms)
+✔ unsaved complex focus is rejected instead of copying a huge request (1.04591ms)
+✔ source capture preserves distinct original coordinates and display return without quoted bytes in URLs (4.255868ms)
+✔ excerpt discussion reads the original Source while returning to the containing reading (0.464217ms)
+✔ whole-record Flags return directly to their target while keeping the saved Flag as GPT context (6.873347ms)
+✔ non-first Journey handoff names exact stage with no selection and one combined context read (1.20584ms)
+✔ stage link enrichment preserves exact rendition/ranges and leaves other origins and general overview untouched (0.544918ms)
+✔ development fixture persists exact browser and typed JSON-RPC terminal evidence through shared D1 revisions (2245.761818ms)
+✔ production fixture handler returns 404 before migrations or synthetic identity are used (1246.061772ms)
+▶ real handler with local D1/R2: private, durable, revision guarded and MCP read-only
+  ✔ anonymous read and write rejected (14.973075ms)
+  ✔ cross-origin mutation rejected (5.490451ms)
+  ✔ fresh reads create no records (22.12561ms)
+  ✔ explicit create persists investigation and R2 (22.86445ms)
+  ✔ invalid mutation rejected with unchanged revision (12.92074ms)
+  ✔ save, reload and stale compare-and-set (55.044108ms)
+  ✔ concurrent writers: exactly one acknowledgement (13.005682ms)
+  ✔ second principal cannot read or alter first records (15.615068ms)
+  ✔ R2 modify and readback persists (35.6491ms)
+  ✔ MCP discovery, list and actual same-record invocation (33.51369ms)
+✔ real handler with local D1/R2: private, durable, revision guarded and MCP read-only (792.872849ms)
+▶ interaction regression: bookmark intent and independent personal work retain canonical identity
+  ✔ direct annotation body edit uses exact CAS and preserves original range, including repeated Unicode text (95.426488ms)
+  ✔ RT14 source revocation hides quotation but allows direct independent annotation edits and CAS delete/restore (498.94124ms)
+  ✔ RT14 image withdrawal hides exact alternative text while independent annotation remains writable (439.554623ms)
+  ✔ an unavailable saved Note stays unavailable; an uncertain create retains exact ID rather than becoming a second create (131.271777ms)
+  ✔ two distinct on operations for one canonical target cannot create duplicate active Flags (301.959274ms)
+  ✔ newer Unflag wins over stale two-tab on and old acknowledged retries cannot resurrect it (251.15765ms)
+  ✔ whole-record Flag has distinct state and same-family owner-scoped target fencing (251.540018ms)
+  ✔ legacy duplicate reconciliation is read-only, deterministic and preserves personal prose/history (316.251698ms)
+  ✔ simultaneous two-tab on intents share the same atomic target fence (157.870383ms)
+  ✔ initial off creates ordering tombstone so an older legacy on cannot become the first active record (74.453692ms)
+✔ interaction regression: bookmark intent and independent personal work retain canonical identity (5259.33149ms)
+TEST ONLY goal packages {"rustRecords":10,"gameRecords":8,"rustRequestBytes":25632,"gameRequestBytes":17133,"normalPublications":2,"mandatoryPreviews":0,"reusedArticleRev":1}
+▶ goal-first MCP publication prepares independent anticipatory shelves, exact reuse and complete local starters, then grows without replacing earlier work
+  ✔ initial creation uses one guarded publish per coherent goal, no required preview (541.60519ms)
+  ✔ one later extension links exact prior references and leaves Journey and existing prose intact (150.756128ms)
+  ✔ targeted correction preserves source history, exact record identity and rejects a stale revision (151.887248ms)
+  ✔ unsupported fields and brief bounds give actionable paths and leave full submitted content recoverable (97.457431ms)
+✔ goal-first MCP publication prepares independent anticipatory shelves, exact reuse and complete local starters, then grows without replacing earlier work (4305.982938ms)
+✔ local-start shortcut requires an unambiguous explicit authored stage, not inferred prose or code (0.507191ms)
+﹣ Rust local starter compilation is performed only when a genuine toolchain exists (10.539881ms) # Rust/Cargo unavailable: source is complete but remains uncompiled; no Python substitute is counted as Rust evidence.
+✔ a typed terminal block cannot be silently swallowed by an unclosed prose code fence (2.367143ms)
+✔ ordinary prose retains Unicode case-insensitive coverage while technical aliases retain their explicit case contract (2.420273ms)
+Synthetic MCP interoperability {
+  hosted: false,
+  installedCatalogue: false,
+  exactOutputCharacters: 152,
+  revision: 2,
+  typedCaptureWriteCalls: 1,
+  statusReplayVerified: true
+}
+✔ GPT typed terminal capture shares browser body, preserves exact rendition, diagnoses limits and recovers immutable operations (3152.552232ms)
+synthetic natural resumption {"firstCall":"get_minamo_learning_context scope resume query queue project","overviewBytes":25964,"exactTargetBytes":10991,"initialReadActions":1,"taskFollowupActions":1,"independentNotes":8,"hosted":false}
+✔ natural project continuation groups ordinary short Notes, exact task evidence and post-checkpoint intention without a handover (3765.744656ms)
+✔ natural resolution preserves genuine ambiguity, whole-word lookup and owner isolation (3096.777689ms)
+✔ activity paging fences edits, keeps stage identity and retains old passage editions without exposing revoked source quotes (3564.375977ms)
+✔ resumption validates budgets and partial title matches cannot select a different technical project (2872.707243ms)
+✔ large-scope natural discovery pages never claim absence or choose a last-page target (4693.104953ms)
+✔ a late intention in a revised long Note gets an accurately labelled recent-edit preview (2557.274436ms)
+✔ Journey triage includes new thinking on an older seventeenth Investigation before newer authored empty tasks (3292.384184ms)
+✔ late-stage thinking ranks through an outbound Journey-stage relationship without an inbound Investigation parent (2798.10259ms)
+✔ task intent uses one exact tutor read and retains selected authored edition only in return link (13.049017ms)
+✔ task intent never guesses first Journey stage or accepts missing, removed, non-task or trashed targets (0.454212ms)
+✔ discussing a retained reading and continuing its task preserve different explicit intentions (1.177748ms)
+✔ malformed identifiers and unsafe return origins reject without a clipboard-ready request (0.365128ms)
+✔ production layout preference has one bounded schema, Classic default and retained useful alternatives (4.115703ms)
+✔ task URL admission rejects malformed/unbounded selectors and round-trips exact valid identity (0.610476ms)
+✔ semantic position storage preserves exact edition/stage while link destination remains Reader-owned (0.580462ms)
+✔ corrupt or excessive session positions cannot create guessed edition/scroll targets (2.330238ms)
+✔ provisional current heads never enter presentation memory for requested retained editions (0.452219ms)
+✔ explicit per-mode returns are exact-task qualified and switching does not mutate learning records (0.229565ms)
+✔ resource shelf deduplicates exact identity without silently evicting the oldest reference at its bound (0.338498ms)
+✔ a task absent from the bounded collection still replaces the prior project before its exact read completes (0.294292ms)
+✔ state codec preserves cycles and self-transitions explicitly without treating them as a DAG (11.754504ms)
+✔ grid codec round-trips all coordinates, region boundaries, empty cells and accessible highlights (4.539695ms)
+✔ grid rejects malformed dimensions, unsupported fields, control text and ambiguous highlights (0.51308ms)
+✔ new diagrams render authored text as text, never executable markup (0.811057ms)
+▶ explicit checkpoint domain: exact independent stage, atomic receipts, correction, provenance and meaningful Home
+  ✔ ordinary reads and missing explicit intent never save work (558.233484ms)
+  ✔ one explicit non-first stage checkpoint leaves canonical rendition unchanged and replays by exact ref (72.351406ms)
+  ✔ Home derives exact acknowledged checkpoint, not Note save or Favourite (99.890719ms)
+  ✔ exact stage handoff combines selected related context and stays read-only (224.914312ms)
+  ✔ revision correction preserves history and invalidates old interpretation without regeneration (128.099634ms)
+  ✔ unsupported Minamo-observed claim rejects even on an explicit checkpoint (30.767299ms)
+  ✔ actual installed-style MCP discovery and read/write path share same domain (77.522201ms)
+✔ explicit checkpoint domain: exact independent stage, atomic receipts, correction, provenance and meaningful Home (4184.593269ms)
+✔ evidence revocation, immutable receipt refs and final-statement rollback on real D1 (2678.913197ms)
+✔ server-wide Continue survives repeated checkpoints, stage labels and independent Favourites cursor (3324.410713ms)
+✔ only exact per-event stage relevance projects an Investigation into a Journey stage (2752.939213ms)
+✔ concurrent perspective CAS admits one complete event and removed-stage handoff preserves exact historical reading (2447.419854ms)
+✔ explicit multi-target checkpoint commits one atomic receipt and rolls back a later target failure (2495.844483ms)
+✔ relationship acceptance pins requested target revision atomically and historical illustrative Run cannot gain observed provenance (2689.788008ms)
+learning repeated-evidence D1 prepared statements: 34
+learning target recall D1 prepared statements: 39
+✔ representative repeated evidence uses a per-request cache within a bounded actual D1 query budget (2869.221762ms)
+✔ bounded evidence detail honestly defers ninth identity and focused Development retrieval returns exact eligible detail (2972.741851ms)
+✔ atomic manuscript catalogue/source/links and ordinary targeted edits preserve history and independent memberships (2980.923205ms)
+▶ manuscript endpoints retain authenticated owner/generation boundaries and small typed discovery
+  ✔ anonymous source, preview and publication cannot reach storage (33.490634ms)
+  ✔ cross-site and stale-generation publication reject without persistence (39.868627ms)
+  ✔ actual tools/list exposes original brief and Markdown instead of internal persistence fields (34.503763ms)
+  ✔ new MCP calls still require explicit current owner scope (30.381429ms)
+  ✔ MCP discovery reports actual manuscript server contract version (6.561494ms)
+  ✔ Worker source explicitly routes manuscript HTTP and existing authoring endpoints to shared domain (1.416435ms)
+✔ manuscript endpoints retain authenticated owner/generation boundaries and small typed discovery (2783.80066ms)
+TEST ONLY measured envelope {"bytes":217277,"queries":46,"maxParameters":9,"records":16}
+✔ complete 16-document manuscript with catalogue entries stays within50 prepared statements and100parameters (2430.695645ms)
+✔ ordinary insert and reorder preserve exact old sections, parts and nonfirst stage IDs (1.234982ms)
+✔ genuinely ambiguous duplicate sections reject rather than guess a stage mapping (0.727852ms)
+✔ one natural manuscript call compiles question-only investigation and explicit references without client generated pointers (20.602479ms)
+✔ heading-only Journey stage rename preserves unique exact section and stage identity (0.536054ms)
+✔ ordinary bold subsection headings do not duplicate invalid exact styling spans (44.424912ms)
+✔ Journey references retain exact source stage identity for direct return from Library (9.865501ms)
+✔ source is byte-for-byte lossless across CRLF, emoji, markup and code fences (8.663627ms)
+✔ tilde fences and unknown Markdown survive as literal source (0.46595ms)
+✔ unclosed code remains recoverable, with an advisory, not silent loss (0.203325ms)
+✔ full >500-character creative brief, multiple roles and explicit keys are preserved (0.708743ms)
+✔ duplicate keys, invalid roles, controls and unpaired Unicode reject without repair (0.558408ms)
+✔ size limits reject intact source and never truncate it (2.137237ms)
+✔ rich manuscript preamble is canonical overview reading, not an extra authored Journey stage; legacy stored intro-stages remain exact (3272.913641ms)
+PR26 explicit-label compiler fixture {"requestBytes":677,"compiledBytes":1799,"elapsedMs":17.99294800000007,"metadataFields":3}
+✔ explicit rich stage declarations compile into metadata without author-side schema assembly or changing source (19.057817ms)
+✔ plain, rich and multi-line declarations retain authored meaning; no label is guessed from teaching prose (18.964176ms)
+✔ ambiguous or oversized explicit declarations warn instead of silently choosing or truncating (6.805796ms)
+✔ author quality diagnostics expose structural risks without enforcing length, code or media quotas (10.06664ms)
+▶ text-first manuscript actual Worker/MCP/D1 transaction and retained source guarantees
+  ✔ optional preview compiles all roles, explicit graph and rich inline without any persistence (321.971439ms)
+  ✔ one friendly call commits four roles, links, immutable source and receipt (171.193295ms)
+  ✔ same input replays once; changed original brief rejects; operation status recovers source identity (109.284144ms)
+  ✔ canonical edit preserves archived original source and retained historical text (61.161185ms)
+  ✔ other principal cannot read immutable source or records and generation mismatch writes nothing (116.250546ms)
+  ✔ failure in member eleven rolls back records/history/activity/receipt/source edition (245.987754ms)
+  ✔ source store failure cannot leave compiled records or receipt without an edition (122.925514ms)
+  ✔ concurrent identical publication converges to one edition and activity set (106.735965ms)
+  ✔ declared existing reference resolves exact identity and guards its revision without mutation (92.213597ms)
+  ✔ compiled Unicode and styled text retain exact passage capture through shared Flag and annotation commands (76.135679ms)
+  ✔ archived source follows current eligibility and returns intact after recoverable member restore (71.130448ms)
+  ✔ explicit same-role manuscript replacement requires matching exact target and retains source editions and old captures (494.901882ms)
+  ✔ text patches clear inherited rich spans on shorter or same-length replacement and preserve explicit new styling (173.385551ms)
+  ✔ target revision race after preparation rolls back every manuscript artefact (191.129732ms)
+  ✔ generation swap at D1 batch prevents all source/record/history/receipt writes (111.51156ms)
+✔ text-first manuscript actual Worker/MCP/D1 transaction and retained source guarantees (5261.034596ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ generic graph keeps bidirectional cycles, self loops and unconnected nodes without state semantics (6.596792ms)
+✔ generic graph rejects duplicate, missing, unsafe and over-budget declarations (0.313481ms)
+✔ inline styles retain exact literal UTF16 text and nested formatting around captures (2.928005ms)
+✔ unsafe URL, duplicate, out-of-bounds and split-surrogate styles reject; corrupt legacy style falls back literally (5.886216ms)
+✔ table inline ranges preserve TSV coordinates across emoji and rich cell capture (2.533373ms)
+✔ canonical inline reading links retain native href but use same workspace navigation (1.839111ms)
+✔ compiled generic graphs stay editable without conversion to state transitions (1.167192ms)
+▶ manuscript source editions are immutable, owner scoped and survive real D1/R2 checkpoint staging
+  ✔ insert updates namespace watermark and update/delete cannot rewrite source history (77.758207ms)
+  ✔ snapshot and checkpoint bind original source, full brief and exact refs (328.058234ms)
+  ✔ encrypted export/import preserves editions and accepts older files with no edition table (553.515255ms)
+✔ manuscript source editions are immutable, owner scoped and survive real D1/R2 checkpoint staging (3294.532205ms)
+✔ edition digest validates exact original source and target revisions without Source permission grants (19.899958ms)
+PR26 equivalent preview response comparison {"compactBytes":5638,"fullBytes":14739,"compactMs":110.58571600000005,"detailMs":97.8936660000004,"identicalRefsAndWarnings":true}
+PR26 rich authoring local MCP fixture {"publishCalls":1,"publishRequestBytes":4571,"publishResponseBytes":5066,"publishElapsedMs":109.04582399999981,"records":4,"articleCodeBlocks":2,"diagramEdges":3,"referenceCount":1,"totalTraceCalls":18}
+✔ realistic rich teaching set publishes atomically, indexes reusable concepts, revises safely and reuses exact references (3735.534093ms)
+✔ ordinary Journey heading rename retains its exact saved checkpoint target through real manuscript/D1/context (2864.748753ms)
+PR26 synthetic tutor profile {"responseBytes":7758,"fullContextBytes":24568,"elapsedMs":52.65,"roundTrips":1,"checkpointCount":2,"retries":0,"wholeRouteReturned":false}
+✔ focused tutor handoff preserves provisional reason, attempt, misconception and practical next action without whole route or duplicate checkpoints (3543.849408ms)
+✔ decision evidence uses the same rights/recovery/CAS guarantees as facts and a correction replaces visible rationale honestly (3093.902185ms)
+✔ MCP discovery exposes small checkpoint shape, optional rationale fields and focused profile while legacy callers remain valid (2800.773279ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ media authored fields retain exact UTF16 canonical ranges and exclude chrome (8.551614ms)
+✔ unavailable projection withholds media text, transcript and asset identity (0.371337ms)
+✔ document never embeds bytes and canonical text stays escaped (0.554702ms)
+✔ media limits and acknowledgements bind exact original, not filename or guessed MIME (0.54668ms)
+✔ Note append commands preserve existing rich sections without serializing imported prose (0.374852ms)
+✔ multi-layout Notes contract: delayed acknowledgement and newer writing retain exact original Note context (3424.455768ms)
+✔ multi-layout Notes contract: lost ACK replay cannot adopt a competing head or wrong-project links (2881.278852ms)
+✔ multi-layout Notes contract: rejected stale draft survives local serialization and remains independently resolvable (2823.584703ms)
+✔ multi-layout Notes contract: a pending original image remains staged on conflict and attaches only to its originating Note (2478.747899ms)
+✔ direct current Note opening retains independent editor state and requires comparison with a newer saved head (2650.885135ms)
+✔ capture snapshots distinct task stage and exact supporting reference; later navigation cannot retarget it (1.79236ms)
+✔ reading the task itself avoids duplicate context and never fabricates a missing stage (0.221853ms)
+✔ T01 lost ACK proves rev2 independently from current title/context-only rev3 and preserves newer local writing (1.721233ms)
+✔ late exact acknowledgement advances CAS base without overwriting newer body, title or links (0.668513ms)
+✔ replayed current record without immutable committed revision cannot silently become a save acknowledgement (0.181362ms)
+✔ image attachments added during an immutable operation stay queued while only acknowledged new attachments retire (0.469345ms)
+✔ closing final tab is zero tabs without creating a draft or server operation; unrelated active tabs survive (0.304276ms)
+✔ text/image/text canonical parts match source ordering and UTF-16 mapping; no duplicate end attachment (3.717099ms)
+✔ legacy markdown Notes keep original __body and end-attachment canonical shape (0.370156ms)
+✔ placement identities are bounded and typed; code-fenced examples stay code (0.985399ms)
+✔ FMT01 exact bold and italic toggles unwrap their selected source delimiters without duplicating markers (4.062838ms)
+✔ heading/list/quote second click removes exact active line prefix (0.342123ms)
+✔ T11 CodeMirror native history preserves latest text undo, pending-image undo/redo and cancelled late upload (196.130417ms)
+✔ removing a saved inline placement removes its typed attachment atomically, retaining legacy attachments (0.990576ms)
+✔ receipt from another operation, record or unexpected revision cannot alias or advance a Note draft (0.227442ms)
+✔ missing saved Note with legal draft- prefix remains unavailable, never new create (6.273316ms)
+✔ absence from a bounded snapshot does not authorise recreation without a proven base revision (0.202113ms)
+✔ explicit independent draft without a saved base revision creates a new Note (0.162483ms)
+✔ eligible saved note updates its stable identity with retained CAS revision, not latest revision (0.149604ms)
+✔ explicit create intent never erases proof of a missing prior saved revision (0.128332ms)
+✔ uncertain original command remains immutable despite missing record or changed current draft (0.210385ms)
+✔ targeted page-missing Note read merges only the same active family and exact ID (0.205939ms)
+✔ rich document round-trips nested formatting, exact Unicode code and typed private image identity (16.656419ms)
+✔ image-like source inside code remains literal code rather than becoming an attachment (0.618639ms)
+✔ remote images remain source nodes, not private asset claims (1.940222ms)
+✔ safe text edits preserve quoted literal Markdown, code fences and source content (5.56328ms)
+✔ autosave waits for a writing pause and bounds long typing without per-keystroke remote churn (0.336786ms)
+✔ save acknowledgement preserves newer rich writing and revision conflicts (0.528734ms)
+✔ real rich formatting, undo/redo and separate Note histories preserve content through the saved codec (16.791612ms)
+✔ rich source preserves nested list semantics and private image nodes across a code edit (13.06864ms)
+✔ legacy tables, task lists and strikethrough require explicit source editing rather than lossy conversion (2.095815ms)
+✔ legacy uniform CRLF code bytes survive unrelated edits; mixed endings choose lossless source editing (1.089976ms)
+✔ bare-language code stays fenced for the established canonical reader; complex fences use source fallback (0.954182ms)
+✔ typing after a rejected or uncertain save preserves the actionable pause reason until explicit resolution (0.200581ms)
+✔ code preserves trailing blank lines and inline backticks without introducing incompatible fences (0.503826ms)
+✔ selecting or writing closes both native New Note menus without touching retained draft state (0.314883ms)
+✔ browser Note saves preserve both synthetic and genuine classifications through real D1, CAS and replay (3283.139236ms)
+✔ semantic marker retains exact supplied Unicode, CRLF, tabs, controls and fence-like bytes (1.99892ms)
+✔ terminal rich node stays atomic between prose and round trips without source fallback (7.399596ms)
+✔ display projection escapes control interpretation while exact evidence and copy data remain original (0.982544ms)
+✔ raw terminal prose remains plain unless deliberately encoded, and code marker examples stay literal (1.710507ms)
+✔ multiple terminal and image blocks retain exact order and distinct capture identities (1.522916ms)
+✔ prose edit, undo and capture replacement preserve previous exact evidence and other Note history (8.024423ms)
+✔ insertion at a prose caret creates semantic block with surrounding writing intact (2.088024ms)
+✔ typed GPT Note content uses the same browser codec and keeps meaning in authored prose (1.246491ms)
+✔ unsupported fields, invalid shapes, duplicate identities and over-limit input are explicit failures, never truncation (1.038889ms)
+✔ routine tutor projection supplies compact exact-capture pointers without transcript dump or execution claims (0.434953ms)
+✔ legacy CRLF convention around capture does not normalize its original bytes (3.192591ms)
+✔ fence info text cannot close an open code example or expose a literal capture marker (0.347992ms)
+✔ continue writing after the final terminal resolves its current node and creates an in-range trailing caret (1.789776ms)
+✔ closing and reopening an edit preserves unsaved replacement and never changes it into duplicate insertion (0.160911ms)
+✔ headings, emphasis, lists, quotes, code and links share one deterministic readable projection (3.117008ms)
+✔ canonical code normalises CRLF and CR to LF for SSR while authored source stays exact (0.359079ms)
+✔ unsafe URLs remain literal text and HTML is never an executable codec node (0.275533ms)
+✔ formatting transactions keep exact selected occurrence and Unicode code untouched (1.487232ms)
+✔ late Note A acknowledgement preserves active Note B text, selection identity and closed tabs (1.910428ms)
+✔ first save renames its active tab once without creating another Note or losing other blanks (0.201703ms)
+✔ all four pointer resize directions grow toward reading and clamp to available viewport (0.243796ms)
+✔ explicit plain-to-rich upgrade preserves existing punctuation and apparent Markdown literally (0.238408ms)
+✔ actual CodeMirror formatting is undoable and separate Note EditorStates retain independent histories (58.555284ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ personal tabs use family-qualified identities, inactive Flag state and recoverable Trash distinctly (7.447789ms)
+✔ Unlinked means no explicit or exact origin, including record Flags and containing readings (0.335544ms)
+✔ loaded preview search and context/topic filters preserve family boundaries without guessing titles (0.508904ms)
+✔ every actually linked Journey stays visible through an origin without inferring a single parent (0.242344ms)
+✔ sort options use meaningful timestamps and deterministic family/ID ties (0.172419ms)
+✔ bulk relationships are independent narrow per-record CAS operations and never replace unrelated data (0.87241ms)
+✔ Unflag and recovery controls use exact revisions without generic Flag resurrection (0.40615ms)
+✔ receipt recovery requires the exact retained operation and reports independent conflicts honestly (0.637737ms)
+✔ browser recovery whitelists relationship and Trash identity data and rejects body/quote/unknown patches (0.330616ms)
+✔ origin and display returns retain exact separate editions without private quotes in URLs (0.925118ms)
+✔ SSR previews expose organiser depth, optional topics and distinct actions without a network side effect (25.793373ms)
+✔ annotation card default destination pins containing reading or original capture and never guesses an unavailable source (1.273461ms)
+✔ explicit Notes organiser route wins over stored preferences and Trash remains explicit (0.723496ms)
+✔ personal discovery requests combine exact corpus filters without private prose in navigation state (0.344608ms)
+✔ context navigation validates identities and does not reuse arbitrary route prose (0.19338ms)
+✔ independent fresh ordinary MCP authoring supports rich reference creation, stable revision and cross-route reuse (3691.789295ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ latest checkpoint resume retains reasons, exact evidence and next action without merging incompatible history (2.080634ms)
+✔ saved learning renders practical next action and prior decisions honestly; creation is in management (9.636824ms)
+✔ same rendered Library view supports compact subject browse, substantive articles and exact technical entry discovery (8.761661ms)
+✔ real authenticated HTTP Library search and memberships respect exact paths, rights and owner scope (3458.552866ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ original examples verify boundary reasoning rather than treating publication as learner execution (90.30527ms)
+PR27 authoring benchmark trace {"syntheticLocal":true,"cases":["CLI creation","HTTP diagnostic","concise definition","cross-project reuse","targeted clarification after personal captures/catalogue","polished wrong preview-only"],"trace":[{"name":"publish_minamo_manuscript","requestBytes":7792,"responseBytes":5628,"localMs":97},{"name":"read_minamo_record","requestBytes":71,"responseBytes":9608,"localMs":21},{"name":"read_minamo_record","requestBytes":68,"responseBytes":1681,"localMs":12},{"name":"query_minamo_library","requestBytes":56,"responseBytes":2462,"localMs":16},{"name":"publish_minamo_manuscript","requestBytes":3176,"responseBytes":1948,"localMs":44},{"name":"publish_minamo_manuscript","requestBytes":959,"responseBytes":1678,"localMs":21},{"name":"publish_minamo_manuscript","requestBytes":1223,"responseBytes":1692,"localMs":23},{"name":"read_minamo_record","requestBytes":71,"responseBytes":9608,"localMs":17},{"name":"read_minamo_record","requestBytes":71,"responseBytes":9496,"localMs":21},{"name":"apply_minamo_command","requestBytes":917,"responseBytes":8443,"localMs":35},{"name":"read_minamo_record","requestBytes":71,"responseBytes":9739,"localMs":26},{"name":"read_minamo_record","requestBytes":152,"responseBytes":6735,"localMs":22},{"name":"read_minamo_manuscript_source","requestBytes":33,"responseBytes":8833,"localMs":20},{"name":"preview_minamo_manuscript","requestBytes":1257,"responseBytes":1492,"localMs":48},{"name":"preview_minamo_manuscript","requestBytes":839,"responseBytes":2080,"localMs":61}]}
+✔ ordinary requests create rich reusable resources, deepen current content and retain personal exact evidence (3889.450022ms)
+✔ representative rich content renders as code, diagram, table and optional reasoning without a new interaction schema (104.564576ms)
+PR27 seven-checkpoint local context bytes {"focused":6776,"wider":8182,"defaultCheckpoints":4,"broaderCheckpoints":7,"hosted":false}
+✔ PR27 continuity separates current, historical and exact evidence; preserves earlier rationale through existing reads and authored perspective (3918.01122ms)
+✔ PR27 tutor orientation is withheld when current source permission changes, including historical reads (3119.311736ms)
+PR27 verbose local context bytes 17599
+✔ PR27 verbose checkpoint retains a decisive tail constraint and honest basis instead of silent first-fact truncation (2386.105902ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ curated Area overview and independent member results retain different roles and exact links (11.608774ms)
+✔ a topic match opens its exact prose destination and retains a real full-reading link (1.61918ms)
+✔ browse history belongs to its owner/generation and primary subject, never a global last-open subject (1.075394ms)
+✔ Library offers three primary views and reachable exact command/function/concept filters without flattening content (1.335705ms)
+✔ manuscript-style empty body cards use eligible canonical prose with excerpt provenance (0.679329ms)
+✔ complete personal context/topic search finds old direct and parent-linked thinking without loading unrelated pages (4459.3367ms)
+✔ quotation discovery projects current rights before matching while independent prose remains discoverable (3047.75948ms)
+✔ bounded personal scans return honest continuation and never skip an older match (6381.157363ms)
+✔ many captures share eligibility reads within a request and revocation is rechecked on the next request (3803.709274ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ one canonical stage heading and each exact declaration remain visible and selectable without generated duplicates (20.322132ms)
+✔ near matches do not erase generated-only intent or a differently authored canonical heading (1.977708ms)
+✔ several canonical overview sections use one Reader and preserve their own exact identities (1.886642ms)
+✔ Investigation guide retains canonical introduction and clearly separates linked personal Notes (4.093714ms)
+✔ saved orientation and correction chronology do not resurrect stale prose or invent the next practical step (17.947388ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ reference URLs preserve exact valid identities and add no prose, including long renditions (2.897068ms)
+✔ passive preview does not duplicate canonical IDs/hooks and preserves code bytes without hidden text (31.730115ms)
+✔ device settings whitelist and scope cannot carry arbitrary state or learning authority (0.693902ms)
+✔ PR28 Home distinguishes changed whole-Journey reading from saved learning and metadata-only edits (3583.744587ms)
+✔ PR28 keeps synthetic checkpoints out of Home and does not label Investigation edits as Journey changes (2352.223992ms)
+PR28 Note reference economy {"referenceBytes":354,"noteBodyBytes":3870,"tutorBytes":5418,"readCalls":1,"hosted":false}
+✔ PR28 default/explicit MCP tutor and exact detail discover compact cited Note editions across later writing, correction and withdrawal (3587.751383ms)
+✔ PR28 Note evidence uses current source restrictions and does not leak referenced Notes or dependent prose after revocation (2605.220188ms)
+✔ PR28 existing evidence budget defers whole Note references and focused detail resolves them without carrying bodies (2633.791404ms)
+✔ PR30 web and MCP reject self/cyclic corrections without altering active learning or histories (3373.696967ms)
+✔ PR30 committed replay precedes new graph/target checks and preserves immutable payload mismatch (2728.020851ms)
+✔ PR30 chain validation is bounded, exact-owner/target scoped, and batch identities cannot self-reference (3429.621562ms)
+✔ PR30 transactional graph guards defeat simultaneous opposing revisions and withdrawn-head restoration races (2835.53568ms)
+✔ PR30 encrypted recovery rejects current correction cycles but retains valid history and rechecks pre-release stages (3510.13777ms)
+✔ PR30 staged graph admission checks later metadata pages and cross-page ancestry (1522.192232ms)
+✔ PR30 independent: a changed distant ancestor participates in transaction guards (3110.789516ms)
+✔ PR30 independent: withdrawn ancestry stays inactive, restoration is checked, and committed recovery stays immutable (2510.04534ms)
+✔ PR30 permanent regression: eight-revision budget, old rationale, exact Note editions, stale cursors and correction-only resume remain honest through a 12-session history (4138.988037ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ rich editor owns exactly one persistent host in rich and plain layouts; plain only hides it (15.224702ms)
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+▶ compiled product Worker: flagship route, guarded API and MCP share durable exact records
+  ✔ developer-only foundry routes remain unavailable in actual production Worker (121.660643ms)
+  ✔ seed real synthetic workspace through deployed entrypoint (80.014198ms)
+  ✔ SSR direct Investigation has real memberships and reading links (115.734841ms)
+  ✔ contextual Note create/update/read survives fresh request (54.534118ms)
+  ✔ exact passage annotation and MCP read use the same retained data (55.631807ms)
+  ✔ invalid and stale writes reject without changing acknowledged record (45.311302ms)
+  ✔ recoverable Trash preserves independent content and status recovery is metadata only (99.835496ms)
+  ✔ anonymous and second-principal calls cannot retrieve private records (14.205748ms)
+  ✔ compiled image route stages private bytes, commits a rich parent and applies current revocation (203.562223ms)
+  ✔ compiled media and encrypted file routes preserve exact originals and stage without activation (717.833947ms)
+  ✔ compiled recovery route, shared MCP management and restored SSR use the same generation (606.998923ms)
+  ✔ production excludes synthetic browser fixtures (20.723432ms)
+✔ compiled product Worker: flagship route, guarded API and MCP share durable exact records (4114.188515ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ CM6 EditorState normalises CRLF: native literal syntax mode avoids position conversion and virtual DOM capture (6.622553ms)
+✔ CM6 syntax offsets and canonical code capture retain CRLF, tabs, emoji and combining marks (37.882584ms)
+✔ literal code fallback and passive prose expose one selectable source and no editing/capture tiles (10.854206ms)
+✔ saved overlapping code marks keep exact IDs and old-rendition warning without saved-count prose (3.629268ms)
+✔ unavailable excerpt quotation is absent from whole-passage option labels (1.059471ms)
+✔ new MCP edition leaves displayed text pinned pending deliberate adoption and rechecks retained rights (0.779591ms)
+✔ same-revision eligibility redaction replaces stale image metadata without requiring authored revision change (0.127351ms)
+✔ family-qualified identity cannot reuse another reading with the same id (0.144417ms)
+✔ a late lower revision cannot overwrite an already displayed edition (0.112659ms)
+✔ metadata-only current changes with identical reading identity do not force an edition banner (0.128143ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ anchored actions stay inside visual viewport including Android keyboard offsets and narrow reflow (1.504599ms)
+✔ Source bookmark pending recovery excludes imported quote and immutable command payload (1.273953ms)
+✔ inline annotation recovery preserves old CAS revision and freezes only its own command (0.647783ms)
+✔ saved annotations expose their exact words as accessible controls without paragraph-end clutter (10.719143ms)
+✔ closing a retained annotation parks its exact draft and releases new passage Flag selection (0.700812ms)
+✔ Escape and toolbar activation keyup cannot recapture the dismissed unchanged selection (0.400171ms)
+✔ open native dialogs and previously handled keys retain keyboard ownership over Reader shortcuts (0.244868ms)
+✔ annotation preview Flags its underlying exact passage with an accessible icon and withholds unavailable targets (2.669237ms)
+✔ annotation lost-ACK recovery keeps committed revision separate from later current text (0.835104ms)
+✔ crossing Flag and Annotation ranges retain both visual states and exact record choices (1.494123ms)
+✔ ordinary post-popup taps cannot revive a stale range; deliberate collapsed or changed selection can reopen (0.231939ms)
+✔ authenticated same-record overview, stage, passage and return navigation never await an effect whose dependencies did not change (1.173301ms)
+✔ authenticated navigation to another exact record enters loading with changed fetch dependencies (0.21332ms)
+✔ collection and local preview navigation do not manufacture exact-record loading (0.134883ms)
+✔ catalogue-only mutation during preactivation backup invalidates activation without requiring a canonical record edit (3775.852457ms)
+{"fixture":"isolated-Miniflare-D1-R2","topics":1500,"noteSaves":256,"checkpointBytes":19202640,"pages":44,"encryptedBytes":19160951,"totalMilliseconds":13581}
+✔ cumulative 1500-topic and 256-save history streams a complete encrypted file and restores an older checkpoint with automatic backup (37991.135057ms)
+✔ cutover frozen legacy references and exact historical Note evidence survive safe small recovery (3821.19103ms)
+✔ cutover frozen legacy references and exact historical Note evidence survive safe paged recovery (5377.876653ms)
+▶ protected recovery verifies actual D1/R2 data, isolation, generations and irreversible rights
+  ✔ full snapshot includes beyond-first-page records, history, receipts, off tombstones and exact original pixels (32.606481ms)
+  ✔ authentication and owner-scoped opaque identities never grant archive access or raw downloads (43.040001ms)
+  ✔ tampered manifest cannot verify or publish an inactive stage (73.310586ms)
+  ✔ missing staged pixels fail closed even when archive originals still verify (431.283958ms)
+  ✔ an ordinary save during asynchronous preactivation backup cannot be silently lost (666.96586ms)
+  ✔ successful recovery preserves original identity and history, protects intervening work, and rejects old clients (898.974028ms)
+  ✔ published immutable manifest survives an interrupted SQL acknowledgement and same-identity retry (172.882823ms)
+  ✔ pre-existing restrictions with no permission floors survive restoring an older grant, including nested capture export (1238.978027ms)
+  ✔ a row beyond the bounded page budget fails rather than producing a partial archive (112.899256ms)
+✔ protected recovery verifies actual D1/R2 data, isolation, generations and irreversible rights (10704.535601ms)
+✔ learning and catalogue authority round trips, restores old archives, rebuilds indexes and redacts restricted evidence in all new histories (4817.338892ms)
+✔ paged encrypted recovery preserves actual private assets and more than64 expired upload identities without inflating active attachments (5855.684309ms)
+✔ restoring needs concrete ready contents, current base and deliberate review (1.468625ms)
+✔ a recovery retry retains its exact stage, expected saved generation and operation identity (1.43194ms)
+✔ checkpoint and stage requests cannot accidentally use the other restore identity (0.607382ms)
+✔ inspection never invents counts from missing or malformed metadata (5.877933ms)
+✔ Article-directed reverse-only legacy unlink removes effective membership without rewriting reading (2980.764402ms)
+✔ bidirectional unlink reconciles both broad identities and preserves contextual destinations and unrelated reasons (2757.986548ms)
+✔ reverse-target race and final statement failure roll back every unlink history and receipt (2744.573176ms)
+✔ explicit expected reverse revision remains guarded and mixed content edits require separate unlink (2712.713252ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ review strictly matches current owner and earlier generation known keys including legacy inline annotations (4.60412ms)
+✔ projection includes only independent draft fields, never nested pending payloads or imported metadata (0.699069ms)
+✔ scan, parse, item and body budgets are explicit without changing retained originals (0.439259ms)
+✔ read-only review is an explicit compact disclosure with no imported field or automatic server operation (7.177874ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ semantic table cells retain literal UTF16 canonical slices independent of visual layout (8.014991ms)
+✔ adjacent cell range adapter derives exact stored TSV, never guessed spaces (0.964177ms)
+✔ mismatched structured table falls back to exact authored text instead of fabricated cells (0.811708ms)
+✔ callout label and graphic chrome stay outside exact mapped explanation (0.540281ms)
+✔ reference cards preserve explanation and rights without automatic file or media loading (1.790427ms)
+✔ GPT related options use typed direct/reverse links and captures, never title similarity (0.91932ms)
+✔ private image reserves validated geometry and maps authored description then caption exactly (2.435466ms)
+✔ redacted image renders honest unavailable state without identity, description or caption (0.602775ms)
+✔ declared diagram geometry leaves exact authored source mapped; legacy and invalid diagrams stay textual (5.216219ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ match-centred snippets explain Rust versus trust, late thinking and punctuation without semantic claims (15.527436ms)
+✔ exact canonical aliases preserve case, destination and do not invent passage offsets (1.104929ms)
+✔ HTTP and MCP return eligible matched passages, bounded complete pagination and exact alias metadata (3279.936746ms)
+ℹ SEARCH_MEASUREMENT {"fixture":"synthetic late Note b-rust","comparison":"Existing 600-character MCP summary projection versus added matched-passage sidecar on the same current server; historical server was not rerun","fullNoteUtf8Bytes":950,"oldSummary":{"utf8Bytes":600,"containsLateIntent":false},"newMatchPassage":{"utf8Bytes":283,"containsLateIntent":true},"sidecarUtf8Bytes":828,"discoveryReadCounts":{"summaryThenExact":2,"queryWithMatchedPassage":1},"exactEvidenceReadStillAvailable":true,"exactResponseUtf8Bytes":1688,"claim":"Bounded engineering comparison, not human time saving or a measured learning gain"}
+✔ revoked excerpts and captures cannot leave hidden-text result or snippet metadata in global, personal or Library discovery (3016.241758ms)
+✔ older Article and Note beyond a two-MB no-match scan remain discoverable; browser burst skips the empty scan and retains exact evidence (5838.005677ms)
+ℹ SEARCH_BOUNDARY_PERFORMANCE {"synthetic":true,"hosted":false,"recordCount":97,"firstRawWindowCandidates":77,"estimatedRawJsonBytes":1824284,"firstPreparedQueries":8,"firstScanElapsedMs":155,"oldSqlCandidateRows":2,"oldSqlReturnedJsonBytes":588,"oldSqlElapsedMs":35,"automaticReads":2,"maxAutomaticReads":3,"meaning":"Local stress comparison; old SQL prefilters this ASCII fixture, while rights-safe projections do more CPU/materialization. No hosted latency or universal performance claim."}
+✔ automatic continuation is bounded and exposes unfinished coverage after three empty windows (0.665399ms)
+✔ result pages preserve exact order and concepts without scanning past useful results (0.565309ms)
+✔ query cancellation and stale query/account generations cannot publish delayed search pages (1.100582ms)
+✔ a failed or repeating continuation cannot become a completed empty search (0.37306ms)
+▶ independent security/domain boundaries with actual local D1
+  ✔ unknown caller-authorship fields cannot cross the command schema (28.100988ms)
+  ✔ concurrent identical operation commits once, with one history and activity entry (94.759209ms)
+  ✔ operation identity cannot be reused with a different payload (31.093941ms)
+  ✔ status and replay are metadata-only and owner-scoped (27.997132ms)
+  ✔ Trash cannot leak record text through earlier receipts (45.723379ms)
+  ✔ GPT cannot relabel fabricated changes to a genuine observed Run by omitting evidence fields (26.915354ms)
+  ✔ source URLs and rights cannot masquerade as an admitted external excerpt (19.34097ms)
+  ✔ multi-part anchors must follow retained source order with exact canonical joins (103.092447ms)
+  ✔ normal title, introduction and section headings are canonical passage targets (148.166296ms)
+  ✔ UTF-16 anchor accepts exact surrogate-pair quote and rejects a mismatching quote (47.465153ms)
+  ✔ existing exact anchor cannot silently retarget to another passage (15.701898ms)
+  ✔ article edit retains old rendition and anchor, without guessing current coordinates (39.333523ms)
+  ✔ Trashed source makes retained passage unavailable while independent annotation prose survives (50.37125ms)
+✔ independent security/domain boundaries with actual local D1 (3195.294311ms)
+▶ generalised exact reading preserves family and retained history boundaries
+  ✔ every supported reading family has its own valid exact retained body target (556.523837ms)
+  ✔ same IDs and same text cannot alias across explicit family boundaries (68.793941ms)
+  ✔ legacy articleId-only anchors still mean article, never same-ID Journey (24.276258ms)
+  ✔ saved Run code/output preserve literal CRLF, Unicode and exact part identity (103.235947ms)
+  ✔ editing one same-ID family retains its edition without moving other-family captures (50.971852ms)
+  ✔ source Trash fences source history and anchors without hiding unrelated same-ID article or user annotation (102.214448ms)
+  ✔ pre-generalisation rows with no rendition get read-only family-qualified exact legacy history IDs (368.498709ms)
+✔ generalised exact reading preserves family and retained history boundaries (3798.290386ms)
+▶ private document/audio/video boundaries use real D1, R2 and container bytes
+  ✔ each declared supported container has deterministic private staging, metadata-only acknowledgement, and no detached byte access (633.644377ms)
+  ✔ authentication, cross-origin staging, mismatched MIME, active types and malformed bytes reject before public access (343.461045ms)
+  ✔ only acknowledged parent attachment grants authenticated bytes and bounded ranges; documents remain downloads (1400.02712ms)
+  ✔ missing original media bytes prevent a complete checkpoint and every range read until original bytes are restored (106.480108ms)
+  ✔ retained attachment eligibility survives deliberate removal but parent Trash fences historical bytes (123.59495ms)
+  ✔ explicit revocation survives old checkpoint activation and old-generation upload/revoke requests cannot write (785.634669ms)
+✔ private document/audio/video boundaries use real D1, R2 and container bytes (6583.097691ms)
+▶ pagination keeps principal, filter and eligibility boundaries across continuation
+  ✔ stable timestamp ties continue by family and ID without duplicates or omissions (54.330783ms)
+  ✔ cursor is bound to principal, read kind, filter and page size (79.690831ms)
+  ✔ malformed cursor keys fail closed; cursor is continuation state, never an authorisation token (67.280069ms)
+  ✔ MCP enforces its exported page limit before computing a continuation cursor (55.332307ms)
+  ✔ records Trashed after page one cannot reappear from a valid active cursor (98.273875ms)
+  ✔ an authenticated exact selection beyond the first page is independently readable and owner-fenced (88.746773ms)
+  ✔ UTF-8 byte bound advances from the final returned key rather than skipping budget-excluded records (498.423152ms)
+✔ pagination keeps principal, filter and eligibility boundaries across continuation (4019.027651ms)
+▶ portable encrypted archives are owner-bound, untrusted and inactive until explicit protected activation
+  ✔ download is encrypted native bytes, keeps current workspace unchanged, and does not disclose private text in framing (68.13419ms)
+  ✔ wrong passphrase, ciphertext tamper, truncation, ZIP and oversized metadata fail without activation (269.36499ms)
+  ✔ authenticated encryption does not let an imported manifest forge validated MIME, asset kind or geometry (1900.787551ms)
+  ✔ same Source and grant IDs cannot confer authority on changed imported text or provenance (1167.473934ms)
+  ✔ successful import stages original IDs/history/pixels and rights-safe content without activating or overwriting saved work (831.37124ms)
+  ✔ explicit exact-file media attestation can restore missing metadata, while independent root revocation still wins (1099.523605ms)
+✔ portable encrypted archives are owner-bound, untrusted and inactive until explicit protected activation (9264.291155ms)
+▶ rich authored content and purposeful links retain exact and eligibility boundaries
+  ✔ table, callout and reference canonical text roundtrip and admit exact Unicode captures (287.485609ms)
+  ✔ table cannot declare canonical text different from its displayed cell text (21.18804ms)
+  ✔ references cannot escalate copied-source rights or executable URL schemes (36.679311ms)
+  ✔ purposeful exact links validate owned family and pinned destination rendition (50.195442ms)
+  ✔ same-target changed connection metadata is revalidated rather than bypassed by pair identity (19.418575ms)
+  ✔ context derives exact UTF16 quote server-side and cannot read another owner through explicit related identities (222.715201ms)
+  ✔ actual MCP handoff reads exact rich selection with content-free return link and no mutation (80.119995ms)
+  ✔ linked source references require exact active owned Source metadata (55.882162ms)
+  ✔ rich edit changes rendition, retains old exact anchor, and stale CAS cannot replace it (90.483123ms)
+  ✔ Trash fences rich history and restore recovers exact original edition without retargeting (89.26902ms)
+✔ rich authored content and purposeful links retain exact and eligibility boundaries (3661.980588ms)
+✔ native semantic metadata preserves exact base and TeX, rejects source drift, surrogate cuts, scripts and budgets (4.092442ms)
+✔ typed outputs prohibit forged observation and stale success on interrupted/error, validate code hash and owned image binding (5.267916ms)
+✔ explicit Python save preparation stages exact PNG bytes, carries actual captured source, and clears failed/interrupted figures (8.162511ms)
+✔ new explicit manuscript declarations compile to native semantic source; invalid declarations stay exact code (643.795953ms)
+▶ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation
+  ✔ publish canonical ruby/math in ordinary Article and Note; exact source identity survives MCP and Flag (562.157314ms)
+  ✔ private PNG and table save on a native Run; no forged observed evidence or foreign-owner read (179.495909ms)
+  ✔ encrypted export includes typed metadata and original R2 bytes, restore retains native semantic source (880.472703ms)
+  ✔ source revocation removes ruby payload from retained reads and export; image revoke removes typed output label (155.658303ms)
+✔ real D1/MCP semantic and R2 typed output lifecycle, CAS, retained edition, source revocation, recovery and owner isolation (4728.690669ms)
+✔ native ruby SSR maps only original Unicode base spans; reading metadata stays outside capture ranges (14.315946ms)
+✔ native math SSR retains exact TeX source, gives deliberate typeset control and has no eager rendered equation (1.916947ms)
+✔ ordinary edits omit an immutable admitted Source, including its revoked redaction (1.349226ms)
+✔ revocation sends only a narrow lifecycle change; original imported text is never resubmitted (1.212079ms)
+✔ export permission narrows only and an admitted edition cannot be replaced (1.024848ms)
+✔ manual admission needs explicit attestation and bounded meaningful provenance (0.418087ms)
+✔ local drafts retain independent prose but never imported excerpt words or permission notes anywhere (0.915474ms)
+✔ exact draft restoration uses authenticated retained Source identity and current permission (1.076175ms)
+✔ restoration refuses a surrogate split or malformed source text rather than guessing UTF16 coordinates (0.390556ms)
+✔ display return is separate from Source origin and uses exact family, rendition and quote coordinates (0.355925ms)
+▶ source permission remains current across exact editions, query membership, captures and uncertain receipts
+  ✔ MCP cannot self-attest initial source permission; failed admission writes no receipt (55.723088ms)
+  ✔ signed-in owner admits an exact immutable grant; links alone remain insufficient (39.419679ms)
+  ✔ owned exact excerpt is projected but foreign identities and link-only references grant nothing (111.511794ms)
+  ✔ source URL, grant text and grant identity cannot be replaced under admitted identity (61.112462ms)
+  ✔ exact capture originates at Source while presentation return remains the article (66.446588ms)
+  ✔ a selection spanning source-derived excerpt and independent prose cannot forge one capture (39.136403ms)
+  ✔ stale source CAS cannot revoke a changed revision; uncertain operation replay remains metadata only (92.28959ms)
+  ✔ revocation fences current/history/MCP/selected related, metadata and literal search membership (417.359671ms)
+  ✔ revocation between dependency preparation and actual D1 batch prevents dependent commit and history (131.078512ms)
+  ✔ revoked grant cannot be restored through partial update or fresh dependent writes (84.646384ms)
+✔ source permission remains current across exact editions, query membership, captures and uncertain receipts (3868.906374ms)
+✔ full pinned GitHub blob URL retains exact path, query and line fragment (2.973502ms)
+✔ commit can be established from a full SHA already in the URL, without invented metadata (1.07574ms)
+✔ mutable and slash-branch URLs are retained unchanged instead of guessing source paths (0.293651ms)
+✔ declared commit mismatch is visible and never relabels the original URL as the declared revision (0.29362ms)
+✔ a commit appearing in a filename, query, fragment or directory URL is not a pinned code link (0.292529ms)
+✔ GitHub-like hosts, encoded separators, short hashes and malformed line ranges make no extra claims (0.254352ms)
+✔ unsafe schemes and credential-bearing URLs are never rendered as links (0.314953ms)
+✔ invalid declared commit metadata remains a fallback rather than an immutable claim (0.134221ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ actual Workspace exact current Investigation retains task work and linked-reference affordances (40.84984ms)
+✔ actual Workspace exact current Journey stage retains stage guide and saved-work workspace (9.913499ms)
+✔ actual Workspace older whole-task editions stay canonical exact readings without current task substitution (15.494965ms)
+✔ exact section, part and capture views keep the generic Reader even when current task edition matches (3.900635ms)
+✔ whole-task workspace admission requires an exact current head family, ID and rendition (8.291945ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ discussion resolves retained UTF-16 focus and ordered ranges without copying words or replacing its edition (13.536591ms)
+✔ invalid explicit focus blocks discussion instead of silently broadening to whole or current reading (21.120669ms)
+✔ actual eligible Source display maps discussion to visible Article coordinates; revocation withholds exact focus (3264.617895ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ real retained reading, passive same-record preview, UTF-16 capture and GPT focus stay exact after current head changes (2677.17755ms)
+✔ current source revocation masks an exact retained reading without replacing edition or independent prose (1580.09261ms)
+✔ production Workspace withholds canonical reading actions until the exact retained or captured target is resolved (34.223391ms)
+✔ passive preview native exact link retains explicit task context for modifier/new-tab navigation (1.257357ms)
+✔ a ready or unavailable prior capture cannot resolve a different capture on the same reading before effects run (0.319469ms)
+✔ capture admission is family-qualified and never guesses an ambiguous or missing capture family (0.168573ms)
+✔ isolated QA Source fixture uses actual admission and current rights; reload never restores revoked text (3164.80612ms)
+✔ explicit Experiment preparation selects saved engine and exact code without executing it (1.622836ms)
+✔ replacement checkpoint retains complete target-engine draft and restore swaps rather than discards (1.286691ms)
+✔ Web Experiment admits only explicit bounded HTML/CSS payload with finite handler (1.245089ms)
+✔ missing engines/codes and malformed recovered checkpoints are rejected (0.322193ms)
+✔ Unicode offsets distinguish UTF-16, codepoints, UTF-8 and normalization (1.582536ms)
+✔ bounded Web accepts real event example and rejects script, network and malformed attributes (1.482384ms)
+✔ actual RegExp worker returns UTF-16 positions and advances empty Unicode matches safely (243.372884ms)
+✔ actual SQL Worker runs real SQLite and reports error with prior rows (265.810432ms)
+✔ actual bundled Python package executes Python and Unicode without network asset downloads (1967.855065ms)
+✔ opaque Web preview receives safe canonical theme without changing authored input (0.900781ms)
+✔ legacy draft keys remain byte-identical and rollback revisions receive separate scopes (4.044671ms)
+✔ a retained operation cannot be rebound to a restored generation or another owner (1.263907ms)
+✔ generation transition rejects stale projections and retains old local draft namespace (0.25287ms)
+✔ generationFetch attaches only expected generation while preserving request body, auth, headers and cancellation (9.67328ms)
+ℹ tests 951
+ℹ suites 0
+ℹ pass 950
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 107318.067596

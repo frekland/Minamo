@@ -1,0 +1,13 @@
+✔ fresh cross-domain ruby and counting model authoring via actual isolated typed MCP (3624.948931ms)
+ℹ Seven malformed variants rejected before publication; every application database table count unchanged.
+ℹ Repaired original request preview passed with zero writes across every application database table.
+ℹ Exact source, all ruby readings, recipe, owner denial and zero learning writes verified.
+ℹ Disposed isolated synthetic D1/R2 fixture.
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3913.72527

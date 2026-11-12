@@ -1,0 +1,359 @@
+{
+  "contract": "minamo.foundry-source-manifest.v1",
+  "generatedAt": "2026-10-25T17:13:11.129Z",
+  "baselineGitHub": "c40ebcc9a27bd2538ecf5b117a3eeba7f1229d1c",
+  "sourceFiles": 70,
+  "sourceBytes": 863931,
+  "files": [
+    {
+      "path": "app/capability-foundry-phone/page.tsx",
+      "bytes": 638,
+      "sha256": "f695847ab79f1e043eacb78043807e8b4780da07da4bec66f17f4394ef30dcb7"
+    },
+    {
+      "path": "app/capability-foundry/page.tsx",
+      "bytes": 325,
+      "sha256": "04378f5448bec71ec6bcef02839d3c5ec8beaacffd825aca9632afccc4056dc6"
+    },
+    {
+      "path": "app/foundry-audio-demo.tsx",
+      "bytes": 7070,
+      "sha256": "532cb14b552c89088dad9829708639d49aa0ce6400a208a7a5509e7778801bbf"
+    },
+    {
+      "path": "app/foundry-data-demo.tsx",
+      "bytes": 12020,
+      "sha256": "9e7c785e4cdff3cacc7a0bf2c9cca569c1e66ef4321a8a2ba6385ce9859e8144"
+    },
+    {
+      "path": "app/foundry-gallery.css",
+      "bytes": 2666,
+      "sha256": "5ee62a529129a1decc02040c81319c74de75b4d95bfb1f0ae03c03acdeb8d9b4"
+    },
+    {
+      "path": "app/foundry-gallery.tsx",
+      "bytes": 2441,
+      "sha256": "0eea9bb671a0f5a441792144ee69c849496112f75afc782682e2f014b1674e61"
+    },
+    {
+      "path": "app/foundry-language-demo.tsx",
+      "bytes": 9712,
+      "sha256": "0c47885e336f0922e3a06526008db82d5d260ecbe0dc0b00a20c485776482d1a"
+    },
+    {
+      "path": "app/foundry-language-renderer.tsx",
+      "bytes": 2629,
+      "sha256": "20de58e3e4ca20fc8957024a4a8e7371ab4e99d413231c5fbdb74be186d8eb56"
+    },
+    {
+      "path": "app/foundry-math.tsx",
+      "bytes": 11980,
+      "sha256": "91bcc21940c7356df582859a642dca79d2ced48feeebae68d118d691226d7857"
+    },
+    {
+      "path": "app/foundry-novel.tsx",
+      "bytes": 3883,
+      "sha256": "80d3819f2882022e3bf62304aaa4539bde777a225370f6951ee0c52feaab033e"
+    },
+    {
+      "path": "app/foundry-platform-demo.tsx",
+      "bytes": 3170,
+      "sha256": "76315b89f13635c41ac17d2788709e5e0fcc3664cf4f21c300d767abb1e8cc98"
+    },
+    {
+      "path": "app/foundry-python-demo.tsx",
+      "bytes": 4423,
+      "sha256": "48eb22d2a9810ab93799faa6fb85ca3fd0723d7e3553d3288322a987f3c3a5cd"
+    },
+    {
+      "path": "app/foundry-reading-bridge.tsx",
+      "bytes": 4948,
+      "sha256": "c612b422c65421254fc4ae65114a1152f3b0d74355d485b04f86431d1e0cc2ac"
+    },
+    {
+      "path": "app/foundry-visual.tsx",
+      "bytes": 14647,
+      "sha256": "d8445d4ac241a17ec81a433824a4b530eb75338363c393b9ebf6ba1bdef811aa"
+    },
+    {
+      "path": "app/note-markdown-view.tsx",
+      "bytes": 2606,
+      "sha256": "334f5c08a57dd02ac54e53e50ed76f53c4b328ef78f97ef6f32d96444af61f6e"
+    },
+    {
+      "path": "app/reader.tsx",
+      "bytes": 77061,
+      "sha256": "100a629e985e8f61d66a6d8dbca828b22a0aa27f807f5030219cf61311823115"
+    },
+    {
+      "path": "lib/foundry/audio-core.ts",
+      "bytes": 9524,
+      "sha256": "b061ba8fcc2feffcbb21e43519904c43ea7aec3bf83bde84c1e4a8764f57b5e9"
+    },
+    {
+      "path": "lib/foundry/audio-platform.ts",
+      "bytes": 2772,
+      "sha256": "9c3d31a8b3884119aa4d7ca64cdc00b7890c10a401aa985e40ac1b22c2ec640a"
+    },
+    {
+      "path": "lib/foundry/core-adapters.ts",
+      "bytes": 2435,
+      "sha256": "5188e70a4f143c73d8519c351cdb9ebc5bf447cdc14bff0ae6ca4441a8561615"
+    },
+    {
+      "path": "lib/foundry/data-core.ts",
+      "bytes": 20307,
+      "sha256": "f45c9bbd034f9f3bcd051a359ff365ffbfb07f2dacf4f7b490076e670dbdb951"
+    },
+    {
+      "path": "lib/foundry/data-platform.ts",
+      "bytes": 7660,
+      "sha256": "2e1ef4da79e0f1926414b7ec8affa94a1d194244c33b431c131526c71a543971"
+    },
+    {
+      "path": "lib/foundry/digest.ts",
+      "bytes": 468,
+      "sha256": "d9d540199b5393e8b52a90c7283b2298c10ccf681493c49d454c8c331057007c"
+    },
+    {
+      "path": "lib/foundry/language-dom.ts",
+      "bytes": 3320,
+      "sha256": "8f2a54304f152daf52c9677d8ed9f37c83c4bd934ca8c76f70599d90f53517b7"
+    },
+    {
+      "path": "lib/foundry/language-fixtures.ts",
+      "bytes": 1858,
+      "sha256": "aca4e73fea332922aa1a81f74956f8e695e405d2bc56b84d3ad17830144ea376"
+    },
+    {
+      "path": "lib/foundry/language-platform.ts",
+      "bytes": 3357,
+      "sha256": "da7b31eaffaa7423d466c870b4356d31e0a8cf83d9b16e9fdf1c30d99a9f5bab"
+    },
+    {
+      "path": "lib/foundry/language-probes.ts",
+      "bytes": 4121,
+      "sha256": "324495ee6a7c39c92d93932f1c7723731a2183a874afa18b40a89533b5317001"
+    },
+    {
+      "path": "lib/foundry/language-speech.ts",
+      "bytes": 3710,
+      "sha256": "4ac03bb6ba3a14d473cf2bfc251d60bf8106959d7e1985ecaca454003b728b40"
+    },
+    {
+      "path": "lib/foundry/language-tokenizer.ts",
+      "bytes": 2597,
+      "sha256": "2da8290e3d8c79d799f7d425537ae0f4f0f87ef8997233e425e66c47f3312312"
+    },
+    {
+      "path": "lib/foundry/language.ts",
+      "bytes": 13315,
+      "sha256": "ab50ec765ca5fdd376016e9c55a043e6a25f10b868f1864b36aa75b60955b631"
+    },
+    {
+      "path": "lib/foundry/math-linear.ts",
+      "bytes": 4188,
+      "sha256": "cc2ea182b239001c5b16cf96510ea282ee88b379c8e795eceadb3ce639aa6acb"
+    },
+    {
+      "path": "lib/foundry/math-platform.ts",
+      "bytes": 3141,
+      "sha256": "585f7596fe0caed3f97c6a6a80c75192345d62fb429add1ab7ddc9a62e182852"
+    },
+    {
+      "path": "lib/foundry/math-probability.ts",
+      "bytes": 2428,
+      "sha256": "09292d498aa2d0517a2e55d5faf2f234bab47864612fb3f2476febb11542e6e1"
+    },
+    {
+      "path": "lib/foundry/math-probes.ts",
+      "bytes": 1925,
+      "sha256": "e301d896684925e43aee1ccfdc9a538476a03bbfe07897ee5d18e810714d079f"
+    },
+    {
+      "path": "lib/foundry/math-render.ts",
+      "bytes": 1326,
+      "sha256": "4d5a8444f20f112e6a83b6eecf4a355f180d5726d7f6df52da765f6f2373cbcf"
+    },
+    {
+      "path": "lib/foundry/math-science.ts",
+      "bytes": 6642,
+      "sha256": "e7f62be309c2da07a9e4a60b88b62271a7960bad2be8f4de318bb982e744b830"
+    },
+    {
+      "path": "lib/foundry/math.ts",
+      "bytes": 9467,
+      "sha256": "c3a8e1d055c80635276ae46847765e0f0bb8190178dcbc2e2ceb675cd0fde90b"
+    },
+    {
+      "path": "lib/foundry/novel.ts",
+      "bytes": 8876,
+      "sha256": "cb1231e1601e33cf2a514cf388f5539e37dd0b31ec30fc3508da38d253866b62"
+    },
+    {
+      "path": "lib/foundry/platform.ts",
+      "bytes": 9570,
+      "sha256": "a8c93909fd17b88ded49b06cc96af06d4e29295e0944e2a361b2139f956d61c0"
+    },
+    {
+      "path": "lib/foundry/python-results.ts",
+      "bytes": 4757,
+      "sha256": "61ecf95e329d630a47475973de8e73a40db268d47ebc5be6c88a7cf5284e2811"
+    },
+    {
+      "path": "lib/foundry/python-runtime.ts",
+      "bytes": 7644,
+      "sha256": "bc83a77c610b6a6b04ba45af332ea02aaec9d070dbaa4cfb626bda7349868dba"
+    },
+    {
+      "path": "lib/foundry/specimens.ts",
+      "bytes": 2746,
+      "sha256": "6510f3c8e4b27655ca7071865e8abd8232bb2f6ef539f54ed76fa633c8a3a9ff"
+    },
+    {
+      "path": "lib/foundry/visual-platform.ts",
+      "bytes": 2098,
+      "sha256": "a1bdf6b4bb454f0ab30de597c6007112e2232d493f2247bc30f293a4a1faacb9"
+    },
+    {
+      "path": "lib/foundry/visual-three.ts",
+      "bytes": 5267,
+      "sha256": "ded8bde9665cac64f590cd1fc743e3930d86554942892ac3e3490e6477c33dee"
+    },
+    {
+      "path": "lib/foundry/visual.ts",
+      "bytes": 22577,
+      "sha256": "376f586c64ad68d1a2a4ea7bf1a1c3bf973e8cb7bc84c56e2eee166cf08a5efa"
+    },
+    {
+      "path": "package.json",
+      "bytes": 3301,
+      "sha256": "c58e88d6122c92192c7f540196d65a0bdc9076b78e239674d1b44fff3cc421ae"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 384572,
+      "sha256": "86bc6379be192cc68151957577b7f3fb321e85dd0923305e36dcd2848cae74ee"
+    },
+    {
+      "path": "public/foundry-python-isolate.js",
+      "bytes": 5244,
+      "sha256": "d0a8a88fcf5ffc16f86d584460a06c939b0347bd4d9eb31f0ce60a854c8dd500"
+    },
+    {
+      "path": "scripts/build-app.mjs",
+      "bytes": 350,
+      "sha256": "48ae9cc61dd5ed75b57c4029d72202bc7fccca469226b75df2453d51773509f4"
+    },
+    {
+      "path": "scripts/foundry-evidence.mjs",
+      "bytes": 2459,
+      "sha256": "5051f4faa13a5cbac42aacecf4d02da5b1f1c9b27f88e5b061f24ec72cb16a3b"
+    },
+    {
+      "path": "scripts/foundry-package-policy.mjs",
+      "bytes": 1126,
+      "sha256": "ae95f2856b2f46da890e60696ecc578ec380d42250c83f1c59eb3b7855891404"
+    },
+    {
+      "path": "scripts/foundry-python-assets.mjs",
+      "bytes": 4883,
+      "sha256": "3036677410048f2c4a33fb8572e23833ea8fa7f0bc06451a781458db1356e72b"
+    },
+    {
+      "path": "scripts/foundry-python-proof.mjs",
+      "bytes": 4264,
+      "sha256": "5e72d2e5362f5e72f56582f3b8b0991a77577e1e57b5f720f36ba42a15872a85"
+    },
+    {
+      "path": "tests/foundry-composite-domain.test.mjs",
+      "bytes": 17994,
+      "sha256": "a4d5f3ff336a38b5ee3251a8b886d9a9423beb4c0ebaf34d1a655e0ba5b4eaea"
+    },
+    {
+      "path": "tests/foundry-data-audio.test.mjs",
+      "bytes": 14751,
+      "sha256": "d237cd99bfa7ce29dca88070898b27977342f636ff2145f37dd660a57ed45c99"
+    },
+    {
+      "path": "tests/foundry-data-benchmark.mjs",
+      "bytes": 2893,
+      "sha256": "159fec42eae3b69ee87fd9d92cf243e9b9c3f6f474195f1eb18264d0e249c343"
+    },
+    {
+      "path": "tests/foundry-data-platform.test.mjs",
+      "bytes": 4328,
+      "sha256": "313b7251ddccabff2df66198c226faeea723b819720edfd334b79cbf63cef1e5"
+    },
+    {
+      "path": "tests/foundry-data-ui.test.mjs",
+      "bytes": 2663,
+      "sha256": "e2f49745c4abfd6d718b7e2ce878970c5cb0e5ee116475933640015ff0a20bd7"
+    },
+    {
+      "path": "tests/foundry-language-domain.test.mjs",
+      "bytes": 7837,
+      "sha256": "e622b4adbcb28e15ebdbf94d49409dc8f58c1763b8935ab470e6fd82207aa658"
+    },
+    {
+      "path": "tests/foundry-language-platform.test.mjs",
+      "bytes": 4494,
+      "sha256": "39af32814c5dd54acd7e53d9080472e8875a625dfd483f59a6448861ebf0b0ed"
+    },
+    {
+      "path": "tests/foundry-language.test.mjs",
+      "bytes": 9903,
+      "sha256": "e9070a0564e61f64046409ed0b3aa7dfd50f165222d7541710c4606646466eca"
+    },
+    {
+      "path": "tests/foundry-math.test.mjs",
+      "bytes": 11794,
+      "sha256": "8ebdd1c89e797c6cbdb756f0a8f62fb52803d1c9378f4c71cf4d144bd0d9bb57"
+    },
+    {
+      "path": "tests/foundry-novel.test.mjs",
+      "bytes": 3914,
+      "sha256": "13fa96a8be759954bf3bbdfd504d7989cb70c49bc2d1c2e7900db976bb6100c6"
+    },
+    {
+      "path": "tests/foundry-packaging.test.mjs",
+      "bytes": 1396,
+      "sha256": "eb2b9286f9f16b9a295e525bc65fd77f008bda405257fc40163affb77516e9a7"
+    },
+    {
+      "path": "tests/foundry-platform.test.mjs",
+      "bytes": 5949,
+      "sha256": "eac854e408b325741d44088c6c1f829655ba0247e7733eccabfd69605cea5934"
+    },
+    {
+      "path": "tests/foundry-python-execution.test.mjs",
+      "bytes": 3976,
+      "sha256": "f5307509589ec6caccf2d6e0eadae5d48143247eb132d7f46a817e58672cb330"
+    },
+    {
+      "path": "tests/foundry-python.test.mjs",
+      "bytes": 5207,
+      "sha256": "1e49847796dc06fee9a8c8e25247a2af44f0ffea7a081a5ff5a9586e0089e5ca"
+    },
+    {
+      "path": "tests/foundry-specimens.test.mjs",
+      "bytes": 2305,
+      "sha256": "3b59c9ff5ff3cd4f882ad55028f3bc3cde9f5591f5fda88365aa9adceb468d07"
+    },
+    {
+      "path": "tests/foundry-visual-platform.test.mjs",
+      "bytes": 2397,
+      "sha256": "6ab6e0b9deaad3e5460f7012d114cc684c8a605fa9c3de0579b501d0ea2e8457"
+    },
+    {
+      "path": "tests/foundry-visual.test.mjs",
+      "bytes": 13593,
+      "sha256": "e4358093162183d9e0f90237d0384729eeef9e01f520fad8a1b96f143b11318f"
+    },
+    {
+      "path": "tests/product-worker.test.mjs",
+      "bytes": 14023,
+      "sha256": "1bd04bfdbfd07c1aaa4238eb6cf5bfc0cc8cd61f705a770981f94ca5aed35cc7"
+    }
+  ]
+}

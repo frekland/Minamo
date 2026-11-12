@@ -1,0 +1,78 @@
+{
+  "fixture": "synthetic local compiled domain + actual Miniflare D1/R2",
+  "baselineRecords": 7,
+  "defaultTutorLimit": 4,
+  "initial": {
+    "tutorBytes": 4399,
+    "fullBytes": 11598,
+    "widerTutorBytes": 5666,
+    "mcpDefaultTutorInnerBytes": 4399,
+    "tutorResume": "c6-attempt",
+    "tutorPriorIds": [
+      "c5-attempt",
+      "c4-attempt",
+      "c3-attempt"
+    ],
+    "earlierRationaleInTutor": false,
+    "earlierRationaleInFull": true,
+    "earlierRationaleInWiderTutor": true,
+    "hasHistoryCursor": true
+  },
+  "historyPage": {
+    "bytes": 4346,
+    "resumeId": "c2-attempt",
+    "containsEarlierRationale": true,
+    "hasPageRoleField": false,
+    "globalLatestId": "c6-attempt"
+  },
+  "correction": {
+    "tutorBytes": 4609,
+    "resumeId": "c0-choice",
+    "revision": 2,
+    "resumeHasNextAction": false,
+    "mostRecentAttemptNextAction": "Compare fixture item 7.",
+    "originalRationaleInPayload": false,
+    "storedRevisionRowsAfterCorrectionAndWithdrawal": 3
+  },
+  "withdrawal": {
+    "tutorBytes": 4069,
+    "resumeId": "c6-attempt",
+    "withdrawnDevelopmentInTutor": false,
+    "withdrawnDevelopmentInFull": true
+  },
+  "optionalPerspective": {
+    "savedOnExplicitInitialCheckpoint": true,
+    "initialTutorPresent": false,
+    "initialFullPresent": true,
+    "summaryAfterSixLaterAttempts": "TEST_ONLY_PERSPECTIVE: local metadata first is provisional; remote audio-feature access is unestablished and labels do not establish sound.",
+    "dependencies": [
+      {
+        "id": "c0-choice",
+        "revision": 1
+      }
+    ],
+    "afterCorrection": {
+      "stale": true,
+      "summary": ""
+    },
+    "afterWithdrawal": {
+      "stale": true,
+      "summary": ""
+    }
+  },
+  "readOnlyCheck": {
+    "recordsBeforeReads": 7,
+    "recordsAfterReads": 7
+  },
+  "overDetailedCurrent": {
+    "developmentRequestBytes": 17568,
+    "tutorBytes": 21807,
+    "fullBytes": 47068,
+    "attemptFactsReturned": 12,
+    "decisiveConstraintPreserved": true,
+    "nextActionPreserved": true,
+    "wholePartDetailsDeferred": 0,
+    "evidenceDetailsTruncated": false
+  },
+  "limitations": "Seven small checkpoints plus one excessive authored-detail checkpoint on one synthetic target. Compiled local domain/MCP with actual Miniflare D1/R2, not hosted client delivery or an independently executed fresh GPT tutoring conversation. No genuine learner records or production access. Rights revocation is covered by existing source/tests, not repeated in this fixture."
+}

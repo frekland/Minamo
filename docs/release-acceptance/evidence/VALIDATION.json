@@ -1,0 +1,95 @@
+{
+  "decision": "NO-GO; no merge/deploy",
+  "source": {
+    "githubRuntimeCommit": "03d7c8464e6c99ba7841a6ce063cba0d1ff4a5bc",
+    "localRuntimeCommit": "33682dc497375e318480db9902acef8fb5a66f61",
+    "commonTree": "ddcaf985e3650b537bbb8eb3447e2ab0dc0dacf2",
+    "inputDigest": "b20a951c783d52df7743d9a0ff6d5bc17cf3948de5f52fdd7ee249479d8c25ae",
+    "inputCount": 628,
+    "changedInputsAfterValidation": []
+  },
+  "typecheck": {
+    "command": "pnpm run typecheck",
+    "exitCode": 0,
+    "log": "typecheck-final.log"
+  },
+  "productionBuild": {
+    "command": "pnpm run build",
+    "exitCode": 0,
+    "log": "controller-correction-build.log",
+    "deliberateStalePublicInput": true,
+    "compiledFollowThrough": "17/17 passed without policy reapplication"
+  },
+  "fullSuite": {
+    "command": "pnpm test",
+    "script": "node --test --test-concurrency=2 tests/*.test.mjs",
+    "exitCode": 0,
+    "tests": 1020,
+    "pass": 1016,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 4,
+    "todo": 0,
+    "durationMs": 207284.548522,
+    "skipDetails": [
+      "\ufe63 actual shared controller computes PNG+table and keeps error output partial; next fresh run cannot inherit it (0.775344ms) # SKIP",
+      "\ufe63 actual shared controller blocks deceptive low-dpi huge raster before savefig (0.129555ms) # SKIP",
+      "\ufe63 actual isolated Node worker infinite loop is terminated by parent watchdog (0.082554ms) # SKIP",
+      "\ufe63 Rust local starter compilation is performed only when a genuine toolchain exists (5.17021ms) # Rust/Cargo unavailable: source is complete but remains uncompiled; no Python substitute is counted as Rust evidence."
+    ],
+    "log": "full-suite-final.log.gz"
+  },
+  "optionalAssetsAfterSuite": {
+    "publicController": false,
+    "distributionController": false,
+    "scienceDistribution": false
+  },
+  "portableBrowser": {
+    "originalCases": 37,
+    "newFirstSaveCase": 1,
+    "prepared": 38,
+    "executed": 0,
+    "status": "BLOCKED: pinned artifact is195-byte HTML"
+  },
+  "freshRestrictedTrials": {
+    "tasks": 5,
+    "allPassed": true,
+    "literalSolLightBenchmark": false,
+    "report": "../LIGHT-TRIALS.md"
+  },
+  "ci": {
+    "runtimeCommit": "03d7c8464e6c99ba7841a6ce063cba0d1ff4a5bc",
+    "run": 40233656238,
+    "job": 121290515447,
+    "conclusion": "failure",
+    "runner_id": 0,
+    "steps": [],
+    "cause": "unestablished",
+    "remoteGreenClaim": false
+  },
+  "resourceScheduling": {
+    "concurrentFiles": 2,
+    "cgroupOomEventsBefore": 20,
+    "cgroupOomKillsBefore": 3,
+    "cgroupOomEventsAfter": 20,
+    "cgroupOomKillsAfter": 3,
+    "attributionOfEarlierKills": "unknown"
+  },
+  "priorRuns": {
+    "preBuildAggregate": "983total/973pass/6fail/4skip; five missing-built-output failures and one saved-link rename regression, corrected",
+    "prePackagingAggregate": "1019total/1014pass/1fail/4skip; optional controller source-copy exclusion failed, structurally corrected",
+    "overlappedRepeat": "INVALID: diagnostic build overlapped aggregate; interrupted exit130. Never counted as acceptance.",
+    "targetedCounts": "Overlapping per-run evidence, never added to the aggregate."
+  },
+  "production": {
+    "MinamoVersion": 27,
+    "LegacyVersion": 62,
+    "accessRevision": 1,
+    "nativeSourcePushed": false,
+    "siteSaved": false,
+    "deployed": false,
+    "recordsCreated": 0,
+    "assetsCreated": 0,
+    "checkpointsCreated": 0
+  }
+}

@@ -1,0 +1,31 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {readFileSync,readdirSync} from 'node:fs';import {resolve} from 'node:path';
+const require=createRequire(import.meta.url), wr=createRequire(require.resolve('wrangler/package.json'));
+const {Miniflare}=wr('miniflare');const {unstable_getMiniflareWorkerOptions}=require('wrangler');
+test('exact built Vinext Worker: request-time SSR, RSC transport and Server Action',async t=>{
+ const options=unstable_getMiniflareWorkerOptions('dist/server/wrangler.json');
+ const root=resolve('dist/server'); const files=readdirSync(root,{recursive:true}).filter(n=>n.endsWith('.js'));const ordered=['index.js',...files.filter(n=>n!=='index.js')];
+ const mf=new Miniflare({...options.workerOptions,bindings:{...options.workerOptions.bindings,MINAMO_OWNER_ID:'synthetic-built-user',MINAMO_SITE_HOSTS:'127.0.0.1,localhost'},modules:ordered.map(n=>({type:'ESModule',path:resolve(root,n)})),modulesRoot:root,cf:false});
+ try{
+ const base=(await mf.ready).origin;
+ const db=await mf.getD1Database('DB');for(const sql of readFileSync('drizzle/0000_narrow_forge.sql','utf8').split('--> statement-breakpoint'))await db.prepare(sql).run();
+ const headers={'oai-authenticated-user-id':'synthetic-built-user','oai-authenticated-user-email':'synthetic-built@example.invalid'};
+ const fetch=(path,init={})=>mf.dispatchFetch(base+path,{...init,headers:{...headers,...init.headers}});
+ const json=body=>({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ await t.test('anonymous API denied through deployed entrypoint',async()=>assert.equal((await mf.dispatchFetch(base+'/api/lab')).status,401));
+ await t.test('hosted viewport diagnostic denies anonymous reading frames',async()=>{const response=await mf.dispatchFetch(base+'/diagnostics/viewport?view=journeys&family=journey&id=synthetic-only&width=390');assert.equal(response.status,404);assert.doesNotMatch(await response.text(),/<iframe/)});
+ await t.test('authenticated hosted viewport frames the actual same-origin reading at 390px and preserves exact return parameters',async()=>{const response=await fetch('/diagnostics/viewport?view=journeys&family=journey&id=synthetic-only&stage=stage-3&rendition=retained-edition&section=board&part=cell&start=2&end=9&returnJourney=parent&returnStage=stage-2');assert.equal(response.status,200);const html=await response.text();assert.match(html,/Actual hosted viewport review/);assert.match(html,/not physical-device acceptance/);assert.match(html,/<iframe[^>]+src="\/\?view=journeys&amp;family=journey&amp;id=synthetic-only&amp;stage=stage-3&amp;rendition=retained-edition&amp;section=board&amp;part=cell&amp;start=2&amp;end=9&amp;returnJourney=parent&amp;returnStage=stage-2"[^>]+width="390"[^>]+height="844"/);assert.match(html,/name="returnStage" value="stage-2"/);assert.doesNotMatch(html,/\/preview-test|SYNTHETIC UI TEST/)});
+ await t.test('hosted viewport rejects arbitrary paths, remote URLs, recursion and invalid coordinates',async()=>{const response=await fetch('/diagnostics/viewport?width=99999&view=https%3A%2F%2Fevil.invalid&family=%2Fdiagnostics%2Fviewport&url=https%3A%2F%2Fevil.invalid&src=%2Fapi%2Fworkspace&path=%2Fdiagnostics%2Fviewport&start=-1&end=abc&id=safe-reading');assert.equal(response.status,200);const html=await response.text();assert.match(html,/<iframe[^>]+src="\/\?id=safe-reading"[^>]+width="390"/);const visible=html.match(/<main[\s\S]*?<\/main>/)?.[0]??'';assert.ok(visible);assert.doesNotMatch(visible,/evil\.invalid|name="(?:src|url|path|start|end|view|family)"/);for(const width of [320,768,1280]){const sized=await(await fetch('/diagnostics/viewport?width='+width)).text();assert.match(sized,new RegExp('<iframe[^>]+width="'+width+'"[^>]+height="844"'))}});
+ await t.test('explicit initialize on exact Worker',async()=>assert.equal((await fetch('/api/lab',json({operation:'initialize'}))).status,200));
+ let html;
+ await t.test('server HTML contains actual D1 note and fresh per-request receipt',async()=>{const a=await fetch('/foundation');assert.equal(a.status,200);html=await a.text();assert.match(html,/SYNTHETIC TEST ONLY — I predict/);assert.match(html,/Server render receipt/);const b=await(await fetch('/foundation')).text();assert.notEqual(html.match(/Request <!-- -->([a-f0-9-]+)/)?.[1]??html, b.match(/Request <!-- -->([a-f0-9-]+)/)?.[1]??b)});
+ await t.test('RSC request emits Flight response',async()=>{const r=await fetch('/foundation',{headers:{RSC:'1'}});assert.match(r.headers.get('content-type')??'',/text\/x-component/);assert.match(await r.text(),/How does a note become durable/)});
+ await t.test('direct reading route contains Unicode and inline code',async()=>{const r=await fetch('/reading');assert.equal(r.status,200);const h=await r.text();assert.match(h,/日本語/);assert.match(h,/<code>revision<\/code>/)});
+ await t.test('real framework Server Action updates D1',async()=>{
+ const files=readdirSync('dist/server/_next/static').filter(n=>n.startsWith('actions-'));const source=files.map(n=>readFileSync('dist/server/_next/static/'+n,'utf8')).join('');
+ const id=source.match(/,`([^`]+)`,`saveNote`/)[1];
+ const r=await fetch('/foundation',{method:'POST',headers:{'Next-Action':id+'#saveNote',Origin:base,'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify([{body:'SYNTHETIC TEST ONLY — real Server Action acknowledgement',revision:1}])});
+ const result=await r.text();assert.equal(r.status,200,result);assert.match(result,/"ok":true/);const record=await(await fetch('/api/lab')).json();assert.equal(record.note.revision,2);assert.match(record.note.body,/real Server Action/);
+ });
+ await t.test('unauthenticated Server Action cannot change record',async()=>{const files=readdirSync('dist/server/_next/static').filter(n=>n.startsWith('actions-'));const id=files.map(n=>readFileSync('dist/server/_next/static/'+n,'utf8')).join('').match(/,`([^`]+)`,`saveNote`/)[1];const r=await mf.dispatchFetch(base+'/foundation',{method:'POST',headers:{'Next-Action':id+'#saveNote',Origin:base,'Content-Type':'text/plain'},body:JSON.stringify([{body:'intrusion',revision:2}])});assert.match(await r.text(),/Sign in/);assert.equal((await(await fetch('/api/lab')).json()).note.revision,2)});
+ }finally{await mf.dispose()}
+});

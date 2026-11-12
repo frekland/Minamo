@@ -1,0 +1,34 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {privateStorageFixture} from './private-storage-fixture.mjs';
+import {decodeBundleFixture,encodeBundleFixture} from './portable-bundle-fixture.mjs';
+const worker='import{domainHandler}from"./lib/domain-handler.ts";export default{fetch(r,e){return domainHandler(r,{...e,MINAMO_ACTIVITY_STUDIO:r.headers.get("x-test-disabled")==="1"?"0":"1"})}}';
+const ok=r=>{assert.equal(r.status,200,JSON.stringify(r.data));return r.data;};
+const sha=text=>createHash('sha256').update(text).digest('hex');
+const cartridge={contract:'minamo.activity.v1',template:'debugging',intent:'TEST ONLY inspect source; no execution or progress claim.',authorship:'original-exercise',blocks:[{id:'source',kind:'source-browser',bundle:{contract:'minamo.project.v1',id:'recovery',title:'TEST ONLY dependency-free source',runtime:'python',commands:{kali:'python3 -m unittest -v',powershell:'py -3 -m unittest -v'},files:[{path:'main.py',role:'editable-starter',text:'value = 1\n',sha256:sha('value = 1\n')},{path:'test_main.py',role:'visible-test',text:'import main\n',sha256:sha('import main\n')}]}},{id:'hints',kind:'hint-ladder',hints:[{id:'hint-one',tier:'concept',text:'PRIVATE_RECOVERY_HINT_CANARY'}]}]};
+function mutateRows(bundle,change){for(const table of ['v2_records','v2_revisions']){for(const row of bundle.manifest.tables[table]??[]){const record=JSON.parse(row.data);change(record);row.data=JSON.stringify(record);}for(const page of bundle.manifest.pages?.filter(p=>p.table===table)??[]){const rows=JSON.parse(bundle.pages.get(page.key));for(const row of rows){const record=JSON.parse(row.data);change(record);row.data=JSON.stringify(record);}const bytes=Buffer.from(JSON.stringify(rows));bundle.pages.set(page.key,bytes);page.bytes=bytes.length;page.digest=sha(bytes);}}}
+
+test('recovery re-admits Activity source and exact Attempt bindings before staging; feature-off rollback retains later work',{timeout:60000},async t=>{
+ const f=await privateStorageFixture(worker),c=f.client('synthetic-activity-recovery'),passphrase='Synthetic-private-recovery-passphrase';
+ try{
+  const activity=ok(await c.command({action:'create',family:'experiment',id:'activity',data:{title:'TEST ONLY recovery activity',synthetic:true,activity:cartridge}})).record;
+  const attempt=ok(await c.command({action:'create',family:'run',id:'attempt',data:{title:'TEST ONLY supplied attempt',synthetic:true,evidence:'illustrative',attempt:{contract:'minamo.attempt.v1',activity:{family:'experiment',id:activity.id,rendition:activity.rendition},state:'editing',hintsRevealed:[],evidence:[{classification:'supplied-terminal',text:'Supplied output; not execution.'}]}}})).record;
+  const file=await c.request('/api/recovery/export',{operationId:'original-file',expectedGeneration:c.generation,passphrase});assert.equal(file.status,200);const original=decodeBundleFixture(Buffer.from(file.data),passphrase);
+  const transfer=async(bundle,id)=>{const metadata=Buffer.from(JSON.stringify({operationId:id,expectedGeneration:c.generation,passphrase})),prefix=Buffer.alloc(4);prefix.writeUInt32BE(metadata.length);return c.request('/api/recovery/import',Buffer.concat([prefix,metadata,encodeBundleFixture(bundle,passphrase)]),{raw:true,headers:{'content-type':'application/octet-stream'}});};
+  await t.test('altered file bytes with stale digest cannot reach a ready generation',async()=>{const bad=structuredClone(original);mutateRows(bad,r=>{if(r.activity)r.activity.blocks[0].bundle.files[0].text='value = 999\n';});const rejected=await transfer(bad,'bad-source-hash');assert.notEqual(rejected.status,200,JSON.stringify(rejected.data));assert.match(JSON.stringify(rejected.data),/archive_integrity|bundle_schema/);});
+  await t.test('nonexistent immutable Activity and unknown revealed hints cannot be imported',async()=>{for(const [id,change] of [['bad-target',r=>{if(r.attempt)r.attempt.activity.rendition='invented-edition';}],['bad-hint',r=>{if(r.attempt)r.attempt.hintsRevealed=['invented-hint'];}]]){const bad=structuredClone(original);mutateRows(bad,change);const rejected=await transfer(bad,id);assert.notEqual(rejected.status,200,JSON.stringify(rejected.data));}});
+  await t.test('valid protected file stages without replacing subsequent Notes or exposing generic hints',async()=>{
+   const note=ok(await c.command({action:'create',family:'note',id:'later-note',data:{title:'TEST ONLY later note',body:'This later work must survive rollback and staging.',synthetic:true}})).record;
+   const imported=ok(await transfer(original,'valid-stage'));assert.equal(imported.staged.state,'ready');assert.equal(imported.generation,c.generation);assert.equal((await f.db.prepare('SELECT count(*) n FROM v2_generation_heads').first()).n,0);
+   for(const [family,id,rendition] of [['experiment',activity.id,activity.rendition],['run',attempt.id,attempt.rendition],['note',note.id,note.rendition]]){const response=ok(await c.request('/api/context?'+new URLSearchParams({family,id,rendition}),undefined,{headers:{'x-test-disabled':'1'}}));assert.doesNotMatch(JSON.stringify(response),/PRIVATE_RECOVERY_HINT_CANARY/);assert.equal(response.record.activity,undefined);assert.equal(response.record.attempt,undefined);if(family==='note')assert.equal(response.record.body,note.body);}
+   const enabled=ok(await c.context('experiment',activity.id)).record;assert.equal(enabled.activity.blocks[1].hints[0].text,'');
+   const reveal=ok(await c.request('/api/activities/hint',{purpose:'Explicit synthetic reveal',id:activity.id,rendition:activity.rendition,hintId:'hint-one'}));assert.equal(reveal.hint.text,'PRIVATE_RECOVERY_HINT_CANARY');
+   const disabledHint=await c.request('/api/activities/hint',{purpose:'Disabled rollback challenge',id:activity.id,rendition:activity.rendition,hintId:'hint-one'},{headers:{'x-test-disabled':'1'}});assert.equal(disabledHint.status,404);assert.doesNotMatch(JSON.stringify(disabledHint.data),/PRIVATE_RECOVERY_HINT_CANARY/);
+   const stage=await f.db.prepare('SELECT namespace FROM v2_recovery_stages WHERE owner=? AND id=?').bind(c.owner,imported.staged.id).first();
+   await f.db.prepare("UPDATE v2_records SET data=json_set(data,'$.attempt.hintsRevealed',json('[\"not-a-saved-hint\"]')) WHERE owner=? AND family='run' AND id=?").bind(stage.namespace,attempt.id).run();
+   const activate=await c.recover('activate',{stagedId:imported.staged.id,operationId:'tampered-stage-activation'});assert.equal(activate.status,409);assert.equal(activate.data.code,'archive_integrity');assert.equal((await f.db.prepare('SELECT count(*) n FROM v2_generation_heads').first()).n,0);assert.equal(ok(await c.context('note',note.id)).record.body,note.body);
+   assert.equal((await f.db.prepare('SELECT count(*) n FROM v2_learning_developments').first()).n,0);
+  });
+ }finally{await f.dispose();}
+});

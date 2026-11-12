@@ -1,0 +1,110 @@
+{
+  "scope": "16 actual Chromium screenshots and 16 corresponding ARIA captures; no prior image baselines existed",
+  "reviewed": [
+    {
+      "name": "data-1280.png",
+      "pngSHA256": "accdcf663a802779970a027202e9d0a0e83fbc76d9b7aa32210196720bb5d443",
+      "ariaSHA256": "d5ac1744049147749ae430374736e41c0dbc3deaab175b1ef1db4fb7eb3aee84",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "data-390.png",
+      "pngSHA256": "24cd56a98437a38eaf8e76566be4834d943a7200fe54077f361690023016a6b0",
+      "ariaSHA256": "9737b83cc87201fa677ad0e54f67f2a1dca77c733fc8e54200dc89abd2482418",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "debug-1280.png",
+      "pngSHA256": "5b3296e1105c42479b5c81097d12c6883821dd95278635cd07ae4f7918687f3a",
+      "ariaSHA256": "ce5c07b7ab6cc138f5563602ef619e723860fc35a6b0f81064b02a484de4acb9",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "debug-390.png",
+      "pngSHA256": "d39444419378ef11d46e6a7c70336fdc1a7b97edc836edbe640de90922b8749a",
+      "ariaSHA256": "cf10c70b0809773123adaf99b7ce9828a7ca0ec5ad9626fc3a70795ec3291bb3",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "game-1280.png",
+      "pngSHA256": "ffc8db41e513957491b3af729ff5d29cb13221649717545f8d1285f4a9bc8c3c",
+      "ariaSHA256": "7f365c3f422561e4e77389a63a03bb906f2946ff56a42064a99c24318999dbac",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "game-390.png",
+      "pngSHA256": "7c1aa48157ae7cecbd3cebbf1ba8c2dcb954bee43998a3738721d07812002800",
+      "ariaSHA256": "2e65d543de30ba38d2c0ce14fbe43f617ae5abc5e7a85a6c6bdbe421b6fa2d5a",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "language-1280.png",
+      "pngSHA256": "43b0dcf0910bb520413e91ea4d2b356036569d6e6fa9dac75b3e13077473c0ef",
+      "ariaSHA256": "ba3e89b3ab70ca3e8586e4275b8c75a5f513755876fbd5faa47dfee9a696a8a9",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "language-390.png",
+      "pngSHA256": "1d0e34c0c514605a86f3bf9ec4f28b498ff3460b1d8e8f7e71ba55619552ef4d",
+      "ariaSHA256": "a7cec37c4752018152e2b9214684d297217eecac6a884f7370c4a33aa506059c",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "math-1280.png",
+      "pngSHA256": "906e35e92ab66470e5545256cb761d5bada95c0d9ddf6298fc5ffd70f8b0774e",
+      "ariaSHA256": "75ffce11067401fd76f3bb71cf8212e3393aefb002ccb8971d1f4e36e5feb63a",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "math-390.png",
+      "pngSHA256": "4df35db5f1f5ffbfd09af3fbb16aa6e652efcbf2c8259df5b2610acb7bfe5b16",
+      "ariaSHA256": "b80f8896105bff05694bdffe9d11f1dedfa6aba469ac55fc7ab26312736672a4",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "variant-artefact-first.png",
+      "pngSHA256": "5cafb6ac3f0c2ae8d941fcfdc73b7244d34f18b04e4e014c5313faadca5da196",
+      "ariaSHA256": "cf10c70b0809773123adaf99b7ce9828a7ca0ec5ad9626fc3a70795ec3291bb3",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "variant-context-first.png",
+      "pngSHA256": "f512cb0ce9c1050fb21eaf799456a85be2838947ae79806db28d551259fcb605",
+      "ariaSHA256": "ce5c07b7ab6cc138f5563602ef619e723860fc35a6b0f81064b02a484de4acb9",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "variant-power.png",
+      "pngSHA256": "1fe2226dd2fc17ea39ada5d401a48806dec46cb44b069d01347cae3624e0d020",
+      "ariaSHA256": "8934bcb0814061d2bec04dc223389869a51f30a3defd7f3b3e2049dadf74b07b",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "variant-sequence.png",
+      "pngSHA256": "53c0aed2d9207e2fe9e41f7e9af63fff3d2c9ebe2654fcdbb2b7b9662aab6e19",
+      "ariaSHA256": "86726a52df7c43fb6832fe5f8fd9a590003ba58382c3c685664d1a48070ef94b",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "sound-1280.png",
+      "pngSHA256": "d807f79518ebf1c8419443c0cc57422f7c29db1d0d449ff22a488d81ad2c4d78",
+      "ariaSHA256": "b4bad5de2d7aa341b2ab42dbf9f11366a1e3238cba6aa962d89e90e9423f77a7",
+      "review": "approved after individual image inspection and semantic review"
+    },
+    {
+      "name": "sound-390.png",
+      "pngSHA256": "e50aefb3d9da5c7dfd6704bdc1a52f9eeecabf831ee844b9c1aec040d1699411",
+      "ariaSHA256": "0313307e14d82d5a9209db85428b2719b6d19bf3d04d658753a7275bd2e477a1",
+      "review": "approved after individual image inspection and semantic review"
+    }
+  ],
+  "observations": [
+    "coherent charcoal/cyan header/navigation/workbench",
+    "desktop source/action controls stay bounded",
+    "390px titles wrap and Notes launcher remains visible; synthetic-only notice adds vertical space",
+    "no horizontal document overflow in executed9width geometry assertions",
+    "four variants retain matching exact source and usable tab controls",
+    "source/hint/provenance semantics stay distinct; no unopened hint prose or answer disclosed"
+  ],
+  "qualification": "baseline establishes repeatable rendered state, not owner aesthetic approval, physical Android, TalkBack or all-WCAG certification"
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "Standalone shared presentation controller, task GPT action and layout CSS; React/lucide and shared Workspace/Reader/Notes excluded. Not total app delta or latency/heap benchmark.",
+  "files": [
+    {
+      "kind": "js",
+      "bytes": 34124,
+      "gzipBytes": 12905
+    },
+    {
+      "kind": "css",
+      "bytes": 18972,
+      "gzipBytes": 3195
+    }
+  ],
+  "dependenciesAdded": 0,
+  "durableTablesAdded": 0,
+  "bounds": {
+    "resources": 12,
+    "semanticPositions": 64,
+    "modeReturnSlots": 3
+  },
+  "browser": {
+    "rapidSwitches": 20,
+    "immutableOperationCountBefore": 36,
+    "immutableOperationCountAfter": 36,
+    "readerInstanceBefore": "3",
+    "readerInstanceAfter": "3",
+    "editorHostBefore": "1",
+    "editorHostAfter": "1"
+  }
+}

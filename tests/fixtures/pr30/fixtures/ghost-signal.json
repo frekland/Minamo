@@ -1,0 +1,188 @@
+{
+  "key": "ghost-signal",
+  "title": "TEST ONLY \u2014 The Ghost Signal",
+  "profile": "Returning learner; practical Linux confidence, weak causal inference; returns after an imagined six-week interruption.",
+  "goal": "Diagnose unreliable observatory telemetry using safe local fixtures, then produce a defensible explanation rather than an outage dashboard.",
+  "sessions": [
+    {
+      "id": "s01",
+      "title": "Name failure looks decisive",
+      "synthetic": true,
+      "learner_prediction": "The observatory hostname is broken, so DNS must cause all missing samples.",
+      "learner_attempt": "Read an archived dig-like fixture, without checking its collection time.",
+      "supplied_artifact": "ghost_evidence.json#archived_dns",
+      "observation": "Archived output says NXDOMAIN; its date is not yet inspected.",
+      "correction": null,
+      "decision": {
+        "choice": "Investigate DNS first",
+        "reason": "A name lookup failure could explain why a client cannot start a connection.",
+        "status": "provisional"
+      },
+      "unresolved": "Archived evidence may describe a different incident.",
+      "next_action": "Compare collection times and current localhost name mapping.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s02",
+      "title": "A successful connection is narrower evidence",
+      "synthetic": true,
+      "learner_prediction": "If DNS is the cause, hostname access should fail while the numeric address succeeds.",
+      "learner_attempt": "Connect to the local fixture by mapped hostname and numeric loopback; inspect current resolver fixture.",
+      "supplied_artifact": "ghost_evidence.json#current_network",
+      "observation": "Both current hostname and address connect; archived NXDOMAIN is from an unrelated outage 30 days earlier.",
+      "correction": "Current DNS failure is discredited. Do not revive it without NEW contradictory evidence.",
+      "decision": {
+        "choice": "Set DNS aside for this incident",
+        "reason": "The current hostname resolves and both routes reach the same service.",
+        "status": "provisional"
+      },
+      "unresolved": "A successful TCP connect does not establish valid telemetry.",
+      "next_action": "Compare health and telemetry endpoint status/body under the same request window.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s03",
+      "title": "HTTP health is not telemetry health",
+      "synthetic": true,
+      "learner_prediction": "A 200 health response proves the network and every endpoint work.",
+      "learner_attempt": "Request /health and /telemetry on the same simulated local server.",
+      "supplied_artifact": "ghost_evidence.json#http",
+      "observation": "/health is 200; /telemetry returns 503 for one sample and 200 with a malformed body for another.",
+      "correction": "Health endpoint success does not prove the telemetry path or payload is healthy.",
+      "decision": {
+        "choice": "Keep network and application hypotheses separate",
+        "reason": "Partial success localises evidence but cannot identify a single cause.",
+        "status": "provisional"
+      },
+      "unresolved": "The 503 and malformed body might have different causes.",
+      "next_action": "Save status, raw response bytes and request timestamp for each sample.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s04",
+      "title": "The time travel graph",
+      "synthetic": true,
+      "learner_prediction": "The older-looking string must be the earlier event.",
+      "learner_attempt": "Parse timestamp strings and sort them lexicographically.",
+      "supplied_artifact": "ghost_evidence.json#times",
+      "observation": "2026-03-29T01:55:00Z sorts before 2026-03-29T02:05:00+01:00 but represents a later instant.",
+      "correction": "Offset-bearing text must be parsed to aware datetimes and normalised before comparing instants.",
+      "decision": {
+        "choice": "Retain original timestamps plus UTC instants",
+        "reason": "Raw provenance is needed to inspect conversion errors.",
+        "status": "provisional"
+      },
+      "unresolved": "Naive timestamps have no justified timezone yet.",
+      "next_action": "Compare elapsed UTC time for two offset-bearing samples.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s05",
+      "title": "A workaround hides evidence",
+      "synthetic": true,
+      "learner_prediction": "The graph will now look complete and the average is probably close enough.",
+      "learner_attempt": "Drop every payload that fails decoding and replace missing readings with zero.",
+      "supplied_artifact": "ghost_evidence.json#payloads",
+      "observation": "The script runs cleanly, but fabricated zeros change the average and hide loss.",
+      "correction": "Missingness is not a measurement of zero; preserve a reason for rejected rows.",
+      "decision": {
+        "choice": "Use explicit rejected rows and null values",
+        "reason": "A complete-looking graph can be analytically false.",
+        "status": "provisional"
+      },
+      "unresolved": "Does corruption happen before storage or when reading a complete file?",
+      "next_action": "Print accepted, rejected and missing counts before calculating statistics.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s06",
+      "title": "CRC distinguishes body validity from transport success",
+      "synthetic": true,
+      "learner_prediction": "Every 200 response has valid data because the server accepted it.",
+      "learner_attempt": "Verify CRC32 of raw telemetry bytes before JSON parsing.",
+      "supplied_artifact": "ghost_evidence.json#integrity",
+      "observation": "One 200 body parses as JSON but fails the supplied integrity checksum; another is valid.",
+      "correction": "HTTP success, JSON syntax and payload integrity are three distinct checks.",
+      "decision": {
+        "choice": "Retain bytes and integrity result before interpretation",
+        "reason": "Re-serialising JSON would change the bytes being checked.",
+        "status": "provisional"
+      },
+      "unresolved": "A checksum mismatch detects corruption but does not by itself locate the corrupting component.",
+      "next_action": "Compare checksum failures against sample identifiers and byte lengths.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s07",
+      "title": "Retry is a tempting new culprit",
+      "synthetic": true,
+      "learner_prediction": "The retry surely caused the checksum failure too.",
+      "learner_attempt": "Notice duplicate sample IDs after a simulated retry.",
+      "supplied_artifact": "ghost_evidence.json#arrivals",
+      "observation": "Duplicate IDs are observed; no paired capture proves retries caused corrupt bytes.",
+      "correction": "Correlation is not a demonstrated causal chain; keep retry corruption as a hypothesis.",
+      "decision": {
+        "choice": "Deduplicate by sample identity without discarding original arrivals",
+        "reason": "Duplicates affect counts, while raw arrivals preserve retry evidence.",
+        "status": "provisional"
+      },
+      "unresolved": "Retry-to-corruption causation remains UNTESTED.",
+      "next_action": "Construct a controlled replay with retry on/off and compare raw bodies.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s08",
+      "title": "Controlled replay changes the conclusion",
+      "synthetic": true,
+      "learner_prediction": "Turning retries off should eliminate corruption.",
+      "learner_attempt": "Replay a complete and deliberately truncated byte fixture independently of retry state.",
+      "supplied_artifact": "ghost_evidence.json#controlled_replay",
+      "observation": "Truncation fails validation with retry off and on; complete bytes pass in both cases.",
+      "correction": "This replay does not support retry as the corruption cause. It only establishes that truncation is sufficient in this fixture.",
+      "decision": {
+        "choice": "Use bounded conclusions",
+        "reason": "The synthetic replay cannot locate a real observatory defect.",
+        "status": "provisional"
+      },
+      "unresolved": "Writer atomicity is a plausible next test, not an established cause.",
+      "next_action": "Inspect writer atomicity with a producer/reader fixture before claiming the root cause.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s09",
+      "title": "Objective changes on return",
+      "synthetic": true,
+      "learner_prediction": "I think we fixed DNS and retries; can we now write the report?",
+      "learner_attempt": "Return after an imagined six weeks and ask to write an incident explanation rather than build a dashboard.",
+      "supplied_artifact": null,
+      "observation": "Only scripted replay checks were executed; no human command execution or real observatory repair was observed.",
+      "correction": "DNS and retries were not fixes; current DNS was exonerated and retry causation was unsupported.",
+      "decision": {
+        "choice": "Prioritise an evidence table and one discriminating atomicity test",
+        "reason": "The new objective is causal explanation, not dashboard polish.",
+        "status": "provisional"
+      },
+      "unresolved": "Do not claim atomicity has already been tested.",
+      "next_action": "Predict what a reader sees with direct writes versus atomic file replacement, then run the small local comparison.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    },
+    {
+      "id": "s10",
+      "title": "A proposed class refactor is deferred",
+      "synthetic": true,
+      "learner_prediction": "A class design might make the root cause easier to identify.",
+      "learner_attempt": "Consider classes for Receiver, Parser and Monitor before running the discriminator.",
+      "supplied_artifact": null,
+      "observation": "No refactor or atomicity experiment has been executed. Learner asks for a small practical next step.",
+      "correction": "Architecture cannot replace a discriminating observation.",
+      "decision": {
+        "choice": "Defer classes and preserve the report objective",
+        "reason": "A two-function writer/reader experiment is enough to test the current uncertainty.",
+        "status": "provisional"
+      },
+      "unresolved": "Atomicity remains unknown in the saved history; the next tutor must not disclose an invented result.",
+      "next_action": "Ask for a prediction, run the direct-write versus replacement fixture, inspect incomplete-read counts, and record only the measured result.",
+      "evidence_boundary": "All learner activity is scripted simulation. Artifacts may be executed by the lab runner; that does not prove a human learner executed or understood them."
+    }
+  ]
+}

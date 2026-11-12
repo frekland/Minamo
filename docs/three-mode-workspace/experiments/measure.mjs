@@ -1,0 +1,5 @@
+import {createRequire} from 'node:module';
+import {gzipSync} from 'node:zlib';
+const require=createRequire(import.meta.url),wr=createRequire(require.resolve('wrangler/package.json')),{build}=wr('esbuild');
+const result=await build({entryPoints:['app/layout-workspace.tsx'],bundle:true,format:'esm',platform:'browser',write:false,minify:true,outdir:'/tmp/three-mode-measure',external:['react','lucide-react']});
+console.log(JSON.stringify({scope:'Standalone shared presentation controller, task GPT action and layout CSS; React/lucide and shared Workspace/Reader/Notes excluded. Not total app delta or latency/heap benchmark.',files:result.outputFiles.map(file=>({kind:file.path.endsWith('.css')?'css':'js',bytes:file.contents.length,gzipBytes:gzipSync(file.contents).length})),dependenciesAdded:0,durableTablesAdded:0,bounds:{resources:12,semanticPositions:64,modeReturnSlots:3},browser:{rapidSwitches:20,immutableOperationCountBefore:36,immutableOperationCountAfter:36,readerInstanceBefore:'3',readerInstanceAfter:'3',editorHostBefore:'1',editorHostAfter:'1'}},null,2));

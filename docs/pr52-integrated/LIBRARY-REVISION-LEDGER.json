@@ -1,0 +1,239 @@
+{
+  "scope": "Authorised permanent reference revisions, distinct from synthetic acceptance and learner evidence",
+  "records": [
+    {
+      "family": "article",
+      "id": "ms-05d453968ca1c875ce7fbb067c61f75e0d6e74b6",
+      "title": "Git working tree, index, commits and refs",
+      "before": {
+        "rev": 1,
+        "rendition": "r-889a2a0e6242df3afdeb85e124548a197050a40636606ad788327485bfe4b9cd"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-02dbc0ab55882cab800ca23a3def8eed5b6500848ebae4abe874be6225d46120",
+        "catalogueRev": 2,
+        "sections": 6
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-3f94c84194a7bfb7f34fb6d2619e6fc879e882ed",
+      "title": "Standard streams, piping and failure evidence",
+      "before": {
+        "rev": 1,
+        "rendition": "r-e2c43ac7a8601a48965b1347f6c7e38caea3db0fd7ae367b952a5f04d73b82a1"
+      },
+      "after": {
+        "rev": 3,
+        "rendition": "r-8cd9ff4a01ac44030652da2b95844c29b35b57d1eedbfbb87965fd59e0bbbaad",
+        "catalogueRev": 3,
+        "sections": 6
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-4ac56cbd7d049d4cf51091d288d24f695f6e2aa3",
+      "title": "TLS layers, certificates and connection diagnosis",
+      "before": {
+        "rev": 1,
+        "rendition": "r-eec08c6aa35cb5ea423e86d3103e87937b995ec34b0e4ba8e736c690a2667c35"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-6417fc1b970626d897729f9c6bd1c23d052396dbffe2031cad0a29533bf2c6e6",
+        "catalogueRev": 2,
+        "sections": 6
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-5e5f942fcca18def732117cca343ac4553a92dd2",
+      "title": "Bash expansions, conditions and incremental loops",
+      "before": {
+        "rev": 1,
+        "rendition": "r-7695b0a58126f07c515f3f4dfb4ac21ae535d6b42b0c8298d4f2d812d7a0f8db"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-5bb647b07e9da9192d3b8ee1bd0fe6b0e21ce5943f3467956fa472a094b67b3f",
+        "catalogueRev": 2,
+        "sections": 7
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-688f3100c3c92d159c33115f069ae5cc0da1ba1f",
+      "title": "Cron scheduling and environment isolation",
+      "before": {
+        "rev": 1,
+        "rendition": "r-015ca366c86858e74b42915a9030b2b22911d69488d4f31e021e693c9f2c377a"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-8a63ff1b68c1b6dac864e12c651eed6fae89a946b687abd3b82f41cb050e5703",
+        "catalogueRev": 2,
+        "sections": 7
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-6f59ce387b2585336fca5de2d523431399b18f00",
+      "title": "Search, filtering and falsifying patterns",
+      "before": {
+        "rev": 1,
+        "rendition": "r-a30ed93efe6a47dc170d9ae91104dc7d62eb55ab69f90e992296bd2afefa7868"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-06f5d243a3031af17eee2125ffb489f1e211e109fca965ff9e11598d5ccf2226",
+        "catalogueRev": 2,
+        "sections": 8
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-784aaa77c4a3db41c3153a4361382668b16f1541",
+      "title": "SSH authentication, remote shell and trust",
+      "before": {
+        "rev": 1,
+        "rendition": "r-9794a8f31331fca4dc354a4cf0101c9689067832d2cdbc99541f34cc8532f06c"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-4c574456dfaa9bb7b24cb3f74affb8bc1ce41a13d87881f053d1de8638f75a1b",
+        "catalogueRev": 2,
+        "sections": 6
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-793f058ce574ea7ca0bd14be2b8ccf0294708225",
+      "title": "Shell arguments, pathnames and file metadata",
+      "before": {
+        "rev": 1,
+        "rendition": "r-bc737019c83492f256843ce30d51ea968f3591520242b25ea5d9bc626edb81cc"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-51e39b9082ac34cb81abc835556249d9558be8a0cd258fa39d858cd09c3296b7",
+        "catalogueRev": 2,
+        "sections": 9
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-8e8c84a668ce9b91d2615dffbfd9bb737227787e",
+      "title": "Unix privilege boundaries, ownership and controlled experiments",
+      "before": {
+        "rev": 1,
+        "rendition": "r-1657122510cdb190e9213f539b40531b7fa6770b40b54104dbad06b2c8507be6"
+      },
+      "after": {
+        "rev": 3,
+        "rendition": "r-b63e2432fa81d9bd3830b1a09d5b5baefc72c7a14e0a0dffdca768bc0feba399",
+        "catalogueRev": 3,
+        "sections": 8
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-a5c07502e7d21f26023953f00d8804fb546b4607",
+      "title": "Processes, TCP sockets and connection evidence",
+      "before": {
+        "rev": 1,
+        "rendition": "r-836d41bd367c574d42f04a8a4156bd1f256b8dbe9608d5a5bb18e3d7ca2ebccf"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-ab9f7de19780cd2f17977d6fbf83e5b5978d81bc679955493df5d598c54684b0",
+        "catalogueRev": 2,
+        "sections": 6
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-b07e5c5cf407124ad988199d2bf948e7256f8bb8",
+      "title": "Unicode source, readings and text encodings",
+      "before": {
+        "rev": 1,
+        "rendition": "r-459120b2c238e7e779b3605aa62889f3e90883ccfd1971c4d8339543a56d4467"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-f1c59bc59808aa6a13fe2e5ab954654f103b75cf24a0bbc5ef7b5516c074672e",
+        "catalogueRev": 2,
+        "sections": 8
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-d1d80ff32edfb4d1cbcec753f4e8e00e16da87bc",
+      "title": "Permissions, identity and traversal",
+      "before": {
+        "rev": 1,
+        "rendition": "r-bb012d8ddcf42f299be06e18304a9c363a8693792ea7b5748bdfcabd743b5a12"
+      },
+      "after": {
+        "rev": 3,
+        "rendition": "r-c760b8e77951450d201cbe5d515507933f711fc914f3899c33668a5fb5a8fc17",
+        "catalogueRev": 3,
+        "sections": 8
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    },
+    {
+      "family": "article",
+      "id": "ms-f95871b11ce42b635f8dc7552e47db370381f0c1",
+      "title": "File types, bytes, reversible encodings and archives",
+      "before": {
+        "rev": 1,
+        "rendition": "r-4dbda9daacdf316539c9bf704e3d9cf7e80e1f6497a9872dec05d0eb74513b97"
+      },
+      "after": {
+        "rev": 2,
+        "rendition": "r-8c9761dbe955341d896f6f2355933205e97c7c13b1fe6b39d2bfbc8ae0f29c34",
+        "catalogueRev": 2,
+        "sections": 6
+      },
+      "retainedSectionsEqual": true,
+      "scopePreserved": true,
+      "areaLinksPreserved": true
+    }
+  ]
+}

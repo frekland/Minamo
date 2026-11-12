@@ -1,0 +1,25 @@
+✔ Bash visible oracle kills newline-truncating near-repair and accepts literal record-preserving repair (43.190659ms)
+✔ Seeded music oracle kills an empty-result mutant that passes original base cases (108.992076ms)
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    lib/workspace-generation.ts:22:42:
+      22 │ ...T-ONLY-activity-browser'&&import.meta.env?.DEV&&typeof input===...
+         ╵                              ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+✔ Activity source is escaped inert text, exact file boundary and trustworthy local handoff (6.08443ms)
+✔ File selection shows the chosen exact test source and responsive native copy surface (0.613492ms)
+✔ Activity instructions keep untrusted prose inert and do not generate execution or progress UI (0.405368ms)
+✔ Saved attempt readback preserves uncertainty, exact target edition and supplied provenance (0.964689ms)
+✔ Draft identity fences generation, owner and exact immutable Activity edition (1.315156ms)
+✔ Uncertain attempt retries preserve original payload despite changed drafts and reject cross-edition retry (0.582214ms)
+✔ Actual UI file destination resolves retained D1 source, Reader capture DOM and exact Flag/Annotation writes (2008.312442ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2826.492071

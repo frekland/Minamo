@@ -1,0 +1,5 @@
+INFO server started
+ERROR connection failed
+WARN retry scheduled
+ERROR retry failed
+DEBUG ignored

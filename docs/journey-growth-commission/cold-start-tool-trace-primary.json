@@ -1,0 +1,60 @@
+{
+  "synthetic": true,
+  "hosted": false,
+  "adapter": "actual compiled domainHandler in isolated Miniflare D1/R2",
+  "events": [
+    {
+      "at": "2026-10-25T11:46:14.837Z",
+      "method": "tools/list",
+      "status": 200,
+      "responseBytes": 196401
+    },
+    {
+      "at": "2026-10-25T11:46:20.411Z",
+      "method": "tools/call",
+      "tool": "get_minamo_learning_context",
+      "arguments": {
+        "purpose": "Continue the user’s queue project from its current learning context",
+        "scope": "resume",
+        "query": "queue project"
+      },
+      "status": 200,
+      "responseBytes": 27742
+    },
+    {
+      "at": "2026-10-25T11:46:25.444Z",
+      "method": "tools/call",
+      "tool": "get_minamo_learning_context",
+      "arguments": {
+        "purpose": "Read the retry/shutdown continuation and its saved decisions",
+        "scope": "target",
+        "profile": "tutor",
+        "target": {
+          "kind": "investigation",
+          "investigationId": "TEST-ONLY-queue-shutdown"
+        }
+      },
+      "status": 200,
+      "responseBytes": 11121
+    },
+    {
+      "at": "2026-10-25T11:46:36.257Z",
+      "method": "tools/list",
+      "status": 200,
+      "responseBytes": 196401
+    },
+    {
+      "at": "2026-10-25T11:46:40.378Z",
+      "method": "tools/call",
+      "tool": "read_minamo_record",
+      "arguments": {
+        "purpose": "Read the linked acknowledgment explanation to frame the retry/shutdown experiment",
+        "family": "article",
+        "id": "TEST-ONLY-queue-ack",
+        "rendition": "r-64f6f52a91d7f7f264ed67715fe4b79efc9364c405fefc3e25141978ac7a9462"
+      },
+      "status": 200,
+      "responseBytes": 1170
+    }
+  ]
+}

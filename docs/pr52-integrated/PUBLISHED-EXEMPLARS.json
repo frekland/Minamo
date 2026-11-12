@@ -1,0 +1,945 @@
+{
+  "contract": "minamo.pr52-published-exemplars.v1",
+  "permanentPublication": {
+    "synthetic": false,
+    "sourceOperation": {
+      "operationId": "pr52-language-exemplar-sources-20261026-v1",
+      "digest": "1c0ffc916e76c68c41d740a148c1a9c45fcf24c2c8f9d4d700d0d0df6da920c5",
+      "status": "committed"
+    },
+    "catalogueRefinement": {
+      "operationId": "pr52-language-exemplar-catalogue-refinement-20261026-v1",
+      "digest": "ebbb4a4a2510d1650a256676c7cfa1f4fd59f267d5423e837af177f2f9018378",
+      "status": "committed",
+      "canonicalRenditionsChanged": false,
+      "warnings": [
+        {
+          "code": "reference_subject_not_named_at_target",
+          "documentKey": "practice-fr",
+          "message": "The reference term does not occur in the destination text or section title.",
+          "path": "records[2].data.concepts[0]",
+          "severity": "advisory",
+          "remediation": "Inspect the actual explanation; refine the target to relevant named coverage or explicitly explain its relationship. Lexical absence is only an advisory signal, not proof of irrelevance."
+        },
+        {
+          "code": "reference_subject_not_named_at_target",
+          "documentKey": "practice-el",
+          "message": "The reference term does not occur in the destination text or section title.",
+          "path": "records[4].data.concepts[0]",
+          "severity": "advisory",
+          "remediation": "Inspect the actual explanation; refine the target to relevant named coverage or explicitly explain its relationship. Lexical absence is only an advisory signal, not proof of irrelevance."
+        }
+      ],
+      "independentWarningDisposition": "French agreement and Greek tonos are explained in later paragraphs of the destination section. The literal-target advisory is retained honestly; exact current links and useful coverage were independently read."
+    },
+    "sources": [
+      {
+        "language": "zh-Hans",
+        "id": "ms-9321957c08efdcf4a28dc54f60967e5ff7e64d82",
+        "rev": 2,
+        "rendition": "r-02210ea943340aec310c1dc5727320c7993472831f362d1498b7de3d34ed98fc",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "zh-Hans"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Hans",
+          "language": "zh-Hans",
+          "spanCount": 10,
+          "phraseCount": 1
+        },
+        "traditional": {
+          "sectionId": "s3",
+          "partId": "p3",
+          "language": "zh-Hant",
+          "script": "Hant"
+        },
+        "refs": [
+          {
+            "term": "把",
+            "destination": {
+              "family": "article",
+              "id": "ms-9321957c08efdcf4a28dc54f60967e5ff7e64d82",
+              "sectionId": "s4",
+              "rendition": "r-02210ea943340aec310c1dc5727320c7993472831f362d1498b7de3d34ed98fc"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-9321957c08efdcf4a28dc54f60967e5ff7e64d82&rendition=r-02210ea943340aec310c1dc5727320c7993472831f362d1498b7de3d34ed98fc&section=s4&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      },
+      {
+        "language": "el",
+        "id": "ms-79e4f1ca9ec7532e32ce8e859757f58160acf12e",
+        "rev": 2,
+        "rendition": "r-585a1df93910adc1f6e9d4882790200ee2cd9a2c65503ae3b59e05867db56417",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "el"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Grek",
+          "language": "el",
+          "spanCount": 0,
+          "phraseCount": 1
+        },
+        "refs": [
+          {
+            "term": "tonos",
+            "destination": {
+              "family": "article",
+              "id": "ms-79e4f1ca9ec7532e32ce8e859757f58160acf12e",
+              "sectionId": "s3",
+              "rendition": "r-585a1df93910adc1f6e9d4882790200ee2cd9a2c65503ae3b59e05867db56417"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-79e4f1ca9ec7532e32ce8e859757f58160acf12e&rendition=r-585a1df93910adc1f6e9d4882790200ee2cd9a2c65503ae3b59e05867db56417&section=s3&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      },
+      {
+        "language": "ja",
+        "id": "ms-6d62a7c2b2d0182c300ebd142dc4eb421efc6495",
+        "rev": 2,
+        "rendition": "r-536ef43108b8e8c064c8e7e49ba495e819c32c7d4f42c5ff763cc9d5fddf5442",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "ja"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Jpan",
+          "language": "ja",
+          "spanCount": 6,
+          "phraseCount": 1
+        },
+        "refs": [
+          {
+            "term": "te-form",
+            "destination": {
+              "family": "article",
+              "id": "ms-6d62a7c2b2d0182c300ebd142dc4eb421efc6495",
+              "sectionId": "s3",
+              "rendition": "r-536ef43108b8e8c064c8e7e49ba495e819c32c7d4f42c5ff763cc9d5fddf5442"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-6d62a7c2b2d0182c300ebd142dc4eb421efc6495&rendition=r-536ef43108b8e8c064c8e7e49ba495e819c32c7d4f42c5ff763cc9d5fddf5442&section=s3&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      },
+      {
+        "language": "es",
+        "id": "ms-160140856615dd80090070723615a9d64959e20a",
+        "rev": 2,
+        "rendition": "r-72274ccf68b95c45bd13a7f3911bcb9818f6b5cdc4d472e97634adf078761e4a",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "es"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Latn",
+          "language": "es",
+          "spanCount": 0,
+          "phraseCount": 1
+        },
+        "refs": [
+          {
+            "term": "estar",
+            "destination": {
+              "family": "article",
+              "id": "ms-160140856615dd80090070723615a9d64959e20a",
+              "sectionId": "s3",
+              "rendition": "r-72274ccf68b95c45bd13a7f3911bcb9818f6b5cdc4d472e97634adf078761e4a"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-160140856615dd80090070723615a9d64959e20a&rendition=r-72274ccf68b95c45bd13a7f3911bcb9818f6b5cdc4d472e97634adf078761e4a&section=s3&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      },
+      {
+        "language": "fr",
+        "id": "ms-fe403581ee3dcd52a4cb0684c1f02997dc770a5f",
+        "rev": 2,
+        "rendition": "r-c300181e9947379b3ff1abd9dd8ecd1057d12d71069364bc9634dff936d23708",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "fr"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Latn",
+          "language": "fr",
+          "spanCount": 0,
+          "phraseCount": 1
+        },
+        "refs": [
+          {
+            "term": "agreement",
+            "destination": {
+              "family": "article",
+              "id": "ms-fe403581ee3dcd52a4cb0684c1f02997dc770a5f",
+              "sectionId": "s3",
+              "rendition": "r-c300181e9947379b3ff1abd9dd8ecd1057d12d71069364bc9634dff936d23708"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-fe403581ee3dcd52a4cb0684c1f02997dc770a5f&rendition=r-c300181e9947379b3ff1abd9dd8ecd1057d12d71069364bc9634dff936d23708&section=s3&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      },
+      {
+        "language": "de",
+        "id": "ms-fea2398a9d4b40fa3fe327d16fd10a6876717ff3",
+        "rev": 2,
+        "rendition": "r-6a5db0cfdfde51590363e39f01ddb20052d28a288e84d4b1996d4c7f7e9fffe4",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "de"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Latn",
+          "language": "de",
+          "spanCount": 0,
+          "phraseCount": 1
+        },
+        "refs": [
+          {
+            "term": "finite verb",
+            "destination": {
+              "family": "article",
+              "id": "ms-fea2398a9d4b40fa3fe327d16fd10a6876717ff3",
+              "sectionId": "s3",
+              "rendition": "r-6a5db0cfdfde51590363e39f01ddb20052d28a288e84d4b1996d4c7f7e9fffe4"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-fea2398a9d4b40fa3fe327d16fd10a6876717ff3&rendition=r-6a5db0cfdfde51590363e39f01ddb20052d28a288e84d4b1996d4c7f7e9fffe4&section=s3&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      },
+      {
+        "language": "sv",
+        "id": "ms-ae0a247532c8364f1ca45ee8936ec2f296be91e1",
+        "rev": 2,
+        "rendition": "r-fd62a0ceea15f0b19d90f87e178df9243424c1df72086584b78075f816069c7f",
+        "catalogueRev": 2,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "sv"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "sectionId": "s2",
+          "partId": "p2",
+          "script": "Latn",
+          "language": "sv",
+          "spanCount": 0,
+          "phraseCount": 1
+        },
+        "refs": [
+          {
+            "term": "definite ending",
+            "destination": {
+              "family": "article",
+              "id": "ms-ae0a247532c8364f1ca45ee8936ec2f296be91e1",
+              "sectionId": "s3",
+              "rendition": "r-fd62a0ceea15f0b19d90f87e178df9243424c1df72086584b78075f816069c7f"
+            },
+            "deepLink": "/?view=library&family=article&id=ms-ae0a247532c8364f1ca45ee8936ec2f296be91e1&rendition=r-fd62a0ceea15f0b19d90f87e178df9243424c1df72086584b78075f816069c7f&section=s3&concept=reference-1"
+          }
+        ],
+        "areaLinked": true,
+        "foundationLinked": true,
+        "synthetic": false
+      }
+    ],
+    "activities": [
+      {
+        "language": "ja",
+        "id": "pr52-language-practice-ja-20261026",
+        "rev": 1,
+        "rendition": "r-36adc92626d037a3975dc6a7b62e8d73d5f80d7d315daa82a7779c485a18e7da",
+        "title": "Polite requests and repair in a shared room — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "ja"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-6d62a7c2b2d0182c300ebd142dc4eb421efc6495",
+          "rendition": "r-536ef43108b8e8c064c8e7e49ba495e819c32c7d4f42c5ff763cc9d5fddf5442",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-ja-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-ja-20261026&rendition=r-36adc92626d037a3975dc6a7b62e8d73d5f80d7d315daa82a7779c485a18e7da",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "ja-request",
+            "kind": "practice"
+          },
+          {
+            "id": "ja-order",
+            "kind": "practice"
+          },
+          {
+            "id": "ja-repair",
+            "kind": "practice"
+          },
+          {
+            "id": "ja-open",
+            "kind": "practice"
+          },
+          {
+            "id": "ja-dialogue",
+            "kind": "scenario"
+          },
+          {
+            "id": "ja-character",
+            "kind": "character"
+          },
+          {
+            "id": "ja-kana",
+            "kind": "character"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      },
+      {
+        "language": "zh-Hans",
+        "id": "pr52-language-practice-zh-Hans-20261026",
+        "rev": 1,
+        "rendition": "r-0f6e762b4f8833f650d72fd2f01c87c3836b3e2a9f536516aba2da2f700eeeee",
+        "title": "Mandarin location instructions and clarification — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "zh-Hans"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-9321957c08efdcf4a28dc54f60967e5ff7e64d82",
+          "rendition": "r-02210ea943340aec310c1dc5727320c7993472831f362d1498b7de3d34ed98fc",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-zh-Hans-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-zh-Hans-20261026&rendition=r-0f6e762b4f8833f650d72fd2f01c87c3836b3e2a9f536516aba2da2f700eeeee",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "zh-location",
+            "kind": "practice"
+          },
+          {
+            "id": "zh-pinyin",
+            "kind": "practice"
+          },
+          {
+            "id": "zh-matching",
+            "kind": "practice"
+          },
+          {
+            "id": "zh-open",
+            "kind": "practice"
+          },
+          {
+            "id": "zh-spatial",
+            "kind": "scenario"
+          },
+          {
+            "id": "zh-character",
+            "kind": "character"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      },
+      {
+        "language": "fr",
+        "id": "pr52-language-practice-fr-20261026",
+        "rev": 1,
+        "rendition": "r-64b69c0f0440b94332ad2cd8123a53d57efb9ac4e851cb0b7e6197ee682a4012",
+        "title": "French noun phrases, agreement and useful repairs — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "fr"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-fe403581ee3dcd52a4cb0684c1f02997dc770a5f",
+          "rendition": "r-c300181e9947379b3ff1abd9dd8ecd1057d12d71069364bc9634dff936d23708",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-fr-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-fr-20261026&rendition=r-64b69c0f0440b94332ad2cd8123a53d57efb9ac4e851cb0b7e6197ee682a4012",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "fr-plural",
+            "kind": "practice"
+          },
+          {
+            "id": "fr-elision",
+            "kind": "practice"
+          },
+          {
+            "id": "fr-reason",
+            "kind": "practice"
+          },
+          {
+            "id": "fr-dialogue",
+            "kind": "scenario"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      },
+      {
+        "language": "es",
+        "id": "pr52-language-practice-es-20261026",
+        "rev": 1,
+        "rendition": "r-ea8084c903c7d9784b104810a6f8784b52934f53072699c1ff6437d6309b012e",
+        "title": "Spanish location questions and exact written meaning — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "es"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-160140856615dd80090070723615a9d64959e20a",
+          "rendition": "r-72274ccf68b95c45bd13a7f3911bcb9818f6b5cdc4d472e97634adf078761e4a",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-es-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-es-20261026&rendition=r-ea8084c903c7d9784b104810a6f8784b52934f53072699c1ff6437d6309b012e",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "es-question",
+            "kind": "practice"
+          },
+          {
+            "id": "es-plural",
+            "kind": "practice"
+          },
+          {
+            "id": "es-open",
+            "kind": "practice"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      },
+      {
+        "language": "el",
+        "id": "pr52-language-practice-el-20261026",
+        "rev": 1,
+        "rendition": "r-2f2e7edd71533e0864e136f4ae5653dc321998c61e520cbaaa80160b64559d05",
+        "title": "Modern Greek location, tonos and number — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "el"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-79e4f1ca9ec7532e32ce8e859757f58160acf12e",
+          "rendition": "r-585a1df93910adc1f6e9d4882790200ee2cd9a2c65503ae3b59e05867db56417",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-el-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-el-20261026&rendition=r-2f2e7edd71533e0864e136f4ae5653dc321998c61e520cbaaa80160b64559d05",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "el-location",
+            "kind": "practice"
+          },
+          {
+            "id": "el-plural",
+            "kind": "practice"
+          },
+          {
+            "id": "el-open",
+            "kind": "practice"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      },
+      {
+        "language": "de",
+        "id": "pr52-language-practice-de-20261026",
+        "rev": 1,
+        "rendition": "r-48f931ae96bd0f30e2cf8d68492c3400330062f6d0d1ca8733eeee7191af71a0",
+        "title": "German main-clause order and precise written forms — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "de"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-fea2398a9d4b40fa3fe327d16fd10a6876717ff3",
+          "rendition": "r-6a5db0cfdfde51590363e39f01ddb20052d28a288e84d4b1996d4c7f7e9fffe4",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-de-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-de-20261026&rendition=r-48f931ae96bd0f30e2cf8d68492c3400330062f6d0d1ca8733eeee7191af71a0",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "de-order",
+            "kind": "practice"
+          },
+          {
+            "id": "de-transform",
+            "kind": "practice"
+          },
+          {
+            "id": "de-open",
+            "kind": "practice"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      },
+      {
+        "language": "sv",
+        "id": "pr52-language-practice-sv-20261026",
+        "rev": 1,
+        "rendition": "r-eba3360428e9032e3527dd3a3cb761fdb6b6de16aaac993ce353a3049114bb8c",
+        "title": "Swedish definite nouns and declarative word order — practice",
+        "synthetic": false,
+        "scope": {
+          "version": 1,
+          "spaces": [
+            "languages"
+          ],
+          "languages": [
+            "sv"
+          ],
+          "provenance": "authored"
+        },
+        "source": {
+          "family": "article",
+          "id": "ms-ae0a247532c8364f1ca45ee8936ec2f296be91e1",
+          "rendition": "r-fd62a0ceea15f0b19d90f87e178df9243424c1df72086584b78075f816069c7f",
+          "sectionId": "s2",
+          "partId": "p2"
+        },
+        "operationId": "pr52-language-activity-sv-20261026-v1",
+        "receiptStatus": "committed",
+        "deepLink": "/?view=tools&family=experiment&id=pr52-language-practice-sv-20261026&rendition=r-eba3360428e9032e3527dd3a3cb761fdb6b6de16aaac993ce353a3049114bb8c",
+        "blockKinds": [
+          {
+            "id": "source",
+            "kind": "reading"
+          },
+          {
+            "id": "orientation",
+            "kind": "instruction"
+          },
+          {
+            "id": "sv-definite",
+            "kind": "practice"
+          },
+          {
+            "id": "sv-order",
+            "kind": "practice"
+          },
+          {
+            "id": "sv-spelling",
+            "kind": "practice"
+          },
+          {
+            "id": "sv-open",
+            "kind": "practice"
+          },
+          {
+            "id": "sv-spatial",
+            "kind": "scenario"
+          }
+        ],
+        "learningDevelopmentCreated": false
+      }
+    ]
+  },
+  "installedMcp": {
+    "surface": "Actual installed Minamo tools against owner-private live V32",
+    "ordinaryReadsAndRuleChecks": [
+      {
+        "language": "ja",
+        "id": "pr52-language-practice-ja-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. 開ける becomes 開けて; append ください. Kana and kanji are explicitly accepted alternatives here."
+        }
+      },
+      {
+        "language": "zh-Hans",
+        "id": "pr52-language-practice-zh-Hans-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. 在 introduces the location; 上 specifies on. The two punctuation alternatives are authored explicitly."
+        }
+      },
+      {
+        "language": "fr",
+        "id": "pr52-language-practice-fr-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. Les petites tables and sont agree; la fenêtre remains one window."
+        }
+      },
+      {
+        "language": "es",
+        "id": "pr52-language-practice-es-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. The finite spelling rule preserves both question marks and the accents in Dónde and está."
+        }
+      },
+      {
+        "language": "el",
+        "id": "pr52-language-practice-el-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. NFC-equivalent input is accepted, but missing tonos is not silently erased."
+        }
+      },
+      {
+        "language": "de",
+        "id": "pr52-language-practice-de-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. The finite verb trinke follows the initial time constituent. The subject follows the verb."
+        }
+      },
+      {
+        "language": "sv",
+        "id": "pr52-language-practice-sv-20261026",
+        "exactReadback": true,
+        "answerKeysWithheld": true,
+        "deterministicCheck": {
+          "basis": "deterministic",
+          "verdict": "accepted",
+          "explanation": "Matches an authored accepted alternative. For this en-noun, en bok becomes boken. Other noun classes need their own forms."
+        }
+      }
+    ],
+    "comparisonProbes": [
+      {
+        "language": "ja",
+        "blockId": "ja-request",
+        "name": "authored kana alternative",
+        "expected": "accepted",
+        "actual": "accepted",
+        "passed": true
+      },
+      {
+        "language": "zh-Hans",
+        "blockId": "zh-pinyin",
+        "name": "declared tone-number policy",
+        "expected": "accepted",
+        "actual": "accepted",
+        "passed": true
+      },
+      {
+        "language": "el",
+        "blockId": "el-location",
+        "name": "canonical-equivalent combining tonos",
+        "expected": "accepted",
+        "actual": "accepted",
+        "passed": true
+      },
+      {
+        "language": "el",
+        "blockId": "el-location",
+        "name": "missing tonos preserved",
+        "expected": "different",
+        "actual": "different",
+        "passed": true
+      },
+      {
+        "language": "fr",
+        "blockId": "fr-elision",
+        "name": "French accent not stripped",
+        "expected": "different",
+        "actual": "different",
+        "passed": true
+      },
+      {
+        "language": "de",
+        "blockId": "de-order",
+        "name": "valid option identities wrong V2 order",
+        "expected": "different",
+        "actual": "different",
+        "passed": true
+      },
+      {
+        "language": "sv",
+        "blockId": "sv-spelling",
+        "name": "Swedish å not stripped",
+        "expected": "different",
+        "actual": "different",
+        "passed": true
+      },
+      {
+        "language": "ja",
+        "blockId": "ja-open",
+        "name": "open response remains pending",
+        "expected": "pending",
+        "actual": "pending",
+        "passed": true
+      }
+    ],
+    "deliberateAnswerReveal": {
+      "generation": "legacy@0",
+      "explanation": "開ける becomes 開けて; append ください. Kana and kanji are explicitly accepted alternatives here.",
+      "activity": {
+        "family": "experiment",
+        "id": "pr52-language-practice-ja-20261026",
+        "rendition": "r-36adc92626d037a3975dc6a7b62e8d73d5f80d7d315daa82a7779c485a18e7da"
+      },
+      "saved": false,
+      "notice": "Complete authored answer deliberately revealed. This is not correctness or a saved Attempt."
+    },
+    "wrongStateScenarioRejected": {
+      "error": "That reply is unavailable at this point.",
+      "code": "activity_context_unavailable",
+      "path": "data.attempt.practice"
+    },
+    "outOfBoundsCharacterRejected": {
+      "error": "Tracing points must be inside the drawing area.",
+      "code": "activity_context_unavailable",
+      "path": "data.attempt.practice"
+    },
+    "newNotes": 0,
+    "newFormalProgress": 0
+  },
+  "syntheticAcceptanceAttempts": [
+    {
+      "language": "zh-Hans",
+      "status": "committed",
+      "id": "pr52-test-exemplar-interaction-zh-Hans-20261026",
+      "rev": 1,
+      "rendition": "r-683a54ec8d91c705a7833f3ddfc4215c89edb3eb74cf9ca65dffe636f87eb229",
+      "deepLink": "/?view=work&family=run&id=pr52-test-exemplar-interaction-zh-Hans-20261026&rendition=r-683a54ec8d91c705a7833f3ddfc4215c89edb3eb74cf9ca65dffe636f87eb229",
+      "learningDevelopmentCreated": false,
+      "synthetic": true,
+      "activityEditionEqual": true,
+      "interactionsExact": true,
+      "interactionKinds": [
+        "scenario",
+        "character"
+      ],
+      "cleanup": "held until parent-authorised preservation traversal completes",
+      "exactnessComparison": "Structural comparison preserving array event order and exact strings; object property order is not semantic.",
+      "exactReadbackComparison": "Actual exact run-rendition read, structural object-key canonicalisation only; event order and input strings remain exact."
+    },
+    {
+      "language": "ja",
+      "status": "committed",
+      "id": "pr52-test-exemplar-interaction-ja-20261026",
+      "rev": 1,
+      "rendition": "r-a58cff80831c7ade8a47bf0e48a6ab7f20dabc434ae98375a634935253325e54",
+      "deepLink": "/?view=work&family=run&id=pr52-test-exemplar-interaction-ja-20261026&rendition=r-a58cff80831c7ade8a47bf0e48a6ab7f20dabc434ae98375a634935253325e54",
+      "learningDevelopmentCreated": false,
+      "synthetic": true,
+      "activityEditionEqual": true,
+      "interactionsExact": true,
+      "interactionKinds": [
+        "scenario",
+        "character"
+      ],
+      "cleanup": "held until parent-authorised preservation traversal completes",
+      "exactnessComparison": "Structural comparison preserving array event order and exact strings; object property order is not semantic.",
+      "exactReadbackComparison": "Actual exact run-rendition read, structural object-key canonicalisation only; event order and input strings remain exact."
+    }
+  ],
+  "preservation": {
+    "pr51": "Untouched; no merge/import/publication wave advanced. These seven original source compositions are independent.",
+    "existingFoundations": "Seven inspected foundation Articles reused by exact ID/revision and linked; not modified.",
+    "privateLearnerEvidence": "No genuine learner Attempt, Note, progress or voice evidence manufactured.",
+    "cleanup": "Held for parent-coordinated final preservation inventory; only two identified synthetic Attempts may later be recoverably trashed."
+  },
+  "limitations": [
+    "Model-reviewed linguistic examples; native-speaker certification not claimed.",
+    "Character pointer/stylus/physical IME and browser UI qualification belong to parent acceptance; this receipt demonstrates MCP publication, rule checks and validated supplied event traces.",
+    "A finite authored check is not semantic understanding or proficiency."
+  ]
+}

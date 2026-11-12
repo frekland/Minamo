@@ -1,0 +1,74 @@
+{
+  "classification": "independent connected read-only checkpoint verification and exact operation receipt; metadata only, no raw owner corpus",
+  "verify": {
+    "generation": "legacy@0",
+    "valid": true,
+    "archive": {
+      "id": "archive-b46453ab08647c52b728d910d5e4510032e29621038bc1db",
+      "createdAt": "2026-10-25T22:25:02.243Z",
+      "generation": "legacy@0",
+      "version": 3015,
+      "counts": {
+        "v2_records": 190,
+        "v2_revisions": 537,
+        "v2_operations": 562,
+        "v2_activity": 537,
+        "v2_bookmarks": 16,
+        "v2_images": 3,
+        "v2_image_attachments": 3,
+        "v2_media": 0,
+        "v2_media_attachments": 0,
+        "v2_manuscript_editions": 26,
+        "v2_learning_developments": 55,
+        "v2_learning_development_revisions": 116,
+        "v2_learning_perspectives": 3,
+        "v2_catalogue_heads": 46,
+        "v2_catalogue_revisions": 81
+      },
+      "bytes": 7717747,
+      "state": "ready"
+    },
+    "verifiedImages": 3,
+    "verifiedMedia": 0
+  },
+  "status": {
+    "generation": "legacy@0",
+    "operationId": "release-pr45-predeploy-backup-20261025",
+    "status": "committed",
+    "result": {
+      "archive": {
+        "id": "archive-b46453ab08647c52b728d910d5e4510032e29621038bc1db",
+        "createdAt": "2026-10-25T22:25:02.243Z",
+        "generation": "legacy@0",
+        "version": 3015,
+        "counts": {
+          "v2_records": 190,
+          "v2_revisions": 537,
+          "v2_operations": 562,
+          "v2_activity": 537,
+          "v2_bookmarks": 16,
+          "v2_images": 3,
+          "v2_image_attachments": 3,
+          "v2_media": 0,
+          "v2_media_attachments": 0,
+          "v2_manuscript_editions": 26,
+          "v2_learning_developments": 55,
+          "v2_learning_development_revisions": 116,
+          "v2_learning_perspectives": 3,
+          "v2_catalogue_heads": 46,
+          "v2_catalogue_revisions": 81
+        },
+        "bytes": 7717747,
+        "state": "ready"
+      },
+      "generation": "legacy@0"
+    }
+  },
+  "reviewerActions": [
+    "verify",
+    "status"
+  ],
+  "createdCheckpoint": false,
+  "activatedRecovery": false,
+  "initial503RootCause": "unestablished; same original operation was retried by release controller and independently read back as committed"
+}

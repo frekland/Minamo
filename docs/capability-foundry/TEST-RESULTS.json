@@ -1,0 +1,23 @@
+{
+  "tests": 878,
+  "pass": 877,
+  "fail": 0,
+  "skipped": 1,
+  "command": "node --test --test-concurrency=4 tests/*.test.mjs",
+  "exitCode": 0,
+  "durationSeconds": 81.3390779830006,
+  "scope": "Synthetic local full suite, generated offline science assets staged; existing absent-Rust toolchain skip. No physical/hosted acceptance inferred.",
+  "subsequentSealedValidation": [
+    {
+      "stage": "build-sealed",
+      "exitCode": 0,
+      "durationSeconds": 12.997149883998645
+    },
+    {
+      "stage": "test-sealed",
+      "exitCode": 0,
+      "durationSeconds": 80.69103595200068
+    }
+  ],
+  "subsequentSealedValidationNote": "Both final-source build and full-suite processes exited0; final full-suite redirected transcript was empty, so the earlier captured878-test count is retained rather than inventing a new total. Subsequent Python/platform collection-guard tests16/16 independently passed and source guard changes were also verified9/9 with specimen tests."
+}
