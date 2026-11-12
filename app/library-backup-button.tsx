@@ -3,13 +3,13 @@ import {useState} from 'react';
 import {Download,LoaderCircle} from 'lucide-react';
 import {downloadLibraryBackup} from '../lib/library-backup-client';
 /** Backup is an explicit, owner-initiated local download; no server mutations. */
-export default function LibraryBackupButton({generation}:{generation:string}){
+export default function LibraryBackupButton({generation}:{generation?:string}={}){
  const [busy,setBusy]=useState(false),[message,setMessage]=useState('');
  const go=async()=>{
   if(busy||!window.confirm('Download a personal Library backup? It includes private content and media and is NOT encrypted. Store the ZIP securely.'))return;
   setBusy(true);setMessage('Preparing Library backup…');
   try{
-   const result=await downloadLibraryBackup({origin:window.location.origin+'/',fetcher:fetch.bind(window),generation,
+   const result=await downloadLibraryBackup({origin:window.location.origin+'/',fetcher:fetch.bind(window),...(generation?{generation}:{}),
     history:true,includeSources:true,progress:setMessage});
    setMessage(result.complete?`Downloaded ${result.counts.records} Library records and ${result.counts.assets} files.`:
     `Partial backup downloaded (${result.warnings.length} missing files). Keep this ZIP, but do not treat it as complete; inspect manifest.json.`);

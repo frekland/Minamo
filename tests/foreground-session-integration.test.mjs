@@ -16,6 +16,7 @@ test('mounted session guard retains an open feedback draft through transport fai
   if(path==='/api/beta/session'){requests++;return requests===1?new Response('temporarily unavailable',{status:503}):requests===2?new Response('<html>retry later</html>',{status:200}):Response.json(identity,{headers:{'X-Minamo-Principal':scope,'X-Minamo-Generation':generation}});}
   if(path==='/api/context-late')return new Promise(resolve=>{resolveLate=resolve;});
   if(path==='/api/record-denied')return Response.json({code:'source_unavailable'},{status:403,headers:{'X-Minamo-Principal':scope,'X-Minamo-Generation':generation}});
+  if(path==='/api/inventory-denied')return Response.json({code:'family_denied'},{status:403,headers:{'X-Minamo-Generation':generation}});
   return Response.json({code:'principal_changed'},{status:409,headers:{'X-Minamo-Principal':'b'.repeat(64)}});
  }});
  Object.assign(globalThis,{window:browser,document:doc,location:browser.location,fetch:(...args)=>browser.fetch(...args),sessionStorage:{getItem:key=>storage.get(key)??null,setItem:(key,value)=>storage.set(key,value),removeItem:key=>storage.delete(key)},IS_REACT_ACT_ENVIRONMENT:true});Date.now=()=>clock;
@@ -27,6 +28,7 @@ test('mounted session guard retains an open feedback draft through transport fai
   const assertRetained=()=>{assert.equal(renderer.root.findByType('textarea').props.value,'SYNTHETIC independent unsent feedback draft');assert.equal(clears,0);assert.equal(redirects,0);};
   for(const expected of [2,3]){clock+=16000;await act(async()=>{browser.dispatchEvent(new Event('focus'));doc.dispatchEvent(new Event('visibilitychange'));await settle();});assert.equal(requests,expected,'one focus/visibility burst produces one session read');assertRetained();}
   const denied=await browser.fetch('/api/record-denied');assert.equal(denied.status,403);assertRetained();
+  const inventoryDenied=await browser.fetch('/api/inventory-denied');assert.equal(inventoryDenied.status,403);assertRetained();
   const late=browser.fetch('/api/context-late');assert.equal(typeof resolveLate,'function');
   await assert.rejects(browser.fetch('/api/confirmed-wrong-principal'),/workspace changed/);assert.equal(clears,1);assert.equal(redirects,0);assert.ok(nodes.some(node=>node.textContent==='Minamo — session changed'));const reload=nodes.find(node=>node.textContent==='Reload workspace');assert.equal(reload.focused,true);reload.onclick();assert.equal(redirects,1);
   resolveLate(Response.json({private:'must never be admitted after the fence'},{headers:{'X-Minamo-Principal':scope,'X-Minamo-Generation':generation}}));
