@@ -40,3 +40,14 @@ The owner will reorganise Making Friends in a separate normal GPT chat after rel
 - Typecheck and public/native production builds passed. Frozen public lockfile installation passed. Native build reused that verified dependency tree; a separate native install refused the checkout-local symlink, as designed, rather than replacing dependencies outside its root.
 - The wider Project overview smoke tests reproduced two unchanged V174 failures (legacy saved-work continuation expectations and the removed “Checking saved work” text). These are not new failures from this change. Two previously stale header tests were updated to the actual current four-scope control and the requested label placement, and now pass.
 - Full historical suite and real browser/mobile/audio acceptance were not claimed. The actual browser worker bundle was exercised with its actual dictionary in a VM/XHR harness.
+
+## Published release
+
+- Existing Minamo Site: **V175**, https://minamo.jscymru.chatgpt.site/ .
+- Native source: `daf07483cbbc737de4283317271af5dca3776bb0` (previous deployed baseline V174).
+- Public implementation: `a2f3ecfe9194e3e205ded0afcf4330ad2694b8d7` plus header/owner-handoff correction `1d4d97c` on PR #7, based on the #6 integration baseline. Reviewed shared implementation/test files match native source; the later GitHub receipt is documentation only.
+- Saved version: `appgprj_6aeba0aa528c81918be19dd51427b2cb~appgver_e270e25a14b08191bfc98a33436493d4`.
+- Deployment: `appgdep_6af6140e432881919ef880b615d595a4` — succeeded, MCP enabled, environment revision 5. Existing access configuration and D1/R2 bindings preserved.
+- Final native build contains the worker, all 12 pinned dictionary files and the licence/notice assets. Compressed archive publication succeeded.
+- Owner-directed boundary: no saved Project edits were applied. A separate GPT chat should read the latest layout capabilities and use `readingPages.layoutId` for real category-level organisation, inspect the global-edit preview's `organisationReview`, and verify exact saved content after committing. The global tool already exists; this release extends its nested page schema and guidance.
+- Real browser layout/mobile/audio acceptance remains unverified because browser control could not initialise. No fresh browser review or personal-Project reorganisation is claimed.
