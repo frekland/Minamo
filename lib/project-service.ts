@@ -59,7 +59,7 @@ export async function getProjectLearningReading(env:Cloudflare.Env,owner:string,
  if(!ids?.length)throw new DomainError(404,'reading_unavailable','The requested Project context has no available reading pages.');
  if(ids.length>8||new Set(ids).size!==ids.length)throw new DomainError(400,'reading_scope_too_large','Select up to eight distinct pages for an exact read.');
  let pages;
- try{pages=exactLearningTopics(map,record.sections,ids);}catch{throw new DomainError(404,'reading_unavailable','A requested reading page or part is unavailable.');}
+ try{pages=exactLearningTopics(map,record.sections??[],ids);}catch{throw new DomainError(404,'reading_unavailable','A requested reading page or part is unavailable.');}
  const payload={project:{id:record.id,title:record.title,rev:record.rev,rendition:record.rendition},currentProjectRev,pages,
   complete:true,notice:'Exact canonical parts for selected saved topics. No inferred learning state or source relationships.'};
  if(new TextEncoder().encode(JSON.stringify(payload)).byteLength>85000)throw new DomainError(413,'reading_too_large','Select fewer pages; complete content was not truncated.');
