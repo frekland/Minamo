@@ -200,7 +200,7 @@ async function invoke(name:string,args:any,env:Cloudflare.Env,owner:string,reque
  case 'get_project_composition':return getProjectComposition(env,owner,args.projectId,args.revision);
  case 'get_project_learning_outline':return getProjectLearningOutline(env,owner,args.projectId,args.revision);
  case 'get_project_learning_reading':return getProjectLearningReading(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose')));
- case 'append_project_learning_material':return receiptWithLinks(await appendProjectLearningMaterial(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose')));
+ case 'append_project_learning_material':return receiptWithLinks(await appendProjectLearningMaterial(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose'))));
  case 'read_project_changes':return readProjectChanges(env,owner,args.projectId,args.beforeRevision,args.limit);
  case 'get_project_drawing':return getProjectDrawing(env,owner,args);
  case 'read_project_contributions':return readProjectContributions(env,owner,Object.fromEntries(Object.entries(args).filter(([k])=>k!=='purpose')));
