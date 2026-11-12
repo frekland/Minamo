@@ -36,3 +36,12 @@ Automatic furigana now recognises 今朝 and 何時 as whole words, preserves au
 Focused tests exercise named-page coverage, ownership, no-write preview, explicit direct-edit protection, CAS, receipt replay, preservation of canonical content and old editions, optional native formatting repair, and read-only preference enforcement. Existing Project history and collaboration-preference regression checks also run. Typecheck and production build are required for release.
 
 Installed-plugin discovery and an actual personal-Project edit require a plugin reinstall after deployment. Browser visual, mobile, keyboard, TTS and screen-reader acceptance are separate and are not inferred from these tests. This change does not add a screenshot service or claim that structural MCP output measures visual layout. Exercise reuse continues to use existing exact references; no duplicated practice store is introduced.
+
+## Release receipt — 12 November 2026
+
+- Public implementation: `4ee2831f26c2e91e8e40c0d1c64219687bed06d4`, PR #5.
+- Native source: `79f1617fd466b07c79fcf475ec6e272eff648c5a`, based on deployed V173 source `a7d4c6cdf5ce8a298ed9d16ade356cd6bd411f70`. All changed shared-code files had identical public/native baselines; no native-only adaptation was needed. Existing hosting identity/bindings/access were preserved.
+- Existing private Minamo Site published as **V174**; deployment `appgdep_6af6007382348191a0125ae3e0fff0c8` succeeded with MCP enabled. URL: https://minamo.jscymru.chatgpt.site
+- Verification: 22 focused Project/history/preferences/reading tests passed during development; final focused editor/reading/furigana checks passed 8/8 after the final features. Final `tsc --noEmit` and production build passed. No full-suite run.
+- Live installed connector `get_layout_capabilities` returned the new `presentation` contract and `edit_project_globally` guidance after deployment.
+- The new tool is not in this conversation's cached installed catalogue. Reinstall the Minamo MCP plugin after this deployment; use a fresh conversation if the catalogue remains cached. Installed new-tool invocation and browser visual/mobile/TTS acceptance remain pending. No personal Project was mutated in this implementation/release.
