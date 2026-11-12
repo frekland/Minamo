@@ -1,3 +1,5 @@
+import {repairProjectEmphasis} from './project-presentation';
+import {projectReadingTopics} from './project-reading-topics';
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {imageAdmissionGuard,imageAttachmentStatements} from './assets';
 import {mediaAdmissionGuard,mediaAttachmentStatements} from './media';
@@ -12,7 +14,7 @@ const id=z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/);
 const block=compositionSchema.shape.blocks.element;
 const section=compositionSchema.shape.sections.element;
 const content=z.object({id,title:z.string().max(180),parts:z.array(z.record(z.unknown())).max(40)}).strict();
-export const updateSchema=z.object({operationId:id,expectedGeneration:z.string().max(160),projectId:id,expectedProjectRev:z.number().int().min(0),title:z.string().min(1).max(180).optional(),description:z.string().max(600).optional(),body:z.string().max(24000).optional(),synthetic:z.boolean().optional(),testRunId:id.optional(),testRun:testRunDescriptor.optional(),fictionalEvent:fictionalEventSchema.optional(),learningScope:z.unknown().optional(),projectCover:z.unknown().optional(),contentSections:z.array(content).max(30).optional(),noteChanges:z.array(z.object({id,expectedRev:z.number().int().min(0),title:z.string().min(1).max(180),body:z.string().max(24000),sections:z.array(content).max(30).optional()}).strict()).max(8).optional(),composition:compositionSchema.optional(),changes:z.array(z.discriminatedUnion('op',[
+export const updateSchema=z.object({repairMarkdownEmphasis:z.boolean().optional(),globalStructure:z.literal(true).optional(),operationId:id,expectedGeneration:z.string().max(160),projectId:id,expectedProjectRev:z.number().int().min(0),title:z.string().min(1).max(180).optional(),description:z.string().max(600).optional(),body:z.string().max(24000).optional(),synthetic:z.boolean().optional(),testRunId:id.optional(),testRun:testRunDescriptor.optional(),fictionalEvent:fictionalEventSchema.optional(),learningScope:z.unknown().optional(),projectCover:z.unknown().optional(),contentSections:z.array(content).max(30).optional(),noteChanges:z.array(z.object({id,expectedRev:z.number().int().min(0),title:z.string().min(1).max(180),body:z.string().max(24000),sections:z.array(content).max(30).optional()}).strict()).max(8).optional(),composition:compositionSchema.optional(),changes:z.array(z.discriminatedUnion('op',[
  z.object({op:z.literal('upsertSection'),section}).strict(),z.object({op:z.literal('upsertBlock'),sectionId:id,slotId:id,block,content:content.optional()}).strict(),
  z.object({op:z.literal('moveBlock'),id,sectionId:id,slotId:id,index:z.number().int().min(0).max(128)}).strict(),
  z.object({op:z.literal('setSection'),id,title:z.string().max(180).optional(),hidden:z.boolean().optional(),collapsed:z.boolean().optional(),index:z.number().int().min(0).max(31).optional()}).strict(),
@@ -31,7 +33,7 @@ export async function getProjectComposition(env:Cloudflare.Env,owner:string,proj
  const history=await env.DB!.prepare("SELECT revision FROM v2_revisions WHERE owner=? AND family='journey' AND id=? ORDER BY revision DESC LIMIT 12").bind(owner,projectId).all<{revision:number}>();
  const pins=await listPagePins(env,owner,{family:'journey',id:projectId});
  const workThreadReferenceIssues=(composition.workThreads??[]).flatMap(thread=>thread.items.filter(item=>item.unresolvedRef).map(item=>({threadId:thread.id,sectionId:item.sectionId,partId:item.partId,revision:item.revision??null,...item.unresolvedRef})));
- return {record,composition,currentProjectRev:current.rev,revision:record.rev,references,history:history.results.map(r=>r.revision),historyLimit:12,pins,workThreadReferenceIssues,codePackageInventory:await projectCodePackageInventory(record),href:'/?view=journeys&family=journey&id='+encodeURIComponent(projectId)};
+ return {record,composition,presentation:{basis:'Shared frontend topic projection; not a screenshot or interaction test',topics:projectReadingTopics(composition,record.sections,Object.fromEntries(references.filter(r=>r.record).map(r=>[r.blockId,r.record!.title]))),sectionNavigationCount:composition.sections.filter(s=>!s.hidden).length},currentProjectRev:current.rev,revision:record.rev,references,history:history.results.map(r=>r.revision),historyLimit:12,pins,workThreadReferenceIssues,codePackageInventory:await projectCodePackageInventory(record),href:'/?view=journeys&family=journey&id='+encodeURIComponent(projectId)};
 }
 /** Download a pinned edition, not a potentially changed current Project. */
 export async function downloadProjectCodePackage(env:Cloudflare.Env,owner:string,projectId:string,packageId:string,revision:number){
@@ -222,6 +224,16 @@ async function projectCommand(env:Cloudflare.Env,owner:string,input:unknown){
  const existing=await authoringDomain.rawReadRecord(env,owner,'journey',request.projectId);if(request.expectedProjectRev===0?!!existing:!existing||existing.rev!==request.expectedProjectRev)throw new DomainError(409,'revision_conflict','Read the current Project before updating it.');
  let composition=structuredClone(request.composition??(existing?adaptedComposition(existing):{version:1 as const,sections:[],blocks:[]}));
  if(request.restoreRevision){if(!existing||request.composition||request.changes||request.contentSections||request.noteChanges||request.body!==undefined)throw new DomainError(400,'restore_scope','Restore arrangement separately from content edits.');const old=await getProjectComposition(env,owner,request.projectId,request.restoreRevision);composition=old.composition;/* Current canonical sources remain untouched. */}
+ if(request.globalStructure){
+  if(!existing||!request.composition)throw new DomainError(400,'existing_project_required','Global structure editing requires an existing Project and complete composition.');
+  for(const proposed of request.contentSections??[]){const source=existing.sections?.find(s=>s.id===proposed.id);if(source)for(const part of source.parts){const retained=proposed.parts.find(p=>p.id===part.id);if(!retained||retained.kind!==part.kind)throw new DomainError(400,'passage_identity_changed','Retain every existing part ID and kind in each revised content section.');}}
+  const old=adaptedComposition(existing);
+  for(const block of old.blocks){const next=composition.blocks.find(b=>b.id===block.id);if(!next||next.sectionId!==block.sectionId||authoringDomain.stable(next.ref??null)!==authoringDomain.stable(block.ref??null)||next.layoutLock!==block.layoutLock)throw new DomainError(400,'structure_identity_changed','Retain every existing block ID, canonical source/reference and layout lock.');}
+  for(const key of ['favourites','protectedIds','workThreads','codePackages'] as const){
+   if(composition[key]!==undefined&&authoringDomain.stable(composition[key])!==authoringDomain.stable(old[key]??[]))throw new DomainError(400,'structure_metadata_changed','Retain favourites, protections, work threads and code packages in a structural edit.');
+   if(old[key]!==undefined)(composition as any)[key]=old[key];
+  }
+ }
  let contents=[...(existing?.sections??[])];
  for(const s of request.contentSections??[]){const i=contents.findIndex(v=>v.id===s.id);if(i<0)contents.push(s as ArticleSection);else contents[i]=s as ArticleSection;}
  for(const change of request.changes??[]){
@@ -240,9 +252,10 @@ async function projectCommand(env:Cloudflare.Env,owner:string,input:unknown){
   else if(change.op==='setLayoutLock')b.layoutLock=change.lock;
   else {const slot=composition.sections.find(s=>s.id===change.sectionId)?.slots.find(s=>s.id===change.slotId);if(!slot)throw new DomainError(400,'slot_unavailable','Unknown section/slot destination.');const keep=change.op==='upsertBlock'&&slot.blockIds.includes(blockId);if(!keep){for(const s of composition.sections)for(const slot of s.slots)slot.blockIds=slot.blockIds.filter(v=>v!==blockId);slot.blockIds.splice(change.op==='moveBlock'?change.index:slot.blockIds.length,0,blockId);}}
  }
+ if(request.repairMarkdownEmphasis)contents=repairProjectEmphasis(contents);
  const data:Record<string,unknown>={projectComposition:composition,...(existing?.testRunId?{testRunId:existing.testRunId}:{}),...(!existing?{body:request.body??'',title:request.title??request.projectId}:{})};
  for(const [key,value] of Object.entries({title:request.title,body:request.body,synthetic:request.synthetic,testRunId:request.testRunId,testRun:request.testRun,fictionalEvent:request.fictionalEvent,projectDescription:request.description,learningScope:request.learningScope,projectCover:request.projectCover}))if(value!==undefined)data[key]=value;
- if(request.contentSections||request.changes?.some(c=>c.op==='upsertBlock'&&c.content))data.sections=contents;
+ if(request.repairMarkdownEmphasis||request.contentSections||request.changes?.some(c=>c.op==='upsertBlock'&&c.content))data.sections=contents;
  return {request,command:{operationId:request.operationId,expectedGeneration:request.expectedGeneration,action:existing?'update' as const:'create' as const,family:'journey' as const,id:request.projectId,expectedRev:request.expectedProjectRev,data},existing};
 }
 export async function applyProjectUpdate(env:Cloudflare.Env,owner:string,input:unknown,actor:Actor='gpt',preview=false){
@@ -289,4 +302,13 @@ async function applyProjectBatch(env:Cloudflare.Env,owner:string,command:any,req
  for(const p of proposals){statements.push(...imageAttachmentStatements(env,owner,p.images,p.record,request.operationId),...mediaAttachmentStatements(env,owner,p.media,p.record,request.operationId));}
  try{await db.batch(statements);}catch{const saved=await db.prepare('SELECT hash,response FROM v2_operations WHERE owner=? AND id=?').bind(owner,request.operationId).first<{hash:string;response:string}>();if(saved){if(saved.hash!==digest)throw new DomainError(409,'idempotency_mismatch','Operation belongs to another payload.');return authoringDomain.receiptMetadata(JSON.parse(saved.response));}await assertGenerationCurrent(env);throw new DomainError(409,'project_transaction_conflict','The Project or a Note changed; the complete update was rolled back.');}
  const saved=await db.prepare('SELECT hash,nonce,response FROM v2_operations WHERE owner=? AND id=?').bind(owner,request.operationId).first<{hash:string;nonce:string;response:string}>();if(!saved)throw new DomainError(503,'uncertain_result','Retain this operation and inspect its receipt.');if(saved.hash!==digest)throw new DomainError(409,'idempotency_mismatch','Operation belongs to another payload.');return saved.nonce===nonce?{...receipt,record:await authoringDomain.projectRecord(env,owner,p.record)}:authoringDomain.receiptMetadata(JSON.parse(saved.response));
+}
+
+/** Whole-Project editing through the existing revisioned writer; no Note or relation writes. */
+export const structureEditSchema=updateSchema.pick({operationId:true,expectedGeneration:true,projectId:true,expectedProjectRev:true,composition:true,repairMarkdownEmphasis:true,explicitOverrideIds:true,contentSections:true,title:true,description:true,body:true}).extend({expectedProjectRev:z.number().int().min(1),composition:compositionSchema,mode:z.enum(['preview','apply'])}).strict();
+export async function editProjectStructure(env:Cloudflare.Env,owner:string,input:unknown){
+ let parsed:z.infer<typeof structureEditSchema>;try{parsed=structureEditSchema.parse(input);}catch(e){throw new DomainError(400,'invalid_structure_edit',(e as Error).message);}
+ const {mode,...request}=parsed;
+ if(mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
+ return applyProjectUpdate(env,owner,{...request,globalStructure:true},'gpt',mode==='preview');
 }
