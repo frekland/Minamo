@@ -1,11 +1,12 @@
 import {repairProjectEmphasis} from './project-presentation';
 import {projectReadingTopics} from './project-reading-topics';
+import {projectLearningMap,exactLearningTopics} from './project-learning-map';
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {imageAdmissionGuard,imageAttachmentStatements} from './assets';
 import {mediaAdmissionGuard,mediaAttachmentStatements} from './media';
 import {z} from 'zod';
 import {DomainError,authoringDomain,executeCommand,readRecord,readRendition,operationStatus} from './domain';
-import {compositionSchema,adaptedComposition,layoutCapabilities,projectRefSchema,patterns,workThreadSchema} from './project-composition';
+import {compositionSchema,adaptedComposition,layoutCapabilities,projectRefSchema,patterns,workThreadSchema,readingPageSchema} from './project-composition';
 import {generationContext,requireGeneration,generationGuard,assertGenerationCurrent} from './generations';
 import {buildRecordLink} from './reading-links';
 import {projectCodePackageArchive,projectCodePackageInventory,ProjectCodePackageError} from './project-code-package';
@@ -35,6 +36,71 @@ export async function getProjectComposition(env:Cloudflare.Env,owner:string,proj
  const workThreadReferenceIssues=(composition.workThreads??[]).flatMap(thread=>thread.items.filter(item=>item.unresolvedRef).map(item=>({threadId:thread.id,sectionId:item.sectionId,partId:item.partId,revision:item.revision??null,...item.unresolvedRef})));
  return {record,composition,presentation:{basis:'Shared frontend topic projection; not a screenshot or interaction test',topics:projectReadingTopics(composition,record.sections,Object.fromEntries(references.filter(r=>r.record).map(r=>[r.blockId,r.record!.title]))),sectionNavigationCount:composition.sections.filter(s=>!s.hidden).length},currentProjectRev:current.rev,revision:record.rev,references,history:history.results.map(r=>r.revision),historyLimit:12,pins,workThreadReferenceIssues,codePackageInventory:await projectCodePackageInventory(record),href:'/?view=journeys&family=journey&id='+encodeURIComponent(projectId)};
 }
+
+/** Small, exact Project map for fresh GPT conversations and the website reader. */
+export async function getProjectLearningOutline(env:Cloudflare.Env,owner:string,projectId:string,revision?:number){
+ const {record,currentProjectRev}=await getProjectComposition(env,owner,projectId,revision);
+ const map=projectLearningMap(adaptedComposition(record),record.sections);
+ return {project:{id:record.id,title:record.title,rev:record.rev,rendition:record.rendition},
+  currentProjectRev,contexts:map.contexts,indexes:map.indexes,
+  topics:map.topics.map(({id,title,layoutId,blockId,sectionId,partIds,purpose,provenance,source,contextId,relations,continuation,kind})=>({id,title,layoutId,blockId,sectionId,partIds,purpose,provenance,source,contextId,relations,continuation,kind})),
+  coverage:map.coverage,complete:true,notice:'Exact saved Project outline; no inferred session, progress, mastery or next action. Fetch selected pages for complete content.'};
+}
+export const projectLearningReadSchema=z.object({
+ projectId:id,revision:z.number().int().min(1).optional(),
+ topicIds:z.array(z.string().min(1).max(500)).min(1).max(8).optional(),contextId:id.optional()
+}).strict().refine(value=>!!value.topicIds!==!!value.contextId,'Choose either topicIds or contextId, not both.');
+/** Exact bounded page read; refuses oversize rather than silently truncating parts. */
+export async function getProjectLearningReading(env:Cloudflare.Env,owner:string,input:unknown){
+ const q=projectLearningReadSchema.parse(input);
+ const {record,currentProjectRev}=await getProjectComposition(env,owner,q.projectId,q.revision);
+ const map=projectLearningMap(adaptedComposition(record),record.sections);
+ const ids=q.topicIds??map.contexts.find(context=>context.id===q.contextId)?.topicIds;
+ if(!ids?.length)throw new DomainError(404,'reading_unavailable','The requested Project context has no available reading pages.');
+ if(ids.length>8||new Set(ids).size!==ids.length)throw new DomainError(400,'reading_scope_too_large','Select up to eight distinct pages for an exact read.');
+ let pages;
+ try{pages=exactLearningTopics(map,record.sections,ids);}catch{throw new DomainError(404,'reading_unavailable','A requested reading page or part is unavailable.');}
+ const payload={project:{id:record.id,title:record.title,rev:record.rev,rendition:record.rendition},currentProjectRev,pages,
+  complete:true,notice:'Exact canonical parts for selected saved topics. No inferred learning state or source relationships.'};
+ if(new TextEncoder().encode(JSON.stringify(payload)).byteLength>85000)throw new DomainError(413,'reading_too_large','Select fewer pages; complete content was not truncated.');
+ return payload;
+}
+/** Owner-requested bounded material append through the established guarded Project writer. */
+export const appendProjectLearningSchema=z.object({
+ mode:z.enum(['preview','apply']),
+ projectId:id,expectedProjectRev:z.number().int().min(1),
+ expectedGeneration:z.string().max(160),operationId:id.refine(s=>s.length<=100,'Keep operationId within 100 characters.'),
+ layoutId:id,slotId:id.optional(),
+ title:z.string().trim().min(1).max(180),
+ parts:z.array(z.record(z.unknown())).min(1).max(20),
+ pages:z.array(readingPageSchema).min(1).max(10)
+}).strict();
+/** New canonical block, not a Note or an edit to another source passage. */
+export async function appendProjectLearningMaterial(env:Cloudflare.Env,owner:string,input:unknown){
+ const q=appendProjectLearningSchema.parse(input);
+ const current=await readRecord(env,owner,'journey',q.projectId);
+ if(!current)throw new DomainError(404,'project_unavailable','Project unavailable.');
+ const composition=adaptedComposition(current);
+ const layout=composition.sections.find(s=>s.id===q.layoutId&&!s.hidden);
+ if(!layout)throw new DomainError(404,'project_destination_unavailable','Choose a visible Project section from get_project_learning_outline.');
+ const slot=layout.slots.find(s=>s.id===q.slotId)??(!q.slotId?layout.slots.find(s=>s.role==='primary')??layout.slots[0]:undefined);
+ if(!slot)throw new DomainError(404,'project_slot_unavailable','Choose an existing layout slot.');
+ const sectionId='learning-'+q.operationId,blockId='block-'+sectionId;
+ const request={
+  operationId:q.operationId,expectedGeneration:q.expectedGeneration,projectId:q.projectId,expectedProjectRev:q.expectedProjectRev,
+  changes:[{op:'upsertBlock' as const,sectionId:q.layoutId,slotId:slot.id,
+   block:{id:blockId,sectionId,readingPages:q.pages},
+   content:{id:sectionId,title:q.title,parts:q.parts}
+  }]
+ };
+ if(q.mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
+ const result=await applyProjectUpdate(env,owner,request,'gpt',q.mode==='preview');
+ if(q.mode==='preview')return {valid:true,currentRev:q.expectedProjectRev,sectionId,blockId,
+  pageDestinations:q.pages.map(p=>({id:p.id,title:p.title,layoutId:p.layoutId??q.layoutId,purpose:p.purpose,contextId:p.contextId,partIds:p.partIds})),
+  partCount:q.parts.length,notice:'Read-only guarded preview. Confirm exact destinations, source relationships and learner ownership; no Project change.'};
+ return result;
+}
+
 /** Download a pinned edition, not a potentially changed current Project. */
 export async function downloadProjectCodePackage(env:Cloudflare.Env,owner:string,projectId:string,packageId:string,revision:number){
  if(!id.safeParse(projectId).success||!id.safeParse(packageId).success||!Number.isSafeInteger(revision)||revision<1)
