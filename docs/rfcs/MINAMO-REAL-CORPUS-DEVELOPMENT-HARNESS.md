@@ -24,7 +24,7 @@ Build on the repository's real local Miniflare/D1/R2 test fixture (`tests/privat
 
 Choose the correct method after inspecting validation, schema and revision behaviour: use supported app import/commands where practical, or a controlled local database seed that preserves exact identity. Don't use production recovery activation to clone the owner's live workspace. Never point the test loader at production credentials, endpoints or a live writable owner namespace.
 
-The *same input corpus* should run against baseline and proposed implementations. Tests must distinguish a fixture's original ID from the isolated test tenant's ownership, and assert that legacy record reads still behave correctly.
+The *same input corpus* should run against baseline and proposed implementations. Tests must distinguish a fixture's original ID from the isolated test tenant's ownership, and assert that legacy record reads still behave correctly. **This local fixture is for repeatable technical tests and compatibility experiments; it does not replace live owner-facing browser acceptance on the deployed Site.**
 
 ### C. Compare architectures rather than merely testing new code
 
@@ -44,16 +44,22 @@ Generate **deterministic synthetic extensions** to the genuine baseline to simul
 
 Use targeted 100/1,000/10,000/50,000-part/sub-item test sizes where feasible; distinguish performance test sizes from predictions of real user behaviour. Measure how discovery, model context size, render performance and user task success change as the corpus grows. A larger dataset must offer better opportunities to find relevant earlier material without requiring a full-corpus read or overwhelming first view. Do not use vague 'more connections' or fabricated learner progress as success metrics.
 
-### E. Avoid MCP churn
+### E. Live owner-visible experimental frontends
 
-Ordinary tests should be local/isolated and operate on the versioned corpus, without recurring live MCP calls or client schema reinstalls. MCP is used to **bootstrap or deliberately refresh the input** and for final, bounded read-only acceptance against current Minamo. New public MCP operations and policies should be proposed only after a useful backend/frontend capability is verified internally.
+The owner has explicitly authorised deploying **multiple experimental frontend experiences to the existing Minamo Site**, accessible by deliberate selection in Settings while the stable UI remains the default. These should use existing real owner-authorised canonical content rather than a mock fixture when deployed. The local corpus remains the reproducible regression baseline, not a production test-data replacement.
+
+Follow [the live experimental experience and deployment policy](MINAMO-LIVE-EXPERIMENTAL-EXPERIENCES.md): isolated routes/views, stable return, desktop/mobile browser inspection, fidelity and rights checks, source reconciliation from Sites to GitHub, and verifiable deployed revisions. Deployment of feature-gated non-destructive experiments is approved, not prohibited. Production data migrations and unrequested source edits remain out of scope.
+
+### F. Minimise MCP churn, but allow necessary changes
+
+Ordinary regression tests should be local/isolated and operate on the versioned corpus, without recurring live MCP calls or client schema reinstalls. MCP is used to **bootstrap or deliberately refresh the input** and for targeted live acceptance against current Minamo. **New MCP operations or policies are allowed when justified by an actual experimental capability**, with backwards-compatible typed schemas and post-deployment fresh-chat acceptance; avoid introducing new client contracts for each visual iteration.
 
 ## Expected early deliverables
 
 1. A real-content snapshot manifest, checked-in representative corpus and extraction/refresh instructions.
 2. A local isolated loader and focused preservation/compatibility tests using actual app code and storage.
 3. An explicit inventory of unavailable materials or history and their reason (not guessed completeness).
-4. A baseline UX walkthrough using real corpus passages and one or more proposed UX alternatives.
+4. A baseline UX walkthrough using real corpus passages and **at least one deployed, owner-selectable experimental frontend** where safely feasible; compare live browser behaviour on desktop and mobile, not only mocked screenshots or local builds.
 5. An evidence-based recommendation for what new architecture, indexing or schema is actually necessary.
 
 This harness is an **enabler**, not the entire product objective. Don't invest weeks in general-purpose export infrastructure when a small, repeatable corpus loader is enough.
@@ -61,7 +67,7 @@ This harness is an **enabler**, not the entire product objective. Don't invest w
 ## Guardrails and authority
 
 - Production and authentic learner records stay unmodified during this task.
-- No new MCP catalogue, installation, public API or policy contract merely to experiment internally.
+- Do not churn MCP contracts for purely internal or visual experiments. **Permit a narrowly justified MCP extension when necessary for a deployable user-facing prototype**, with real client-visible schema verification and fresh-chat acceptance.
 - GitHub `main` is owner-confirmed as the current production-aligned code baseline for this commission. Compare PR #12 branch against main before edits; revise the assumption only upon concrete contrary evidence.
-- No forced container taxonomy, automatic capture, inferred mastery, generic UI overhaul, unreviewed migration, or production deployment.
-- Keep PR #12 **draft and unmerged** until explicit owner review; document what actually ran, what did not, and any deployment/review limitations.
+- No forced container taxonomy, automatic capture, inferred mastery, replacement of the stable default UI, destructive migration or unrequested modification of authentic source data. **Opt-in experimental Sites deployments are expressly authorised.**
+- Keep PR #12 **draft and unmerged** until explicit owner review; document actual deployed Sites revisions, the corresponding GitHub commits, passed/failed checks, and any acceptance limitations.
