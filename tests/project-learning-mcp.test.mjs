@@ -20,6 +20,10 @@ test('MCP outline/read and bounded append maintain canonical identities and retr
   for(const key of ['mode','projectId','expectedProjectRev','expectedGeneration','operationId','title','parts','target','educationalPurpose'])assert.ok(schema.required.includes(key),key);
   assert.ok(!schema.properties.parts.items.required.includes('id'));
   assert.ok(schema.properties.parts.items.properties.kind);
+  assert.equal(schema.properties.parts.items.type,'object');
+  assert.equal(schema.properties.parts.items.allOf,undefined);
+  assert.equal(schema.properties.parts.items.properties.text.type,'string');
+  for(const key of ['table','callout','reference','image','media'])assert.ok(schema.properties.parts.items.properties[key].properties,key);
   assert.equal((await owner.command({action:'create',family:'journey',id:pid,data:{title:'Music',body:'Reading',sections:source,projectComposition:composition}})).status,200);
   const outline=await invoke(owner,'get_project_learning_outline',{projectId:pid});
   const plan=outline.data.result?.structuredContent;

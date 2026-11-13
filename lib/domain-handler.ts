@@ -143,6 +143,8 @@ refineProjectSchema(projectLearningAppendJson);
 // rich-part definition, but do not require the caller to supply each part ID.
 projectLearningAppendJson.properties.parts=structuredClone(projectLearningAppendJson.properties.parts);
 projectLearningAppendJson.properties.parts.items.required=projectLearningAppendJson.properties.parts.items.required.filter((key:string)=>key!=='id');
+delete projectLearningAppendJson.properties.parts.items.allOf;
+projectLearningAppendJson.properties.parts.items.description='Typed canonical content. Set kind and the corresponding fields: paragraph/code require text (code optionally language); callout requires text and callout; table requires table; diagram requires text or diagram; image requires image; media requires media; reference requires text and reference; excerpt requires text and excerpt; interactive requires text and interactive. id is optional and generated when omitted. Server validation enforces kind-specific requirements.';
 const projectLearningUpdateJson=toJsonSchema(updateProjectLearningMaterialSchema);refineProjectSchema(projectLearningUpdateJson);
 delete (projectUpdateJson as any).properties.globalStructure;
 const projectTools=[
