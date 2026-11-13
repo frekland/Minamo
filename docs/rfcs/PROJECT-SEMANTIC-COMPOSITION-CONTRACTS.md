@@ -45,6 +45,29 @@ Today, the model may be asked to select or construct too much of (2)–(4) by su
 
 **Working hypothesis, to test:** Overlapping composition mechanisms and under-specified semantics contribute to inconsistent authoring, confusing presentation and model-dependent reliability. Do not prejudge whether the current underlying data model needs significant change; it might mostly need clearer adapters and validation.
 
+## Observed gap: six layout patterns without six distinguishable experiences
+
+**Owner observation (2026-11-13):** When viewing Projects, `dashboard`, `notebook`, `workbench`, `board`, `research` and `guide` are not meaningfully distinguishable visually or functionally. Treat this as a first-class UX and architecture problem, not a request to add six decorative themes.
+
+**Targeted source check (GitHub `main`, V177-derived code):**
+
+- `lib/project-composition.ts` defines these six strings as `patterns` and validates `composition.sections[].pattern` against that enum, alongside section slots and blocks.
+- `app/project-reading.tsx` renders every active pattern via the same Project section navigation, topic tabs and shared `Reader` output. It adds a `pc-reading-${layout.pattern}` wrapper class.
+- `app/project-reading.css` has no rules specifically selecting these six `pc-reading-*` pattern classes; the native reader's main layout is shared across patterns.
+- **Scope limit:** This establishes a weak distinction in the inspected *native reading path*, not that every editor, legacy surface or other view is identical. Audit all routes and the actual rendered UI before deciding.
+
+**Consequences to investigate:** A model or server may choose among six "layout" labels while the learner experiences nearly the same UI. This increases conceptual and authoring complexity without necessarily adding visible utility. It also risks confusing a *semantic Project purpose* (what content is for) with a *view mode* (how the user explores and interacts with it).
+
+**Design choices to compare, without preselecting one:**
+
+1. **Retain six only if each has justified function.** E.g. a workbench might coordinate runnable examples with explanation and observations; research might compare evidence; board might offer meaningful spatial organisation. Differences must be useful on desktop and mobile and not sacrifice accessibility.
+2. **Reduce or merge patterns.** If two patterns deliver essentially the same reading and interaction, make them internal presets, aliases or one simpler view rather than requiring a model to choose between nominally different modes.
+3. **Use adaptive semantic views.** A Project can contain prose, source dialogues, code, investigations and exercises regardless of a single top-level pattern. Give the user unobtrusive alternatives only where the content and task benefit; do not hard-code a fixed learning methodology.
+
+**Proposed acceptance evidence:** Render the *same canonical learning material* through each current pattern and record actual differences in information hierarchy, navigation, affordances, supported interaction and mobile behaviour. Distinguish a change in labels or decorative CSS from a genuine task benefit. Verify that reading-page routing, exact part identities, the Project editor, advanced content (Japanese, code, drawing, interactive experiments) and Notes remain intact. Do not force users to select or understand an internal pattern to read and continue a Project.
+
+**Open principle:** Neither six separately branded experiences nor a universal one-size-fits-all page is the goal. The number and identity of layouts should follow proven learning-use cases, with a compact, predictable interface.
+
 ## Proposed responsibility boundaries
 
 | Concern | Model responsibility | Server / client responsibility |
@@ -168,4 +191,5 @@ Implementation tasks should test and fix failures they introduce during build, d
 ## Decision log
 
 - **2026-11-13:** Owner agreed to explore stricter, clearer MCP and server-side Project layout organisation, preserving flexibility of educational composition. Open documentation-only draft PR for discussion.
+- **2026-11-13:** Owner identified weak user-visible distinction among six Project layouts. Initial source check confirms the native Project reader shares its component/structure and has no six-pattern CSS specialisation. Investigate whether to differentiate meaningfully, simplify the pattern vocabulary or move to adaptive semantic views; no implementation decision yet.
 - **Pending:** Confirm production-source audit, target contract shape, migration/compatibility strategy and phased implementation. No architectural decisions are final.
