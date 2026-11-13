@@ -4,6 +4,8 @@
 
 **Source assumption supplied by owner:** GitHub is current and aligned with production. Use GitHub `main` as the starting implementation baseline; verify branch diffs before changing code, but do not make a costly Sites-to-GitHub reconciliation the default first task.
 
+**Deployment and MCP authority:** This document records earlier code-path findings, not restrictions on experimentation. The owner now explicitly permits production-Site deployment of alternate opt-in frontend experiences through Settings and narrowly justified MCP changes; see [live experimental experiences](MINAMO-LIVE-EXPERIMENTAL-EXPERIENCES.md). Actual canonical learning source edits and destructive migrations remain prohibited in the initial exploration.
+
 **Primary design:** [MINAMO-ACCUMULATION-AND-COMPOSITION-RFC.md](MINAMO-ACCUMULATION-AND-COMPOSITION-RFC.md). This audit narrows the first code slice, rather than revisiting product metaphors.
 
 ## 1. Existing working primitives
@@ -61,8 +63,8 @@ Implement a **read-only candidate extraction and source-selection path** before 
 ### Working constraints
 
 - No new paid inference, model call per render, automatic chat capture, generated progress or author-defined fixed section templates.
-- No live changes to `Making Friends`, `Japanese Speaking Practice` or learner Notes.
-- Build on PR #12's branch, using current GitHub source. Keep the PR draft/unmerged. Do not deploy an unverified UI or change production navigation merely to demo the architecture.
+- No live changes to `Making Friends`, `Japanese Speaking Practice` or learner Notes; **feature-gated alternative frontend deployments are permitted**, using these existing records read-only.
+- Build on PR #12's branch, using current GitHub source. Keep the PR draft/unmerged. **Deploy feature-gated experimental frontends to Minamo Sites after relevant checks**, preserving current navigation as the default, and complete actual browser acceptance on deployed revisions. Reconcile Sites source back to GitHub.
 - A prototype that manually hardcodes two Project IDs is **not** evidence of a scalable discovery system. Use them for *acceptance*, not as the production corpus selector.
 
 ## 6. Explicit next validation
