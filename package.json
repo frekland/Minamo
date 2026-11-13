@@ -2,6 +2,7 @@
   "name": "minamo-v2",
   "version": "0.2.0",
   "private": true,
+  "license": "AGPL-3.0-only",
   "engines": {
     "node": ">=22.13.0"
   },
