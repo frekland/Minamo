@@ -161,6 +161,7 @@ test('owner-global read-only MCP access changes discovery, blocks cached saves, 
  const f=await privateStorageFixture(worker);try{
   const c=f.client('prefs-mcp-read-owner'),neighbour=f.client('prefs-mcp-read-neighbour');
   const original=(await ok(c.command({action:'create',family:'note',id:'mcp-read-lab-note',operationId:'before-mcp-freeze',data:{title:'Question about the river',body:'Initial explanation, not yet verified.',synthetic:true}}))).record;
+  await ok(c.command({action:'create',family:'investigation',id:'mcp-read-lab-question',data:{title:'Question about the river',body:'Does the water level change after rain?',synthetic:true}}));
   const catalogue=async client=>(await ok(client.request('/mcp',{jsonrpc:'2.0',id:4,method:'tools/list'}))).result.tools.map(tool=>tool.name);
   const authoring=await catalogue(c);
   for(const name of ['apply_minamo_command','set_minamo_collaboration_preferences','apply_project_update','read_minamo_record','preview_minamo_command','read_minamo_operation'])assert.ok(authoring.includes(name),name+' is available by default');
@@ -175,8 +176,8 @@ test('owner-global read-only MCP access changes discovery, blocks cached saves, 
   assert.equal(cachedWrite.result.structuredContent.code,'mcp_read_only','cached clients cannot sidestep the server fence');
   const cachedSetting=await ok(mcp(c,'set_minamo_collaboration_preferences',{scope:'global',intent:'explicit-owner-preferences',expectedGeneration:c.generation,expectedRevision:1,operationId:'no-mcp-restore',values:concise}));
   assert.equal(cachedSetting.result.structuredContent.code,'mcp_read_only','read-only policy itself cannot be silently reversed by cached GPT tools');
-  const preview=await ok(mcp(c,'preview_minamo_command',{command:{operationId:'preview-only',action:'update',family:'note',id:original.id,expectedRev:1,data:{body:'A proposed refinement, not a saved change.'}}}));
-  assert.equal(preview.result.isError,false,'a read-only proposal still works');
+  const preview=await ok(mcp(c,'preview_minamo_command',{command:{operationId:'preview-only',action:'update',family:'investigation',id:'mcp-read-lab-question',expectedRev:1,data:{body:'A proposed refinement, not a saved change.'}}}));
+  assert.equal(preview.result.isError,false,'a read-only Question proposal still works');
   const directRead=await ok(mcp(c,'read_minamo_record',{family:'note',id:original.id}));
   assert.equal(directRead.result.isError,false);
   const receipt=await ok(mcp(c,'read_minamo_operation',{operationId:'before-mcp-freeze'}));
@@ -189,8 +190,12 @@ test('owner-global read-only MCP access changes discovery, blocks cached saves, 
   assert.match(readPolicy.result.structuredContent.authoring.projectEditing,/read-only/);
   await ok(c.request('/api/collaboration-preferences',{scope:'global',intent:'explicit-owner-preferences',expectedGeneration:c.generation,expectedRevision:1,operationId:'mcp-restore-website',values:concise}));
   assert.ok((await catalogue(c)).includes('apply_minamo_command'),'site Settings can restore authoring catalogue');
-  const saved=await ok(mcp(c,'apply_minamo_command',{command:{operationId:'after-restore',action:'update',family:'note',id:original.id,expectedRev:2,data:{body:'A deliberate save after owner restoration.'}}}));
-  assert.equal(saved.result.isError,false);
-  assert.equal((await ok(c.context('note',original.id))).record.rev,3);
+  const saved=await ok(mcp(c,'apply_minamo_command',{command:{operationId:'after-restore-question',action:'update',family:'investigation',id:'mcp-read-lab-question',expectedRev:1,data:{body:'A deliberate Question update after owner restoration.'}}}));
+  assert.equal(saved.result.isError,false,'restored authoring may update a permitted Question');
+  assert.equal((await ok(c.context('investigation','mcp-read-lab-question'))).record.rev,2);
+  const noteWrite=await ok(mcp(c,'apply_minamo_command',{command:{operationId:'after-restore-note-denied',action:'update',family:'note',id:original.id,expectedRev:2,data:{body:'GPT must still not overwrite the Note.'}}}));
+  assert.equal(noteWrite.result.isError,true);
+  assert.equal(noteWrite.result.structuredContent.code,'gpt_note_authoring_forbidden');
+  assert.equal((await ok(c.context('note',original.id))).record.rev,2);
  }finally{await f.dispose();}
 });
