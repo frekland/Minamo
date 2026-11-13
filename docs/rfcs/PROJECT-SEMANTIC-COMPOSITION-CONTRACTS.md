@@ -5,6 +5,14 @@
 **Change type:** Documentation only; no runtime, MCP schema, database or deployment changes  
 **Target:** Minamo's existing Project experience, irrespective of AI model or hosting platform
 
+## V177 source audit — findings now attached
+
+See the [read-only V177 Project architecture audit](PROJECT-ARCHITECTURE-AUDIT-V177.md) for cited file/line evidence, ranked findings, risk candidates, current safety guarantees, and proposed staged implementation.
+
+**New confirmed findings:** normal Project reading uses a largely common renderer despite six named pattern values (distinct pattern styling mainly survives in the editor path); models must hand-assemble significant composition metadata; optional purpose/context declarations yield incomplete indexes and contexts; multiple authoring entry routes generate different composition defaults. The shared canonical topic map and strong storage/revision/ownership rules should be preserved. Cross-section order/visibility, duplicate canonical placement and external page reference admission need focused verification rather than speculative patches.
+
+**Recommendation for discussion:** prioritise one semantic reading projection and simpler ordinary authoring adapters, retain expert tools, then judge whether any pattern deserves a distinct functional learner interaction. No code or release change is authorised by this audit.
+
 ## Why this RFC exists
 
 Minamo has become significantly more capable, but authoring and presentation remain inconsistent across model interactions. We want a less capable but competent model to use Minamo *correctly* without needing intimate knowledge of its layout internals, while a more capable model remains free to produce exceptionally rich learning material.
