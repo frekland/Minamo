@@ -60,3 +60,57 @@ test('Hidden purpose views are not projected or silently rewritten',()=>{
  assert.equal(model.contexts[0].continuation,undefined);
  assert.equal(sections[0].parts[0].text,'I like music');
 });
+
+test('Japanese, computing and research projects retain their own source, purpose and evidence relationships',()=>{
+ const specimens=[
+  {title:'Japanese conversation',parts:[
+   {id:'message',kind:'paragraph',text:'週末は家で本を読みました。'},
+   {id:'reply',kind:'paragraph',text:'I read a book at home on the weekend.'},
+   {id:'grammar',kind:'paragraph',text:'Place で after the location for an action.'},
+   {id:'practice',kind:'interactive',text:'Make another sentence',interactive:{type:'language-reveal'}}
+  ],pages:[
+   {id:'message-page',title:'Original message',contextId:'weekend',purpose:'source',partIds:['message']},
+   {id:'reply-page',title:'Reply and translation',contextId:'weekend',purpose:'translation',partIds:['reply']},
+   {id:'grammar-page',title:'Location particle で',contextId:'weekend',purpose:'explanation',partIds:['grammar'],relations:[{kind:'explains',target:{sectionId:'s',partId:'message'}}]},
+   {id:'practice-page',title:'Reuse it',contextId:'weekend',purpose:'practice',partIds:['practice'],relations:[{kind:'practises',target:{sectionId:'s',partId:'message'}}]}
+  ]},
+  {title:'Python file parser',parts:[
+   {id:'source-code',kind:'code',text:'for line in stream:\n    parse(line)'},
+   {id:'observation',kind:'callout',text:'The supplied run stopped at a malformed row.'},
+   {id:'alternative',kind:'paragraph',text:'A generator can preserve streaming while returning typed records.'}
+  ],pages:[
+   {id:'code-page',title:'Current parser',contextId:'parser',purpose:'source',provenance:'user-reported',partIds:['source-code']},
+   {id:'run-page',title:'Reported observation',contextId:'parser',purpose:'reference',provenance:'user-reported',partIds:['observation'],relations:[{kind:'related',target:{sectionId:'s',partId:'source-code'}}]},
+   {id:'alternative-page',title:'Alternative design',contextId:'parser',purpose:'explanation',provenance:'gpt-authored',partIds:['alternative'],relations:[{kind:'corrects',target:{sectionId:'s',partId:'source-code'}}]}
+  ]},
+  {title:'Conflicting research interpretations',parts:[
+   {id:'source-excerpt',kind:'excerpt',text:'The source describes a narrow association.'},
+   {id:'interpretation-a',kind:'paragraph',text:'Interpretation A treats this as a direct causal claim.'},
+   {id:'interpretation-b',kind:'paragraph',text:'Interpretation B treats the wording as observational and non-causal.'}
+  ],pages:[
+   {id:'evidence-page',title:'Source passage',contextId:'causality',purpose:'source',provenance:'source-excerpt',partIds:['source-excerpt']},
+   {id:'interpretation-a-page',title:'Causal reading',contextId:'causality',purpose:'explanation',provenance:'gpt-authored',partIds:['interpretation-a'],relations:[{kind:'explains',target:{sectionId:'s',partId:'source-excerpt'}},{kind:'related',target:{sectionId:'s',partId:'interpretation-b'}}]},
+   {id:'interpretation-b-page',title:'Observational reading',contextId:'causality',purpose:'explanation',provenance:'gpt-authored',partIds:['interpretation-b'],relations:[{kind:'explains',target:{sectionId:'s',partId:'source-excerpt'}},{kind:'related',target:{sectionId:'s',partId:'interpretation-a'}}]}
+  ]}
+ ];
+ for(const specimen of specimens){
+  const sections=[{id:'s',title:specimen.title,parts:specimen.parts}];
+  const layouts=[...new Set(specimen.pages.map(page=>page.purpose))].map(purpose=>({id:purpose,title:purpose,pattern:'guide',slots:[{id:'primary',role:'primary',blockIds:[]}]}));
+  const block={id:'source-block',sectionId:'s',readingPages:specimen.pages.map(page=>({...page,layoutId:page.purpose}))};
+  layouts[0].slots[0].blockIds.push(block.id);
+  const model=projectLearningMap({version:1,sections:layouts,blocks:[block]},sections);
+  assert.equal(model.topics.length,specimen.pages.length,specimen.title);
+  assert.deepEqual(model.topics.map(topic=>topic.id.split(':').at(-1)),specimen.pages.map(page=>page.id),specimen.title);
+  for(const topic of model.topics){const exact=exactLearningTopics(model,sections,[topic.id]);assert.deepEqual(exact[0].parts.map(part=>part.id),specimen.pages.find(page=>page.id===topic.id.split(':').at(-1)).partIds,specimen.title);}
+ }
+});
+
+test('large Projects project the full named index within the explicit application bound',()=>{
+ const parts=Array.from({length:1200},(_,index)=>({id:'p-'+index,kind:'paragraph',text:'Bounded synthetic passage '+index}));
+ const pages=parts.map((part,index)=>({id:'page-'+index,title:'Topic '+index,contextId:'large-project',contextTitle:'Large project',purpose:'reference',partIds:[part.id]}));
+ const input={version:1,sections:[{id:'layout',title:'References',pattern:'research',slots:[{id:'primary',role:'primary',blockIds:['large-block']}]}],blocks:[{id:'large-block',sectionId:'large-source',readingPages:pages}]};
+ const model=projectLearningMap(input,[{id:'large-source',title:'References',parts}]);
+ assert.equal(model.topics.length,1200);
+ assert.equal(model.contexts[0].topicIds.length,1200);
+ assert.equal(model.topics.at(-1).partIds[0],'p-1199');
+});

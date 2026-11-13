@@ -233,6 +233,7 @@ export const reviseLearningDevelopment=(env:Cloudflare.Env,owner:string,input:un
  * It never creates an inferred Work, Stage, Session or learner status.
  */
 export async function recordLearningUpdate(env:Cloudflare.Env,owner:string,input:unknown,actor:Actor='gpt'){
+ if(actor==='gpt')throw new DomainError(403,'gpt_note_authoring_forbidden','GPT cannot create or populate learner Notes. Put explicitly requested learning material in its Project, Question or reusable Library destination.');
  if(!object(input))fail(400,'invalid_learning_update','An explicit update and original Note are required.');
  keys(input,['purpose','intent','expectedGeneration','operationId','proposed']);
  if(input.intent!=='explicit-user-update'||!id(input.operationId)||!object(input.proposed))

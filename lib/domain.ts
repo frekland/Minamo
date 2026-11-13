@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 36478)
+Total output lines: 777
+
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {drawingDocument,drawingImageIds,DRAWING_MIME} from './drawing-document';
 import {PYGBAG_MIME,PYGBAG_RUNTIME} from './pygbag-package';
@@ -311,170 +314,7 @@ function contextSelection(record:WorkspaceRecord,input:unknown):PassageAnchor{
  const extraSegments=input.segments;if(!valid(input))fail(400,'invalid_selection','Use a valid nonempty UTF-16 selector.');let segments=[{sectionId:input.sectionId,partId:input.partId,start:input.start,end:input.end}];
  if(extraSegments!==undefined){if(!Array.isArray(extraSegments)||!extraSegments.length||extraSegments.length>128)fail(400,'invalid_selection','Use 1–128 exact selector segments.');for(const seg of extraSegments){if(!valid(seg))fail(400,'invalid_selection','A selector segment is invalid.');allowedKeys(seg,['sectionId','partId','start','end']);}segments=extraSegments as typeof segments;const first=segments[0];if(first.sectionId!==input.sectionId||first.partId!==input.partId||first.start!==input.start||first.end!==input.end)fail(400,'invalid_selection','Primary coordinates must match the first selector segment.');}
  const selectedParts=segments.map(seg=>canonicalReadingParts(record).find(p=>p.sectionId===seg.sectionId&&p.part.id===seg.partId)?.part);const reused=selectedParts.filter(p=>p?.kind==='excerpt');
- if(reused.length){if(segments.length!==1||reused.length!==1||!reused[0]?.excerpt)fail(400,'mixed_excerpt_capture','A reused excerpt selection must stay inside one original Source excerpt block.');const part=reused[0];const ref=part.excerpt!;const seg=segments[0];const quote=quoteFor(record,segments);if(!quote)fail(409,'passage_unavailable','The selected excerpt range is unavailable.');return {articleId:ref.sourceId,recordFamily:'source',rendition:ref.rendition,sectionId:'__article',partId:'__excerpt',start:ref.start+seg.start,end:ref.start+seg.end,quote,displayReturn:{recordFamily:record.family,id:record.id,rendition:record.rendition!,sectionId:seg.sectionId,partId:seg.partId,start:seg.start,end:seg.end}};}
- if(record.family==='source'&&segments.some(s=>s.partId==='__excerpt')&&segments.length!==1)fail(400,'mixed_excerpt_capture','A Source excerpt selection must stay inside its original excerpt.');
- const quote=quoteFor(record,segments);if(!quote)fail(409,'passage_unavailable','The exact selected passage is unavailable.');if(quote.length>12000)fail(400,'selection_budget','Choose at most 12,000 characters, or discuss a saved capture.');
- return {articleId:record.id,recordFamily:record.family,rendition:record.rendition!,sectionId:input.sectionId,partId:input.partId,start:input.start,end:input.end,...(extraSegments?{segments}:{}),quote};
-}
-export async function resolveAnchor(env:Cloudflare.Env,owner:string,a:PassageAnchor){
- const targetFamily=a.recordFamily??'article';const article=await readRendition(env,owner,a.articleId,a.rendition,targetFamily);if(!article)return {state:'unavailable' as const,article:null};const segments=a.segments??[{sectionId:a.sectionId,partId:a.partId,start:a.start,end:a.end}];if(quoteFor(article,segments)!==a.quote)return {state:'range-unavailable' as const,article:null};const current=await readRecord(env,owner,targetFamily,a.articleId);return {state:current?.rendition===a.rendition?'current' as const:'retained-revision' as const,article,record:article,part:canonicalReadingParts(article).find(p=>p.sectionId===a.sectionId&&p.part.id===a.partId)?.part};
-}
-function anchorIdentity(a:PassageAnchor|undefined){return a?stable({recordFamily:a.recordFamily??'article',articleId:a.articleId,rendition:a.rendition,quote:a.quote,displayReturn:a.displayReturn??null,segments:a.segments??[{sectionId:a.sectionId,partId:a.partId,start:a.start,end:a.end}]}):'';}
-async function admittedLinks(env:Cloudflare.Env,owner:string,data:Partial<RecordData>,existing:WorkspaceRecord|null,internalTargets?:Map<string,WorkspaceRecord>){
- const added=(data.links??[]).filter(l=>!existing?.links.some(old=>stable(old)===stable(l)));const guardedTargets:{family:Family;id:string;rev:number}[]=[];
- for(const l of added){const internal=internalTargets?.get(l.family+':'+l.id);const target=internal??await readRecord(env,owner,l.family,l.id);if(!target)fail(409,'linked_record_unavailable','A selected related record is unavailable. Refresh the context before linking.');
-  if(l.rendition){
-   // An Attempt deliberately binds an immutable Activity edition. Its matching
-   // link must not be forced onto the current edition by ordinary link admission.
-   // All other new links retain the current-destination rule. The normal Attempt
-   // validator below still checks the retained Activity and every revealed hint;
-   // the write guard continues to fence the current record against Trash/races.
-   const attempt=data.attempt?.activity;
-   const pinnedAttempt=attempt&&l.family==='experiment'&&l.id===attempt.id&&l.rendition===attempt.rendition&&!l.sectionId&&!l.partId;
-   if(target.rendition!==l.rendition&&!pinnedAttempt)fail(409,'destination_changed','A new exact connection must target the current retained rendition. Refresh its destination before linking.');
-   if(l.sectionId&&!canonicalReadingParts(target).some(p=>p.sectionId===l.sectionId&&(!l.partId||p.part.id===l.partId)))fail(409,'destination_unavailable','The selected destination section or part is unavailable.');
-  }
-  if(!internal)guardedTargets.push({family:l.family,id:l.id,rev:target.rev});
- }
- const sourceIds=new Set<string>(),sourceCache=new Map<string,WorkspaceRecord>();for(const section of data.sections??[])for(const part of section.parts)if(part.kind==='reference'&&part.reference?.sourceId){const prior=existing?.sections?.find(s=>s.id===section.id)?.parts.find(p=>p.id===part.id);if(stable(prior?.reference)===stable(part.reference))continue;sourceIds.add(part.reference.sourceId);if(sourceIds.size>16)fail(400,'reference_budget','An edit can admit at most 16 distinct referenced Sources.');let source=sourceCache.get(part.reference.sourceId);if(!source){source=await readRecord(env,owner,'source',part.reference.sourceId)??undefined;if(source)sourceCache.set(source.id,source);}if(!source?.source)fail(409,'reference_source_unavailable','A referenced Source is unavailable.');const sourceUrl=new URL(source.source.url),partUrl=new URL(part.reference.url);sourceUrl.hash='';partUrl.hash='';if(sourceUrl.href!==partUrl.href||(part.reference.commit&&part.reference.commit!==source.source.commit)||(part.reference.path&&part.reference.path!==source.source.path))fail(409,'reference_source_mismatch','Reference metadata must match its explicitly selected Source.');guardedTargets.push({family:'source',id:source.id,rev:source.rev});}
- const newAnchor=data.anchor&&anchorIdentity(data.anchor)!==anchorIdentity(existing?.anchor);
- if(newAnchor){const resolved=await resolveAnchor(env,owner,data.anchor!);if(!resolved.article)fail(409,'passage_unavailable','The exact retained passage is unavailable. Your draft has not been saved.');if(!existing&&resolved.article.synthetic)data.synthetic=true;}
- return {added,guardedTargets:[...new Map(guardedTargets.map(t=>[t.family+':'+t.id,t])).values()],newAnchor:!!newAnchor};
-}
-/** Materialise narrowly requested changes, then run the ordinary rich validator and admission gates. */
-function patchedData(input:unknown,existing:WorkspaceRecord|null,action:WorkspaceCommand['action']):unknown{
- if(!object(input)||input.patch===undefined)return input;
- if(action!=='update'||!existing)fail(400,'patch_update_only','Targeted patches require an existing record and an exact update revision.');
- if(!Array.isArray(input.patch)||!input.patch.length||input.patch.length>40)fail(400,'invalid_patch','Use 1–40 ordered targeted edits.');
- const {patch,...fields}=input;let sections:WorkspaceRecord['sections'];let links:RecordLink[]|undefined;let concepts:ConceptEntry[]|undefined;
- const sectionEdits=patch.some(p=>object(p)&&['patchBlock','insertBlock','removeBlock'].includes(String(p.op)));
- const conceptEdits=patch.some(p=>object(p)&&['upsertConcept','removeConcept'].includes(String(p.op)));
- if(conceptEdits){if(existing.family!=='article')fail(400,'invalid_concepts','Canonical entries belong inside an Article.');if(fields.concepts!==undefined)fail(400,'ambiguous_patch','Do not combine targeted concept edits with replacement of the same entries.');concepts=structuredClone(existing.concepts??[]);}
- const relationEdits=patch.some(p=>object(p)&&['setRelations','upsertRelation','removeRelation'].includes(String(p.op)));
- if((sectionEdits&&fields.sections!==undefined)||(relationEdits&&fields.links!==undefined))fail(400,'ambiguous_patch','Do not combine targeted edits with replacement of the same sections or links.');
- const anchorClears=patch.filter(p=>object(p)&&p.op==='clearNoteAnchor');
- if(anchorClears.length){if(existing.family!=='note')fail(400,'note_anchor_only','Only a Note may deliberately clear its passage anchor.');if(anchorClears.length!==1||fields.anchor!==undefined)fail(400,'ambiguous_patch','Clear the Note anchor once, without also supplying a replacement anchor.');if(!existing.anchor)fail(409,'patch_target_unavailable','This Note has no saved passage anchor. Refresh before clearing.');}
-
- if(sectionEdits)sections=structuredClone(existing.sections??[]);
- if(relationEdits)links=structuredClone(existing.links);
- for(const entry of patch){
-  if(!object(entry)||typeof entry.op!=='string')fail(400,'invalid_patch','Each targeted edit needs a supported operation.');
-  if(['patchBlock','insertBlock','removeBlock'].includes(entry.op)){
-   if(!identifier(entry.sectionId))fail(400,'invalid_patch','Choose an exact authored section ID.');
-   const section=sections!.find(s=>s.id===entry.sectionId);if(!section)fail(409,'patch_target_unavailable','The target section is unavailable. Refresh the current record; your proposal is retained.');
-   if(entry.op==='insertBlock'){
-    allowedKeys(entry,['op','sectionId','afterPartId','block']);if(!object(entry.block)||!identifier(entry.block.id))fail(400,'invalid_patch','An inserted block needs a stable authored ID.');
-    const inserted=entry.block;if(section.parts.some(p=>p.id===inserted.id))fail(409,'patch_target_exists','This section already contains the inserted block ID.');
-    let index=section.parts.length;if(entry.afterPartId===null)index=0;else if(entry.afterPartId!==undefined){if(!identifier(entry.afterPartId))fail(400,'invalid_patch','Choose an exact preceding authored block ID.');const previous=section.parts.findIndex(p=>p.id===entry.afterPartId);if(previous<0)fail(409,'patch_target_unavailable','The preceding block is unavailable.');index=previous+1;}
-    section.parts.splice(index,0,structuredClone(entry.block) as any);
-   }else{
-    if(!identifier(entry.partId))fail(400,'invalid_patch','Choose an exact authored block ID.');const index=section.parts.findIndex(p=>p.id===entry.partId);if(index<0)fail(409,'patch_target_unavailable','The target block is unavailable.');
-    if(entry.op==='removeBlock'){allowedKeys(entry,['op','sectionId','partId']);section.parts.splice(index,1);}
-    else{
-     allowedKeys(entry,['op','sectionId','partId','changes']);if(!object(entry.changes)||!Object.keys(entry.changes).length)fail(400,'invalid_patch','Supply explicit changed block fields.');
-     allowedKeys(entry.changes,['text','language','joinBefore','table','callout','reference','image','media','diagram','excerpt','inline','semantic','interactive']);
- const before=section.parts[index];const next:any={...before,...entry.changes};
-     for(const key of ['table','callout','reference','image','media'] as const)if(entry.changes[key]!==undefined){if(!object(entry.changes[key]))fail(400,'invalid_patch','Rich block metadata must be an object.');next[key]={...before[key],...entry.changes[key]};}
-     if(before.kind==='table'&&object(entry.changes.table)&&('headers' in entry.changes.table||'rows' in entry.changes.table)&&entry.changes.text===undefined&&Array.isArray(next.table?.headers)&&Array.isArray(next.table?.rows)&&next.table.rows.every((r:unknown)=>Array.isArray(r)))next.text=tableCanonicalText(next.table);
-     if(before.kind==='image'&&object(entry.changes.image)&&('alt' in entry.changes.image||'caption' in entry.changes.image)&&entry.changes.text===undefined)next.text=imageCanonicalText(next.image);
-     if(before.kind==='media'&&object(entry.changes.media)&&entry.changes.text===undefined)next.text=mediaCanonicalText(next.media);
-     if(before.kind==='diagram'&&entry.changes.diagram!==undefined&&entry.changes.text===undefined){const error=diagramError(next.diagram);if(error)fail(400,'invalid_diagram',error);next.text=diagramCanonicalText(next.diagram);}
-     if(next.text!==before.text&&entry.changes.semantic===undefined)delete next.semantic;
-     if(next.text!==before.text&&entry.changes.inline===undefined&&before.inline)next.inline=[];
-     section.parts[index]=next;
-    }
-   }
-  }else if(entry.op==='setRelations'){
-   allowedKeys(entry,['op','links']);if(!Array.isArray(entry.links))fail(400,'invalid_patch','Set relations requires explicit links.');links=structuredClone(entry.links) as RecordLink[];
-  }else if(entry.op==='upsertRelation'||entry.op==='removeRelation'){
-   allowedKeys(entry,entry.op==='upsertRelation'?['op','match','link']:['op','match']);
-   if(entry.op==='upsertRelation'&&!object(entry.link))fail(400,'invalid_patch','An upsert needs an explicit relationship.');
-   if(entry.match===undefined){if(entry.op!=='upsertRelation')fail(400,'invalid_patch','Removing a relation requires its exact current value.');links!.push(structuredClone(entry.link) as RecordLink);}
-   else{
-    if(!object(entry.match))fail(400,'invalid_patch','Match the exact current relationship value.');const matches=links!.map((link,index)=>stable(link)===stable(entry.match)?index:-1).filter(index=>index>=0);
-    if(matches.length!==1)fail(409,'patch_target_unavailable','The exact relationship is missing or ambiguous. Refresh before editing it.');
-    if(entry.op==='removeRelation')links!.splice(matches[0],1);else links![matches[0]]=structuredClone(entry.link) as RecordLink;
-   }
-  }else if(entry.op==='upsertConcept'){
-   allowedKeys(entry,['op','concept']);if(!object(entry.concept)||!identifier(entry.concept.id))fail(400,'invalid_concept','A targeted concept needs a stable ID.');const concept=entry.concept as unknown as ConceptEntry;const index=concepts!.findIndex(c=>c.id===concept.id);if(index<0)concepts!.push(structuredClone(concept));else concepts![index]=structuredClone(concept);
-  }else if(entry.op==='removeConcept'){
-   allowedKeys(entry,['op','id']);if(!identifier(entry.id))fail(400,'invalid_concept','Choose an exact canonical entry ID.');const index=concepts!.findIndex(c=>c.id===entry.id);if(index<0)fail(409,'patch_target_unavailable','The canonical entry is unavailable.');concepts!.splice(index,1);
-  }else if(entry.op==='clearNoteAnchor'){
-   allowedKeys(entry,['op']);
-
-  }else fail(400,'unsupported_patch','This targeted edit is unsupported. Read current server capabilities and retain your proposal.');
- }
- return {...fields,...(sections?{sections}:{}),...(links?{links}:{}),...(concepts?{concepts}:{})};
-}
-function sourcePolicyData(input:unknown,existing:WorkspaceRecord|null):unknown{
- if(!object(input)||!object(input.source)||Object.keys(input.source).some(k=>k!=='excerpt'))return input;
- const policy=input.source.excerpt;if(!existing?.source?.excerpt||!object(policy)||!Object.keys(policy).length||Object.keys(policy).some(k=>!['state','exportAllowed'].includes(k))||(policy.state!==undefined&&policy.state!=='revoked')||(policy.exportAllowed!==undefined&&policy.exportAllowed!==false))fail(400,'invalid_source_policy','A targeted source policy can only revoke the existing excerpt or narrow export permission.');
- return {...input,source:{...existing.source,excerpt:{...existing.source.excerpt,...policy}}};
-}
-async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor:Actor,internalTargets?:Map<string,WorkspaceRecord>,options?:{skipCatalogue?:boolean;skipReferencePolicy?:boolean;projectAuthoring?:boolean;overrideIds?:string[]}){
- const existing=c.action==='create'?null:await rawReadRecord(env,owner,c.family!,c.id!,true);
- if(c.action!=='create'&&!existing)fail(404,'record_unavailable','The record is unavailable; your draft is retained.');
- if(c.action==='update'&&existing?.trashedAt)fail(409,'record_trashed','Restore this record before editing it.');
- if(c.action==='trash'&&existing?.trashedAt)fail(409,'record_trashed','This record is already in Trash.');
- if(c.action==='restore'&&!existing?.trashedAt)fail(409,'record_active','This record is already active.');
- const catalogueHead=existing?.family==='article'?await readCatalogue(env,owner,existing.id):null;
- const validationExisting=catalogueHead&&existing?{...existing,concepts:catalogueHead.edition.references.map(catalogueConcept)}:existing;
- const supplied=['create','update'].includes(c.action)?sourcePolicyData(patchedData(c.data,validationExisting,c.action),existing):{};
- const data=['create','update'].includes(c.action)?validateData(supplied,c.family!,validationExisting):{};
- if(data.learningScope!==undefined&&existing){const head=await db(env).prepare('SELECT rev,scope_json FROM v2_learning_scopes WHERE owner=? AND family=? AND id=?').bind(owner,c.family!,c.id!).first<{rev:number;scope_json:string}>();if(head&&stable(validateLearningScope(JSON.parse(head.scope_json)))!==stable(data.learningScope))throw new DomainError(409,'scope_sidecar_authoritative',`This record uses classification revision ${head.rev}. Change its organisation with exclusive data.classifyLearningScope {expectedScopeRev:${head.rev},learningScope} and current expectedRev; a prose update cannot silently replace classification.`, 'data.learningScope');}
- const catalogueIntent:CatalogueIntent|undefined=c.family==='article'&&data.concepts!==undefined?{references:data.concepts}:undefined;
- // A migrated Article keeps its original hashed index metadata forever. Current entries live in the sidecar.
- if(c.family==='article'&&(catalogueHead||catalogueIntent)&&existing){if(existing.concepts===undefined)delete data.concepts;else data.concepts=existing.concepts;}
-
- if(data.source?.excerpt){const ctx=generationContext(env);const floor=ctx?await db(env).prepare("SELECT revoked,export_denied FROM v2_permission_floors WHERE owner=? AND kind='source' AND target_id=?").bind(ctx.rootOwner,c.id!).first<{revoked:number;export_denied:number}>():null;if((floor?.revoked&&data.source.excerpt.state!=='revoked')||(floor?.export_denied&&data.source.excerpt.exportAllowed))fail(400,'source_permission_floor','This Source identity has a permanent revoked or narrowed permission floor.');}
- if(data.source?.excerpt&&!existing?.source?.excerpt&&actor!=='user')fail(400,'owner_attestation_required','Only an explicit signed-in owner admission can attest excerpt rights; GPT cannot attest permission.');
- if(existing?.anchor&&['annotation','flag'].includes(existing.family)&&data.anchor&&anchorIdentity(data.anchor)!==anchorIdentity(existing.anchor))fail(400,'anchor_immutable','A saved annotation or Flag keeps its original exact passage. Create a new capture to refer to a different passage.');
- if(actor==='gpt'&&c.family==='run'&&data.evidence==='observed'&&data.synthetic!==true)fail(400,'unattested_execution','GPT-authored runs must be synthetic or explicitly illustrative. A save is not proof of genuine learner execution.');
- const checks=await admittedLinks(env,owner,data,existing,internalTargets);
- // Archived Activity/Attempt rows and renditions remain readable, but new
- // cartridge and submission data are no longer admitted through generic writes.
- if(data.activity!==undefined||data.attempt!==undefined)fail(410,'activity_attempt_retired','New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.');
- if(data.testRun){if(c.action!=='create'||data.testRun.runId!==c.id||data.testRunId!==c.id||data.synthetic!==true)fail(400,'test_root_required','A TEST root must be a newly created synthetic Project whose ID equals its run ID.');}
- if(data.testRunId&&!existing&&!data.testRun){const root=internalTargets?.get('journey:'+data.testRunId)??await rawReadRecord(env,owner,'journey',data.testRunId);if(!root?.synthetic||root.testRun?.runId!==data.testRunId||root.trashedAt||data.synthetic!==true)fail(409,'test_run_unavailable','Choose a current owner-owned TEST root and explicit synthetic:true.');if(!internalTargets?.has('journey:'+data.testRunId))checks.guardedTargets.push({family:'journey',id:root.id,rev:root.rev});}
- const now=new Date().toISOString();const record:WorkspaceRecord={id:c.id!,family:c.family!,title:'',body:'',links:[],synthetic:false,...existing,...data,rev:existing?existing.rev+1:1,createdAt:existing?.createdAt??now,updatedAt:now,trashedAt:c.action==='trash'?now:c.action==='restore'?null:existing?.trashedAt??null,actor};
- if(object(c.data)&&Array.isArray(c.data.patch)&&c.data.patch.some(p=>object(p)&&p.op==='clearNoteAnchor'))delete record.anchor;
-
- if(record.projectComposition){
-  if(record.family==='journey'&&record.projectComposition.workThreads?.length){
-   const revisions=[...new Set(record.projectComposition.workThreads.flatMap(thread=>thread.items.map(item=>item.revision).filter((rev):rev is number=>rev!==undefined)))];
-   if(revisions.some(rev=>rev>=record.rev))fail(400,'invalid_work_thread_reference','Historical references must name an already retained Project revision.');
-   const history=new Map<number,WorkspaceRecord>();
-   if(revisions.length){
-    const marks=revisions.map(()=>'?').join(',');
-    const rows=await env.DB!.prepare(`SELECT revision,data FROM v2_revisions WHERE owner=? AND family='journey' AND id=? AND revision IN (${marks})`).bind(owner,record.id,...revisions).all<{revision:number;data:string}>();
-    for(const row of rows.results)history.set(row.revision,JSON.parse(row.data) as WorkspaceRecord);
-   }
-   try{record.projectComposition=reconcileWorkThreadReferences(record,existing??undefined,history);}catch(e){fail(400,'invalid_work_thread_reference',(e as Error).message);}
-  }
-  try{record.projectComposition=validateComposition(record.projectComposition,record);}catch(e){fail(400,'invalid_composition',(e as Error).message);}
-  const prior=existing?adaptedComposition(existing):undefined, next=record.projectComposition;
-  if(prior){const protectedIds=[...new Set([...(prior.protectedIds??[]),...prior.blocks.filter(b=>b.layoutLock).map(b=>b.id)])];
-   for(const key of protectedIds){const before=protectedSnapshot(existing!,prior,key),after=protectedSnapshot(record,next,key);if(actor==='gpt'&&!options?.overrideIds?.includes(key)&&stable(before)!==stable(after))fail(409,'learner_edit_preserved','This update would replace or move directly edited content: '+key);}
-   next.protectedIds=[...new Set([...(prior.protectedIds??[]),...(actor==='user'?[...next.sections.filter(s=>stable(prior.sections.find(v=>v.id===s.id))!==stable(s)).map(s=>'layout-section:'+s.id),...(['title','description','body'].filter(key=>stable(protectedSnapshot(existing!,prior,key))!==stable(protectedSnapshot(record,next,key)))),...next.blocks.filter(b=>stable(protectedSnapshot(existing!,prior,b.id))!==stable(protectedSnapshot(record,next,b.id))).map(b=>b.id)]:[])])];
-  }else if(actor==='user')next.protectedIds=['title','description','body',...next.blocks.map(b=>b.id)];
- }
- // Admit exact retained editions through projected reads and guard the current head in the batch.
- const oldProjectRefs=[...(existing?.projectComposition?.blocks.flatMap(b=>b.ref?[b.ref]:[])??[]),...(existing?.pagePins??[])];
- for(const ref of [...(record.projectComposition?.blocks.flatMap(b=>b.ref?[b.ref]:[])??[]),...(record.pagePins??[])].filter(ref=>!oldProjectRefs.some(old=>stable(old)===stable(ref)))){
-  const internal=internalTargets?.get(ref.family+':'+ref.id),current=internal??await rawReadRecord(env,owner,ref.family,ref.id);const target=internal??(ref.rendition?await readRendition(env,owner,ref.id,ref.rendition,ref.family):await readRecord(env,owner,ref.family,ref.id));
-  if(!current||!target||ref.sectionId&&!target.sections?.some(s=>s.id===ref.sectionId)||ref.partId&&!canonicalReadingParts(target).some(p=>(!ref.sectionId||p.sectionId===ref.sectionId)&&p.part.id===ref.partId))fail(409,'project_reference_unavailable','An exact Project or Note destination is unavailable.');
-  if(!internal)checks.guardedTargets.push({family:current.family,id:current.id,rev:current.rev});
- }
- for(const section of record.sections??[])for(const part of section.parts)if(part.interactive?.type==='drawing'){const id=part.interactive.noteId,target=internalTargets?.get('note:'+id)??await rawReadRecord(env,owner,'note',id);if(!target||target.trashedAt)fail(409,'drawing_note_unavailable','A drawing needs an existing ordinary state Note or a Note in this atomic Project update.');if(!internalTargets?.has('note:'+id))checks.guardedTargets.push({family:'note',id,rev:target.rev});}
- if(actor==='gpt'&&record.family==='run'&&record.evidence==='observed'&&!record.synthetic)fail(400,'unattested_execution','GPT cannot author or alter genuine observed execution evidence. Save an illustrative or explicitly synthetic record instead.');
- if(record.outputBundle){try{await validateTypedOutputBinding(record.outputBundle,record.code??'',record.sections);for(const output of record.outputBundle.outputs)if(output.kind==='image'){const part=record.sections?.find(section=>section.id===output.sectionId)?.parts.find(part=>part.id===output.partId);const meta=part?.image&&await readImageMetadata(env,owner,part.image.assetId);if(!meta||meta.mime!=='image/png')throw Error('Scientific PNG output requires an owned image/png attachment.');}}catch(error){fail(400,'invalid_output_bundle',(error as Error).message);}if(record.evidence==='observed')fail(400,'unattested_execution','Transported output is not server-observed execution.');}
- if(record.family==='note'&&record.bodyFormat==='markdown-v1'){try{validateNoteImagePlacements(record.body,record.sections??[])}catch(error){fail(400,'invalid_note_image_placement',error instanceof Error?error.message:'Invalid image placement.');}}
- if(actor==='gpt'&&!options?.skipReferencePolicy&&(c.action==='create'||c.action==='update')){const issue=libraryReferenceFindings(record)[0];if(issue)throw new DomainError(409,'library_reference_only',issue.message,'data.'+issue.path);}
- // A personal cover update is metadata only. Existing manuscript and legacy
- // rendition identities remain authoritative even if today's hashing normalises
- // their in-memory shape differently. Canonical edits still use renditionFor.
- const coverOnly=c.action==='update'&&Object.keys(data).every(key=>['projectCover','projectDescription','projectComposition','pagePins','testRunId'].includes(key));
- if(isReadingFamily(record.family))record.rendition=coverOnly&&existing?.rendition?existing.rendition:await renditionFor(record);
+ if(reused.length){if(segments.length!==1||reused.length!==1||!reused[0]?.excerpt)fail(400,'mixed_excerpt_capture',…6478 tokens truncated…ition=coverOnly&&existing?.rendition?existing.rendition:await renditionFor(record);
  const catalogue=!options?.skipCatalogue&&record.family==='article'&&(c.action==='create'||c.action==='update')?await prepareCatalogue(env,owner,record,catalogueIntent):undefined;
  const images:ImageMetadata[]=[];if(c.action==='create'||c.action==='update'){
   if(record.projectCover&&stable(record.projectCover)!==stable(existing?.projectCover))images.push(await prepareImageAttachment(env,owner,record.projectCover.assetId));
@@ -513,7 +353,7 @@ export async function previewCommand(env:Cloudflare.Env,owner:string,input:unkno
  const result=await prepared(env,owner,command,actor);if(result.existing&&result.existing.rev!==command.expectedRev)fail(409,'revision_conflict','The record changed. Refresh its current revision before saving.');return {valid:true,command,record:await projectRecord(env,owner,result.record,true),summary:'Validated preview only. No record or receipt has been written.'};
 }
 export async function executeCommand(env:Cloudflare.Env,owner:string,input:unknown,actor:Actor='user',expectedTargets?:{family:Family;id:string;rev:number}[],projectOptions?:{projectAuthoring:true;overrideIds?:string[];digest?:string}):Promise<CommandReceipt>{
- const c=validateCommand(input);const digest=projectOptions?.digest??await hash(expectedTargets?{command:c,expectedTargets}:c);const generation=generationContext(env);if(generation)requireGeneration(generation,c.expectedGeneration);const classification=classificationInput(c);if(classification)return classifyLearningScope(env,owner,classification);
+ const c=validateCommand(input);if(actor==='gpt'&&c.family==='note')fail(403,'gpt_note_authoring_forbidden','GPT may read authorised Notes, but only the signed-in learner can create, change, trash, restore or pin a Note. Save requested learning content in its Project, Question or Library destination.');const digest=projectOptions?.digest??await hash(expectedTargets?{command:c,expectedTargets}:c);const generation=generationContext(env);if(generation)requireGeneration(generation,c.expectedGeneration);const classification=classificationInput(c);if(classification)return classifyLearningScope(env,owner,classification);
  const previous=await db(env).prepare('SELECT hash,response FROM v2_operations WHERE owner=? AND id=?').bind(owner,c.operationId).first<{hash:string,response:string}>();
  if(previous){if(previous.hash!==digest)fail(409,'idempotency_mismatch','This operation ID was already used with different content. Keep the original payload to recover it, or use a new operation for a deliberate new edit.');return receiptMetadata(JSON.parse(previous.response));}
  if(c.family==='journey'&&c.id)await (await import('./collaboration-preferences')).assertGptProjectEditing(env,owner,c.id,actor);
