@@ -1,5 +1,7 @@
 # Project context v1 — implementation status
 
+**13 November 2026:** deployed as **V176** to the existing Minamo Site. Native source `cbeb72b02efaa914f9c17977e15fec1046a5e8a5`; deployment succeeded with MCP enabled. Typecheck, production build and 36 focused tests passed. See [the deployment receipt](PR9-V176-DEPLOYMENT.md) for current verification and acceptance status. The source-only and deployment-boundary statements below describe the earlier implementation checkpoint.
+
 ## Scope and decisions
 
 This work builds on PR #7 / V175 (`1fdfb8bd5f5a66b820921009def67a0cf6e519f9`) in PR #9's `feature/project-context-reader-mcp-v1` branch. It keeps the existing canonical Project sections, part IDs, layouts, reader, Notes, learner contributions and saved editions as the source of truth.
