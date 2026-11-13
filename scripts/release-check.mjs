@@ -3,14 +3,14 @@ import {appendFileSync,existsSync,readdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {selectFocusedTests} from './ci-focused-tests.mjs';
 
-const tooling=p=>p==='AGENTS.md'||p.startsWith('docs/')||(!p.includes('/')&&p.endsWith('.md'))||p.startsWith('tests/')||p.startsWith('.github/')||['scripts/release-check.mjs','scripts/ci-focused-tests.mjs'].includes(p);
+const tooling=p=>p==='AGENTS.md'||p.startsWith('docs/')||(!p.includes('/')&&p.endsWith('.md'))||p.startsWith('tests/')||p.startsWith('.github/')||['scripts/release-check.mjs','scripts/ci-focused-tests.mjs','scripts/verify-sites-source-snapshot.mjs','scripts/verify-sites-v175-source-reconciliation.mjs'].includes(p);
 export function releasePlan(changed,{full=false,exists=existsSync,listTests=()=>readdirSync('tests')}={}){
  const runtime=changed.filter(p=>!tooling(p));
  let tests=full?listTests().filter(p=>p.endsWith('.test.mjs')).map(p=>'tests/'+p).sort():selectFocusedTests(changed,exists,listTests);
  const notes=[];
  const unmapped=full?[]:runtime.filter(p=>selectFocusedTests([p],exists,listTests).length===0);
  if(unmapped.length){
-  const smoke=unmapped.every(p=>p.startsWith('app/'))?'tests/reading-canonical-dom.test.mjs':'tests/domain-http.test.mjs';
+  const smoke=unmapped.every(p=>/^(app|public)\//.test(p))?'tests/reading-canonical-dom.test.mjs':'tests/domain-http.test.mjs';
   if(!exists(smoke))throw Error('Missing required release smoke: '+smoke);
   tests=[...new Set([...tests,smoke])].sort();notes.push('Review smoke coverage: no specific test mapping for '+unmapped.join(', '));
  }
@@ -24,8 +24,8 @@ if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
  try{
   const args=process.argv.slice(2),at=args.indexOf('--base'),base=at>=0?args[at+1]:process.env.CI_BASE_SHA;
   if(!base||base.startsWith('--'))throw Error('Supply --base <exact comparison ref> or CI_BASE_SHA; HEAD^ is not a reliable PR baseline.');
-  const ref=/^0+$/.test(base)?execFileSync('git',['hash-object','-w','-t','tree','--stdin'],{input:'',encoding:'utf8'}).trim():execFileSync('git',['rev-parse','--verify',base],{encoding:'utf8'}).trim();
-  const changed=execFileSync('git',['diff','--name-only','--diff-filter=ACDMRT',ref,'HEAD'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
+  const ref=/^0+$/.test(base)?execFileSync('git',['hash-object','-w','-t','tree','--stdin'],{input:'',encoding:'utf8'}).trim():execFileSync('git',['rev-parse','--verify',base+'^{commit}'],{encoding:'utf8'}).trim();
+  const changed=execFileSync('git',['diff','--no-renames','--name-only','--diff-filter=ACDMRT',ref,'HEAD'],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
   const plan=releasePlan(changed,{full:args.includes('--full')||process.env.RELEASE_FULL_AUDIT==='true'});
   console.log(JSON.stringify({base:ref,head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),...plan},null,2));
   if(plan.overBudget)throw Error('More than 40 suites selected. Review the comparison baseline/mappings and use bounded affected checks; --full is an explicit audit opt-in, never an automatic fallback.');

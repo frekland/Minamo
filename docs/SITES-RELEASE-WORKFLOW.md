@@ -44,6 +44,6 @@ Use synthetic data for acceptance writes; do not alter genuine Projects as test 
 
 ## CI behaviour
 
-`.github/workflows/check.yml` runs focused checks for PRs and main pushes, caches the pnpm store, cancels superseded runs, and avoids duplicate feature-push plus PR jobs. Documentation-only plans skip dependency setup. Full history remains a manual audit option. The local release planner is the same code CI runs.
+`.github/workflows/check.yml` runs focused checks for PRs and main pushes, fetches only the comparison commit when needed, caches the pnpm store, cancels superseded runs, and avoids duplicate feature-push plus PR jobs. Documentation-only plans skip dependency setup. Full history remains a manual audit option. The local release planner is the same code CI runs. Focused jobs have a 20-minute ceiling; explicit full audits have 90 minutes. A process-only end-to-end check exercised 26 assertions in about 11 seconds without a build or typecheck; runtime PRs still receive their required build and safety checks.
 
 The older V80/Lab instructions remain in Git history as historical evidence; they are not current release requirements.

@@ -21,13 +21,22 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite && 90 || 20 }}
     env:
       CI_BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_ref || github.event.before }}
       RELEASE_FULL_AUDIT: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite || false }}
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 2
+      - name: Fetch comparison commit only when needed
+        shell: bash
+        run: |
+          if [[ "$CI_BASE_SHA" =~ ^0+$ ]]; then exit 0; fi
+          if ! git cat-file -e "$CI_BASE_SHA^{commit}" 2>/dev/null; then
+            git fetch --no-tags --depth=1 origin "$CI_BASE_SHA"
+            echo "CI_BASE_SHA=$(git rev-parse FETCH_HEAD)" >> "$GITHUB_ENV"
+          fi
       - id: plan
         run: node scripts/release-check.mjs --plan
       - uses: pnpm/action-setup@v4

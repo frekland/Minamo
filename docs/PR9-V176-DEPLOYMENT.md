@@ -16,6 +16,6 @@ The release adds the Project context reader, exact relationships, bounded MCP re
 
 Native typecheck and production build passed. All **36** tests in the focused Project map/MCP/structure/topic, collaboration-preference, Project UI and retired-checkpoint selection passed. An earlier run under excessive parallel load timed out; that result was superseded by the successful rerun.
 
-The broader V175/head suite comparison is in progress. Earlier concurrent comparison runs were interrupted because competing builds and suites caused resource contention; they are not acceptance evidence. Broad-suite results must be classified before declaring regression triage complete.
+At initial publication the broader V175/head suite comparison was in progress. Its completed results and the follow-up V177 fix are recorded in [the regression triage](PR9-REGRESSION-TRIAGE.md). Earlier concurrent comparison runs were interrupted because competing builds and suites caused resource contention; they are not acceptance evidence. Broad-suite results must be classified before declaring regression triage complete.
 
 No live MCP or browser acceptance is claimed. The owner will reinstall MCP and perform those checks against V176. PR #9 remains draft and unmerged. Deployment preserved the existing owner-only audience and bindings; no genuine learner Project or Note was edited as part of this release.

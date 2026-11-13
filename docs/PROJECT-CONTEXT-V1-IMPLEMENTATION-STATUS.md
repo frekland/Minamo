@@ -1,6 +1,6 @@
 # Project context v1 — implementation status
 
-**13 November 2026:** deployed as **V177** to the existing Minamo Site. Native source `399ca17891bdbc675e1acb9ab3b1571bba8d9d6c`; deployment succeeded with MCP enabled. V176 passed typecheck, production build and 36 focused tests; the V177 generation-fencing fix passed typecheck, production build and 16 relevant checks. See [the deployment receipt](PR9-V177-DEPLOYMENT.md) for current verification and acceptance status. The source-only and deployment-boundary statements below describe the earlier implementation checkpoint.
+**13 November 2026:** deployed as **V177** to the existing Minamo Site. Native source `399ca17891bdbc675e1acb9ab3b1571bba8d9d6c`; deployment succeeded with MCP enabled. V176 passed typecheck, production build and 36 focused tests; the V177 generation-fencing fix passed typecheck, production build and 16 relevant checks. See [the deployment receipt](PR9-V177-DEPLOYMENT.md) for current verification and acceptance status. The completed [regression triage](PR9-REGRESSION-TRIAGE.md) records the remaining baseline failures. Routine future releases use [bounded checks](SITES-RELEASE-WORKFLOW.md); full audits are manual-only. The source-only and deployment-boundary statements below describe the earlier implementation checkpoint.
 
 ## Scope and decisions
 

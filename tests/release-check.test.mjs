@@ -19,6 +19,9 @@ test('an explicit current-contract mapping does not pull in a retired namesake s
 test('compiled tests require a build even when application source is unchanged',()=>{
  assert.equal(releasePlan(['tests/beta-compiled-worker.test.mjs'],options).build,true);
 });
+test('source-audit tooling does not trigger an application rebuild',()=>{
+ assert.equal(releasePlan(['scripts/verify-sites-v175-source-reconciliation.mjs'],options).build,false);
+});
 test('a shared writer change retains recovery, Note ownership, rights and preference checks without historical scenarios',()=>{
  const p=releasePlan(['lib/domain.ts'],options);
  for(const path of ['tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/source-reference-permission.test.mjs','tests/collaboration-preferences.test.mjs'])assert.ok(p.tests.includes(path));

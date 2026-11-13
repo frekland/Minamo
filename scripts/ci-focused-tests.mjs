@@ -80,7 +80,7 @@ export function selectFocusedTests(changed,exists=existsSync,listTests=()=>readd
 if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
   const base=process.env.CI_BASE_SHA;
   if(!base){console.error('Supply CI_BASE_SHA, or use scripts/release-check.mjs --base <comparison commit>.');process.exit(1);}
-  const diffArgs=['diff','--name-only',base,'HEAD'];
+  const diffArgs=['diff','--no-renames','--name-only',base,'HEAD'];
   let changed;
   try{
     changed=execFileSync('git',diffArgs,{encoding:'utf8'}).trim().split('\n').filter(Boolean);
@@ -96,7 +96,7 @@ if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
     console.log(selected.join('\n'));
     // Disposable Miniflare/Workerd fixtures can retain idle process handles
     // after all tests and awaited disposals finish. Preserve real test exit
-    // status while avoiding an artificial CI timeout on draft feedback.
+    // status while avoiding an artificial CI timeout on focused checks.
     const result=spawnSync(process.execPath,['--test','--test-force-exit','--test-concurrency=2',...selected],{stdio:'inherit'});
     if(result.error){console.error(result.error);process.exit(1);}
     process.exit(result.status??1);
