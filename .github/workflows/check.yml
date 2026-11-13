@@ -1,15 +1,45 @@
-name: Foundation checks
-on: [push, pull_request]
+name: Focused release checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: Exact public comparison baseline
+        default: main
+        required: true
+      full_suite:
+        description: Explicit historical full-suite audit (normally leave off)
+        type: boolean
+        default: false
+concurrency:
+  group: release-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      CI_BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_ref || github.event.before }}
+      RELEASE_FULL_AUDIT: ${{ github.event_name == 'workflow_dispatch' && inputs.full_suite || false }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: plan
+        run: node scripts/release-check.mjs --plan
+      - uses: pnpm/action-setup@v4
+        if: steps.plan.outputs.install == 'true'
+        with:
+          version: 11.25.0
+          run_install: false
       - uses: actions/setup-node@v4
+        if: steps.plan.outputs.install == 'true'
         with:
           node-version: '24'
-      - run: npm install --global pnpm@11.25.0
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run typecheck
-      - run: pnpm run build
-      - run: pnpm test
+          cache: pnpm
+      - if: steps.plan.outputs.install == 'true'
+        run: pnpm install --frozen-lockfile
+      - run: node scripts/release-check.mjs

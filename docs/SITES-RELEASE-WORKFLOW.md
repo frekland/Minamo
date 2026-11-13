@@ -1,39 +1,49 @@
-# Publishing the owner-private ChatGPT Site from public Minamo source
+# Fast PR → Sites releases
 
-> **Current policy update — 5 November 2026.** The owner's [fast Sites workflow](https://github.com/frekland/Minamo/blob/main/docs/SITES-RELEASE-WORKFLOW.md) supersedes the blanket full-regression requirement in this historical V80 description. Routine owner-authorised UI/content fixes need a successful native build, focused affected-path checks, protected audience/bindings and a brief live smoke, **not** a full `pnpm test`, exhaustive parity review or unrelated fixture campaign. Full `pnpm test` and historical browser acceptance are **manual-only on explicit owner request**; review-ready PRs and `main` pushes must not silently invoke them. Critical auth, privacy, storage, recovery, source-rights, CAS and receipt checks remain risk-specific blockers. Documentation-only source changes do not need Site deployment. See the current native `AGENTS.md`.
+Use the existing Site from `.openai/hosting.json`. The former Visual Lab is now production; never create another Site or use an obsolete Lab target. Preserve audience, authentication, D1/R2/MCP bindings and learner data.
 
-**Workflow decision — 31 October 2026.** `frekland/Minamo` is the single active GitHub source, issue, PR and release-evidence home for shared Minamo application development, including work intended for the existing ChatGPT Site. The historical private GitHub engineering repository is a retained reference, **not a second mandatory implementation or promotion repository**.
+## Check only the affected contracts
 
-The existing Site still builds from its **separate native Sites Git repository**. A public GitHub commit is neither that native commit nor a deployment. The Site's audience, identity, D1/R2 storage, MCP bindings and runtime environment stay separate and private. Independent Cloudflare/Auth0 staging is another distinct release target; nothing in this procedure promotes to it.
+The owner requested this workflow on 13 November 2026. It replaces historical blanket full-suite gates. The command prints exactly what it will run:
 
-## Direct public-to-native Sites release
+```sh
+node scripts/release-check.mjs --plan --base <comparison-commit>
+node scripts/release-check.mjs --base <comparison-commit>
+```
 
-1. **Select the SITES target explicitly.** Identify the existing Site by an authorised, privately held project ID and read the current saved version, deployed native source SHA, access mode and environment/binding revisions. Inspect public `main`, open PRs and current source. Never create a replacement Site just to simplify the repository arrangement.
-2. **Develop and review in public.** Use a focused public issue/branch/PR. Keep real learner records, credentials, IDs, private endpoints, private assets and deployment configuration out of public Git. Run directly affected tests during development; choose the final typecheck/build, regression and browser checks proportionately under the current fast release policy.
-3. **Classify a bounded source manifest.** Compare the affected public files against the current native Sites checkout, including exact content hashes. Apply only reviewed shared-code changes, plus clearly documented Site-specific adaptations. Never overwrite an unrelated, newer native change or blindly copy/delete either entire tree. Do not require an impossible full-tree SHA match between unrelated Git histories.
-4. **Retain protected native-only material.** The private `.openai/hosting.json`, source identity and allowed-origin configuration, access/secret bindings, owned brand assets and separately reviewed Site-only source remain native. Runtime values should be configured through the host when supported. Never infer permission to publish native-only files from their presence in a checkout.
-5. **Build and verify native source.** Apply the manifest to the current expected native HEAD, preserving its ancestry. Check the reviewed changed paths against the approved public version or record an explicit adaptation. Run the risk-appropriate checks and report the exact native commit, tested public SHA, file exceptions and any unrun checks; a full-tree parity audit is not a routine requirement.
-6. **Publish privately.** Push the new native commit to its configured Sites Git branch using short-lived scoped credentials, then save/deploy that exact native HEAD through the existing Site's private publication operation. Verify the deployment reaches success, the URL/access audience and D1/R2/MCP configuration remain the intended ones, and no fixture reset or genuine learner-data mutation occurred without separate authorisation. A GitHub merge alone does not publish.
-7. **Close the loop in public.** Record a sanitised release receipt with the public commit, selected file manifest/digests, native commit, user-facing Sites version, test matrix, observed smoke/MCP evidence, residual gaps and rollback target. Keep operational secrets, owner identities and sensitive logs private. Fix shared-source regressions in a new public PR; avoid untracked hotfixes that live only in native Git.
+Use an exact comparison commit from the verified current release, not `HEAD^` for a multi-commit PR. `LATEST-SITES-RELEASE.json` supplies the last published public/native application identities; check current Sites status before using it. The CLI requires committed tracked changes, so its evidence identifies the source being released. Run it in the checkout being qualified; a public copy of the script can also run with the native checkout as the working directory and a native comparison commit.
 
-The native repository is an **output/deployment surface**, not another place to independently develop shared features. The private historical GitHub repository can stay readable without accumulating new implementation PRs, routine release reports or mirrored source changes. A private operational note may still be needed for genuinely sensitive decisions; it must not become a parallel code authority.
+| Change | Default checks |
+| --- | --- |
+| Documentation | No install, build or tests |
+| Tests/release tooling | Changed/mapped tests; no application rebuild |
+| CSS/assets/content | One production build and affected checks |
+| Typed application code | Typecheck, one production build and affected checks |
+| MCP/domain writes | Current ownership, generation, recovery, CAS/retry and permission checks |
+| Compiled-worker tests | Build before the selected tests |
 
-## V80 baseline comparison (31 October 2026)
+The selector includes directly changed tests and explicit current-contract mappings. Unmapped runtime changes receive a smoke check and a visible diagnostic: inspect that coverage and add a meaningful mapping when needed. More than 40 selected suites stops for baseline/mapping review rather than silently becoming a historical audit. This is a bounded aid, not a claim of complete impact analysis.
 
-An exact read-only comparison was performed between public `main` at `4e3b38d96be9a916f0e9bb28028d302f5d3ab3a1` and the existing Site's native V80 source at `e7a7c111490bbf1b56da3473ca6ca62a8fe99a03`. Most shared application modules were byte-identical, but **whole-tree parity was not established**. Differences must remain intentional until individually reviewed:
+A full historical audit is available only through an explicit `--full` request or the Actions manual `full_suite` option. Routine PRs, review-ready transitions and main pushes do not opt in. When a relevant failure may predate the PR, compare that file on the baseline and head; reuse recorded historical results instead of rerunning both complete suites. Preserve failures in the receipt; do not hide a failed safety assertion.
 
-- Native-only hosting/origin defaults and configuration, plus protected branding and test assets.
-- The existing native recovery-export batching/cache implementation, associated with still-draft public PR #9, and a portable-export error message not yet integrated into public `main`.
-- A native-only development-preview benchmark fixture, separate from general synthetic acceptance fixtures.
-- Small build configuration, package identity, licence/attribution, test and documentation differences.
+## One production build and publication
 
-This comparison **does not authorise deleting native files, backporting the pending recovery fix, changing access/auth or rewriting owner-specific settings**. For the first direct-transfer smoke release, use a documentation-only public file as the source manifest and preserve all V80 application bytes; verify the process before attempting functional code promotion. Every later source change must still inspect the current actual native version.
+1. Inspect current successful Sites version/native commit and native remote HEAD. Reconcile newer changes before porting. Reuse the established baseline comparison when identities still match; hash/mode-check the reviewed changed files and preserve native-only material.
+2. Install pinned dependencies with the frozen lockfile if missing or changed. Otherwise reuse the verified installation. Qualify the exact committed native source with the bounded checks above. CI is feedback; avoid a redundant local public build followed by an identical native build.
+3. Keep builds and test selections sequential. The focused runner uses two workers and a bounded per-test timeout, preserves nonzero exit codes and exits after completed tests. Synthetic fixtures must still dispose resources on startup failures; the cleanup regression test verifies natural child-process exit.
+4. Package once, after the build, and leave the archive unchanged until upload succeeds:
 
-## Non-goals and failure conditions
+```sh
+tar -czf /absolute/path/minamo-release.tar.gz .openai/hosting.json dist
+```
 
-- No GitHub Actions auto-deployment, force-push, mass native tree replacement, automatic data migration or cross-deployment release.
-- No weakening of host identity, signed-in principal isolation, revision/CAS, recovery or source-rights checks.
-- No assumption that the current independent Cloudflare staging runs the complete owner-private Sites app.
-- Stop before publication if the current native HEAD changed unexpectedly, the selected files cannot be matched, a required native-only adaptation is not understood, a **relevant critical** check fails, or the existing private access/bindings cannot be preserved. An unrelated historical assertion or omitted full suite is not automatically a publication blocker; disclose it accurately.
+5. Mint a short-lived source credential immediately before pushing. Never print/store tokens or put credentials in Git remotes. Check the expected native HEAD, push without force, and publish that exact SHA/archive to the existing audience using Sites. Use the combined private save/deploy operation when owner-only access is confirmed. If a version is already saved, deploy it rather than saving another copy.
+6. Poll the returned deployment until terminal. Record GitHub application SHA, native SHA, version, deployment ID, relevant results and outstanding acceptance. Update the latest-release receipt. Documentation/test-only follow-ups do not require another Site version.
 
-The public repository is the source of truth for future shared changes; the native Sites commit and its successful deployment remain the separate truth for what is actually live.
+Use synthetic data for acceptance writes; do not alter genuine Projects as test fixtures. Where requested, the owner reinstalls MCP and runs fresh-chat/browser checks after deployment. A successful build or Sites status does not establish that those checks passed. Leave PRs unmerged unless separately authorised.
+
+## CI behaviour
+
+`.github/workflows/check.yml` runs focused checks for PRs and main pushes, caches the pnpm store, cancels superseded runs, and avoids duplicate feature-push plus PR jobs. Documentation-only plans skip dependency setup. Full history remains a manual audit option. The local release planner is the same code CI runs.
+
+The older V80/Lab instructions remain in Git history as historical evidence; they are not current release requirements.

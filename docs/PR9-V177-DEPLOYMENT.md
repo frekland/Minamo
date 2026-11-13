@@ -12,6 +12,6 @@ V177 includes all [V176 Project reader and MCP changes](PR9-V176-DEPLOYMENT.md).
 
 Native typecheck and production build passed. All **16** recovery, Project-learning MCP and collaboration-preference checks passed, including the previously failing recovery/rollback case and the current-generation Note-denial cases. The earlier V176 release passed 36 focused checks. Tool schemas are unchanged from V176.
 
-The full V176/head comparison continues in its unchanged checkout. Its identified recovery regression is fixed and verified separately in V177; no second full suite is claimed for this small ordering fix. The corrected V175 baseline has 1,732 tests: 1,487 passed, 241 failed and 4 skipped. It combines the full baseline run with the completed-build compiled-worker selection; interrupted runs are excluded.
+The completed [regression comparison](PR9-REGRESSION-TRIAGE.md) identifies the generation-admission regression fixed here, qualifies the current Note-authoring tests, and lists 237 remaining baseline failing results. The historical full suite remains red; no full V177 rerun is claimed. Routine future checks use the bounded release workflow instead of repeating both historical suites.
 
 The owner will perform fresh MCP and browser acceptance against the deployed release. Neither is claimed as completed here. PR #9 remains draft and unmerged.
