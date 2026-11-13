@@ -8,7 +8,7 @@ const built=await wr('esbuild').build({stdin:{contents:"export {projectReadingTo
 const {projectReadingTopics,validateComposition}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
 const sections=[{id:'source',title:'Long topic',parts:[{id:'message',kind:'paragraph',text:'Canonical message'},{id:'meaning',kind:'paragraph',text:'Translation'},{id:'exercise',kind:'paragraph',text:'Practice'}]}];
 const composition={version:1,sections:[{id:'read',title:'Read',pattern:'notebook',slots:[{id:'main',role:'primary',blockIds:['block']}]}],blocks:[{id:'block',sectionId:'source'}],favourites:['block']};
-const organised=()=>({...structuredClone(composition),blocks:[{id:'block',sectionId:'source',readingPages:[{id:'exchange',title:'Message and meaning',purpose:'source',partIds:['message','meaning']},{id:'practice',title:'Try the exchange',purpose:'practice',partIds:['exercise']}]}]});
+const organised=()=>({...structuredClone(composition),sections:[...structuredClone(composition.sections),{id:'practice',title:'Practice',pattern:'guide',slots:[{id:'main',role:'primary',blockIds:[]}]}],blocks:[{id:'block',sectionId:'source',readingPages:[{id:'exchange',title:'Message and meaning',purpose:'source',partIds:['message','meaning']},{id:'practice',title:'Try the exchange',layoutId:'practice',purpose:'practice',partIds:['exercise']}]}]});
 test('named destinations preserve every part and reject omissions, duplicates and unknown parts',()=>{
  const c=organised();validateComposition(c,{sections});assert.deepEqual(projectReadingTopics(c,sections).map(t=>t.title),['Message and meaning','Try the exchange']);
  for(const ids of [['message'],['message','meaning','meaning'],['message','meaning','unknown']]){const bad=organised();bad.blocks[0].readingPages[0].partIds=ids;assert.throws(()=>validateComposition(bad,{sections}),/every canonical part/);}
@@ -22,6 +22,7 @@ test('global MCP organisation is owner scoped, revisioned, replayable, non-destr
  const args={projectId:id,operationId:'global-organisation',expectedGeneration:owner.generation,expectedProjectRev:1,composition:organised(),explicitOverrideIds:['block'],mode:'preview'};
  const protectedEdit=await invoke(owner,{...args,explicitOverrideIds:undefined});assert.ok(protectedEdit.data.result?.isError);
  const preview=await invoke(owner,args);assert.equal(preview.data.result?.structuredContent?.valid,true,JSON.stringify(preview.data));
+ assert.deepEqual(preview.data.result.structuredContent.organisationReview.outline.map(s=>s.title),['Read','Practice']);
  const denied=await invoke(other,args);assert.ok(denied.data.result?.isError||denied.data.error,JSON.stringify(denied.data));
  const saved=await invoke(owner,{...args,mode:'apply'});assert.equal(saved.data.result?.structuredContent?.status,'committed',JSON.stringify(saved.data));
  const replay=await invoke(owner,{...args,mode:'apply'});assert.equal(replay.data.result?.structuredContent?.replayed,true,JSON.stringify(replay.data));

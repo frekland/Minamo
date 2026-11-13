@@ -16,7 +16,7 @@ export function projectReadingTopics(composition:ProjectComposition,sections:Art
     const section=block.sectionId?content.get(block.sectionId):undefined;
     if(block.ref&&!section){const name=referenceTitles[block.id]?.trim()||`Reference · ${block.ref.id.slice(0,24)}`;const occurrence=(referenceNames.get(name)??0)+1;referenceNames.set(name,occurrence);const title=occurrence===1?name:`${name} · ${occurrence}`;result.push({id:`${layout.id}:${block.id}:ref`,layoutId:layout.id,blockId:block.id,sectionId:block.id,partIds:[],title,kind:'reference'});continue;}
     if(!section)continue;
-    if(block.readingPages){for(const page of block.readingPages){const partIds=page.partIds.filter(id=>section.parts.some(p=>p.id===id&&!p.unavailable));if(partIds.length)result.push({id:`${layout.id}:${block.id}:${page.id}`,layoutId:layout.id,blockId:block.id,sectionId:section.id,partIds,title:page.title,purpose:page.purpose,provenance:page.provenance,source:page.source,kind:'content'});}continue;}
+    if(block.readingPages){for(const page of block.readingPages){const partIds=page.partIds.filter(id=>section.parts.some(p=>p.id===id&&!p.unavailable));if(partIds.length)result.push({id:`${layout.id}:${block.id}:${page.id}`,layoutId:page.layoutId??layout.id,blockId:block.id,sectionId:section.id,partIds,title:page.title,purpose:page.purpose,provenance:page.provenance,source:page.source,kind:'content'});}continue;}
     const parts=section.parts.filter(p=>!p.unavailable);
     // Native sections are the real topics. Do not invent navigation from random prose
     // inside a block. Only exceptionally long blocks are divided into numbered parts.
@@ -28,5 +28,5 @@ export function projectReadingTopics(composition:ProjectComposition,sections:Art
    }
   }
  }
- return result;
+ return result.filter(topic=>composition.sections.some(section=>section.id===topic.layoutId&&!section.hidden));
 }

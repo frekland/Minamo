@@ -24,3 +24,10 @@
 .pc-reading-topics{scrollbar-width:none;overscroll-behavior-inline:contain}.pc-reading-topics::-webkit-scrollbar{display:none}
 
 .pc-last-opened{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding:8px 12px;margin-bottom:12px;border:1px solid var(--mn-border);border-radius:7px;color:var(--mn-text-muted);font:12px/1.5 system-ui}.pc-last-opened span{flex:1}.pc-last-opened button{background:transparent;color:var(--mn-interactive);padding:5px;font:inherit}.pc-last-opened button:focus-visible{outline:2px solid var(--mn-focus);outline-offset:2px}
+
+/* Keep complete destination names visible at every viewport. */
+.pc-reading-topics{flex-wrap:wrap;overflow:visible;align-items:stretch;scrollbar-width:auto}
+.pc-reading-topics button{flex:0 1 auto;max-width:100%;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;text-align:left;line-height:1.45}
+.pc-reading-topic-row{align-items:flex-start}.pc-reading-sections button{overflow-wrap:anywhere;white-space:normal}
+.pc-reading-section-actions{gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 .6rem}.pc-reading-section-actions button{display:inline-flex;width:auto;min-height:34px;height:auto;padding:6px 10px;white-space:normal}
+.pc-reading-material :is(h2,h3,h4){white-space:normal;overflow:visible;overflow-wrap:anywhere;line-height:1.5}

@@ -310,5 +310,13 @@ export async function editProjectStructure(env:Cloudflare.Env,owner:string,input
  let parsed:z.infer<typeof structureEditSchema>;try{parsed=structureEditSchema.parse(input);}catch(e){throw new DomainError(400,'invalid_structure_edit',(e as Error).message);}
  const {mode,...request}=parsed;
  if(mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
- return applyProjectUpdate(env,owner,{...request,globalStructure:true},'gpt',mode==='preview');
+ const result=await applyProjectUpdate(env,owner,{...request,globalStructure:true},'gpt',mode==='preview');
+ if(mode==='preview'&&'proposed' in result&&result.proposed){
+  const proposed=result.proposed as WorkspaceRecord,composition=adaptedComposition(proposed),topics=projectReadingTopics(composition,proposed.sections);
+  const outline=composition.sections.filter(s=>!s.hidden).map(section=>({id:section.id,title:section.title,topics:topics.filter(t=>t.layoutId===section.id).map(t=>({title:t.title,purpose:t.purpose??'unspecified',sectionId:t.sectionId,partIds:t.partIds}))}));
+  return {...result,organisationReview:{outline,warnings:outline.flatMap(section=>{
+   const roles=new Set(section.topics.map(t=>t.purpose));return roles.has('source')&&(roles.has('practice')||roles.has('explanation'))?[{sectionId:section.id,message:'This section mixes source messages with explanation or practice. Check this against the requested task-based outline.'}]:[];
+  }),basis:'Actual shared reading-topic projection. Inspect destinations and purpose grouping, not just page names. No learner performance is inferred.'}};
+ }
+ return result;
 }
