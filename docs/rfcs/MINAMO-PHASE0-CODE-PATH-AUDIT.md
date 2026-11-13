@@ -40,9 +40,13 @@ The canonical passages and nested items already hold useful material. In a *read
 
 These are not equivalent types of content. A naïve document reader, one-match-per-record search or giant combined transcript would be a poor first experience. A useful composition could bring the owner's attempt/correction together with grammar and selected practice **without moving or rewriting the originals**, if it can discover the correct source passages reliably and represent their roles honestly.
 
-MCP content was inspected but no private learner prose or message excerpts beyond the illustrative grammar phrase are published in this public RFC. No live Project was edited.
+MCP content was inspected read-only. The owner subsequently authorised public use of Minamo learning material in a reproducible GitHub test corpus; see [the real-corpus development harness](MINAMO-REAL-CORPUS-DEVELOPMENT-HARNESS.md). This audit itself remains a focused code-path summary. No live Project was edited.
 
-## 4. First concrete engineering slice in normal ChatGPT
+## 4. Updated execution sequence: reproducible corpus before implementation
+
+First create the versioned representative real-content fixture and isolated local D1/R2 loader per [the authoritative harness contract](MINAMO-REAL-CORPUS-DEVELOPMENT-HARNESS.md). Use existing MCP reads for extraction and refresh; test against snapshots locally. The current code seams below remain valid investigation inputs, but are **not** a mandate to ship the first discovery API before challenging architectural alternatives or checking the frontend experience.
+
+## 5. First concrete engineering slice after architectural comparison
 
 Implement a **read-only candidate extraction and source-selection path** before inventing new persistence or a global navigation change.
 
@@ -61,7 +65,7 @@ Implement a **read-only candidate extraction and source-selection path** before 
 - Build on PR #12's branch, using current GitHub source. Keep the PR draft/unmerged. Do not deploy an unverified UI or change production navigation merely to demo the architecture.
 - A prototype that manually hardcodes two Project IDs is **not** evidence of a scalable discovery system. Use them for *acceptance*, not as the production corpus selector.
 
-## 5. Explicit next validation
+## 6. Explicit next validation
 
 The first successful increment will produce a bounded set of **real cross-record passage/subitem candidates** and a stable, readable arrangement using them, with accurate source links and attributions. It should make a previously attempted Japanese example findable alongside related explanations and practice.
 
