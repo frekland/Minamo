@@ -18,12 +18,18 @@ test('MCP outline/read and bounded append maintain canonical identities and retr
   assert.equal(schema.properties.target.type,'object');
   for(const key of ['topicId','contextId','layoutId'])assert.equal(schema.properties.target.properties[key].type,'string');
   for(const key of ['mode','projectId','expectedProjectRev','expectedGeneration','operationId','title','parts','target','educationalPurpose'])assert.ok(schema.required.includes(key),key);
-  assert.ok(!schema.properties.parts.items.required.includes('id'));
-  assert.ok(schema.properties.parts.items.properties.kind);
-  assert.equal(schema.properties.parts.items.type,'object');
-  assert.equal(schema.properties.parts.items.allOf,undefined);
-  assert.equal(schema.properties.parts.items.properties.text.type,'string');
-  for(const key of ['table','callout','reference','image','media'])assert.ok(schema.properties.parts.items.properties[key].properties,key);
+  const variants=schema.properties.parts.items.anyOf;
+  assert.equal(variants.length,11);
+  const required={paragraph:['text'],code:['text'],table:['table'],callout:['text','callout'],reference:['text','reference'],image:['image'],media:['media'],excerpt:['text','excerpt'],interactive:['text','interactive']};
+  for(const variant of variants){
+   assert.equal(variant.type,'object');assert.equal(variant.allOf,undefined);
+   assert.equal(variant.additionalProperties,false);
+   assert.ok(!variant.required.includes('id'));
+   const kind=variant.properties.kind.enum[0];
+   for(const field of required[kind]??[])assert.ok(variant.required.includes(field),kind+':'+field);
+   for(const field of variant.required)assert.ok(variant.properties[field],field);
+  }
+  assert.equal(variants.find(v=>v.properties.kind.enum[0]==='paragraph').properties.text.type,'string');
   assert.equal((await owner.command({action:'create',family:'journey',id:pid,data:{title:'Music',body:'Reading',sections:source,projectComposition:composition}})).status,200);
   const outline=await invoke(owner,'get_project_learning_outline',{projectId:pid});
   const plan=outline.data.result?.structuredContent;

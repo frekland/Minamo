@@ -1,4 +1,5 @@
 import {mcpImageSchema,uploadMcpImage} from './mcp-image-upload';
+import {routineContentSchema} from './project-authoring-schema';
 import {saveProjectObservation} from './project-observation';
 import {manageTestRun,testRunInput,beginAdhocCall,finishAdhocCall} from './test-runs';
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
@@ -139,12 +140,7 @@ const appendVariants=(toJsonSchema(projectLearningAuthoringSchema) as any).oneOf
 const projectLearningAppendJson=structuredClone(appendVariants[1]);
 projectLearningAppendJson.properties.target={type:'object',properties:{topicId:{type:'string',maxLength:500},contextId:str,layoutId:str,contextTitle:{type:'string',maxLength:100}},additionalProperties:false,description:'Choose exactly one: topicId; an existing contextId; or layoutId plus a new contextId and optional contextTitle.'};
 refineProjectSchema(projectLearningAppendJson);
-// Routine authoring mints omitted passage identities. Keep the complete typed
-// rich-part definition, but do not require the caller to supply each part ID.
-projectLearningAppendJson.properties.parts=structuredClone(projectLearningAppendJson.properties.parts);
-projectLearningAppendJson.properties.parts.items.required=projectLearningAppendJson.properties.parts.items.required.filter((key:string)=>key!=='id');
-delete projectLearningAppendJson.properties.parts.items.allOf;
-projectLearningAppendJson.properties.parts.items.description='Typed canonical content. Set kind and the corresponding fields: paragraph/code require text (code optionally language); callout requires text and callout; table requires table; diagram requires text or diagram; image requires image; media requires media; reference requires text and reference; excerpt requires text and excerpt; interactive requires text and interactive. id is optional and generated when omitted. Server validation enforces kind-specific requirements.';
+projectLearningAppendJson.properties.parts={type:'array',minItems:1,maxItems:20,items:routineContentSchema(partSchema)};
 const projectLearningUpdateJson=toJsonSchema(updateProjectLearningMaterialSchema);refineProjectSchema(projectLearningUpdateJson);
 delete (projectUpdateJson as any).properties.globalStructure;
 const projectTools=[
