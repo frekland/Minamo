@@ -132,7 +132,11 @@ const projectUpdateJson=toJsonSchema(updateSchema);
 function refineProjectSchema(node:any){if(!node||typeof node!=='object')return;if(node.properties?.parts)node.properties.parts=(sectionSchema as any).properties.parts;if(node.properties?.learningScope)node.properties.learningScope=learningScopeSchema;if(node.properties?.projectCover)node.properties.projectCover={anyOf:[{type:'null'},{type:'object',properties:{assetId:str,decorative:{type:'boolean'},alt:str,focal:{type:'object',properties:{x:{type:'number',minimum:0,maximum:100},y:{type:'number',minimum:0,maximum:100}},required:['x','y'],additionalProperties:false}},required:['assetId','decorative'],additionalProperties:false}]};for(const value of Object.values(node))if(Array.isArray(value))value.forEach(refineProjectSchema);else if(value&&typeof value==='object')refineProjectSchema(value);}
 refineProjectSchema(projectUpdateJson);
 const structureEditJson=toJsonSchema(structureEditSchema);refineProjectSchema(structureEditJson);
-const projectLearningAppendJson=toJsonSchema(projectLearningAuthoringSchema);refineProjectSchema(projectLearningAppendJson);
+// MCP clients require an object at the root. A root-only oneOf is rendered as
+// an untyped argument bag by the ChatGPT connector. Keep the server union for
+// validation while publishing all fields under an explicit object contract.
+const appendVariants=(toJsonSchema(projectLearningAuthoringSchema) as any).oneOf;
+const projectLearningAppendJson={type:'object',properties:Object.assign({},...appendVariants.map((variant:any)=>variant.properties)),required:['mode','projectId','expectedProjectRev','expectedGeneration','operationId','title','parts'],additionalProperties:false,oneOf:appendVariants};refineProjectSchema(projectLearningAppendJson);
 const projectLearningUpdateJson=toJsonSchema(updateProjectLearningMaterialSchema);refineProjectSchema(projectLearningUpdateJson);
 delete (projectUpdateJson as any).properties.globalStructure;
 const projectTools=[
