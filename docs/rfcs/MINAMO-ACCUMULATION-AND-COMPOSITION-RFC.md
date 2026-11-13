@@ -184,16 +184,28 @@ Record query scope/candidate counts, index refresh work, page-load and discovery
 
 **Critical scenario:** After simulated two-year accumulation, a new Japanese question still discovers an earlier authentic attempted sentence and its correction, differentiates them from GPT-generated drills, and can place them into a fresh appropriate experience in bounded steps; no bulk manual re-filing or full-corpus prompt is necessary.
 
+## 6. Reusable real-data development environment (early prerequisite)
+
+**Change in development strategy:** The owner explicitly permits the existing Minamo learning material to be used in the public GitHub repository. Do not waste effort creating repeated hand-picked fake Projects or an unnecessary privacy/anonymisation pipeline. Use the genuine saved corpus as a **versioned, first-class test fixture**.
+
+The operational design, exact extraction/refresh contract, local loader, compatibility tests and justified third-party-rights exclusions are defined in [PR #12: real-corpus development and compatibility harness](MINAMO-REAL-CORPUS-DEVELOPMENT-HARNESS.md). This is an **initial Work deliverable**, useful regardless of which future architecture is selected.
+
+Create a repeatable snapshot initially spanning both Japanese Projects' canonical rich parts, nested interactive payloads, references and genuinely available edition history. Use **existing MCP reads** to obtain or deliberately refresh the snapshot; ordinary development and test runs use the local dataset, not repeated live MCP queries or connector reinstallations. Make covered/missing historical data explicit. Exclude credentials and content lacking publication rights; do not presume omissions or invent restored transcripts.
+
+Run old and proposed architectures against identical content in an **isolated local D1/R2 environment**, taking advantage of `tests/private-storage-fixture.mjs` and existing migrations. Compare source text/identity, exact links, revisions, source permissions, rich component rendering, interface usability and intentionally differing outcomes. Extend the same dataset synthetically for longer-term stress tests.
+
+**The dataset must not drive the product architecture.** It is evidence and a repeatable acceptance baseline. Preserve normal canonical source-reader and rights checks in any public deployment. No production recovery activation, original Project edit or schema change is required merely to try a new frontend.
+
 ## 6. Build path and gates
 
-### Phase 0 — Source-backed feasibility, discovery scaling and experience contract (first task)
+### Phase 0 — Real-corpus harness, source-backed feasibility, discovery scaling and experience contract (first task)
 
 Perform a **bounded code/API spike**, not a production refactor:
 
-- Trace current persistence, canonical reading, exact passage links, scopes, search, owner permissions, revision/edition semantics, and append/update routes. Identify concrete entry points; inspect native Sites source only if it differs from this PR's GitHub baseline.
+- Establish the versioned **real-content fixture** and isolated local replay/harness described above, then trace current persistence, canonical reading, exact passage links, scopes, search, owner permissions, revision/edition semantics, and append/update routes. Identify concrete entry points; inspect native Sites source only if it differs from this PR's GitHub baseline.
 - Compare candidates for independently retained items and versioned arrangements: reuse an existing record family, discriminated existing record subtype, or a minimal new table/family. Document where the existing Project-only readingPages cannot apply cross-record, and what access/revocation checks a general renderer needs.
 - Build a read-only **material inventory/selection adapter** using existing eligible records and passages; do not mutate Projects or duplicate source content. Design and benchmark a **bounded part-level search/index path** with incremental updates and exact permission checks. Examine nested card/turn discovery without claiming a new canonical identity prematurely.
-- Define an acceptance scenario using representative authentic structures from `Making Friends` and `Japanese Speaking Practice`: original user attempts and corrections, linked grammar, 127 flashcards across decks, dialogue turns, translation/grammar tables and diagrams, plus a separate computing example. Avoid publishing private user prose in the public PR. Capture actual source IDs/edition permissions only in appropriately scoped evidence.
+- Define an acceptance scenario using representative authentic structures from `Making Friends` and `Japanese Speaking Practice`: original user attempts and corrections, linked grammar, 127 flashcards across decks, dialogue turns, translation/grammar tables and diagrams, plus a separate computing example. The owner authorises publishing their Minamo learning content in the public repository; avoid unnecessary sanitisation, but check third-party rights and do not publish tokens or credentials. Capture exact source IDs and eligible editions in versioned fixture evidence. The owner permits public inclusion of their Minamo learning material; respect credentials and independent third-party publication rights.
 - Evaluate a 100/1,000/10,000/50,000 synthetic scale fixture, with sparse provenance, repeated generated examples and archival/revision churn. Do not postpone discovery and indexing until after the demo.
 - Produce a minimal human-readable UI walkthrough: discover content by subject/context, inspect an original and return, deliberately assemble an alternative useful study arrangement. Compare against current Project UX using the same saved material.
 
@@ -247,7 +259,7 @@ Only after end-to-end behaviour is proven, determine whether Home/Projects/Libra
 10. **Accumulative advantage:** as successive material arrives, retrieval is demonstrably more helpful for a given question or experience without forcing extra organisational work. Compare early-corpus vs mature-corpus performance on finding relevant prior examples and assembling a purposeful view; measure precision and user task success, not total retained items or graph links.
 11. **Fine-grained provenance:** generated exercises, authentic learner utterances and corrections remain distinguishable when actual source metadata exists. Historical items with insufficient metadata remain honestly unclassified instead of being assigned invented provenance.
 
-Test on isolated synthetic acceptance fixtures modelled on the real distribution; use real Japanese Projects only for authorised, read-only usability evaluation. Record actual acceptance outcomes and limitations, not assumed passes.
+Test on the versioned real-content fixture loaded into an isolated environment, supplemented by deterministic synthetic growth. Use live Japanese Projects only for authorised, read-only acceptance; do not mutate them. Record actual acceptance outcomes and limitations, not assumed passes.
 
 ## 8. Engineering risks to solve explicitly
 
@@ -266,6 +278,6 @@ Test on isolated synthetic acceptance fixtures modelled on the real distribution
 
 **This PR #12 is the product/architecture baseline and explicit phased delivery plan, not a claim that the model, schema or frontend has been implemented.** Its former Project-reader-first and general-learning-to-Library approaches are superseded as the guiding design. Preserve their rationale in Git history, not as competing implementation instructions.
 
-**Next bounded Work commission:** complete **Phase 0**, including source-level provenance and indexed discovery at synthetic scale, and, if no blocking rights/architecture flaw emerges, produce an isolated **Phase 1 read-only, index-fed cross-record composition prototype** with focused tests and a desktop/mobile inspection. Use the existing Minamo Site and current GitHub/native-source reconciliation rules; do not replace production Home or mutate genuine Projects. Report whether the proposed source/arrangement split genuinely works, what minimal additional persistence is necessary, and any architectural revision justified by code and observed UX. Keep PR draft and unmerged until owner review.
+**Next bounded Work commission:** critically examine the product/architecture options, establish the reusable real-corpus harness and complete **Phase 0** including source-level provenance and bounded discovery, then demonstrate a credible **Phase 1 read-only cross-record UX concept/prototype** if feasible. The investigation should challenge this RFC where evidence supports a better approach; report data-model and frontend trade-offs, compatibility, tests and desktop/mobile inspection rather than blindly implementing this design. Use GitHub `main` as the owner-confirmed current production-aligned source, unless actual evidence shows a discrepancy; do not replace production Home or mutate genuine Projects. Report whether the proposed source/arrangement split genuinely works, what minimal additional persistence is necessary, and any architectural revision justified by code and observed UX. Keep PR draft and unmerged until owner review.
 
 Do not silently expand into Phase 2–4, a migration, a new MCP tool contract, arbitrary browser/HTML authoring, or an unapproved production UI redesign.
