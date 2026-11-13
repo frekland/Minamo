@@ -136,7 +136,13 @@ const structureEditJson=toJsonSchema(structureEditSchema);refineProjectSchema(st
 // an untyped argument bag by the ChatGPT connector. Keep the server union for
 // validation while publishing all fields under an explicit object contract.
 const appendVariants=(toJsonSchema(projectLearningAuthoringSchema) as any).oneOf;
-const projectLearningAppendJson={type:'object',properties:Object.assign({},...appendVariants.map((variant:any)=>variant.properties)),required:['mode','projectId','expectedProjectRev','expectedGeneration','operationId','title','parts'],additionalProperties:false,oneOf:appendVariants};refineProjectSchema(projectLearningAppendJson);
+const projectLearningAppendJson=structuredClone(appendVariants[1]);
+projectLearningAppendJson.properties.target={type:'object',properties:{topicId:{type:'string',maxLength:500},contextId:str,layoutId:str,contextTitle:{type:'string',maxLength:100}},additionalProperties:false,description:'Choose exactly one: topicId; an existing contextId; or layoutId plus a new contextId and optional contextTitle.'};
+refineProjectSchema(projectLearningAppendJson);
+// Routine authoring mints omitted passage identities. Keep the complete typed
+// rich-part definition, but do not require the caller to supply each part ID.
+projectLearningAppendJson.properties.parts=structuredClone(projectLearningAppendJson.properties.parts);
+projectLearningAppendJson.properties.parts.items.required=projectLearningAppendJson.properties.parts.items.required.filter((key:string)=>key!=='id');
 const projectLearningUpdateJson=toJsonSchema(updateProjectLearningMaterialSchema);refineProjectSchema(projectLearningUpdateJson);
 delete (projectUpdateJson as any).properties.globalStructure;
 const projectTools=[

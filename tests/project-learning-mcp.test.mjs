@@ -11,6 +11,15 @@ test('MCP outline/read and bounded append maintain canonical identities and retr
  const f=await privateStorageFixture("import {domainHandler} from './lib/domain-handler.ts';export default {fetch:domainHandler}");
  try{
   const owner=f.client('learning-owner'),other=f.client('other-owner'),pid='learning-example';
+  const catalogue=await owner.request('/mcp',{jsonrpc:'2.0',id:'schema',method:'tools/list'});
+  const schema=catalogue.data.result.tools.find(tool=>tool.name==='append_project_learning_material').inputSchema;
+  assert.equal(schema.type,'object');
+  assert.equal(schema.oneOf,undefined);
+  assert.equal(schema.properties.target.type,'object');
+  for(const key of ['topicId','contextId','layoutId'])assert.equal(schema.properties.target.properties[key].type,'string');
+  for(const key of ['mode','projectId','expectedProjectRev','expectedGeneration','operationId','title','parts','target','educationalPurpose'])assert.ok(schema.required.includes(key),key);
+  assert.ok(!schema.properties.parts.items.required.includes('id'));
+  assert.ok(schema.properties.parts.items.properties.kind);
   assert.equal((await owner.command({action:'create',family:'journey',id:pid,data:{title:'Music',body:'Reading',sections:source,projectComposition:composition}})).status,200);
   const outline=await invoke(owner,'get_project_learning_outline',{projectId:pid});
   const plan=outline.data.result?.structuredContent;
