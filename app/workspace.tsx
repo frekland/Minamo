@@ -47,6 +47,7 @@ import {layoutReading} from "../lib/layout-workspace";
 import {useLayoutWorkspace} from "./layout-workspace";
 import ReferencePreview from './reference-preview';
 import PresentationSettings from './presentation-settings';
+
 import BetaCenter from './beta-center';
 import HelpDialog from './workspace-help';
 import {referenceFromUrl,referenceUrl,workspaceEntry,readingContextLink,type ReferenceDestination} from '../lib/workspace-presentation';
@@ -101,6 +102,7 @@ function validFamily(value:unknown):Family|undefined{return typeof value==='stri
 export function urlReadingTarget(params:URLSearchParams):WorkspaceReadingTarget|undefined{
  return routeTarget(params);
 }
+const ExperimentalExperience=retryableFeature(()=>import('./experimental-experience'),'Experimental experience');
 const PersonalWorkOrganiser=retryableFeature(()=>import('./personal-work-organiser'),'Your work');
 const ToolsPanel=retryableFeature(()=>import('./tools-panel'),'Practical tools');
 const TypedOutputView=retryableFeature(()=>import('./typed-output-view'),'Saved output');
@@ -399,7 +401,7 @@ export default function Workspace({initialTestScenario,initialCollectionPending=
  {notice&&<div className="v2-notice" role="status"><span>{notice}</span><button className="v2-icon" aria-label="Dismiss message" onClick={()=>setNotice('')}><X size={14}/></button></div>}
  {!authenticated?<div className="v2-welcome"><h1>Minamo</h1><a className="v2-primary" href="/signin-with-chatgpt?return_to=%2F" target="_top">Sign in with ChatGPT <ArrowRight size={16}/></a></div>:
  query&&!searchModalOpen?searchResults:
- view==='home'?<LearningHome key={learningKey} draftScope={draftScope} serverReads={serverReads} onNavigate={navigate} onCommand={command}/>:
+ view==='home'&&serverReads&&(preferences.experience==='explore'||preferences.experience==='practice')?<Suspense fallback={<LoadingSkeleton label="Opening experience…"/>}><ExperimentalExperience mode={preferences.experience} scope={draftScope} onStable={()=>changePreferences({...preferences,experience:'stable'})} onNavigate={navigate} onCommand={command}/></Suspense>:view==='home'?<LearningHome key={learningKey} draftScope={draftScope} serverReads={serverReads} onNavigate={navigate} onCommand={command}/>:
  view==='tools'&&toolsTargetReady&&current?.family!=='experiment'?null:
  (view==='trash'||view==='work')&&!selectedId?organiser:
  selectedId&&serverReads&&(targetState.key!==targetKey||targetState.status==='loading')?<LoadingSkeleton label="Opening page…"/>:
@@ -435,7 +437,7 @@ export default function Workspace({initialTestScenario,initialCollectionPending=
  {exactTaskTarget(current,readingTarget?.stageId)&&<LearningDevelopments scope={draftScope} record={current} target={exactTaskTarget(current,readingTarget?.stageId)!} management/>}
   <section className="v2-context-activity"><h3>Changes to this {names[current.family].toLowerCase()}</h3>{activity.filter(a=>a.recordId===current.id&&a.family===current.family).slice(0,5).map(a=><p key={a.id}><span className="v2-activity-dot"/>{a.actor==='user'?'Website save':a.actor==='gpt'?'GPT save':'System change'} · {a.verb}<time>{friendlyDate(a.at)}</time></p>)}{!activity.some(a=>a.recordId===current.id&&a.family===current.family)&&<p className="v2-muted">No recent changes to this record are loaded here. Saved editions retain its content history.</p>}</section>
  </RecordManagementDialog>}
- {settingsOpen&&<PresentationSettings layoutControls={<>{serverReads&&<button type="button" className="v2-secondary" onClick={()=>{setSettingsOpen(false);setRecoveryOpen(true)}}>Open Data and recovery</button>}</>} value={preferences} onChange={changePreferences} onClose={closeSettings} error={preferenceError||layout.error} serverReads={serverReads} generation={initialGeneration}/>}
+ {settingsOpen&&<PresentationSettings layoutControls={<>{serverReads&&<button type="button" className="v2-secondary" onClick={()=>{setSettingsOpen(false);setRecoveryOpen(true)}}>Open Data and recovery</button>}</>} value={preferences} onChange={next=>{changePreferences(next);if(next.experience!==preferences.experience)navigate('home')}} onClose={closeSettings} error={preferenceError||layout.error} serverReads={serverReads} generation={initialGeneration}/>}
  {recoveryOpen&&<Suspense fallback={<p role="status">Opening Data and recovery…</p>}><RecoveryPanel open ownerScope={draftScope} onBeforeActivate={beforeRecoveryActivation} onClose={()=>{setRecoveryOpen(false);requestAnimationFrame(()=>settingsButton.current?.focus())}}/></Suspense>}
  {authenticated&&baseDraftScope.startsWith('v2-')&&<BetaCenter scope={baseDraftScope} generation={initialGeneration} record={displayedReading} empty={!initialRecords.length&&!initialCollectionPending}/>}
  {help&&<HelpDialog onClose={()=>setHelp(false)}/>}

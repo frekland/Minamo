@@ -8,6 +8,10 @@ import {basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const mapped={
+  'lib/experience-discovery.ts':['tests/pr12-experiences.test.mjs'],
+  'app/experimental-experience.tsx':['tests/pr12-experiences.test.mjs','tests/pr27-workspace-presentation.test.mjs'],
+  'app/experimental-experience.css':['tests/pr12-experiences.test.mjs'],
+
   'lib/domain.ts':['tests/domain-http.test.mjs','tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/collaboration-preferences.test.mjs','tests/source-reference-permission.test.mjs'],
   'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/collaboration-preferences.test.mjs'],
   'lib/project-service.ts':['tests/project-structure-edit.test.mjs','tests/project-learning-mcp.test.mjs','tests/project-reading-topics.test.mjs','tests/collaboration-preferences.test.mjs'],

@@ -74,6 +74,8 @@ export default function PresentationSettings({value,onChange,onClose,error,layou
     </>}
     {category==='workspace'&&<>
      <h3 className="sh-panel-title">Workspace</h3>
+     <PreferenceChoice label="Experimental experience" description="Try alternative ways to use your saved Japanese Projects. The current Minamo view is always available. Remembered on this device." value={value.experience??'stable'} options={[{value:'stable',label:'Stable Minamo'},{value:'explore',label:'Passage explorer'},{value:'practice',label:'Practice sequence'}]} onChange={experience=>change({...value,experience})}/>
+
      <PreferenceChoice label="Desktop sidebar" value={value.sidebar} options={[{value:'open',label:'Expanded',sample:<PanelLeft size={20}/>},{value:'compact',label:'Compact',sample:<PanelLeft size={20} className="sh-compact-sidebar"/>}]} onChange={sidebar=>change({...value,sidebar})}/>
      <PreferenceChoice label="Motion" value={value.motion} options={[{value:'system',label:'Follow device preference'},{value:'reduce',label:'Reduce motion'}]} onChange={motion=>change({...value,motion})}/>
      <p className="sh-setting-description">Notes can be moved and resized from their own menu. Your current Notes layout is retained separately on this device.</p>

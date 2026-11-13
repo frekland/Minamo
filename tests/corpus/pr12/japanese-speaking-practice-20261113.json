@@ -1,0 +1,2154 @@
+{
+  "generation": "legacy@0",
+  "record": {
+    "id": "japanese-speaking-practice-20261113",
+    "family": "journey",
+    "title": "Japanese Speaking Practice",
+    "body": "Practise building one Japanese sentence at a time. Full-sentence flashcards with hiragana readings, simple grammar diagrams, translation reveals and speaking prompts. No romaji or checkpoints.",
+    "links": [],
+    "synthetic": false,
+    "projectComposition": {
+      "version": 1,
+      "sections": [
+        {
+          "id": "view-start",
+          "title": "Start here",
+          "pattern": "notebook",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-grammar",
+          "title": "Grammar",
+          "pattern": "guide",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-grammar",
+                "block-learning-jp-practice-grammar-to-20261113-v1",
+                "block-learning-jp-speaking-lesson-sequence-20261113-v1",
+                "block-learning-jp-speaking-lesson-feelings-20261113-v1",
+                "block-learning-jp-speaking-lesson-daily-20261113-v1",
+                "block-learning-jp-speaking-lesson-other-20261113-v1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-words",
+          "title": "Vocabulary",
+          "pattern": "notebook",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-vocab",
+                "block-learning-jp-speaking-vocabulary-20261113-v1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-cards",
+          "title": "Flashcards",
+          "pattern": "workbench",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-cards",
+                "block-learning-jp-speaking-cards-condition-20261113-v1",
+                "block-learning-jp-speaking-cards-thoughts-20261113-v1",
+                "block-learning-jp-speaking-cards-sequence-20261113-v1",
+                "block-learning-jp-speaking-cards-feelings-20261113-v1",
+                "block-learning-jp-speaking-cards-repairs-20261113-v1",
+                "block-learning-jp-speaking-cards-plans-20261113-v1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-reveals",
+          "title": "Reveals",
+          "pattern": "workbench",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-reveals",
+                "block-learning-jp-speaking-reveals-group1-20261113-v1",
+                "block-learning-jp-speaking-reveals-group2-20261113-v1",
+                "block-learning-jp-speaking-reveals-group3-20261113-v1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-speaking",
+          "title": "Speaking",
+          "pattern": "workbench",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-speaking",
+                "block-learning-jp-speaking-dialogue-music-20261113-v1",
+                "block-learning-jp-speaking-dialogue-routine-20261113-v1",
+                "block-learning-jp-speaking-dialogue-friends-20261113-v1",
+                "block-learning-jp-speaking-speaking-rounds-20261113-v1",
+                "block-learning-jp-speaking-continuity-20261113-v1"
+              ]
+            }
+          ]
+        }
+      ],
+      "blocks": [
+        {
+          "id": "block-intro",
+          "sectionId": "intro",
+          "readingPages": [
+            {
+              "id": "page-intro",
+              "title": "Start here",
+              "layoutId": "view-start",
+              "purpose": "overview",
+              "partIds": [
+                "intro-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-grammar",
+          "sectionId": "grammar",
+          "readingPages": [
+            {
+              "id": "page-grammar",
+              "title": "Grammar",
+              "layoutId": "view-grammar",
+              "purpose": "overview",
+              "partIds": [
+                "grammar-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-vocab",
+          "sectionId": "vocab",
+          "readingPages": [
+            {
+              "id": "page-vocab",
+              "title": "Vocabulary",
+              "layoutId": "view-words",
+              "purpose": "overview",
+              "partIds": [
+                "vocab-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-cards",
+          "sectionId": "cards",
+          "readingPages": [
+            {
+              "id": "page-cards",
+              "title": "Flashcards",
+              "layoutId": "view-cards",
+              "purpose": "overview",
+              "partIds": [
+                "cards-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-reveals",
+          "sectionId": "reveals",
+          "readingPages": [
+            {
+              "id": "page-reveals",
+              "title": "Reveals",
+              "layoutId": "view-reveals",
+              "purpose": "overview",
+              "partIds": [
+                "reveals-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-speaking",
+          "sectionId": "speaking",
+          "readingPages": [
+            {
+              "id": "page-speaking",
+              "title": "Speaking",
+              "layoutId": "view-speaking",
+              "purpose": "overview",
+              "partIds": [
+                "speaking-intro"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-practice-grammar-to-20261113-v1",
+          "sectionId": "learning-jp-practice-grammar-to-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-practice-grammar-to-20261113-v1",
+              "title": "と — when versus 'that'",
+              "layoutId": "view-grammar",
+              "contextId": "grammar-two-to",
+              "contextTitle": "Two meanings of と",
+              "purpose": "explanation",
+              "partIds": [
+                "material-jp-practice-grammar-to-20261113-v1-1",
+                "material-jp-practice-grammar-to-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-cards-condition-20261113-v1",
+          "sectionId": "learning-jp-speaking-cards-condition-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-cards-condition-20261113-v1",
+              "title": "12 full sentences — when and result",
+              "layoutId": "view-cards",
+              "contextId": "flashcards-condition",
+              "contextTitle": "When and result",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-cards-condition-20261113-v1-1",
+                "material-jp-speaking-cards-condition-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-cards-thoughts-20261113-v1",
+          "sectionId": "learning-jp-speaking-cards-thoughts-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-cards-thoughts-20261113-v1",
+              "title": "12 full sentences — I think / I found out",
+              "layoutId": "view-cards",
+              "contextId": "flashcards-thoughts",
+              "contextTitle": "I think / I found out",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-cards-thoughts-20261113-v1-1",
+                "material-jp-speaking-cards-thoughts-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-cards-sequence-20261113-v1",
+          "sectionId": "learning-jp-speaking-cards-sequence-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-cards-sequence-20261113-v1",
+              "title": "12 full sentences — And then / after / but",
+              "layoutId": "view-cards",
+              "contextId": "flashcards-sequence",
+              "contextTitle": "And then / after / but",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-cards-sequence-20261113-v1-1",
+                "material-jp-speaking-cards-sequence-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-cards-feelings-20261113-v1",
+          "sectionId": "learning-jp-speaking-cards-feelings-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-cards-feelings-20261113-v1",
+              "title": "12 full sentences — Music, feelings and preferences",
+              "layoutId": "view-cards",
+              "contextId": "flashcards-feelings",
+              "contextTitle": "Music, feelings and preferences",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-cards-feelings-20261113-v1-1",
+                "material-jp-speaking-cards-feelings-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-cards-repairs-20261113-v1",
+          "sectionId": "learning-jp-speaking-cards-repairs-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-cards-repairs-20261113-v1",
+              "title": "12 full sentences — Messages, apologies and help",
+              "layoutId": "view-cards",
+              "contextId": "flashcards-repairs",
+              "contextTitle": "Messages, apologies and help",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-cards-repairs-20261113-v1-1",
+                "material-jp-speaking-cards-repairs-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-cards-plans-20261113-v1",
+          "sectionId": "learning-jp-speaking-cards-plans-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-cards-plans-20261113-v1",
+              "title": "12 full sentences — Plans, necessity and possibility",
+              "layoutId": "view-cards",
+              "contextId": "flashcards-plans",
+              "contextTitle": "Plans, necessity and possibility",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-cards-plans-20261113-v1-1",
+                "material-jp-speaking-cards-plans-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-lesson-sequence-20261113-v1",
+          "sectionId": "learning-jp-speaking-lesson-sequence-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-lesson-sequence-20261113-v1",
+              "title": "Three ways to connect actions",
+              "layoutId": "view-grammar",
+              "contextId": "grammar-sequence",
+              "contextTitle": "Three ways to connect actions",
+              "purpose": "explanation",
+              "partIds": [
+                "material-jp-speaking-lesson-sequence-20261113-v1-1",
+                "material-jp-speaking-lesson-sequence-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-lesson-feelings-20261113-v1",
+          "sectionId": "learning-jp-speaking-lesson-feelings-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-lesson-feelings-20261113-v1",
+              "title": "How feelings change with なる",
+              "layoutId": "view-grammar",
+              "contextId": "grammar-feelings",
+              "contextTitle": "How feelings change with なる",
+              "purpose": "explanation",
+              "partIds": [
+                "material-jp-speaking-lesson-feelings-20261113-v1-1",
+                "material-jp-speaking-lesson-feelings-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-lesson-daily-20261113-v1",
+          "sectionId": "learning-jp-speaking-lesson-daily-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-lesson-daily-20261113-v1",
+              "title": "Everyday small grammar you used",
+              "layoutId": "view-grammar",
+              "contextId": "grammar-daily",
+              "contextTitle": "Everyday small grammar you used",
+              "purpose": "explanation",
+              "partIds": [
+                "material-jp-speaking-lesson-daily-20261113-v1-1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-lesson-other-20261113-v1",
+          "sectionId": "learning-jp-speaking-lesson-other-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-lesson-other-20261113-v1",
+              "title": "While, regrets, wants, must and maybe",
+              "layoutId": "view-grammar",
+              "contextId": "grammar-other",
+              "contextTitle": "While, regrets, wants, must and maybe",
+              "purpose": "explanation",
+              "partIds": [
+                "material-jp-speaking-lesson-other-20261113-v1-1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-reveals-group1-20261113-v1",
+          "sectionId": "learning-jp-speaking-reveals-group1-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-reveals-group1-20261113-v1",
+              "title": "Comprehension reveals 1–4",
+              "layoutId": "view-reveals",
+              "contextId": "reveals-group1",
+              "contextTitle": "Conditions and thoughts",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-reveals-group1-20261113-v1-1",
+                "material-jp-speaking-reveals-group1-20261113-v1-2",
+                "material-jp-speaking-reveals-group1-20261113-v1-3",
+                "material-jp-speaking-reveals-group1-20261113-v1-4",
+                "material-jp-speaking-reveals-group1-20261113-v1-5"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-reveals-group2-20261113-v1",
+          "sectionId": "learning-jp-speaking-reveals-group2-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-reveals-group2-20261113-v1",
+              "title": "Comprehension reveals 5–8",
+              "layoutId": "view-reveals",
+              "contextId": "reveals-group2",
+              "contextTitle": "Actions, music and messages",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-reveals-group2-20261113-v1-1",
+                "material-jp-speaking-reveals-group2-20261113-v1-2",
+                "material-jp-speaking-reveals-group2-20261113-v1-3",
+                "material-jp-speaking-reveals-group2-20261113-v1-4",
+                "material-jp-speaking-reveals-group2-20261113-v1-5"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-reveals-group3-20261113-v1",
+          "sectionId": "learning-jp-speaking-reveals-group3-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-reveals-group3-20261113-v1",
+              "title": "Comprehension reveals 9–12",
+              "layoutId": "view-reveals",
+              "contextId": "reveals-group3",
+              "contextTitle": "Everyday uncertainty and experience",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-reveals-group3-20261113-v1-1",
+                "material-jp-speaking-reveals-group3-20261113-v1-2",
+                "material-jp-speaking-reveals-group3-20261113-v1-3",
+                "material-jp-speaking-reveals-group3-20261113-v1-4",
+                "material-jp-speaking-reveals-group3-20261113-v1-5"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-dialogue-music-20261113-v1",
+          "sectionId": "learning-jp-speaking-dialogue-music-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-dialogue-music-20261113-v1",
+              "title": "Dialogue — Music and relaxing",
+              "layoutId": "view-speaking",
+              "contextId": "dialogue-music",
+              "contextTitle": "Music and relaxing",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-dialogue-music-20261113-v1-1",
+                "material-jp-speaking-dialogue-music-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-dialogue-routine-20261113-v1",
+          "sectionId": "learning-jp-speaking-dialogue-routine-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-dialogue-routine-20261113-v1",
+              "title": "Dialogue — Daily routine and plans",
+              "layoutId": "view-speaking",
+              "contextId": "dialogue-routine",
+              "contextTitle": "Daily routine and plans",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-dialogue-routine-20261113-v1-1",
+                "material-jp-speaking-dialogue-routine-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-dialogue-friends-20261113-v1",
+          "sectionId": "learning-jp-speaking-dialogue-friends-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-dialogue-friends-20261113-v1",
+              "title": "Dialogue — Nerves and making friends",
+              "layoutId": "view-speaking",
+              "contextId": "dialogue-friends",
+              "contextTitle": "Nerves and making friends",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-dialogue-friends-20261113-v1-1",
+                "material-jp-speaking-dialogue-friends-20261113-v1-2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-speaking-rounds-20261113-v1",
+          "sectionId": "learning-jp-speaking-speaking-rounds-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-speaking-rounds-20261113-v1",
+              "title": "Varied English → Japanese speaking prompts",
+              "layoutId": "view-speaking",
+              "contextId": "speaking-rounds",
+              "contextTitle": "Varied English → Japanese speaking prompts",
+              "purpose": "practice",
+              "partIds": [
+                "material-jp-speaking-speaking-rounds-20261113-v1-1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-continuity-20261113-v1",
+          "sectionId": "learning-jp-speaking-continuity-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-continuity-20261113-v1",
+              "title": "How to continue this practice naturally",
+              "layoutId": "view-speaking",
+              "contextId": "continuity",
+              "contextTitle": "How to continue this practice naturally",
+              "purpose": "reference",
+              "partIds": [
+                "material-jp-speaking-continuity-20261113-v1-1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-learning-jp-speaking-vocabulary-20261113-v1",
+          "sectionId": "learning-jp-speaking-vocabulary-20261113-v1",
+          "readingPages": [
+            {
+              "id": "page-jp-speaking-vocabulary-20261113-v1",
+              "title": "Words and sentence chunks from speaking practice",
+              "layoutId": "view-words",
+              "contextId": "vocab-live",
+              "contextTitle": "Words and sentence chunks",
+              "purpose": "reference",
+              "partIds": [
+                "material-jp-speaking-vocabulary-20261113-v1-1",
+                "material-jp-speaking-vocabulary-20261113-v1-2",
+                "material-jp-speaking-vocabulary-20261113-v1-3"
+              ]
+            }
+          ]
+        }
+      ],
+      "protectedIds": []
+    },
+    "projectDescription": "Varied short Japanese speaking prompts, grammar guides, sentence flashcards, comprehension reveals and dialogues from live practice.",
+    "learningScope": {
+      "version": 1,
+      "spaces": [
+        "languages"
+      ],
+      "languages": [
+        "ja"
+      ],
+      "subjects": [
+        "Japanese speaking practice"
+      ],
+      "provenance": "classification"
+    },
+    "sections": [
+      {
+        "id": "intro",
+        "title": "Start here",
+        "parts": [
+          {
+            "id": "intro-intro",
+            "kind": "paragraph",
+            "text": "Build complete Japanese sentences from English prompts, then use reveals to check meaning. Grammar and vocabulary support the speaking practice. Based on our November 13 live Japanese practice, with corrected explanations; not a record of mastery."
+          }
+        ]
+      },
+      {
+        "id": "grammar",
+        "title": "Grammar",
+        "parts": [
+          {
+            "id": "grammar-intro",
+            "kind": "paragraph",
+            "text": "Start with the two meanings of と, noun + だと, linking actions with て, and 〜たあとで. Other pages explain feelings, apologies, wishes, obligations and possibilities."
+          }
+        ]
+      },
+      {
+        "id": "vocab",
+        "title": "Vocabulary",
+        "parts": [
+          {
+            "id": "vocab-intro",
+            "kind": "paragraph",
+            "text": "Quick reference for verbs and everyday phrases from our speaking practice. Japanese examples use kanji and hiragana readings without romaji."
+          }
+        ]
+      },
+      {
+        "id": "cards",
+        "title": "Flashcards",
+        "parts": [
+          {
+            "id": "cards-intro",
+            "kind": "paragraph",
+            "text": "Full-sentence English-to-Japanese flashcards, grouped by sentence pattern. Read the prompt, say the whole Japanese sentence, then flip. Hiragana readings accompany the answer."
+          }
+        ]
+      },
+      {
+        "id": "reveals",
+        "title": "Reveals",
+        "parts": [
+          {
+            "id": "reveals-intro",
+            "kind": "paragraph",
+            "text": "Read a Japanese sentence, work out its meaning and grammar, and reveal the answer. The examples are deliberately varied."
+          }
+        ]
+      },
+      {
+        "id": "speaking",
+        "title": "Speaking",
+        "parts": [
+          {
+            "id": "speaking-intro",
+            "kind": "paragraph",
+            "text": "Short English-to-Japanese prompts, one at a time. Ask for a single-word hint if necessary; avoid giving away whole answers. Keep spoken Japanese slow, and don't repeatedly ask whether to stop."
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-practice-grammar-to-20261113-v1",
+        "title": "と — when versus 'that'",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "と has two common jobs here.\n\n1. WHEN / IF → a usual, predictable result.\n雨が降ると、家にいます。（あめがふると、いえにいます。） — When it rains, I stay home.\nコーヒーを飲むと、いい気分になります。（こーひーをのむと、いいきぶんになります。） — When I drink coffee, I feel good.\nAttach と directly to the plain verb (降ると, 飲むと), not to the polite ます-form. For a one-off future plan, 〜たら is usually more natural: 家に帰ったら、電話します — When I get home, I'll call.\n\n2. THAT → content of a thought or something learnt.\n彼女は看護師だと思います。（かのじょはかんごしだとおもいます。） — I think she's a nurse.\n難しいと思います。（むずかしいとおもいます。） — I think it's difficult.\n\nNoun or な-adjective + だと: 看護師だと, 先生だと, 簡単だと. An い-adjective or plain verb needs no だ: 難しいと思う, 来ると思う. Here と means 'that', not 'when'.\n\nSame spoken と, different structure. Pay attention to the meaning of what comes after と: a consequence versus 思う / 知る / 言う.",
+            "id": "material-jp-practice-grammar-to-20261113-v1-1"
+          },
+          {
+            "kind": "diagram",
+            "text": "TWO JOBS OF と\n\nWHEN / IF — typical result\n[雨が 降る] ── と ──▶ [家に います]\n‘When it rains, I stay home.’\n\nQUOTED STATEMENT — what I think\n[彼女は 看護師だ] ── と ──▶ [思います]\n‘I think she is a nurse.’\n\nNOUN + だ + と + 思う\nい-ADJECTIVE + と + 思う\nVERB (plain) + と + 思う",
+            "id": "material-jp-practice-grammar-to-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-cards-condition-20261113-v1",
+        "title": "12 full sentences — when and result",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Say the full Japanese sentence from the English before turning each card over. The answer shows kanji plus a complete hiragana reading. The conditional と describes a natural/habitual result. Cards are reusable practice examples, not a record of achievement.",
+            "id": "material-jp-speaking-cards-condition-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "12 reversible complete-sentence flashcards about when something happens and its result.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "conditions-1",
+                  "front": {
+                    "text": "When I drink coffee, I feel good."
+                  },
+                  "back": {
+                    "text": "コーヒーを飲むと、いい気分になります。\nこーひーをのむと、いいきぶんになります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-2",
+                  "front": {
+                    "text": "When I listen to music, I feel happy."
+                  },
+                  "back": {
+                    "text": "音楽を聴くと、うれしくなります。\nおんがくをきくと、うれしくなります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-3",
+                  "front": {
+                    "text": "When it rains, I stay home."
+                  },
+                  "back": {
+                    "text": "雨が降ると、家にいます。\nあめがふると、いえにいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-4",
+                  "front": {
+                    "text": "When I drink alcohol, I get a headache."
+                  },
+                  "back": {
+                    "text": "お酒を飲むと、頭が痛くなります。\nおさけをのむと、あたまがいたくなります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-5",
+                  "front": {
+                    "text": "When I wake up, I drink water."
+                  },
+                  "back": {
+                    "text": "起きると、水を飲みます。\nおきると、みずをのみます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-6",
+                  "front": {
+                    "text": "When I study, I take notes."
+                  },
+                  "back": {
+                    "text": "勉強すると、メモを取ります。\nべんきょうすると、めもをとります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-7",
+                  "front": {
+                    "text": "When I get home, I read a book."
+                  },
+                  "back": {
+                    "text": "家に帰ると、本を読みます。\nいえにかえると、ほんをよみます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-8",
+                  "front": {
+                    "text": "When I hear bad news, I feel sad."
+                  },
+                  "back": {
+                    "text": "悪いニュースを聞くと、悲しくなります。\nわるいにゅーすをきくと、かなしくなります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-9",
+                  "front": {
+                    "text": "When I open the window, I feel refreshed."
+                  },
+                  "back": {
+                    "text": "窓を開けると、気分がすっきりします。\nまどをあけると、きぶんがすっきりします。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-10",
+                  "front": {
+                    "text": "When I meet a friend, I say hello."
+                  },
+                  "back": {
+                    "text": "友達に会うと、挨拶します。\nともだちにあうと、あいさつします。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-11",
+                  "front": {
+                    "text": "When I get home, I relax."
+                  },
+                  "back": {
+                    "text": "家に帰ると、のんびりします。\nいえにかえると、のんびりします。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "conditions-12",
+                  "front": {
+                    "text": "When I exercise, I feel better."
+                  },
+                  "back": {
+                    "text": "運動すると、気分がよくなります。\nうんどうすると、きぶんがよくなります。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            },
+            "id": "material-jp-speaking-cards-condition-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-cards-thoughts-20261113-v1",
+        "title": "12 full sentences — I think / I found out",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Use the English to produce a full Japanese sentence before flipping. The Japanese side includes kanji and a complete hiragana reading. Cards practise varied real-life uses; they do not indicate any practice result.",
+            "id": "material-jp-speaking-cards-thoughts-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "12 reversible full-sentence flashcards: I think / I found out.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "thoughts-1",
+                  "front": {
+                    "text": "I think she's a student."
+                  },
+                  "back": {
+                    "text": "彼女は学生だと思います。\nかのじょはがくせいだとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-2",
+                  "front": {
+                    "text": "I think he's a teacher."
+                  },
+                  "back": {
+                    "text": "彼は先生だと思います。\nかれはせんせいだとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-3",
+                  "front": {
+                    "text": "I think she's a nurse."
+                  },
+                  "back": {
+                    "text": "彼女は看護師だと思います。\nかのじょはかんごしだとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-4",
+                  "front": {
+                    "text": "I think tomorrow is Sunday."
+                  },
+                  "back": {
+                    "text": "明日は日曜日だと思います。\nあしたはにちようびだとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-5",
+                  "front": {
+                    "text": "I think today is a good day."
+                  },
+                  "back": {
+                    "text": "今日はいい日だと思います。\nきょうはいいひだとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-6",
+                  "front": {
+                    "text": "I think it's difficult."
+                  },
+                  "back": {
+                    "text": "難しいと思います。\nむずかしいとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-7",
+                  "front": {
+                    "text": "I think this book is interesting."
+                  },
+                  "back": {
+                    "text": "この本は面白いと思います。\nこのほんはおもしろいとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-8",
+                  "front": {
+                    "text": "I think the café is quiet."
+                  },
+                  "back": {
+                    "text": "このカフェは静かだと思います。\nこのかふぇはしずかだとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-9",
+                  "front": {
+                    "text": "I thought it was easy."
+                  },
+                  "back": {
+                    "text": "簡単だと思いました。\nかんたんだとおもいました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-10",
+                  "front": {
+                    "text": "I think he'll come tomorrow."
+                  },
+                  "back": {
+                    "text": "彼は明日来ると思います。\nかれはあしたくるとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-11",
+                  "front": {
+                    "text": "I found out it's a good school."
+                  },
+                  "back": {
+                    "text": "いい学校だと知りました。\nいいがっこうだとしりました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "thoughts-12",
+                  "front": {
+                    "text": "I'm glad I found out it's a good school."
+                  },
+                  "back": {
+                    "text": "いい学校だと知れてよかったです。\nいいがっこうだとしれてよかったです。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            },
+            "id": "material-jp-speaking-cards-thoughts-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-cards-sequence-20261113-v1",
+        "title": "12 full sentences — And then / after / but",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Use the English to produce a full Japanese sentence before flipping. The Japanese side includes kanji and a complete hiragana reading. Cards practise varied real-life uses; they do not indicate any practice result.",
+            "id": "material-jp-speaking-cards-sequence-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "12 reversible full-sentence flashcards: And then / after / but.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "sequence-1",
+                  "front": {
+                    "text": "On Sundays, I watch a film and relax."
+                  },
+                  "back": {
+                    "text": "日曜日は映画を見て、のんびりします。\nにちようびはえいがをみて、のんびりします。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-2",
+                  "front": {
+                    "text": "After I eat, I drink tea."
+                  },
+                  "back": {
+                    "text": "食べたあとで、お茶を飲みます。\nたべたあとで、おちゃをのみます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-3",
+                  "front": {
+                    "text": "After I go to the café, I study."
+                  },
+                  "back": {
+                    "text": "カフェに行ったあとで、勉強します。\nかふぇにいったあとで、べんきょうします。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-4",
+                  "front": {
+                    "text": "After work, I go to the supermarket."
+                  },
+                  "back": {
+                    "text": "仕事が終わったあとで、スーパーに行きます。\nしごとがおわったあとで、すーぱーにいきます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-5",
+                  "front": {
+                    "text": "I wanted to go to the park, but it was raining."
+                  },
+                  "back": {
+                    "text": "公園に行きたかったけど、雨が降っていました。\nこうえんにいきたかったけど、あめがふっていました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-6",
+                  "front": {
+                    "text": "I take photos and send them to my friend."
+                  },
+                  "back": {
+                    "text": "写真を撮って、友達に送ります。\nしゃしんをとって、ともだちにおくります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-7",
+                  "front": {
+                    "text": "I wash my hands and eat."
+                  },
+                  "back": {
+                    "text": "手を洗って、ご飯を食べます。\nてをあらって、ごはんをたべます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-8",
+                  "front": {
+                    "text": "Before I go to bed, I read a book."
+                  },
+                  "back": {
+                    "text": "寝る前に本を読みます。\nねるまえにほんをよみます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-9",
+                  "front": {
+                    "text": "I went to the shop and bought milk."
+                  },
+                  "back": {
+                    "text": "店に行って、牛乳を買いました。\nみせにいって、ぎゅうにゅうをかいました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-10",
+                  "front": {
+                    "text": "I want to eat sushi today."
+                  },
+                  "back": {
+                    "text": "今日はすしを食べたいです。\nきょうはすしをたべたいです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-11",
+                  "front": {
+                    "text": "I wanted coffee, but I had no time."
+                  },
+                  "back": {
+                    "text": "コーヒーを飲みたかったけど、時間がありませんでした。\nこーひーをのみたかったけど、じかんがありませんでした。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "sequence-12",
+                  "front": {
+                    "text": "When work finishes, I drink tea."
+                  },
+                  "back": {
+                    "text": "仕事が終わると、お茶を飲みます。\nしごとがおわると、おちゃをのみます。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            },
+            "id": "material-jp-speaking-cards-sequence-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-cards-feelings-20261113-v1",
+        "title": "12 full sentences — Music, feelings and preferences",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Use the English to produce a full Japanese sentence before flipping. The Japanese side includes kanji and a complete hiragana reading. Cards practise varied real-life uses; they do not indicate any practice result.",
+            "id": "material-jp-speaking-cards-feelings-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "12 reversible full-sentence flashcards: Music, feelings and preferences.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "feelings-1",
+                  "front": {
+                    "text": "When I watch a film, I feel happy."
+                  },
+                  "back": {
+                    "text": "映画を見ると、うれしくなります。\nえいがをみると、うれしくなります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-2",
+                  "front": {
+                    "text": "Listening to rock puts me in a good mood."
+                  },
+                  "back": {
+                    "text": "ロックを聴くと、いい気分になります。\nろっくをきくと、いいきぶんになります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-3",
+                  "front": {
+                    "text": "I like listening to rock music."
+                  },
+                  "back": {
+                    "text": "ロックを聴くのが好きです。\nろっくをきくのがすきです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-4",
+                  "front": {
+                    "text": "I like playing the piano."
+                  },
+                  "back": {
+                    "text": "ピアノを弾くのが好きです。\nぴあのをひくのがすきです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-5",
+                  "front": {
+                    "text": "On Sundays, I relax at home."
+                  },
+                  "back": {
+                    "text": "日曜日は家でのんびりします。\nにちようびはいえでのんびりします。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-6",
+                  "front": {
+                    "text": "I'm sleepy today."
+                  },
+                  "back": {
+                    "text": "今日は眠いです。\nきょうはねむいです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-7",
+                  "front": {
+                    "text": "Seeing my family makes me happy."
+                  },
+                  "back": {
+                    "text": "家族に会うと、うれしくなります。\nかぞくにあうと、うれしくなります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-8",
+                  "front": {
+                    "text": "I think this music is relaxing."
+                  },
+                  "back": {
+                    "text": "この音楽は落ち着くと思います。\nこのおんがくはおちつくとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-9",
+                  "front": {
+                    "text": "I really love kanji."
+                  },
+                  "back": {
+                    "text": "漢字が大好きです。\nかんじがだいすきです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-10",
+                  "front": {
+                    "text": "I like this book, but it's expensive."
+                  },
+                  "back": {
+                    "text": "この本は好きだけど、高いです。\nこのほんはすきだけど、たかいです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-11",
+                  "front": {
+                    "text": "I'm glad we met."
+                  },
+                  "back": {
+                    "text": "会えてよかったです。\nあえてよかったです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "feelings-12",
+                  "front": {
+                    "text": "This is really helping me learn."
+                  },
+                  "back": {
+                    "text": "すごく勉強になります。\nすごくべんきょうになります。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            },
+            "id": "material-jp-speaking-cards-feelings-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-cards-repairs-20261113-v1",
+        "title": "12 full sentences — Messages, apologies and help",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Say the complete Japanese sentence before flipping. Each Japanese answer includes hiragana and kanji, with full sentence context.",
+            "id": "material-jp-speaking-cards-repairs-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "12 reversible English↔Japanese full-sentence flashcards: Messages, apologies and help.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "repairs-1",
+                  "front": {
+                    "text": "Sorry for the late reply."
+                  },
+                  "back": {
+                    "text": "返信が遅くなってすみません。\nへんしんがおそくなってすみません。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-2",
+                  "front": {
+                    "text": "It takes time to reply."
+                  },
+                  "back": {
+                    "text": "返信に時間がかかります。\nへんしんにじかんがかかります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-3",
+                  "front": {
+                    "text": "I'm reading while looking things up."
+                  },
+                  "back": {
+                    "text": "調べながら読んでいます。\nしらべながらよんでいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-4",
+                  "front": {
+                    "text": "It takes time to reply because I'm looking things up while reading."
+                  },
+                  "back": {
+                    "text": "調べながら読んでいるので、返信に時間がかかります。\nしらべながらよんでいるので、へんしんにじかんがかかります。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-5",
+                  "front": {
+                    "text": "I'm glad I found out."
+                  },
+                  "back": {
+                    "text": "知れてよかったです。\nしれてよかったです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-6",
+                  "front": {
+                    "text": "I'm glad I tried."
+                  },
+                  "back": {
+                    "text": "やってみてよかったです。\nやってみてよかったです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-7",
+                  "front": {
+                    "text": "Please wait a moment."
+                  },
+                  "back": {
+                    "text": "ちょっと待ってください。\nちょっとまってください。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-8",
+                  "front": {
+                    "text": "May I sit here?"
+                  },
+                  "back": {
+                    "text": "ここに座ってもいいですか。\nここにすわってもいいですか。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-9",
+                  "front": {
+                    "text": "I forgot my umbrella yesterday."
+                  },
+                  "back": {
+                    "text": "昨日、傘を忘れました。\nきのう、かさをわすれました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-10",
+                  "front": {
+                    "text": "I'm looking for the station."
+                  },
+                  "back": {
+                    "text": "駅を探しています。\nえきをさがしています。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-11",
+                  "front": {
+                    "text": "I have a headache."
+                  },
+                  "back": {
+                    "text": "頭が痛いです。\nあたまがいたいです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "repairs-12",
+                  "front": {
+                    "text": "I don't have time today."
+                  },
+                  "back": {
+                    "text": "今日は時間がありません。\nきょうはじかんがありません。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            },
+            "id": "material-jp-speaking-cards-repairs-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-cards-plans-20261113-v1",
+        "title": "12 full sentences — Plans, necessity and possibility",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Say the complete Japanese sentence before flipping. Each Japanese answer includes hiragana and kanji, with full sentence context.",
+            "id": "material-jp-speaking-cards-plans-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "12 reversible English↔Japanese full-sentence flashcards: Plans, necessity and possibility.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "plans-1",
+                  "front": {
+                    "text": "I have to call my friend."
+                  },
+                  "back": {
+                    "text": "友達に電話しなければなりません。\nともだちにでんわしなければなりません。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-2",
+                  "front": {
+                    "text": "I've got to call my friend! (casual)"
+                  },
+                  "back": {
+                    "text": "友達に電話しなきゃ。\nともだちにでんわしなきゃ。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-3",
+                  "front": {
+                    "text": "It might snow tomorrow."
+                  },
+                  "back": {
+                    "text": "明日は雪が降るかもしれません。\nあしたはゆきがふるかもしれません。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-4",
+                  "front": {
+                    "text": "It might rain tomorrow."
+                  },
+                  "back": {
+                    "text": "明日は雨が降るかもしれません。\nあしたはあめがふるかもしれません。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-5",
+                  "front": {
+                    "text": "I think it might rain."
+                  },
+                  "back": {
+                    "text": "雨が降るかもしれないと思います。\nあめがふるかもしれないとおもいます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-6",
+                  "front": {
+                    "text": "What do you want to eat today?"
+                  },
+                  "back": {
+                    "text": "今日は何を食べたいですか。\nきょうはなにをたべたいですか。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-7",
+                  "front": {
+                    "text": "This is my favourite book."
+                  },
+                  "back": {
+                    "text": "これは一番好きな本です。\nこれはいちばんすきなほんです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-8",
+                  "front": {
+                    "text": "I want to visit Japan."
+                  },
+                  "back": {
+                    "text": "日本に行きたいです。\nにほんにいきたいです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-9",
+                  "front": {
+                    "text": "I'm getting used to speaking Japanese."
+                  },
+                  "back": {
+                    "text": "日本語を話すことに慣れてきました。\nにほんごをはなすことになれてきました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-10",
+                  "front": {
+                    "text": "I can play the piano."
+                  },
+                  "back": {
+                    "text": "ピアノが弾けます。\nぴあのがひけます。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-11",
+                  "front": {
+                    "text": "It was raining, so I stayed home."
+                  },
+                  "back": {
+                    "text": "雨が降っていたので、家にいました。\nあめがふっていたので、いえにいました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "plans-12",
+                  "front": {
+                    "text": "I think she is kind."
+                  },
+                  "back": {
+                    "text": "彼女は優しいと思います。\nかのじょはやさしいとおもいます。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            },
+            "id": "material-jp-speaking-cards-plans-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-lesson-sequence-20261113-v1",
+        "title": "Three ways to connect actions",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "1. て-form links actions: 日曜日は映画を見て、のんびりします。（にちようびはえいがをみて、のんびりします。） — On Sundays, I watch a film and relax. 見る→見て.\n\n2. 〜たあとで makes the order explicit: 食べたあとで、お茶を飲みます。（たべたあとで、おちゃをのみます。） — After eating, I drink tea. 食べる→食べた; 行く→行った; 終わる→終わった.\n\n3. 〜と describes a habitual/natural result: コーヒーを飲むと、元気になります。（こーひーをのむと、げんきになります。） — Whenever I drink coffee, I feel energised.\n\nCompare: 寝る前に本を読みます。 — I read before bed. 寝ると本を読みます means 'when I go to bed, I read', not 'before bed'. For a future decision use 〜たら: 家に帰ったら、電話します。 — When I get home, I'll call.",
+            "id": "material-jp-speaking-lesson-sequence-20261113-v1-1"
+          },
+          {
+            "kind": "diagram",
+            "text": "CHOOSING THE LINK\n\n[手を 洗って] ─────→ [ご飯を 食べます]\n'I wash my hands and eat.' (linked actions)\n\n[食べた] ── あとで ──▶ [お茶を 飲みます]\n'After eating, I drink tea.' (completion first)\n\n[コーヒーを 飲む] ── と ──▶ [元気に なります]\n'Whenever I drink coffee, I feel energised.' (typical result)\n\n[帰った] ── たら ──▶ [電話します]\n'When I get home, I'll call.' (specific future plan)",
+            "id": "material-jp-speaking-lesson-sequence-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-lesson-feelings-20261113-v1",
+        "title": "How feelings change with なる",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "なる = to become. The form depends on what comes before it.\n\nNoun / な-adjective phrase + に + なる:\nいい気分になります。（いいきぶんになります。） — I get into a good mood.\n元気になります。（げんきになります。） — I feel better / energetic.\n\nい-adjective → く + なる:\nうれしい → うれしくなります — I become happy.\n悲しい → 悲しくなります（かなしくなります） — I become sad.\n痛い → 痛くなります（いたくなります） — It begins to hurt.\n\nロックを聴くと、いい気分になります。 — Listening to rock puts me in a good mood.\nロックを聴くと、気分が明るくなります。 — Listening to rock brightens my mood. Both natural, slightly different descriptions.\n\nAvoid 運動はいい気分になります (exercise itself does not acquire a mood). Say 運動すると、いい気分になります — When I exercise, I feel good.",
+            "id": "material-jp-speaking-lesson-feelings-20261113-v1-1"
+          },
+          {
+            "kind": "diagram",
+            "text": "HOW TO SAY 'BECOMES'\n\n[いい 気分] + に + なります\n           noun phrase\n            ↓\n'I get into a good mood'\n\n[元気] + に + なります\n   な-adjective\n            ↓\n'I become energetic'\n\n[うれしい] → [うれしく] + なります\n   い-adjective     く form\n            ↓\n'I become happy'",
+            "id": "material-jp-speaking-lesson-feelings-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-lesson-daily-20261113-v1",
+        "title": "Everyday small grammar you used",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "の versus と: ロックを聴くのが好きです。 — I like listening to rock; 聴くの makes the action noun-like. ロックを聴くと、いい気分になります。 — When I listen to rock, I feel good; 聴くと introduces a condition.\n\n好き is a な-adjective. これは一番好きな本です。 — This is my favourite book. これが好きです — I like this. Use 好きな before a noun; it isn't これを好き.\n\nTopics and objects: 土曜日は写真を撮ります。（どようびはしゃしんをとります。） — I take photographs on Saturdays. は introduces the topic; を marks the object of 撮る. 友達に電話します — I phone a friend (recipient に). 友達に会います — I meet a friend. 友達を見ます — I see/look at a friend (visually).\n\nVerb contrast: 起きる（おきる） = wake up; 寝る（ねる） = go to bed/sleep; 眠る（ねむる） = sleep. 終わる（おわる） = finish/end; 終わると = when it ends; 終わって = finishes and then...; 終わったあとで = after it has finished.\n\n〜ています can mean an action in progress OR a regular habit. 毎晩本を読んでいます is perfectly reasonable for an established habit; 今本を読んでいます means 'I'm reading now'.",
+            "id": "material-jp-speaking-lesson-daily-20261113-v1-1"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-lesson-other-20261113-v1",
+        "title": "While, regrets, wants, must and maybe",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "〜ながら = while doing: 調べながら読んでいます。（しらべながらよんでいます。） — I'm reading while looking things up.\n〜ので = because: 調べながら読んでいるので、返信に時間がかかります。 — Because I read while looking things up, replying takes time.\n〜てしまう can express an undesired result OR completion: 返信に時間がかかってしまいます — It ends up taking a while to reply (apologetic). しまいます is non-past polite; しまいました is past.\n〜てよかった = I'm glad I did it: 話しかけてよかったです — I'm glad I approached you. 勇気を出してよかったです — I'm glad I found the courage.\n〜たい / 〜たかった = want / wanted: 公園に行きたかったけど、雨が降っていました — I wanted to go to the park, but it was raining.\n〜なければなりません = have to: 友達に電話しなければなりません. Casual shortened 〜なきゃ: 友達に電話しなきゃ — I have to call my friend.\n〜かもしれません = might: 明日は雪が降るかもしれません — It might snow tomorrow.\n〜てもいいですか = May I...? ここに座ってもいいですか — May I sit here?\n\nすごく = really/very; 少し（すこし）= a little. すごく勉強になります = 'I'm learning a lot from this / this is really informative', not 'I'm starting to study'.",
+            "id": "material-jp-speaking-lesson-other-20261113-v1-1"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-reveals-group1-20261113-v1",
+        "title": "Comprehension reveals 1–4",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Read each Japanese sentence before revealing the translation. Say its meaning and identify the grammar. Kanji readings are provided as a complete hiragana line. The two sentences attributed to Mayumi are from her message; the others are practice examples.",
+            "id": "material-jp-speaking-reveals-group1-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 1: お酒を飲むと、頭が痛くなります。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "お酒を飲むと、頭が痛くなります。",
+                "translation": "When I drink alcohol, I get a headache.",
+                "note": "飲む + と describes a habitual result; 痛い → 痛くなる describes becoming painful.",
+                "language": "ja"
+              },
+              "gloss": "おさけをのむと、あたまがいたくなります。",
+              "explanation": "飲む + と describes a habitual result; 痛い → 痛くなる describes becoming painful."
+            },
+            "id": "material-jp-speaking-reveals-group1-20261113-v1-2"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 2: 彼女は看護師だと思います。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "彼女は看護師だと思います。",
+                "translation": "I think she's a nurse.",
+                "note": "Noun 看護師 + だ + quotation と + 思います.",
+                "language": "ja"
+              },
+              "gloss": "かのじょはかんごしだとおもいます。",
+              "explanation": "Noun 看護師 + だ + quotation と + 思います."
+            },
+            "id": "material-jp-speaking-reveals-group1-20261113-v1-3"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 3: 簡単だと思いました。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "簡単だと思いました。",
+                "translation": "I thought it was easy.",
+                "note": "簡単 is a な-adjective, so だと; 思いました is past.",
+                "language": "ja"
+              },
+              "gloss": "かんたんだとおもいました。",
+              "explanation": "簡単 is a な-adjective, so だと; 思いました is past."
+            },
+            "id": "material-jp-speaking-reveals-group1-20261113-v1-4"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 4: 日曜日は映画を見て、のんびりします。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "日曜日は映画を見て、のんびりします。",
+                "translation": "On Sundays, I watch a film and relax.",
+                "note": "見る → 見て links the actions. のんびりする means take it easy.",
+                "language": "ja"
+              },
+              "gloss": "にちようびはえいがをみて、のんびりします。",
+              "explanation": "見る → 見て links the actions. のんびりする means take it easy."
+            },
+            "id": "material-jp-speaking-reveals-group1-20261113-v1-5"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-reveals-group2-20261113-v1",
+        "title": "Comprehension reveals 5–8",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Read each Japanese sentence before revealing the translation. Say its meaning and identify the grammar. Kanji readings are provided as a complete hiragana line. The two sentences attributed to Mayumi are from her message; the others are practice examples.",
+            "id": "material-jp-speaking-reveals-group2-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 5: 食べたあとで、お茶を飲みます。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "食べたあとで、お茶を飲みます。",
+                "translation": "After eating, I drink tea.",
+                "note": "Past plain 食べた + あとで = after completing the action.",
+                "language": "ja"
+              },
+              "gloss": "たべたあとで、おちゃをのみます。",
+              "explanation": "Past plain 食べた + あとで = after completing the action."
+            },
+            "id": "material-jp-speaking-reveals-group2-20261113-v1-2"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 6: ロックを聴くのが好きです。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "ロックを聴くのが好きです。",
+                "translation": "I like listening to rock music.",
+                "note": "聴くの nominalises the action for 好き. Compare 聴くと meaning 'when I listen'.",
+                "language": "ja"
+              },
+              "gloss": "ろっくをきくのがすきです。",
+              "explanation": "聴くの nominalises the action for 好き. Compare 聴くと meaning 'when I listen'."
+            },
+            "id": "material-jp-speaking-reveals-group2-20261113-v1-3"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 7: 調べながら読んでるので、返信に時間かかってしまいます。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "調べながら読んでるので、返信に時間かかってしまいます。",
+                "translation": "Because I'm looking things up while reading, replying ends up taking a while.",
+                "note": "Mayumi's wording. ながら=while; ので=because; 〜てしまう adds an unwanted outcome/apologetic shade here.",
+                "language": "ja"
+              },
+              "gloss": "しらべながらよんでるので、へんしんにじかんかかってしまいます。",
+              "explanation": "Mayumi's wording. ながら=while; ので=because; 〜てしまう adds an unwanted outcome/apologetic shade here."
+            },
+            "id": "material-jp-speaking-reveals-group2-20261113-v1-4"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 8: 返信が遅くなってすみません。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "返信が遅くなってすみません。",
+                "translation": "Sorry for the late reply.",
+                "note": "遅い → 遅くなる ('become late'); 〜てすみません apologises.",
+                "language": "ja"
+              },
+              "gloss": "へんしんがおそくなってすみません。",
+              "explanation": "遅い → 遅くなる ('become late'); 〜てすみません apologises."
+            },
+            "id": "material-jp-speaking-reveals-group2-20261113-v1-5"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-reveals-group3-20261113-v1",
+        "title": "Comprehension reveals 9–12",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Read each Japanese sentence before revealing the translation. Say its meaning and identify the grammar. Kanji readings are provided as a complete hiragana line. The two sentences attributed to Mayumi are from her message; the others are practice examples.",
+            "id": "material-jp-speaking-reveals-group3-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 9: 友達に電話しなきゃ。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "友達に電話しなきゃ。",
+                "translation": "I've got to call my friend.",
+                "note": "Casual necessity 〜なきゃ; full polite 〜なければなりません. に marks recipient.",
+                "language": "ja"
+              },
+              "gloss": "ともだちにでんわしなきゃ。",
+              "explanation": "Casual necessity 〜なきゃ; full polite 〜なければなりません. に marks recipient."
+            },
+            "id": "material-jp-speaking-reveals-group3-20261113-v1-2"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 10: 明日は雪が降るかもしれません。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "明日は雪が降るかもしれません。",
+                "translation": "It might snow tomorrow.",
+                "note": "Plain form 降る + かもしれません expresses possibility.",
+                "language": "ja"
+              },
+              "gloss": "あしたはゆきがふるかもしれません。",
+              "explanation": "Plain form 降る + かもしれません expresses possibility."
+            },
+            "id": "material-jp-speaking-reveals-group3-20261113-v1-3"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 11: 公園に行きたかったけど、雨が降っていました。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "公園に行きたかったけど、雨が降っていました。",
+                "translation": "I wanted to go to the park, but it was raining.",
+                "note": "行きたかった past desire; けど connects a contrast; 降っていました describes past ongoing rain.",
+                "language": "ja"
+              },
+              "gloss": "こうえんにいきたかったけど、あめがふっていました。",
+              "explanation": "行きたかった past desire; けど connects a contrast; 降っていました describes past ongoing rain."
+            },
+            "id": "material-jp-speaking-reveals-group3-20261113-v1-4"
+          },
+          {
+            "kind": "interactive",
+            "text": "Comprehension reveal 12: Barton Parkがいい学校と知れて良かったです。",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "Barton Parkがいい学校と知れて良かったです。",
+                "translation": "I'm glad I found out Barton Park is a good school.",
+                "note": "Mayumi's natural conversational wording; fuller quotation いい学校だと. 〜てよかった means glad something happened.",
+                "language": "ja"
+              },
+              "gloss": "ばーとんぱーくがいいがっこうとしれてよかったです。",
+              "explanation": "Mayumi's natural conversational wording; fuller quotation いい学校だと. 〜てよかった means glad something happened."
+            },
+            "id": "material-jp-speaking-reveals-group3-20261113-v1-5"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-dialogue-music-20261113-v1",
+        "title": "Dialogue — Music and relaxing",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "An original short practice dialogue. Say each Japanese line aloud slowly and work out its meaning. This is a model conversation, not a transcript of something you actually said.",
+            "id": "material-jp-speaking-dialogue-music-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "Original Japanese practice conversation: Music and relaxing. Six turns, with English translations.",
+            "interactive": {
+              "version": 1,
+              "type": "language-dialogue",
+              "language": "ja",
+              "turns": [
+                {
+                  "id": "d-music-1",
+                  "speaker": "A",
+                  "source": {
+                    "text": "週末は何をしますか。",
+                    "translation": "What do you do at weekends?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-music-2",
+                  "speaker": "B",
+                  "source": {
+                    "text": "よく映画を見て、のんびりします。",
+                    "translation": "I often watch a film and relax.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-music-3",
+                  "speaker": "A",
+                  "source": {
+                    "text": "どんな音楽が好きですか。",
+                    "translation": "What kind of music do you like?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-music-4",
+                  "speaker": "B",
+                  "source": {
+                    "text": "ロックが好きです。聴くと、いい気分になります。",
+                    "translation": "I like rock. Listening to it puts me in a good mood.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-music-5",
+                  "speaker": "A",
+                  "source": {
+                    "text": "ピアノも弾きますか。",
+                    "translation": "Do you also play piano?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-music-6",
+                  "speaker": "B",
+                  "source": {
+                    "text": "はい、時々弾きます。",
+                    "translation": "Yes, I play sometimes.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            },
+            "id": "material-jp-speaking-dialogue-music-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-dialogue-routine-20261113-v1",
+        "title": "Dialogue — Daily routine and plans",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "An original short practice dialogue. Say each Japanese line aloud slowly and work out its meaning. This is a model conversation, not a transcript of something you actually said.",
+            "id": "material-jp-speaking-dialogue-routine-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "Original Japanese practice conversation: Daily routine and plans. Six turns, with English translations.",
+            "interactive": {
+              "version": 1,
+              "type": "language-dialogue",
+              "language": "ja",
+              "turns": [
+                {
+                  "id": "d-routine-1",
+                  "speaker": "A",
+                  "source": {
+                    "text": "今日は何をしますか。",
+                    "translation": "What are you doing today?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-routine-2",
+                  "speaker": "B",
+                  "source": {
+                    "text": "仕事が終わったあとで、スーパーに行きます。",
+                    "translation": "After work, I'll go to the supermarket.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-routine-3",
+                  "speaker": "A",
+                  "source": {
+                    "text": "何を買いますか。",
+                    "translation": "What will you buy?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-routine-4",
+                  "speaker": "B",
+                  "source": {
+                    "text": "牛乳を買います。それから家に帰ります。",
+                    "translation": "I'll buy milk and then go home.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-routine-5",
+                  "speaker": "A",
+                  "source": {
+                    "text": "明日は何をしますか。",
+                    "translation": "What will you do tomorrow?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-routine-6",
+                  "speaker": "B",
+                  "source": {
+                    "text": "雨が降るかもしれません。家で勉強します。",
+                    "translation": "It might rain. I'll study at home.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            },
+            "id": "material-jp-speaking-dialogue-routine-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-dialogue-friends-20261113-v1",
+        "title": "Dialogue — Nerves and making friends",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "An original short practice dialogue. Say each Japanese line aloud slowly and work out its meaning. This is a model conversation, not a transcript of something you actually said.",
+            "id": "material-jp-speaking-dialogue-friends-20261113-v1-1"
+          },
+          {
+            "kind": "interactive",
+            "text": "Original Japanese practice conversation: Nerves and making friends. Six turns, with English translations.",
+            "interactive": {
+              "version": 1,
+              "type": "language-dialogue",
+              "language": "ja",
+              "turns": [
+                {
+                  "id": "d-friends-1",
+                  "speaker": "A",
+                  "source": {
+                    "text": "日本語を話すのは緊張しますか。",
+                    "translation": "Do you get nervous speaking Japanese?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-friends-2",
+                  "speaker": "B",
+                  "source": {
+                    "text": "はい、少し緊張します。",
+                    "translation": "Yes, a little.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-friends-3",
+                  "speaker": "A",
+                  "source": {
+                    "text": "でも、話してよかったですね。",
+                    "translation": "But you're glad you spoke, right?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-friends-4",
+                  "speaker": "B",
+                  "source": {
+                    "text": "はい。すごく勉強になります。",
+                    "translation": "Yes. It's really helping me learn.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-friends-5",
+                  "speaker": "A",
+                  "source": {
+                    "text": "また話しましょう。",
+                    "translation": "Let's talk again.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "d-friends-6",
+                  "speaker": "B",
+                  "source": {
+                    "text": "ぜひ！よろしくお願いします。",
+                    "translation": "Definitely! I look forward to it.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            },
+            "id": "material-jp-speaking-dialogue-friends-20261113-v1-2"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-speaking-rounds-20261113-v1",
+        "title": "Varied English → Japanese speaking prompts",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Translate ONE sentence at a time, without looking at the answer. Request a single-word or single-particle hint only if needed. No repeated \"shall we stop?\" questions. Reuse patterns, but don't stay on one structure too long.\n\nRound A · everyday Japanese\n1. I think this is a good café.\n2. When I get home, I listen to music.\n3. After I eat breakfast, I read a book.\n4. I wanted to go out, but it was raining.\n5. I'm glad I tried.\n6. It might rain tomorrow.\n7. I like taking photos.\n8. I don't have time today.\n\nRound B · different meanings\n1. My daughter likes writing kanji.\n2. I was nervous, but I'm glad I spoke.\n3. When I study Japanese, I take notes.\n4. I think the park is beautiful.\n5. Please wait a little.\n6. I have to phone a friend.\n7. I'm getting used to speaking Japanese.\n8. I wanted tea, but there wasn't any.\n\nRound C · choose your connector\n1. I think the teacher is kind. (quoted と)\n2. Whenever it rains, I read at home. (conditional と)\n3. I like listening to music. (の, not と)\n4. After listening to music, I go to bed. (〜たあとで)\n5. I listened to music and relaxed. (て-form)\n6. I think it might snow. (かもしれない + quotation と)",
+            "id": "material-jp-speaking-speaking-rounds-20261113-v1-1"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-continuity-20261113-v1",
+        "title": "How to continue this practice naturally",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Learner preference: practise Japanese by translating varied, short English sentences one at a time. Short, genuine feedback; avoid giving away the complete answer unless asked. The learner sometimes requests a single clue such as just a verb or one particle. Speak Japanese about half the speed of English, with deliberate pauses; English explanations should remain at normal speed. In written examples include kanji with hiragana readings or, when requested, full hiragana, never romaji. Advance to the next prompt after the learner finishes; don't repeatedly ask whether to stop.\n\nAreas to vary: two と structures ('when' vs quotation 'that'), noun/な-adjective + だ, て versus たあとで, 〜のが好き, changes with 〜になる, 〜てよかった, 〜ながら and 〜てしまう, requests, 〜たい / 〜たかった, obligations 〜なきゃ / 〜なければなりません, possibility かもしれません, tense and particles. Keep Japanese natural; accept correct casual and polite forms. If the learner gives よむ instead of よみます, it's a valid plain form, not an error; explain register only when it matters. If the learner says 〜ています for a habit, it can be correct. Correct earlier oversimplifications rather than treating them as target phrases.",
+            "id": "material-jp-speaking-continuity-20261113-v1-1"
+          }
+        ]
+      },
+      {
+        "id": "learning-jp-speaking-vocabulary-20261113-v1",
+        "title": "Words and sentence chunks from speaking practice",
+        "parts": [
+          {
+            "kind": "paragraph",
+            "text": "Everyday verbs (kanji + reading)\n起きる（おきる） wake up; 寝る（ねる） go to bed / sleep; 眠る（ねむる） sleep; 終わる（おわる） finish; 帰る（かえる） return home; 行く（いく） go; 見る（みる） watch/see; 聴く（きく） listen; 聞く（きく） hear/ask; 読む（よむ） read; 書く（かく） write; 撮る（とる） take photos; メモを取る（めもをとる） take notes; 探す（さがす） search for; 払う（はらう） pay; 忘れる（わすれる） forget; 挨拶する（あいさつする） greet; 調べる（しらべる） look up/check; のんびりする relax/take it easy; くつろぐ unwind; 電話する（でんわする） call by phone; 慣れる（なれる） get used to.",
+            "id": "material-jp-speaking-vocabulary-20261113-v1-1"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Everyday words\n日曜日（にちようび） Sunday; 土曜日（どようび） Saturday; 昨日（きのう） yesterday; 明日（あした） tomorrow; 公園（こうえん） park; 学校（がっこう） school; 駅（えき） station; スーパー supermarket; コンビニ convenience store; お茶（おちゃ） tea; お酒（おさけ） alcohol; 傘（かさ） umbrella; 看護師（かんごし） nurse; 友達（ともだち） friend; 返信（へんしん） reply; 時間（じかん） time; 経験（けいけん） experience; 気分（きぶん） mood; 元気（げんき） well/energetic; 悲しい（かなしい） sad; 難しい（むずかしい） difficult; 簡単（かんたん） easy/simple; すごく very/really; 少し（すこし） a little; 気分がいい（きぶんがいい） feel good; しみじみ deeply/reflectively.",
+            "id": "material-jp-speaking-vocabulary-20261113-v1-2"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Sentence chunks — recall them whole\n〜だと思います = I think that [noun / な-adjective]; 〜と、〜になります = when something happens, something becomes; 〜のが好きです = I like doing; 〜たあとで = after doing; 〜て、〜ます = do and then; 〜てよかったです = glad I did; 〜ながら = while doing; 〜てしまいます = end up doing (regret or completion); 〜なければなりません = must; 〜なきゃ = gotta (casual); 〜かもしれません = might; 〜てもいいですか = may I; 〜たいです / 〜たかったです = want to / wanted to; 〜ので = because; けど = but. Read examples in the Grammar and Flashcards views before trying these as free-standing chunks.",
+            "id": "material-jp-speaking-vocabulary-20261113-v1-3"
+          }
+        ]
+      }
+    ],
+    "rev": 21,
+    "createdAt": "2026-11-13T15:21:11.330Z",
+    "updatedAt": "2026-11-13T15:26:34.731Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-d593079a36b8a0c1a9a287af21073df7bff4eb8def95c7ece5af981dd251fdc0",
+    "learningScopeRev": 0
+  },
+  "scope": {
+    "requested": {
+      "learningSpace": "all"
+    },
+    "effective": {
+      "version": 1,
+      "spaces": [
+        "languages"
+      ],
+      "languages": [
+        "ja"
+      ],
+      "subjects": [
+        "Japanese speaking practice"
+      ],
+      "provenance": "classification"
+    },
+    "inRequestedScope": true,
+    "identityFirst": true
+  },
+  "resourceQuality": {
+    "version": "minamo-resource-quality-2026-10-26.2",
+    "applicable": false,
+    "role": "journey",
+    "findings": [],
+    "notice": "Personal captures and evidence are preserved faithfully; depth guidance never expands supplied evidence."
+  },
+  "bookmark": {
+    "targetKey": "bookmark-0b1ef2bea5357bbbdcf79ab645271fd4bcde6b0c12978965daae05b11eb9d9af",
+    "targetRev": 0,
+    "active": false,
+    "available": true
+  },
+  "conceptEntries": [],
+  "mediaNotice": "Image alternative text, media descriptions, captions and transcripts are owner-authored metadata. This JSON tool does not deliver or interpret image pixels, document bytes or recorded audio/video; no OCR or transcription is performed."
+}
