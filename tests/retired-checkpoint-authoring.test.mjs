@@ -13,7 +13,8 @@ test('new MCP catalogue has no checkpoint writer, authoring schema or save promp
   const tools=response.data.result.tools;
   const names=tools.map(t=>t.name);
   for(const name of ['record_minamo_learning_development','revise_minamo_learning_development'])assert.equal(names.includes(name),false);
-  for(const name of ['publish_minamo_manuscript','record_minamo_learning_update','get_minamo_working_context'])assert.ok(names.includes(name),name);
+  for(const name of ['publish_minamo_manuscript','get_minamo_working_context'])assert.ok(names.includes(name),name);
+  assert.equal(names.includes('record_minamo_learning_update'),false,'GPT Note-writing route is not advertised; cached/direct calls are checked at the server boundary');
   const command=tools.find(t=>t.name==='apply_minamo_command');
   assert.ok(command);
   assert.doesNotMatch(JSON.stringify(command.inputSchema),/"checkpoint"\s*:/i);

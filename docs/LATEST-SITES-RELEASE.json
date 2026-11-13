@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "siteProjectId": "appgprj_6aeba0aa528c81918be19dd51427b2cb",
+  "url": "https://minamo.jscymru.chatgpt.site",
+  "siteVersion": 177,
+  "nativeSourceCommit": "399ca17891bdbc675e1acb9ab3b1571bba8d9d6c",
+  "githubApplicationCommit": "2f0a1f832903e127c62f24d654d86af120c20977",
+  "savedVersionId": "appgprj_6aeba0aa528c81918be19dd51427b2cb~appgver_cbf1c18f997c819190dc132df7a40f4d",
+  "deploymentId": "appgdep_6af6dfeb5ef881918136f78f24188dee",
+  "deploymentStatus": "succeeded",
+  "environmentRevision": 5,
+  "publishedAt": "2026-11-13T10:01:36Z",
+  "archiveSha256": "2cd2cee06fd32bff865638ffab5a5739bee36b318f8052423ddc975b0caf6e66",
+  "receipt": "docs/PR9-V177-DEPLOYMENT.md",
+  "liveMcpAcceptance": "owner-pending",
+  "browserAcceptance": "owner-pending",
+  "postDeploymentChanges": "GitHub release tooling, test cleanup/current-contract qualification, and documentation may follow this application commit. Verify live Sites state before reusing this baseline."
+}

@@ -38,12 +38,14 @@ test('One Note pins to two pages, duplicate retry, one unpin, unchanged prose/re
  saved=await c.request('/api/notes/pin',{...pin,operationId:'unpin-a',expectedNoteRev:note.rev,pinned:false});note=saved.data.record;assert.deepEqual(note.pagePins,[b]);assert.equal(note.body,'Keep this prose.');assert.equal((await c.request('/api/notes/pins',{target:a})).data.notes.length,0);
  const denied=await c.request('/api/notes/pin',{...pin,operationId:'denied-pin',expectedNoteRev:note.rev,target:{family:'note',id:'not-owned'}});assert.equal(denied.status,409);assert.equal((await c.context('note','notes')).data.record.rev,note.rev);
  }finally{await f.dispose();}});
-test('Atomic Project plus Note content and late failure rollback, real MCP authoring and retained-source reads',async()=>{const {f,c,request}=await setup();try{
+test('Owner atomic Project plus Note batch, GPT Note denial and late failure rollback',async()=>{const {f,c,request}=await setup();try{
  const refComposition={...composition,blocks:[...composition.blocks,{id:'inline-note',ref:{family:'note',id:'new-note'}}],sections:[{...composition.sections[0],slots:[{id:'primary',role:'primary',blockIds:['work','inline-note']}]}]};
  const combined={...request,composition:refComposition,noteChanges:[{id:'new-note',expectedRev:0,title:'Investigation notes',body:'A reported observation, not a verified test.'}]};
- const receipt=value(await mcp(c,'apply_project_update',combined));assert.equal(receipt.status,'committed',JSON.stringify(receipt));assert.equal(receipt.recordRefs.length,2);
+ const created=await apply(c,combined),receipt=created.data;assert.equal(receipt.status,'committed',JSON.stringify(receipt));assert.equal(receipt.recordRefs.length,2);
  const context=await c.request('/api/projects/composition?projectId=tcp');assert.equal(context.data.references[0].record.body,combined.noteChanges[0].body);
- assert.equal(value(await mcp(c,'apply_project_update',combined)).replayed,true);
+ assert.equal((await apply(c,combined)).data.replayed,true);
+ const denied=value(await mcp(c,'apply_project_update',{operationId:'gpt-note-batch-denied',expectedGeneration:c.generation,projectId:'tcp',expectedProjectRev:1,title:'Must not update',noteChanges:[{id:'new-note',expectedRev:1,title:'Forbidden change',body:'Must remain owner-authored.'}]}));assert.equal(denied.code,'gpt_note_authoring_forbidden');
+ assert.equal((await c.context('journey','tcp')).data.record.title,request.title);assert.equal((await c.context('note','new-note')).data.record.body,combined.noteChanges[0].body);assert.equal(await f.db.prepare('SELECT id FROM v2_operations WHERE owner=? AND id=?').bind(c.owner,'gpt-note-batch-denied').first(),null);
  await f.db.exec("CREATE TRIGGER fail_combined_activity BEFORE INSERT ON v2_activity WHEN NEW.id LIKE 'combined-fail:%' BEGIN SELECT RAISE(ABORT,'late combined failure'); END");
  const failed=await apply(c,{operationId:'combined-fail',expectedGeneration:c.generation,projectId:'tcp',expectedProjectRev:1,title:'Must not persist',noteChanges:[{id:'new-note',expectedRev:1,title:'Also must not persist',body:'Changed'}]});assert.equal(failed.status,409,JSON.stringify(failed.data));assert.equal((await c.context('journey','tcp')).data.record.title,request.title);assert.equal((await c.context('note','new-note')).data.record.rev,1);assert.equal(await f.db.prepare('SELECT id FROM v2_operations WHERE owner=? AND id=?').bind(c.owner,'combined-fail').first(),null);
  }finally{await f.dispose();}});
