@@ -1,8 +1,18 @@
 # Minamo Project reader V2 — coherent learning experience first
 
-**Status:** Draft implementation brief. No application implementation or deployment in this PR yet.
+**Status:** Draft proposal; implementation scope is under owner discussion after a wider learning-first paradigm correction. No application implementation or deployment in this PR yet.
 
 **Baseline:** `main` after [merged PR #10](https://github.com/frekland/minamo/pull/10), merge `811222cc6391e824cd15d658b86a85113d726963`. Its deterministic reading projection, canonical source identity, revision guards and routine MCP authoring are accepted. Do not reopen MCP schema work or repeat source reconciliation.
+
+## Fundamental scope qualification — Projects are optional, learning is cumulative
+
+**Do not assume that every valuable learning interaction belongs to a Project.** The owner has clarified that general learning often arises in ordinary GPT conversations (for example Japanese grammar encountered while messaging a friend), without an intention to create or contribute to any Project. The desired primary Minamo experience is a coherent, cumulative, organically organised body of saved learning that can be enriched across conversations. Projects are optional intentional workspaces. Library provides reusable technical/reference support and must not be overloaded with casual learner attempts by default.
+
+The larger paradigm and unresolved architectural questions are recorded separately in [Learning-first organic banking discussion](LEARNING-FIRST-ORGANIC-BANKING-DISCUSSION.md). It compares reusing Article/Area and existing record/part/link/revision primitives against a distinct personal-learning role, without approving a new schema.
+
+**Decision gate before implementation:** Confirm with the owner whether to proceed with this narrowly scoped *Project reader quality* slice as an intentionally limited improvement, or adapt the commission to explore a *learning-first entry/reading experience* that works outside Projects. Do not start implementation, deploy or treat the Project-centric first view below as Minamo's universal default until that discussion. PR #10 remains accepted and is not reopened.
+
+The remaining sections specify useful **Project-local** interaction requirements only, contingent on the scope decision.
 
 ## Product problem and order of priorities
 
@@ -27,7 +37,7 @@ The primary product is a **refined, evolving learning resource**: readable, curr
 - Existing `Reader` renders prose, ruby/furigana, TTS, annotations, contributions, code, tables, interactive content and exact passage anchors. Preserve its capabilities and primary reading state.
 - The current Project record, revision/retained changes, optional explicit continuation targets and local last-opened state provide **different types of evidence**. Do not conflate “last opened”, “recently saved”, “last discussed” and “completed”. No omniscient record of learning progress exists.
 
-Inspect these components narrowly before implementation; keep the first slice focused on a visible user outcome, not a new architecture review.
+If a Project-local reader slice is approved, inspect these components narrowly before implementation; keep it focused on visible user outcomes rather than a new architecture review. Do not claim it solves general-learning capture or organisation.
 
 ## Required implementation: the everyday Project experience
 
@@ -76,9 +86,9 @@ Inspect these components narrowly before implementation; keep the first slice fo
 
 **Evaluate the first screen and the ordinary return-to-Project journey before any optional relationship interaction.** Capture concise screenshots/observations of both; fix issues found. Prefer naturalistic material over skeletal test fixtures; synthetic data only, no modifications to genuine learner Projects.
 
-## Bounded implementation and release controls
+## Conditional implementation and release controls
 
-- Work only on this PR branch. Retain it **open, draft and unmerged** until owner review.
+- **Do not commission this implementation until the preceding scope decision is made.** If the owner elects the Project-local slice, work only on this PR branch. Retain it **open, draft and unmerged** until owner review.
 - Frontend-first changes in `app/project-reading.tsx`, `app/project-reading.css`, `app/project-context-overview.tsx` and small relevant helpers/tests. Reuse the existing Reader, Project topic map, design tokens and rendering components.
 - No new Project store, MCP schema or authoring rules; no migration, canonical rewrite, Note editing, invented progress or large cross-record retrieval subsystem.
 - Do not broaden into a redesign of global navigation, Library, Notes or Project administration. Avoid six cosmetic layouts.
@@ -87,8 +97,12 @@ Inspect these components narrowly before implementation; keep the first slice fo
 - Test the actual deployment in desktop and mobile contexts. Fix pertinent failures and record exact GitHub/Natives Sites source/deployment parity. Do not claim an unavailable browser test was performed; do not deploy a patch that loses user data.
 - Defer nonessential secondary comparison, runnable-workbench integration and broader Project redesign rather than sacrificing first-view quality to deliver more features.
 
-## Definition of done
+## Project-local definition of done (only if approved)
 
 A learner can open an existing Project and readily tell **what the saved material covers**, identify the **actual selected or recently saved material where evidence permits**, read it comfortably, and recover **relevant earlier material through clear organisation**. The experience is calm and content-first, handles growing real-world Projects, and preserves the underlying canonical learning material and rich interactions.
 
 A polished graph, relationship explorer or two-column comparison **does not satisfy this PR** if the basic Project reading experience is still confusing, stale or cluttered.
+
+## Not solved by this Project-only brief
+
+Ordinary GPT-driven, Project-independent banking of valuable incidental learning; non-Project cumulative organisation and enrichment; the Library/personal-learning role boundary; and a learning-first Home/read experience remain **open decisions**, not acceptance claims of this PR. See the companion discussion before implementing new patterns that might reinforce Project-first assumptions.
