@@ -1,6 +1,6 @@
 # Project context v1 — implementation status
 
-**13 November 2026:** deployed as **V176** to the existing Minamo Site. Native source `cbeb72b02efaa914f9c17977e15fec1046a5e8a5`; deployment succeeded with MCP enabled. Typecheck, production build and 36 focused tests passed. See [the deployment receipt](PR9-V176-DEPLOYMENT.md) for current verification and acceptance status. The source-only and deployment-boundary statements below describe the earlier implementation checkpoint.
+**13 November 2026:** deployed as **V177** to the existing Minamo Site. Native source `399ca17891bdbc675e1acb9ab3b1571bba8d9d6c`; deployment succeeded with MCP enabled. V176 passed typecheck, production build and 36 focused tests; the V177 generation-fencing fix passed typecheck, production build and 16 relevant checks. See [the deployment receipt](PR9-V177-DEPLOYMENT.md) for current verification and acceptance status. The source-only and deployment-boundary statements below describe the earlier implementation checkpoint.
 
 ## Scope and decisions
 
