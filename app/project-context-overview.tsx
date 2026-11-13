@@ -28,6 +28,6 @@ export default function ProjectContextOverview({map,onOpen}:{map:ProjectLearning
       {context.topicIds.length>1&&<details><summary>See related pages</summary><ul>{context.topicIds.map(id=>{const topic=topicById.get(id);return topic?<li key={id}><button type="button" onClick={()=>onOpen(id)}>{topic.title}</button>{topic.purpose&&<span>{topic.purpose}</span>}</li>:null;})}</ul></details>}
      </article>;
     })}</div>:
-    <div className="pc-overview-indexes">{map.indexes.map(index=><section key={index.id} className="pc-overview-index"><h3>{index.title}</h3><ul>{index.topicIds.map(id=>{const topic=topicById.get(id);return topic?<li key={id}><button type="button" onClick={()=>onOpen(id)}>{topic.title}</button></li>:null;})}</ul></section>)}</div>}
+    <div className="pc-overview-indexes">{!map.indexes.length&&<p>No learning purposes have been assigned yet. Browse by subject to find the saved material.</p>}{map.indexes.map(index=><section key={index.id} className="pc-overview-index"><h3>{index.title}</h3><ul>{index.topicIds.map(id=>{const topic=topicById.get(id);return topic?<li key={id}><button type="button" onClick={()=>onOpen(id)}>{topic.title}</button></li>:null;})}</ul></section>)}</div>}
  </section>;
 }

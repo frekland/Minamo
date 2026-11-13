@@ -41,3 +41,5 @@
 .pc-context-related button{background:var(--mn-surface-secondary);color:var(--mn-text);border:1px solid var(--mn-border-control);border-radius:7px;padding:.35rem .55rem;cursor:pointer}
 .pc-explore-reading{display:block}
 @media(max-width:700px){.pc-project-mode{margin:0 0 .5rem}}
+
+.pc-context-related>a{display:block;width:fit-content;max-width:100%;margin:.35rem 0;padding:.25rem 0;overflow-wrap:anywhere}

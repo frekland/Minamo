@@ -3,7 +3,6 @@ import {useEffect,useMemo,useState,type KeyboardEvent,type ReactNode} from 'reac
 import {ArrowLeft,ArrowRight,ChevronLeft,ChevronRight,Pencil,X} from 'lucide-react';
 import type {PassagePart,WorkspaceRecord} from '../lib/contracts';
 import type {ProjectComposition} from '../lib/project-composition';
-import {projectReadingTopics} from '../lib/project-reading-topics';
 import {projectLearningMap} from '../lib/project-learning-map';
 import ProjectContextOverview from './project-context-overview';
 import {isProjectObservationEvidencePart} from '../lib/project-observation-display';
@@ -13,8 +12,8 @@ import ProjectContributions from './project-contributions';
 import './project-reading.css';
 
 export default function ProjectReading({reader,record,composition,onEdit,reference,referenceTitles,onVisibleTopic}:{reader:ReaderProps;record:WorkspaceRecord;composition:ProjectComposition;onEdit:(blockId:string)=>void;reference:(block:ProjectComposition['blocks'][number])=>ReactNode;referenceTitles?:Readonly<Record<string,string>>;onVisibleTopic?:(location:{rendition:string;sectionId?:string;partId?:string})=>void}){
- const topics=useMemo(()=>projectReadingTopics(composition,record.sections,referenceTitles),[composition,record.sections,referenceTitles]);
  const learning=useMemo(()=>projectLearningMap(composition,record.sections,referenceTitles),[composition,record.sections,referenceTitles]);
+ const topics=learning.topics;
  const [exploring,setExploring]=useState(false);
  const layouts=composition.sections.filter(s=>!s.hidden&&topics.some(t=>t.layoutId===s.id));
  const anchor=reader.anchorTarget;
@@ -72,7 +71,7 @@ export default function ProjectReading({reader,record,composition,onEdit,referen
   <div className="pc-reading-body">
    {layoutTopics.length>1?<div className="pc-reading-topic-row"><nav className="pc-reading-topics" aria-label="Topics in this section" role="tablist">{layoutTopics.map(t=><button key={t.id} type="button" role="tab" aria-selected={topic.id===t.id} tabIndex={topic.id===t.id?0:-1} onKeyDown={event=>keys(event,layoutTopics.map(t=>t.id),topic.id,setChosenTopic)} onClick={()=>setChosenTopic(t.id)} title={t.title}>{t.title}</button>)}</nav><button className="pc-reading-topic-edit" type="button" aria-label="Edit this Project section" title="Edit section" onClick={()=>onEdit(topic.blockId)}><Pencil size={17} aria-hidden="true"/></button></div>:<div className="pc-reading-section-actions"><button type="button" aria-label="Edit this Project section" title="Edit section" onClick={()=>onEdit(topic.blockId)}><Pencil size={17} aria-hidden="true"/></button></div>}
    {(topic.provenance||topic.source)&&<div className="pc-reading-section-actions">{topic.provenance&&<small>{({'user-reported':'User-reported material','gpt-authored':'GPT-authored material','hypothetical':'Practice example','source-excerpt':'Source excerpt'} as Record<string,string>)[topic.provenance]}</small>}{topic.source&&topics.some(t=>t.sectionId===topic.source!.sectionId&&t.partIds.includes(topic.source!.partId))&&<button type="button" onClick={()=>{const source=topics.find(t=>t.sectionId===topic.source!.sectionId&&t.partIds.includes(topic.source!.partId));if(source){setChosenLayout(source.layoutId);setChosenTopic(source.id);}}}>Source passage</button>}</div>}
-   {topic.references?.length? <nav className="pc-context-related" aria-label="Exact related Project and Library material"><strong>Related material</strong>{topic.references.map((ref,index)=><a key={`${ref.family}:${ref.id}:${ref.rendition}:${ref.sectionId??''}:${ref.partId??''}:${index}`} href={buildLinkedReadingLink(ref)} title={ref.reason}>{ref.relation}: {ref.family} · {ref.id}{ref.sectionId?` · ${ref.sectionId}${ref.partId?` / ${ref.partId}`:''}`:''}</a>)}</nav>:null}
+   {topic.references?.length? <nav className="pc-context-related" aria-label="Exact related Project and Library material"><strong>Related material</strong>{topic.references.map((ref,index)=><a key={`${ref.family}:${ref.id}:${ref.rendition}:${ref.sectionId??''}:${ref.partId??''}:${index}`} href={buildLinkedReadingLink(ref)} title={ref.reason}>{ref.reason||`${ref.relation}: ${{article:'Library article',journey:'Project',investigation:'Question',note:'Note',area:'Library area'}[ref.family]??'Related reading'}`}</a>)}</nav>:null}
    {context&&context.topicIds.length>1&&<details className="pc-context-related"><summary>Related material in {context.title}</summary><nav aria-label="Related Project material">{context.topicIds.filter(id=>id!==topic.id).map(id=>{const item=topics.find(x=>x.id===id);return item?<button key={id} type="button" onClick={()=>openTopic(id)}>{item.title}</button>:null;})}</nav></details>}
    <div className="pc-reading-material" role="tabpanel" aria-label={topic.title}>
     {topic.kind==='reference'&&block?.ref?reference(block):<Reader {...reader} article={record} compactHeader arrangeSections={nodes=>nodes} visibleSectionIds={[topic.sectionId]} visiblePartIds={topic.partIds} renderAfterPart={contribution}/>}
