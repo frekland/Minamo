@@ -11,6 +11,25 @@ test('MCP outline/read and bounded append maintain canonical identities and retr
  const f=await privateStorageFixture("import {domainHandler} from './lib/domain-handler.ts';export default {fetch:domainHandler}");
  try{
   const owner=f.client('learning-owner'),other=f.client('other-owner'),pid='learning-example';
+  const catalogue=await owner.request('/mcp',{jsonrpc:'2.0',id:'schema',method:'tools/list'});
+  const schema=catalogue.data.result.tools.find(tool=>tool.name==='append_project_learning_material').inputSchema;
+  assert.equal(schema.type,'object');
+  assert.equal(schema.oneOf,undefined);
+  assert.equal(schema.properties.target.type,'object');
+  for(const key of ['topicId','contextId','layoutId'])assert.equal(schema.properties.target.properties[key].type,'string');
+  for(const key of ['mode','projectId','expectedProjectRev','expectedGeneration','operationId','title','parts','target','educationalPurpose'])assert.ok(schema.required.includes(key),key);
+  const variants=schema.properties.parts.items.anyOf;
+  assert.equal(variants.length,11);
+  const required={paragraph:['text'],code:['text'],table:['table'],callout:['text','callout'],reference:['text','reference'],image:['image'],media:['media'],excerpt:['text','excerpt'],interactive:['text','interactive']};
+  for(const variant of variants){
+   assert.equal(variant.type,'object');assert.equal(variant.allOf,undefined);
+   assert.equal(variant.additionalProperties,false);
+   assert.ok(!variant.required.includes('id'));
+   const kind=variant.properties.kind.enum[0];
+   for(const field of required[kind]??[])assert.ok(variant.required.includes(field),kind+':'+field);
+   for(const field of variant.required)assert.ok(variant.properties[field],field);
+  }
+  assert.equal(variants.find(v=>v.properties.kind.enum[0]==='paragraph').properties.text.type,'string');
   assert.equal((await owner.command({action:'create',family:'journey',id:pid,data:{title:'Music',body:'Reading',sections:source,projectComposition:composition}})).status,200);
   const outline=await invoke(owner,'get_project_learning_outline',{projectId:pid});
   const plan=outline.data.result?.structuredContent;
@@ -46,6 +65,21 @@ test('MCP outline/read and bounded append maintain canonical identities and retr
   const current=again.data.result.structuredContent;
   const context=await invoke(owner,'get_project_learning_reading',{projectId:pid,contextId:'music'});
   assert.equal(context.data.result?.structuredContent?.pages?.length,1);
+  const routine={mode:'preview',projectId:pid,expectedGeneration:owner.generation,expectedProjectRev:2,operationId:'routine-context-addition',target:{contextId:'music'},title:'Why this phrasing works',educationalPurpose:'explanation',provenance:'gpt-authored',parts:[{kind:'paragraph',text:'The explanation stays linked to the same topic without caller-authored layout IDs.'}],relations:[{kind:'explains',target:{sectionId:'source',partId:'original'}}]};
+  const routinePreview=await invoke(owner,'append_project_learning_material',routine);
+  assert.equal(routinePreview.data.result?.structuredContent?.valid,true,JSON.stringify(routinePreview.data));
+  assert.deepEqual(routinePreview.data.result.structuredContent.generated.partIds,['material-routine-context-addition-1']);
+  const routineApplied=await invoke(owner,'append_project_learning_material',{...routine,mode:'apply'});
+  assert.equal(routineApplied.data.result?.structuredContent?.status,'committed',JSON.stringify(routineApplied.data));
+  const routineReplay=await invoke(owner,'append_project_learning_material',{...routine,mode:'apply'});
+  assert.equal(routineReplay.data.result?.structuredContent?.replayed,true,JSON.stringify(routineReplay.data));
+  const routineSaved=(await owner.request('/api/projects/composition?projectId='+pid)).data;
+  assert.equal(routineSaved.revision,3);
+  assert.equal(routineSaved.record.sections.find(section=>section.id==='learning-routine-context-addition').parts[0].id,'material-routine-context-addition-1');
+  assert.equal(routineSaved.composition.blocks.find(block=>block.id==='block-learning-routine-context-addition').readingPages[0].purpose,'explanation');
+  const invalidReference=await invoke(owner,'append_project_learning_material',{...routine,mode:'apply',expectedProjectRev:3,operationId:'routine-invalid-reference',references:[{family:'article',id:'missing-article',rendition:'missing-edition',relation:'explains',reason:'This target does not exist.'}]});
+  assert.ok(JSON.stringify(invalidReference.data).includes('project_page_reference_unavailable'));
+  assert.equal((await owner.request('/api/projects/composition?projectId='+pid)).data.revision,3);
   const stale=await invoke(owner,'append_project_learning_material',{...params,operationId:'stale-new',mode:'apply'});
   assert.ok(stale.data.result?.isError||stale.data.error||stale.data.result?.structuredContent?.code);
   const old=await invoke(owner,'get_project_learning_outline',{projectId:pid,revision:1});

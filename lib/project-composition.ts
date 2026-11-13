@@ -18,8 +18,9 @@ export type ProjectComposition=z.infer<typeof compositionSchema>;
 export type ProjectRef=z.infer<typeof projectRefSchema>;
 export function validateComposition(value:unknown,record:Pick<WorkspaceRecord,'sections'>):ProjectComposition{
  const c=compositionSchema.parse(value);if(new TextEncoder().encode(JSON.stringify(c)).byteLength>64000)throw Error('Project layout exceeds 64 KB.');
- const ids=new Set<string>(),placed=new Set<string>();
+ const ids=new Set<string>(),placed=new Set<string>(),canonicalSections=new Set<string>();
  for(const b of c.blocks){if(ids.has(b.id)||!!b.sectionId===!!b.ref)throw Error('Each unique block needs one canonical section or exact record reference.');ids.add(b.id);if(b.sectionId&&!record.sections?.some(s=>s.id===b.sectionId))throw Error('A block section is missing.');}
+ for(const b of c.blocks)if(b.sectionId){if(canonicalSections.has(b.sectionId))throw Error('Each canonical Project section may be placed by only one content block; reuse it through reading destinations or exact relationships.');canonicalSections.add(b.sectionId);}
  for(const b of c.blocks)if(b.readingPages){
   if(!b.sectionId)throw Error('Reading pages require a canonical content block.');
   for(const page of b.readingPages)if(page.layoutId&&!c.sections.some(s=>s.id===page.layoutId))throw Error('Reading-page layoutId must name an existing Project section.');

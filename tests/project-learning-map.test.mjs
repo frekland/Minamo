@@ -60,6 +60,21 @@ test('Hidden purpose views are not projected or silently rewritten',()=>{
  assert.equal(model.contexts[0].continuation,undefined);
  assert.equal(sections[0].parts[0].text,'I like music');
 });
+test('Visible cross-section destinations survive hidden origins and follow destination order',()=>{
+ const routed=composition();
+ routed.sections[0].hidden=true;
+ const model=projectLearningMap(routed,sections);
+ assert.deepEqual(model.topics.map(topic=>topic.title),['How it works','Try again']);
+ assert.deepEqual(model.topics.map(topic=>topic.layoutId),['grammar','practice']);
+ assert.equal(model.topics.some(topic=>topic.title==='My reply'),false);
+});
+
+test('A canonical section cannot be placed through duplicate content blocks',()=>{
+ const duplicated=composition();
+ duplicated.blocks.push({id:'duplicate-block',sectionId:'conversation'});
+ duplicated.sections[1].slots[0].blockIds.push('duplicate-block');
+ assert.throws(()=>validateComposition(duplicated,{sections}),/canonical Project section may be placed by only one content block/);
+});
 
 test('Japanese, computing and research projects retain their own source, purpose and evidence relationships',()=>{
  const specimens=[

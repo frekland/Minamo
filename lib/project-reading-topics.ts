@@ -7,16 +7,23 @@ export type ProjectReadingTopic={id:string;layoutId:string;blockId:string;sectio
 export function projectReadingTopics(composition:ProjectComposition,sections:ArticleSection[]=[],referenceTitles:Readonly<Record<string,string>>={}):ProjectReadingTopic[]{
  const content=new Map(sections.map(s=>[s.id,s]));
  const result:ProjectReadingTopic[]=[];
- for(const layout of composition.sections.filter(s=>!s.hidden)){
+ const visibleLayouts=new Set(composition.sections.filter(section=>!section.hidden).map(section=>section.id));
+ const seenBlocks=new Set<string>();
+ // Traverse every placement once, including blocks whose origin layout is hidden.
+ // A hidden origin only hides that origin surface; an explicitly routed page remains
+ // available at a visible destination. Block.hidden still suppresses the material.
+ for(const layout of composition.sections){
   const referenceNames=new Map<string,number>();
   for(const slot of layout.slots){
    for(const blockId of slot.blockIds){
+    if(seenBlocks.has(blockId))continue;seenBlocks.add(blockId);
     const block=composition.blocks.find(b=>b.id===blockId);
     if(!block||block.hidden)continue;
     const section=block.sectionId?content.get(block.sectionId):undefined;
     if(block.ref&&!section){const name=referenceTitles[block.id]?.trim()||`Reference · ${block.ref.id.slice(0,24)}`;const occurrence=(referenceNames.get(name)??0)+1;referenceNames.set(name,occurrence);const title=occurrence===1?name:`${name} · ${occurrence}`;result.push({id:`${layout.id}:${block.id}:ref`,layoutId:layout.id,blockId:block.id,sectionId:block.id,partIds:[],title,kind:'reference'});continue;}
     if(!section)continue;
-    if(block.readingPages){for(const page of block.readingPages){const partIds=page.partIds.filter(id=>section.parts.some(p=>p.id===id&&!p.unavailable));if(partIds.length)result.push({id:`${layout.id}:${block.id}:${page.id}`,layoutId:page.layoutId??layout.id,blockId:block.id,sectionId:section.id,partIds,title:page.title,purpose:page.purpose,provenance:page.provenance,source:page.source,contextId:page.contextId,contextTitle:page.contextTitle,relations:page.relations,references:page.references,continuation:page.continuation,kind:'content'});}continue;}
+    if(block.readingPages){for(const page of block.readingPages){const destination=page.layoutId??layout.id;if(!visibleLayouts.has(destination))continue;const partIds=page.partIds.filter(id=>section.parts.some(p=>p.id===id&&!p.unavailable));if(partIds.length)result.push({id:`${destination}:${block.id}:${page.id}`,layoutId:destination,blockId:block.id,sectionId:section.id,partIds,title:page.title,purpose:page.purpose,provenance:page.provenance,source:page.source,contextId:page.contextId,contextTitle:page.contextTitle,relations:page.relations,references:page.references,continuation:page.continuation,kind:'content'});}continue;}
+    if(!visibleLayouts.has(layout.id))continue;
     const parts=section.parts.filter(p=>!p.unavailable);
     // Native sections are the real topics. Do not invent navigation from random prose
     // inside a block. Only exceptionally long blocks are divided into numbered parts.
@@ -28,5 +35,8 @@ export function projectReadingTopics(composition:ProjectComposition,sections:Art
    }
   }
  }
- return result.filter(topic=>composition.sections.some(section=>section.id===topic.layoutId&&!section.hidden));
+ // Destination order is authoritative for reading. Within each destination,
+ // retain stable origin placement/page order from the traversal above.
+ const destinationOrder=new Map(composition.sections.map((section,index)=>[section.id,index]));
+ return result.sort((a,b)=>(destinationOrder.get(a.layoutId)??Number.MAX_SAFE_INTEGER)-(destinationOrder.get(b.layoutId)??Number.MAX_SAFE_INTEGER));
 }
