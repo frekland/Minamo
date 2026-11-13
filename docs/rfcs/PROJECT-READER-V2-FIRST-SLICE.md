@@ -1,105 +1,94 @@
-# Minamo Project reader — first presentation slice
+# Minamo Project reader V2 — coherent learning experience first
 
-Status: **Draft development brief; implementation not yet started.**
+**Status:** Draft implementation brief. No application implementation or deployment in this PR yet.
 
-Baseline: `main` after [PR #10](https://github.com/frekland/minamo/pull/10) merge `811222cc6391e824cd15d658b86a85113d726963`. PR #10's deterministic reading projection, canonical identity guarantees and usable routine MCP authoring are complete and accepted. Do not repeat the V177 source audit, reconcile Sites, or redesign MCP schema.
+**Baseline:** `main` after [merged PR #10](https://github.com/frekland/minamo/pull/10), merge `811222cc6391e824cd15d658b86a85113d726963`. Its deterministic reading projection, canonical source identity, revision guards and routine MCP authoring are accepted. Do not reopen MCP schema work or repeat source reconciliation.
 
-## Purpose
+## Product problem and order of priorities
 
-Build one genuinely coherent Project reading experience plus a **relationship-aware, source-anchored** way to consult related evidence, translation or explanation without losing the passage being read. Comparison is a deliberate interaction rather than merely styling two arbitrary documents in columns. Avoid trying to cosmetically distinguish six entire Project layout patterns. A single Project may include prose, related source excerpts, tables, language components, runnable code and exploration without choosing one rigid template.
+A learner opens a Minamo Project to understand and use **what they are learning**, not to admire how records are interconnected.
 
-The **Project and canonical content stay authoritative**. The model supplies educational material and explicit relationships; the reader supplies ergonomic presentation. This is a frontend experience change and therefore does require desktop and mobile visual acceptance after deployment.
+The **first, unassisted view** must answer three practical questions:
 
-## Existing implementation: narrow starting points
+1. **What does this Project contain?** A logical, legible organisation of subjects, material and activities that suits the discipline. Avoid forcing a generic educational template.
+2. **What is relevant to the work just discussed or saved?** Make recently added material and the actual current reading location easy to find **within the existing subject**, not as a detached feed or opaque list of updates.
+3. **How does this connect to earlier work?** Let someone resume reading and revisit previously explored examples, explanations, conversations, code or evidence without mentally reconstructing an entire conversation history.
 
-- `app/project-reading.tsx`: common `ProjectReading` component; currently selects one visible layout and topic, uses `projectLearningMap`, renders canonical content via `Reader`, includes desktop section tabs, a mobile section selector, context-related links, contributions and per-topic edit actions.
-- `app/project-reading.css`: the common responsive reading layout and navigation. `pc-reading-${pattern}` is present in the reading class name, but the initial audit found the six patterns visually near-identical in the normal reader.
-- `app/project-sections.tsx` / `app/project-sections.css`: existing editing and legacy arrangement semantics; preserve existing authoring/edit interactions rather than porting the legacy six-pattern templates wholesale into the new reader.
-- `lib/project-learning-map.ts` and `lib/project-reading-topics.ts`: share the now-tested exact destination, context, purpose, reference and topic projection between website and MCP; do not create a rival learning hierarchy.
+The primary product is a **refined, evolving learning resource**: readable, current to the content actually saved, navigable by meaningful subject, and capable of substantial accumulated material. An elegant compare panel is not a substitute for getting that initial reading experience right.
 
-Inspect the current implementations before making changes. Existing responsive behaviour, global Japanese furigana, language TTS, contribution controls, code/diagram/interactive parts and reader scroll state must not regress.
+**Success order:** ordinary content-first orientation → precise recent/revisited material → effortless focused reading → optional related-material exploration. If trade-offs arise, prioritise the first three. Relationships are data the reader may use; they are not the default UI.
 
-## Implementation scope — one coherent slice
+## Grounded existing capabilities and constraints
 
-### 1. Improve the default reader, preserving the content contract
+- `app/project-reading.tsx` already selects one destination section/topic from `projectLearningMap`; it presents section tabs, topic navigation, `Reader` content, related-material links, Explore, a saved last-opened topic and edit affordances.
+- `app/project-reading.css` has common responsive rules; six legacy `composition.sections[].pattern` labels do not make six distinct normal reading experiences. Do not solve this through six themes.
+- `app/project-context-overview.tsx` already offers a subject/context overview and optional purpose index. Reuse and improve these rather than creating another dashboard and overlapping navigation systems.
+- `lib/project-learning-map.ts` / `lib/project-reading-topics.ts` provide exactly resolved visible sections, topics, contextual groupings and optional explicit relationships. PR #10 established destination ordering, hidden-origin routing and canonical identity safety.
+- Existing `Reader` renders prose, ruby/furigana, TTS, annotations, contributions, code, tables, interactive content and exact passage anchors. Preserve its capabilities and primary reading state.
+- The current Project record, revision/retained changes, optional explicit continuation targets and local last-opened state provide **different types of evidence**. Do not conflate “last opened”, “recently saved”, “last discussed” and “completed”. No omniscient record of learning progress exists.
 
-Present a focused reading surface with consistent hierarchy for Project sections, topics, context, related material and passage content. Reduce redundant headings, controls and navigation clutter where grounded in actual observed UI. Keep exact topic and deep-link selection, preserved source/section identity, and clear edit affordances.
+Inspect these components narrowly before implementation; keep the first slice focused on a visible user outcome, not a new architecture review.
 
-The default reader must handle mixed authored content without requiring the owner or GPT to pick one of six whole-Project visual patterns. Avoid new mandatory educational classifications or auto-generated achievement/checkpoint metadata.
+## Required implementation: the everyday Project experience
 
-### 2. Add one real page/context-level capability: source-anchored related reading
+### A. Make the initial view a useful representation of learning material
 
-Keep the user's **primary passage** clearly in view while allowing an explicit second, related passage to be consulted in a contextual pane. For suitable content, this becomes a side-by-side comparison at desktop widths and a stacked disclosure/view at narrow widths. Examples: a saved Japanese message with its explanation, code with an associated observation, or a research source with a declared interpretation.
+- Present the saved Project's **actual subjects/contexts and meaningful topics** in a hierarchy the learner can scan. Titles, section placement, and content types should communicate what is there. Avoid displaying internal `layoutId`, `blockId`, operation receipts, generic type labels or verbose administrative metadata.
+- Make the **selected material** substantial and enjoyable to read, with sensible hierarchy, spacing, page titles and continuity of examples. Avoid duplicate headings, redundant navigation rows and competing “Explore / Related / Next” controls.
+- Preserve the Project's authored disciplinary organisation. For example, Japanese may contain messages, grammar, vocabulary and practice; computing may contain concepts, code, observations and tests; research may contain questions, evidence and interpretations. **Do not impose one universal set of sections.**
+- Keep navigation proportional to content volume. A three-topic Project should not look like a dashboard. A Project with dozens of topics across repeated sessions should remain discoverable without a wall of topic tabs or a timeline of disconnected fragments.
+- Choose a calm **single-reading default**, with contextual navigation available but not dominating content. Responsive behaviour must support real narrow mobile screens.
 
-- Reuse the existing canonical `sectionId`/`partId`, topic/context IDs and author-declared relationships. Never generate duplicate canonical content or another learning hierarchy.
-- Make the secondary passage **opt-in** and easy to close; the primary reading location stays authoritative for the current topic, deep link, saved location and `onVisibleTopic`. Do not infer a study goal, automatically switch modes or generate mastery/progress records.
-- Distinguish **Read** (one focused passage) from **Inspect related material** (source-anchored context) and **Compare** (two visibly related exact passages). These are contextual affordances, **not** three mandatory top-level tabs or a new Project-wide mode taxonomy.
-- Provide purposeful labels explaining the declared relationship, rather than a generic unexplained “compare” button. Keep the source and interpretation/provenance clear without suggesting either is verified.
-- Use the same Reader's proven content components where safe; retain ruby/furigana, TTS, code/table legibility, internal links and existing contributions/annotation affordances on the primary passage. A secondary presentation must not break or impersonate unavailable interactions; provide exact navigation back to the full original if a rich interaction cannot safely run there.
-- The secondary passage should never become an unguarded edit surface or make writes merely by opening a view.
-- This first slice is **within the same existing Project and current rendition**. Existing external-reference links continue to open their canonical destinations; do not build a new cross-record fetching, permissions or rendering subsystem.
+### B. Make the actually current/recent material findable *in context*
 
-#### Deterministic relationship and eligibility policy
+- A new passage added through PR #10's routine authoring under an existing topic/context must be discoverable **where it belongs**. It must not appear lost in an undifferentiated list or require the reader to know an internal layout.
+- Distinguish **user-selected/currently open topic**, **saved last-opened topic**, **explicit saved continuation**, and **newly added content** when actual revision/source evidence is available. Use clear, unambiguous labels; never call “last opened” or the newest database revision “what you're currently learning” as a factual assertion.
+- Only show “recently added” or chronological ordering when the UI has reliable, accessible source revision/time evidence for the relevant pages. If that evidence isn't available without expanding this slice, provide accurate “last opened”/topic orientation and a clear route to new content; **do not fabricate recency or infer it from array order**.
+- After a verified save or re-opening a Project, make relevant saved changes findable through the existing topic/context structure. Do not automatically replace the user's current reading, scroll position or chosen topic merely because new content arrives.
+- Earlier content remains readily accessible through stable subject/context grouping and exact source links; avoid a separate diary, mandatory checkpoint, learner ability scores, artificial “next step” or presumed mastery.
+- Where authored material is broad or poorly titled, preserve its literal canonical content and present existing meaningful metadata; don't silently rewrite prose or invent a better curriculum.
 
-PR #10 already validates exact page `source` and `relations` targets, `continuation`, page `purpose`, `contextId` and external `references`. Its internal `relations.kind` values are `explains`, `practises`, `corrects`, `continues` and `related`—**not** `translates` or `contrasts`. The reader must not presume a relation type that is not stored.
+### C. Refine the core reading/navigation interaction
 
-1. Candidate links may come from an explicit page `source` pointer or `relations[].target`. Resolve exact canonical `sectionId`/`partId` to a visible local topic containing the target. Build incoming/reverse discovery only from explicit saved relationships; a reverse link does **not** assert the reverse semantic direction. Show the declared direction and kind accurately.
-2. Use purpose/title only for presentation labels and grouping **after** a real link resolves. A shared `contextId`, proximity, `source`/ `translation` purpose labels or matching text alone does not prove an eligible comparison.
-3. Exclude hidden destination topics, hidden blocks, unavailable parts, unresolved targets and duplicate self-pairs. Respect PR #10's hidden-origin routing to visible destinations. On failure, retain the normal reader and offer ordinary exact navigation if one exists; do not display empty panels or invented pairings.
-4. A user may **deliberately select** another visible passage from the same explicit context to compare, but label it as a user-chosen pairing, not as a semantically established relationship. This is optional and must not turn every context into a cluttered pair-picker.
-5. `continuation` indicates a saved next destination, **not** evidence of comparison eligibility. External `references` remain exact links; do not treat them as local in-Project passages without a genuine resolver and rights checks.
+- Reduce existing duplicated Project headers, navigation and edit actions only where inspection of actual rendered UI shows a concrete benefit. Preserve a reliable route to section and topic changes, context overview and direct user editing.
+- Keep the ordinary reading flow continuous: navigate within one context, return to an earlier topic, follow an exact saved link and return without losing place. Support long accumulations of pages and older material.
+- Retain current `onVisibleTopic`, deep-link/anchor targets, last-opened semantics, keyboard/focus handling, accessible labels and safe mobile scrolling. Never render fake “sessions”, “learning achievements” or status banners as the primary content.
+- Preserve furigana, Japanese voice controls, tables, code readability, interactive components and learner contributions. A cleaner reader must not strip pedagogical richness.
 
-Prefer a small tested pure helper derived from `projectLearningMap` for candidate resolution and labels, rather than storing new inferred relationships or expanding the MCP contract.
+### D. Relationships and comparison are **supporting**, not primary
 
-#### Rendering and state isolation
+- Existing explicit `source`, `relations` and `references` must remain findable in context **without presenting a web of links as the headline of the Project**.
+- When useful and safely implementable, offer an unobtrusive, **user-invoked** way to inspect one exactly related passage without abandoning the current one. The default state must not display a second pane or consume extra screen space.
+- An automatically offered pairing requires a real local relationship (`source` or `relations[].target`) resolving to a visible available canonical passage. Same context, proximity and purpose labels alone do not imply semantic equivalence, translation or contrast. Existing relation kinds are `explains`, `practises`, `corrects`, `continues`, `related`; do not invent `translates` or `contrasts`.
+- A user may intentionally choose a second topic within an exact context for comparison, but it must be identified as **user-selected**, not an inferred relationship. Do not add a permanent comparison tab to every page.
+- Do not naïvely mount two full `Reader` instances with duplicate anchor/DOM IDs or conflicting selection, annotations, focus, TTS, contribution actions, scroll state, last-opened state or `onVisibleTopic`. A secondary read-only excerpt with an exact “Open full passage” action is preferable to destabilising the primary Reader.
+- **Full side-by-side comparison is optional in this first slice**. Implement only if the first-view and navigation acceptance is already strong and it fits without a substantial Reader refactor. Otherwise defer it explicitly; the PR should still be considered complete when the core experience passes.
 
-The current `Reader` owns anchors, section/part DOM IDs, selection/annotation handlers, TTS, interactive instances and return navigation. **Do not naïvely render two identical full Reader trees with duplicate DOM IDs or conflicting selection, focus, scroll restoration, editor actions or contributions.**
+## User acceptance scenarios: prioritise lived usefulness
 
-Keep one primary authoritative Reader. Implement an explicitly scoped secondary rendering strategy (or a read-only exact-passages preview with a link to open its full native reader) appropriate to the current component architecture. Test identical canonical sections appearing in both views. A relationship selection or closing the secondary view must not silently rewrite the primary URL/anchor, chosen topic or last-opened state.
+1. **First open, Japanese:** Open a substantial synthetic language Project accumulated over multiple conversations. Without choosing Explore or Comparison, see a comprehensible overview of what it contains and the selected saved learning material. Find a recently added grammar/example page in its proper subject/context; find the original exchange again; read Japanese with functioning furigana/TTS.
+2. **Return after additional material:** Append a paragraph/table through the accepted routine MCP contract to an existing context, then reopen or refresh the reader. Confirm it is findable within its subject, the original example has not changed, and the user can move between new and older material without losing their reading location. Verify any “recent” or “last viewed” labels are genuinely supported by their data.
+3. **Long-running computing Project:** Use a realistic multi-topic, multi-session synthetic Project with code, explanations, observations, reference tables and exercises. Find a specific earlier concept and a newly added explanation quickly; do not demand scanning a wall of chips/tabs, navigating internal block IDs or scrolling through an activity log. Confirm code and interactions remain readable.
+4. **Research Project:** Find the current question/material and earlier source and interpretation independently. Explicit source relationships remain available but do not overshadow the actual research prose and evidence.
+5. **Minimal and legacy Projects:** A small Project, a Project with no explicit semantic purposes and a read-only historical rendition should remain legible and truthful. Do not invent “current focus” when data doesn't support it.
+6. **Responsive and accessible:** Run real browser acceptance on desktop and mobile-sized viewports. Verify content hierarchy, long topics, table/code overflow, controls, anchors, keyboard/focus, annotations and return navigation. No horizontal page-wide overflow or nested scroll traps.
+7. **Secondary relation smoke test (only if implemented):** Check explicit valid link, no link, hidden/unavailable passage, shared context without relationship and same canonical-section sources. Verify safe primary Reader identity and easy return.
 
-If safely preserving a particular secondary rich interaction requires a broad Reader refactor, defer only that secondary interaction and use an exact “Open full passage” action; **do not compromise the existing primary Reader**. Browser keyboard focus, accessible labels and single-column mobile fallback are required.
+**Evaluate the first screen and the ordinary return-to-Project journey before any optional relationship interaction.** Capture concise screenshots/observations of both; fix issues found. Prefer naturalistic material over skeletal test fixtures; synthetic data only, no modifications to genuine learner Projects.
 
-The interactive runnable workbench is the **next candidate**, not part of this commission, unless it can be enabled entirely through existing components without broad scope.
+## Bounded implementation and release controls
 
-### 3. Responsive experience and interaction details
+- Work only on this PR branch. Retain it **open, draft and unmerged** until owner review.
+- Frontend-first changes in `app/project-reading.tsx`, `app/project-reading.css`, `app/project-context-overview.tsx` and small relevant helpers/tests. Reuse the existing Reader, Project topic map, design tokens and rendering components.
+- No new Project store, MCP schema or authoring rules; no migration, canonical rewrite, Note editing, invented progress or large cross-record retrieval subsystem.
+- Do not broaden into a redesign of global navigation, Library, Notes or Project administration. Avoid six cosmetic layouts.
+- **Efficiency:** do not repeat PR #10 baseline reconciliation or broad backend tests. Focused UI/state regressions; one stabilised typecheck and production build when warranted.
+- Commit actual source, targeted tests and concise evidence into this existing PR, **then deploy to the existing Minamo Site** preserving application identity, authentication, data and bindings.
+- Test the actual deployment in desktop and mobile contexts. Fix pertinent failures and record exact GitHub/Natives Sites source/deployment parity. Do not claim an unavailable browser test was performed; do not deploy a patch that loses user data.
+- Defer nonessential secondary comparison, runnable-workbench integration and broader Project redesign rather than sacrificing first-view quality to deliver more features.
 
-Implement against desktop and narrow/mobile views. Ensure readable tables, code blocks, topic navigation and secondary-pane controls without horizontal page overflow or nested scroll traps. Maintain accessible keyboard/focus and screen-reader labels, sensible back/forward or deep-link behaviour, and reduced-motion preferences. Secondary presentation should visually identify its source and relationship, stack cleanly on mobile, and offer a clear close/back action without displacing the primary canonical reading location. Keep the UI calm and compact: reuse the existing Minamo typographic scale and avoid mode banners, duplicated headings or permanent empty placeholders.
+## Definition of done
 
-Do not make Project editing, Library, Notes or global navigation redesigns in this reader slice.
+A learner can open an existing Project and readily tell **what the saved material covers**, identify the **actual selected or recently saved material where evidence permits**, read it comfortably, and recover **relevant earlier material through clear organisation**. The experience is calm and content-first, handles growing real-world Projects, and preserves the underlying canonical learning material and rich interactions.
 
-## Preservation and architecture boundaries
-
-- No migration, database schema change, canonical text rewrite, new Project record hierarchy or competing MCP contract.
-- Preserve live Project content, editions, revision protection, external references, work threads, library links, learner contributions and Note ownership.
-- Respect PR #10's exact destination sorting, hidden-origin routing, duplicate canonical-placement prevention and exact reference admission.
-- Reuse existing Reader and Minamo design tokens. Keep changes concentrated in reader presentation and any small shared UI helpers/tests.
-- Treat `overview` placement of differing `educationalPurpose` material as valid structural behaviour; presentation modes should not introduce server-side automatic re-placement.
-- Do not invent artificial lessons, learner accomplishments, required exercises or learning progress records.
-
-## Acceptance: real experience, not only local snapshots
-
-Use isolated **synthetic** Japanese, computing and research Projects already available from PR #10, or create specific synthetic fixtures if needed. Never modify genuine personal Projects or Notes as test material.
-
-- **Default reader:** exact route, section/topic navigation and mixed prose/table/code/interactive components all render correctly; canonical passage identity and content preserved.
-- **Source-anchored compare:** opt-in presentation shows the primary canonical passage and an exact explicitly related secondary passage; direction/kind of the declared relationship is labelled correctly; no copied canonical content; closing returns to ordinary reading at the same primary passage.
-- **Eligibility:** test valid outgoing `source` and `relations` references, explicit reverse discovery, same-context material with no relation (must not be paired automatically), manually selected user pairing (clearly labelled), hidden destination/hidden block, unavailable or missing target, self-reference, `continuation`-only metadata, and exact external links that must remain links.
-- **Dual-view isolation:** test two passages in the **same canonical section** for duplicate DOM anchors/IDs, selection and annotation behaviour, focus, scroll, `onVisibleTopic`, primary topic state, return navigation, TTS and contribution rendering. Do not claim all secondary interactions work unless personally exercised; safe read-only secondary fallback plus exact full-reading navigation is acceptable.
-- **Desktop + mobile:** examine actual deployed UI at desktop and mobile-sized viewports; check reading, compare stacking, tables/code wrapping or scoped scrolling, no page-wide overflow and usable controls.
-- **Japanese scenario:** view an original saved exchange while consulting its explicitly linked translation or grammar explanation, preserving primary furigana and TTS and accurately labelling the source relationship.
-- **Computing scenario:** consult an explicit observation/explanation alongside source code without losing the original code, legibility, or existing interactive tools.
-- **Research scenario:** view an original excerpt and declared interpretation side by side; make source and interpretation provenance intelligible, with no invented causal or evidential endorsement.
-- **MCP compatibility:** a Project created or added to through the already-accepted routine append contract remains readable. No new schema work is needed.
-- Regression tests targeted to changed UI/state behaviour and the exact mapping it consumes.
-
-## Work efficiency / release process
-
-1. Implement one bounded frontend slice on this existing draft PR branch.
-2. Avoid rebuilding or retesting the unchanged PR #10 backend baseline. Run focused UI/reader tests; one typecheck and one production build after changes stabilise.
-3. Commit and push actual code, tests and supporting design notes to this PR. No unrelated refactor.
-4. Deploy to the **existing Minamo Site** only after locally qualifying the change, preserving application identity and user data.
-5. Inspect the actual deployed reader in desktop and mobile contexts; fix implementation-specific failures, regroup corrections and redeploy only if needed.
-6. Record the precise GitHub application commit, native Sites source and deployment receipt, plus tested/untested acceptance. Do **not** merge this PR without owner review.
-
-## Deliverable and deferred work
-
-The first implementation should make one familiar reader substantially more pleasant and provide **one genuinely different source-anchored relationship interaction**, rather than implementing six cosmetic templates or a generic two-column document widget. It should feel like working *with* linked learning material, not navigating between copies of unrelated pages. Deferred: runnable workbench mode, research-wide multi-source comparison, broad navigation redesign, new rendering metadata and further visual systems. Record evidence before choosing the following slice.
+A polished graph, relationship explorer or two-column comparison **does not satisfy this PR** if the basic Project reading experience is still confusing, stale or cluttered.
