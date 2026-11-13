@@ -35,3 +35,10 @@ test('Linked topics use the target title and section, not repeated generic label
  assert.equal(topics[0].id,'reading:linked-a:ref');
  assert.equal(projectReadingTopics(composition,[])[0].title,'Reference · n4-teiru');
 });
+
+test('pages from one canonical block can occupy distinct task sections without moving sources',()=>{
+ const composition={version:1,sections:[{id:'messages',title:'Messages',pattern:'notebook',slots:[{id:'main',role:'primary',blockIds:['b']}]},{id:'grammar',title:'Grammar',pattern:'research',slots:[{id:'main',role:'primary',blockIds:[]}]}],blocks:[{id:'b',sectionId:'source',readingPages:[{id:'message',title:'Message',partIds:['m']},{id:'explain',title:'How it works',layoutId:'grammar',purpose:'explanation',partIds:['g']}]}]};
+ const source=[{id:'source',title:'Original exchange',parts:[{id:'m',kind:'paragraph',text:'Original'},{id:'g',kind:'paragraph',text:'Explanation'}]}];
+ const topics=projectReadingTopics(composition,source);assert.deepEqual(topics.map(t=>t.layoutId),['messages','grammar']);assert.deepEqual(topics.map(t=>t.sectionId),['source','source']);assert.deepEqual(topics.flatMap(t=>t.partIds),['m','g']);
+ composition.sections[1].hidden=true;assert.deepEqual(projectReadingTopics(composition,source).map(t=>t.id),['messages:b:message']);
+});

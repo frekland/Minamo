@@ -1,21 +1,27 @@
 import {repairProjectEmphasis} from './project-presentation';
 import {projectReadingTopics} from './project-reading-topics';
+import {projectLearningMap,exactLearningTopics} from './project-learning-map';
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {imageAdmissionGuard,imageAttachmentStatements} from './assets';
 import {mediaAdmissionGuard,mediaAttachmentStatements} from './media';
 import {z} from 'zod';
 import {DomainError,authoringDomain,executeCommand,readRecord,readRendition,operationStatus} from './domain';
-import {compositionSchema,adaptedComposition,layoutCapabilities,projectRefSchema,patterns,workThreadSchema} from './project-composition';
+import {compositionSchema,adaptedComposition,layoutCapabilities,projectRefSchema,patterns,workThreadSchema,readingPageSchema,projectPageReferenceSchema} from './project-composition';
 import {generationContext,requireGeneration,generationGuard,assertGenerationCurrent} from './generations';
 import {buildRecordLink} from './reading-links';
 import {projectCodePackageArchive,projectCodePackageInventory,ProjectCodePackageError} from './project-code-package';
-import type {Actor,WorkspaceRecord,ArticleSection,PassagePart} from './contracts';
+import type {Actor,WorkspaceRecord,ArticleSection,PassagePart,Family} from './contracts';
 const id=z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$/);
 const block=compositionSchema.shape.blocks.element;
 const section=compositionSchema.shape.sections.element;
 const content=z.object({id,title:z.string().max(180),parts:z.array(z.record(z.unknown())).max(40)}).strict();
-export const updateSchema=z.object({repairMarkdownEmphasis:z.boolean().optional(),globalStructure:z.literal(true).optional(),operationId:id,expectedGeneration:z.string().max(160),projectId:id,expectedProjectRev:z.number().int().min(0),title:z.string().min(1).max(180).optional(),description:z.string().max(600).optional(),body:z.string().max(24000).optional(),synthetic:z.boolean().optional(),testRunId:id.optional(),testRun:testRunDescriptor.optional(),fictionalEvent:fictionalEventSchema.optional(),learningScope:z.unknown().optional(),projectCover:z.unknown().optional(),contentSections:z.array(content).max(30).optional(),noteChanges:z.array(z.object({id,expectedRev:z.number().int().min(0),title:z.string().min(1).max(180),body:z.string().max(24000),sections:z.array(content).max(30).optional()}).strict()).max(8).optional(),composition:compositionSchema.optional(),changes:z.array(z.discriminatedUnion('op',[
+const externalProjectLinkBase=z.object({family:z.enum(['article','investigation','source']),id,rendition:z.string().min(1).max(240),sectionId:id.optional(),partId:id.optional(),relation:z.enum(['related','explains','applies','contrasts','supports','extends','source','next']),reason:z.string().trim().min(1).max(500),sourceContext:z.object({sectionId:id}).strict().optional()}).strict();
+const externalProjectLink=externalProjectLinkBase.refine(value=>!value.partId||!!value.sectionId,'An exact destination part requires sectionId.');
+export const updateSchema=z.object({repairMarkdownEmphasis:z.boolean().optional(),globalStructure:z.literal(true).optional(),operationId:id,expectedGeneration:z.string().max(160),projectId:id,expectedProjectRev:z.number().int().min(0),title:z.string().min(1).max(180).optional(),description:z.string().max(600).optional(),body:z.string().max(24000).optional(),synthetic:z.boolean().optional(),testRunId:id.optional(),testRun:testRunDescriptor.optional(),fictionalEvent:fictionalEventSchema.optional(),learningScope:z.unknown().optional(),projectCover:z.unknown().optional(),contentSections:z.array(content).max(30).optional(),noteChanges:z.array(z.object({id,expectedRev:z.number().int().min(0),title:z.string().min(1).max(180),body:z.string().max(24000),sections:z.array(content).max(30).optional()}).strict()).max(8).optional(),addLinks:z.array(externalProjectLink).max(12).optional(),composition:compositionSchema.optional(),changes:z.array(z.discriminatedUnion('op',[
  z.object({op:z.literal('upsertSection'),section}).strict(),z.object({op:z.literal('upsertBlock'),sectionId:id,slotId:id,block,content:content.optional()}).strict(),
+ z.object({op:z.literal('appendContentParts'),sectionId:id,parts:z.array(z.record(z.unknown())).min(1).max(20)}).strict(),
+ z.object({op:z.literal('appendReadingPage'),blockId:id,page:readingPageSchema}).strict(),
+ z.object({op:z.literal('extendReadingPage'),blockId:id,pageId:id,partIds:z.array(id).min(1).max(20),relations:z.array(z.object({kind:z.enum(['explains','practises','corrects','continues','related']),target:z.object({sectionId:id,partId:id}).strict()}).strict()).max(12).optional(),references:z.array(projectPageReferenceSchema).max(12).optional(),continuation:z.object({target:z.object({sectionId:id,partId:id}).strict(),label:z.string().max(120).optional()}).strict().optional()}).strict(),
  z.object({op:z.literal('moveBlock'),id,sectionId:id,slotId:id,index:z.number().int().min(0).max(128)}).strict(),
  z.object({op:z.literal('setSection'),id,title:z.string().max(180).optional(),hidden:z.boolean().optional(),collapsed:z.boolean().optional(),index:z.number().int().min(0).max(31).optional()}).strict(),
  z.object({op:z.literal('setBlockPresentation'),id,pinned:z.boolean().optional(),width:z.enum(['full','split','compact']).optional()}).strict(),
@@ -35,6 +41,158 @@ export async function getProjectComposition(env:Cloudflare.Env,owner:string,proj
  const workThreadReferenceIssues=(composition.workThreads??[]).flatMap(thread=>thread.items.filter(item=>item.unresolvedRef).map(item=>({threadId:thread.id,sectionId:item.sectionId,partId:item.partId,revision:item.revision??null,...item.unresolvedRef})));
  return {record,composition,presentation:{basis:'Shared frontend topic projection; not a screenshot or interaction test',topics:projectReadingTopics(composition,record.sections,Object.fromEntries(references.filter(r=>r.record).map(r=>[r.blockId,r.record!.title]))),sectionNavigationCount:composition.sections.filter(s=>!s.hidden).length},currentProjectRev:current.rev,revision:record.rev,references,history:history.results.map(r=>r.revision),historyLimit:12,pins,workThreadReferenceIssues,codePackageInventory:await projectCodePackageInventory(record),href:'/?view=journeys&family=journey&id='+encodeURIComponent(projectId)};
 }
+
+/** Small, exact Project map for fresh GPT conversations and the website reader. */
+export async function getProjectLearningOutline(env:Cloudflare.Env,owner:string,projectId:string,revision?:number){
+ // Do not build the full composition response (linked records, pins, history
+ // and package inventory) for a compact two-step orientation read.
+ const current=await readRecord(env,owner,'journey',projectId);if(!current)throw new DomainError(404,'project_unavailable','Project unavailable.');
+ let record=current;
+ if(revision!==undefined){if(!Number.isSafeInteger(revision)||revision<1)throw new DomainError(400,'invalid_revision','Choose an exact Project revision.');const row=await env.DB!.prepare("SELECT data FROM v2_revisions WHERE owner=? AND family='journey' AND id=? AND revision=?").bind(owner,projectId,revision).first<{data:string}>();if(!row)throw new DomainError(404,'revision_unavailable','That Project revision is unavailable.');record=(await authoringDomain.projectRecord(env,owner,JSON.parse(row.data),false,true))!;}
+ const currentProjectRev=current.rev;
+ const map=projectLearningMap(adaptedComposition(record),record.sections);
+ const result={project:{id:record.id,title:record.title,rev:record.rev,rendition:record.rendition},
+  currentProjectRev,contexts:map.contexts,indexes:map.indexes,
+  topics:map.topics.map(({id,title,layoutId,blockId,sectionId,partIds,purpose,provenance,source,contextId,relations,references,continuation,kind})=>({id,title,layoutId,blockId,sectionId,partIds,purpose,provenance,source,contextId,relations,references,continuation,kind})),
+  coverage:map.coverage,complete:true,notice:'Exact saved Project outline; no inferred session, progress, mastery or next action. Fetch selected pages for complete content.'};
+ if(new TextEncoder().encode(JSON.stringify(result)).byteLength>180000)throw new DomainError(413,'project_outline_too_large','This Project has too many named pages for one outline response. Use get_project_composition to select an exact bounded page range.');
+ return result;
+}
+export const projectLearningReadSchema=z.object({
+ projectId:id,revision:z.number().int().min(1).optional(),
+ topicIds:z.array(z.string().min(1).max(500)).min(1).max(8).optional(),contextId:id.optional()
+}).strict().refine(value=>!!value.topicIds!==!!value.contextId,'Choose either topicIds or contextId, not both.');
+/** Exact bounded page read; refuses oversize rather than silently truncating parts. */
+export async function getProjectLearningReading(env:Cloudflare.Env,owner:string,input:unknown){
+ const q=projectLearningReadSchema.parse(input);
+ const {record,currentProjectRev}=await getProjectComposition(env,owner,q.projectId,q.revision);
+ const map=projectLearningMap(adaptedComposition(record),record.sections);
+ const ids=q.topicIds??map.contexts.find(context=>context.id===q.contextId)?.topicIds;
+ if(!ids?.length)throw new DomainError(404,'reading_unavailable','The requested Project context has no available reading pages.');
+ if(ids.length>8||new Set(ids).size!==ids.length)throw new DomainError(400,'reading_scope_too_large','Select up to eight distinct pages for an exact read.');
+ let pages;
+ try{pages=exactLearningTopics(map,record.sections??[],ids);}catch{throw new DomainError(404,'reading_unavailable','A requested reading page or part is unavailable.');}
+ const payload={project:{id:record.id,title:record.title,rev:record.rev,rendition:record.rendition},currentProjectRev,pages,
+  complete:true,notice:'Exact canonical parts for selected saved topics. No inferred learning state or source relationships.'};
+ if(new TextEncoder().encode(JSON.stringify(payload)).byteLength>85000)throw new DomainError(413,'reading_too_large','Select fewer pages; complete content was not truncated.');
+ return payload;
+}
+/** Owner-requested bounded material append through the established guarded Project writer. */
+export const appendProjectLearningSchema=z.object({
+ mode:z.enum(['preview','apply']),
+ projectId:id,expectedProjectRev:z.number().int().min(1),
+ expectedGeneration:z.string().max(160),operationId:id.refine(s=>s.length<=100,'Keep operationId within 100 characters.'),
+ layoutId:id,slotId:id.optional(),
+ title:z.string().trim().min(1).max(180),
+ parts:z.array(z.record(z.unknown())).min(1).max(20),
+ pages:z.array(readingPageSchema).min(1).max(10)
+}).strict();
+const routineProjectLearningSchema=z.object({
+ mode:z.enum(['preview','apply']),projectId:id,expectedProjectRev:z.number().int().min(1),
+ expectedGeneration:z.string().max(160),operationId:id.refine(s=>s.length<=100,'Keep operationId within 100 characters.'),
+ target:z.union([
+  z.object({topicId:z.string().min(1).max(500)}).strict(),
+  z.object({contextId:id}).strict(),
+  z.object({layoutId:id,contextId:id,contextTitle:z.string().trim().min(1).max(100).optional()}).strict()
+ ]),
+ title:z.string().trim().min(1).max(100),educationalPurpose:z.enum(['source','translation','explanation','practice','reference','overview']),
+ provenance:z.enum(['user-reported','gpt-authored','hypothetical','source-excerpt']).optional(),
+ parts:z.array(z.record(z.unknown())).min(1).max(20),
+ relations:z.array(z.object({kind:z.enum(['explains','practises','corrects','continues','related']),target:z.object({sectionId:id,partId:id}).strict()}).strict()).max(12).optional(),
+ references:z.array(projectPageReferenceSchema).max(12).optional(),
+ continuation:z.object({target:z.object({sectionId:id,partId:id}).strict(),label:z.string().max(120).optional()}).strict().optional()
+}).strict();
+export const projectLearningAuthoringSchema=z.union([appendProjectLearningSchema,routineProjectLearningSchema]);
+/** New canonical block, not a Note or an edit to another source passage. */
+export async function appendProjectLearningMaterial(env:Cloudflare.Env,owner:string,input:unknown){
+ const q=projectLearningAuthoringSchema.parse(input);
+ const current=await readRecord(env,owner,'journey',q.projectId);
+ if(!current)throw new DomainError(404,'project_unavailable','Project unavailable.');
+ const composition=adaptedComposition(current);
+ if('target' in q){
+  const map=projectLearningMap(composition,current.sections),topics=map.topics;
+  const target=q.target;
+  const selected='topicId' in target?topics.find(topic=>topic.id===target.topicId):undefined;
+  const context='contextId' in target?map.contexts.find(item=>item.id===target.contextId):undefined;
+  if('topicId' in target&&!selected)throw new DomainError(404,'project_destination_unavailable','Choose an exact visible topic from get_project_learning_outline.');
+  if('contextId' in target&&!('layoutId' in target)&&!context)throw new DomainError(404,'project_destination_unavailable','Choose an exact visible context from get_project_learning_outline.');
+  const layoutId='layoutId' in target?target.layoutId:selected?.layoutId??context?.layoutIds[0];
+  const layout=composition.sections.find(section=>section.id===layoutId&&!section.hidden);
+  if(!layout)throw new DomainError(404,'project_destination_unavailable','Choose a visible Project destination from get_project_learning_outline.');
+  const generatedParts=q.parts.map((part,index)=>({...part,id:typeof (part as any).id==='string'?(part as any).id:`material-${q.operationId}-${index+1}`}));
+  const partIds=generatedParts.map(part=>(part as any).id as string);
+  if(new Set(partIds).size!==partIds.length||partIds.some(partId=>!id.safeParse(partId).success))throw new DomainError(409,'project_part_identity_conflict','Supplied passage IDs must be unique safe IDs; omit them to let Minamo mint stable IDs.');
+  const page={id:`page-${q.operationId}`,title:q.title,layoutId,contextId:'contextId' in target?target.contextId:selected?.contextId,contextTitle:'contextTitle' in target?target.contextTitle:selected?.contextTitle,purpose:q.educationalPurpose,provenance:q.provenance,partIds,relations:q.relations,references:q.references,continuation:q.continuation};
+  let changes:any[];
+  if(selected){
+   changes=[{op:'appendContentParts',sectionId:selected.sectionId,parts:generatedParts},{op:'appendReadingPage',blockId:selected.blockId,page}];
+  }else{
+   const sectionId=`learning-${q.operationId}`,blockId=`block-${sectionId}`,slot=layout.slots.find(item=>item.role==='primary')??layout.slots[0];
+   if(!slot)throw new DomainError(404,'project_slot_unavailable','The selected Project destination has no usable slot.');
+   changes=[{op:'upsertBlock',sectionId:layoutId,slotId:slot.id,block:{id:blockId,sectionId,readingPages:[page]},content:{id:sectionId,title:q.title,parts:generatedParts}}];
+  }
+  const request={operationId:q.operationId,expectedGeneration:q.expectedGeneration,projectId:q.projectId,expectedProjectRev:q.expectedProjectRev,changes};
+  if(q.mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
+  const result=await applyProjectUpdate(env,owner,request,'gpt',q.mode==='preview');
+  if(q.mode==='preview')return {valid:true,currentRev:q.expectedProjectRev,generated:{pageId:page.id,partIds},destination:{layoutId,contextId:page.contextId,sourceTopicId:selected?.id},notice:'Read-only routine authoring preview. Minamo generated mechanical identities and placement; educational purpose and exact relationships remain caller-declared.'};
+  return result;
+ }
+ const layout=composition.sections.find(s=>s.id===q.layoutId&&!s.hidden);
+ if(!layout)throw new DomainError(404,'project_destination_unavailable','Choose a visible Project section from get_project_learning_outline.');
+ const slot=layout.slots.find(s=>s.id===q.slotId)??(!q.slotId?layout.slots.find(s=>s.role==='primary')??layout.slots[0]:undefined);
+ if(!slot)throw new DomainError(404,'project_slot_unavailable','Choose an existing layout slot.');
+ const sectionId='learning-'+q.operationId,blockId='block-'+sectionId;
+ const request={
+  operationId:q.operationId,expectedGeneration:q.expectedGeneration,projectId:q.projectId,expectedProjectRev:q.expectedProjectRev,
+  changes:[{op:'upsertBlock' as const,sectionId:q.layoutId,slotId:slot.id,
+   block:{id:blockId,sectionId,readingPages:q.pages},
+   content:{id:sectionId,title:q.title,parts:q.parts}
+  }]
+ };
+ if(q.mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
+ const result=await applyProjectUpdate(env,owner,request,'gpt',q.mode==='preview');
+ if(q.mode==='preview')return {valid:true,currentRev:q.expectedProjectRev,sectionId,blockId,
+  pageDestinations:q.pages.map(p=>({id:p.id,title:p.title,layoutId:p.layoutId??q.layoutId,purpose:p.purpose,contextId:p.contextId,partIds:p.partIds})),
+  partCount:q.parts.length,notice:'Read-only guarded preview. Confirm exact destinations, source relationships and learner ownership; no Project change.'};
+ return result;
+}
+
+/** Add material inside one exact existing topic while retaining every other
+ * canonical part, block, page and Project relationship. */
+export const updateProjectLearningMaterialSchema=z.object({
+ mode:z.enum(['preview','apply']),projectId:id,expectedProjectRev:z.number().int().min(1),expectedGeneration:z.string().max(160),operationId:id.refine(s=>s.length<=100,'Keep operationId within 100 characters.'),
+ source:z.object({blockId:id,pageId:id,contextId:id.optional()}).strict(),explicitOverrideIds:z.array(id).max(8).optional(),
+ parts:z.array(z.record(z.unknown())).min(1).max(20),
+ relations:z.array(z.object({kind:z.enum(['explains','practises','corrects','continues','related']),target:z.object({sectionId:id,partId:id}).strict()}).strict()).max(12).optional(),
+ continuation:z.object({target:z.object({sectionId:id,partId:id}).strict(),label:z.string().max(120).optional()}).strict().optional(),
+ references:z.array(projectPageReferenceSchema).max(12).optional()
+}).strict();
+export async function updateProjectLearningMaterial(env:Cloudflare.Env,owner:string,input:unknown){
+ const q=updateProjectLearningMaterialSchema.parse(input),current=await readRecord(env,owner,'journey',q.projectId);
+ if(!current)throw new DomainError(404,'project_unavailable','Project unavailable.');
+ const prior=q.mode==='apply'?await operationStatus(env,owner,q.operationId):null;
+ if(!prior&&current.rev!==q.expectedProjectRev)throw new DomainError(409,'revision_conflict','The Project changed. Read its current outline and exact source page before preparing a new update.');
+ const composition=adaptedComposition(current),block=composition.blocks.find(item=>item.id===q.source.blockId);
+ if(!block?.sectionId||!block.readingPages)throw new DomainError(404,'project_source_context_unavailable','Choose an existing Project topic from get_project_learning_outline.');
+ const page=block.readingPages.find(item=>item.id===q.source.pageId);
+ if(!page||q.source.contextId!==undefined&&page.contextId!==q.source.contextId)throw new DomainError(404,'project_source_context_unavailable','The exact page and context do not match this Project.');
+ const layoutId=page.layoutId??composition.sections.find(layout=>layout.slots.some(slot=>slot.blockIds.includes(block.id)))?.id;
+ if(!layoutId||!composition.sections.some(layout=>layout.id===layoutId&&!layout.hidden))throw new DomainError(404,'project_destination_unavailable','The selected topic no longer has a visible Project destination.');
+ const sourceSection=current.sections?.find(section=>section.id===block.sectionId);
+ if(!sourceSection)throw new DomainError(404,'project_source_content_unavailable','The canonical content for this topic is unavailable.');
+ const newIds=q.parts.map(part=>(part as any)?.id);
+ if(newIds.some(value=>typeof value!=='string'||!id.safeParse(value).success)||new Set(newIds).size!==newIds.length||!prior&&q.parts.some(part=>sourceSection.parts.some(existing=>existing.id===(part as any).id)))throw new DomainError(409,'project_part_identity_conflict','Each new passage needs a unique ID that is not already used in this Project section.');
+ const links=(q.references??[]).map(reference=>({...reference,sourceContext:{sectionId:block.sectionId!}}));
+ const request={operationId:q.operationId,expectedGeneration:q.expectedGeneration,projectId:q.projectId,expectedProjectRev:q.expectedProjectRev,
+  addLinks:links,...(q.explicitOverrideIds?{explicitOverrideIds:q.explicitOverrideIds}:{}),
+  changes:[{op:'appendContentParts' as const,sectionId:block.sectionId,parts:q.parts},{op:'extendReadingPage' as const,blockId:block.id,pageId:page.id,partIds:newIds as string[],...(q.relations?{relations:q.relations}:{}),...(q.references?{references:q.references}:{}),...(q.continuation?{continuation:q.continuation}:{})}]};
+ if(q.mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
+ const result=await applyProjectUpdate(env,owner,request,'gpt',q.mode==='preview');
+ return q.mode==='preview'?{valid:true,source:{blockId:block.id,pageId:page.id,contextId:page.contextId,sectionId:block.sectionId,layoutId},addedPartIds:newIds,
+   references:links.map(link=>({sourceContext:link.sourceContext,destination:{family:link.family,id:link.id,rendition:link.rendition,sectionId:link.sectionId,partId:link.partId}})),
+   notice:'Read-only targeted proposal inside the existing Project page. Existing passages, Notes and other Project blocks are retained.'}:result;
+}
+
 /** Download a pinned edition, not a potentially changed current Project. */
 export async function downloadProjectCodePackage(env:Cloudflare.Env,owner:string,projectId:string,packageId:string,revision:number){
  if(!id.safeParse(projectId).success||!id.safeParse(packageId).success||!Number.isSafeInteger(revision)||revision<1)
@@ -172,6 +330,33 @@ function presentationSignature(record:WorkspaceRecord){
   favourites:composition.favourites??[]
  });
 }
+function exactProjectMetadataChanges(before:WorkspaceRecord|undefined,after:WorkspaceRecord){
+ if(!before)return [] as Array<Record<string,unknown>>;
+ const changes:Array<Record<string,unknown>>=[],add=(field:string,oldValue:unknown,newValue:unknown)=>{if(authoringDomain.stable(oldValue??null)!==authoringDomain.stable(newValue??null))changes.push({field,before:oldValue??null,after:newValue??null});};
+ add('title',before.title,after.title);add('description',before.projectDescription,after.projectDescription);
+ const cover=(record:WorkspaceRecord)=>record.projectCover?{assetId:record.projectCover.assetId,decorative:record.projectCover.decorative,alt:record.projectCover.alt??null,focal:record.projectCover.focal??null}:null;
+ add('cover',cover(before),cover(after));
+ const oldComposition=adaptedComposition(before),newComposition=adaptedComposition(after);
+ const oldFavourites=new Set(oldComposition.favourites??[]),newFavourites=new Set(newComposition.favourites??[]);
+ const addedFavourites=[...newFavourites].filter(id=>!oldFavourites.has(id)),removedFavourites=[...oldFavourites].filter(id=>!newFavourites.has(id));
+ if(addedFavourites.length||removedFavourites.length)changes.push({field:'favourites',added:addedFavourites,removed:removedFavourites});
+ const layoutMap=(record:WorkspaceRecord)=>new Map(adaptedComposition(record).sections.map(layout=>[layout.id,{id:layout.id,title:layout.title,pattern:layout.pattern,hidden:!!layout.hidden,collapsed:!!layout.collapsed,slots:layout.slots.map(slot=>({id:slot.id,role:slot.role,blockIds:slot.blockIds}))}]));
+ const oldLayouts=layoutMap(before),newLayouts=layoutMap(after);
+ for(const [id,value] of newLayouts){const old=oldLayouts.get(id);if(!old)changes.push({field:'layout-section',change:'added',id,after:value});else if(authoringDomain.stable(old)!==authoringDomain.stable(value))changes.push({field:'layout-section',change:'updated',id,before:old,after:value});}
+ for(const [id,value] of oldLayouts)if(!newLayouts.has(id))changes.push({field:'layout-section',change:'removed',id,before:value});
+ const blockMap=(record:WorkspaceRecord)=>new Map(adaptedComposition(record).blocks.map(block=>[block.id,{id:block.id,sectionId:block.sectionId??null,ref:block.ref??null,layoutLock:block.layoutLock??null,hidden:!!block.hidden,pinned:!!block.pinned,width:block.width??null}]));
+ const oldBlocks=blockMap(before),newBlocks=blockMap(after);
+ for(const [id,value] of newBlocks){const old=oldBlocks.get(id);if(!old)changes.push({field:'layout-block',change:'added',id,after:value});else if(authoringDomain.stable(old)!==authoringDomain.stable(value))changes.push({field:'layout-block',change:'updated',id,before:old,after:value});}
+ for(const [id,value] of oldBlocks)if(!newBlocks.has(id))changes.push({field:'layout-block',change:'removed',id,before:value});
+ const pages=(record:WorkspaceRecord)=>new Map(adaptedComposition(record).blocks.flatMap(block=>(block.readingPages??[]).map(page=>[JSON.stringify([block.id,page.id]),{blockId:block.id,pageId:page.id,title:page.title,layoutId:page.layoutId??null,contextId:page.contextId??null,purpose:page.purpose??null,provenance:page.provenance??null,source:page.source??null,partIds:page.partIds,relations:page.relations??[],continuation:page.continuation??null}] as const)));
+ const oldPages=pages(before),newPages=pages(after);
+ for(const [key,value] of newPages){const old=oldPages.get(key);if(!old)changes.push({field:'reading-page',change:'added',...value});else if(authoringDomain.stable(old)!==authoringDomain.stable(value))changes.push({field:'reading-page',change:'updated',blockId:value.blockId,pageId:value.pageId,before:old,after:value});}
+ for(const [key,value] of oldPages)if(!newPages.has(key))changes.push({field:'reading-page',change:'removed',...value});
+ const linkMap=(record:WorkspaceRecord)=>new Map((record.links??[]).map(link=>[authoringDomain.stable(link),link]));
+ const oldLinks=linkMap(before),newLinks=linkMap(after),linked=[...newLinks].filter(([key])=>!oldLinks.has(key)).map(([,link])=>link),unlinked=[...oldLinks].filter(([key])=>!newLinks.has(key)).map(([,link])=>link);
+ if(linked.length||unlinked.length)changes.push({field:'record-relationships',linked,unlinked});
+ return changes;
+}
 export async function readProjectChanges(env:Cloudflare.Env,owner:string,projectId:string,beforeRevision?:number,limit=8){
  const current=await readRecord(env,owner,'journey',projectId);
  if(!current)throw new DomainError(404,'project_unavailable','Project unavailable.');
@@ -203,7 +388,8 @@ export async function readProjectChanges(env:Cloudflare.Env,owner:string,project
    const matching=changes.filter(change=>change.sectionId===sectionId);
    return {sectionId,sectionTitle:matching.find(change=>change.change!=='removed')?.sectionTitle??matching[0].sectionTitle,added:matching.filter(change=>change.change==='added').length,revised:matching.filter(change=>change.change==='revised').length,removed:matching.filter(change=>change.change==='removed').length};
   });
-  return {revision:entry.revision,rendition:entry.record.rendition,at:entry.record.updatedAt,actor:entry.record.actor,synthetic:!!entry.record.synthetic,fictionalEvent:entry.record.fictionalEvent??null,titleChanged:!!older&&entry.record.title!==older.title,descriptionChanged:!!older&&entry.record.projectDescription!==older.projectDescription,arrangementChanged:!!older&&presentationSignature(entry.record)!==presentationSignature(older),sectionChanges,changes:changes.slice(0,80).map(change=>{
+  const metadataChanges=exactProjectMetadataChanges(older,entry.record);
+  return {revision:entry.revision,rendition:entry.record.rendition,at:entry.record.updatedAt,actor:entry.record.actor,synthetic:!!entry.record.synthetic,fictionalEvent:entry.record.fictionalEvent??null,titleChanged:!!older&&entry.record.title!==older.title,descriptionChanged:!!older&&entry.record.projectDescription!==older.projectDescription,arrangementChanged:!!older&&presentationSignature(entry.record)!==presentationSignature(older),metadataChanges:metadataChanges.slice(0,80),metadataChangesTruncated:metadataChanges.length>80,sectionChanges,changes:changes.slice(0,80).map(change=>{
    const key=partIdentity(change.sectionId,change.partId),direct=linkedThreads.get(key)??[],capture=(change.change==='removed'?captureLinks[at+1]:captureLinks[at])?.get(key);
    const exactPart=(change.change==='removed'?before:after).get(key);
    const excerpt=capture&&change.kind==='callout'?exactPart?.text.split('\nBrowser-reported · ')[0].trim():undefined;
@@ -239,6 +425,32 @@ async function projectCommand(env:Cloudflare.Env,owner:string,input:unknown){
  for(const change of request.changes??[]){
   if(change.op==='upsertWorkThread'){const threads=composition.workThreads??[];const at=threads.findIndex(t=>t.id===change.thread.id);if(at<0)threads.push(change.thread);else threads[at]=change.thread;composition.workThreads=threads;continue;}
   if(change.op==='removeWorkThread'){composition.workThreads=(composition.workThreads??[]).filter(t=>t.id!==change.id);continue;}
+  if(change.op==='appendContentParts'){
+   const target=contents.find(section=>section.id===change.sectionId);if(!target)throw new DomainError(404,'project_source_section_unavailable','Choose an existing canonical Project section.');
+   const existingIds=new Set(target.parts.map(part=>part.id)),incoming=change.parts as PassagePart[];
+   if(incoming.some(part=>!part||typeof part.id!=='string'||existingIds.has(part.id))||new Set(incoming.map(part=>part.id)).size!==incoming.length)throw new DomainError(409,'project_part_identity_conflict','New passage IDs must be unique and must not replace existing Project material.');
+   if(target.parts.length+incoming.length>40)throw new DomainError(400,'project_section_limit','This Project section has reached its 40-part limit. Choose another existing section.');
+   target.parts.push(...structuredClone(incoming));continue;
+  }
+  if(change.op==='appendReadingPage'){
+   const targetBlock=composition.blocks.find(item=>item.id===change.blockId);
+   if(!targetBlock?.sectionId||!targetBlock.readingPages)throw new DomainError(404,'project_page_block_unavailable','Choose an existing named Project topic from get_project_learning_outline.');
+   if(targetBlock.readingPages.some(page=>page.id===change.page.id))throw new DomainError(409,'project_reading_page_conflict','The generated reading page identity already exists. Reuse the original operation ID only for an identical retry.');
+   targetBlock.readingPages.push(structuredClone(change.page));continue;
+  }
+  if(change.op==='extendReadingPage'){
+   const targetBlock=composition.blocks.find(item=>item.id===change.blockId);if(!targetBlock?.sectionId||!targetBlock.readingPages)throw new DomainError(404,'project_page_block_unavailable','Choose an existing reading page from get_project_learning_outline.');
+   const page=targetBlock.readingPages.find(item=>item.id===change.pageId);if(!page)throw new DomainError(404,'project_reading_page_unavailable','The requested reading page is not in that Project block.');
+   const sectionContents=contents.find(item=>item.id===targetBlock.sectionId);if(!sectionContents)throw new DomainError(404,'project_page_content_unavailable','The canonical reading page source is unavailable.');
+   if(page.partIds.length+change.partIds.length>40)throw new DomainError(400,'project_page_limit','This named reading page supports at most 40 canonical parts. Choose another existing page or a new Project section.');
+   const pagePartIds=new Set(page.partIds),knownPartIds=new Set(sectionContents.parts.map(part=>part.id));
+   if(change.partIds.some(partId=>!knownPartIds.has(partId))||change.partIds.some(partId=>pagePartIds.has(partId))||new Set(change.partIds).size!==change.partIds.length)throw new DomainError(409,'project_page_part_conflict','Add new canonical parts first, then attach each exact new part ID once to the existing page.');
+   page.partIds.push(...change.partIds);
+   if(change.relations?.length){const existingRelations=new Set((page.relations??[]).map(relation=>authoringDomain.stable(relation)));for(const relation of change.relations){const key=authoringDomain.stable(relation);if(existingRelations.has(key))continue;page.relations=[...(page.relations??[]),structuredClone(relation)];existingRelations.add(key);}}
+   if(change.references?.length){const existingReferences=new Set((page.references??[]).map(reference=>authoringDomain.stable(reference)));for(const reference of change.references){const key=authoringDomain.stable(reference);if(existingReferences.has(key))continue;page.references=[...(page.references??[]),structuredClone(reference)];existingReferences.add(key);}}
+   if(change.continuation)page.continuation=structuredClone(change.continuation);
+   continue;
+  }
   if(change.op==='setSection'){const at=composition.sections.findIndex(s=>s.id===change.id);if(at<0)throw new DomainError(400,'section_unavailable','Unknown section.');const target=composition.sections[at];for(const key of ['title','hidden','collapsed'] as const)if(change[key]!==undefined)(target as any)[key]=change[key];if(change.index!==undefined){composition.sections.splice(at,1);composition.sections.splice(change.index,0,target);}continue;}
   if(change.op==='setFavourite'){if(!composition.blocks.some(b=>b.id===change.id)&&!composition.sections.some(s=>s.id===change.id))throw new DomainError(400,'shortcut_unavailable','Unknown shortcut destination.');composition.favourites=(composition.favourites??[]).filter(v=>v!==change.id);if(change.favourite)composition.favourites.push(change.id);continue;}
   if(change.op==='upsertSection'){const at=composition.sections.findIndex(s=>s.id===change.section.id);if(at<0)composition.sections.push(change.section);else composition.sections[at]=change.section;continue;}
@@ -255,21 +467,33 @@ async function projectCommand(env:Cloudflare.Env,owner:string,input:unknown){
  if(request.repairMarkdownEmphasis)contents=repairProjectEmphasis(contents);
  const data:Record<string,unknown>={projectComposition:composition,...(existing?.testRunId?{testRunId:existing.testRunId}:{}),...(!existing?{body:request.body??'',title:request.title??request.projectId}:{})};
  for(const [key,value] of Object.entries({title:request.title,body:request.body,synthetic:request.synthetic,testRunId:request.testRunId,testRun:request.testRun,fictionalEvent:request.fictionalEvent,projectDescription:request.description,learningScope:request.learningScope,projectCover:request.projectCover}))if(value!==undefined)data[key]=value;
- if(request.repairMarkdownEmphasis||request.contentSections||request.changes?.some(c=>c.op==='upsertBlock'&&c.content))data.sections=contents;
- return {request,command:{operationId:request.operationId,expectedGeneration:request.expectedGeneration,action:existing?'update' as const:'create' as const,family:'journey' as const,id:request.projectId,expectedRev:request.expectedProjectRev,data},existing};
+ if(request.addLinks?.length){if(!existing)throw new DomainError(400,'project_reference_requires_existing','Add exact cross-record references to an existing Project after reading its source context.');const links=[...(existing.links??[])];for(const link of request.addLinks)if(!links.some(old=>authoringDomain.stable(old)===authoringDomain.stable(link)))links.push(link as any);data.links=links;}
+ if(request.repairMarkdownEmphasis||request.contentSections||request.changes?.some(c=>(c.op==='upsertBlock'&&c.content)||c.op==='appendContentParts'))data.sections=contents;
+ const previousReferences=new Set(adaptedComposition(existing??({sections:[],links:[]} as unknown as WorkspaceRecord)).blocks.flatMap(block=>(block.readingPages??[]).flatMap(page=>page.references??[])).map(reference=>authoringDomain.stable(reference)));
+ const addedReferences=composition.blocks.flatMap(block=>(block.readingPages??[]).flatMap(page=>page.references??[])).filter(reference=>!previousReferences.has(authoringDomain.stable(reference)));
+ if(addedReferences.length>16)throw new DomainError(400,'project_reference_budget','One Project update may admit at most 16 new exact reading references.');
+ const referenceGuards:Array<{family:Family;id:string;rev:number}>=[];
+ for(const reference of addedReferences){
+  const current=await readRecord(env,owner,reference.family,reference.id),target=await readRendition(env,owner,reference.id,reference.rendition,reference.family);
+  const section=reference.sectionId?target?.sections?.find(item=>item.id===reference.sectionId):undefined;
+  if(!current||!target||reference.sectionId&&!section||reference.partId&&!section?.parts.some(part=>part.id===reference.partId&&!part.unavailable))throw new DomainError(409,'project_page_reference_unavailable','A reading-page reference must name an available exact record rendition and, when supplied, an exact section/part.');
+  referenceGuards.push({family:current.family,id:current.id,rev:current.rev});
+ }
+ return {request,command:{operationId:request.operationId,expectedGeneration:request.expectedGeneration,action:existing?'update' as const:'create' as const,family:'journey' as const,id:request.projectId,expectedRev:request.expectedProjectRev,data},existing,referenceGuards:[...new Map(referenceGuards.map(guard=>[guard.family+':'+guard.id,guard])).values()]};
 }
 export async function applyProjectUpdate(env:Cloudflare.Env,owner:string,input:unknown,actor:Actor='gpt',preview=false){
+ if(actor==='gpt'&&(input as any)?.noteChanges?.length)throw new DomainError(403,'gpt_note_authoring_forbidden','GPT cannot create, change or populate learner Notes, including through Project batches. Save requested content in the Project, Question or reusable Library destination.');
  // Hash the semantic request before adaptation: identical retries must survive changed heads.
  const digest=await authoringDomain.hash({kind:'project-update-v1',input});const op=(input as any)?.operationId;
  const previous=typeof op==='string'?await env.DB!.prepare('SELECT hash,response FROM v2_operations WHERE owner=? AND id=?').bind(owner,op).first<{hash:string;response:string}>():null;
  // executeCommand hashes the exact semantic request through its internal options.
  if(previous&&!preview){if(previous.hash!==digest)throw new DomainError(409,'idempotency_mismatch','This operation ID belongs to another payload.');return authoringDomain.receiptMetadata(JSON.parse(previous.response));}
- const {request,command}=await projectCommand(env,owner,input);
+ const {request,command,referenceGuards}=await projectCommand(env,owner,input);
  if(!preview)await (await import('./collaboration-preferences')).assertGptProjectEditing(env,owner,request.projectId,actor);
  const options={projectAuthoring:true as const,overrideIds:request.explicitOverrideIds,digest};
- if(request.noteChanges?.length)return applyProjectBatch(env,owner,command as any,request,actor,digest,preview);
- if(preview){const p=await authoringDomain.prepared(env,owner,command as any,actor,undefined,options);return {valid:true,currentRev:request.expectedProjectRev,proposed:await authoringDomain.projectRecord(env,owner,p.record,true),summary:'Read-only proposal. Sources are retained; directly edited content remains protected unless explicitly targeted.'};}
- return executeCommand(env,owner,command as any,actor,undefined,options);
+ if(request.noteChanges?.length)return applyProjectBatch(env,owner,command as any,request,actor,digest,preview,referenceGuards);
+ if(preview){const p=await authoringDomain.prepared(env,owner,command as any,actor,undefined,options);p.guardedTargets.push(...referenceGuards);return {valid:true,currentRev:request.expectedProjectRev,proposed:await authoringDomain.projectRecord(env,owner,p.record,true),summary:'Read-only proposal. Sources are retained; directly edited content remains protected unless explicitly targeted.'};}
+ return executeCommand(env,owner,command as any,actor,referenceGuards as any,options);
 }
 export async function setNotePagePin(env:Cloudflare.Env,owner:string,input:any,actor:Actor){
  const schema=z.object({operationId:id,expectedGeneration:z.string(),noteId:id,expectedNoteRev:z.number().int().min(1),target:projectRefSchema,pinned:z.boolean()}).strict();let r:z.infer<typeof schema>;try{r=schema.parse(input);}catch(e){throw new DomainError(400,'invalid_note_pin',(e as Error).message);}
@@ -285,11 +509,11 @@ export async function listPagePins(env:Cloudflare.Env,owner:string,target:unknow
 }
 
 /** One nonce-owned D1 batch for a Project and explicitly requested canonical Notes. */
-async function applyProjectBatch(env:Cloudflare.Env,owner:string,command:any,request:z.infer<typeof updateSchema>,actor:Actor,digest:string,preview:boolean){
+async function applyProjectBatch(env:Cloudflare.Env,owner:string,command:any,request:z.infer<typeof updateSchema>,actor:Actor,digest:string,preview:boolean,referenceGuards:Array<{family:Family;id:string;rev:number}>){
  const notes=request.noteChanges??[];if(new Set(notes.map(n=>n.id)).size!==notes.length)throw new DomainError(400,'duplicate_note','Each changed Note must appear once.');
  const proposals=[],internal=new Map<string,WorkspaceRecord>();if(command.action==='create'&&command.data.testRun)internal.set('journey:'+command.id,{...command.data,id:command.id,family:'journey',rev:1,trashedAt:null} as WorkspaceRecord);
  for(const note of notes){const c={operationId:request.operationId,action:note.expectedRev?'update' as const:'create' as const,family:'note' as const,id:note.id,expectedRev:note.expectedRev,data:{title:note.title,body:note.body,...(!note.expectedRev&&(request.testRunId??command.data.testRunId)?{synthetic:true,testRunId:request.testRunId??command.data.testRunId}:{}),...(note.sections?{sections:note.sections as ArticleSection[]}:{})}};const p=await authoringDomain.prepared(env,owner,c,actor,internal);if(note.expectedRev?p.existing?.rev!==note.expectedRev:await authoringDomain.rawReadRecord(env,owner,'note',note.id,true))throw new DomainError(409,'revision_conflict','A changed Note is unavailable or its revision changed.');proposals.push({command:c,...p});internal.set('note:'+note.id,p.record);}
- const p=await authoringDomain.prepared(env,owner,command,actor,internal,{projectAuthoring:true,overrideIds:request.explicitOverrideIds});proposals.push({command,...p});
+ const p=await authoringDomain.prepared(env,owner,command,actor,internal,{projectAuthoring:true,overrideIds:request.explicitOverrideIds});p.guardedTargets.push(...referenceGuards as any);proposals.push({command,...p});
  if(preview)return {valid:true,records:await Promise.all(proposals.map(p=>authoringDomain.projectRecord(env,owner,p.record,true))),summary:'Read-only atomic Project and Note proposal.'};
  const db=env.DB!,nonce=crypto.randomUUID(),win='EXISTS(SELECT 1 FROM v2_operations WHERE owner=? AND id=? AND nonce=?)',winArgs=[owner,request.operationId,nonce];
  const checks=proposals.map(p=>({family:p.record.family,id:p.record.id,expectedRev:p.existing?.rev??0})),guards=proposals.flatMap(p=>p.guardedTargets),generation=generationGuard(env),image=imageAdmissionGuard(proposals.flatMap(p=>p.imageGuards),owner),media=mediaAdmissionGuard(proposals.flatMap(p=>p.mediaGuards),owner);
@@ -310,5 +534,13 @@ export async function editProjectStructure(env:Cloudflare.Env,owner:string,input
  let parsed:z.infer<typeof structureEditSchema>;try{parsed=structureEditSchema.parse(input);}catch(e){throw new DomainError(400,'invalid_structure_edit',(e as Error).message);}
  const {mode,...request}=parsed;
  if(mode==='apply')await (await import('./collaboration-preferences')).assertMcpToolAccess(env,owner,'apply_project_update');
- return applyProjectUpdate(env,owner,{...request,globalStructure:true},'gpt',mode==='preview');
+ const result=await applyProjectUpdate(env,owner,{...request,globalStructure:true},'gpt',mode==='preview');
+ if(mode==='preview'&&'proposed' in result&&result.proposed){
+  const proposed=result.proposed as WorkspaceRecord,composition=adaptedComposition(proposed),topics=projectReadingTopics(composition,proposed.sections);
+  const outline=composition.sections.filter(s=>!s.hidden).map(section=>({id:section.id,title:section.title,topics:topics.filter(t=>t.layoutId===section.id).map(t=>({title:t.title,purpose:t.purpose??'unspecified',sectionId:t.sectionId,partIds:t.partIds}))}));
+  return {...result,organisationReview:{outline,warnings:outline.flatMap(section=>{
+   const roles=new Set(section.topics.map(t=>t.purpose));return roles.has('source')&&(roles.has('practice')||roles.has('explanation'))?[{sectionId:section.id,message:'This section mixes source messages with explanation or practice. Check this against the requested task-based outline.'}]:[];
+  }),basis:'Actual shared reading-topic projection. Inspect destinations and purpose grouping, not just page names. No learner performance is inferred.'}};
+ }
+ return result;
 }

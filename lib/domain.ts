@@ -412,6 +412,9 @@ function sourcePolicyData(input:unknown,existing:WorkspaceRecord|null):unknown{
  return {...input,source:{...existing.source,excerpt:{...existing.source.excerpt,...policy}}};
 }
 async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor:Actor,internalTargets?:Map<string,WorkspaceRecord>,options?:{skipCatalogue?:boolean;skipReferencePolicy?:boolean;projectAuthoring?:boolean;overrideIds?:string[]}){
+ // Notes contain the learner's own words. This is a shared server boundary so
+ // every GPT write path (including batch wrappers and indirect tools) is covered.
+ if(actor==='gpt'&&c.family==='note')fail(403,'gpt_note_authoring_forbidden','GPT may read authorised Notes, but only the signed-in learner can create, change, trash, restore or pin a Note. Save requested learning content in its Project, Question or Library destination.');
  const existing=c.action==='create'?null:await rawReadRecord(env,owner,c.family!,c.id!,true);
  if(c.action!=='create'&&!existing)fail(404,'record_unavailable','The record is unavailable; your draft is retained.');
  if(c.action==='update'&&existing?.trashedAt)fail(409,'record_trashed','Restore this record before editing it.');
@@ -513,7 +516,8 @@ export async function previewCommand(env:Cloudflare.Env,owner:string,input:unkno
  const result=await prepared(env,owner,command,actor);if(result.existing&&result.existing.rev!==command.expectedRev)fail(409,'revision_conflict','The record changed. Refresh its current revision before saving.');return {valid:true,command,record:await projectRecord(env,owner,result.record,true),summary:'Validated preview only. No record or receipt has been written.'};
 }
 export async function executeCommand(env:Cloudflare.Env,owner:string,input:unknown,actor:Actor='user',expectedTargets?:{family:Family;id:string;rev:number}[],projectOptions?:{projectAuthoring:true;overrideIds?:string[];digest?:string}):Promise<CommandReceipt>{
- const c=validateCommand(input);const digest=projectOptions?.digest??await hash(expectedTargets?{command:c,expectedTargets}:c);const generation=generationContext(env);if(generation)requireGeneration(generation,c.expectedGeneration);const classification=classificationInput(c);if(classification)return classifyLearningScope(env,owner,classification);
+ // Fence replaced workspaces before actor policy; Note denial still precedes classification and receipt replay.
+ const c=validateCommand(input);const generation=generationContext(env);if(generation)requireGeneration(generation,c.expectedGeneration);if(actor==='gpt'&&c.family==='note')fail(403,'gpt_note_authoring_forbidden','GPT may read authorised Notes, but only the signed-in learner can create, change, trash, restore or pin a Note. Save requested learning content in its Project, Question or Library destination.');const digest=projectOptions?.digest??await hash(expectedTargets?{command:c,expectedTargets}:c);const classification=classificationInput(c);if(classification)return classifyLearningScope(env,owner,classification);
  const previous=await db(env).prepare('SELECT hash,response FROM v2_operations WHERE owner=? AND id=?').bind(owner,c.operationId).first<{hash:string,response:string}>();
  if(previous){if(previous.hash!==digest)fail(409,'idempotency_mismatch','This operation ID was already used with different content. Keep the original payload to recover it, or use a new operation for a deliberate new edit.');return receiptMetadata(JSON.parse(previous.response));}
  if(c.family==='journey'&&c.id)await (await import('./collaboration-preferences')).assertGptProjectEditing(env,owner,c.id,actor);

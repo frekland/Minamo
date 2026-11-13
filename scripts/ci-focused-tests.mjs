@@ -1,7 +1,6 @@
 /**
- * Draft-PR feedback only: run directly changed test files and a few explicit
- * source-to-test mappings. Not an impact-analysis proof or a replacement for
- * the full regression gate when the PR is ready for review.
+ * Routine PR/release feedback: changed tests plus affected current contracts.
+ * Historical full audits are a separate explicit owner opt-in.
  */
 import {execFileSync,spawnSync} from 'node:child_process';
 import {existsSync,readdirSync} from 'node:fs';
@@ -9,13 +8,20 @@ import {basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const mapped={
-  'lib/domain.ts':['tests/domain-http.test.mjs','tests/domain-rich-integration.test.mjs'],
-  'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/mcp-learning-quality.test.mjs','tests/scenario-controller.test.mjs','tests/test-transcript.test.mjs','tests/test-observation.test.mjs','tests/test-observation-adversarial.test.mjs'],
+  'lib/domain.ts':['tests/domain-http.test.mjs','tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/collaboration-preferences.test.mjs','tests/source-reference-permission.test.mjs'],
+  'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/collaboration-preferences.test.mjs'],
+  'lib/project-service.ts':['tests/project-structure-edit.test.mjs','tests/project-learning-mcp.test.mjs','tests/project-reading-topics.test.mjs','tests/collaboration-preferences.test.mjs'],
+  'lib/project-composition.ts':['tests/project-structure-edit.test.mjs','tests/project-learning-map.test.mjs','tests/project-learning-mcp.test.mjs','tests/project-reading-topics.test.mjs'],
+  'lib/project-learning-map.ts':['tests/project-learning-map.test.mjs','tests/project-learning-mcp.test.mjs'],
+  'lib/project-reading-topics.ts':['tests/project-reading-topics.test.mjs','tests/project-learning-map.test.mjs'],
+  'lib/beta-access.ts':['tests/beta-compiled-worker.test.mjs','tests/beta-site-tools.test.mjs'],
+  'tests/private-storage-fixture.mjs':['tests/private-storage-fixture-cleanup.test.mjs','tests/domain-recovery.test.mjs'],
   'lib/scenario-control.ts':['tests/scenario-controller.test.mjs'],
   'lib/test-transcript.ts':['tests/test-transcript.test.mjs'],
   'lib/test-observation.ts':['tests/test-observation.test.mjs','tests/test-observation-adversarial.test.mjs'],
   'lib/project-context.ts':['tests/project-context.test.mjs','tests/unified-projects-acceptance.test.mjs'],
-  'lib/learning-work.ts':['tests/learning-work.test.mjs','tests/journey-resume.test.mjs']
+  'lib/learning-work.ts':['tests/retired-checkpoint-authoring.test.mjs','tests/project-learning-mcp.test.mjs'],
+  'lib/editorial-policy.ts':['tests/retired-checkpoint-authoring.test.mjs','tests/project-learning-mcp.test.mjs']
 };
 
 export function selectFocusedTests(changed,exists=existsSync,listTests=()=>readdirSync('tests')){
@@ -46,12 +52,24 @@ export function selectFocusedTests(changed,exists=existsSync,listTests=()=>readd
       add('tests/test-observation.test.mjs');add('tests/test-observation-adversarial.test.mjs');
     }
     if(path==='scripts/ci-focused-tests.mjs')add('tests/ci-focused-tests.test.mjs');
+    if(path==='scripts/release-check.mjs'||path==='.github/workflows/check.yml'){
+      add('tests/release-check.test.mjs');add('tests/ci-focused-tests.test.mjs');
+    }
+    if(path.startsWith('lib/source-')){
+      add('tests/source-reference-permission.test.mjs');add('tests/source-permission-integration.test.mjs');
+    }
+    if(path==='db/schema.ts'||path.startsWith('drizzle/')){
+      add('tests/domain-recovery.test.mjs');add('tests/source-reference-permission.test.mjs');
+    }
     if(path.startsWith('app/')&&/project|journey/i.test(path)){
       add('tests/project-ui.test.mjs');
-      add('tests/projects-home-continuation.test.mjs');
+      add('tests/project-reading-topics.test.mjs');
+    }
+    if(path.startsWith('app/')&&/header-learning-space|japanese|furigana/.test(path)){
+      add('tests/compact-header-icons.test.mjs');add('tests/reading-canonical-dom.test.mjs');
     }
     for(const name of mapped[path]??[])add(name);
-    if(/^(app|lib)\//.test(path)&&/\.(?:ts|tsx|js|jsx|mjs)$/.test(path)){
+    if(!mapped[path]&&/^(app|lib)\//.test(path)&&/\.(?:ts|tsx|js|jsx|mjs)$/.test(path)){
       const stem=basename(path).replace(/\.(?:ts|tsx|js|jsx|mjs)$/,'');
       add('tests/'+stem+'.test.mjs');
     }
@@ -61,23 +79,24 @@ export function selectFocusedTests(changed,exists=existsSync,listTests=()=>readd
 
 if(process.argv[1]&&fileURLToPath(import.meta.url)===process.argv[1]){
   const base=process.env.CI_BASE_SHA;
-  const diffArgs=base?['diff','--name-only',base,'HEAD']:['diff','--name-only','HEAD^','HEAD'];
+  if(!base){console.error('Supply CI_BASE_SHA, or use scripts/release-check.mjs --base <comparison commit>.');process.exit(1);}
+  const diffArgs=['diff','--no-renames','--name-only',base,'HEAD'];
   let changed;
   try{
     changed=execFileSync('git',diffArgs,{encoding:'utf8'}).trim().split('\n').filter(Boolean);
   }catch(error){
-    console.error('Unable to determine changed paths for focused checks; full review checks remain required.',error.message);
+    console.error('Unable to determine changed paths; supply an exact CI_BASE_SHA.',error.message);
     process.exit(1);
   }
   const selected=selectFocusedTests(changed);
-  console.log('Draft PR changed files:',changed.length,'; selected focused tests:',selected.length);
+  console.log('Changed files:',changed.length,'; selected focused tests:',selected.length);
   if(selected.length===0){
-    console.log('No directly mapped tests; typecheck still runs. Full suite is required when the PR leaves draft.');
+    console.log('No directly mapped tests. Use scripts/release-check.mjs for build/typecheck planning.');
   }else{
     console.log(selected.join('\n'));
     // Disposable Miniflare/Workerd fixtures can retain idle process handles
     // after all tests and awaited disposals finish. Preserve real test exit
-    // status while avoiding an artificial CI timeout on draft feedback.
+    // status while avoiding an artificial CI timeout on focused checks.
     const result=spawnSync(process.execPath,['--test','--test-force-exit','--test-concurrency=2',...selected],{stdio:'inherit'});
     if(result.error){console.error(result.error);process.exit(1);}
     process.exit(result.status??1);

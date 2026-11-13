@@ -1,4 +1,4 @@
-import {mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
+import {mkdir,copyFile,readFile,writeFile,cp} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -15,3 +15,10 @@ await writeFile(join(root,'public/runtime/versions.json'),JSON.stringify(version
 for(const [folder,label] of [[py,'pyodide'],[sql,'sqljs']])for(const name of ['LICENSE','LICENSE.md','LICENSE.txt'])try{await copyFile(join(folder,name),join(root,'public/runtime',label+'-'+name));}catch{}
 await writeFile(join(root,'public/runtime/NOTICE.txt'),'Locally bundled published packages: Pyodide '+versions.pyodide+' (MPL-2.0, https://github.com/pyodide/pyodide); sql.js '+versions.sqljs+' (MIT, https://github.com/sql-js/sql.js). Generated from locked npm dependencies; no external runtime fetches.\n');
 console.log('Prepared local Pyodide '+versions.pyodide+' and SQL.js '+versions.sqljs+' browser assets.');
+
+// Pinned local Japanese analyser and dictionary; generated runtime assets stay ignored.
+const kuromoji=dirname(require.resolve('kuromoji/package.json'));
+await mkdir(join(root,'public/runtime/kuromoji'),{recursive:true});
+await copyFile(join(kuromoji,'build/kuromoji.js'),join(root,'public/runtime/kuromoji/kuromoji.js'));
+await cp(join(kuromoji,'dict'),join(root,'public/runtime/kuromoji/dict'),{recursive:true});
+for(const name of ['LICENSE-2.0.txt','NOTICE.md'])await copyFile(join(kuromoji,name),join(root,'public/runtime/kuromoji',name));

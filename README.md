@@ -15,3 +15,9 @@ Journeys and multi-parent Investigations connect to curated Library reading, exa
 An empty workspace stays empty until deliberate authoring or an explicit synthetic-example command. Opening pages never creates learner evidence. Synthetic examples, GPT/editorial changes and genuine user work remain distinct. Flags and annotations do not instruct GPT automatically. Original Minamo data is neither imported nor modified.
 
 See [STATUS](STATUS.md), [implemented architecture](docs/IMPLEMENTED-ARCHITECTURE.md), [source synchronisation](docs/SOURCE-SYNCHRONISATION.md), [security boundaries](docs/SECURITY-BOUNDARIES.md) and [tool runtimes](docs/TOOLS-RUNTIME.md). Release evidence records the actual verified scope and remaining work; do not infer complete original-product parity from this README.
+
+## License
+
+Minamo's original application code is licensed under the [GNU Affero General Public License, version 3 only](LICENSE) (`AGPL-3.0-only`).
+
+Third-party dependencies, bundled assets, fonts, dictionaries, model files and vendored components remain subject to their respective licences and notices; this repository licence does not relicense them. In particular, preserve notices included with vendored files and check dependency licences for redistribution. If operating an AGPL-covered modified version over a network, review the source-availability obligations in [section 13](LICENSE).

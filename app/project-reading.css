@@ -24,3 +24,22 @@
 .pc-reading-topics{scrollbar-width:none;overscroll-behavior-inline:contain}.pc-reading-topics::-webkit-scrollbar{display:none}
 
 .pc-last-opened{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding:8px 12px;margin-bottom:12px;border:1px solid var(--mn-border);border-radius:7px;color:var(--mn-text-muted);font:12px/1.5 system-ui}.pc-last-opened span{flex:1}.pc-last-opened button{background:transparent;color:var(--mn-interactive);padding:5px;font:inherit}.pc-last-opened button:focus-visible{outline:2px solid var(--mn-focus);outline-offset:2px}
+
+/* Keep complete destination names visible at every viewport. */
+.pc-reading-topics{flex-wrap:wrap;overflow:visible;align-items:stretch;scrollbar-width:auto}
+.pc-reading-topics button{flex:0 1 auto;max-width:100%;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;text-align:left;line-height:1.45}
+.pc-reading-topic-row{align-items:flex-start}.pc-reading-sections button{overflow-wrap:anywhere;white-space:normal}
+.pc-reading-section-actions{gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 .6rem}.pc-reading-section-actions button{display:inline-flex;width:auto;min-height:34px;height:auto;padding:6px 10px;white-space:normal}
+.pc-reading-material :is(h2,h3,h4){white-space:normal;overflow:visible;overflow-wrap:anywhere;line-height:1.5}
+
+.pc-project-mode{grid-column:1/-1;display:flex;align-items:center;justify-content:flex-end;margin:-.3rem 0 -.65rem}
+.pc-project-mode button{display:inline-flex;gap:.35rem;align-items:center;border:0;background:transparent;color:var(--mn-text-muted,var(--mn-text));padding:.4rem .6rem;border-radius:8px;font:600 .78rem system-ui;cursor:pointer}
+.pc-project-mode button:hover,.pc-project-mode button:focus-visible{background:var(--mn-surface-secondary);color:var(--mn-text);outline-offset:2px}
+.pc-context-related{margin:.25rem 0 .7rem;font-size:.82rem;color:var(--mn-text-muted,var(--mn-text))}
+.pc-context-related summary{cursor:pointer;padding:.5rem 0}
+.pc-context-related nav{display:flex;flex-wrap:wrap;gap:.3rem;padding:.4rem 0}
+.pc-context-related button{background:var(--mn-surface-secondary);color:var(--mn-text);border:1px solid var(--mn-border-control);border-radius:7px;padding:.35rem .55rem;cursor:pointer}
+.pc-explore-reading{display:block}
+@media(max-width:700px){.pc-project-mode{margin:0 0 .5rem}}
+
+.pc-context-related>a{display:block;width:fit-content;max-width:100%;margin:.35rem 0;padding:.25rem 0;overflow-wrap:anywhere}

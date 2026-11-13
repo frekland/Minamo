@@ -1,0 +1,1481 @@
+{
+  "schemaVersion": 1,
+  "release": 177,
+  "nativeSourceCommit": "399ca17891bdbc675e1acb9ab3b1571bba8d9d6c",
+  "githubApplicationCommit": "2f0a1f8",
+  "baselinePublicCommit": "1fdfb8bd5f5a66b820921009def67a0cf6e519f9",
+  "fullCandidatePublicCommit": "9107bbd",
+  "rawBaseline": {
+    "tests": 1718,
+    "pass": 1475,
+    "fail": 239,
+    "cancelled": 0,
+    "skipped": 4
+  },
+  "rawCandidate": {
+    "tests": 1741,
+    "pass": 1496,
+    "fail": 241,
+    "cancelled": 0,
+    "skipped": 4
+  },
+  "qualifiedBaseline": {
+    "pass": 1488,
+    "fail": 240,
+    "skipped": 4,
+    "cancelled": 0,
+    "tests": 1732
+  },
+  "qualifiedCandidate": {
+    "pass": 1498,
+    "fail": 239,
+    "skipped": 4,
+    "cancelled": 0,
+    "tests": 1741
+  },
+  "qualification": "Counts combine the recorded full runs with completed-build compiled checks, a clean Atlas rerun, clean scenario rerun, and the updated current-contract semantic test. No full V177 rerun or browser/live MCP acceptance is claimed.",
+  "fixedRegression": {
+    "file": "tests/domain-recovery.test.mjs",
+    "case": "old or missing generation cannot mutate, revive bookmarks, or read the replaced namespace",
+    "actualBefore": "gpt_note_authoring_forbidden",
+    "expected": "generation_conflict",
+    "fix": "Generation admission before Note denial, still before classification and receipt replay.",
+    "verification": "16 affected tests passed on V177; includes the recovery parent group."
+  },
+  "resolvedBaselineResults": [
+    "GPT typed terminal capture shares browser body, preserves exact rendition, diagnoses limits and recovers immutable operations",
+    "Project overview keeps map and resource payloads closed and does not claim saved progress before read",
+    "saved work outranks local reading memory and editorial timestamps never imply progress"
+  ],
+  "remainingBaselineResultCount": 237,
+  "remainingBaselineResults": [
+    {
+      "test": "A-TCP: current Article discovers unpinned and older-edition Activities without asserting exact current provenance",
+      "file": "tests/contextual-source-activities.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "A-TCP: native Activity choices distinguish unpinned and older sources and offer only a verified historical edition link",
+      "file": "tests/contextual-navigation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /References an older source edition, not this edition/. Input:"
+    },
+    {
+      "test": "A01/A03/A04/A05: source-qualified Activity discovery checks actual D1 rights, typed links, edition and partial coverage",
+      "file": "tests/contextual-source-activities.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Activity exact source links stay in Study without altering Classic routes",
+      "file": "tests/pr79-study-surface.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /study\\?studyExactHref\\(source\\.family,source\\.id/. Input:"
+    },
+    {
+      "test": "Activity original source files are native canonical passages with exact Unicode Flags and retained annotations",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "Activity strict admission rejects unknown solutions, source copies, computed claims, package traversal and observed Attempts",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Activity typed MCP publication, explicit attempts and fresh natural-name continuity use existing durable domain",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "Actual UI file destination resolves retained D1 source, Reader capture DOM and exact Flag/Annotation writes",
+      "file": "tests/activity-ui.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "C-MOOD/C-MULTI: Project evidence retains Question and Stage, older checkpoint, multi-target Note and source receipts",
+      "file": "tests/contextual-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "C1\u2013C3/C7 non-browser episode: current TCP edition, older/unpinned Activity, independent and linked Notes, Attempt, Flag and a revoked source",
+      "file": "tests/contextual-c-episode.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "C4/C5 non-browser return: later contradictory Mood Note and sparse Cap/Plant Questions never inherit a checkpoint intention",
+      "file": "tests/contextual-c-episode.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Continue retains its exact next step and provenance while compact history excludes only the same account",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "Evidence river keeps an earlier explicit checkpoint separate from a later short Note intention",
+      "file": "tests/atlas-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Expand/Restore and scoped editing retain mounted runtime state and neighbouring drafts",
+      "file": "tests/pr83-polish-components.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'map')"
+    },
+    {
+      "test": "F01: search and native links retain explicit contextual mode, selectors and exact edition on reload/new tab",
+      "file": "tests/pr78-fixes.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /workspace=context/. Input:"
+    },
+    {
+      "test": "F\u2013K privacy history retains the incorrect inference, revisioned correction and a provenance boundary",
+      "file": "tests/mood-to-music-privacy-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "GPT continuation is an explicit six-source maximum selection with exact pins, not a copied Note summary or auto-saved intention",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Discuss selected sources with GPT/. Input:"
+    },
+    {
+      "test": "Home derives exact acknowledged checkpoint, not Note save or Favourite",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'target')"
+    },
+    {
+      "test": "Home hides a previous owner/scope payload and never reports an empty collection during initial loading",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /role=\"status\">Loading saved learning/. Input:"
+    },
+    {
+      "test": "Home keeps one exact Project continuation while recent targets, corrections and Favourites retain independent history",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "Home provides exact scoped study entry points before any checkpoint or saved result",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /href=\"\\/\\?view=practice&amp;learningSpace=languages&amp;language=ja\"/. Input:"
+    },
+    {
+      "test": "Home, Favourites, inherited Notes and Atlas apply language scope before pagination; sidecars preserve readings",
+      "file": "tests/learning-spaces-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Incomplete or failed Note read is never an empty Home or a full empty chooser",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /learning-home-start-compact/. Input:"
+    },
+    {
+      "test": "Journey native destinations retain exact stage and edition; Home never relabels supplied evidence as observed",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /supplied evidence, illustrative example/. Input:"
+    },
+    {
+      "test": "Library exercise scaffolding is rejected by structured publication preview and atomic apply",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "MCP discovery exposes small checkpoint shape, optional rationale fields and focused profile while legacy callers remain valid",
+      "file": "tests/mcp-learning-quality.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /practical next action/. Input:"
+    },
+    {
+      "test": "Note previews in active work and Trash render semantic terminal evidence instead of the storage marker",
+      "file": "tests/personal-work-organiser.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /data-terminal-capture=\"capture\"/. Input:"
+    },
+    {
+      "test": "Note-only continuation retains one latest genuine Note with exact excerpt and no invented next action",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "PR15 actual Worker/MCP/D1 package editorial, canonical and transaction contracts",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "PR27 continuity separates current, historical and exact evidence; preserves earlier rationale through existing reads and authored perspective",
+      "file": "tests/pr27-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR27 tutor orientation is withheld when current source permission changes, including historical reads",
+      "file": "tests/pr27-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR27 verbose checkpoint retains a decisive tail constraint and honest basis instead of silent first-fact truncation",
+      "file": "tests/pr27-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR28 Home distinguishes changed whole-Journey reading from saved learning and metadata-only edits",
+      "file": "tests/pr28-home-reading-change.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "PR28 Note evidence uses current source restrictions and does not leak referenced Notes or dependent prose after revocation",
+      "file": "tests/pr28-note-evidence.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR28 default/explicit MCP tutor and exact detail discover compact cited Note editions across later writing, correction and withdrawal",
+      "file": "tests/pr28-note-evidence.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR28 existing evidence budget defers whole Note references and focused detail resolves them without carrying bodies",
+      "file": "tests/pr28-note-evidence.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR28 keeps synthetic checkpoints out of Home and does not label Investigation edits as Journey changes",
+      "file": "tests/pr28-home-reading-change.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "PR30 chain validation is bounded, exact-owner/target scoped, and batch identities cannot self-reference",
+      "file": "tests/pr30-correction-graph.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 committed replay precedes new graph/target checks and preserves immutable payload mismatch",
+      "file": "tests/pr30-correction-graph.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 encrypted recovery rejects current correction cycles but retains valid history and rechecks pre-release stages",
+      "file": "tests/pr30-correction-graph.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 independent: a changed distant ancestor participates in transaction guards",
+      "file": "tests/pr30-independent-challenge.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 independent: withdrawn ancestry stays inactive, restoration is checked, and committed recovery stays immutable",
+      "file": "tests/pr30-independent-challenge.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 permanent regression: eight-revision budget, old rationale, exact Note editions, stale cursors and correction-only resume remain honest through a 12-session history",
+      "file": "tests/pr30-longitudinal-regression.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 transactional graph guards defeat simultaneous opposing revisions and withdrawn-head restoration races",
+      "file": "tests/pr30-correction-graph.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR30 web and MCP reject self/cyclic corrections without altering active learning or histories",
+      "file": "tests/pr30-correction-graph.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR49 every template has complete nested presentation and precise supported hint placement",
+      "file": "tests/pr49-authoring-handoff.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'completePackages')"
+    },
+    {
+      "test": "PR49 existing-Area diagnostics, scoped language publication, selective Note handoff, replay and recoverable cleanup use actual Worker/D1",
+      "file": "tests/pr49-authoring-handoff.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "PR79 Work read is a source-attributed learning thread, including honest two-hop Questions",
+      "file": "tests/pr79-work-projection.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR79 optional Site-only change attaches reviewed meaning to one saved original, not another Note or progress card",
+      "file": "tests/pr79-site-meaning.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "PR79 optional change can attach to an already saved genuine Attempt with no required Project",
+      "file": "tests/pr79-site-meaning.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "PR79 v2 stage-free Note and Development survive actual private export, import and activation",
+      "file": "tests/pr79-recovery-v2.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Project Continue uses exact checkpoint then newer explicit Note, retains both bases, ignores editorial recency and rejects missing stable targets",
+      "file": "tests/project-context.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Project overview Note action names its actual context",
+      "file": "tests/three-mode-current-task.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Note on this Project/. Input:"
+    },
+    {
+      "test": "Project overview keeps one honest pending continuation and closed optional panels without changing canonical text",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+    },
+    {
+      "test": "Project overview offers the full rich introduction separately without inventing an introductory Step",
+      "file": "tests/educational-reading-ui.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression />Read introduction<\\/button>/. Input:"
+    },
+    {
+      "test": "Project overview shows ordered Steps while waiting for genuine continuation without rendering a whole textbook",
+      "file": "tests/educational-reading-ui.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checking saved work/. Input:"
+    },
+    {
+      "test": "Projects Home and GPT overview use the same newer Note destination without rewriting checkpoint intent",
+      "file": "tests/projects-home-continuation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "R1 active bookmark index and saved Activity Attempt are distinct read-only Home receipts",
+      "file": "tests/contextual-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "Reading is the actual original explanation, one title and a contextual Note action",
+      "file": "tests/pr79-study-surface.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Return to source<\\/a>/. Input:"
+    },
+    {
+      "test": "Step view renders only the chosen canonical section and preserves exact capture identity",
+      "file": "tests/educational-reading-ui.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Check your understanding/. Input:"
+    },
+    {
+      "test": "Tier1 original generator text+math publishes through real local typed MCP, with owner/source denial and zero Attempts",
+      "file": "tests/interface-trial-bytes.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "Title A\u2013Z cursors carry multilingual titles across exact server pages without Latin-only encoding",
+      "file": "tests/library-route-state.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+    },
+    {
+      "test": "Unified Projects actual HTTP projection preserves exact identities and read-only tenant boundaries",
+      "file": "tests/unified-projects-acceptance.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "W7 current source revocation stays fail-closed through actual natural discovery and exact MCP reads",
+      "file": "tests/pr61-discovery.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "W7 real MCP: records-only natural Activity recovery, one fresh retry and typed sustained-churn failure",
+      "file": "tests/pr61-discovery.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "W7 real MCP: stale continuation, caller shape and generation failure have separate nonretry semantics",
+      "file": "tests/pr61-discovery.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "a blocked H-to-I advance can record S04 failure diagnostics without admitting fixture turns or learning writes",
+      "file": "tests/test-transcript.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "a broad Project Note opens that exact Note; Home never invents a Step target",
+      "file": "tests/projects-home-continuation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "a deferred Project target frontier offers its own continuation after the current record page",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /This view is partial/. Input:"
+    },
+    {
+      "test": "a failed source-first read restores the old exact saved-work and Note entry points without pretending evidence is complete",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Read unavailable/. Input:"
+    },
+    {
+      "test": "a fully cleared synthetic test-user store recreates the same later User-only K history",
+      "file": "tests/mood-to-music-scenario.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "a generation swap immediately before the real D1 batch fences every package write",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "a new Attempt may bind a retained Activity without weakening generic link/current-rights guards",
+      "file": "tests/activity-retained-attempt.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "a target revision changing after preparation makes the whole actual D1 package batch fail",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "a topic match opens its exact prose destination and retains a real full-reading link",
+      "file": "tests/pr27-library.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression />Open</. Input:"
+    },
+    {
+      "test": "activity paging fences edits, keeps stage identity and retains old passage editions without exposing revoked source quotes",
+      "file": "tests/journey-resume.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "actual MCP capability/schema describes optional recipe and existing engine catalogue",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "actual MCP-created editorial Note retains actor and cannot outrank learner checkpoint",
+      "file": "tests/project-context.test.mjs",
+      "classification": "pre-existing-obsolete-Note-authoring-expectation",
+      "reason": "This legacy assertion expects GPT to create a Note. PR9 intentionally denies that operation; current Note denial and learner-authored semantic reading are covered by passing targeted checks.",
+      "baselineReason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "actual Worker/D1 scratch save, immutable replay, changed tests, edition retention, rights and recovery",
+      "file": "tests/practice-scratch-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "actual Workspace exact current Question retains guide, My work and linked Library affordances",
+      "file": "tests/three-mode-current-task.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Note on this Question/. Input:"
+    },
+    {
+      "test": "actual installed-style MCP discovery and read/write path share same domain",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+    },
+    {
+      "test": "additive legacy backfill is idempotent and preserves the raw historical record",
+      "file": "tests/catalogue-core.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "admitted Project overview leads with recorded evidence; single-checkpoint Continue is only an unavailable-read fallback",
+      "file": "tests/ux-home-journey.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Recorded work in this Project/. Input:"
+    },
+    {
+      "test": "all three Project subjects coexist without cross-subject read leakage for one synthetic owner",
+      "file": "tests/corpus-matrix.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "ambiguous refresh retains only same-scope admitted receipts; rights and generation failures fence them",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Previously checked sources/. Input:"
+    },
+    {
+      "test": "an Article revision guard also pins its original excerpt permission",
+      "file": "tests/practice-write-authority-races.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "bad member eleven and explicit canonical mismatch are located and write nothing",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "bounded evidence detail honestly defers ninth identity and focused Development retrieval returns exact eligible detail",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "canonical match cards expose highlighted evidence and exact independently usable reading links",
+      "file": "tests/ux-library-search.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression />Open</. Input:"
+    },
+    {
+      "test": "capability discovery is typed and preview writes neither record nor receipt",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "capture-first landing is an action, not a second editor or status dashboard",
+      "file": "tests/contextual-workspace-ui.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /workspaceExperience==='context'/. Input:"
+    },
+    {
+      "test": "catalogue sidecar preserves exact reading and performs real D1 CAS, query, rights, pagination and migration",
+      "file": "tests/catalogue-core.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "changing owner, learning space or focus hides earlier source bodies even during loading or errors",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checking recorded sources/. Input:"
+    },
+    {
+      "test": "cold public MCP schema supports two synthetic publications, exact editions, supplied Attempt and natural-name resume",
+      "file": "tests/activity-cold-handoff.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: get_minamo_activity_capabilities"
+    },
+    {
+      "test": "compiled Home resolves a real-candidate Project checkpoint and newer user Note through the production module graph",
+      "file": "tests/product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "compiled product Activity/MCP/Atlas workflow with feature-on synthetic D1 and ordinary SSR",
+      "file": "tests/activity-product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "compiled product Worker: flagship route, guarded API and MCP share durable exact records",
+      "file": "tests/product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "concurrent identical uncertain retries converge on one receipt and one activity set",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: [{\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-r"
+    },
+    {
+      "test": "concurrent isolated Interface lab startup and later requests complete with one replay-safe specimen set",
+      "file": "tests/interface-preview-startup.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":\\\"TEST-ONLY-interface-read\\\",\\\"result\\\":{\\\"isError\\\":true,\\\"content\\\":[{\\\"type\\\":\\\"text\\\",\\\"text\\\":\\\"{\\\\\\\"error\\\\\\\":\\\\\\\"Unknown V2 tool.\\\\\\\",\\\\\\\"code\\\\\\\":\\\\\\\"tool_unknown\\\\\\\",\\\\\\\"contract\\\\\\\":\\\\\\\"minamo.tool-error.v1\\\\\\\",\\\\\\\"categ"
+    },
+    {
+      "test": "concurrent new packages contend atomically with no partial second package",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: [{\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-r"
+    },
+    {
+      "test": "concurrent perspective CAS admits one complete event and removed-stage handoff preserves exact historical reading",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "current policy, source-stage integrity and exact inspected coverage are server checks",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "current source rights fence keys, deferred feedback and correction descendants while independent input survives",
+      "file": "tests/practice-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "cutover frozen legacy references and exact historical Note evidence survive safe paged recovery",
+      "file": "tests/recovery-cutover-evidence.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "cutover frozen legacy references and exact historical Note evidence survive safe small recovery",
+      "file": "tests/recovery-cutover-evidence.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "decision evidence uses the same rights/recovery/CAS guarantees as facts and a correction replaces visible rationale honestly",
+      "file": "tests/mcp-learning-quality.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "development fixture persists exact browser and typed JSON-RPC terminal evidence through shared D1 revisions",
+      "file": "tests/growth-preview.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected \"actual\" to be strictly unequal to: true"
+    },
+    {
+      "test": "different local runs reproduce the same snapshot; weekend is isolated from default V3 in one owner",
+      "file": "tests/mood-to-music-weekend-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "direct source rights cannot change between validation and the Attempt batch",
+      "file": "tests/practice-write-authority-races.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "discover and publish original multifile challenge through compiled MCP",
+      "file": "tests/activity-product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "duplicate exact project names explicitly require selection instead of silently attributing combined context",
+      "file": "tests/activity-resume-adversarial.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "edition digest validates exact original source and target revisions without Source permission grants",
+      "file": "tests/manuscript-recovery.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Malformed scopes remain rejected even with a recomputed digest."
+    },
+    {
+      "test": "editorial GPT Notes do not become Project learning recency and an incomplete invalid-target scan never fabricates a starting state",
+      "file": "tests/project-context.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "empty bounded page never implies absence; later pages remain explicit and source links fail closed",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /This view is partial/. Input:"
+    },
+    {
+      "test": "encrypted export/import restores native metadata and immutable targets with generation fencing",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "encrypted recovery validates recipe references, restores exact editions and fences old generation",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "every complete Foundry catalogue example passes actual typed MCP preview without writes, and a stale digest still rejects",
+      "file": "tests/activity-capability-examples.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected \"actual\" to be strictly unequal to: true"
+    },
+    {
+      "test": "evidence revocation, immutable receipt refs and final-statement rollback on real D1",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "exact Journey stage and Phase I resumption exclude sibling phase Activities and Notes",
+      "file": "tests/activity-resume-adversarial.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "exact case punctuation aliases and permissions remain separate",
+      "file": "tests/catalogue-core.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+    },
+    {
+      "test": "exact semantic destination changed or cross-family coordinates cannot be silently admitted",
+      "file": "tests/domain-rich-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "exact source and target CAS, immutable operation identity, no semantic inference",
+      "file": "tests/pr79-site-meaning.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "exact stage handoff combines selected related context and stays read-only",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "exact table focus is reconstructed from coordinates only and returned with private-safe deep links",
+      "file": "tests/domain-rich-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'sections')"
+    },
+    {
+      "test": "explicit checkpoint domain: exact independent stage, atomic receipts, correction, provenance and meaningful Home",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "explicit multi-target checkpoint commits one atomic receipt and rolls back a later target failure",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "explicit supplied Attempt survives fresh MCP read and natural-name continuity",
+      "file": "tests/activity-product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'record')"
+    },
+    {
+      "test": "focused tutor handoff preserves provisional reason, attempt, misconception and practical next action without whole route or duplicate checkpoints",
+      "file": "tests/mcp-learning-quality.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "forced SQLite failure after earlier member mutations rolls the entire D1 batch back",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-re"
+    },
+    {
+      "test": "fresh Light B: typed isolated MCP previews/publishes/reads exact selected text+math and ordinary companion",
+      "file": "tests/release-light-bytes.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+    },
+    {
+      "test": "fresh Light typed local Activity/Attempt immutable source and terminal readback",
+      "file": "tests/release-light-readback.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: get_minamo_activity_capabilities"
+    },
+    {
+      "test": "fresh Nacre lantern Activity: real isolated typed MCP, zero-write preview, exact editions, no achievements",
+      "file": "tests/release-light-zero-code.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"isError\":true,\"content\":[{\"type\":\"text\",\"text\":\"{\\\"error\\\":\\\"Unknown V2 tool.\\\",\\\"code\\\":\\\"tool_unknown\\\",\\\"contract\\\":\\\"minamo.tool-error.v1\\\",\\\"category\\\":\\\"operation-failed\\\",\\\"retryable\\\":false,\\\"recovery\\\":\\\"inspect-before-retry"
+    },
+    {
+      "test": "fresh cross-domain ruby and counting model authoring via actual isolated typed MCP",
+      "file": "tests/release-light-cross-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"isError\":true,\"content\":[{\"type\":\"text\",\"text\":\"{\\\"error\\\":\\\"Unknown V2 tool.\\\",\\\"code\\\":\\\"tool_unknown\\\",\\\"contract\\\":\\\"minamo.tool-error.v1\\\",\\\"category\\\":\\\"operation-failed\\\",\\\"retryable\\\":false,\\\"recovery\\\":\\\"inspect-before-retry"
+    },
+    {
+      "test": "fresh independent reconstruction and reset retain stable identities without database wipe",
+      "file": "tests/mood-to-music-scenario.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "fresh natural Journey name finds two nonlexical linked Notes, exact terminal and immutable Activity without writes",
+      "file": "tests/activity-resume-adversarial.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "fresh natural project query recovers linked cartridge and latest explicit intention without opaque IDs",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "fresh zero-code synthetic composition uses typed local MCP, exact retained source, and owner isolation",
+      "file": "tests/interface-trial-zero-code.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"isError\":true,\"content\":[{\"type\":\"text\",\"text\":\"{\\\"error\\\":\\\"Unknown V2 tool.\\\",\\\"code\\\":\\\"tool_unknown\\\",\\\"contract\\\":\\\"minamo.tool-error.v1\\\",\\\"category\\\":\\\"operation-failed\\\",\\\"retryable\\\":false,\\\"recovery\\\":\\\"inspect-before-retry"
+    },
+    {
+      "test": "full project phrase discovers nonlexical Activity through saved child edges without writes",
+      "file": "tests/learning-spaces-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "graph endpoint uses same owned current records and creates no progress",
+      "file": "tests/activity-product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+    },
+    {
+      "test": "incoming Question checkpoint and ambiguous later Note keep exact UI, Home and natural GPT continuation",
+      "file": "tests/unified-projects-acceptance.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "independent Activity concurrency and uncertain-result replay cannot lose a definition",
+      "file": "tests/activity-security-lifecycle.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "independent UX challenge: retained-edition discovery and stale-write recovery keep immutable answer history",
+      "file": "tests/ux-release-challenge.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "independent atomic Attempt admission rejects direct source Trash, original excerpt revocation, audio revocation and attachment Trash races",
+      "file": "tests/practice-write-authority-races.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "independent challenge: exact Journey and Investigation title collision requires owner selection",
+      "file": "tests/activity-resume-adversarial.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "independent exact Activity reading target variants use the same current owner projections",
+      "file": "tests/activity-independent-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "independent feature-off generic command attack cannot persist a new activity",
+      "file": "tests/activity-security-lifecycle.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "independent portable manifest validation supports old snapshots and rejects malformed classification rows",
+      "file": "tests/pr49-scope-independent-security.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"valid\":true}"
+    },
+    {
+      "test": "independent production-compiled Worker refuses galleries, synthetic fixture proxy and disabled activity writes",
+      "file": "tests/activity-security-compiled.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "independent real D1 typed Activity/Attempt graph relationships retain exact editions without duplicated links",
+      "file": "tests/activity-independent-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "independent retained source, hint and edition attacks use current rights and exact immutable activity",
+      "file": "tests/activity-security-lifecycle.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "interconnected rich canonical reading through the shared real D1 API and MCP path",
+      "file": "tests/domain-rich-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "invalid explicit focus blocks discussion instead of silently broadening to whole or current reading",
+      "file": "tests/three-mode-gpt-focus.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /disabled=\"\"/. Input:"
+    },
+    {
+      "test": "keyed and omitted-key targeted manuscripts retain checkpoint, Note and bookmark stage identities across edits",
+      "file": "tests/manuscript-boundary-regressions.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "lab fixture publishing, hints, exact reading/Attempt and owner isolation execute through real local MCP/D1",
+      "file": "tests/interface-lab.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"jsonrpc\":\"2.0\",\"id\":\"publish_minamo_activity_package\",\"result\":{\"isError\":true,\"content\":[{\"type\":\"text\",\"text\":\"{\\\"error\\\":\\\"Unknown V2 tool.\\\",\\\"code\\\":\\\"tool_unknown\\\",\\\"contract\\\":\\\"minamo.tool-error.v1\\\",\\\"category\\\":\\\"operation-failed\\\",\\\"retryable\\\":false,\\\"r"
+    },
+    {
+      "test": "learning and catalogue authority round trips, restores old archives, rebuilds indexes and redacts restricted evidence in all new histories",
+      "file": "tests/recovery-learning-catalogue.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "legacy general references retain semantic scope and Resources stays closed until requested",
+      "file": "tests/educational-reading-ui.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression />Resources<\\/button>/. Input:"
+    },
+    {
+      "test": "library keyset pages and index epoch invalidate stale cursors",
+      "file": "tests/catalogue-core.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+    },
+    {
+      "test": "linked-source rights loss retains an inert marker in the original supporting slot",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "listening attachment authority stays pinned in the Attempt batch",
+      "file": "tests/practice-write-authority-races.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "listening media authority stays pinned in the Attempt batch",
+      "file": "tests/practice-write-authority-races.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "longitudinal Mood-to-Music seeds, advances and reads actual isolated domain data",
+      "file": "tests/mood-to-music-scenario.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "loss of the old original suppresses that precise quotation, preserving the new original",
+      "file": "tests/pr79-site-meaning.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'claimCorrections')"
+    },
+    {
+      "test": "malicious recipes fail on typed MCP and generic domain write with no receipt/record",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "more than forty newer GPT editorial Notes cannot hide a genuine Project continuation",
+      "file": "tests/projects-home-continuation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "more than forty newer ineligible targets report incomplete continuation, without false Start",
+      "file": "tests/project-context.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of null (reading 'event_json')"
+    },
+    {
+      "test": "native browser-observed cross-cell offsets admit exact canonical TSV and retain the edition",
+      "file": "tests/domain-rich-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "natural project continuation groups ordinary short Notes, exact task evidence and post-checkpoint intention without a handover",
+      "file": "tests/journey-resume.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "natural resolution preserves genuine ambiguity, whole-word lookup and owner isolation",
+      "file": "tests/journey-resume.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "new durable practice, correction, review, character/scenario traces, scratch and recording bytes survive actual isolated restore and disable/re-enable",
+      "file": "tests/practice-recovery-complete.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "nine original practical Activities publish through isolated typed MCP with exact source and recoverable cleanup",
+      "file": "tests/pr49-practical-foundry.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"isError\":true,\"content\":[{\"type\":\"text\",\"text\":\"{\\\"error\\\":\\\"Unknown V2 tool.\\\",\\\"code\\\":\\\"tool_unknown\\\",\\\"contract\\\":\\\"minamo.tool-error.v1\\\",\\\"category\\\":\\\"operation-failed\\\",\\\"retryable\\\":false,\\\"recovery\\\":\\\"inspect-before-retry"
+    },
+    {
+      "test": "no-write decision returns no records and no fabricated activity",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "old one-to-one mirrored pattern returns meaningful blocking editorial findings",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "one exact original and one reviewed v2 meaning, independent Site/MCP readback",
+      "file": "tests/pr79-site-meaning.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "one explicit non-first stage checkpoint leaves canonical rendition unchanged and replays by exact ref",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "one guarded publication saves exact edition and replay returns one operation",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "one six-session run retains requested outputs across User actions and resets exact accumulated state",
+      "file": "tests/scenario-controller.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "only exact per-event stage relevance projects an Investigation into a Journey stage",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "ordinary Journey heading rename retains its exact saved checkpoint target through real manuscript/D1/context",
+      "file": "tests/manuscript-stage-rename.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "ordinary phase resumption excludes reciprocal parent and sibling hierarchies; a deliberate overview remains available",
+      "file": "tests/learning-spaces-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "ordinary reads and missing explicit intent never save work",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "ordinary reads and uncertain receipt readback never disclose unopened hints",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "ordinary route SSR mounts product Activity with source and existing Notes shell",
+      "file": "tests/activity-product-worker.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /TEST ONLY Stream Detective/. Input:"
+    },
+    {
+      "test": "outer MCP envelopes agree for nested CAS conflicts, replay, validation and exact scopes",
+      "file": "tests/pr74-mcp-contracts.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "owner-confirmed test context adds an ordinary-app Project entry and unmistakable label",
+      "file": "tests/synthetic-visual-navigation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Owner-only synthetic test Project/. Input:"
+    },
+    {
+      "test": "pending review returns to exact response revision; newer answer does not adopt old feedback",
+      "file": "tests/practice-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "policy-guided MCP package preview and write preserve rich typed content and acknowledged links",
+      "file": "tests/domain-rich-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-re"
+    },
+    {
+      "test": "practice index: actual D1 owner/scope/edition discovery, review status, rights and stable continuations",
+      "file": "tests/practice-index.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "presentation changes make a new immutable edition and stale CAS cannot replace original",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'rev')"
+    },
+    {
+      "test": "preview and publish use shared server admission; every source and recipe roundtrips",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "privacy and weekend variants coexist for one owner without mixed records",
+      "file": "tests/mood-to-music-privacy-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "privacy checkpoints reproduce cleanly and never preload later Notes",
+      "file": "tests/mood-to-music-privacy-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "production Workspace withholds canonical reading actions until the exact retained or captured target is resolved",
+      "file": "tests/three-mode-navigation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Continue with GPT/. Input:"
+    },
+    {
+      "test": "publication/readback redacts complete answers and checks exact declared typed rules",
+      "file": "tests/practice-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "read current policy and server schema without claiming installed catalogue",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "read-only detailed preview compiles canonical blocks and pins internal exact links, no D1 writes",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-re"
+    },
+    {
+      "test": "real D1 enforces exact scenario replay and bounded character event semantics before saving supplied traces",
+      "file": "tests/practice-interaction-admission.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "real D1 practice: typed checks, hidden answer boundary, immutable answer revisions, deferred return, correction descendants and rights",
+      "file": "tests/practice-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "real authenticated HTTP Library search and memberships respect exact paths, rights and owner scope",
+      "file": "tests/pr26-learning-interface.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:"
+    },
+    {
+      "test": "real local MCP admits data-only custom recipe, retains exact editions, rights and encrypted recovery",
+      "file": "tests/interface-foundry-contract-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "real speech listening uses exact private D1/R2 audio and retained transcript, checkpoint restore and revocation",
+      "file": "tests/practice-audio-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Not found\",\"code\":\"not_found\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "real synthetic D1 Atlas: exact saved links, pagination, owner, revoked source, retained edition and generation guards",
+      "file": "tests/atlas-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "recovery re-admits Activity source and exact Attempt bindings before staging; feature-off rollback retains later work",
+      "file": "tests/activity-recovery-adversarial.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.\",\"code\":\"activity_attempt_retired\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "relationship acceptance pins requested target revision atomically and historical illustrative Run cannot gain observed provenance",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "representative repeated evidence uses a per-request cache within a bounded actual D1 query budget",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "requested Library output is absent at F, survives readback and is removed by safe reset",
+      "file": "tests/scenario-controller.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "resumption validates budgets and partial title matches cannot select a different technical project",
+      "file": "tests/journey-resume.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "retained corrections and review chronology preserve original answer and reject forged rule results",
+      "file": "tests/practice-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'attempt')"
+    },
+    {
+      "test": "revision correction preserves history and invalidates old interpretation without regeneration",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "rich manuscript preamble is canonical overview reading, not an extra authored Journey stage; legacy stored intro-stages remain exact",
+      "file": "tests/manuscript-introduction.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "saved Attempt keeps supplied provenance and remains pinned after Activity revision",
+      "file": "tests/activity-domain.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "saved learning renders practical next action and prior decisions honestly; creation is in management",
+      "file": "tests/pr26-learning-interface.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Earlier saved choice/. Input:"
+    },
+    {
+      "test": "saved orientation and correction chronology do not resurrect stale prose or invent the next practical step",
+      "file": "tests/pr27-task-workspace.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Saved orientation/. Input:"
+    },
+    {
+      "test": "sceptic F/H/K checkpoints reconstruct in clean disposable runs without future Notes",
+      "file": "tests/mood-to-music-docs-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "sceptical F\u2013K trajectory preserves revisioned original assumptions and honest source rights",
+      "file": "tests/mood-to-music-docs-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "selected canonical snapshots preserve distinct source and revision histories",
+      "file": "tests/corpus-matrix.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "selection without pinned rendition or with caller-supplied quotation is rejected",
+      "file": "tests/domain-rich-integration.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "TypeError [Error]: Cannot read properties of undefined (reading 'id')"
+    },
+    {
+      "test": "server capability discovery and typed tools list agree without claiming installed client freshness",
+      "file": "tests/domain-targeted-patch.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "server-observed successful/error calls and immutable canonical before/after metadata",
+      "file": "tests/test-observation.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":true,\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "server-wide pages cover 1,500 substantive topics and a 230-member area without loaded-array truncation",
+      "file": "tests/catalogue-core.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "several canonical introduction sections remain intact behind one deliberate reading action",
+      "file": "tests/pr27-task-workspace.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "shared header keeps support controls adjacent and the wordmark in navigation",
+      "file": "tests/v49-ui-continuity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "source-first Home displays newer independent writing before older checkpoint, without treating historical intention as current",
+      "file": "tests/contextual-source-first.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:"
+    },
+    {
+      "test": "stale coverage, generation and externally unavailable link reject before persistence",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "substantial cross-project fixture passes actual shared policy/canonical preview, saves atomically, and preserves distinct reference roles",
+      "file": "tests/educational-fixture.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "suggested inquiry remains unanswered, fabricated learner findings reject and sparse reference needs no diagram",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "targeted rich edits share actual D1 revision, history, admission and operation semantics",
+      "file": "tests/domain-targeted-patch.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Failing parent group; named child failures are listed separately."
+    },
+    {
+      "test": "tests/interface-workspace-identity.test.mjs",
+      "file": "tests/interface-workspace-identity.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "'test failed'"
+    },
+    {
+      "test": "tests/multilingual-native.test.mjs",
+      "file": "tests/multilingual-native.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "'test failed'"
+    },
+    {
+      "test": "tests/page-entry-priority.test.mjs",
+      "file": "tests/page-entry-priority.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "'test failed'"
+    },
+    {
+      "test": "tests/semantic-rendering.test.mjs",
+      "file": "tests/semantic-rendering.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "'test failed'"
+    },
+    {
+      "test": "trial C exact generated fixture publishes through real isolated local typed MCP without Run or checkpoint",
+      "file": "tests/interface-trial-new-view.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Unknown V2 tool.\",\"code\":\"tool_unknown\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-retry\"}"
+    },
+    {
+      "test": "twelve related records commit in one operation with replay-safe compact receipt",
+      "file": "tests/educational-authoring.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"error\":\"Retrieve the current editorial policy and preview the original proposal again.\",\"code\":\"editorial_policy_changed\",\"path\":\"editorial.policyVersion\",\"contract\":\"minamo.tool-error.v1\",\"category\":\"operation-failed\",\"retryable\":false,\"recovery\":\"inspect-before-re"
+    },
+    {
+      "test": "two different persona overlays coexist in one owner without leaked late events",
+      "file": "tests/mood-to-music-docs-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "unregistered conversational checkpoint blocks reset before deleting records",
+      "file": "tests/scenario-controller.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "unsupported Minamo-observed claim rejects even on an explicit checkpoint",
+      "file": "tests/learning-work.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    },
+    {
+      "test": "weekend F/H/K checkpoints are reproducible without manufacturing later events",
+      "file": "tests/mood-to-music-weekend-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    },
+    {
+      "test": "weekend User history uses canonical D1 records, retained Note editions and honest evidence",
+      "file": "tests/mood-to-music-weekend-variant.test.mjs",
+      "classification": "reproduced-on-V175",
+      "reason": "Error: {\"code\":\"legacy_authoring_retired\",\"error\":\"Legacy learning-development writes are retired. Existing records remain readable. Save original work in a Note or an explicitly reviewed interpretation instead.\",\"generation\":\"legacy@0\"}"
+    }
+  ],
+  "sourceParity": {
+    "sharedApplicationAndConfigurationPaths": 566,
+    "exactContentAndGitModes": 566,
+    "postDeploymentDifferences": "Public release tooling, fixture cleanup/current-contract tests and documentation; no runtime difference."
+  }
+}

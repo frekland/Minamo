@@ -55,7 +55,7 @@ export function journeyStageDestination(record:WorkspaceRecord,stageId?:string){
 export function projectContinueChoice(continuation:ProjectContinuation|undefined,record:WorkspaceRecord,last?:string,coverageComplete=true){
  if(!continuation&&!coverageComplete)return undefined;
  const steps=journeyStages(record),remembered=steps.find(step=>step.id===last);
- if(continuation&&continuation.basis!=='start')return {destination:continuation.destination,label:'Continue',basis:continuation.basis==='checkpoint'?'Earlier interpretation':'Recent Note',title:continuation.title};
+ if(continuation&&continuation.basis!=='start')return {destination:continuation.destination,label:'Continue',basis:continuation.basis==='checkpoint'?'Latest saved checkpoint':'Recent Note',title:continuation.title};
  if(remembered)return {destination:journeyStageDestination(record,remembered.id),label:'Continue',basis:'Last opened on this device',title:remembered.title};
  if(continuation?.basis==='start')return {destination:continuation.destination,label:continuation.label,basis:'',title:continuation.title};
  if(steps[0])return {destination:journeyStageDestination(record,steps[0].id),label:'Start first step',basis:'',title:steps[0].title};
