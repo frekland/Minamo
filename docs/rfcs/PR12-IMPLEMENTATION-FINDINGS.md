@@ -1,5 +1,6 @@
 # PR12 — V184 investigation and first-slice evidence
 
+**Active GPT-first implementation:** [V189 report and acceptance](PR12-GPT-FIRST-IMPLEMENTATION.md) supersedes the earlier experimental frontend and its product recommendations. The authoritative product correction is [GPT-first presentation inspection](PR12-GPT-FIRST-PRESENTATION-INSPECTION.md).
 **Historical V184 findings.** The active implementation, architectural recommendation and remaining work are now in [Composed workspace — V186](PR12-COMPOSED-WORKSPACE.md). Its connected implementation supersedes the next-slice and unimplemented statements below. This report retains the earlier evidence; the commission remains scope/authority.
 
 ## Implemented slice
