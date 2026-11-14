@@ -21,7 +21,7 @@ export async function saveArrangement(env:Cloudflare.Env,owner:string,raw:Record
  const id=input.arrangementId??'arrangement-'+(await authoringDomain.hash({owner,op:input.operationId})).slice(0,40);
  if(input.arrangementId&&(await readRecord(env,owner,'work',id))?.experience?.kind!=='arrangement')throw new DomainError(409,'arrangement_unavailable','Choose an existing saved arrangement.');
  if(!input.arrangementId&&input.expectedRevision!==0)throw new DomainError(400,'create_revision','New arrangements need expectedRevision zero.');
- return {...await executeCommand(env,owner,{operationId:input.operationId,expectedGeneration:input.expectedGeneration,action:input.arrangementId?'update':'create',family:'work',id,...(input.arrangementId?{expectedRev:input.expectedRevision}:{}),data:{title:input.title,body:input.purpose,experience:{version:1,kind:'arrangement',purpose:input.purpose,presentation:input.presentation,entries:input.entries},...(!input.arrangementId?{synthetic:input.synthetic??false}:{})}},actor,undefined,{projectAuthoring:true,digest}),arrangementId:id};
+ return {...await executeCommand(env,owner,{operationId:input.operationId,expectedGeneration:input.expectedGeneration,action:input.arrangementId?'update':'create',family:'work',id,...(input.arrangementId?{expectedRev:input.expectedRevision}:{}),data:{title:input.title,body:input.purpose,experience:{version:1,kind:'arrangement',purpose:input.purpose,presentation:input.presentation,entries:input.entries},...(!input.arrangementId?{synthetic:input.synthetic??false}:{})}},actor,undefined,{projectAuthoring:true,digest}),arrangementId:id,experienceUrl:'/?view=home&experienceId='+encodeURIComponent(id)};
 }
 export async function resolveMaterialRef(env:Cloudflare.Env,owner:string,ref:MaterialRef){
  const head=await readRecord(env,owner,ref.family,ref.id);if(!head)return {ref,status:'unavailable' as const,reason:'Source is unavailable under current rights.'};
@@ -32,6 +32,7 @@ export async function resolveMaterialRef(env:Cloudflare.Env,owner:string,ref:Mat
  return {ref,status:'available' as const,sourceTitle:source.title,sourceRevision:source.rev,currentRevision:head.rev,newerAvailable:head.rev!==source.rev,changedSinceSaved:head.rev!==ref.sourceRevision,sectionTitle:section!.title,part,attribution,sourceRendition:source.rendition};
 }
 export async function readArrangement(env:Cloudflare.Env,owner:string,input:{id:string;revision?:number;offset?:number;limit?:number}){
+ if(input.revision!==undefined&&(!Number.isSafeInteger(input.revision)||input.revision<1))throw new DomainError(400,'invalid_revision','Use an exact positive saved revision.');
  const record=input.revision?await readRecordRevision(env,owner,'work',input.id,input.revision):await readRecord(env,owner,'work',input.id);
  if(!record||record.experience?.kind!=='arrangement')throw new DomainError(404,'arrangement_unavailable','Saved arrangement unavailable.');
  const offset=Number(input.offset??0),limit=Number(input.limit??4);if(!Number.isInteger(offset)||offset<0||!Number.isInteger(limit)||limit<1||limit>8)throw new DomainError(400,'reading_budget','Read one to eight arrangement entries at a time.');
