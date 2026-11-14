@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "siteVersion": 184,
+  "siteProjectId": "appgprj_6aeba0aa528c81918be19dd51427b2cb",
+  "nativeBase": "9c3d68cb1a2f62e174fd23a2df644c458689ea5e",
+  "nativeSourceCommit": "13214378458da50e79a07cf84b374ed840c6bacc",
+  "githubApplicationCommit": "c8cd04add3229188805c3a5b4dede60012ceb195",
+  "githubApplicationTree": "377c96a81d4157742f1c04f249e537f353ba1075",
+  "versionId": "appgprj_6aeba0aa528c81918be19dd51427b2cb~appgver_528b7b9dbb94819199cf029137ad857a",
+  "deploymentId": "appgdep_6af7a5adc704819192bb27ef274a08d9",
+  "deploymentStatus": "succeeded",
+  "environmentRevision": 5,
+  "url": "https://minamo.jscymru.chatgpt.site",
+  "comparedChangedFiles": [
+    {
+      "path": "app/experimental-experience.css",
+      "sha256": "67d25052eb4d509cd48ea8855c8dddf6b85d5d1a783ca028b69661bb5b905a7e",
+      "mode": "0o644"
+    },
+    {
+      "path": "app/experimental-experience.tsx",
+      "sha256": "05f4d111ad7a49d789c48a9aa04b458f87f6a7a8003f50991ca29ace9fd11452",
+      "mode": "0o644"
+    },
+    {
+      "path": "app/presentation-settings.tsx",
+      "sha256": "a4ac25c29a08e527211299da7e215475819d2a803cd2e6a6bd8a950d7f891365",
+      "mode": "0o644"
+    },
+    {
+      "path": "app/workspace.tsx",
+      "sha256": "ae0ab4cb7b1a82fd6cc79335bdaae5021dc688a013da8905b5c8a9534b1f71a2",
+      "mode": "0o644"
+    },
+    {
+      "path": "docs/rfcs/PR12-DISCOVERY-BENCHMARK.json",
+      "sha256": "e0d7798c0b430c4d9fa8f3fb87d258049a3a7bf4ca7c1de4bd541643402fbb5e",
+      "mode": "0o644"
+    },
+    {
+      "path": "lib/experience-client.ts",
+      "sha256": "de113bdc51016c80dc161d845b0aec6fefc47d2bcfdc376a778c3f4e77309a0d",
+      "mode": "0o644"
+    },
+    {
+      "path": "lib/experience-discovery.ts",
+      "sha256": "19b74508bdc87f1745bb420dcd0c9853c5279cf8cbbef9dcb1c2b70e305e0a42",
+      "mode": "0o644"
+    },
+    {
+      "path": "lib/presentation-preferences.ts",
+      "sha256": "c550e59b3a731c67b1ff964f0793de0bd8c17da17841a8260984f9c5bc4a441c",
+      "mode": "0o644"
+    },
+    {
+      "path": "scripts/ci-focused-tests.mjs",
+      "sha256": "dce2e30855ac429c1eecc659c3a2281e89626af06598890374c6918acd8416b3",
+      "mode": "0o644"
+    },
+    {
+      "path": "scripts/pr12-corpus-manifest.mjs",
+      "sha256": "734a138323795ccfc7d33cd4b743d43d4c8b77691117772ef88ee94325bbde45",
+      "mode": "0o644"
+    },
+    {
+      "path": "scripts/pr12-discovery-benchmark.mjs",
+      "sha256": "386b23abeacf4f2a386ca9e0dff5423936d0dbe430996f27886ed98e89f3a5cd",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/corpus/pr12/japanese-speaking-practice-20261113.json",
+      "sha256": "8287dffaab773b2802d94b09071a08c8e1ac346d4c1fe0e0ba6fef72037f2e7e",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/corpus/pr12/making-friends-japanese-20261112.json",
+      "sha256": "cd889b76f9fe1a7ab5380a72d142f6d851fc0446a0fa3413498edac9b0211370",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/corpus/pr12/manifest.json",
+      "sha256": "4e231a9a5b2f2ad89a31948d89d7bcb20ff1453f1e8668c767af5f405d8bf880",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/pr12-corpus-fixture.mjs",
+      "sha256": "0f823f37abbf0252a1164603c3aab6259e3b7a2c2d88ce3c6aeadbc56db89799",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/pr12-experience-client.test.mjs",
+      "sha256": "8c2a3cc8cf48cc25a3a89ee5fd48902920105104f8c272cef2f7e32668c6f590",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/pr12-experiences.test.mjs",
+      "sha256": "7a7f7247e64ebceee2465f0c17cac447f307bdd3ab47f0db273aaed685f853cf",
+      "mode": "0o644"
+    },
+    {
+      "path": "tests/pr27-workspace-presentation.test.mjs",
+      "sha256": "0adba1f3e001407272b966909d0eb6b034ecc2c4e02515307576b6637ad83058",
+      "mode": "0o644"
+    }
+  ],
+  "method": "All reviewed changed native files compared byte-for-byte and by Git filesystem mode with the PR working tree. Public docs-only additions do not alter deployed code. No whole-tree preservation audit repeated."
+}

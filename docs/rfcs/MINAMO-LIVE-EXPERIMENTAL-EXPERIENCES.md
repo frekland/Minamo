@@ -1,5 +1,7 @@
 # PR #12 — Live experimental experiences on Minamo Sites
 
+**Implementation update:** The first deployed Work slice and current architectural recommendation are recorded in [PR12 implementation findings](PR12-IMPLEMENTATION-FINDINGS.md). Use that report for completed work, observed limits and next implementation slices; this document retains the original scope/background.
+
 **Status:** Explicit owner-authorised development and acceptance policy for PR #12. Supersedes earlier blanket prohibitions on production Site deployment and MCP changes **for isolated, opt-in experimental capabilities**. It does **not** authorise destructive migrations, replacing the stable interface, or modifying genuine learning content without a separate validated request.
 
 ## Rationale

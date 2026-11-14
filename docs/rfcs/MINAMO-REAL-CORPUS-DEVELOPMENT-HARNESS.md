@@ -1,5 +1,7 @@
 # PR #12 — Real-corpus development and compatibility harness
 
+**Implementation update:** The first deployed Work slice and current architectural recommendation are recorded in [PR12 implementation findings](PR12-IMPLEMENTATION-FINDINGS.md). Use that report for completed work, observed limits and next implementation slices; this document retains the original scope/background.
+
 **Status:** Authoritative development/test strategy supporting [the main accumulation-and-composition RFC](MINAMO-ACCUMULATION-AND-COMPOSITION-RFC.md). This is an **early Work deliverable**, not evidence that fixture extraction or a test environment has already been built.
 
 ## Guiding decision

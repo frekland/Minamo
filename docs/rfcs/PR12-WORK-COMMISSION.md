@@ -1,6 +1,8 @@
 # PR #12 — Authoritative Work commission
 
-**Status:** Owner-approved execution brief for the **next Work task**. Read this first. This document supersedes *older task-scope/deployment limitations* in PR #12 descriptions and RFCs wherever they conflict. Other PR #12 documents supply context and technical evidence, **not a requirement to implement a predetermined architecture**.
+**Implementation update:** The first deployed Work slice and current architectural recommendation are recorded in [PR12 implementation findings](PR12-IMPLEMENTATION-FINDINGS.md). Use that report for completed work, observed limits and next implementation slices; this document retains the original scope/background.
+
+**Status:** Owner-approved execution commission. The first deployed Work slice is complete; remaining architectural/product work is itemised in the implementation findings. Read this commission for scope and authority. This document supersedes *older task-scope/deployment limitations* in PR #12 descriptions and RFCs wherever they conflict. Other PR #12 documents supply context and technical evidence, **not a requirement to implement a predetermined architecture**.
 
 **PR:** https://github.com/frekland/minamo/pull/12  
 **Repository:** `frekland/minamo`  

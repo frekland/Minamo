@@ -49,3 +49,35 @@ No destructive migration has been performed or is required for this slice. A fut
 ## Release and acceptance
 
 Exact deployment IDs, source hashes, focused checks, browser observations and unresolved limits are recorded in the release evidence appended after publication. Local builds or passing fixture tests alone are not live acceptance.
+
+### Published implementation and source reconciliation
+
+- **Live:** Minamo **V184**, https://minamo.jscymru.chatgpt.site/, native commit `13214378458da50e79a07cf84b374ed840c6bacc`.
+- **GitHub application:** `c8cd04add3229188805c3a5b4dede60012ceb195`; tree `377c96a81d4157742f1c04f249e537f353ba1075`. Reviewed native changes match the public PR byte-for-byte and mode-for-mode; see `PR12-SOURCE-RECONCILIATION.json`. Public documentation/receipts follow separately without an application redeploy.
+- **Deployment:** `appgdep_6af7a5adc704819192bb27ef274a08d9`, saved version `appgprj_6aeba0aa528c81918be19dd51427b2cb~appgver_528b7b9dbb94819199cf029137ad857a`, succeeded, environment revision 5, MCP ready. Existing identity, audience and storage bindings retained.
+- First iteration V183 (`b9b55ce…`) passed build/typecheck/36 focused tests, but live use exposed reversed URL/scope arguments to `generationFetch`. It returned HTML rather than data. Corrected in V184 and added an integration-level request contract test covering actual path, owner/principal header, generation header, continuation and exact-edition rejection. Corrected typecheck/build and 13 focused tests passed. No full historical suite was run.
+- The initial production version was verified as V182 at native `9c3d68c…`; an old receipt called the same source V178. This discrepancy was a receipt label, not newer native functionality to overwrite.
+
+### Actual deployed browser evidence
+
+| Check | Observation |
+| --- | --- |
+| Stable default | Existing Making Friends reader opened normally before opt-in; Settings initially showed Stable Minamo selected |
+| Opt-in and persistence | Settings → Workspace selected Passage explorer, navigated to experimental Home; selection survived full reload |
+| Cross-source discovery | Two genuine Projects; 305 canonical-part/nested-item matches before filtering; 37 `music` matches, a specific `Yann` learner response, and all 18 saved tables found |
+| Original attempt/context | Displayed saved `Yann tiersen と einaudi…` response and the explanation distinguishing 聴く/弾く and the actual はい reply, without modifying it |
+| Flashcards | Exact rev 21 resource opened after rights/edition check; reveal and next changed Question/Answer and card position |
+| Practice alternative | Auto-opened first resource with collapsed chooser; next-resource read another exact resource; `dialogue` narrowed to six saved dialogues |
+| Dialogue | Revealed second turn and English translation; existing ruby and play/turtle controls rendered |
+| Tables | Exact Making Friends rev 12 table rendered Japanese, natural English and nuance in actual table cells |
+| Furigana | Settings → Languages → Hide removed all visible ruby readings in the selected table; restored Show afterwards |
+| Exact original link | Open original passage switched to stable Project reader with exact record, rendition, section and part in the URL |
+| Narrow layout | Actual deployed browser at 454 CSS px (300% zoom in 1363px window), document width also 454; stacked layout and dialogue translation remained usable |
+| Stable fallback | Return to stable Minamo restored ordinary Home; test browser ended with stable selection, original furigana preference and 100% zoom |
+| Source integrity | Full canonical MCP readback of both original records compared equal to pre-test reads, including revisions and renditions |
+
+**Acceptance limits and observed defects:** this was responsive desktop-browser testing, not physical-phone/touch testing. Device emulation was unavailable because browser policy blocks DevTools. Speech click reached “Downloading or opening Japanese voice”; audible completion was not established. The shared existing furigana engine rendered one ambiguous `弾き…` as はじ rather than ひ in the piano example; source text is intact, but context-aware reading correction remains needed. The All-scope header does not show the Japanese furigana shortcut for an experimental Home, although Settings changes the shared preference correctly. Candidate snippets currently flatten metadata and title matches can be broad; ranking, matched-term evidence and duplicate parent/card grouping need refinement. Current/historical source-rights projection is reused, but actual source-revocation race/browser caching campaigns were not performed on live genuine data; isolated owner/deletion and exact-edition refusal tests passed.
+
+### What remains from the commission
+
+The owner-visible experimental deliverable, real current corpus, isolated preservation harness, alternative-storage rehearsal and bounded growth comparison are implemented. This is **not** completion of the entire long-term system: a persistent D1 fine-grained index, independent typed capture/provenance MCP flow, saved cross-source arrangements, richer genuine-history/contribution snapshots, realistic multi-year relevance/revision/revocation scenarios, physical mobile/audio acceptance and promotion of a preferred default remain subsequent slices. Keep this PR draft/unmerged. Do not infer that the local work-capture proof authorises silently copying existing Project content in production.

@@ -1,6 +1,8 @@
 # Minamo — accumulate independently, compose experiences on demand
 
-**Status:** Authoritative proposal for PR #12; architecture/UX validation before production implementation.  
+**Implementation update:** The first deployed Work slice and current architectural recommendation are recorded in [PR12 implementation findings](PR12-IMPLEMENTATION-FINDINGS.md). Use that report for completed work, observed limits and next implementation slices; this document retains the original scope/background.
+
+**Status:** Background architecture hypothesis for PR #12; first opt-in frontend slice is deployed. The implementation findings contain the current evidence-based recommendation.  
 **Scope:** Reframe the whole Minamo product, not merely Project reading or Library filing.  
 **Baseline:** Existing production code and merged [PR #10](https://github.com/frekland/minamo/pull/10). Preserve its accepted identity, revision, exact-reference and routine Project-authoring safeguards.  
 **Not approved by this RFC alone:** destructive production migrations, automatic chat ingestion, forced taxonomy, globally replacing the stable experience, or merging PR #12. **Explicitly approved for investigation:** feature-gated experimental frontends deployed to the live Minamo Site via an opt-in Settings choice, with narrowly justified experimental backend/MCP changes after appropriate validation. See [live experimental experiences policy](MINAMO-LIVE-EXPERIMENTAL-EXPERIENCES.md).
