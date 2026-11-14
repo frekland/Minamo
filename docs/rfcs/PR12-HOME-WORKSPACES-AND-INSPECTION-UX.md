@@ -8,6 +8,7 @@
 - They value ordinary-chat **structural MCP presentation inspection**, but do **not** want a prominent screenshot feature in the everyday Minamo interface. Screenshot capture was chiefly intended for developer testing, and Work/browser reviews are more useful for detailed visual assessment.
 - They want **Settings to optionally show Workspaces within the existing, attractive Stable Home** (rather than replacing that Home), and **Workspaces in the top-level navigation**.
 - The ordinary existing Home, Projects, Library and Your Work experience should stay intact, not be sacrificed to an experimental full-Home switch.
+- **Do not add “Keep”/“Bank” controls** to existing saved Project, Article, Home or Workspace passages as part of this navigation change. Those sources are already retained, and copying them would create needless duplication. GPT's explicitly requested independent retention of *new ChatGPT conversation material* is a separate MCP workflow; Notes and learner contributions remain user-owned. See [the architecture RFC, §4](MINAMO-ACCUMULATION-AND-COMPOSITION-RFC.md).
 
 ## Verified source findings (V189)
 
