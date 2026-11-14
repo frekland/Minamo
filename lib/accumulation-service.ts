@@ -31,16 +31,16 @@ export async function resolveMaterialRef(env:Cloudflare.Env,owner:string,ref:Mat
  const attribution=source.experience?.kind==='material'?source.experience.attribution.find(a=>a.sectionId===ref.sectionId):undefined;
  return {ref,status:'available' as const,sourceTitle:source.title,sourceRevision:source.rev,currentRevision:head.rev,newerAvailable:head.rev!==source.rev,changedSinceSaved:head.rev!==ref.sourceRevision,sectionTitle:section!.title,part,attribution,sourceRendition:source.rendition};
 }
-export async function readArrangement(env:Cloudflare.Env,owner:string,input:{id:string;revision?:number;offset?:number;limit?:number}){
+export async function readArrangement(env:Cloudflare.Env,owner:string,input:{id:string;revision?:number;offset?:number;limit?:number;includeInspection?:boolean}){
  if(input.revision!==undefined&&(!Number.isSafeInteger(input.revision)||input.revision<1))throw new DomainError(400,'invalid_revision','Use an exact positive saved revision.');
  const record=input.revision?await readRecordRevision(env,owner,'work',input.id,input.revision):await readRecord(env,owner,'work',input.id);
  if(!record||record.experience?.kind!=='arrangement')throw new DomainError(404,'arrangement_unavailable','Saved arrangement unavailable.');
  const offset=Number(input.offset??0),limit=Number(input.limit??4);if(!Number.isInteger(offset)||offset<0||!Number.isInteger(limit)||limit<1||limit>8)throw new DomainError(400,'reading_budget','Read one to eight arrangement entries at a time.');
  const entries=await Promise.all(record.experience.entries.slice(offset,offset+limit).map(ref=>resolveMaterialRef(env,owner,ref)));
- const {inspectPresentation}=await import('./presentation-inspection');
- const {__mcpImage,...presentationInspection}=await inspectPresentation(env,owner,{view:'workspace',id:input.id,...(input.revision?{revision:input.revision}:{}),detail:offset===0?'visual':'structure'});
+ let presentationInspection:any,__mcpImage:any;
+ if(input.includeInspection!==false){const {inspectPresentation}=await import('./presentation-inspection');const evidence=await inspectPresentation(env,owner,{view:'workspace',id:input.id,...(input.revision?{revision:input.revision}:{}),detail:offset===0?'visual':'structure'});({__mcpImage,...presentationInspection}=evidence);}
 
- return {record,entries,presentationInspection,...(__mcpImage?{__mcpImage}:{}),offset,nextOffset:offset+limit<record.experience.entries.length?offset+limit:null,notice:'Arrangements reference eligible canonical sources; pin retains an edition, follow resolves current content. Unavailable sources are not replaced.'};
+ return {record,entries,...(presentationInspection?{presentationInspection}:{}),...(__mcpImage?{__mcpImage}:{}),offset,nextOffset:offset+limit<record.experience.entries.length?offset+limit:null,notice:'Arrangements reference eligible canonical sources; pin retains an edition, follow resolves current content. Unavailable sources are not replaced.'};
 }
 export async function listExperiences(env:Cloudflare.Env,owner:string,cursor?:string){const page=await queryRecords(env,owner,{family:'work',limit:24,includeSynthetic:false,cursor});return {...page,records:page.records.filter(r=>r.experience)};}
 export {discoverMaterial};
