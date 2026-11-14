@@ -8,6 +8,12 @@ import {basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const mapped={
+  'lib/accumulation-contract.ts':['tests/pr12-accumulation.test.mjs'],
+  'lib/accumulation-index.ts':['tests/pr12-accumulation.test.mjs'],
+  'lib/accumulation-service.ts':['tests/pr12-accumulation.test.mjs'],
+  'app/accumulation-studio.tsx':['tests/pr12-accumulation.test.mjs','tests/pr27-workspace-presentation.test.mjs'],
+  'app/composition-reading.tsx':['tests/pr12-accumulation.test.mjs'],
+
   'lib/experience-client.ts':['tests/pr12-experience-client.test.mjs'],
   'lib/experience-discovery.ts':['tests/pr12-experiences.test.mjs'],
   'app/experimental-experience.tsx':['tests/pr12-experiences.test.mjs','tests/pr27-workspace-presentation.test.mjs'],
