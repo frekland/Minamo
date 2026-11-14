@@ -38,8 +38,9 @@ export async function readArrangement(env:Cloudflare.Env,owner:string,input:{id:
  const offset=Number(input.offset??0),limit=Number(input.limit??4);if(!Number.isInteger(offset)||offset<0||!Number.isInteger(limit)||limit<1||limit>8)throw new DomainError(400,'reading_budget','Read one to eight arrangement entries at a time.');
  const entries=await Promise.all(record.experience.entries.slice(offset,offset+limit).map(ref=>resolveMaterialRef(env,owner,ref)));
  const {inspectPresentation}=await import('./presentation-inspection');
- const presentationInspection=await inspectPresentation(env,owner,{view:'workspace',id:input.id,...(input.revision?{revision:input.revision}:{}),detail:'structure'});
- return {record,entries,presentationInspection,offset,nextOffset:offset+limit<record.experience.entries.length?offset+limit:null,notice:'Arrangements reference eligible canonical sources; pin retains an edition, follow resolves current content. Unavailable sources are not replaced.'};
+ const {__mcpImage,...presentationInspection}=await inspectPresentation(env,owner,{view:'workspace',id:input.id,...(input.revision?{revision:input.revision}:{}),detail:offset===0?'visual':'structure'});
+
+ return {record,entries,presentationInspection,...(__mcpImage?{__mcpImage}:{}),offset,nextOffset:offset+limit<record.experience.entries.length?offset+limit:null,notice:'Arrangements reference eligible canonical sources; pin retains an edition, follow resolves current content. Unavailable sources are not replaced.'};
 }
 export async function listExperiences(env:Cloudflare.Env,owner:string,cursor?:string){const page=await queryRecords(env,owner,{family:'work',limit:24,includeSynthetic:false,cursor});return {...page,records:page.records.filter(r=>r.experience)};}
 export {discoverMaterial};
