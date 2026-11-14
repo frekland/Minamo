@@ -1,19 +1,19 @@
 "use client";
 import {useEffect,useMemo,useState} from 'react';
 import type {WorkspaceRecord,WorkspaceCommand,CommandReceipt} from '../lib/contracts';
-import {experienceEntries,findExperienceEntries,experiencePart,type ExperienceEntry} from '../lib/experience-discovery';
+import {experienceEntries,findExperienceEntries,type ExperienceEntry} from '../lib/experience-discovery';
 import Reader,{type NavigateReading} from './reader';
-import {generationFetch} from '../lib/workspace-generation';
+import {readExperiencePage,readExperienceSource} from '../lib/experience-client';
 import './experimental-experience.css';
 export default function ExperimentalExperience({mode,scope,onStable,onNavigate,onCommand}:{mode:'explore'|'practice';scope:string;onStable:()=>void;onNavigate:NavigateReading;onCommand:(command:WorkspaceCommand)=>Promise<CommandReceipt>}){
  const [records,setRecords]=useState<WorkspaceRecord[]>([]),[cursor,setCursor]=useState<string|null>(null),[busy,setBusy]=useState(true),[error,setError]=useState(''),[query,setQuery]=useState(''),[filter,setFilter]=useState('all'),[selected,setSelected]=useState<ExperienceEntry|null>(null),[detail,setDetail]=useState<WorkspaceRecord|null>(null),[detailError,setDetailError]=useState(''),[epoch,setEpoch]=useState(0),[limit,setLimit]=useState(12);
  useEffect(()=>{const reset=()=>{setRecords([]);setSelected(null);setDetail(null);setEpoch(n=>n+1)};window.addEventListener('focus',reset);return()=>window.removeEventListener('focus',reset)},[]);
- async function load(next?:string,signal?:AbortSignal){setBusy(true);setError('');try{const params=new URLSearchParams({family:'journey',limit:'8',study:'1',learningSpace:'languages',language:'ja',...(next?{cursor:next}:{})});const response=await generationFetch('/api/query?'+params,scope,{signal});const body=await response.json() as {error?:string;records:WorkspaceRecord[];nextCursor?:string|null};if(signal?.aborted)return;if(!response.ok)throw Error(body.error??'Could not read saved material.');setRecords(old=>next?[...old,...body.records]:body.records);setCursor(body.nextCursor??null)}catch(e){if(!signal?.aborted)setError((e as Error).message)}finally{if(!signal?.aborted)setBusy(false)}}
+ async function load(next?:string,signal?:AbortSignal){setBusy(true);setError('');try{const body=await readExperiencePage(scope,next,signal);if(signal?.aborted)return;setRecords(old=>next?[...old,...body.records]:body.records);setCursor(body.nextCursor??null)}catch(e){if(!signal?.aborted)setError((e as Error).message)}finally{if(!signal?.aborted)setBusy(false)}}
  useEffect(()=>{const controller=new AbortController();void load(undefined,controller.signal);return()=>controller.abort()},[scope,epoch]);
  const entries=useMemo(()=>experienceEntries(records),[records]);
  const results=useMemo(()=>findExperienceEntries(entries,query,mode==='practice'?'practice':filter),[entries,query,filter,mode]);
  useEffect(()=>{setLimit(12);setSelected(null);setDetail(null)},[query,filter,mode]);
- useEffect(()=>{if(!selected)return;const controller=new AbortController();setDetail(null);setDetailError('');const params=new URLSearchParams({family:selected.ref.family,id:selected.ref.id,rendition:selected.ref.rendition});generationFetch('/api/context?'+params,scope,{signal:controller.signal}).then(async response=>{const body=await response.json() as {error?:string;record?:WorkspaceRecord};if(!response.ok)throw Error(body.error??'Source is unavailable.');if(!body.record||!experiencePart(body.record,selected.ref))throw Error('This exact source passage is unavailable.');return body.record as WorkspaceRecord}).then(record=>{if(!controller.signal.aborted)setDetail(record)}).catch(e=>{if(!controller.signal.aborted)setDetailError((e as Error).message)});return()=>controller.abort()},[selected,scope]);
+ useEffect(()=>{if(!selected)return;const controller=new AbortController();setDetail(null);setDetailError('');readExperienceSource(scope,selected.ref,controller.signal).then(record=>{if(!controller.signal.aborted)setDetail(record)}).catch(e=>{if(!controller.signal.aborted)setDetailError((e as Error).message)});return()=>controller.abort()},[selected,scope]);
  useEffect(()=>{if(mode==='practice'&&!selected&&results.length)setSelected(results[0])},[mode,selected,results]);
  const active=selected?results.findIndex(entry=>entry.key===selected.key):-1;
  function openSource(){if(!selected)return;onStable();onNavigate('journeys',selected.ref.id,{recordFamily:selected.ref.family,rendition:selected.ref.rendition,sectionId:selected.ref.sectionId,partId:selected.ref.partId})}

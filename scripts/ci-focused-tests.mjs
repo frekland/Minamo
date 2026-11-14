@@ -8,6 +8,7 @@ import {basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const mapped={
+  'lib/experience-client.ts':['tests/pr12-experience-client.test.mjs'],
   'lib/experience-discovery.ts':['tests/pr12-experiences.test.mjs'],
   'app/experimental-experience.tsx':['tests/pr12-experiences.test.mjs','tests/pr27-workspace-presentation.test.mjs'],
   'app/experimental-experience.css':['tests/pr12-experiences.test.mjs'],
