@@ -1,11 +1,11 @@
-# PR #12 — Home integration, Workspaces navigation and frictionless presentation inspection
+# PR #12 — Home integration, Workspaces navigation and lightweight presentation inspection
 
 **Status:** Owner-requested follow-up after V189 ordinary-ChatGPT/phone acceptance. **This is a targeted runtime/UI commission, not an implemented change.** Preserve V189's effective GPT-first composition, existing Home/Project sophistication and backend/MCP contracts. Keep PR #12 draft and unmerged.
 
 ## Owner's request
 
 - The V189 GPT-composed Japanese learning workspace is now regarded as **good and useful** by the owner.
-- They dislike repeatedly enabling presentation inspection or manually requesting image capture to let GPT understand the Site.
+- They value ordinary-chat **structural MCP presentation inspection**, but do **not** want a prominent screenshot feature in the everyday Minamo interface. Screenshot capture was chiefly intended for developer testing, and Work/browser reviews are more useful for detailed visual assessment.
 - They want **Settings to optionally show Workspaces within the existing, attractive Stable Home** (rather than replacing that Home), and **Workspaces in the top-level navigation**.
 - The ordinary existing Home, Projects, Library and Your Work experience should stay intact, not be sacrificed to an experimental full-Home switch.
 
@@ -37,13 +37,13 @@
 - When off, the exact current Home is unchanged and incurs no workspace-shelf fetch. Persist setting separately from `experience`, maintaining compatibility with existing `minamo-presentation-v1` preferences. Keep current experimental Passage explorer and Practice sequence available if useful, but avoid treating the new Workspaces route as an experiment that hijacks Home.
 - Avoid adding redundant home controls or labels merely because new backend record types exist. Fit Minamo's existing card/cover design.
 
-### C. Presentation inspection with far less friction
+### C. Preserve lightweight MCP inspection; screenshots are developer diagnostics
 
-- Make **one-time consent** intelligible: “Share recent visible Minamo presentation with GPT” once (remembered, revocable), with automatic eligible DOM/interaction/geometry updates whenever the Site is open. Provide clear “sharing on/off”, last captured time, target/view, image availability and expiry in Settings or a small unobtrusive indicator, not an intrusive banner on every page. Keep Notes/private editor input exclusions and source-rights checks.
-- Do **not** silently enable capture for all users without consent. An owner choice to enable inspection can remain durable. The important improvement is **no repeated manual activation for structural inspection** and clear feedback about why the optional image is missing.
-- Screen capture via `getDisplayMedia` **cannot silently auto-authorise**; every initiation requires user activation and permission. Improve its usability with an obvious one-click “Capture this Minamo view for GPT” affordance on eligible reading/workspace views rather than burying it only inside Settings, correct browser-supported/unsupported states, immediate success/error feedback and a preview/status of the most recent usable image. Keep it opt-in and scoped only to the current Minamo content. Do not keep a persistent screen-sharing stream running as an accidental workaround.
-- If exploring an **alternative automatic page rasterisation** (e.g. a rendered DOM export), validate fidelity and same-origin assets; explicitly label it as a **DOM-rendered approximation**, not a real captured screenshot or automatically observed current pixels. Never invent screenshots; do not weaken current-tab identity verification.
-- Ensure a user on an unsupported mobile browser still gets useful automatic semantic DOM and geometry inspection, without insisting on image capture.
+- Preserve the existing **remembered, revocable consent** for sharing recent visible Minamo presentation with GPT. Once enabled, eligible DOM/interaction/geometry observations should continue automatically while the Site is open. Keep clear, compact sharing on/off and last snapshot time/state in Settings only where useful, without adding routine page banners or image-status indicators. Preserve Notes/private editor/input exclusions and source-rights checks.
+- Do **not** silently enable capture for all users without consent. The ordinary-chat workflow should work well with planned and observed **structural** evidence alone; GPT should explain missing screenshot pixels briefly only when explicitly assessing visual appearance or asked for screenshot evidence.
+- **Do not add a prominent screenshot/capture affordance to ordinary Home, Workspace or Project pages.** Retain the existing optional explicit capture in Settings as a low-priority developer/diagnostic capability, or tuck it into an advanced inspection disclosure if necessary. Browser `getDisplayMedia` requires a user gesture and fresh permission; do not attempt silent capture, persistent screen-sharing, or platform-specific complexity merely to eliminate this limitation. Use Work/browser inspection for actual visual design and responsive testing.
+- **Do not implement automatic rasterisation or alternative screenshot infrastructure in this slice.** It is not a product priority. If explored later for development, distinguish real browser pixels from any DOM-rendered approximation and retain security checks.
+- Ensure unsupported/mobile browsers still provide useful automatic semantic DOM and geometry inspection without an image-capture step. Work/browser reviews remain the reference for pixel-level UX assessment.
 - Observe that the Home shelf may be device-local while `inspect_minamo_presentation(view:'home')` planned output is owner-scoped; report the variant as **device-observed** where appropriate, not universal planned truth.
 
 ## Test and acceptance
@@ -54,10 +54,10 @@
 4. Old saved `view=home&experienceId` deep links still open; new links use `view=workspaces` and survive reload and historical edition changes.
 5. Existing Project/Notes/source integrity, rights/revisions, MCP authoring and presentation inspection remain intact. Home does not fetch private work content when shelf is off.
 6. Structural presentation inspection works automatically after one-time consent on Home, Workspace shelf/detail and Project; inspect tool honestly reports observed vs planned, screenshot presence and age/expiry.
-7. On a screenshot-capable desktop browser, one explicit capture action produces a genuine image accessible via installed Minamo MCP; unsupported mobile gives clear explanation while retaining DOM inspection. Do not promise automatic capture that the browser prohibits.
+7. Keep optional existing diagnostic screenshot capture non-regressed **where practical**, but **do not require new screenshot UI, image capture support or pixel evidence** for completion of this targeted slice. Use Work/browser reviews for desktop/mobile visual acceptance. Confirm ordinary MCP structural inspection still reports missing image evidence honestly without insisting on it.
 8. Run typecheck/build, focused nav/preferences/Home/inspection tests and deployed Site browser acceptance, including mobile viewport. Reconcile Sites-native code and GitHub PR branch. Record exact version and caveats.
 9. Keep PR #12 draft and unmerged; do not destructively alter existing content. Fix the app's real semantics, not merely PR documentation.
 
 ## Product outcome
 
-The owner can keep the **existing beautiful Minamo Home**, optionally see a few GPT-composed workspaces alongside Projects/Library, use a dedicated **Workspaces** top-nav destination anytime, and allow ordinary GPT chats to inspect fresh observed presentation automatically after one durable consent. Genuine screenshot pixels remain separately permission-controlled and available when the browser supports a capture flow.
+The owner can keep the **existing beautiful Minamo Home**, optionally see a few GPT-composed workspaces alongside Projects/Library, use a dedicated **Workspaces** top-nav destination anytime, and allow ordinary GPT chats to inspect fresh observed structure after one durable consent. Developer pixel-level acceptance belongs primarily in Work/browser reviews; optional screenshot capture stays secondary.
