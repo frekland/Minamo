@@ -1,0 +1,15 @@
+import {z} from 'zod';
+import type {WorkspaceRecord,PassagePart} from './contracts';
+export const PRESENTATION_VERSION='minamo-presentation-v1';
+export const HOME_SHELVES=[{id:'projects',eyebrow:'PROJECTS',title:'Your Projects',layout:'project-grid'},{id:'library',eyebrow:'READING',title:'Library',layout:'list'},{id:'notes',eyebrow:'WRITING',title:'Recent Notes',layout:'list'},{id:'questions',eyebrow:'CURIOSITY',title:'Independent questions',layout:'list'}] as const;
+const short=z.string().min(1).max(180);
+export const workspacePlanSchema=z.object({version:z.literal(1),eyebrow:z.string().max(80).optional(),introduction:z.string().max(1200).optional(),sections:z.array(z.object({id:z.string().regex(/^[a-zA-Z][a-zA-Z0-9_-]{0,60}$/),title:short,kicker:z.string().max(80).optional(),summary:z.string().max(600).optional(),layout:z.enum(['reading','contrast','practice','focus']),blocks:z.array(z.union([z.object({type:z.literal('source'),entry:z.number().int().min(0).max(31),title:short.optional(),collapsed:z.boolean().optional()}).strict(),z.object({type:z.literal('note'),title:short.optional(),text:z.string().min(1).max(1600)}).strict()])).min(1).max(8)}).strict()).min(1).max(8)}).strict();
+export type WorkspacePlan=z.infer<typeof workspacePlanSchema>;
+export function validateWorkspacePlan(plan:WorkspacePlan,count:number){workspacePlanSchema.parse(plan);if(new Set(plan.sections.map(s=>s.id)).size!==plan.sections.length)throw Error('Presentation section IDs must be unique.');const blocks=plan.sections.flatMap(s=>s.blocks);if(blocks.length>40||blocks.some(b=>b.type==='source'&&b.entry>=count))throw Error('Presentation source entry is out of bounds or exceeds the component budget.');if(!blocks.some(b=>b.type==='source'))throw Error('A workspace needs actual source material.');}
+export function arrangementPlan(record:WorkspaceRecord):WorkspacePlan{
+ const exp=record.experience;if(exp?.kind!=='arrangement')throw Error('Not an arrangement');
+ if(exp.plan){validateWorkspacePlan(exp.plan,exp.entries.length);return exp.plan;}
+ const groups=new Map<string,number[]>();exp.entries.forEach((ref,i)=>{const key=ref.group||'Explore';groups.set(key,[...(groups.get(key)??[]),i]);});
+ return {version:1,introduction:exp.purpose,sections:[...groups].map(([title,indices],i)=>({id:'section-'+i,title,layout:exp.presentation==='compare'?'contrast':exp.presentation==='practice'?'practice':'reading',blocks:indices.map(entry=>({type:'source' as const,entry}))}))};
+}
+export function partPresentation(part:PassagePart){return {component:part.interactive?.type??part.kind,text:part.text.slice(0,280),controls:part.interactive?.type==='flashcards'?['Reveal answer','Previous','Next']:part.interactive?.type==='language-dialogue'?['Show translation','Reveal next turn','Restart']:part.interactive?.type==='language-reveal'?['Reveal meaning']:[],defaultState:part.interactive?.type==='flashcards'?'Card 1 · Question':part.interactive?.type==='language-dialogue'?'1 turn visible · translation hidden':'visible'};}

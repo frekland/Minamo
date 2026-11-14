@@ -1,4 +1,5 @@
 "use client";
+import {InspectionSettings} from './presentation-inspection';
 import {useEffect,useId,useRef,useState,type KeyboardEvent,type ReactNode} from 'react';
 import {AlignLeft,BookOpen,DatabaseBackup,Languages,MessagesSquare,Palette,PanelLeft,WrapText,X} from 'lucide-react';
 import {closeOnDialogBackdrop} from '../lib/overlay-interactions';
@@ -32,7 +33,7 @@ export function PreferenceChoice<T extends string>({label,description,value,opti
 export function ReadingSettingsPreview({value}:{value:PresentationPreferences}){
  return <section className="sh-reading-preview" aria-label="Article preview" data-size={value.size} data-width={value.width} data-spacing={value.spacing}><small>Preview</small><div><h3>Sample Article</h3><p>This sample uses your Article text size and spacing. The available panel width may limit the line length.</p><p><ruby>日本語<rt>にほんご</rt></ruby> · 中文 · English</p></div><code data-wrap={value.codeWrap}>print("A code example uses your wrapping preference")</code></section>;
 }
-export default function PresentationSettings({value,onChange,onClose,error,layoutControls,serverReads=false,generation='legacy@0'}:{layoutControls?:ReactNode;value:PresentationPreferences;onChange:(value:PresentationPreferences)=>void;onClose:()=>void;error?:string;serverReads?:boolean;generation?:string}){
+export default function PresentationSettings({value,onChange,onClose,error,layoutControls,serverReads=false,generation='legacy@0',inspectionScope='preview-session'}:{layoutControls?:ReactNode;value:PresentationPreferences;onChange:(value:PresentationPreferences)=>void;onClose:()=>void;error?:string;serverReads?:boolean;generation?:string;inspectionScope?:string}){
  const dialog=useRef<HTMLDialogElement>(null),tabs=useRef<HTMLDivElement>(null),id=useId(),[category,setCategory]=useState<Category>('appearance'),[feedback,setFeedback]=useState(''),[vertical,setVertical]=useState(true);
  const [collaboration,setCollaboration]=useState<CollaborationPreferences>(defaultCollaborationPreferences),[collaborationRevision,setCollaborationRevision]=useState(0),[collaborationState,setCollaborationState]=useState<'idle'|'loading'|'ready'|'saving'|'error'>('idle'),[collaborationError,setCollaborationError]=useState(''),[collaborationReload,setCollaborationReload]=useState(0);
  const {enabled:furiganaEnabled,setVisible:setFuriganaVisible}=useFuriganaPreference();
@@ -73,8 +74,9 @@ export default function PresentationSettings({value,onChange,onClose,error,layou
      <div className="sh-settings-note"><strong>Speech</strong><p>Japanese uses the verified Piper Plus voice. Play and turtle controls are available beside the relevant sentences; other languages use their supported local voices.</p></div>
     </>}
     {category==='workspace'&&<>
+     {serverReads&&<InspectionSettings scope={inspectionScope} onCapture={onClose}/>}
      <h3 className="sh-panel-title">Workspace</h3>
-     <PreferenceChoice label="Experimental experience" description="Try alternative ways to use your saved Japanese Projects. The current Minamo view is always available. Remembered on this device." value={value.experience??'stable'} options={[{value:'stable',label:'Stable Minamo'},{value:'explore',label:'Passage explorer'},{value:'practice',label:'Practice sequence'},{value:'studio',label:'Composed workspace'}]} onChange={experience=>change({...value,experience})}/>
+     <PreferenceChoice label="Experimental experience" description="Try alternative ways to use your saved Japanese Projects. The current Minamo view is always available. Remembered on this device." value={value.experience??'stable'} options={[{value:'stable',label:'Stable Minamo'},{value:'explore',label:'Passage explorer'},{value:'practice',label:'Practice sequence'},{value:'studio',label:'GPT-composed workspaces'}]} onChange={experience=>change({...value,experience})}/>
 
      <PreferenceChoice label="Desktop sidebar" value={value.sidebar} options={[{value:'open',label:'Expanded',sample:<PanelLeft size={20}/>},{value:'compact',label:'Compact',sample:<PanelLeft size={20} className="sh-compact-sidebar"/>}]} onChange={sidebar=>change({...value,sidebar})}/>
      <PreferenceChoice label="Motion" value={value.motion} options={[{value:'system',label:'Follow device preference'},{value:'reduce',label:'Reduce motion'}]} onChange={motion=>change({...value,motion})}/>
