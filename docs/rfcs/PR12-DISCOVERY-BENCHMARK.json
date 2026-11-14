@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "source": "Versioned PR12 corpus",
+  "method": "Deterministic repeated rich-item growth, lexical postings prototype vs current in-browser literal scan. Candidate output bounded to 12. CPU timings are single-run engineering samples, not production latency. Rights resolved separately; index is never authority.",
+  "limitations": [
+    "In-memory postings prototype only; no live index deployed.",
+    "English token + Japanese paired-character tokenization needs overlap and recall work before production.",
+    "These repetitions test cost and compatibility, not improved semantic relevance or a faithful two-year event history.",
+    "Shifting relevance, real revisions, independent capture and saved arrangements need additional scenarios."
+  ],
+  "rows": [
+    {
+      "size": 100,
+      "buildMs": 8.011716999999976,
+      "scanMs": 1.0673969999999713,
+      "lookupMs": 0.022627999999997428,
+      "terms": 1456,
+      "postingCount": 5514,
+      "returned": 2,
+      "returnedTextBytes": 4001,
+      "withheldAfterSourceRevocation": 2
+    },
+    {
+      "size": 1000,
+      "buildMs": 31.961336999999958,
+      "scanMs": 4.762356000000011,
+      "lookupMs": 0.010312999999996464,
+      "terms": 2424,
+      "postingCount": 48609,
+      "returned": 12,
+      "returnedTextBytes": 20125,
+      "withheldAfterSourceRevocation": 5
+    },
+    {
+      "size": 10000,
+      "buildMs": 167.389685,
+      "scanMs": 63.352487999999994,
+      "lookupMs": 0.003908999999907792,
+      "terms": 2424,
+      "postingCount": 479271,
+      "returned": 12,
+      "returnedTextBytes": 20125,
+      "withheldAfterSourceRevocation": 5
+    },
+    {
+      "size": 50000,
+      "buildMs": 1070.6391159999998,
+      "scanMs": 77.196328,
+      "lookupMs": 0.019532000000026528,
+      "terms": 2424,
+      "postingCount": 2395447,
+      "returned": 12,
+      "returnedTextBytes": 20125,
+      "withheldAfterSourceRevocation": 5
+    }
+  ]
+}

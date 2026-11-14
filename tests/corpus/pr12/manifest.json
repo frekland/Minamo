@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "extractedAt": "2026-11-13T23:50:00Z",
+  "method": "Connected Minamo query_minamo_records then read_minamo_record; structuredContent saved verbatim as JSON; timestamp rounded to extraction minute",
+  "sources": [
+    {
+      "file": "making-friends-japanese-20261112.json",
+      "id": "making-friends-japanese-20261112",
+      "family": "journey",
+      "title": "Making Friends",
+      "rev": 12,
+      "rendition": "r-d2bd284647c9a48dd0266eb9ace64324e31d50d6b3ba8fce691135d59b56821d",
+      "sha256": "cd889b76f9fe1a7ab5380a72d142f6d851fc0446a0fa3413498edac9b0211370",
+      "sections": 10,
+      "parts": 86,
+      "cards": 55,
+      "turns": 22
+    },
+    {
+      "file": "japanese-speaking-practice-20261113.json",
+      "id": "japanese-speaking-practice-20261113",
+      "family": "journey",
+      "title": "Japanese Speaking Practice",
+      "rev": 21,
+      "rendition": "r-d593079a36b8a0c1a9a287af21073df7bff4eb8def95c7ece5af981dd251fdc0",
+      "sha256": "8287dffaab773b2802d94b09071a08c8e1ac346d4c1fe0e0ba6fef72037f2e7e",
+      "sections": 26,
+      "parts": 52,
+      "cards": 72,
+      "turns": 18
+    }
+  ],
+  "completeness": "Complete current owner-eligible canonical record projections including Project compositions and all returned rich parts. Numeric revision and rendition are as returned, not invented.",
+  "omissions": [
+    "No historical editions requested in snapshot v1; only current saved revisions available in these files.",
+    "No unsaved conversation transcripts, inferred dates or inferred per-part authors.",
+    "No external media bytes or learner contributions stored separately from Project records were extracted.",
+    "Snapshot contains owner-authorised personal learning exchanges; no remote licensed article or credentials included."
+  ]
+}

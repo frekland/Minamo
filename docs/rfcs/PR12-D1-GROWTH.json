@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "method": "Actual isolated D1 canonical records, derived term index, current-rights resolver and bounded production discovery service. Two-year fictional mixed-source shapes plus untouched real corpus. Numbers are local observations, not production latency guarantees.",
+  "rows": [
+    {
+      "syntheticPassages": 100,
+      "actualIndexedEntries": 405,
+      "indexAndSeedMs": 3652.081784,
+      "targetedQueryMs": 93.87100699999974,
+      "olderAuthenticResponseFound": true,
+      "returned": 1,
+      "payloadBytes": 1892
+    },
+    {
+      "syntheticPassages": 1000,
+      "actualIndexedEntries": 1305,
+      "indexAndSeedMs": 7690.871571999998,
+      "targetedQueryMs": 68.09422799999811,
+      "olderAuthenticResponseFound": true,
+      "returned": 1,
+      "payloadBytes": 1892
+    },
+    {
+      "syntheticPassages": 10000,
+      "actualIndexedEntries": 10305,
+      "indexAndSeedMs": 80447.89653499999,
+      "targetedQueryMs": 65.29784700000891,
+      "olderAuthenticResponseFound": true,
+      "returned": 1,
+      "payloadBytes": 1892
+    },
+    {
+      "syntheticPassages": 50000,
+      "actualIndexedEntries": 50305,
+      "indexAndSeedMs": 387202.732115,
+      "targetedQueryMs": 115.73986500001047,
+      "olderAuthenticResponseFound": true,
+      "returned": 1,
+      "payloadBytes": 1892
+    }
+  ],
+  "revocationWithheld": true,
+  "limits": "No claim to simulate human mastery or semantic ranking. External media performance and multi-owner concurrency are separate tests."
+}

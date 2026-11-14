@@ -54,6 +54,7 @@ export function authoringGuidance(value:CollaborationPreferences){
 /** Discovery is a convenience; every excluded call is also denied at dispatch.
  * Operation receipts and read-only previews remain available for recovery. */
 export const MCP_MUTATING_TOOLS=new Set([
+ 'retain_minamo_material','compose_minamo_workspace','save_minamo_arrangement',
  'upload_minamo_project_image','manage_minamo_test_run','review_project_contribution','apply_project_update',
  'set_note_page_pin','set_minamo_collaboration_preferences','confirm_minamo_relationship',
  'record_minamo_learning_update','publish_minamo_manuscript','apply_minamo_authoring_package',

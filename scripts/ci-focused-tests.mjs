@@ -8,6 +8,22 @@ import {basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const mapped={
+  'lib/accumulation-contract.ts':['tests/pr12-accumulation.test.mjs','tests/pr12-presentation.test.mjs'],
+  'lib/composed-presentation.ts':['tests/pr12-presentation.test.mjs'],
+  'lib/presentation-inspection.ts':['tests/pr12-presentation.test.mjs'],
+  'app/presentation-inspection.tsx':['tests/pr12-presentation.test.mjs'],
+  'app/composed-workspaces.tsx':['tests/pr12-presentation.test.mjs'],
+  'app/composed-workspaces.css':['tests/pr12-presentation.test.mjs'],
+  'lib/accumulation-index.ts':['tests/pr12-accumulation.test.mjs'],
+  'lib/accumulation-service.ts':['tests/pr12-accumulation.test.mjs'],
+  'app/accumulation-studio.tsx':['tests/pr12-accumulation.test.mjs','tests/pr27-workspace-presentation.test.mjs'],
+  'app/composition-reading.tsx':['tests/pr12-accumulation.test.mjs'],
+
+  'lib/experience-client.ts':['tests/pr12-experience-client.test.mjs'],
+  'lib/experience-discovery.ts':['tests/pr12-experiences.test.mjs'],
+  'app/experimental-experience.tsx':['tests/pr12-experiences.test.mjs','tests/pr27-workspace-presentation.test.mjs'],
+  'app/experimental-experience.css':['tests/pr12-experiences.test.mjs'],
+
   'lib/domain.ts':['tests/domain-http.test.mjs','tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/collaboration-preferences.test.mjs','tests/source-reference-permission.test.mjs'],
   'lib/domain-handler.ts':['tests/domain-http.test.mjs','tests/domain-recovery.test.mjs','tests/project-learning-mcp.test.mjs','tests/collaboration-preferences.test.mjs'],
   'lib/project-service.ts':['tests/project-structure-edit.test.mjs','tests/project-learning-mcp.test.mjs','tests/project-reading-topics.test.mjs','tests/collaboration-preferences.test.mjs'],

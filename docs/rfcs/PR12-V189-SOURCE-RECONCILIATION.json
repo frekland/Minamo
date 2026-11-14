@@ -1,0 +1,82 @@
+{
+  "nativeCommit": "4e3ceeb809e842d264b735a5c61608459a990a41",
+  "githubApplicationCommit": "4871f824874408ea563033305573a45d420e9d35",
+  "basis": "All 15 reviewed changed files since owner GPT-first requirement; exact Git blob and mode equality. Native-only files retained. Later documentation receipts need no runtime publication.",
+  "entries": [
+    {
+      "path": "app/composed-workspaces.css",
+      "mode": "100644",
+      "blob": "08661d8503b1c05fc1a98304273376df9c110dd8"
+    },
+    {
+      "path": "app/composed-workspaces.tsx",
+      "mode": "100644",
+      "blob": "27bd15923054f7b2db63b575dfb4c4911dd17ce8"
+    },
+    {
+      "path": "app/home-landing.tsx",
+      "mode": "100644",
+      "blob": "92cbe5fe55474bf048e37b4cf68e7664591814c3"
+    },
+    {
+      "path": "app/presentation-inspection.tsx",
+      "mode": "100644",
+      "blob": "6bc13c42837b572ab17f49272bd2118c96f03c24"
+    },
+    {
+      "path": "app/presentation-settings.tsx",
+      "mode": "100644",
+      "blob": "7569f4f714c84e3853b473c7cbd624b7f9beded3"
+    },
+    {
+      "path": "app/workspace.tsx",
+      "mode": "100644",
+      "blob": "b52f0e6d1b7840b49091dc0e47fd8e639cfc2c91"
+    },
+    {
+      "path": "lib/accumulation-contract.ts",
+      "mode": "100644",
+      "blob": "0ddfdb3f2f6dcdc8e0055a2f594a1816e3bf9add"
+    },
+    {
+      "path": "lib/accumulation-service.ts",
+      "mode": "100644",
+      "blob": "777d12ddbc5173bd2bfea40447a2bbfb58c0d862"
+    },
+    {
+      "path": "lib/collaboration-preferences.ts",
+      "mode": "100644",
+      "blob": "a6059cfec159e46028a4914031d0ceaccac85f0e"
+    },
+    {
+      "path": "lib/composed-presentation.ts",
+      "mode": "100644",
+      "blob": "5894c2febe255211530c377aefbbc945b1cb7cf9"
+    },
+    {
+      "path": "lib/domain-handler.ts",
+      "mode": "100644",
+      "blob": "86611c321db225827a6919a461b787cdb6895f48"
+    },
+    {
+      "path": "lib/domain-routes.ts",
+      "mode": "100644",
+      "blob": "a3609ad938fc54bb44fe73f911a091378b8d98a8"
+    },
+    {
+      "path": "lib/presentation-inspection.ts",
+      "mode": "100644",
+      "blob": "021572bc73771da7c42f72a005d6aae275cf6bd7"
+    },
+    {
+      "path": "scripts/ci-focused-tests.mjs",
+      "mode": "100644",
+      "blob": "737b6201eab83c96e64a0d58c022b513c7cb4496"
+    },
+    {
+      "path": "tests/pr12-presentation.test.mjs",
+      "mode": "100644",
+      "blob": "e8783a995b348b791e2837c5adcf0ffbea4c11c3"
+    }
+  ]
+}

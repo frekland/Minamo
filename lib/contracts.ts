@@ -64,11 +64,12 @@ export type WorkspaceRecord = {
  testRunId?:string;testRun?:import('./test-run-contract').TestRunDescriptor;fictionalEvent?:{date:string;description?:string};
  projectCover?:ProjectCover|null;
  workMeta?:WorkMetadata;
+ experience?:import('./accumulation-contract').Accumulation;
  outputBundle?:import('./typed-outputs').TypedOutputBundle; activity?:ActivityCartridge;attempt?:ActivityAttempt;
  engine?:'regex'|'unicode'|'sql'|'python'|'web'; code?:string; output?:string; evidence?:'observed'|'illustrative';
  rev:number;createdAt:string;updatedAt:string;trashedAt:string|null;actor:Actor;synthetic:boolean;
 };
-export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'|'workMeta'|'projectComposition'|'projectDescription'|'pagePins'|'testRunId'|'testRun'|'fictionalEvent'>> & {source?:SourceInfo|SourceUpdate};
+export type RecordData = Pick<WorkspaceRecord,'title'|'body'> & Partial<Pick<WorkspaceRecord,'status'|'links'|'sections'|'concepts'|'learningShape'|'learningScope'|'anchor'|'bodyFormat'|'engine'|'code'|'output'|'outputBundle'|'evidence'|'synthetic'|'activity'|'attempt'|'projectCover'|'workMeta'|'experience'|'projectComposition'|'projectDescription'|'pagePins'|'testRunId'|'testRun'|'fictionalEvent'>> & {source?:SourceInfo|SourceUpdate};
 export type BlockChanges=Partial<Omit<PassagePart,'id'|'kind'|'table'|'callout'|'reference'|'image'|'media'|'unavailable'|'imageDisplay'|'mediaDisplay'|'excerptDisplay'>> & {table?:Partial<ReadingTable>;callout?:Partial<ReadingCallout>;reference?:Partial<ReadingReference>;image?:Partial<ReadingImage>;media?:Partial<ReadingMedia>};
 /** Ordered, bounded edits against one exact record revision. No patch data is persisted. */
 export type ContentPatch=

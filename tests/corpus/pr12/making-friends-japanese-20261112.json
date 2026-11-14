@@ -1,0 +1,4084 @@
+{
+  "generation": "legacy@0",
+  "record": {
+    "id": "making-friends-japanese-20261112",
+    "family": "journey",
+    "title": "Making Friends",
+    "body": "Japanese through authentic conversation. Start with the earliest exchange, then the discussion about kanji and learning languages. Each exchange keeps its messages and replies together with grammar and practice. Reuse the expressions in everyday speech.",
+    "links": [],
+    "synthetic": false,
+    "projectComposition": {
+      "version": 1,
+      "sections": [
+        {
+          "id": "view-messages",
+          "title": "Messages",
+          "pattern": "notebook",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-encounter",
+                "block-reply",
+                "block-mayumi",
+                "block-mayumi-followup-20261112"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-grammar",
+          "title": "Grammar",
+          "pattern": "guide",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-grammar",
+                "block-nurse"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-vocabulary",
+          "title": "Vocabulary",
+          "pattern": "notebook",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-next-time"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-practice",
+          "title": "Practice",
+          "pattern": "workbench",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-practice",
+                "block-music-conversation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "view-tests",
+          "title": "Tests",
+          "pattern": "guide",
+          "slots": [
+            {
+              "id": "primary",
+              "role": "primary",
+              "blockIds": [
+                "block-tests"
+              ]
+            }
+          ]
+        }
+      ],
+      "blocks": [
+        {
+          "id": "block-encounter",
+          "sectionId": "encounter",
+          "readingPages": [
+            {
+              "id": "first-original",
+              "title": "First hello · received message and meaning",
+              "layoutId": "view-messages",
+              "purpose": "source",
+              "partIds": [
+                "received",
+                "received-meaning"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-reply",
+          "sectionId": "reply",
+          "readingPages": [
+            {
+              "id": "first-reply",
+              "title": "First hello · my Japanese reply and translation",
+              "layoutId": "view-messages",
+              "purpose": "translation",
+              "partIds": [
+                "jp-reply",
+                "en-reply"
+              ]
+            },
+            {
+              "id": "first-tone",
+              "title": "First hello · friendly tone",
+              "layoutId": "view-messages",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "tone"
+              ]
+            },
+            {
+              "id": "first-oral",
+              "title": "Say it more briefly",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "optional-oral-alternative"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-grammar",
+          "sectionId": "grammar",
+          "readingPages": [
+            {
+              "id": "first-grammar-greetings",
+              "title": "Thanks and returning compliments",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "encounter",
+                "partId": "received"
+              },
+              "partIds": [
+                "their-thanks",
+                "their-praise",
+                "reply-politeness"
+              ]
+            },
+            {
+              "id": "first-grammar-meeting",
+              "title": "Meeting someone and keeping in touch",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "future-yoroshiku",
+                "meeting"
+              ]
+            },
+            {
+              "id": "first-grammar-activities",
+              "title": "Listing activities · 〜たり〜たりする",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "reading-writing"
+              ]
+            },
+            {
+              "id": "first-grammar-help",
+              "title": "Receiving help and stating purpose · てもらう／ために",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "using-gpt"
+              ]
+            },
+            {
+              "id": "first-grammar-progress",
+              "title": "Being in the middle of something · 〜中",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "kanji"
+              ]
+            },
+            {
+              "id": "first-grammar-without",
+              "title": "Without doing and ability · 〜ずに／potential",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "spontaneous-speech"
+              ]
+            },
+            {
+              "id": "first-grammar-map",
+              "title": "First exchange · grammar summary table",
+              "layoutId": "view-grammar",
+              "purpose": "reference",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "core-pattern-table"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-nurse",
+          "sectionId": "nurse",
+          "readingPages": [
+            {
+              "id": "word-nurse",
+              "title": "看護師 · nurse",
+              "layoutId": "view-vocabulary",
+              "purpose": "reference",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "word"
+              ]
+            },
+            {
+              "id": "word-remember",
+              "title": "When a word won't come · 出てこない",
+              "layoutId": "view-vocabulary",
+              "purpose": "reference",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "remember"
+              ]
+            },
+            {
+              "id": "word-past-career",
+              "title": "Talking about your past work · 〜ていた",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "career",
+                "other-career"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-mayumi",
+          "sectionId": "mayumi",
+          "readingPages": [
+            {
+              "id": "later-original",
+              "title": "Mayumi · original message and translation",
+              "layoutId": "view-messages",
+              "purpose": "source",
+              "partIds": [
+                "mayumi-original",
+                "mayumi-translation"
+              ]
+            },
+            {
+              "id": "later-reply",
+              "title": "My response · Japanese and English",
+              "layoutId": "view-messages",
+              "purpose": "translation",
+              "partIds": [
+                "reply-new-japanese",
+                "reply-new-english"
+              ]
+            },
+            {
+              "id": "later-phrases",
+              "title": "Mayumi's message · phrase-by-phrase",
+              "layoutId": "view-messages",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-message-by-phrase"
+              ]
+            },
+            {
+              "id": "later-tone",
+              "title": "My response · tone and context",
+              "layoutId": "view-messages",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-scope"
+              ]
+            },
+            {
+              "id": "later-gram-map",
+              "title": "Grammar · find the right pattern",
+              "layoutId": "view-grammar",
+              "purpose": "overview",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-map"
+              ]
+            },
+            {
+              "id": "later-gram-real-talk",
+              "title": "When words disappear · いざ〜と／てしまう",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-grammar-1"
+              ]
+            },
+            {
+              "id": "later-gram-praise",
+              "title": "Ability, inference and respectful forms",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-grammar-2"
+              ]
+            },
+            {
+              "id": "later-gram-motivation",
+              "title": "What inspired you? · きっかけ／ようと思う",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-grammar-3"
+              ]
+            },
+            {
+              "id": "later-gram-relocation",
+              "title": "Reacting to news and moving · んですね／てくる",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-grammar-4"
+              ]
+            },
+            {
+              "id": "later-gram-compare",
+              "title": "Resemblance and ability · みたい／potential／と思う",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-compare",
+                "reply-examples-compare"
+              ]
+            },
+            {
+              "id": "later-gram-likes",
+              "title": "Likes and habits · のが好き／ています",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-likes",
+                "reply-examples-likes"
+              ]
+            },
+            {
+              "id": "later-gram-time",
+              "title": "Results, time and conditions · と／とき／たら",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-time",
+                "reply-examples-time"
+              ]
+            },
+            {
+              "id": "later-gram-nerves",
+              "title": "Nerves and agreement · のは／ですよね",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-feelings",
+                "reply-examples-feelings"
+              ]
+            },
+            {
+              "id": "later-gram-mistakes",
+              "title": "Permission and learning · てもいい／から",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-mistakes",
+                "reply-examples-mistakes"
+              ]
+            },
+            {
+              "id": "later-gram-origins",
+              "title": "Making friends and starting · できる／始める",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-origin",
+                "reply-examples-origin"
+              ]
+            },
+            {
+              "id": "later-gram-welcome",
+              "title": "Welcoming and adapting · へようこそ／慣れる",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-grammar-welcome",
+                "reply-examples-welcome"
+              ]
+            },
+            {
+              "id": "later-vocab",
+              "title": "Useful words and expressions from Mayumi",
+              "layoutId": "view-vocabulary",
+              "purpose": "reference",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-expression-bank"
+              ]
+            },
+            {
+              "id": "later-vocab-cards",
+              "title": "Mayumi · vocabulary flashcards",
+              "layoutId": "view-vocabulary",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-flashcards"
+              ]
+            },
+            {
+              "id": "later-practice-variants",
+              "title": "Make sentences about what you like",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-pattern-likes"
+              ]
+            },
+            {
+              "id": "later-practice-conditions",
+              "title": "Change the context · と／とき／たら",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-pattern-conditions"
+              ]
+            },
+            {
+              "id": "later-practice-dialogue",
+              "title": "Conversation · learning a language",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-example-dialogue"
+              ]
+            },
+            {
+              "id": "later-practice-transfer",
+              "title": "Use these patterns in different situations",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-transfer"
+              ]
+            },
+            {
+              "id": "later-test-comprehension",
+              "title": "Mayumi · comprehension reveal",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "mayumi-original"
+              },
+              "partIds": [
+                "mayumi-practice-reveal"
+              ]
+            },
+            {
+              "id": "later-test-cards",
+              "title": "New situations · recall flashcards",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi",
+                "partId": "reply-new-japanese"
+              },
+              "partIds": [
+                "reply-flashcards"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-next-time",
+          "sectionId": "next-time",
+          "readingPages": [
+            {
+              "id": "speech-everyday",
+              "title": "Everyday small-talk phrases",
+              "layoutId": "view-vocabulary",
+              "purpose": "reference",
+              "partIds": [
+                "nursery-phrases"
+              ]
+            },
+            {
+              "id": "speech-dialogue",
+              "title": "Nursery drop-off · speaking dialogue",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "partIds": [
+                "example-dialogue",
+                "speech-tips"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-practice",
+          "sectionId": "practice",
+          "readingPages": [
+            {
+              "id": "review-variation",
+              "title": "Vary the actions · たり〜たりする",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "grammar",
+                "partId": "reading-writing"
+              },
+              "partIds": [
+                "variation"
+              ]
+            },
+            {
+              "id": "review-speaking",
+              "title": "One-minute speaking challenge",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "transfer"
+              ]
+            },
+            {
+              "id": "review-cards",
+              "title": "First exchange · quick recall cards",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "reply",
+                "partId": "jp-reply"
+              },
+              "partIds": [
+                "friendship-cards"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-tests",
+          "sectionId": "self-tests",
+          "readingPages": [
+            {
+              "id": "self-check-recognition",
+              "title": "Self-test 1 · understand the patterns",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "partIds": [
+                "test-understanding"
+              ]
+            },
+            {
+              "id": "self-check-recognition-answers",
+              "title": "Self-test 1 · explanations",
+              "layoutId": "view-tests",
+              "purpose": "reference",
+              "partIds": [
+                "test-understanding-key"
+              ]
+            },
+            {
+              "id": "self-check-production",
+              "title": "Self-test 2 · make your own sentences",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "partIds": [
+                "test-production"
+              ]
+            },
+            {
+              "id": "self-check-production-answers",
+              "title": "Self-test 2 · model responses",
+              "layoutId": "view-tests",
+              "purpose": "reference",
+              "partIds": [
+                "test-production-key"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-music-conversation",
+          "sectionId": "music-conversation-20261112",
+          "readingPages": [
+            {
+              "id": "music-intro",
+              "title": "Music practice · focus and next question",
+              "layoutId": "view-practice",
+              "purpose": "overview",
+              "partIds": [
+                "music-purpose",
+                "music-resume"
+              ]
+            },
+            {
+              "id": "music-long",
+              "title": "My music answer · original and translation",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "partIds": [
+                "music-long-original",
+                "music-long-translation"
+              ]
+            },
+            {
+              "id": "music-grammar",
+              "title": "How the long description works",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "partIds": [
+                "music-long-grammar"
+              ]
+            },
+            {
+              "id": "music-short",
+              "title": "Piano and listening · corrections and examples",
+              "layoutId": "view-practice",
+              "purpose": "explanation",
+              "partIds": [
+                "music-first-attempt",
+                "music-followup"
+              ]
+            },
+            {
+              "id": "music-vocabulary",
+              "title": "Music · vocabulary and useful contrasts",
+              "layoutId": "view-vocabulary",
+              "purpose": "reference",
+              "partIds": [
+                "music-vocab"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "block-mayumi-followup-20261112",
+          "sectionId": "mayumi-followup-20261112",
+          "readingPages": [
+            {
+              "id": "mf2-message",
+              "title": "Mayumi · new Japanese message and English",
+              "layoutId": "view-messages",
+              "purpose": "source",
+              "provenance": "user-reported",
+              "partIds": [
+                "followup-source",
+                "followup-translation"
+              ]
+            },
+            {
+              "id": "mf2-meaning",
+              "title": "Mayumi · understand her four paragraphs",
+              "layoutId": "view-messages",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-understand-kanji",
+                "followup-understand-courage",
+                "followup-understand-japan",
+                "followup-understand-uk"
+              ]
+            },
+            {
+              "id": "mf2-respond",
+              "title": "Responding with interest · んですね / 上に",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-grammar-response"
+              ]
+            },
+            {
+              "id": "mf2-courage",
+              "title": "Courage, relief and reflection",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-grammar-courage"
+              ]
+            },
+            {
+              "id": "mf2-quote",
+              "title": "Quoting, kindness and emotional results",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-grammar-quotation"
+              ]
+            },
+            {
+              "id": "mf2-settle",
+              "title": "Getting used to things and joining descriptions",
+              "layoutId": "view-grammar",
+              "purpose": "explanation",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-grammar-settling"
+              ]
+            },
+            {
+              "id": "mf2-words",
+              "title": "Words from Mayumi's reply",
+              "layoutId": "view-vocabulary",
+              "purpose": "reference",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-vocabulary"
+              ]
+            },
+            {
+              "id": "mf2-speaking",
+              "title": "Use the new grammar spontaneously",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-practice"
+              ]
+            },
+            {
+              "id": "mf2-dialogue",
+              "title": "Getting used to a new place · dialogue",
+              "layoutId": "view-practice",
+              "purpose": "practice",
+              "provenance": "hypothetical",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-dialogue"
+              ]
+            },
+            {
+              "id": "mf2-reveal",
+              "title": "Comprehension · why she's glad",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-reveal"
+              ]
+            },
+            {
+              "id": "mf2-recall",
+              "title": "Quick recall · new expressions",
+              "layoutId": "view-tests",
+              "purpose": "practice",
+              "source": {
+                "sectionId": "mayumi-followup-20261112",
+                "partId": "followup-source"
+              },
+              "partIds": [
+                "followup-cards"
+              ]
+            }
+          ]
+        }
+      ],
+      "favourites": [
+        "block-mayumi"
+      ],
+      "protectedIds": []
+    },
+    "projectDescription": "Two real Japanese conversations, with translations, clear grammar explanations, varied examples and short interactive speaking practice. Read an exchange, understand the language, then try it yourself.",
+    "learningScope": {
+      "version": 1,
+      "spaces": [
+        "languages"
+      ],
+      "languages": [
+        "ja"
+      ],
+      "subjects": [
+        "Japanese conversation",
+        "Friendship",
+        "Messaging",
+        "Everyday life"
+      ],
+      "provenance": "authored"
+    },
+    "sections": [
+      {
+        "id": "encounter",
+        "title": "First hello · message",
+        "parts": [
+          {
+            "id": "received",
+            "kind": "callout",
+            "text": "けさはありがとうございました！にほんごがとてもじょうずでおどろきました！\nこれからよろしくおねがいします！",
+            "callout": {
+              "tone": "note",
+              "label": "Their actual WhatsApp message · original hiragana"
+            }
+          },
+          {
+            "id": "received-meaning",
+            "kind": "paragraph",
+            "text": "Natural English: “Thank you for this morning! I was surprised by how good your Japanese is! I look forward to getting to know you / keeping in touch!” Her use of hiragana may make the message easier for a learner to read, but the reason for that spelling is unknown."
+          }
+        ]
+      },
+      {
+        "id": "reply",
+        "title": "First hello · reply",
+        "parts": [
+          {
+            "id": "jp-reply",
+            "kind": "paragraph",
+            "text": "こちらこそ、今朝はありがとうございました！\n\n日本語はまだまだですが、そう言ってもらえてうれしいです！英語もとても上手ですね！\n\nお会いできてうれしかったです。これからもよろしくお願いします！\n\n実は、日本語を読んだり書いたりするとき、翻訳や文章を考えるのにChatGPTに手伝ってもらっています。意味や文法をもっとよく理解するためにも使っています。漢字も勉強中です！\n\nこんなに長い文章は、まだ何も見ずに話せません！笑\n\nそういえば、さっき出てこなかった言葉は「看護師」でした！昔は看護師をしていたんですが、今は家で子どもの世話をしています。"
+          },
+          {
+            "id": "en-reply",
+            "kind": "paragraph",
+            "text": "Thank you too for this morning!\n\nMy Japanese still has a long way to go, but I'm happy you said that! Your English is very good too!\n\nIt was lovely to meet you. I look forward to keeping in touch!\n\nActually, when reading or writing Japanese I use ChatGPT to help translate and work out what to write. I also use it to understand meanings and grammar better. I'm learning kanji too!\n\nI still couldn't speak something this long without looking at anything! Haha.\n\nOh, by the way, the word I couldn't think of earlier was “nurse”! I used to work as a nurse, but these days I stay at home and look after the children."
+          },
+          {
+            "id": "tone",
+            "kind": "paragraph",
+            "text": "Register: friendly polite Japanese (です／ます) suited to a new acquaintance. こちらこそ responds to thanks; まだまだ modestly accepts a compliment; これからもよろしくお願いします reciprocates an invitation to future contact. The later そういえば returns to a forgotten word from the in-person conversation."
+          },
+          {
+            "id": "optional-oral-alternative",
+            "kind": "callout",
+            "text": "A shorter version for spontaneous speech: 「日本語はまだまだです。話すときは、こんなに長く話せません（笑）。」 (“My Japanese still has a long way to go. I can't speak at this length when talking!”). Try saying it aloud without reading, then replace 「こんなに長く」 with 「上手に」 (well) or 「速く」 (quickly).",
+            "callout": {
+              "tone": "note",
+              "label": "A shorter spoken alternative"
+            }
+          }
+        ]
+      },
+      {
+        "id": "grammar",
+        "title": "First hello · grammar",
+        "parts": [
+          {
+            "id": "their-thanks",
+            "kind": "paragraph",
+            "text": "けさはありがとうございました！ = “Thank you for this morning.” 今朝 is a whole-word reading, “this morning”. ありがとうございました uses the past polite thank-you form for an earlier event.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 15,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "their-praise",
+            "kind": "paragraph",
+            "text": "にほんごがとてもじょうずでおどろきました！ = “I was surprised by how good your Japanese is!” 日本語が = Japanese (as the subject of the assessment); とても = very; 上手 = skilled/good at; で = connecting form of the な-adjective 上手だ, giving the reason/background for 驚きました = “I was surprised”. This で is not a place marker here.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 21,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "future-yoroshiku",
+            "kind": "paragraph",
+            "text": "これからよろしくおねがいします！ これから = “from now on / going forward”; よろしくお願いします expresses goodwill about an ongoing relationship. In this context it is closer to “I look forward to keeping in touch” than merely “nice to meet you”. With これからも in the reply, も adds “also / continuing from here”.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 16,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-politeness",
+            "kind": "paragraph",
+            "text": "こちらこそ = “likewise / thank you too”. 日本語はまだまだですが = “my Japanese still has a long way to go, but…”; まだまだ is conventional modesty without completely rejecting the compliment. そう言ってもらえてうれしいです literally presents the nice words as a benefit received: 言う → 言って → 言ってもらう → 言ってもらえる → 言ってもらえて; “I'm happy you said that.” 英語もとても上手ですね returns the compliment politely.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 5,
+                "kind": "strong"
+              },
+              {
+                "start": 36,
+                "end": 47,
+                "kind": "strong"
+              },
+              {
+                "start": 172,
+                "end": 187,
+                "kind": "strong"
+              },
+              {
+                "start": 311,
+                "end": 322,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "meeting",
+            "kind": "paragraph",
+            "text": "お会いできてうれしかったです = “I was happy to meet you.” The polite humble pattern お + 会い (verb stem) + できる conveys being able to meet the person. できて joins to うれしかったです (past of うれしいです). More everyday and simpler: 会えてうれしかったです.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 14,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reading-writing",
+            "kind": "paragraph",
+            "text": "実は = “actually”. 日本語を読んだり書いたりするとき = “when doing things such as reading and writing Japanese”. The pattern 〜たり〜たりする lists example activities without implying order: 読む → 読んだ → 読んだり, 書く → 書いた → 書いたり. Compare 読んで書く, which more directly chains two actions.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 2,
+                "kind": "strong"
+              },
+              {
+                "start": 17,
+                "end": 33,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "using-gpt",
+            "kind": "paragraph",
+            "text": "翻訳や文章を考えるのにChatGPTに手伝ってもらっています = “I use ChatGPT's help for translation and working out written sentences”. や lists examples; 〜のに here marks what help is *for*; ChatGPTに identifies the helper; 手伝ってもらう means to receive help; 〜ています describes the regular situation. 意味や文法をもっとよく理解するためにも使っています = “I also use it to understand meanings and grammar better”. 〜ために expresses purpose; the も adds another purpose.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 30,
+                "kind": "strong"
+              },
+              {
+                "start": 262,
+                "end": 287,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "kanji",
+            "kind": "paragraph",
+            "text": "漢字も勉強中です = “I'm studying kanji too.” The suffix 〜中 indicates that something is in progress, as in 仕事中 “working” or 練習中 “practising”.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 8,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "spontaneous-speech",
+            "kind": "paragraph",
+            "text": "こんなに長い文章は、まだ何も見ずに話せません！笑 = “I still can't say something this long without looking at anything! Haha.” こんなに = “this much”; 〜ずに = “without doing” (見ない → 見ずに); 話す → 話せる → 話せません is polite negative potential (“can't speak/say”). This wording emphasises reliance on a written prompt. （笑） or 笑 often signals a lighthearted laugh in chat.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 24,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "core-pattern-table",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Pattern",
+                "Function",
+                "In the conversation"
+              ],
+              "rows": [
+                [
+                  "〜てもらう",
+                  "Receiving somebody's help/words",
+                  "言ってもらえて／手伝ってもらっています"
+                ],
+                [
+                  "〜たり〜たりする",
+                  "Examples of activities",
+                  "読んだり書いたりする"
+                ],
+                [
+                  "〜ために",
+                  "Purpose / in order to",
+                  "理解するために"
+                ],
+                [
+                  "〜ずに",
+                  "Without doing",
+                  "何も見ずに"
+                ],
+                [
+                  "Potential form",
+                  "Can / can't do",
+                  "話せません"
+                ],
+                [
+                  "〜中",
+                  "Currently in progress",
+                  "勉強中"
+                ]
+              ],
+              "caption": "Recognise the pattern first; then practise one substitution of your own."
+            },
+            "text": "Pattern\tFunction\tIn the conversation\n〜てもらう\tReceiving somebody's help/words\t言ってもらえて／手伝ってもらっています\n〜たり〜たりする\tExamples of activities\t読んだり書いたりする\n〜ために\tPurpose / in order to\t理解するために\n〜ずに\tWithout doing\t何も見ずに\nPotential form\tCan / can't do\t話せません\n〜中\tCurrently in progress\t勉強中"
+          }
+        ]
+      },
+      {
+        "id": "nurse",
+        "title": "Finding the right words",
+        "parts": [
+          {
+            "id": "word",
+            "kind": "callout",
+            "text": "看護師= nurse (professional title). The word did not come to mind during the in-person conversation, and I clarified it in my reply.",
+            "callout": {
+              "tone": "note",
+              "label": "看護師 · かんごし"
+            }
+          },
+          {
+            "id": "remember",
+            "kind": "paragraph",
+            "text": "そういえば = “oh, by the way / come to think of it”. さっき = “a little earlier”. 出てこなかった言葉 = “the word that wouldn't come to mind”. This is idiomatic: 言葉が出てこない (“I can't think of the word”) works in any future conversation. Past negative: 出てくる → 出てこない → 出てこなかった.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 5,
+                "kind": "strong"
+              },
+              {
+                "start": 48,
+                "end": 51,
+                "kind": "strong"
+              },
+              {
+                "start": 74,
+                "end": 83,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "career",
+            "kind": "paragraph",
+            "text": "昔は看護師をしていたんですが、今は家で子どもの世話をしています。 = “I used to work as a nurse, but now I look after the children at home.” 昔は contrasts previous life with 今は. 〜をしていた describes a past occupation. 〜んですが gently supplies explanatory background and contrast. 家で gives the place of activity; 子どもの世話をする means to care for children.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 32,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "other-career",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "Natural English",
+                "Nuance"
+              ],
+              "rows": [
+                [
+                  "以前は看護師として働いていました。",
+                  "I previously worked as a nurse.",
+                  "Clear about the professional role; 〜として = as"
+                ],
+                [
+                  "昔は看護師をしていました。",
+                  "I used to work as a nurse.",
+                  "Friendly and conversational"
+                ],
+                [
+                  "今は家で子どもの世話をしています。",
+                  "Now I look after the children at home.",
+                  "Describes what I do"
+                ],
+                [
+                  "今は専業主夫です。",
+                  "I'm a stay-at-home dad/husband now.",
+                  "Names the role directly; 専業主夫"
+                ]
+              ],
+              "caption": "Alternatives to choose from in later conversation; not additional sent WhatsApp text."
+            },
+            "text": "Japanese\tNatural English\tNuance\n以前は看護師として働いていました。\tI previously worked as a nurse.\tClear about the professional role; 〜として = as\n昔は看護師をしていました。\tI used to work as a nurse.\tFriendly and conversational\n今は家で子どもの世話をしています。\tNow I look after the children at home.\tDescribes what I do\n今は専業主夫です。\tI'm a stay-at-home dad/husband now.\tNames the role directly; 専業主夫"
+          }
+        ]
+      },
+      {
+        "id": "next-time",
+        "title": "Everyday small talk",
+        "parts": [
+          {
+            "id": "nursery-phrases",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "Meaning / use"
+              ],
+              "rows": [
+                [
+                  "おはようございます。また会えてうれしいです。",
+                  "Good morning. Nice to see you again."
+                ],
+                [
+                  "今日は寒いですね。",
+                  "It's cold today, isn't it?"
+                ],
+                [
+                  "お迎えは何時ごろですか。",
+                  "What time are you picking up? (If appropriate)"
+                ],
+                [
+                  "日本語を少しずつ勉強しています。",
+                  "I'm studying Japanese bit by bit."
+                ],
+                [
+                  "ゆっくり話してもらえますか。",
+                  "Could you speak slowly for me?"
+                ],
+                [
+                  "もう一度言ってもらえますか。",
+                  "Could you say that again?"
+                ],
+                [
+                  "すみません、言葉が出てきません。",
+                  "Sorry, I can't think of the word."
+                ],
+                [
+                  "またお話ししましょう！",
+                  "Let's chat again!"
+                ]
+              ],
+              "caption": "Shorter utterances are easier to retrieve spontaneously than a polished long message."
+            },
+            "text": "Japanese\tMeaning / use\nおはようございます。また会えてうれしいです。\tGood morning. Nice to see you again.\n今日は寒いですね。\tIt's cold today, isn't it?\nお迎えは何時ごろですか。\tWhat time are you picking up? (If appropriate)\n日本語を少しずつ勉強しています。\tI'm studying Japanese bit by bit.\nゆっくり話してもらえますか。\tCould you speak slowly for me?\nもう一度言ってもらえますか。\tCould you say that again?\nすみません、言葉が出てきません。\tSorry, I can't think of the word.\nまたお話ししましょう！\tLet's chat again!"
+          },
+          {
+            "id": "example-dialogue",
+            "kind": "interactive",
+            "text": "Original hypothetical conversation for nursery drop-off; practise the Japanese aloud slowly, then reveal the translations. None of these turns is claimed to have occurred.",
+            "interactive": {
+              "version": 1,
+              "type": "language-dialogue",
+              "language": "ja",
+              "turns": [
+                {
+                  "id": "greet",
+                  "speaker": "相手",
+                  "source": {
+                    "text": "おはようございます！また会いましたね。",
+                    "translation": "Good morning! We've met again.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "greet-reply",
+                  "speaker": "私",
+                  "source": {
+                    "text": "おはようございます。また会えてうれしいです。",
+                    "translation": "Good morning. It's nice to see you again.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "cold",
+                  "speaker": "相手",
+                  "source": {
+                    "text": "今日は寒いですね。",
+                    "translation": "It's cold today, isn't it?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "cold-reply",
+                  "speaker": "私",
+                  "source": {
+                    "text": "そうですね。朝は特に寒いですね。",
+                    "translation": "It is. It's especially cold in the morning.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "study",
+                  "speaker": "相手",
+                  "source": {
+                    "text": "日本語の勉強はどうですか。",
+                    "translation": "How is your Japanese study going?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "study-reply",
+                  "speaker": "私",
+                  "source": {
+                    "text": "少しずつ勉強しています。ゆっくり話してもらえると助かります。",
+                    "translation": "I'm learning little by little. It helps when people speak slowly.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "later",
+                  "speaker": "相手",
+                  "source": {
+                    "text": "もちろんです。またお話ししましょう！",
+                    "translation": "Of course. Let's talk again!",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "later-reply",
+                  "speaker": "私",
+                  "source": {
+                    "text": "ぜひ！ありがとうございます。",
+                    "translation": "Definitely! Thank you.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "speech-tips",
+            "kind": "paragraph",
+            "text": "For real conversation, learn two- or three-clause chunks rather than memorising the entire sent message. For example: まだまだです → でも、勉強しています → ゆっくり話してもらえますか. The goal is being able to respond flexibly, not reciting the WhatsApp exchange."
+          }
+        ]
+      },
+      {
+        "id": "practice",
+        "title": "Speak with confidence",
+        "parts": [
+          {
+            "id": "friendship-cards",
+            "kind": "interactive",
+            "text": "Reversible Japanese–English flashcards: polite greetings, responses to compliments, remembering a word and explaining past work.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "thanks",
+                  "front": {
+                    "text": "こちらこそ、ありがとうございました。"
+                  },
+                  "back": {
+                    "text": "Thank you too / likewise."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "later",
+                  "front": {
+                    "text": "これから"
+                  },
+                  "back": {
+                    "text": "From now on; going forward."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "yoroshiku",
+                  "front": {
+                    "text": "これからもよろしくお願いします。"
+                  },
+                  "back": {
+                    "text": "I look forward to keeping in touch / getting along."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "modesty",
+                  "front": {
+                    "text": "日本語はまだまだです。"
+                  },
+                  "back": {
+                    "text": "My Japanese still has a long way to go."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "surprised",
+                  "front": {
+                    "text": "驚きました"
+                  },
+                  "back": {
+                    "text": "I was surprised."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "glad",
+                  "front": {
+                    "text": "そう言ってもらえてうれしいです。"
+                  },
+                  "back": {
+                    "text": "I'm happy you said that."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "actually",
+                  "front": {
+                    "text": "実は"
+                  },
+                  "back": {
+                    "text": "Actually / the truth is…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "variety",
+                  "front": {
+                    "text": "読んだり書いたりします。"
+                  },
+                  "back": {
+                    "text": "I do things such as reading and writing."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "kanji",
+                  "front": {
+                    "text": "漢字も勉強中です。"
+                  },
+                  "back": {
+                    "text": "I'm learning kanji too."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "no-looking",
+                  "front": {
+                    "text": "何も見ずに"
+                  },
+                  "back": {
+                    "text": "Without looking at anything."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "forgot",
+                  "front": {
+                    "text": "言葉が出てこない。"
+                  },
+                  "back": {
+                    "text": "I can't think of the word."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "nurse",
+                  "front": {
+                    "text": "看護師"
+                  },
+                  "back": {
+                    "text": "Nurse (professional occupation)."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "past",
+                  "front": {
+                    "text": "昔は看護師をしていました。"
+                  },
+                  "back": {
+                    "text": "I used to work as a nurse."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "dad",
+                  "front": {
+                    "text": "子どもの世話をしています。"
+                  },
+                  "back": {
+                    "text": "I'm looking after the children."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "slow",
+                  "front": {
+                    "text": "ゆっくり話してもらえますか。"
+                  },
+                  "back": {
+                    "text": "Could you speak slowly for me?"
+                  },
+                  "language": "ja"
+                }
+              ]
+            }
+          },
+          {
+            "id": "variation",
+            "kind": "interactive",
+            "text": "Change what you do in Japanese, using 〜たり〜たりする to list examples (not necessarily in order).",
+            "interactive": {
+              "version": 1,
+              "type": "language-pattern",
+              "language": "ja",
+              "slots": [
+                {
+                  "id": "first",
+                  "label": "Activity 1",
+                  "choices": [
+                    {
+                      "id": "read",
+                      "label": "読んだり"
+                    },
+                    {
+                      "id": "listen",
+                      "label": "聞いたり"
+                    }
+                  ]
+                },
+                {
+                  "id": "second",
+                  "label": "Activity 2",
+                  "choices": [
+                    {
+                      "id": "write",
+                      "label": "書いたり"
+                    },
+                    {
+                      "id": "speak",
+                      "label": "話したり"
+                    }
+                  ]
+                }
+              ],
+              "examples": [
+                {
+                  "id": "rw",
+                  "choices": {
+                    "first": "read",
+                    "second": "write"
+                  },
+                  "source": {
+                    "text": "日本語を読んだり書いたりします。",
+                    "translation": "I do things like reading and writing Japanese.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "rs",
+                  "choices": {
+                    "first": "read",
+                    "second": "speak"
+                  },
+                  "source": {
+                    "text": "日本語を読んだり話したりします。",
+                    "translation": "I do things like reading and speaking Japanese.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "lw",
+                  "choices": {
+                    "first": "listen",
+                    "second": "write"
+                  },
+                  "source": {
+                    "text": "日本語を聞いたり書いたりします。",
+                    "translation": "I do things like listening to and writing Japanese.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ls",
+                  "choices": {
+                    "first": "listen",
+                    "second": "speak"
+                  },
+                  "source": {
+                    "text": "日本語を聞いたり話したりします。",
+                    "translation": "I do things like listening to and speaking Japanese.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "transfer",
+            "kind": "paragraph",
+            "text": "A flexible 60-second speaking challenge: (1) say こちらこそ、ありがとうございました; (2) explain 日本語はまだまだですが、勉強しています; (3) say 昔は看護師をしていました; (4) ask ゆっくり話してもらえますか. Try each independently, then compare with the examples. Repeat using one different occupation, activity or request."
+          }
+        ]
+      },
+      {
+        "id": "mayumi",
+        "title": "Kanji, confidence & learning",
+        "parts": [
+          {
+            "id": "mayumi-original",
+            "kind": "callout",
+            "text": "漢字まで！私もGeminiやアプリで英語を勉強していますが、いざ人と話すと緊張と勉強不足で何も出てこなくなってしまいます😭なのでいきなりであんなに話せるのは相当勉強されてるんだろうなと感じました。尊敬します！日本語を学ぼうと思ったきっかけは何ですか？\n\n看護師さんだったんですね！娘さんもいらっしゃるんですね✨私は夫の海外出向が決まり、電子部品調達の仕事を辞めて8月に日本から引っ越してきました！",
+            "callout": {
+              "tone": "note",
+              "label": "Mayumi’s received WhatsApp message · exact user-supplied text"
+            }
+          },
+          {
+            "id": "mayumi-translation",
+            "kind": "paragraph",
+            "text": "Natural English translation\n\n“Even kanji! I'm studying English using Gemini and apps too, but when I actually speak with someone I get nervous, and because I don't feel I've studied enough, my mind goes blank. 😭 So seeing you speak that much Japanese straight away made me feel that you must have studied really hard. I admire you! What inspired you to start learning Japanese?\n\nOh, so you used to be a nurse! And you have a daughter too! ✨ My husband's overseas assignment was confirmed, so I left my job sourcing electronic components and moved here from Japan in August!”\n\nTranslation aims to preserve the warm, friendly tone rather than imitate every Japanese word literally.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 27,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-new-japanese",
+            "kind": "callout",
+            "text": "はい、漢字が大好きです！難しい絵のパズルみたいですね。全部は覚えられないと思いますが（笑）、形がきれいで好きです。娘のエヴィも漢字を書くのが好きで、時々一緒に書いています。同じ漢字を何度も見ると、少しずつ意味を覚えます。\n\n外国語で話すとき、緊張するのは普通ですよね。私も緊張します！きっとたくさん勉強されていると思います。でも、勉強するのと実際に話すのは全然違いますよね。私は「間違えてもいい！」と思って話しています。間違えると、面白いこともあります（笑）。私は間違いからよく学びます。\n\n大学で日本人の友達ができて、日本語を勉強し始めました。一緒にいるのがとても楽しかったです。前から日本の文化も好きでした。今では、外国語の勉強はずっと続けたい趣味です。\n\nオックスフォードへようこそ！引っ越しは大変だったと思います。イギリスの生活には少し慣れましたか？",
+            "callout": {
+              "tone": "note",
+              "label": "Japanese response · kanji, mistakes and friendship"
+            }
+          },
+          {
+            "id": "reply-new-english",
+            "kind": "paragraph",
+            "text": "English meaning\n\nYes, I love kanji! They're like difficult picture puzzles. I don't think I'll ever remember them all (haha), but I love how beautiful they look. My daughter Evie likes writing kanji too, and we sometimes write them together. When I see the same kanji many times, I gradually remember their meanings.\n\nIt's normal to feel nervous when speaking a foreign language, isn't it? I get nervous too! I'm sure you've studied a lot. But studying and actually speaking are completely different, aren't they? I speak with the attitude that it's okay to make mistakes. Sometimes funny things happen when I make mistakes (haha). I learn a lot from my mistakes.\n\nI made some Japanese friends at university and started studying Japanese. Spending time with them was really fun. I'd already liked Japanese culture before that. Now learning foreign languages is a hobby I want to continue for the rest of my life.\n\nWelcome to Oxford! I imagine moving was difficult. Have you got a little more used to life in Britain?",
+            "inline": [
+              {
+                "start": 0,
+                "end": 15,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "mayumi-message-by-phrase",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Mayumi's Japanese",
+                "Natural English",
+                "Nuance"
+              ],
+              "rows": [
+                [
+                  "漢字まで！",
+                  "Even kanji!",
+                  "まで = even; she is impressed you're learning kanji"
+                ],
+                [
+                  "私もGeminiやアプリで英語を勉強していますが",
+                  "I'm also studying English with Gemini and apps, but…",
+                  "や lists examples; で marks the means/tool; が introduces a contrast"
+                ],
+                [
+                  "いざ人と話すと",
+                  "when I actually have to talk to someone",
+                  "いざ conveys the real-life moment; 話すと = when I speak"
+                ],
+                [
+                  "緊張と勉強不足で",
+                  "because of nerves and insufficient study",
+                  "緊張 = nerves; 勉強不足 = not enough study; で = cause"
+                ],
+                [
+                  "何も出てこなくなってしまいます",
+                  "my mind goes blank / I end up unable to get any words out",
+                  "何も〜ない = nothing; 出てこなくなる = become unable to retrieve; 〜てしまう = unwanted result"
+                ],
+                [
+                  "いきなりであんなに話せるのは",
+                  "being able to talk that much straight away",
+                  "いきなり = suddenly, without preparation; 話せる = potential of 話す"
+                ],
+                [
+                  "相当勉強されてるんだろうなと感じました",
+                  "made me think you must have studied quite a lot",
+                  "相当 = considerably; されてる = respectful speech about your studying; だろうな = inference"
+                ],
+                [
+                  "尊敬します！",
+                  "I admire you!",
+                  "warm, strong expression of respect/admiration"
+                ],
+                [
+                  "日本語を学ぼうと思ったきっかけは何ですか？",
+                  "What first inspired you to learn Japanese?",
+                  "学ぼう = volitional; 〜と思った = decided/thought; きっかけ = motivating trigger"
+                ],
+                [
+                  "看護師さんだったんですね！",
+                  "Oh, so you used to be a nurse!",
+                  "〜だったんですね acknowledges newly learned information"
+                ],
+                [
+                  "娘さんもいらっしゃるんですね",
+                  "And you have a daughter too!",
+                  "いらっしゃる is polite/respectful here"
+                ],
+                [
+                  "夫の海外出向が決まり",
+                  "My husband's overseas assignment was decided",
+                  "出向 = work secondment/assignment; 決まり connects with the following action"
+                ],
+                [
+                  "電子部品調達の仕事を辞めて",
+                  "I left my job sourcing electronic components",
+                  "電子部品 = electronic parts; 調達 = procurement; 辞めて = quit and then…"
+                ],
+                [
+                  "8月に日本から引っ越してきました",
+                  "I moved here from Japan in August",
+                  "〜てきました portrays moving toward where she is now"
+                ]
+              ],
+              "caption": "Short reading units from the actual message, in original order."
+            },
+            "text": "Mayumi's Japanese\tNatural English\tNuance\n漢字まで！\tEven kanji!\tまで = even; she is impressed you're learning kanji\n私もGeminiやアプリで英語を勉強していますが\tI'm also studying English with Gemini and apps, but…\tや lists examples; で marks the means/tool; が introduces a contrast\nいざ人と話すと\twhen I actually have to talk to someone\tいざ conveys the real-life moment; 話すと = when I speak\n緊張と勉強不足で\tbecause of nerves and insufficient study\t緊張 = nerves; 勉強不足 = not enough study; で = cause\n何も出てこなくなってしまいます\tmy mind goes blank / I end up unable to get any words out\t何も〜ない = nothing; 出てこなくなる = become unable to retrieve; 〜てしまう = unwanted result\nいきなりであんなに話せるのは\tbeing able to talk that much straight away\tいきなり = suddenly, without preparation; 話せる = potential of 話す\n相当勉強されてるんだろうなと感じました\tmade me think you must have studied quite a lot\t相当 = considerably; されてる = respectful speech about your studying; だろうな = inference\n尊敬します！\tI admire you!\twarm, strong expression of respect/admiration\n日本語を学ぼうと思ったきっかけは何ですか？\tWhat first inspired you to learn Japanese?\t学ぼう = volitional; 〜と思った = decided/thought; きっかけ = motivating trigger\n看護師さんだったんですね！\tOh, so you used to be a nurse!\t〜だったんですね acknowledges newly learned information\n娘さんもいらっしゃるんですね\tAnd you have a daughter too!\tいらっしゃる is polite/respectful here\n夫の海外出向が決まり\tMy husband's overseas assignment was decided\t出向 = work secondment/assignment; 決まり connects with the following action\n電子部品調達の仕事を辞めて\tI left my job sourcing electronic components\t電子部品 = electronic parts; 調達 = procurement; 辞めて = quit and then…\n8月に日本から引っ越してきました\tI moved here from Japan in August\t〜てきました portrays moving toward where she is now"
+          },
+          {
+            "id": "mayumi-grammar-1",
+            "kind": "paragraph",
+            "text": "In a real conversation: いざ〜と / 〜てしまう\n\nいざ人と話すと = “when it comes to actually talking with someone.” The いざ marks the moment theory becomes reality; 〜と introduces what happens when that condition occurs. 緊張と勉強不足で = “because of nerves and not having studied enough.”\n\n何も出てこなくなってしまいます has several layers: 出てくる (come out / come to mind) → 出てこない (does not come out) → 出てこなくなる (become unable to bring it to mind) → 出てこなくなってしまう (unfortunately end up that way). The 〜てしまう expresses an unwelcome outcome. This is about language retrieval under pressure, not literally losing everything she has learned.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 36,
+                "kind": "strong"
+              },
+              {
+                "start": 264,
+                "end": 279,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "mayumi-grammar-2",
+            "kind": "paragraph",
+            "text": "Complimenting and inferring: 話せる / だろうな / されてる\n\n話す → 話せる is the potential (“can speak”). 相当勉強されてるんだろうなと感じました roughly means “I felt you must have studied quite a lot.” The respectful されてる refers to your studying (short for されている). The だろうな expresses an impression or guess, and と感じました reports what she thought. 尊敬します is “I admire/respect you.” She is impressed by your spontaneous effort, not declaring that you are fluent.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 46,
+                "kind": "strong"
+              },
+              {
+                "start": 89,
+                "end": 108,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "mayumi-grammar-3",
+            "kind": "paragraph",
+            "text": "Asking about motivation: 〜ようと思ったきっかけ\n\n日本語を学ぼうと思ったきっかけは何ですか？ = “What prompted you to want to learn Japanese?” 学ぶ → 学ぼう is the volitional form (“I'll learn”); と思った expresses the intention/decision; きっかけ is the reason, event or experience that prompted it. Compare 日本語を勉強しようと思ったきっかけ (“what prompted you to decide to study Japanese?”). This is an invitation to share a personal story.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 36,
+                "kind": "strong"
+              },
+              {
+                "start": 38,
+                "end": 59,
+                "kind": "strong"
+              },
+              {
+                "start": 262,
+                "end": 279,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "mayumi-grammar-4",
+            "kind": "paragraph",
+            "text": "Acknowledging news and explaining a move\n\n看護師さんだったんですね (“Oh, so you were a nurse!”) and 娘さんもいらっしゃるんですね (“And you have a daughter!”) show she has taken in your earlier reply. The 〜んですね sounds interested and responsive; いらっしゃる is polite language for having someone here.\n\n夫の海外出向が決まり describes her husband's overseas posting being confirmed. 電子部品調達の仕事を辞めて says she left her procurement job. 8月に日本から引っ越してきました = she moved here from Japan in August; 〜てきました views the movement toward the present location.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 40,
+                "kind": "strong"
+              },
+              {
+                "start": 42,
+                "end": 54,
+                "kind": "strong"
+              },
+              {
+                "start": 88,
+                "end": 102,
+                "kind": "strong"
+              },
+              {
+                "start": 270,
+                "end": 280,
+                "kind": "strong"
+              },
+              {
+                "start": 339,
+                "end": 352,
+                "kind": "strong"
+              },
+              {
+                "start": 388,
+                "end": 404,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "mayumi-practice-reveal",
+            "kind": "interactive",
+            "text": "Read the Japanese question first, recall its meaning, then reveal the translation and grammar notes.",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "日本語を学ぼうと思ったきっかけは何ですか？",
+                "translation": "What inspired you to start learning Japanese?",
+                "note": "The volitional 学ぼう + と思った identifies a past decision; きっかけ asks what prompted it.",
+                "language": "ja"
+              },
+              "gloss": "学ぼう = decided/wanted to learn; きっかけ = inspiration or trigger",
+              "explanation": "Compare 日本語を勉強しようと思ったきっかけ — a very transferable question pattern."
+            }
+          },
+          {
+            "id": "mayumi-flashcards",
+            "kind": "interactive",
+            "text": "Reversible cards for vocabulary and grammar from Mayumi's new message; readings are given for unfamiliar kanji.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "mayumi-card-1",
+                  "front": {
+                    "text": "いざ人と話すと"
+                  },
+                  "back": {
+                    "text": "When it comes to actually talking to someone"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-2",
+                  "front": {
+                    "text": "緊張"
+                  },
+                  "back": {
+                    "text": "Nervousness / tension"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-3",
+                  "front": {
+                    "text": "勉強不足"
+                  },
+                  "back": {
+                    "text": "Not having studied enough"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-4",
+                  "front": {
+                    "text": "何も出てこなくなってしまう"
+                  },
+                  "back": {
+                    "text": "To end up unable to think of anything / get any words out"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-5",
+                  "front": {
+                    "text": "相当"
+                  },
+                  "back": {
+                    "text": "Considerably / quite a lot"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-6",
+                  "front": {
+                    "text": "尊敬します"
+                  },
+                  "back": {
+                    "text": "I really admire / respect you"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-7",
+                  "front": {
+                    "text": "きっかけ"
+                  },
+                  "back": {
+                    "text": "What prompted or inspired something; a trigger"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-8",
+                  "front": {
+                    "text": "学ぼうと思った"
+                  },
+                  "back": {
+                    "text": "Thought/decided to learn"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-9",
+                  "front": {
+                    "text": "海外出向"
+                  },
+                  "back": {
+                    "text": "Overseas company assignment / secondment"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-10",
+                  "front": {
+                    "text": "電子部品調達"
+                  },
+                  "back": {
+                    "text": "Electronic components procurement"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-11",
+                  "front": {
+                    "text": "仕事を辞めて"
+                  },
+                  "back": {
+                    "text": "Left my job and…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mayumi-card-12",
+                  "front": {
+                    "text": "引っ越してきました"
+                  },
+                  "back": {
+                    "text": "Moved here (toward present location)"
+                  },
+                  "language": "ja"
+                }
+              ]
+            }
+          },
+          {
+            "id": "reply-scope",
+            "kind": "paragraph",
+            "text": "Style and tone\n\nThe response uses friendly です／ます speech rather than stiff formal language. 「私も緊張します」 makes reassurance reciprocal, 「ですよね」 invites agreement, 「と思います」 softens judgements, and （笑） keeps the two jokes light. The story about Evie gives the exchange a personal detail. 「きっとたくさん勉強されていると思います」 is a respectful acknowledgement, not a claim to know how much someone has studied.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 14,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-grammar-map",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Structure",
+                "From the Japanese",
+                "What it does"
+              ],
+              "rows": [
+                [
+                  "N＋みたい",
+                  "絵のパズルみたい",
+                  "Compare: like / resembles"
+                ],
+                [
+                  "Potential＋ない＋と思う",
+                  "全部は覚えられないと思います",
+                  "Soften a statement about ability"
+                ],
+                [
+                  "Vる＋のが好き",
+                  "漢字を書くのが好き",
+                  "Like an activity"
+                ],
+                [
+                  "〜ている / 時々",
+                  "時々一緒に書いています",
+                  "Habit or repeated activity"
+                ],
+                [
+                  "Vる＋と / 少しずつ",
+                  "何度も見ると、少しずつ覚えます",
+                  "Predictable result / gradual change"
+                ],
+                [
+                  "Vる＋とき",
+                  "外国語で話すとき",
+                  "When doing an activity"
+                ],
+                [
+                  "Vる＋のは…",
+                  "緊張するのは普通",
+                  "Make an activity the topic"
+                ],
+                [
+                  "〜ですよね / 〜と思う",
+                  "普通ですよね / 大変だったと思います",
+                  "Invite agreement / soften an impression"
+                ],
+                [
+                  "Vて＋もいい",
+                  "間違えてもいい",
+                  "It's okay to do something"
+                ],
+                [
+                  "Vる＋と、…こともある",
+                  "間違えると面白いこともあります",
+                  "Possible / occasional outcome"
+                ],
+                [
+                  "Nから学ぶ",
+                  "間違いから学びます",
+                  "Learn from a source or experience"
+                ],
+                [
+                  "Nができる / V始める",
+                  "友達ができて、勉強し始めました",
+                  "Make friends / start an activity"
+                ],
+                [
+                  "Vたい / に慣れる",
+                  "続けたい / 生活に慣れましたか",
+                  "Wishes / becoming accustomed"
+                ]
+              ],
+              "caption": "A quick reference for the grammatical building blocks below."
+            },
+            "text": "Structure\tFrom the Japanese\tWhat it does\nN＋みたい\t絵のパズルみたい\tCompare: like / resembles\nPotential＋ない＋と思う\t全部は覚えられないと思います\tSoften a statement about ability\nVる＋のが好き\t漢字を書くのが好き\tLike an activity\n〜ている / 時々\t時々一緒に書いています\tHabit or repeated activity\nVる＋と / 少しずつ\t何度も見ると、少しずつ覚えます\tPredictable result / gradual change\nVる＋とき\t外国語で話すとき\tWhen doing an activity\nVる＋のは…\t緊張するのは普通\tMake an activity the topic\n〜ですよね / 〜と思う\t普通ですよね / 大変だったと思います\tInvite agreement / soften an impression\nVて＋もいい\t間違えてもいい\tIt's okay to do something\nVる＋と、…こともある\t間違えると面白いこともあります\tPossible / occasional outcome\nNから学ぶ\t間違いから学びます\tLearn from a source or experience\nNができる / V始める\t友達ができて、勉強し始めました\tMake friends / start an activity\nVたい / に慣れる\t続けたい / 生活に慣れましたか\tWishes / becoming accustomed"
+          },
+          {
+            "id": "reply-grammar-compare",
+            "kind": "paragraph",
+            "text": "1 · Comparing, remembering, and giving an opinion\n\n難しい絵のパズルみたいですね。 — “They're like difficult picture puzzles, aren't they?” N＋みたい compares two things casually. 「〜のようです」 is a more formal alternative. ですね invites friendly agreement.\n\n全部は覚えられないと思います。 — “I don't think I can remember them all.” 覚える → 覚えられる (potential: can remember) → 覚えられない (can't remember). The は highlights “not *all* of them”, rather than “none at all”. 〜と思います marks a personal opinion/expectation. Compare 覚えない = do not memorise (habit/choice), rather than cannot.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 49,
+                "kind": "strong"
+              },
+              {
+                "start": 51,
+                "end": 66,
+                "kind": "strong"
+              },
+              {
+                "start": 124,
+                "end": 129,
+                "kind": "strong"
+              },
+              {
+                "start": 199,
+                "end": 202,
+                "kind": "strong"
+              },
+              {
+                "start": 232,
+                "end": 247,
+                "kind": "strong"
+              },
+              {
+                "start": 360,
+                "end": 361,
+                "kind": "strong"
+              },
+              {
+                "start": 421,
+                "end": 427,
+                "kind": "strong"
+              },
+              {
+                "start": 474,
+                "end": 478,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-compare",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / new context",
+                "Point"
+              ],
+              "rows": [
+                [
+                  "この雲は猫みたいです。",
+                  "This cloud looks like a cat. · outdoors",
+                  "Resemblance"
+                ],
+                [
+                  "このゲームは映画みたいですね。",
+                  "This game feels like a film. · gaming",
+                  "Comparing experiences"
+                ],
+                [
+                  "このアプリは先生みたいです。",
+                  "This app is like a teacher. · learning",
+                  "Metaphorical comparison"
+                ],
+                [
+                  "今日は春みたいに暖かいです。",
+                  "It's warm like spring today. · weather",
+                  "みたいに modifies an adjective"
+                ],
+                [
+                  "全部は食べられないと思います。",
+                  "I don't think I can eat all of it. · food",
+                  "Potential negative, soft opinion"
+                ],
+                [
+                  "この漢字は読めますが、書けません。",
+                  "I can read this kanji but can't write it. · study",
+                  "Different potential forms"
+                ],
+                [
+                  "たぶん明日は雨だと思います。",
+                  "I think it'll probably rain tomorrow. · weather",
+                  "Guess, not certainty"
+                ],
+                [
+                  "この景色はきれいですね。",
+                  "This scenery is lovely, isn't it? · travel",
+                  "Inviting agreement"
+                ]
+              ],
+              "caption": "Potential-form and comparison practice across everyday situations."
+            },
+            "text": "Japanese\tEnglish / new context\tPoint\nこの雲は猫みたいです。\tThis cloud looks like a cat. · outdoors\tResemblance\nこのゲームは映画みたいですね。\tThis game feels like a film. · gaming\tComparing experiences\nこのアプリは先生みたいです。\tThis app is like a teacher. · learning\tMetaphorical comparison\n今日は春みたいに暖かいです。\tIt's warm like spring today. · weather\tみたいに modifies an adjective\n全部は食べられないと思います。\tI don't think I can eat all of it. · food\tPotential negative, soft opinion\nこの漢字は読めますが、書けません。\tI can read this kanji but can't write it. · study\tDifferent potential forms\nたぶん明日は雨だと思います。\tI think it'll probably rain tomorrow. · weather\tGuess, not certainty\nこの景色はきれいですね。\tThis scenery is lovely, isn't it? · travel\tInviting agreement"
+          },
+          {
+            "id": "reply-grammar-likes",
+            "kind": "paragraph",
+            "text": "2 · Liking an activity, habits, and linking descriptions\n\n娘のエヴィも漢字を書くのが好きです。 — “Evie also likes writing kanji.” With V dictionary form＋のが好き, の turns the activity into a noun-like phrase: compare 「漢字が好き」 (likes kanji) with 「漢字を書くのが好き」 (likes *writing* kanji).\n\n時々一緒に書いています is a repeated habit: 〜ています can mean something happening *right now* or a habitual action; 時々 clarifies that it occurs sometimes. 形がきれいで好きです connects きれい (な-adjective) with で, suggesting a reason. For い-adjectives use 〜くて: 楽しい → 楽しくて. Don't confuse this で with location-marking で (家で) or means-marking で (日本語で).",
+            "inline": [
+              {
+                "start": 0,
+                "end": 56,
+                "kind": "strong"
+              },
+              {
+                "start": 58,
+                "end": 76,
+                "kind": "strong"
+              },
+              {
+                "start": 117,
+                "end": 139,
+                "kind": "strong"
+              },
+              {
+                "start": 141,
+                "end": 142,
+                "kind": "strong"
+              },
+              {
+                "start": 260,
+                "end": 271,
+                "kind": "strong"
+              },
+              {
+                "start": 401,
+                "end": 411,
+                "kind": "strong"
+              },
+              {
+                "start": 489,
+                "end": 492,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-likes",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / context",
+                "Construction"
+              ],
+              "rows": [
+                [
+                  "写真を撮るのが好きです。",
+                  "I like taking photos. · hobby",
+                  "Vるのが好き"
+                ],
+                [
+                  "ピアノを弾くのが好きです。",
+                  "I like playing piano. · music",
+                  "Vるのが好き"
+                ],
+                [
+                  "家族と料理を作るのが好きです。",
+                  "I like cooking with family. · home",
+                  "Vるのが好き"
+                ],
+                [
+                  "週末はよく公園を歩いています。",
+                  "I often walk in the park on weekends. · routine",
+                  "Habitual ています"
+                ],
+                [
+                  "今、手紙を書いています。",
+                  "I'm writing a letter now. · present action",
+                  "Ongoing ています"
+                ],
+                [
+                  "このカフェは静かで好きです。",
+                  "I like this café because it's quiet. · places",
+                  "な-adjective＋で"
+                ],
+                [
+                  "この本は短くて読みやすいです。",
+                  "This book is short and easy to read. · books",
+                  "い-adjective＋くて"
+                ],
+                [
+                  "時々娘と絵を描きます。",
+                  "I sometimes draw with my daughter. · family",
+                  "Simple habit with 時々"
+                ]
+              ],
+              "caption": "Distinguish a preference, a repeated habit, and an action happening now."
+            },
+            "text": "Japanese\tEnglish / context\tConstruction\n写真を撮るのが好きです。\tI like taking photos. · hobby\tVるのが好き\nピアノを弾くのが好きです。\tI like playing piano. · music\tVるのが好き\n家族と料理を作るのが好きです。\tI like cooking with family. · home\tVるのが好き\n週末はよく公園を歩いています。\tI often walk in the park on weekends. · routine\tHabitual ています\n今、手紙を書いています。\tI'm writing a letter now. · present action\tOngoing ています\nこのカフェは静かで好きです。\tI like this café because it's quiet. · places\tな-adjective＋で\nこの本は短くて読みやすいです。\tThis book is short and easy to read. · books\tい-adjective＋くて\n時々娘と絵を描きます。\tI sometimes draw with my daughter. · family\tSimple habit with 時々"
+          },
+          {
+            "id": "reply-grammar-time",
+            "kind": "paragraph",
+            "text": "3 · When, if, repetition and gradual results\n\n同じ漢字を何度も見ると、少しずつ意味を覚えます。 — “When I see the same kanji repeatedly, I gradually remember the meaning.” 何度も = many times; 少しずつ = little by little. Vると often describes a natural, habitual or predictable result. Vるとき means *when doing* something, not necessarily cause-and-effect. Compare 時間があったら、一緒に行きましょう for a possible future condition plus an invitation: 〜たら is more flexible here than 〜と.\n\n外国語で話すとき — “when speaking in a foreign language.” The で is a means/language marker; 話すとき is a time clause. It isn't the same construction as 話すと、… meaning “when/if you speak, [result]”.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 44,
+                "kind": "strong"
+              },
+              {
+                "start": 46,
+                "end": 70,
+                "kind": "strong"
+              },
+              {
+                "start": 147,
+                "end": 150,
+                "kind": "strong"
+              },
+              {
+                "start": 165,
+                "end": 169,
+                "kind": "strong"
+              },
+              {
+                "start": 190,
+                "end": 193,
+                "kind": "strong"
+              },
+              {
+                "start": 253,
+                "end": 257,
+                "kind": "strong"
+              },
+              {
+                "start": 330,
+                "end": 347,
+                "kind": "strong"
+              },
+              {
+                "start": 400,
+                "end": 403,
+                "kind": "strong"
+              },
+              {
+                "start": 436,
+                "end": 444,
+                "kind": "strong"
+              },
+              {
+                "start": 490,
+                "end": 491,
+                "kind": "strong"
+              },
+              {
+                "start": 520,
+                "end": 524,
+                "kind": "strong"
+              },
+              {
+                "start": 577,
+                "end": 582,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-time",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / scenario",
+                "Why this form"
+              ],
+              "rows": [
+                [
+                  "このボタンを押すと、音が出ます。",
+                  "When you press this button, it makes a sound. · tech",
+                  "と for predictable result"
+                ],
+                [
+                  "毎日練習すると、少しずつ慣れます。",
+                  "With daily practice, you gradually get used to it. · learning",
+                  "と for habit/result"
+                ],
+                [
+                  "何度も聞くと、言葉を覚えます。",
+                  "Repeated listening helps me remember words. · study",
+                  "と + repetition"
+                ],
+                [
+                  "寝るとき、電気を消します。",
+                  "When I go to bed, I turn off the light. · home",
+                  "とき for time"
+                ],
+                [
+                  "仕事に行くとき、音楽を聞きます。",
+                  "I listen to music when going to work. · commute",
+                  "とき for time"
+                ],
+                [
+                  "時間があったら、コーヒーを飲みましょう。",
+                  "If we have time, let's get coffee. · friendship",
+                  "たら for invitation"
+                ],
+                [
+                  "雨が降ったら、家で映画を見ます。",
+                  "If it rains, I'll watch a film at home. · plans",
+                  "たら for contingent plan"
+                ],
+                [
+                  "同じ曲を何度も弾くと、上手になります。",
+                  "Playing the same piece repeatedly helps you improve. · piano",
+                  "と + practice result"
+                ]
+              ],
+              "caption": "Contrast と, とき, and たら instead of treating all as a generic 'when'."
+            },
+            "text": "Japanese\tEnglish / scenario\tWhy this form\nこのボタンを押すと、音が出ます。\tWhen you press this button, it makes a sound. · tech\tと for predictable result\n毎日練習すると、少しずつ慣れます。\tWith daily practice, you gradually get used to it. · learning\tと for habit/result\n何度も聞くと、言葉を覚えます。\tRepeated listening helps me remember words. · study\tと + repetition\n寝るとき、電気を消します。\tWhen I go to bed, I turn off the light. · home\tとき for time\n仕事に行くとき、音楽を聞きます。\tI listen to music when going to work. · commute\tとき for time\n時間があったら、コーヒーを飲みましょう。\tIf we have time, let's get coffee. · friendship\tたら for invitation\n雨が降ったら、家で映画を見ます。\tIf it rains, I'll watch a film at home. · plans\tたら for contingent plan\n同じ曲を何度も弾くと、上手になります。\tPlaying the same piece repeatedly helps you improve. · piano\tと + practice result"
+          },
+          {
+            "id": "reply-grammar-feelings",
+            "kind": "paragraph",
+            "text": "4 · Talking about nerves and inviting agreement\n\n緊張するのは普通ですよね。 — “Being nervous is normal, isn't it?” Vる＋の turns “being nervous” into a topic; は marks it; 普通 is the description. ですよね invites the listener to agree from shared experience. 「私も緊張します」 (“I get nervous too”) expresses solidarity without claiming to know how Mayumi feels.\n\n勉強するのと実際に話すのは全然違いますよね。 — “Studying and actually speaking are completely different, aren't they?” Here two nominalised actions are compared with と. 全然＋違う is natural and strong; 全然 often pairs with negative expressions but can occur with positive ones colloquially.\n\nきっとたくさん勉強されていると思います expresses a kind inference about her effort. されている is respectful speech for what she does, not the passive 'is being studied' here. Compare the simpler 「たくさん勉強していると思います」 when speaking about a close friend rather than politely addressing someone.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 47,
+                "kind": "strong"
+              },
+              {
+                "start": 49,
+                "end": 62,
+                "kind": "strong"
+              },
+              {
+                "start": 102,
+                "end": 106,
+                "kind": "strong"
+              },
+              {
+                "start": 143,
+                "end": 144,
+                "kind": "strong"
+              },
+              {
+                "start": 155,
+                "end": 157,
+                "kind": "strong"
+              },
+              {
+                "start": 178,
+                "end": 182,
+                "kind": "strong"
+              },
+              {
+                "start": 334,
+                "end": 356,
+                "kind": "strong"
+              },
+              {
+                "start": 440,
+                "end": 459,
+                "kind": "strong"
+              },
+              {
+                "start": 478,
+                "end": 479,
+                "kind": "strong"
+              },
+              {
+                "start": 599,
+                "end": 618,
+                "kind": "strong"
+              },
+              {
+                "start": 664,
+                "end": 669,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-feelings",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / context",
+                "Focus"
+              ],
+              "rows": [
+                [
+                  "初めて会う人と話すのは緊張します。",
+                  "Talking to new people makes me nervous. · social",
+                  "のは topic"
+                ],
+                [
+                  "新しいことを始めるのは楽しいです。",
+                  "Starting new things is fun. · hobbies",
+                  "のは topic"
+                ],
+                [
+                  "一人で旅行するのは大変です。",
+                  "Travelling alone is hard. · travel",
+                  "のは topic"
+                ],
+                [
+                  "読むのと話すのは違います。",
+                  "Reading and speaking are different. · language",
+                  "のと〜のは comparison"
+                ],
+                [
+                  "写真を撮るのと編集するのは違います。",
+                  "Taking and editing photos are different. · photography",
+                  "Activity comparison"
+                ],
+                [
+                  "新しい言葉は難しいですよね。",
+                  "New words are difficult, aren't they? · study",
+                  "Empathetic よね"
+                ],
+                [
+                  "私も同じです。",
+                  "I'm the same. · conversation",
+                  "Shared feeling"
+                ],
+                [
+                  "今日は寒いですね。",
+                  "It's cold today, isn't it? · small talk",
+                  "Neutral ね versus agreement-seeking よね"
+                ]
+              ],
+              "caption": "Change the topic and situation while preserving the same grammatical relationships."
+            },
+            "text": "Japanese\tEnglish / context\tFocus\n初めて会う人と話すのは緊張します。\tTalking to new people makes me nervous. · social\tのは topic\n新しいことを始めるのは楽しいです。\tStarting new things is fun. · hobbies\tのは topic\n一人で旅行するのは大変です。\tTravelling alone is hard. · travel\tのは topic\n読むのと話すのは違います。\tReading and speaking are different. · language\tのと〜のは comparison\n写真を撮るのと編集するのは違います。\tTaking and editing photos are different. · photography\tActivity comparison\n新しい言葉は難しいですよね。\tNew words are difficult, aren't they? · study\tEmpathetic よね\n私も同じです。\tI'm the same. · conversation\tShared feeling\n今日は寒いですね。\tIt's cold today, isn't it? · small talk\tNeutral ね versus agreement-seeking よね"
+          },
+          {
+            "id": "reply-grammar-mistakes",
+            "kind": "paragraph",
+            "text": "5 · 'It's okay to…', learning from mistakes, and possible outcomes\n\n間違えてもいい！ — “It's okay to make mistakes!” Vて＋もいい gives permission or acceptance; with です it becomes a polite statement, and 〜てもいいですか asks permission. This differs from 〜てはいけません, “mustn't do it”. 私は『間違えてもいい！』と思って話しています means “I speak with the attitude that mistakes are okay”; と思って describes the thought guiding your behaviour.\n\n間違えると、面白いこともあります — “Sometimes funny things happen when I make mistakes.” こともあります means *there are also occasions when…*; it doesn't mean mistakes are always funny. 間違いからよく学びます uses から to identify the source of learning, as with 人から学ぶ (learn from a person). Not all から examples mean “because”: 失敗から学ぶ is “learn from failure”, whereas 疲れたから休みます is “I'll rest because I'm tired”.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 66,
+                "kind": "strong"
+              },
+              {
+                "start": 68,
+                "end": 76,
+                "kind": "strong"
+              },
+              {
+                "start": 109,
+                "end": 115,
+                "kind": "strong"
+              },
+              {
+                "start": 153,
+                "end": 155,
+                "kind": "strong"
+              },
+              {
+                "start": 191,
+                "end": 199,
+                "kind": "strong"
+              },
+              {
+                "start": 235,
+                "end": 243,
+                "kind": "strong"
+              },
+              {
+                "start": 262,
+                "end": 284,
+                "kind": "strong"
+              },
+              {
+                "start": 343,
+                "end": 347,
+                "kind": "strong"
+              },
+              {
+                "start": 395,
+                "end": 411,
+                "kind": "strong"
+              },
+              {
+                "start": 468,
+                "end": 475,
+                "kind": "strong"
+              },
+              {
+                "start": 559,
+                "end": 570,
+                "kind": "strong"
+              },
+              {
+                "start": 576,
+                "end": 578,
+                "kind": "strong"
+              },
+              {
+                "start": 688,
+                "end": 694,
+                "kind": "strong"
+              },
+              {
+                "start": 728,
+                "end": 737,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-mistakes",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / context",
+                "Pattern"
+              ],
+              "rows": [
+                [
+                  "ここに座ってもいいですか。",
+                  "May I sit here? · café",
+                  "Vてもいいですか"
+                ],
+                [
+                  "ゆっくり話してもいいですよ。",
+                  "It's fine to speak slowly. · practice",
+                  "Permission / reassurance"
+                ],
+                [
+                  "間違えても大丈夫です。",
+                  "It's okay even if you make a mistake. · study",
+                  "ても reassurance"
+                ],
+                [
+                  "失敗しても、またやってみます。",
+                  "Even if I fail, I'll try again. · hobbies",
+                  "ても concessive: even if"
+                ],
+                [
+                  "楽しもうと思って参加しました。",
+                  "I joined intending to enjoy myself. · events",
+                  "Volitional＋と思って"
+                ],
+                [
+                  "道を間違えると、新しい店を見つけることもあります。",
+                  "Getting lost sometimes leads to finding a new shop. · city",
+                  "と＋こともあります"
+                ],
+                [
+                  "友達から新しい言葉を学びました。",
+                  "I learned a new word from a friend. · language",
+                  "Nから source"
+                ],
+                [
+                  "練習での失敗から学びます。",
+                  "I learn from mistakes in practice. · music",
+                  "Learning from experience"
+                ]
+              ],
+              "caption": "Permission, even-if, intention, occasional outcomes and から in distinct uses."
+            },
+            "text": "Japanese\tEnglish / context\tPattern\nここに座ってもいいですか。\tMay I sit here? · café\tVてもいいですか\nゆっくり話してもいいですよ。\tIt's fine to speak slowly. · practice\tPermission / reassurance\n間違えても大丈夫です。\tIt's okay even if you make a mistake. · study\tても reassurance\n失敗しても、またやってみます。\tEven if I fail, I'll try again. · hobbies\tても concessive: even if\n楽しもうと思って参加しました。\tI joined intending to enjoy myself. · events\tVolitional＋と思って\n道を間違えると、新しい店を見つけることもあります。\tGetting lost sometimes leads to finding a new shop. · city\tと＋こともあります\n友達から新しい言葉を学びました。\tI learned a new word from a friend. · language\tNから source\n練習での失敗から学びます。\tI learn from mistakes in practice. · music\tLearning from experience"
+          },
+          {
+            "id": "reply-grammar-origin",
+            "kind": "paragraph",
+            "text": "6 · Making friends, starting something, and recalling an earlier interest\n\n大学で日本人の友達ができて、日本語を勉強し始めました。 — “I made Japanese friends at university and started learning Japanese.” 友達ができる is a set phrase meaning *make friends / gain a friend*. It is not identical to 日本語ができる (“can use Japanese”). The て-form in できて links it to what followed; it does not automatically say the activities happened simultaneously. 勉強し始める = 勉強する → 勉強します → 勉強し＋始める; with a plain verb, 読む → 読み始める.\n\n一緒にいるのがとても楽しかったです — “Being together was really fun.” Again Vる＋のが, but now followed by 楽しかったです rather than 好き. 前から日本の文化も好きでした = “I'd liked Japanese culture since before.” 前から is vague; it doesn't specify an exact start date. 今では contrasts now with the past. ずっと続けたい趣味 = “a hobby I want to keep up for a long time”; Vます-stem＋たい expresses the speaker's wish, and the clause modifies 趣味.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 73,
+                "kind": "strong"
+              },
+              {
+                "start": 75,
+                "end": 102,
+                "kind": "strong"
+              },
+              {
+                "start": 176,
+                "end": 182,
+                "kind": "strong"
+              },
+              {
+                "start": 262,
+                "end": 269,
+                "kind": "strong"
+              },
+              {
+                "start": 296,
+                "end": 302,
+                "kind": "strong"
+              },
+              {
+                "start": 407,
+                "end": 413,
+                "kind": "strong"
+              },
+              {
+                "start": 472,
+                "end": 489,
+                "kind": "strong"
+              },
+              {
+                "start": 531,
+                "end": 536,
+                "kind": "strong"
+              },
+              {
+                "start": 558,
+                "end": 565,
+                "kind": "strong"
+              },
+              {
+                "start": 582,
+                "end": 596,
+                "kind": "strong"
+              },
+              {
+                "start": 696,
+                "end": 699,
+                "kind": "strong"
+              },
+              {
+                "start": 729,
+                "end": 738,
+                "kind": "strong"
+              },
+              {
+                "start": 786,
+                "end": 797,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-origin",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / context",
+                "Pattern"
+              ],
+              "rows": [
+                [
+                  "学校で新しい友達ができました。",
+                  "I made a new friend at school. · social",
+                  "友達ができる"
+                ],
+                [
+                  "日本語が少しできます。",
+                  "I can speak a little Japanese. · ability",
+                  "ができる = can do"
+                ],
+                [
+                  "雨が降り始めました。",
+                  "It started raining. · weather",
+                  "V-stem＋始める"
+                ],
+                [
+                  "最近、ピアノを弾き始めました。",
+                  "I recently started playing piano. · hobbies",
+                  "V-stem＋始める"
+                ],
+                [
+                  "本を読み始めたら、止まらなくなりました。",
+                  "Once I started reading, I couldn't stop. · books",
+                  "始める + たら"
+                ],
+                [
+                  "前からこの映画を見たかったです。",
+                  "I'd wanted to see this film for a while. · media",
+                  "前から + Vたかった"
+                ],
+                [
+                  "今では、日本語を勉強するのが趣味です。",
+                  "Nowadays, studying Japanese is a hobby. · life",
+                  "今では time contrast"
+                ],
+                [
+                  "いつか京都に行きたいです。",
+                  "I'd like to visit Kyoto someday. · travel",
+                  "Vます-stem＋たい"
+                ]
+              ],
+              "caption": "The same patterns also express weather, hobbies, ability and changing interests."
+            },
+            "text": "Japanese\tEnglish / context\tPattern\n学校で新しい友達ができました。\tI made a new friend at school. · social\t友達ができる\n日本語が少しできます。\tI can speak a little Japanese. · ability\tができる = can do\n雨が降り始めました。\tIt started raining. · weather\tV-stem＋始める\n最近、ピアノを弾き始めました。\tI recently started playing piano. · hobbies\tV-stem＋始める\n本を読み始めたら、止まらなくなりました。\tOnce I started reading, I couldn't stop. · books\t始める + たら\n前からこの映画を見たかったです。\tI'd wanted to see this film for a while. · media\t前から + Vたかった\n今では、日本語を勉強するのが趣味です。\tNowadays, studying Japanese is a hobby. · life\t今では time contrast\nいつか京都に行きたいです。\tI'd like to visit Kyoto someday. · travel\tVます-stem＋たい"
+          },
+          {
+            "id": "reply-grammar-welcome",
+            "kind": "paragraph",
+            "text": "7 · A friendly welcome and gentle questions\n\nオックスフォードへようこそ！ — “Welcome to Oxford!” へ marks a destination; this is a fixed and friendly welcome. 引っ越しは大変だったと思います — “I imagine the move was difficult.” 大変だった is past tense of the な-adjective 大変だ; と思います makes this your inference rather than an assertion about someone else's experience. A more neutral option is 引っ越しはどうでしたか？ (“How was the move?”).\n\nイギリスの生活には少し慣れましたか？ — “Have you got a little used to life in Britain?” N＋に慣れる = become accustomed to something. には highlights that topic: “As for life in Britain…”. 慣れてきました can mean “I've gradually started getting used to it.” When the thing being got used to is an action, use Vる＋のに慣れる: 早く起きるのに慣れました (“I've got used to getting up early”). Here のに is nominalisation＋に, not the adversative のに meaning “although”.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 43,
+                "kind": "strong"
+              },
+              {
+                "start": 45,
+                "end": 59,
+                "kind": "strong"
+              },
+              {
+                "start": 83,
+                "end": 84,
+                "kind": "strong"
+              },
+              {
+                "start": 144,
+                "end": 159,
+                "kind": "strong"
+              },
+              {
+                "start": 198,
+                "end": 203,
+                "kind": "strong"
+              },
+              {
+                "start": 242,
+                "end": 247,
+                "kind": "strong"
+              },
+              {
+                "start": 357,
+                "end": 369,
+                "kind": "strong"
+              },
+              {
+                "start": 394,
+                "end": 412,
+                "kind": "strong"
+              },
+              {
+                "start": 464,
+                "end": 470,
+                "kind": "strong"
+              },
+              {
+                "start": 505,
+                "end": 507,
+                "kind": "strong"
+              },
+              {
+                "start": 558,
+                "end": 565,
+                "kind": "strong"
+              },
+              {
+                "start": 671,
+                "end": 679,
+                "kind": "strong"
+              },
+              {
+                "start": 738,
+                "end": 740,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "reply-examples-welcome",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "English / context",
+                "What it practises"
+              ],
+              "rows": [
+                [
+                  "日本へようこそ！",
+                  "Welcome to Japan! · travel",
+                  "へようこそ"
+                ],
+                [
+                  "新しい学校はどうですか。",
+                  "How is the new school? · education",
+                  "Gentle open question"
+                ],
+                [
+                  "引っ越しはどうでしたか。",
+                  "How was the move? · moving",
+                  "Less assumptive alternative"
+                ],
+                [
+                  "新しい仕事に慣れましたか。",
+                  "Have you got used to the new job? · work",
+                  "Nに慣れる"
+                ],
+                [
+                  "新しい町に少し慣れてきました。",
+                  "I'm gradually getting used to the new town. · moving",
+                  "〜てくる for change"
+                ],
+                [
+                  "朝早く起きるのに慣れました。",
+                  "I've got used to getting up early. · routine",
+                  "Vるのに慣れる"
+                ],
+                [
+                  "たぶん最初は大変だったと思います。",
+                  "I imagine it was difficult at first. · empathy",
+                  "Soft inference with と思う"
+                ],
+                [
+                  "イギリスでの生活はどうですか。",
+                  "How is life in Britain? · conversation",
+                  "Broad friendly question"
+                ]
+              ],
+              "caption": "These alternatives help you adjust how directly you ask or speculate."
+            },
+            "text": "Japanese\tEnglish / context\tWhat it practises\n日本へようこそ！\tWelcome to Japan! · travel\tへようこそ\n新しい学校はどうですか。\tHow is the new school? · education\tGentle open question\n引っ越しはどうでしたか。\tHow was the move? · moving\tLess assumptive alternative\n新しい仕事に慣れましたか。\tHave you got used to the new job? · work\tNに慣れる\n新しい町に少し慣れてきました。\tI'm gradually getting used to the new town. · moving\t〜てくる for change\n朝早く起きるのに慣れました。\tI've got used to getting up early. · routine\tVるのに慣れる\nたぶん最初は大変だったと思います。\tI imagine it was difficult at first. · empathy\tSoft inference with と思う\nイギリスでの生活はどうですか。\tHow is life in Britain? · conversation\tBroad friendly question"
+          },
+          {
+            "id": "reply-pattern-likes",
+            "kind": "interactive",
+            "text": "Build a natural 'I like doing…' sentence. Choose an activity and read the complete example.",
+            "interactive": {
+              "version": 1,
+              "type": "language-pattern",
+              "language": "ja",
+              "slots": [
+                {
+                  "id": "activity",
+                  "label": "Activity",
+                  "choices": [
+                    {
+                      "id": "read",
+                      "label": "読書"
+                    },
+                    {
+                      "id": "photos",
+                      "label": "写真"
+                    },
+                    {
+                      "id": "piano",
+                      "label": "ピアノ"
+                    },
+                    {
+                      "id": "cooking",
+                      "label": "料理"
+                    }
+                  ]
+                }
+              ],
+              "examples": [
+                {
+                  "id": "ex-read",
+                  "choices": {
+                    "activity": "read"
+                  },
+                  "source": {
+                    "text": "本を読むのが好きです。",
+                    "translation": "I like reading books.",
+                    "note": "読む＋のが好き = liking the activity",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-photos",
+                  "choices": {
+                    "activity": "photos"
+                  },
+                  "source": {
+                    "text": "写真を撮るのが好きです。",
+                    "translation": "I like taking photos.",
+                    "note": "撮る＋のが好き",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-piano",
+                  "choices": {
+                    "activity": "piano"
+                  },
+                  "source": {
+                    "text": "ピアノを弾くのが好きです。",
+                    "translation": "I like playing piano.",
+                    "note": "弾く＋のが好き",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-cooking",
+                  "choices": {
+                    "activity": "cooking"
+                  },
+                  "source": {
+                    "text": "料理を作るのが好きです。",
+                    "translation": "I like cooking.",
+                    "note": "作る＋のが好き",
+                    "language": "ja"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "reply-pattern-conditions",
+            "kind": "interactive",
+            "text": "Contrast results, times and possible future plans. Choose the situation, then identify why と, とき or たら is used.",
+            "interactive": {
+              "version": 1,
+              "type": "language-pattern",
+              "language": "ja",
+              "slots": [
+                {
+                  "id": "situation",
+                  "label": "Situation",
+                  "choices": [
+                    {
+                      "id": "button",
+                      "label": "Button"
+                    },
+                    {
+                      "id": "listen",
+                      "label": "Repeated listening"
+                    },
+                    {
+                      "id": "bedtime",
+                      "label": "Bedtime"
+                    },
+                    {
+                      "id": "time",
+                      "label": "Free time"
+                    },
+                    {
+                      "id": "rain",
+                      "label": "Rainy plans"
+                    }
+                  ]
+                }
+              ],
+              "examples": [
+                {
+                  "id": "ex-button",
+                  "choices": {
+                    "situation": "button"
+                  },
+                  "source": {
+                    "text": "このボタンを押すと、音が出ます。",
+                    "translation": "If you press this button, a sound plays.",
+                    "note": "と: reliable result",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-listen",
+                  "choices": {
+                    "situation": "listen"
+                  },
+                  "source": {
+                    "text": "同じ言葉を何度も聞くと、少しずつ覚えます。",
+                    "translation": "Hearing the same word repeatedly helps me gradually remember it.",
+                    "note": "と: habitual result",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-bedtime",
+                  "choices": {
+                    "situation": "bedtime"
+                  },
+                  "source": {
+                    "text": "寝るとき、電気を消します。",
+                    "translation": "When I go to bed, I turn off the light.",
+                    "note": "とき: time rather than a conditional result",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-time",
+                  "choices": {
+                    "situation": "time"
+                  },
+                  "source": {
+                    "text": "時間があったら、コーヒーを飲みましょう。",
+                    "translation": "If there's time, let's get coffee.",
+                    "note": "たら: future condition + invitation",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "ex-rain",
+                  "choices": {
+                    "situation": "rain"
+                  },
+                  "source": {
+                    "text": "雨が降ったら、家で映画を見ます。",
+                    "translation": "If it rains, I'll watch a film at home.",
+                    "note": "たら: possible condition + personal plan",
+                    "language": "ja"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "reply-flashcards",
+            "kind": "interactive",
+            "text": "Reversible cards use the patterns in fresh, everyday contexts. Try to recall the meaning before revealing.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "newpattern-1",
+                  "front": {
+                    "text": "Nみたいです"
+                  },
+                  "back": {
+                    "text": "It's like N / resembles N"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-2",
+                  "front": {
+                    "text": "〜と思います"
+                  },
+                  "back": {
+                    "text": "I think… / I imagine…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-3",
+                  "front": {
+                    "text": "覚えられない"
+                  },
+                  "back": {
+                    "text": "Cannot remember (potential negative of 覚える)"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-4",
+                  "front": {
+                    "text": "〜のが好きです"
+                  },
+                  "back": {
+                    "text": "Like doing an activity"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-5",
+                  "front": {
+                    "text": "少しずつ"
+                  },
+                  "back": {
+                    "text": "Little by little"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-6",
+                  "front": {
+                    "text": "何度も"
+                  },
+                  "back": {
+                    "text": "Many times / repeatedly"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-7",
+                  "front": {
+                    "text": "〜とき"
+                  },
+                  "back": {
+                    "text": "When doing… (time)"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-8",
+                  "front": {
+                    "text": "〜と"
+                  },
+                  "back": {
+                    "text": "When/if… (predictable result)"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-9",
+                  "front": {
+                    "text": "〜たら"
+                  },
+                  "back": {
+                    "text": "If/when… (flexible conditional)"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-10",
+                  "front": {
+                    "text": "緊張するのは普通です"
+                  },
+                  "back": {
+                    "text": "Feeling nervous is normal"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-11",
+                  "front": {
+                    "text": "〜ですよね"
+                  },
+                  "back": {
+                    "text": "Isn't it? / you know? (agreement)"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-12",
+                  "front": {
+                    "text": "間違えてもいい"
+                  },
+                  "back": {
+                    "text": "It's okay to make a mistake"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-13",
+                  "front": {
+                    "text": "〜てもいいですか"
+                  },
+                  "back": {
+                    "text": "May I … ?"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-14",
+                  "front": {
+                    "text": "〜こともあります"
+                  },
+                  "back": {
+                    "text": "Sometimes it happens that…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-15",
+                  "front": {
+                    "text": "〜から学びます"
+                  },
+                  "back": {
+                    "text": "Learn from…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-16",
+                  "front": {
+                    "text": "友達ができました"
+                  },
+                  "back": {
+                    "text": "I made a friend / friends"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-17",
+                  "front": {
+                    "text": "〜し始めました"
+                  },
+                  "back": {
+                    "text": "Started doing…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-18",
+                  "front": {
+                    "text": "前から"
+                  },
+                  "back": {
+                    "text": "Since before / for some time already"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-19",
+                  "front": {
+                    "text": "〜たいです"
+                  },
+                  "back": {
+                    "text": "Want to do…"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "newpattern-20",
+                  "front": {
+                    "text": "〜に慣れましたか"
+                  },
+                  "back": {
+                    "text": "Have you got used to…?"
+                  },
+                  "language": "ja"
+                }
+              ]
+            }
+          },
+          {
+            "id": "reply-example-dialogue",
+            "kind": "interactive",
+            "text": "Short original practice conversation about learning a new language — use it for speaking aloud and translation reveal.",
+            "interactive": {
+              "version": 1,
+              "type": "language-dialogue",
+              "language": "ja",
+              "turns": [
+                {
+                  "id": "a1",
+                  "speaker": "A",
+                  "source": {
+                    "text": "日本語の勉強はどうですか。",
+                    "translation": "How is your Japanese study going?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "b1",
+                  "speaker": "B",
+                  "source": {
+                    "text": "楽しいです。でも、話すときは緊張します。",
+                    "translation": "It's fun. But I get nervous when I speak.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "a2",
+                  "speaker": "A",
+                  "source": {
+                    "text": "そうですよね。私も緊張します。",
+                    "translation": "I know what you mean. I get nervous too.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "b2",
+                  "speaker": "B",
+                  "source": {
+                    "text": "間違えてもいいと思って話しています。",
+                    "translation": "I speak with the attitude that it's okay to make mistakes.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "a3",
+                  "speaker": "A",
+                  "source": {
+                    "text": "何度も話すと、少しずつ慣れますね。",
+                    "translation": "Speaking repeatedly helps you gradually get used to it, doesn't it?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "b3",
+                  "speaker": "B",
+                  "source": {
+                    "text": "そうですね。日本語の映画を見るのも好きです。",
+                    "translation": "Yes. I also like watching Japanese films.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "a4",
+                  "speaker": "A",
+                  "source": {
+                    "text": "日本語を勉強し始めたきっかけは何ですか。",
+                    "translation": "What first made you want to start learning Japanese?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "b4",
+                  "speaker": "B",
+                  "source": {
+                    "text": "大学で友達ができて、勉強し始めました。",
+                    "translation": "I made friends at university and started studying.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "a5",
+                  "speaker": "A",
+                  "source": {
+                    "text": "今では大切な趣味なんですね。",
+                    "translation": "So now it's an important hobby for you.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "b5",
+                  "speaker": "B",
+                  "source": {
+                    "text": "はい。これからも続けたいです。",
+                    "translation": "Yes. I'd like to keep it up.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "reply-transfer",
+            "kind": "paragraph",
+            "text": "Try using the grammar without copying the WhatsApp sentences\n\n*Compare*: describe a cloud, a game or a building with みたいです. *Habit*: say one thing you like doing and one thing you sometimes do with family using 〜のが好き and 〜ています. *Conditions*: contrast a dependable device result with a possible invitation (〜と versus 〜たら). *Nerves*: explain why speaking can be harder than reading with 〜のは and 〜のと〜のは. *Mistakes*: say something it's okay to do (〜てもいい) and something you've learned from (〜から学ぶ). *History*: say how you started a hobby (〜し始めた) and what you want to continue (〜たい). *Friendly question*: ask how somebody is adapting to a new workplace or town (〜に慣れましたか). Translate one or two ideas into Japanese *before* revealing the examples.",
+            "inline": [
+              {
+                "start": 0,
+                "end": 60,
+                "kind": "strong"
+              }
+            ]
+          },
+          {
+            "id": "mayumi-expression-bank",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Useful expression from her message",
+                "What it could help you express"
+              ],
+              "rows": [
+                [
+                  "緊張します",
+                  "I'm nervous."
+                ],
+                [
+                  "言葉が出てこない",
+                  "I can't think of the words."
+                ],
+                [
+                  "きっかけ",
+                  "The thing that inspired / started something."
+                ],
+                [
+                  "引っ越してきました",
+                  "I moved here."
+                ],
+                [
+                  "〜を辞めて",
+                  "I left [a job/activity] and…"
+                ],
+                [
+                  "〜と思った",
+                  "I thought / decided that…"
+                ]
+              ],
+              "caption": "An expression bank, not a suggested message for copying."
+            },
+            "text": "Useful expression from her message\tWhat it could help you express\n緊張します\tI'm nervous.\n言葉が出てこない\tI can't think of the words.\nきっかけ\tThe thing that inspired / started something.\n引っ越してきました\tI moved here.\n〜を辞めて\tI left [a job/activity] and…\n〜と思った\tI thought / decided that…"
+          }
+        ]
+      },
+      {
+        "id": "self-tests",
+        "title": "Reusable Japanese self-checks",
+        "parts": [
+          {
+            "id": "test-understanding",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "No.",
+                "Check without looking at the explanation"
+              ],
+              "rows": [
+                [
+                  "1",
+                  "What does こちらこそ convey when replying to thanks?"
+                ],
+                [
+                  "2",
+                  "What does まで add in Mayumi’s 漢字まで！?"
+                ],
+                [
+                  "3",
+                  "How do 覚えられない and 覚えない differ?"
+                ],
+                [
+                  "4",
+                  "What does 〜たり〜たりする express in 読んだり書いたりする?"
+                ],
+                [
+                  "5",
+                  "Why is と used in 何度も見ると… but とき in 外国語で話すとき?"
+                ],
+                [
+                  "6",
+                  "What nuance does 〜てしまう add to Mayumi’s words about going blank?"
+                ],
+                [
+                  "7",
+                  "What does 〜に慣れる express in 生活に慣れましたか?"
+                ],
+                [
+                  "8",
+                  "Explain the different meanings of 日本語ができる and 友達ができる."
+                ]
+              ],
+              "caption": "Reading and grammar recall drawn from the two messages, not a record of performance."
+            },
+            "text": "No.\tCheck without looking at the explanation\n1\tWhat does こちらこそ convey when replying to thanks?\n2\tWhat does まで add in Mayumi’s 漢字まで！?\n3\tHow do 覚えられない and 覚えない differ?\n4\tWhat does 〜たり〜たりする express in 読んだり書いたりする?\n5\tWhy is と used in 何度も見ると… but とき in 外国語で話すとき?\n6\tWhat nuance does 〜てしまう add to Mayumi’s words about going blank?\n7\tWhat does 〜に慣れる express in 生活に慣れましたか?\n8\tExplain the different meanings of 日本語ができる and 友達ができる."
+          },
+          {
+            "id": "test-understanding-key",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "No.",
+                "Explanation"
+              ],
+              "rows": [
+                [
+                  "1",
+                  "“Likewise / thank you too”; it returns the thanks rather than introducing a new topic."
+                ],
+                [
+                  "2",
+                  "“Even”: she is impressed that the learning extends to kanji."
+                ],
+                [
+                  "3",
+                  "覚えられない means “cannot remember”; 覚えない means “do not memorise” (choice/habit)."
+                ],
+                [
+                  "4",
+                  "It lists representative activities without necessarily implying their order."
+                ],
+                [
+                  "5",
+                  "と describes a natural or repeated result; とき locates an action in time."
+                ],
+                [
+                  "6",
+                  "It adds an unfortunate or involuntary sense to the result (“I end up unable to find the words”)."
+                ],
+                [
+                  "7",
+                  "Becoming accustomed to a situation, environment or activity."
+                ],
+                [
+                  "8",
+                  "日本語ができる = can use Japanese; 友達ができる = make/gain friends."
+                ]
+              ],
+              "caption": "Check explanations after attempting the questions."
+            },
+            "text": "No.\tExplanation\n1\t“Likewise / thank you too”; it returns the thanks rather than introducing a new topic.\n2\t“Even”: she is impressed that the learning extends to kanji.\n3\t覚えられない means “cannot remember”; 覚えない means “do not memorise” (choice/habit).\n4\tIt lists representative activities without necessarily implying their order.\n5\tと describes a natural or repeated result; とき locates an action in time.\n6\tIt adds an unfortunate or involuntary sense to the result (“I end up unable to find the words”).\n7\tBecoming accustomed to a situation, environment or activity.\n8\t日本語ができる = can use Japanese; 友達ができる = make/gain friends."
+          },
+          {
+            "id": "test-production",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "No.",
+                "Make your own Japanese sentence"
+              ],
+              "rows": [
+                [
+                  "1",
+                  "I like taking photos. Use 〜のが好き."
+                ],
+                [
+                  "2",
+                  "I sometimes write kanji with my daughter. Use 時々 and a habitual form."
+                ],
+                [
+                  "3",
+                  "When I see the same word again and again, I gradually remember it. Use 〜と and 少しずつ."
+                ],
+                [
+                  "4",
+                  "It’s okay to make mistakes. Use 〜てもいい."
+                ],
+                [
+                  "5",
+                  "Have you got used to life in Britain? Use 〜に慣れる."
+                ],
+                [
+                  "6",
+                  "I used to be a nurse, but now I look after children at home. Contrast past and present."
+                ],
+                [
+                  "7",
+                  "If you have time, let’s have coffee. Use 〜たら."
+                ],
+                [
+                  "8",
+                  "What prompted you to start learning Japanese? Use きっかけ."
+                ]
+              ],
+              "caption": "Translate aloud or in writing before opening the sample responses."
+            },
+            "text": "No.\tMake your own Japanese sentence\n1\tI like taking photos. Use 〜のが好き.\n2\tI sometimes write kanji with my daughter. Use 時々 and a habitual form.\n3\tWhen I see the same word again and again, I gradually remember it. Use 〜と and 少しずつ.\n4\tIt’s okay to make mistakes. Use 〜てもいい.\n5\tHave you got used to life in Britain? Use 〜に慣れる.\n6\tI used to be a nurse, but now I look after children at home. Contrast past and present.\n7\tIf you have time, let’s have coffee. Use 〜たら.\n8\tWhat prompted you to start learning Japanese? Use きっかけ."
+          },
+          {
+            "id": "test-production-key",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "No.",
+                "One natural model response"
+              ],
+              "rows": [
+                [
+                  "1",
+                  "写真を撮るのが好きです。"
+                ],
+                [
+                  "2",
+                  "娘と時々一緒に漢字を書いています。"
+                ],
+                [
+                  "3",
+                  "同じ言葉を何度も見ると、少しずつ覚えます。"
+                ],
+                [
+                  "4",
+                  "間違えてもいいですよ。"
+                ],
+                [
+                  "5",
+                  "イギリスの生活には少し慣れましたか？"
+                ],
+                [
+                  "6",
+                  "昔は看護師をしていましたが、今は家で子どもの世話をしています。"
+                ],
+                [
+                  "7",
+                  "時間があったら、コーヒーを飲みましょう。"
+                ],
+                [
+                  "8",
+                  "日本語を学ぼうと思ったきっかけは何ですか？"
+                ]
+              ],
+              "caption": "Model responses are examples, not the only acceptable answers."
+            },
+            "text": "No.\tOne natural model response\n1\t写真を撮るのが好きです。\n2\t娘と時々一緒に漢字を書いています。\n3\t同じ言葉を何度も見ると、少しずつ覚えます。\n4\t間違えてもいいですよ。\n5\tイギリスの生活には少し慣れましたか？\n6\t昔は看護師をしていましたが、今は家で子どもの世話をしています。\n7\t時間があったら、コーヒーを飲みましょう。\n8\t日本語を学ぼうと思ったきっかけは何ですか？"
+          }
+        ]
+      },
+      {
+        "id": "music-conversation-20261112",
+        "title": "Music, hobbies and spontaneous Japanese",
+        "parts": [
+          {
+            "id": "music-purpose",
+            "kind": "paragraph",
+            "text": "Practice: a natural Japanese conversation about hobbies, music and playing piano. We worked on 〜たり〜たりする, 〜のが好き／〜ことが好き, 〜や／〜とか, 〜から, 〜と思います and 〜やすい. The long original below was written with time and care, not produced spontaneously. Future practice should develop quicker, shorter responses and build complexity gradually rather than memorising the full answer."
+          },
+          {
+            "id": "music-long-original",
+            "kind": "paragraph",
+            "text": "My original Japanese (carefully composed; retain exactly):\n\nロックやジャズが大好きなんだけど、クラシックとかレゲエ、エレクトロニカとか、他にもいろんなジャンルの音楽を聴くよ。それぞれ違う良さがあって、心に響くものがあるから、幅広い音楽が好きなんだよね。"
+          },
+          {
+            "id": "music-long-translation",
+            "kind": "paragraph",
+            "text": "Natural English: “I love rock and jazz, but I also listen to classical, reggae, electronica and all sorts of other genres. Each has something different to offer, something that resonates with me, so I enjoy a wide variety of music.” The original is fluent-sounding, informal Japanese; its preparation time matters when choosing subsequent speaking exercises."
+          },
+          {
+            "id": "music-long-grammar",
+            "kind": "paragraph",
+            "text": "Understanding the long answer:\n\nや (“and things like…”) and とか (“such as…”) list examples rather than all possibilities. なんだけど combines informal explanation (んだ) with けど (“but…”) to open out the thought; 聴くよ and 好きなんだよね are conversational endings. それぞれ違う良さがあって means each has its own particular appeal; あって links to the next clause. 心に響く means emotionally resonates or moves the listener. 〜から gives the reason for liking many genres. The sentence naturally uses casual Japanese; with a new acquaintance, consider です／ます.\n\nShorter *new* example for speaking without preparation: 「ロックとジャズが好きです。でも、ほかの音楽も聴きます。それぞれ良さがあるからです。」"
+          },
+          {
+            "id": "music-first-attempt",
+            "kind": "paragraph",
+            "text": "First spontaneous activity-listing attempt: 「ピアノを惹くたり聴くたりしま。」\n\nCorrected: 「ピアノを弾いたり、音楽を聴いたりします。」 (“I do things like playing piano and listening to music.”)\n\n弾く = play an instrument; 聴く = listen attentively; 惹く = attract. For 〜たり, take the plain past form plus り: 弾く → 弾いた → 弾いたり; 聴く → 聴いた → 聴いたり. Finish with します. The natural objects are ピアノを弾く and 音楽を聴く. The たり pattern lists examples, not events in sequence."
+          },
+          {
+            "id": "music-followup",
+            "kind": "paragraph",
+            "text": "Other learner-authored sentences:\n\n「Yann tiersen と einaudi を聴くことが大好きです。」 — “I love listening to Yann Tiersen and Einaudi.” 〜ことが好き is correct; 〜のが好き is another especially conversational option. Listening = 聴く, playing = 弾く. Contrast 「二人の曲を聴くのが好きです。」 and 「二人の曲をピアノで弾くのが好きです。」\n\nQuestion asked: 「その二人の曲を、ピアノでも弾きますか？」 (“Do you also play their pieces on piano?”)\n\nActual reply: 「はい、彼らの音楽は覚えやすいと思います。ゆっくりと穏やかです。」 — “Yes. I think their music is easy to remember. It is slow and calm.” The はい ALREADY clearly answers yes; Japanese naturally omits a repeated predicate when understood. Do not criticise this as an unanswered question. 覚えやすい = easy to remember; 弾きやすい = easy to play. Optional stylistic alternative, not a required correction: 「テンポがゆっくりで、穏やかな曲が多いです。」"
+          },
+          {
+            "id": "music-vocab",
+            "kind": "table",
+            "table": {
+              "headers": [
+                "Japanese",
+                "Meaning / contrast"
+              ],
+              "rows": [
+                [
+                  "弾く／弾いたり",
+                  "Play instrument / do things like play"
+                ],
+                [
+                  "聴く／聴いたり",
+                  "Listen / do things like listen"
+                ],
+                [
+                  "惹く",
+                  "Attract or captivate"
+                ],
+                [
+                  "曲／音楽／ジャンル",
+                  "Piece or track / music / genre"
+                ],
+                [
+                  "ロック／ジャズ／クラシック",
+                  "Rock / jazz / classical"
+                ],
+                [
+                  "レゲエ／エレクトロニカ",
+                  "Reggae / electronica"
+                ],
+                [
+                  "それぞれ／違う良さ",
+                  "Each / different appeal"
+                ],
+                [
+                  "心に響く",
+                  "Emotionally resonate, move"
+                ],
+                [
+                  "覚えやすい／弾きやすい",
+                  "Easy to remember / easy to play"
+                ],
+                [
+                  "穏やか／テンポがゆっくり",
+                  "Calm, gentle / slow tempo"
+                ],
+                [
+                  "〜のが好き／〜ことが好き",
+                  "Like doing something"
+                ],
+                [
+                  "〜と思います／〜から",
+                  "I think… / because…"
+                ]
+              ],
+              "caption": "Reusable vocabulary and contrasts from music practice."
+            },
+            "text": "Japanese\tMeaning / contrast\n弾く／弾いたり\tPlay instrument / do things like play\n聴く／聴いたり\tListen / do things like listen\n惹く\tAttract or captivate\n曲／音楽／ジャンル\tPiece or track / music / genre\nロック／ジャズ／クラシック\tRock / jazz / classical\nレゲエ／エレクトロニカ\tReggae / electronica\nそれぞれ／違う良さ\tEach / different appeal\n心に響く\tEmotionally resonate, move\n覚えやすい／弾きやすい\tEasy to remember / easy to play\n穏やか／テンポがゆっくり\tCalm, gentle / slow tempo\n〜のが好き／〜ことが好き\tLike doing something\n〜と思います／〜から\tI think… / because…"
+          },
+          {
+            "id": "music-resume",
+            "kind": "paragraph",
+            "text": "START HERE NEXT TIME: One Japanese question at a time, starting with 「ピアノを弾くとき、どんな気持ちになりますか？」 (“How do you feel when you play the piano?”). Ask for one short Japanese reply without lengthy preparation. Give concrete, constructive feedback in English, consider whether meaning is conveyed in conversational context, and suggest more natural phrasing when helpful. Adapt the next Japanese question to the answer; build toward explaining reasons, experiences and changing tastes. Do not require repetition of a verb when はい has already answered the question. Further variation: construct fresh sentences with 〜たり, 〜とか, 〜から, 〜と思う, 〜やすい and 〜とき, instead of copying the long prepared answer."
+          }
+        ]
+      },
+      {
+        "id": "mayumi-followup-20261112",
+        "title": "Mayumi · kanji, courage and settling in",
+        "parts": [
+          {
+            "id": "followup-source",
+            "kind": "callout",
+            "text": "漢字大好きなんですね〜！✨子供と一緒に楽しんで覚えるのとてもいいですね！エヴィちゃんは何歳ですか？\n\n本当にその通りな上にとても素晴らしい考えで見習いたいです！✨今日Jonさんに話しかけるのもかなり緊張してたのですが、勇気出して良かったとしみじみ思っています🥺\n\nそういうきっかけがあったんですね！日本が好きって言ってもらえるとなんだか嬉しいです☺️外国語の勉強が趣味ってすごいですね！！\n\nありがとうございます！最初はホームシックでしたが、今はだいぶ慣れました！景色がどこも綺麗で人も優しくてすごく良いところだと思ってます！",
+            "callout": {
+              "tone": "note",
+              "label": "Mayumi · original Japanese"
+            }
+          },
+          {
+            "id": "followup-translation",
+            "kind": "paragraph",
+            "text": "1. “Oh, you really love kanji! It's lovely that you and your child have fun learning them together. How old is Evie?”\n\n2. “That's absolutely right, and such a wonderful outlook — I'd love to follow your example! I was quite nervous about approaching you today, but I'm genuinely glad I found the courage to do it.”\n\n3. “Oh, so that's what inspired you! Somehow it makes me happy when someone says they like Japan. Studying foreign languages as a hobby — that's amazing!”\n\n4. “Thank you! I was homesick at first, but I've got quite used to living here now. The scenery is beautiful everywhere and people are kind — I think it's a lovely place!”"
+          },
+          {
+            "id": "followup-understand-kanji",
+            "kind": "paragraph",
+            "text": "Kanji and Evie\n\n漢字大好きなんですね〜！ — “Oh, so you love kanji!” 〜なんですね shows interest in a newly learned fact. Compare 漢字が大好きです (“I love kanji”) with 漢字が大好きなんですね (“Oh, so you love kanji!”).\n\n子供と一緒に楽しんで覚えるのとてもいいですね！ — “It's lovely to learn together with your child while having fun.” 子供と = with your child; 一緒に = together; 楽しんで = having fun (て-form of 楽しむ); 覚える = learn or memorise; の makes the whole activity something she can comment on. More fully: 覚えるのはとてもいいですね. エヴィちゃんは何歳ですか？ asks Evie's age; ちゃん is warm and affectionate."
+          },
+          {
+            "id": "followup-understand-courage",
+            "kind": "paragraph",
+            "text": "Agreeing, complimenting and finding courage\n\n本当にその通りな上に = “Exactly right, and on top of that…” その通り = just as you said; 〜上に adds another point. 素晴らしい考え = wonderful way of thinking; 見習いたい (見習う → 見習いたい) = want to follow someone's example.\n\n今日Jonさんに話しかけるのもかなり緊張してたのですが = “Even approaching you today made me quite nervous, but…” 話しかける = initiate conversation (not merely 話す); かなり = considerably; 緊張してた = conversational contraction of 緊張していた; のも treats initiating the conversation as an activity and も adds “too/even.”\n\n勇気出して良かったとしみじみ思っています = “I genuinely feel so glad I found the courage.” 勇気を出す = summon courage (を omitted colloquially); 〜て良かった = glad to have done something; しみじみ = deeply / reflectively; と marks the thought quoted before 思っています. This is heartfelt reflection, not simply polite thanks."
+          },
+          {
+            "id": "followup-understand-japan",
+            "kind": "paragraph",
+            "text": "Responding to inspiration and kind words\n\nそういうきっかけがあったんですね！ = “Oh, so that was your inspiration!” きっかけ = starting point or trigger; んですね signals interested acknowledgement.\n\n日本が好きって言ってもらえるとなんだか嬉しいです = “Somehow it makes me happy when someone says they like Japan.” って is informal quotation (≈ と); 言ってもらえる = to have someone say something for one's benefit, potential of 言ってもらう; 〜と marks a natural/habitual result; なんだか = somehow, for some reason.\n\n外国語の勉強が趣味ってすごいですね！！ = “Studying foreign languages as a hobby — that's impressive!” Here って introduces the whole idea being reacted to."
+          },
+          {
+            "id": "followup-understand-uk",
+            "kind": "paragraph",
+            "text": "Settling into a new place\n\n最初はホームシックでしたが、今はだいぶ慣れました！ = “I was homesick at first, but I've got quite used to it now!” 最初は / 今は contrast then and now; だいぶ = considerably; 慣れる = get accustomed to. With a specific target: 〜に慣れる, e.g. 新しい生活に慣れました.\n\n景色がどこも綺麗で人も優しくて = “The scenery is beautiful everywhere and people are kind.” 綺麗 is a な-adjective, joined with で; 優しい is an い-adjective, joined with くて. すごく良いところだと思ってます = “I think it's a really good place”; 思ってます contracts 思っています. Her wording conveys that she has settled in more, not that she never misses home."
+          },
+          {
+            "id": "followup-grammar-response",
+            "kind": "paragraph",
+            "text": "Responding naturally: 〜んですね and 〜上に\n\n日本から引っ越してきたんですね！ — “Oh, so you moved here from Japan!” ピアノも弾くんですね！ — “Oh, you play piano too!” With nouns or な-adjectives, なんですね is common: 漢字が大好きなんですね.\n\n〜上に adds a further point: この町は静かな上に便利です (“This town is quiet and convenient as well”). 日本語は面白い上に、勉強になります (“Japanese is interesting and educational too”). な-adjectives generally take な上に; い-adjectives attach directly to 上に."
+          },
+          {
+            "id": "followup-grammar-courage",
+            "kind": "paragraph",
+            "text": "Relief and reflection: 〜て良かった, 勇気を出す, しみじみ\n\n話しかけて良かったです — “I'm glad I approached you.” 勇気を出して話しました — “I found the courage to speak.” 思い切って質問して良かったです — “I'm glad I took the plunge and asked.” 〜て良かった evaluates an action positively; compare 行って良かった (“I'm glad I went”) and 行けば良かった (“I wish I'd gone”).\n\nしみじみ思う adds heartfelt reflection: 日本に来て良かったとしみじみ思います (“I feel deeply glad I came to Japan”). It's not required in everyday expressions of relief."
+          },
+          {
+            "id": "followup-grammar-quotation",
+            "kind": "paragraph",
+            "text": "Quoted speech, receiving kindness and its effect: って / 〜てもらえると / なんだか\n\n日本が好きって言ってくれました — “They told me they like Japan.” 日本が好きって言ってもらえると嬉しいです — “When someone says they like Japan, it makes me happy.” 褒めてもらえると嬉しいです — “I feel happy when someone praises me.” 手伝ってもらえると助かります — “It helps when someone lends a hand.”\n\nなんだか = “somehow”: この曲を聴くと、なんだか落ち着きます (“Listening to this piece somehow calms me down”). The 〜と here signals a normal/predictable result."
+          },
+          {
+            "id": "followup-grammar-settling",
+            "kind": "paragraph",
+            "text": "Getting used to things and linking adjectives\n\n〜に慣れる: 新しい学校に慣れてきました (“I'm gradually getting used to the new school”). 日本語で話すことにまだ慣れていません (“I'm not yet used to speaking Japanese”). 生活にだいぶ慣れました (“I've quite got used to life/the routine”). 〜てきました emphasises a developing change up to now.\n\nJoin descriptive clauses: このカフェは静かで、居心地がいいです (“This café is quiet and comfortable”). この曲は優しくて落ち着きます (“This piece is gentle and calming”). 綺麗→綺麗で (な-adjective); 優しい→優しくて (い-adjective)."
+          },
+          {
+            "id": "followup-vocabulary",
+            "kind": "paragraph",
+            "text": "漢字（かんじ）が大好き（だいすき）なんですね — Oh, so you love kanji!\n一緒（いっしょ）に楽（たの）しんで覚（おぼ）える — Learn together while having fun\n何歳（なんさい）ですか — How old?\nその通（とお）り — Exactly / that's right\n〜上（うえ）に — On top of that\n素晴（すば）らしい考（かんが）え — Wonderful way of thinking\n見習（みなら）いたい — Want to learn from an example\n話（はな）しかける — Approach / start talking to someone\n緊張（きんちょう）してた — Was nervous (colloquial)\n勇気（ゆうき）を出（だ）す — Find the courage\nしみじみ — Reflectively, deeply\nきっかけ — Trigger or inspiration\nなんだか嬉（うれ）しい — Somehow it makes me happy\nホームシック — Homesick\nだいぶ慣（な）れました — I've become quite used to it\n景色（けしき）が綺麗（きれい）で、人（ひと）が優（やさ）しい — Beautiful scenery and kind people"
+          },
+          {
+            "id": "followup-practice",
+            "kind": "paragraph",
+            "text": "Speaking practice: say one short sentence before looking at each model; then substitute a different situation.\n\n1. React to hearing someone likes photography, using 〜んですね: 写真が好きなんですね！ (“Oh, you like photography!”)\n2. You tried speaking Japanese and are glad you did, using 〜て良かった: 日本語で話しかけて良かったです。 (“I'm glad I approached someone in Japanese.”)\n3. Describe a quiet place with friendly people, linking adjectives: この町は静かで、人も親切です。 (“This town is quiet and the people are kind.”)\n4. Say it makes you happy when someone encourages you, using 〜てもらえると: 励ましてもらえると嬉しいです。 (“I'm happy when someone encourages me.”)\n5. Say you are gradually getting used to something: 新しい生活に少しずつ慣れてきました。 (“I'm gradually getting used to my new life.”)\n6. Say piano is fun and a change of pace, using 〜上に: ピアノは楽しい上に、気分転換になります。 (“Piano is fun and a nice change of pace too.”)\n\nChoose one and recreate it from your own experience rather than memorising the example."
+          },
+          {
+            "id": "followup-dialogue",
+            "kind": "interactive",
+            "text": "A short original practice conversation about adjusting to a new country.",
+            "interactive": {
+              "version": 1,
+              "type": "language-dialogue",
+              "language": "ja",
+              "turns": [
+                {
+                  "id": "mf2-a",
+                  "speaker": "A",
+                  "source": {
+                    "text": "こちらの生活には慣れましたか？",
+                    "translation": "Have you got used to life here?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "mf2-b",
+                  "speaker": "B",
+                  "source": {
+                    "text": "最初は大変でしたが、今はだいぶ慣れました。",
+                    "translation": "At first it was hard, but I'm quite used to it now.",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "mf2-c",
+                  "speaker": "A",
+                  "source": {
+                    "text": "そうなんですね。どんなところが好きですか？",
+                    "translation": "I see. What do you like about it?",
+                    "language": "ja"
+                  }
+                },
+                {
+                  "id": "mf2-d",
+                  "speaker": "B",
+                  "source": {
+                    "text": "景色が綺麗で、人も優しいところです。",
+                    "translation": "The beautiful scenery and kind people.",
+                    "language": "ja"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "followup-reveal",
+            "kind": "interactive",
+            "text": "Read the Japanese and explain the emotional nuance before revealing the English.",
+            "interactive": {
+              "version": 1,
+              "type": "language-reveal",
+              "language": "ja",
+              "source": {
+                "text": "勇気を出して良かったとしみじみ思っています。",
+                "translation": "I feel deeply glad that I found the courage.",
+                "note": "勇気を出す = summon courage; 〜て良かった = glad I did it; しみじみ = heartfelt, reflective; と quotes the thought.",
+                "language": "ja"
+              },
+              "gloss": "ゆうき / だす / よかった / しみじみ / おもっています",
+              "explanation": "Compare 勇気を出して良かったです — same basic relief, but without the specifically reflective しみじみ思っています."
+            }
+          },
+          {
+            "id": "followup-cards",
+            "kind": "interactive",
+            "text": "Recall the new expressions and apply them to fresh situations.",
+            "interactive": {
+              "version": 1,
+              "type": "flashcards",
+              "reversible": true,
+              "cards": [
+                {
+                  "id": "mf2-1",
+                  "front": {
+                    "text": "見習いたい"
+                  },
+                  "back": {
+                    "text": "Want to follow someone's example or learn from them."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-2",
+                  "front": {
+                    "text": "勇気を出して良かったです。"
+                  },
+                  "back": {
+                    "text": "I'm glad I found the courage."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-3",
+                  "front": {
+                    "text": "だいぶ慣れました。"
+                  },
+                  "back": {
+                    "text": "I've got quite used to it."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-4",
+                  "front": {
+                    "text": "なんだか嬉しいです。"
+                  },
+                  "back": {
+                    "text": "Somehow it makes me happy."
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-5",
+                  "front": {
+                    "text": "Oh, so you play piano too!"
+                  },
+                  "back": {
+                    "text": "ピアノも弾くんですね！"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-6",
+                  "front": {
+                    "text": "I'm glad I went."
+                  },
+                  "back": {
+                    "text": "行って良かったです。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-7",
+                  "front": {
+                    "text": "I'm getting used to speaking Japanese."
+                  },
+                  "back": {
+                    "text": "日本語で話すことに慣れてきました。"
+                  },
+                  "language": "ja"
+                },
+                {
+                  "id": "mf2-8",
+                  "front": {
+                    "text": "The park is quiet and beautiful."
+                  },
+                  "back": {
+                    "text": "公園は静かで綺麗です。"
+                  },
+                  "language": "ja"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "rev": 12,
+    "createdAt": "2026-11-12T10:39:13.529Z",
+    "updatedAt": "2026-11-13T05:05:59.447Z",
+    "trashedAt": null,
+    "actor": "gpt",
+    "rendition": "r-d2bd284647c9a48dd0266eb9ace64324e31d50d6b3ba8fce691135d59b56821d",
+    "learningScopeRev": 0
+  },
+  "scope": {
+    "requested": {
+      "learningSpace": "all"
+    },
+    "effective": {
+      "version": 1,
+      "spaces": [
+        "languages"
+      ],
+      "languages": [
+        "ja"
+      ],
+      "subjects": [
+        "Japanese conversation",
+        "Friendship",
+        "Messaging",
+        "Everyday life"
+      ],
+      "provenance": "authored"
+    },
+    "inRequestedScope": true,
+    "identityFirst": true
+  },
+  "resourceQuality": {
+    "version": "minamo-resource-quality-2026-10-26.2",
+    "applicable": false,
+    "role": "journey",
+    "findings": [],
+    "notice": "Personal captures and evidence are preserved faithfully; depth guidance never expands supplied evidence."
+  },
+  "bookmark": {
+    "targetKey": "bookmark-cd49aadc26b32ce98f792545f5f86a165fec9591d69fe58648d9dedad815c6f7",
+    "targetRev": 0,
+    "active": false,
+    "available": true
+  },
+  "conceptEntries": [],
+  "mediaNotice": "Image alternative text, media descriptions, captions and transcripts are owner-authored metadata. This JSON tool does not deliver or interpret image pixels, document bytes or recorded audio/video; no OCR or transcription is performed."
+}

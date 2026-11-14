@@ -1,3 +1,4 @@
+import {validateAccumulation} from './accumulation-contract';
 import {testRunDescriptor,fictionalEventSchema} from './test-run-contract';
 import {drawingDocument,drawingImageIds,DRAWING_MIME} from './drawing-document';
 import {PYGBAG_MIME,PYGBAG_RUNTIME} from './pygbag-package';
@@ -48,7 +49,7 @@ const stable=(x:unknown):string=>{if(Array.isArray(x))return '['+x.map(stable).j
 async function hash(x:unknown){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(stable(x))))).map(n=>n.toString(16).padStart(2,'0')).join('')}
 function db(env:Cloudflare.Env){if(!env.DB)fail(503,'storage_unavailable','Private storage is unavailable; your draft is retained.');return env.DB!}
 function unpack(row:{data:string}|null):WorkspaceRecord|null{if(!row)return null;const record=JSON.parse(row.data) as WorkspaceRecord;return isReadingFamily(record.family)&&!record.rendition?{...record,rendition:`legacy-${record.family}-${record.id}-r${record.rev}`}:record;}
-async function renditionFor(record:WorkspaceRecord):Promise<string>{const learning=(record as any).learningShape;return 'r-'+await hash(learning?{version:1,learningShape:learning,reading:await renditionFor({...record,learningShape:undefined} as WorkspaceRecord)}:record.family==='article'?{title:record.title,body:record.body,sections:record.sections??[],...(record.concepts?.length?{concepts:record.concepts}:{})}:{family:record.family,title:record.title,body:record.body,sections:record.sections??[],...((record.family==='run'||record.family==='experiment')?{code:record.code??'',engine:record.engine??''}:{}),...(record.family==='note'&&record.bodyFormat?{bodyFormat:record.bodyFormat}:{}),...(record.family==='run'?{output:record.output??'',...(record.outputBundle?{outputBundle:record.outputBundle}:{})}:{}),...(record.activity?{activity:record.activity}:{}),...(record.attempt?{attempt:record.attempt}:{}),...(record.family==='source'&&record.source?{source:record.source}:{})});}
+async function renditionFor(record:WorkspaceRecord):Promise<string>{const learning=(record as any).learningShape;return 'r-'+await hash(learning?{version:1,learningShape:learning,reading:await renditionFor({...record,learningShape:undefined} as WorkspaceRecord)}:record.family==='article'?{title:record.title,body:record.body,sections:record.sections??[],...(record.concepts?.length?{concepts:record.concepts}:{})}:{family:record.family,title:record.title,body:record.body,sections:record.sections??[],...(record.experience?{experience:record.experience}:{}),...((record.family==='run'||record.family==='experiment')?{code:record.code??'',engine:record.engine??''}:{}),...(record.family==='note'&&record.bodyFormat?{bodyFormat:record.bodyFormat}:{}),...(record.family==='run'?{output:record.output??'',...(record.outputBundle?{outputBundle:record.outputBundle}:{})}:{}),...(record.activity?{activity:record.activity}:{}),...(record.attempt?{attempt:record.attempt}:{}),...(record.family==='source'&&record.source?{source:record.source}:{})});}
 function allowedKeys(value:Record<string,unknown>,keys:string[]){for(const k of Object.keys(value))if(!keys.includes(k))fail(400,'invalid_shape',`Unsupported field: ${k}`)}
 export function validateCommand(value:unknown):WorkspaceCommand {
  if(!object(value))fail(400,'invalid_shape','A command object is required.');
@@ -106,7 +107,7 @@ function validateRichPart(p:Record<string,unknown>){
 type ValidatedData=Omit<Partial<RecordData>,'source'> & {source?:SourceInfo};
 export function validateData(input:unknown,f:Family,existing?:WorkspaceRecord|null):ValidatedData{
  if(!object(input))fail(400,'invalid_data','Record data must be an object.');
- allowedKeys(input,['title','body','status','links','sections','concepts','anchor','source','engine','code','output','outputBundle','evidence','synthetic','bodyFormat','learningShape','learningScope','noteContent','activity','attempt','projectCover','workMeta','projectComposition','projectDescription','pagePins','testRunId','testRun','fictionalEvent']);
+ allowedKeys(input,['title','body','status','links','sections','concepts','anchor','source','engine','code','output','outputBundle','evidence','synthetic','bodyFormat','learningShape','learningScope','noteContent','activity','attempt','projectCover','workMeta','experience','projectComposition','projectDescription','pagePins','testRunId','testRun','fictionalEvent']);
  if((input as any).noteContent!==undefined&&f!=='note')fail(400,'invalid_note_content','data.noteContent is supported only for Notes.');
  const data=compileAuthorData(input) as Record<string,any>;
  if(data.testRun!==undefined){try{data.testRun=testRunDescriptor.parse(data.testRun);}catch(e){fail(400,'invalid_test_run',(e as Error).message);}if(f!=='journey'||existing&&stable(data.testRun)!==stable(existing.testRun))fail(400,'test_run_immutable','TEST scenario descriptors are immutable Project creation metadata. Continue through ordinary content updates.');}
@@ -117,6 +118,7 @@ export function validateData(input:unknown,f:Family,existing?:WorkspaceRecord|nu
  if(data.projectComposition!==undefined){if(f!=='journey')fail(400,'invalid_composition','Only Projects have layouts.');try{data.projectComposition=validateComposition(data.projectComposition,{sections:data.sections??existing?.sections});}catch(e){fail(400,'invalid_composition',(e as Error).message);}}
  if(data.pagePins!==undefined){if(f!=='note'||!Array.isArray(data.pagePins)||data.pagePins.length>64)fail(400,'invalid_page_pins','Use at most 64 exact Note destinations.');try{data.pagePins=data.pagePins.map((v:unknown)=>projectRefSchema.parse(v));}catch{fail(400,'invalid_page_pins','A Note destination is invalid.');}}
 
+ if(data.experience!==undefined||existing?.experience){try{data.experience=validateAccumulation(data.experience??existing?.experience,f,existing??undefined,data.sections);}catch(e){fail(400,'invalid_experience',(e as Error).message);}}
  if(data.workMeta!==undefined){if(f!=='work'||!object(data.workMeta)||Object.keys(data.workMeta).some(k=>!['version','archivedAt'].includes(k))||data.workMeta.version!==1||(data.workMeta.archivedAt!==undefined&&(!text(data.workMeta.archivedAt,40,true)||!Number.isFinite(Date.parse(String(data.workMeta.archivedAt))))))fail(400,'invalid_work_metadata','Work metadata only records a version and optional archive date.');}
  if(f==='work'&&!existing&&data.workMeta===undefined)data.workMeta={version:1};
 
@@ -434,6 +436,16 @@ async function prepared(env:Cloudflare.Env,owner:string,c:WorkspaceCommand,actor
  if(existing?.anchor&&['annotation','flag'].includes(existing.family)&&data.anchor&&anchorIdentity(data.anchor)!==anchorIdentity(existing.anchor))fail(400,'anchor_immutable','A saved annotation or Flag keeps its original exact passage. Create a new capture to refer to a different passage.');
  if(actor==='gpt'&&c.family==='run'&&data.evidence==='observed'&&data.synthetic!==true)fail(400,'unattested_execution','GPT-authored runs must be synthetic or explicitly illustrative. A save is not proof of genuine learner execution.');
  const checks=await admittedLinks(env,owner,data,existing,internalTargets);
+ if(data.experience?.kind==='arrangement')for(const ref of data.experience.entries){
+  const head=await readRecord(env,owner,ref.family,ref.id);
+  const source=ref.policy==='pin'?await readRendition(env,owner,ref.id,ref.rendition,ref.family):head;
+  const part=source?.sections?.find(s=>s.id===ref.sectionId)?.parts.find(p=>p.id===ref.partId&&!p.unavailable);
+  if(!head||!part){if(existing?.experience?.kind==='arrangement'&&existing.experience.entries.some(old=>stable(old)===stable(ref)))continue;fail(409,'arrangement_source_unavailable','A new arrangement reference needs an eligible exact source part.');}
+  if(head.rev!==ref.sourceRevision)fail(409,'arrangement_source_changed','A selected source changed. Read its current revision before saving.');
+  if(head.experience?.kind==='arrangement')fail(400,'nested_arrangement','Select canonical material rather than another arrangement.');
+  checks.guardedTargets.push({family:ref.family,id:ref.id,rev:head.rev});
+ }
+
  // Archived Activity/Attempt rows and renditions remain readable, but new
  // cartridge and submission data are no longer admitted through generic writes.
  if(data.activity!==undefined||data.attempt!==undefined)fail(410,'activity_attempt_retired','New Activity cartridges and Attempt records are retired. Add learner material as a Project contribution or Note. Existing retained records remain readable.');
