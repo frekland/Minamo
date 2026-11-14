@@ -1,0 +1,107 @@
+{
+  "nativeCommit": "9db6e39da88ee10ce70acf17b4e5f8e48187573e",
+  "githubApplicationCommit": "117e9db29f87e271665896e8e97c5a5be7dbe5bc",
+  "basis": "All 20 changed files since verified V184 public documentation head; exact Git blob and file mode equality. Native-only files retained. Public documentation-only receipt updates follow without redeploy.",
+  "entries": [
+    {
+      "path": "app/accumulation-studio.css",
+      "mode": "100644",
+      "blob": "66f5c4537780beade322c04e60d032089a367e98"
+    },
+    {
+      "path": "app/accumulation-studio.tsx",
+      "mode": "100644",
+      "blob": "729dd8002045cd96af762970ef41f0868564701e"
+    },
+    {
+      "path": "app/composition-reading.tsx",
+      "mode": "100644",
+      "blob": "9afcad08b2c5035ef56a91a23c976873c527c6dc"
+    },
+    {
+      "path": "app/presentation-settings.tsx",
+      "mode": "100644",
+      "blob": "620a2caee6ca3bb08b06719ca2baf4052cac2b10"
+    },
+    {
+      "path": "app/workspace.tsx",
+      "mode": "100644",
+      "blob": "202d1e0a0aa3e5c20f1542ecc000676a7304658f"
+    },
+    {
+      "path": "docs/rfcs/PR12-COMPOSED-WORKSPACE.md",
+      "mode": "100644",
+      "blob": "4cf9e69fcced00488a6e05d3b9072f787430e75b"
+    },
+    {
+      "path": "docs/rfcs/PR12-D1-GROWTH.json",
+      "mode": "100644",
+      "blob": "ab278f5c91a9807e7b58229d62a44408e7ab7d08"
+    },
+    {
+      "path": "lib/accumulation-contract.ts",
+      "mode": "100644",
+      "blob": "5ccadebc4cbe4117a2e4f38e95d14912424880be"
+    },
+    {
+      "path": "lib/accumulation-index.ts",
+      "mode": "100644",
+      "blob": "e721ccad40526b3500d68711e08846c207068cd9"
+    },
+    {
+      "path": "lib/accumulation-service.ts",
+      "mode": "100644",
+      "blob": "01761b9436b699e368f4eefe61a70b171071d638"
+    },
+    {
+      "path": "lib/collaboration-preferences.ts",
+      "mode": "100644",
+      "blob": "ea8dd91949a9f92b19fb37d3b38f8ee7c583414f"
+    },
+    {
+      "path": "lib/contracts.ts",
+      "mode": "100644",
+      "blob": "7b274f8c2ea1078e738878a1d1a5b705a81a040a"
+    },
+    {
+      "path": "lib/domain-handler.ts",
+      "mode": "100644",
+      "blob": "48f81eff600af948ca6e48ef157ea808b6fe47ad"
+    },
+    {
+      "path": "lib/domain-routes.ts",
+      "mode": "100644",
+      "blob": "3ded7e1af1e422b47630e35b7354416676b62421"
+    },
+    {
+      "path": "lib/domain.ts",
+      "mode": "100644",
+      "blob": "c5d39cd06a5ec61cb0dcf173345a73e5205494d5"
+    },
+    {
+      "path": "lib/editorial-policy.ts",
+      "mode": "100644",
+      "blob": "8ec68eac6c1f4b06ce3b28b6aef117761c45f99f"
+    },
+    {
+      "path": "lib/presentation-preferences.ts",
+      "mode": "100644",
+      "blob": "3efc9c2a246cb5b964907bcdb5019f69f662cd61"
+    },
+    {
+      "path": "scripts/ci-focused-tests.mjs",
+      "mode": "100644",
+      "blob": "78b36fd00103b85e99a78adda636e6964787c109"
+    },
+    {
+      "path": "scripts/pr12-d1-growth.mjs",
+      "mode": "100644",
+      "blob": "17fe781eabbeee2c81e6fbc47097469b7d106232"
+    },
+    {
+      "path": "tests/pr12-accumulation.test.mjs",
+      "mode": "100644",
+      "blob": "fe73652056ae64591a22fd59859c6cbf0d36c690"
+    }
+  ]
+}

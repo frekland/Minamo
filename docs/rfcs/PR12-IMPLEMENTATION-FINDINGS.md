@@ -1,6 +1,6 @@
-# PR12 — Working evidence and current recommendation
+# PR12 — V184 investigation and first-slice evidence
 
-This document is the active recommendation resulting from the Work commission. The commission remains the scope/authority; older RFC diagrams are hypotheses, not competing implementation decisions.
+**Historical V184 findings.** The active implementation, architectural recommendation and remaining work are now in [Composed workspace — V186](PR12-COMPOSED-WORKSPACE.md). Its connected implementation supersedes the next-slice and unimplemented statements below. This report retains the earlier evidence; the commission remains scope/authority.
 
 ## Implemented slice
 

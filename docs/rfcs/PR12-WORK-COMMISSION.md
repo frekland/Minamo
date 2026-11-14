@@ -1,8 +1,8 @@
 # PR #12 — Authoritative Work commission
 
-**Implementation update:** The first deployed Work slice and current architectural recommendation are recorded in [PR12 implementation findings](PR12-IMPLEMENTATION-FINDINGS.md). Use that report for completed work, observed limits and next implementation slices; this document retains the original scope/background.
+**Implementation update:** The connected experimental product and active architectural recommendation are recorded in [Composed workspace — V186](PR12-COMPOSED-WORKSPACE.md). [V184 findings](PR12-IMPLEMENTATION-FINDINGS.md) retain the first-slice evidence.
 
-**Status:** Owner-approved execution commission. The first deployed Work slice is complete; remaining architectural/product work is itemised in the implementation findings. Read this commission for scope and authority. This document supersedes *older task-scope/deployment limitations* in PR #12 descriptions and RFCs wherever they conflict. Other PR #12 documents supply context and technical evidence, **not a requirement to implement a predetermined architecture**.
+**Status:** Owner-approved execution commission. V186 implements the connected accumulation/discovery/composition/evolution experiment; acceptance limits and remaining work are in the active report. This commission retains scope and authority. It supersedes older task-scope/deployment limitations wherever they conflict. Supporting RFCs provide context and hypotheses, not a predetermined architecture.
 
 **PR:** https://github.com/frekland/minamo/pull/12  
 **Repository:** `frekland/minamo`  

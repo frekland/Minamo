@@ -47,4 +47,46 @@ The existing installed ChatGPT connector may cache its previous tool list; a sep
 
 `scripts/pr12-d1-growth.mjs` exercises the production index/query/resolver against the untouched real corpus plus actual isolated D1 records representing explicitly fictional mixed activity over two years. It tests 100/1,000/10,000/50,000 synthetic passages, older authentic retrieval, bounded result bytes and deletion withholding. This is engineering scenario data, not a reconstructed learner history or a production latency claim.
 
-Final release identities, real browser/GPT observations, results, measured limits and source reconciliation are appended after the final accepted deployment.
+## V186 release and actual acceptance
+
+- Live **V186**, existing Site `appgprj_6aeba0aa528c81918be19dd51427b2cb`, https://minamo.jscymru.chatgpt.site. Settings → Workspace → **Composed workspace**; Stable Minamo remains the default. Earlier Passage explorer/Practice sequence choices remain available.
+- Native source `9db6e39da88ee10ce70acf17b4e5f8e48187573e`; public application/test source `117e9db29f87e271665896e8e97c5a5be7dbe5bc`. All 20 changed source files compare byte-for-byte and mode-for-mode. Native-only files were retained. Subsequent public documentation receipts require no application redeploy.
+- Saved version `appgprj_6aeba0aa528c81918be19dd51427b2cb~appgver_1ae8b89a8e748191b156cf1b2ec212a1`; deployment `appgdep_6af815b6ad808191be65c44960ba39b0`, succeeded, environment revision 5, MCP enabled. Existing audience, identity, storage and bindings retained.
+- First connected V185 passed typecheck/build and 51 focused tests. Real browser use found page `/mcp` invocation failed. V186 routes page tools through the authenticated guarded GPT dispatcher. Typecheck/build passed; 46/47 selected tests passed initially. The remaining test spread an unrelated preference field into an exact preference schema; fixed that fixture and the affected comprehensive test passed 1/1. No runtime source changed after the successful build. No full historical suite was run.
+
+The real GPT-authoring campaign used freshly discovered page tools, not hard-coded guessed schemas or a simulated tool stub. It retained new attributed rich Japanese prose, a comparison table and flashcards, replayed the exact operation without duplication, appended a later explanation while preserving the first section, discovered these alongside genuine Projects, saved a cross-source comparison, read all four sources, evolved it into a differently ordered practice experience, and reopened historical revision 1. All saves used exact generation, revision and operation identity through the normal GPT actor dispatcher.
+
+The useful new material **Piano and listening · retained contrast** is at revision 2, with two independently retained sections. It is explicitly GPT-authored teaching material, not a learner attempt or proficiency evidence. No absent conversation date or URL was invented. The saved experience **Playing, listening and talking about music** combines the genuine Making Friends response, the new contrast table/cards and the original Japanese Speaking Practice dialogue. Its revision 1 is comparison; revision 2 is practice with a new order. It is available from Saved experiences, or after opting in at:
+
+https://minamo.jscymru.chatgpt.site/?view=home&experienceId=arrangement-27d81e13583662edd587045c2b8fe44da0e23c09
+
+Actual live browser acceptance verified saved-list retrieval, practice card reveal, original dialogue translation and second-turn reveal, paged resource navigation, historical side-by-side comparison, the followed-source change marker after append, pinned revision-1 content after the source reached revision 2, and full navigation through the durable link reopening revision 2. Shared ruby and speech controls render. Final full canonical reads of Making Friends revision 12 and Japanese Speaking Practice revision 21 compare equal to their pre-authoring records, including their sections, renditions and composition metadata. The browser is left on the new experience for review.
+
+## Actual D1 accumulation measurements
+
+The run uses isolated D1/R2 and real canonical records, not an array-only index simulation. Synthetic passages are explicitly fictional engineering workload distributed over two years; authentic source bytes remain intact. Search for older authentic `Yann` material returned one result (1,892 bytes) at every scale; deleted-source content was withheld. Full machine-readable evidence is in [PR12-D1-GROWTH.json](PR12-D1-GROWTH.json).
+
+| Added passages | Indexed documents including real corpus | Seed/index time | Query/resolution time |
+| ---: | ---: | ---: | ---: |
+| 100 | 405 | 3.65 s | 93.87 ms |
+| 1,000 | 1,305 | 7.69 s | 68.09 ms |
+| 10,000 | 10,305 | 80.45 s | 65.30 ms |
+| 50,000 | 50,305 | 387.20 s | 115.74 ms |
+
+These are single-run local D1 observations, not production latency guarantees, semantic relevance scores or actual learner history. The run preceded the added reverse-term repair index, so it does not claim to measure that improvement. Serving bounded results remains practical; first indexing and large record repair are the cost to address before broad adoption. Runtime bootstrap discloses incomplete coverage, prioritises retained material and Projects, and continues bounded indexing while the composer is open.
+
+## Active architectural recommendation
+
+Retain the additive `work.experience` model and canonical Reader for this experiment. Actual capture, immutable append, composition, revision history and source resolution now work on the existing record/generation/recovery system, without requiring a new family or parallel event store. The original separation is useful logically: original material and arrangements have different lifecycles, but need not occupy separate revision infrastructures. A new family remains an option if real work-subtype semantics conflict; no such requirement has yet been demonstrated. Do not flatten or copy source content into arrangement membership. A rebuildable lexical D1 projection is sufficient for the measured retrieval tasks; a vector database or global inferred graph is not justified by these observations.
+
+Evaluate the complete interaction before promoting a default. The owner can assess whether retaining without filing, finding earlier wording and composing for a current purpose reduces organisational effort, whether reading/practice/compare cover real needs, and whether pin/follow should be exposed per entry or simplified. These are product decisions, not prerequisites for trying the implemented loop.
+
+## Remaining work and explicit limits
+
+- **Installed connector:** this session's existing Minamo connector still advertises its older cached catalogue. Server schemas and real fresh page-tool GPT authoring pass; refreshed installed-connector/fresh-chat authoring is not yet accepted. Refresh/reinstall the Minamo connection to expose the four new tools there.
+- **Discovery quality/operations:** lexical only; tune Japanese recall, matched-term evidence, duplicate parent/card grouping, filtered empty pages and long-term relevance with owner queries. Add background index maintenance/checkpoint scheduling if actual accumulation makes browser-assisted bootstrap insufficient. No automatic ingestion is implemented.
+- **Frontend polish:** the web retention form captures prose, while GPT can retain typed rich content. The composition detail currently exposes supplied attribution as JSON; a friendlier provenance view and keyboard/mobile editing polish remain. Bounds are deliberate: 8 sections per retain request, 30 per material record, 32 references per composition and bounded resolved pages; accumulated material can span independent records.
+- **Language/media:** physical phone/touch and audible TTS completion remain unverified. The existing context-free furigana engine still misreads ambiguous 弾き in an original piano passage; original text was not rewritten. Image/media source rights use shared guards, but no new live binary asset campaign was performed.
+- **History/recovery:** current real snapshots plus newly created genuine revisions are retained; missing older conversations/history are not reconstructed. Revision/deletion/isolation/CAS/retry/rights/recovery tests passed in isolation. No destructive production restore or live revocation campaign against genuine learning content was performed.
+
+The connected experimental product is usable end to end; the above acceptance and polish work remains before stable promotion. Keep PR #12 draft and unmerged. No destructive canonical migration or original learner-material modification was performed.
